@@ -1,0 +1,43 @@
+// pythagorasPower01.b2s
+
+if (scr_quest_get_state("pythagorasSpoken") == 0)
+{
+    var pythport = "s_portrait";
+    var hoopzport = "s_port_hoopz";
+
+    var pythagorasPower = id;
+    var event = scr_event_create_main();
+
+    //------------------------------------
+    // MAIN EVENT
+    //------------------------------------
+    with (event)
+    {
+        if (scr_quest_get_state("pythagorasPower") == 0)
+        {
+            scr_event_build_quest_state("pythagorasPower", 1);
+            scr_event_build_dialogue(P_NAME, hoopzport, "(Hm? What's this thing?)");
+        }
+        scr_event_build_dialogue_debug("bort", NULL, "The little screen crackles and beeps.");
+        scr_event_build_dialogue("Computer", NULL, "P.Y.T.H.A.G.O.R.A.S. UNIT EMERGENCY POWER MODE.#ESTIMATED BATTERY LIFE: " + scr_pythagoras_time() + ".#PRESS ANY KEY TO PERFORM TO PERFORM REBOOT...");
+
+        var choice = scr_event_build_choice("Press any key?", hoopzport);
+        
+        var no = scr_event_build_add_choice(choice, "Nope, better not...");
+        with (no)
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "(I'd better not...)");
+            scr_event_build_end();
+        }
+        var yes = scr_event_build_add_choice(choice, "Reboot it with a keypress!");
+        with (yes)
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "(Let's do it!)");
+            scr_event_build_outline_disabled(o_pythagorasPower01, true);
+            scr_event_build_quest_state("pythagorasSpoken", 1);
+            scr_pythagoras_life();
+            scr_event_build_execute_event_script(event_wst_pythagoras01);
+        }
+    }
+    scr_event_advance(event);
+}

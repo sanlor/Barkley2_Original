@@ -1,0 +1,85 @@
+// -- This scripts attempts to run an animation and then pause
+
+// Check and get current peel...
+if (scr_quest_exists("peelAmount") == false) {
+    scr_quest_set_state("peelAmount", 0);
+}
+
+var peelsDone = scr_quest_get_state("peelAmount");
+
+// Only do something if tubers are left
+// I dont know how many tubers there supposed to be, but going with 18 to start with...
+if (peelsDone < 18) {
+
+    // Spawning these temporarily to show tubers and peels
+    var pile = o_DEBUG_tuberPile;
+    var peels = o_DEBUG_tuberPeels;
+    var tubers = o_DEBUG_peeledTubers;
+
+    // Build Event
+    var event = scr_event_create_main();
+    var me = id;
+
+    //--------------------------------------------
+    //-------------- MAIN EVENT ------------------
+    //--------------------------------------------   
+       
+    with (event) {
+        // Define animations
+        scr_event_build_animation_define(me, "peeling", s_cts_peeling, 0, 11, 0.8);
+        scr_event_build_animation_define(me, "donePeel", s_cts_peeling, 11, 2, 0.8);
+        scr_event_build_animation_define(me, "rest", s_cts_peeling, 0, 1, 0);
+        
+        
+        scr_event_build_animation_define(pile, "pileCurrent", s_cts_tuberPile, peelsDone, 1, 0);
+        scr_event_build_animation_define(pile, "pileNext", s_cts_tuberPile, peelsDone+1, 1, 0);
+        
+        scr_event_build_animation_define(peels, "peelCurrent", s_cts_tuberPeels, peelsDone, 1, 0);
+        scr_event_build_animation_define(peels, "peelNext", s_cts_tuberPeels, peelsDone+1, 1, 0);
+        
+        scr_event_build_animation_define(tubers, "tuberCurrent", s_cts_peeledTubers, peelsDone, 1, 0);
+        scr_event_build_animation_define(tubers, "tuberNext", s_cts_peeledTubers, peelsDone+1, 1, 0);
+
+        // Set start animations for tubers and peels...
+        scr_event_build_animation_set(pile, "pileCurrent");
+        scr_event_build_animation_set(peels, "peelCurrent");
+        scr_event_build_animation_set(tubers, "tuberCurrent");
+        scr_event_build_animation_set(me, "rest");
+        
+        // Dialogue
+        var peelsLeft = 18 - peelsDone;
+        scr_event_build_dialogue("X114JAM9", s_port_hoopz, string(peelsLeft) + " tubers left on the wall, " + string(peelsLeft) + " tubers left...");
+        
+        // Play animation: Peel a tuber and put it
+        // NOTE - Could do _play here, but that will cause a glitch for one frame inbetween this and next animation! :( So we do like this for now, immediately set the animation that follows next
+        //scr_event_build_animation_play(me, "peeling");
+        scr_event_build_animation_play_and_set(me, "peeling", "donePeel");
+        scr_event_build_wait_for_actions();
+        
+        // Play animation: Peel a tuber and put it
+        scr_event_build_animation_set(pile, "pileNext");
+        scr_event_build_animation_set(peels, "peelNext");
+        scr_event_build_animation_set(tubers, "tuberNext");
+        scr_event_build_animation_play_and_set(me, "donePeel", "rest");
+        scr_event_build_wait_for_actions();
+        
+        // One more tuber peeled
+        peelsDone = peelsDone + 1;
+        scr_quest_set_state("peelAmount", peelsDone);
+        peelsLeft = 18 - peelsDone;
+        
+        // Wrap it up
+        var peelsLeft = 18 - peelsDone;
+        scr_event_build_dialogue("X114JAM9", s_port_hoopz, "...take one down, peel it around, " + string(peelsLeft) + " tubers left on the wall.");
+        
+        // Just demoing reverse animations here
+        scr_event_build_animation_define_ext(me, "reverseAnimation", s_cts_peeling, 12, 13, 0.8, // These are the standard stuff. This animation starts at the last frame (frame 12) and is a total of 13 frames long.
+            -1, // This is the OFFSET, how many images animation moves per frame. Default is 1. Setting to -1 means animation goes backwards. Setting to 4 means animations would use every 4th frame in the sprite. etc.
+            0); // This is the SHIFT. Each image is shifted left or right by this value. Default is 0. With a shift of 1, an animation that would normally start at image 4, would start at image 5 instead. With a shift of -2, it would start at image 2 instead. This is probably not so useful for you scripters as you can just change the start image directly instead (the shift is mostly useful for AI scripting in enemies where we change the shift depending on which direction they are facing...) but that is what it does anyway.
+        
+        scr_event_build_animation_play_and_set(me, "reverseAnimation", "rest");
+        scr_event_build_wait_for_actions();
+    }
+
+    scr_event_advance(event);
+}

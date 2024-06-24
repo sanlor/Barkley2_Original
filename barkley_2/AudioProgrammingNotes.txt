@@ -1,0 +1,90 @@
+=== ADDING MUSIC (anything over 20 seconds and played infrequently) ===
+
+FORMAT: OGG file (can be any quality and can contain meta data)
+
+Go to the Audio directory under included files, go to the Music folder, then right click and select Create Included File. Select your music file. 
+
+Ensure the sound name is different from the other sound resources, as the switch to external sound files will not check for duplicate sound file entries (but a runtime error will be thrown).
+
+=== ADDING SOUNDS (anything under 20 seconds that is player frequently) ===
+
+FORMAT: 44100khz 16 bit PCM Wave File MUST BE MONO (Clear all meta data)
+
+Go to the Audio directory under included files, then right click on the folder you want to add into and select Create Included File.
+
+Ensure the sound name is different from the other sound resources, as the switch to external sound files will not check for duplicate sound file entries (but a runtime error will be thrown).
+
+=== REPLACING SOUNDS ===
+
+To replace a sound, you must first delete it as an included file, and then add the replaced version as you normally would.
+
+=== EDITING THE SOUND BANK ===
+
+Instead of specifying sounds by their resource names, you now use a string. That is, the below piece of code:
+
+scr_soundbank_addSound("seagull_caw", sn_wasteland_seagull01);
+scr_soundbank_addSound("seagull_caw", sn_wasteland_seagull02);
+scr_soundbank_addSound("seagull_caw", sn_wasteland_seagull03);
+
+Becomes this:
+
+scr_soundbank_addSound("seagull_caw", "sn_wasteland_seagull01");
+scr_soundbank_addSound("seagull_caw", "sn_wasteland_seagull02");
+scr_soundbank_addSound("seagull_caw", "sn_wasteland_seagull03");
+
+=== GENERAL NOTES ===
+
+- In the mixer, all sounds are stopped when it's loaded. So this will stop the current music and environmental sounds. This could also screw up events if one is running, especially ones that use audio_is_playing. So keep that in mind.
+
+- Music volume cannot be adjusted. If you want to raise / lower music volume, delete the file and replace it with a different volume version as described above.
+
+- It doesn't matter which folder a sound is in in the included file directory, you reference it without the path and without the extension. So the file Music/mus_blankTEMP.ogg is referenced simply as "mus_blankTEMP" .
+
+=== PROGRAMMING NOTES ===
+
+- Sounds are now included files and referenced by string, not sound resources referenced by index.
+
+- New functions are...
+
+audio_play_sound_ext(string_sound) 
+audio_play_sound_at_ext(string_sound, x, y, z, falloff_ref, falloff_max, falloff_factor, loop, priority)
+audio_play_sound_on_ext(emitter, string_sound, loops, priority)
+audio_is_playing_ext(string_sound)
+audio_sound_stop_ext(string_sound)
+audio_sound_gain_ext(string_sound, volume, time)
+
+Instead of...
+
+audio_play_sound(sound_index)
+audio_play_sound_at(sound_index, x, y, z, falloff_ref, falloff_max, falloff_factor, loop, priority)
+audio_play_sound_on_ext(emitter, sound_index, loops, priority)
+audio_is_playing(sound_index)
+audio_sound_stop(sound_index)
+audio_sound_gain(sound_index, volume, time)
+
+As a basic example, what once was: 
+snd = audio_sound_play(sn_debug_one);
+
+Becomes: 
+snd = audio_sound_play_ext("sn_debug_one"); // still returns the sound instance
+
+You can still use sound instances and use the GM functions to control those instances, but it's advised to only use those if necessary.
+
+- These functions work the same, but with strings as sounds:
+
+audio_play_sound_AI
+audio_play_sound_fresh
+audio_play_sound_on_actor
+audio_play_sound_at_xy
+
+You can still use soundbanks as an argument just like before.
+
+- scr_soundbank_pickSound returns a string_sound, not a sound_index.
+
+- soundOrNull is now soundOrNullstring as it returns NULL_STRING.
+
+- If you want to default a sound to be blank, for enemy AI and such, use NULL_STRING instead of NULL.
+
+- There may be some missed sound evaluations. Comparing a string to a real / sound_index gives an error. If an error pops up and it's sound related, it's likely this reason. Make a ticket!
+
+- If you spell a sound wrong, an error will be displayed in the compile window. So if a sound doesn't play or something with sounds seems strange, check the compile window.

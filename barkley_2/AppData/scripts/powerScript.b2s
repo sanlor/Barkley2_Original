@@ -1,0 +1,11 @@
+// powerScript01.b2s
+
+// NOTE TO PROGRAMMER:
+// The power controller has limited available wattage. Don't overload it!!! Open your AppData, blah blah blah, it'll crash! Good luck!!!!
+
+// FUCK YOU!!!!!!!
+
+// hello hello hello
+scr_event_build_dialogue("This", NULL, "this is the computer.");
+
+scr_event_build_script_conclude();

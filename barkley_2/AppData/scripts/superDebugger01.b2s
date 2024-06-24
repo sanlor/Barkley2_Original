@@ -1,0 +1,99 @@
+    var superDebugger = id;
+    var event = scr_event_create_main();
+
+    //_room = "";
+    //global.supergrid = scr_savedata_get("supergrid");
+    //global.improvemap = scr_savedata_get("improvemap");
+
+    with (event) {  
+        scr_event_build_breakout("add", "superEmpty");
+        scr_event_build_breakout("add", "superFund");
+        if (scr_quest_get_state("superEmpty") == 0) {
+            scr_event_build_dialogue("???", s_portrait, "all full son");
+        }
+        var huh = scr_event_build_choice("What gives?", s_portrait);
+        var nvm = scr_event_build_add_choice(huh, "NVM - exit.");
+        with (nvm) {
+            scr_event_build_breakout("clear");
+            scr_event_build_end();
+        }
+        var rnd_choice = scr_event_build_add_choice(huh, "Fill rooms randomly.");
+        with (rnd_choice) {
+            scr_event_build_dilapidated_random();
+            scr_event_build_dialogue_debug("bort", NULL, "ok i flipped ya... flipped ya room script...");
+        }
+        if (scr_quest_get_state("superEmpty") != ROOMS_TOTAL) {
+            var evict_all = scr_event_build_add_choice(huh, "Evict all.");
+            with (evict_all) {
+            //with (scr_event_build_add_choice(huh, "Evict all.")) {
+                scr_event_build_dilapidated_reset();
+                scr_event_build_dialogue("???", s_portrait, "ok ok, all reset! nobody here!");
+            }
+        }
+        with (scr_event_build_add_choice(huh, "Set SuperFund to 0")) { scr_event_build_quest_state("superFund", 0); }
+        with (scr_event_build_add_choice(huh, "Add 100 to SuperFund.")) { scr_event_build_quest_state_add("superFund", 100); }
+        with (scr_event_build_add_choice(huh, "Add 1000 to SuperFund.")) { scr_event_build_quest_state_add("superFund", 1000); }
+        if (scr_quest_get_state("superEmpty") != 0) {
+            with (scr_event_build_add_choice(huh, "Move in Qutlugh.")) { scr_event_build_dilapidated_rent("Qutlugh"); }
+            with (scr_event_build_add_choice(huh, "Move in Andromeda.")) { scr_event_build_dilapidated_rent("Andromeda"); }
+            with (scr_event_build_add_choice(huh, "Move in Fievel.")) { scr_event_build_dilapidated_rent("Fievel"); }
+            with (scr_event_build_add_choice(huh, "Move in Cuong.")) { scr_event_build_dilapidated_rent("Cuong"); }
+            with (scr_event_build_add_choice(huh, "Move in Safiatou.")) { scr_event_build_dilapidated_rent("Safiatou"); }
+            with (scr_event_build_add_choice(huh, "Move in Durudee.")) { scr_event_build_dilapidated_rent("Durudee"); }
+            with (scr_event_build_add_choice(huh, "Move in Ugra.")) { scr_event_build_dilapidated_rent("Ugra"); }
+            with (scr_event_build_add_choice(huh, "Move in Jadwiga.")) { scr_event_build_dilapidated_rent("Jadwiga"); }
+            with (scr_event_build_add_choice(huh, "Move in WIZARD.")) { scr_event_build_dilapidated_rent("WIZARD"); }
+            with (scr_event_build_add_choice(huh, "Move in Sabah.")) { scr_event_build_dilapidated_rent("Sabah"); }
+            with (scr_event_build_add_choice(huh, "Move in Prisoner.")) { scr_event_build_dilapidated_rent("Prisoner"); }
+            with (scr_event_build_add_choice(huh, "Move in Dwarfnet.")) { scr_event_build_dilapidated_rent("Dwarfnet"); }
+            with (scr_event_build_add_choice(huh, "Move in Daliborka.")) { scr_event_build_dilapidated_rent("Daliborka"); }
+            with (scr_event_build_add_choice(huh, "Move in Deathtower.")) { scr_event_build_dilapidated_rent("Deathtower"); }
+            with (scr_event_build_add_choice(huh, "Move in Ozanne.")) { scr_event_build_dilapidated_rent("Ozanne"); }
+            with (scr_event_build_add_choice(huh, "Move in Gleb.")) { scr_event_build_dilapidated_rent("Gleb"); }
+            with (scr_event_build_add_choice(huh, "Move in Hippies.")) { scr_event_build_dilapidated_rent("Hippies"); }
+            with (scr_event_build_add_choice(huh, "Move in Kunigunde.")) { scr_event_build_dilapidated_rent("Kunigunde"); }
+            with (scr_event_build_add_choice(huh, "Move in Suresh.")) { scr_event_build_dilapidated_rent("Suresh"); }
+            with (scr_event_build_add_choice(huh, "Move in Moriarty.")) { scr_event_build_dilapidated_rent("Moriarty"); }
+        }
+        var teleport = scr_event_build_add_choice(huh, "Teleport to...");
+        with (teleport) {
+            scr_event_build_breakout("clear");
+            var telechoice = scr_event_build_choice("Teleport to...", s_portrait);
+            with (scr_event_build_add_choice(telechoice, "Teleport to Dilapidated Zone.")) {
+                if (scr_quest_get_state("superFacade") == "NONE") {
+                    scr_event_build_teleport(r_bct_dilapidatedExterior01, 192, 184);
+                } else if (scr_quest_get_state("superFacade") == "facade1") {
+                    scr_event_build_teleport(r_bct_dilapidatedExteriorBetter01, 192, 184);
+                }
+                else if (scr_quest_get_state("superFacade") == "facade2") {
+                    scr_event_build_teleport(r_bct_dilapidatedExteriorPlus01, 192, 184);
+                }
+                else if (scr_quest_get_state("superFacade") == "facade3") {
+                    scr_event_build_teleport(r_bct_dilapidatedExteriorMax01, 192, 184);
+                }
+            }
+            with (scr_event_build_add_choice(telechoice, "Teleport to Qutlugh.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Andromeda.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Fievel.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Cuong.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            with (scr_event_build_add_choice(telechoice, "Teleport to Safiatou.")) { scr_event_build_teleport(r_bct_clinic01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Durudee.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Ugra.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Jadwiga.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            with (scr_event_build_add_choice(telechoice, "Teleport to WIZARD.")) { scr_event_build_teleport(r_dwarfzone01, 100, 100); }
+            with (scr_event_build_add_choice(telechoice, "Teleport to Sabah.")) { scr_event_build_teleport(r_dz2_alakihabara01, 408, 624); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Prisoner.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Dwarfnet.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Daliborka.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Deathtower.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Ozanne.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Gleb.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Hippies.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Kunigunde.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Suresh.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+            //with (scr_event_build_add_choice(telechoice, "Teleport to Moriarty.")) { scr_event_build_teleport(r_bct_guilderPlaza01, 100, 100); }
+        }
+        scr_event_build_dialogue("???", s_portrait, "Ok Bye Bye.");
+        scr_event_build_breakout("clear");
+    }
+    scr_event_advance(event);

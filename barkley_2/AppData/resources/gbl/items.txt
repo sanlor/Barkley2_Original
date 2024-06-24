@@ -1,0 +1,208 @@
+-------------------------------
+--- CYBERSPEAR QUEST
+-------------------------------
+Cyberspear Piece
+Mysterious Object
+-------------------------------
+--- BBALL QUEST ITEMS:
+-------------------------------
+Clandestine Courts Baller Zine
+-------------------------------
+--- GOVQUEST ITEMS:
+-------------------------------
+Bomb
+Sterile Vial
+Duergar Urine
+-------------------------------
+--- CORNROW ITEMS:
+-------------------------------
+Fruit Basket
+Cornrow's Gun
+Zauber Pistol
+Granny's Medicine
+-------------------------------
+--- TURALD ITEMS:
+-------------------------------
+Guppy
+Pike
+Carp
+Gun
+Item
+Item2
+Useless Item
+-------------------------------
+--- Dead Dwarf NOTES:
+-------------------------------
+Blank Paper
+Suicide Note
+Augustine's Note
+Carlton's Note
+---
+Ancient Scroll
+Tattered Paper
+Bloody Paper
+Dead Soldier's Note
+Joad's Note
+---
+Printed Note
+---
+Sealed Letter
+---
+Gamesmasterjasper's Vidcon Almanac
+---
+Cornrow's Note
+---
+Pet Shop Application
+Completed Application
+Pet Manifesto
+Pet Apocrypha
+-------------------------------
+--- RUMI ITEMS:
+-------------------------------
+Camera
+-------------------------------
+--- MISC ITEMS:
+-------------------------------
+Turkey Feather
+Tribune-Wrapped Item
+Mystery Item
+Derided Item
+Esteemed Item
+-------------------------------
+--- JERKINS:
+-------------------------------
+Booty Jerkin
+Bottlecap Jerkin
+Cornhusk Jerkin
+Damascus Steel Jerkin
+Dropcrotch Jerkin
+Fig-Leaf Jerkin
+Letterman's Jerkin
+Crafted Macaroni Jerkin
+Mohair Jerkin
+OLED Jerkin
+QR Jerkin
+Selvage Denim Jerkin
+Tunic
+Vermilion Jerkin
+Zentai Jerkin
+-------------------------------
+--- HELMS:
+-------------------------------
+Bonnet
+Tin-Foil Bonnet
+-------------------------------
+--- CANDY:
+-------------------------------
+Snaildrop
+Butterschnapps
+Butterscotch
+-------------------------------
+--- d:GLAZErs
+-------------------------------
+d:GLAZEr
+-------------------------------
+--- VIDCONS:
+-------------------------------
+Super Return of Chernobog
+-------------------------------
+LAZ GARBAGE: WALLSCROLLS FOR ANIMAYORS GALLERY
+-------------------------------
+wallscroll_01
+wallscroll_02
+wallscroll_03
+wallscroll_04
+Fishlian Gut's
+-------------------------------
+Katzenjammer Blueprints
+Letter to Donald
+Healing Ointment
+Swamp Flower
+Duck Organs
+Garlics
+-------------------------------
+--- GUILDERBERG ITEMS:
+-------------------------------
+B1 Visitor Badge
+2F Visitor Badge
+3F Visitor Badge
+Tower Keycard
+Guilderberg Keycard
+Bronze Coin
+Silver Coin
+Gold Coin
+Durian Gaz
+LONGINUSFAKEITEM
+Guilderberg Deed
+-------------------------------
+--- BIO ITEMS:
+-------------------------------
+W Seed
+Dreadfruit
+W Fruit
+-------------------------------
+--- MENTAL ITEMS:
+-------------------------------
+Kirin Horn
+Snake Corpse
+Dwarf Skull
+-------------
+Mandorla
+Alms Bowl
+Purified Alms Bowl
+Harmonious Alms Bowl
+Mystic Alms Bowl
+Ablution Bowl
+Humble Ablution Bowl
+Harmonious Ablution Bowl
+Mystic Ablution Bowl
+Singing Bowl
+Purified Singing Bowl
+Humble Singing Bowl
+Mystic Singing Bowl
+-------------------------------
+--- FARY/HIVE ITEMS:
+-------------------------------
+Royal Gem Box
+-------------------------------
+--- CYBER ITEMS:
+-------------------------------
+Magnetic Tape
+-------------------------------
+--- HARDTACK
+-------------------------------
+Hardtack Small Plates
+Hardtack Entree
+Hardtack Special
+Hardtack 1st Course
+Hardtack 2nd Course
+Hardtack 3rd Course
+Hardtack
+Hemalatha's Bill
+Hemalatha's Receipt
+-------------------------------
+--- HUNDLEY QUESTLINE ITEMS:
+-------------------------------
+advent_calendar
+rigged_advent_calendar
+monster_bait
+-------------------------------
+Lucky Frog Amulet
+Chup
+-------------------------------
+--- BIO ZAUBERS
+-------------------------------
+Budding Zauber
+Unripe Zauber
+Ripened Zauber
+Succulent Zauber
+Bletted Zauber
+-------------------------------
+--- TEMP
+-------------------------------
+Jerkin1
+Jerkin2
+Jerkin3
+-------------------------------
+Wrist-CONP
+-------------------------------

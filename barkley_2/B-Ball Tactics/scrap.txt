@@ -1,0 +1,152 @@
+
+
+//"
+
+//TEST
+
+
+
+/* Prepared statement, stage 1: prepare */
+
+/*
+if (!($stmt = $mysqli->prepare("INSERT INTO mplay(id, userid) VALUES (?,?)"))) {
+    echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
+}
+
+///////
+
+//parse_str(parse_url($
+
+$id = 1;
+$USER_ID = $_GET['userid'];
+
+if (!$stmt->bind_param("ii", $id, $USER_ID)) {
+    echo "Binding parameters failed: (" . $stmt->errno . ") " . $stmt->error;
+}
+if (!$stmt->execute()) {
+    echo "Execute failed: (" . $stmt->errno . ") " . $stmt->error;
+}*/
+//echo $USER_ID;
+
+
+
+
+//error_reporting(E_ERROR); 
+
+$mysqli = new mysqli($mysql_server,$mysql_username,$mysql_password,$mysql_database);
+if($mysqli->connect_errno)
+{
+	echo "Failed to connect to MySQL";
+}
+
+$game_init = $_GET['init'];
+
+echo $game_init;
+
+if($init)
+{
+	/* Non-prepared statement */
+	if (!$mysqli->query("DROP TABLE IF EXISTS MPlay") || 
+		!$mysqli->query("CREATE TABLE MPlay(ID_GAME INT, moveHistory TEXT, whoseTurn INT, PRIMARY KEY (ID_GAME)), FOREIGN KEY (whoseTurn) REFERENCES MPlay_Users(id))") {
+		echo "Table creation failed: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+	
+	echo "init";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$init = $_GET['init'];
+
+echo '$init';
+
+if($init)
+{
+	/* Non-prepared statement */
+	if (!$mysqli->query("DROP TABLE IF EXISTS MPlay") || 
+		!$mysqli->query("CREATE TABLE MPlay(ID_GAME INT, moveHistory TEXT, whoseTurn INT, PRIMARY KEY (ID_GAME)), FOREIGN KEY (whoseTurn) REFERENCES MPlay_Users(id)") {
+		echo "Table creation failed: (" . $mysqli->errno . ") " . $mysqli->error;
+	}
+	
+	echo "init";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	/*if($result = $mysqli->query("SELECT id FROM MPlay_Users WHERE user_name='$username'"))
+	{
+		if($result->num_rows == 0)
+		{
+			if(!$mysqli->query("INSERT INTO MPlay_Users(user_name) VALUES ('$username')"))
+			{
+				echo "badsql: (" . $mysqli->errno . ") " . $mysqli->error;
+			}
+			
+			if($result2 = $mysqli->query("SELECT id FROM MPlay_Users WHERE user_name='$username'"))
+			{
+				$row = $result2->fetch_assoc();
+				echo $row['id'];
+			}
+			else
+			{
+				echo "badsql: (" . $mysqli->errno . ") " . $mysqli->error;
+			}
+			
+			$result2->free();
+		}
+		else
+		{
+			$row = $result->fetch_assoc();
+			echo $row['id'];
+		}
+
+		$result->free();
+	}
+	else
+	{
+		echo "badsql: (" . $mysqli->errno . ") " . $mysqli->error;
+	}*/

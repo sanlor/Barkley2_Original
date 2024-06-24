@@ -1,0 +1,9 @@
+{
+    "move_speed" : 2,
+    "dodge_speed" : 5,
+    "stats" : {
+        "STR" : 100,
+        "INT" : 100
+    }
+}
+        

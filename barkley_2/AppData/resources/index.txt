@@ -1,0 +1,4 @@
+gbl
+tnn
+sw1
+sw2

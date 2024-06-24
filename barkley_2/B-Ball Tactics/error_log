@@ -1,0 +1,3 @@
+[30-Jun-2014 22:10:12] PHP Fatal error:  Call to a member function query() on a non-object in /home/modestar/public_html/game/bbt/async.php on line 26
+[01-Jul-2014 01:07:31] PHP Fatal error:  Call to undefined method mysqli::insert_id() in /home/modestar/public_html/game/bbt/async.php on line 40
+[01-Jul-2014 01:08:50] PHP Fatal error:  Call to undefined method mysqli::insert_id() in /home/modestar/public_html/game/bbt/async.php on line 40

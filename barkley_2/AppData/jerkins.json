@@ -1,0 +1,173 @@
+{
+    "Template Jerkin": {
+        "info_short": "This is a template which you can reuse to create jerkins.",
+        "info_long": "You can change all stats with + or - and with a fixed number or a % (except resistances and vulnerabilities which must use a fixed number)",
+        "sprite": "",
+        "image": 0,
+        "pockets": 2,
+        "weight": 3,
+        "stats": {
+            "res_normal": "+1",
+            "res_bio": "-1",
+            "res_cosmic": "+10%",
+            "res_cyber": "-10%",
+            "res_mental": "-1",
+            "res_zauber": "-1",
+            "res_knockback": "-1",
+            "res_stagger": "-1",
+            "vul_normal": "+1",
+            "vul_bio": "-1",
+            "vul_cosmic": "+0",
+            "vul_cyber": "+0",
+            "vul_mental": "+0",
+            "vul_zauber": "+0",
+            "speed": "+0.5",
+            "weight": "+10"
+        },
+        "abilities": [
+            "names of status effects or special abilities",
+            "statusEffect_helloWorld",
+            "ability_fartMagician"
+        ]
+    },
+    "Cornhusk Jerkin": {
+        "info_short": "Protective outer covering of a once-anointed cob of maize.",
+        "info_long": "This husk was removed at the peak time, when the endosperm was in the 'milk stage'.  This means you can be guaranteed a firmer defense against piercing weapons.",
+        "sprite": "s_jerkin_cornhusk",
+        "image": 0,
+        "pockets": 2,
+        "weight": 5,
+        "stats": {
+            "res_normal": "+7",
+            "res_cosmic": "+25",
+        },
+        "abilities": [
+        
+        ]
+    },
+    "Bottlecap Jerkin": {
+        "info_short": "Gleaming cuirass of discarded bottlecaps. Gives protection.",
+        "info_long": "",
+        "sprite": "s_jerkin_cornhusk",
+        "image": 0,
+        "pockets": 3,
+        "weight": 10,
+        "stats": {
+            "res_normal": "+40",
+            "res_cyber": "+10",
+        },
+        "abilities": [
+        
+        ]
+    },
+    "Eggcrate Jerkin": {
+        "info_short": "Carelessly discarded packing material of great value. Holds much freight and items.",
+        "info_long": "Carelessly discarded packing material of great value. Holds much freight and items.",
+        "sprite": "s_jerkin_cornhusk",
+        "image": 0,
+        "pockets": 4,
+        "weight": 8,
+        "stats": {
+            "res_normal": "+5",
+        },
+        "abilities": [
+            
+        ]
+    },
+    "Monofilament Jerkin": {
+        "info_short": "A hectare of used fishing line gleaned from the Tir na n0g sewers. Takes form of a fetching garment.",
+        "info_long": "A hectare of used fishing line gleaned from the Tir na n0g sewers. Takes form of a fetching garment.",
+        "sprite": "s_jerkin_cornhusk",
+        "image": 0,
+        "pockets": 2,
+        "weight": 8,
+        "stats": {
+            "res_normal": "+12",
+            "res_bio": "+10",
+        },
+        "abilities": [
+        
+        ]
+    },
+    "Booty Jerkin": {
+        "info_short": "",
+        "info_long": "",
+        "sprite": "s_jerkin_cornhusk",
+        "image": 0,
+        "pockets": 0,
+        "weight": 2,
+        "stats": {
+            "res_normal": "+10",
+        },
+        "abilities": [
+        
+        ]
+    },
+    "Vestal Jerkin": {
+        "info_short": "",
+        "info_long": "",
+        "sprite": "s_jerkin_cornhusk",
+        "image": 0,
+        "pockets": 1,
+        "weight": 10,
+        "stats": {
+            "res_normal": "+15",
+            "res_bio": "+25",
+        },
+        "abilities": [
+            
+        ]
+    },
+    "Bisphenol A Jerkin": {
+        "info_short": "",
+        "info_long": "",
+        "sprite": "s_jerkin_cornhusk",
+        "image": 0,
+        "pockets": 4,
+        "weight": 7,
+        "stats": {
+            "res_normal": "+20",
+            "res_cyber": "+20",
+            "res_bio": "+20",
+            "res_mental": "+20",
+            "res_zauber": "+20",
+            "vul_bio": "+1",
+            "vul_cyber": "+1",
+        },
+        "abilities": [
+            "statusEffect_BpaLeach"
+        ]
+    },
+    "Soap": {
+        "info_short": "A frictionless protective layer of soap.",
+        "info_long": "",
+        "sprite": "s_jerkin_cornhusk",
+        "image": 0,
+        "pockets": 3,
+        "weight": 3,
+        "stats": {
+            "res_normal": "+5",
+            "res_bio": "-15",
+            "res_cosmic": "+100",
+            "res_cyber": "-100",
+            "res_mental": "-35",
+            "res_zauber": "-25",
+            "vul_bio": "+1",
+        },
+        "abilities": [
+            "statusEffect_SlipperySlope"
+        ]
+    },
+    "Kangaroo Skin": {
+        "info_short": "This Kangaroo Skin is rimmed with pockets.",
+        "info_long": "",
+        "sprite": "s_jerkin_cornhusk",
+        "image": 0,
+        "pockets": 24,
+        "weight": 2,
+        "stats": {
+        },
+        "abilities": [
+        ]
+    },
+}

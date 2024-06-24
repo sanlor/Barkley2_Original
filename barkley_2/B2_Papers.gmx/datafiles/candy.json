@@ -1,0 +1,347 @@
+{
+    "Butterscotch": {
+        "desc": "Regain 50 HP",
+        "sprite": "s_CandyTemp",
+        "image": 7,
+        "veggie": 0,
+        "smeltpts": 250,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 50
+            }
+        ]
+    },
+    "Candy Corn": {
+        "desc": "Regain 50 HP",
+        "sprite": "s_CandyTemp",
+        "image": 12,
+        "veggie": 0,
+        "smeltpts": 20,
+        "effects": [
+            {
+                "effect": "speedBoost",
+                "amount": 5
+            }
+        ]
+    },
+    "Jawbreaker": {
+        "desc": "Regain 100 HP",
+        "sprite": "s_CandyTemp",
+        "image": 15,
+        "veggie": 0,
+        "smeltpts": 33,
+        "effects": [
+            {
+                "effect": "gutsBoost",
+                "amount": 4
+            }
+        ]
+    },
+    "Nonpareil": {
+        "desc": "Regain 50 HP",
+        "sprite": "s_CandyTemp",
+        "image": 15,
+        "veggie": 0,
+        "smeltpts": 3,
+        "effects": [
+            {
+                "effect": "acroBoost",
+                "amount": 50
+            }
+        ]
+    },
+    "Black Licorice": {
+        "desc": "Regain 100 HP",
+        "sprite": "s_CandyTemp",
+        "image": 16,
+        "veggie": 0,
+        "smeltpts": 3,
+        "effects": [
+            {
+                "effect": "mightBoost",
+                "amount": 100
+            }
+        ]
+    },
+    "Wyrthyr's Neue": {
+        "desc": "Gradually recover HP",
+        "marquee": "Tastes like grandpa",
+        "sprite": "s_item_16",
+        "image": 1,
+        "veggie": 0,
+        "smeltpts": 2,
+        "effects": [
+            {
+                "effect": "healOverTime",
+                "amount": 3,
+                "times": 25,
+                "interval": 10
+            }
+        ]
+    },
+    "Cheese": {
+        "desc": "Cures Poison",
+        "sprite": "s_item_16",
+        "image": 0,
+        "veggie": 50,
+        "smeltpts": 1,
+        "effects": [
+            {
+                "effect": "antidote"
+            },
+            {
+                "effect": "heal",
+                "amount": 10
+            }
+        ]
+    },
+    "B-Ball": {
+        "desc": "+1 Gumption",
+        "marquee": "Rise baller, become a legend",
+        "sprite": "s_item_16",
+        "image": 9,
+        "veggie": 0,
+        "smeltpts": 1,
+        "effects": [
+            {
+                "effect": "showText",
+                "text": "+1 Gumption"
+            }
+        ]
+    },
+    "Plantain": {
+        "desc": "Regain 25 HP",
+        "sprite": "s_item_16",
+        "image": 11,
+        "veggie": 100,
+        "smeltpts": 2,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 25
+            }
+        ]
+    },
+    "Big Lollipop": {
+        "desc": "Regain 50 HP",
+        "sprite": "s_CandyTemp",
+        "image": 0,
+        "veggie": 0,
+        "smeltpts": 2,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 50
+            }
+        ]
+    },
+    "Cherry Lollipop": {
+        "desc": "Regain 40 HP",
+        "sprite": "s_CandyTemp",
+        "image": 1,
+        "veggie": 0,
+        "smeltpts": 2,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 40
+            }
+        ]
+    },
+    "Dry Lollipop": {
+        "desc": "Regain 30 HP",
+        "sprite": "s_CandyTemp",
+        "image": 2,
+        "veggie": 0,
+        "smeltpts": 2,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 30
+            }
+        ]
+    },
+    "Lemon Lollipop": {
+        "desc": "Regain 25 HP",
+        "sprite": "s_CandyTemp",
+        "image": 3,
+        "veggie": 0,
+        "smeltpts": 2,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 25
+            }
+        ]
+    },
+    "Lime Fruit Candy": {
+        "desc": "Regain 40 HP",
+        "sprite": "s_CandyTemp",
+        "image": 4,
+        "veggie": 0,
+        "smeltpts": 1,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 40
+            }
+        ]
+    },
+    "Jellybean": {
+        "desc": "Regain 80 HP",
+        "sprite": "s_CandyTemp",
+        "image": 5,
+        "veggie": 0,
+        "smeltpts": 1,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 80
+            }
+        ]
+    },
+    "Cherry Candy": {
+        "desc": "Regain 40 HP",
+        "sprite": "s_CandyTemp",
+        "image": 6,
+        "veggie": 0,
+        "smeltpts": 1,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 40
+            }
+        ]
+    },
+    "Grape Candy": {
+        "desc": "Regain 40 HP",
+        "sprite": "s_CandyTemp",
+        "image": 7,
+        "veggie": 0,
+        "smeltpts": 1,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 40
+            }
+        ]
+    },
+    "Peppermint Candy": {
+        "desc": "Regain 50 HP",
+        "sprite": "s_CandyTemp",
+        "image": 8,
+        "veggie": 0,
+        "smeltpts": 1,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 50
+            }
+        ]
+    },
+    "Gummi Bear": {
+        "desc": "Regain 50 HP",
+        "sprite": "s_CandyTemp",
+        "image": 9,
+        "veggie": 0,
+        "smeltpts": 1,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 50
+            }
+        ]
+    },
+    "Gummi Worm": {
+        "desc": "Regain 80 HP",
+        "sprite": "s_CandyTemp",
+        "image": 10,
+        "veggie": 0,
+        "smeltpts": 1,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 80
+            }
+        ]
+    },
+    "Chocolate Bar": {
+        "desc": "Regain 200 HP",
+        "sprite": "s_CandyTemp",
+        "image": 11,
+        "veggie": 0,
+        "smeltpts": 3,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 200
+            }
+        ]
+    },
+    "Sugar Cane": {
+        "desc": "Regain 30 HP",
+        "sprite": "s_CandyTemp",
+        "image": 13,
+        "veggie": 0,
+        "smeltpts": 2,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 30
+            }
+        ]
+    },
+    "Taffy": {
+        "desc": "Regain 100 HP",
+        "sprite": "s_CandyTemp",
+        "image": 14,
+        "veggie": 0,
+        "smeltpts": 2,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 100
+            }
+        ]
+    },
+    "Bag of Jelly Sweets": {
+        "desc": "Regain 300 HP",
+        "sprite": "s_CandyTemp",
+        "image": 16,
+        "veggie": 0,
+        "smeltpts": 3,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 300
+            }
+        ]
+    },
+    "Caramel Bar": {
+        "desc": "Regain 50 HP",
+        "sprite": "s_CandyTemp",
+        "image": 17,
+        "veggie": 0,
+        "smeltpts": 1,
+        "effects": [
+            {
+                "effect": "heal",
+                "amount": 50
+            }
+        ]
+    },
+   "Scroll Weapon": {
+        "desc": "Kiai scroll, make bosses look pathetic.",
+        "marquee": "This is not a skill show-off,I use whatever it takes to crush those bosses with little effort.",
+        "sprite": "s_item_scrollwpn",
+        "image": 0,
+        "veggie": 0,
+        "smeltpts": 100,
+        "effects": [
+            {
+                "effect": "scrollWeapon",
+            }
+        ]
+    }
+}

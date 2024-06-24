@@ -1,0 +1,29 @@
+{
+    "3Qro3N9V2mEgThKkyz9CE8m5LUk1sO": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "3Qro3N9V2mEgThKkyz9CE8m5LUk1sO",
+        "x": 337,
+        "y": 282
+    },
+    "YhQzHYCv9cHTYON54FuquvjVgPf27c": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "YhQzHYCv9cHTYON54FuquvjVgPf27c",
+        "x": 447,
+        "y": 338
+    },
+    "oAbnoCelEUh3zCpxgs4PUpoQt2z1CQ": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "oAbnoCelEUh3zCpxgs4PUpoQt2z1CQ",
+        "x": 449,
+        "y": 300
+    }
+}

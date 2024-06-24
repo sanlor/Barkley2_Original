@@ -1,0 +1,154 @@
+var lugner = id;
+
+var event = scr_event_create_main();
+var choice_lugnerTrust = scr_event_create_child(event);
+var choice_lugnerPromise = scr_event_create_child(event);
+var choice_lugnerAccept = scr_event_create_child(event);
+
+//////////////////////////
+// Trust Lugner Snippet //
+//////////////////////////
+
+with (choice_lugnerTrust) {
+	var toTrust = scr_event_build_choice("Listen to Lugner?", s_port_hoopz);
+	// Branch 2 (Hoopz Rejects Lugner)
+	with (scr_event_build_add_choice(toTrust, "Leave me alone.")) {
+		scr_event_build_dialogue(P_NAME, s_port_hoopz, "Can you just leave me alone? I know you're trying to be nice and all, but I don't feel much like talking after what just happened.");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "Then fuck off. Nobody's keeping you here.");
+		// End of conversation. Quest inaccessible. Upon reactivation, display Branch 8(State 1).
+		scr_event_build_quest_state("lugnerQuest", 1);
+		scr_event_build_end();
+	}
+	// Branch 3 (Hoopz listens more to Lugner)
+	with (scr_event_build_add_choice(toTrust, "I'm sorry.")) {
+		scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh....I-I'm sorry if I hurt your feelings. I didn't mean it.");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "No, it's ok. I've been stuck with this dead-end job long enough that I should be able to take anything by now.\I guess you just want to get through the day without people thinking you're a monster.\ Imagine you were me for a minute, seeing the Dwarfs living like this, being expected to do terrible things day after day.\Just the way people look at me. Repulsion, resentment, like I did all this to them. Me.\Hard to even look at yourself in the mirror on days like that. You start wondering if you ARE a monster.");
+		scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm sorry...");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "It's ok. Not your fault that I'm stuck doing this. Sometimes it just happens. All you can ever do is try making the best of things.__.__.__ Actually._______._______._______ Can you keep a secret?");
+		scr_event_build_dialogue(P_NAME, s_port_hoopz, "A secret? What kind of secret?");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "I have a way of making the best of this job. Kind of my secret way of doing something important, something good for the Dwarfs.\You have to promise me you won't tell anybody. This is serious, I could get in real trouble if anybody found out.");
+		// Asks to promise Lugner to not tell about his secret job
+		var toPromise = scr_event_build_choice("Promise Lugner?", s_port_hoopz);
+		with (scr_event_build_add_choice(toPromise, "I promise.  I want to help the dwarfs too.")) {
+			scr_event_build_dialogue(P_NAME, s_port_hoopz, "I promise! I want to help the Dwarfs any way I can.");
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "Excellent. I was hoping you were one of us.");
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "There's a cargo ship here that periodically brings various supplies from other galaxies. What I've been doing - and you can't tell anybody this - is filling up one of the empty storage containers with Dwarfs and enough food for space travel whenever the cargo ship is heading back to the Sombrero Galaxy, the Dwarf home system.\You see, a friend of mine runs the local church around here, Giuseppi, and he's been hiding Dwarfs that have been having a real tough time with the other Duergars. Ones in trouble for something or just getting picked on real bad.\He's been keeping them all safe, and every week or so I sneak them all onto one of the ship's storage units and ship them out to safety.");
+			scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow! That's great.");
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "Yeah.....It's great seeing the look on their face when you tell them that they're finally going home.\But.....I mean.....just look around. There's so many more coming in every day, so many still left. And I can't take too many of them.\I'm a failure. Just a handful at a time isn't going to make any damn difference. I guess it's better than nothing, but._._._\It's just not enough. It's never enough.");
+			scr_event_build_dialogue(P_NAME, s_port_hoopz, "Don't talk like that. What you're doing is wonderful. You should be proud of what you've done.");
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "Thanks.\I guess some days I feel like I'm their only hope, like I'm the only one out there fighting for them. My life is worthless if I can't keep doing this. That's why I need to keep this a secret.");
+			scr_event_build_dialogue(P_NAME, s_port_hoopz, "Don't worry, I won't tell anybody.");
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "Say, do you want to help me? The cargo ship is leaving today, but I can't seem to get far enough away from my boss to give Giuseppi the word to send over the Dwarfs. I'm afraid my boss thinks something is up. I can lose him long enough to get them on the ship, but too many people would see me if I met up with Giuseppi.\Maybe you could talk to Giuseppi for me, have him just send the dwarfs over....");
+			scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wouldn't this be dangerous?");
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "This place already is dangerous. Doing this wouldn't really change that.\So, can you help me?");
+			scr_event_build_event_snippet(choice_lugnerAccept);
+		}
+		with (scr_event_build_add_choice(toPromise, "I don't know...")) {
+			scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know. I don't think I should get involved in anything.");
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "Heh.\At least you're honest. So long, kid. Don't get eaten by Kobolds. Disgusting creatures.");
+			scr_event_build_quest_state("lugnerQuest", 1)
+			// End event early
+			scr_event_build_end();
+		}
+	}
+}
+
+//////////////////////////////
+// Listen to Lugner Snippet //
+//////////////////////////////
+
+with (choice_lugnerAccept) {
+	var accept = scr_event_build_choice("Listen to Lugner?", s_port_hoopz);
+	// Branch 7
+	with (scr_event_build_add_choice(accept, "Definitely!")) {
+		scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'll help you however I can. I want to help the Dwarfs out too.");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "Thank you. This really means a lot to me, and even more to them.\I've wanted to get other people involved in this, but I guess I've just been too scared to ask. It's not the sort of thing you can really wear on your sleeve in Necron 7.\What you need to do is track down Giuseppi, he's the priest of the Clispian church here. He should be somewhere in the northern section of town, not sure exactly where he'd be right now. Just tell him to send them all to the warehouse this time, the old spot isn't safe anymore.\Just make sure you don't use my name, under any circumstances. You never know who may be listening. The other duergars know he's been doing something with the dwarfs, and I'll probably be killed if any of them find out it involves me.");
+		scr_event_build_dialogue(P_NAME, s_port_hoopz, "No problem. You can trust me.");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "Again, you have my thanks. You're doing a wonderful thing. Find me inside the warehouse with the brown door."); //bhroom added that last line
+		// Quest initiated. Display state 4 upon reactivation. The script is gone, and the warehouse scripts activated after the giuseppi dialogue has been completed.
+		scr_event_build_visible(o_slag01, true);
+		scr_event_build_quest_state("lugnerQuest", 3)
+	}
+	with (scr_event_build_add_choice(accept, "No thanks.")) {
+		scr_event_build_dialogue(P_NAME, s_port_hoopz, "I can't do this right now. I've got other things I need to do.");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "Oh......I'm.....I'm sorry that I wasted so much of your time, then. Come back if you change your mind, I guess.\Don't wait too long, though, today is the only day I can do this. They send out the cargo ship later today, this is the only chance I have to do this for a while......\They're all just stuck here if you don't help.");
+		// Conversation end. Quest can still be activated until the end of the time increment, Branch 9(State 2) is displayed to offer the second chance.
+		scr_event_build_quest_state("lugnerQuest", 2)
+	}
+}
+
+
+//////////////////////////////////
+// MEETING LUGNER (MAIN EVENT) ///
+//////////////////////////////////
+
+with (event) {
+	// Shunned Lugner after the Battered Dwarf Scene        
+	if (scr_quest_get_state("lugnerQuest") == 1) {
+		scr_event_build_dialogue("Lugner", s_port_lugner01, ".....");
+		scr_event_build_end();
+	}
+	// Talking to Lugner before accepting quest, but haven't shunned him yet
+	else if (scr_quest_get_state("lugnerQuest") == 2) {
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "Had a change of heart? The cargo ships still haven't left yet.");
+		scr_event_build_event_snippet(choice_lugnerAccept);
+	}
+	// Talking to Lugner after accepting quest but before talking to Giuseppe
+	else if scr_quest_get_state("lugnerQuest") == 3 {
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "Hey pal, any luck yet?");
+		scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Not yet, sorry.");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "Well don't take too long. That cargo ships leave today.");
+	}
+	else if scr_quest_get_state("lugnerQuest") == 6 {
+	// Returning to talk to Lugner in Warehouse
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "Hey, you're back. I didn't think I'd see you again.");
+		scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I really wanted to help you out. I hate seeing the Dwarfs live like this.");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "I know. It breaks my heart. I'm just glad you were able to help me save a couple from this mess. Now let's see how many you've brought me...");
+		// This counts the dwarfs and sets up the crushing "choice" sequence
+		if scr_quest_get_state("dwarfCustody") == 0 {
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "Wait a minute, where are they?");
+			scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Giuseppi didn't believe me. He wouldn't send any of them.");
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "Are you fucking kidding me? You couldn't get ANY?");
+			scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Nope.");
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "For fuck's sake, what the hell good are you? It's not like I asked you to do very much here. Just bring a couple of Dwarfs here, that's it. There's tons of these idiots running around out there, you didn't have to get them all from Giuseppi.");
+			scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I'm sorry...");
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "Well all these stupid fucks are going to be dead and it's going to be your fault.");
+			scr_event_build_dialogue("X114JAM9", s_port_hoopz, ".....");
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "Get out of my sight. You stupid fucking idiot.");
+			scr_quest_set_state("lugnerQuest", 9);
+			scr_event_build_time_add(1);
+			scr_event_build_end(); // Quest end. Time increases. The player gets ABSOLUTELY NOTHING.
+		}
+		else if scr_quest_get_state("dwarfCustody") >= 0 {
+			// Persuaded some dwarfs, but not all.
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "You got some. That's good! Not as many as I hoped, but this is better than nothing.\There should be more than enough food for the trip in there already. Thought you'd bring a little more, so I guess I over prepared.");
+		}
+		else if scr_quest_get_state("dwarfCustody") == 15 {
+			// Successfully persuade all dwarfs:
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "Wow, you got a lot of them! Nice work. I knew I could count on you.\There should be enough food for the trip in there already. Had a feeling you'd come through, so I got a little extra.");
+		}
+		// The prompt to press the button that will kill the dwarfs
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "I guess that's everything. Now I just need to load the container into the ship.");
+		// Lugner turns to the console. Or something. Maybe there's no necessary blocking here????
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "This never gets old. Always the same excitement, just a couple button presses away.");
+		scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Yeah...");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "Ok, it's ready. Do you want to have the honors?");
+		scr_event_build_dialogue("X114JAM9", s_port_hoopz, "What do I have to do?");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "There's a little green button right here. All you need to do is push it. They'll be loaded on the ship, and the ship will automatically start the engines and embark on its course to the Sombrero Galaxy.");
+		scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Just that one little button means so much to them.");
+		scr_event_build_dialogue("Lugner", s_port_lugner01, "That's right, just one little button. Go ahead and press it if you want.");
+		scr_quest_set_state("lugnerQuest", 8);
+		// Warehouse door temporarily inaccessible.
+		// Make Slag visible in this next quest state
+		scr_event_build_end(); // The player regains control and can optionally go and talk to Slag at the bottom of the screen.
+		}
+		else if scr_quest_get_state("lugnerQuest") == 8 {
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "Aren't you going to press the button?");
+			scr_event_build_end();
+		}
+		else if scr_quest_get_state("lugnerQuest") == 7 {
+			// State 2(after the dwarfs are dead)
+			scr_event_build_dialogue("Lugner", s_port_lugner01, "You're still here? Get lost. Let me enjoy the moment.");
+		}
+}
+scr_event_advance(event);

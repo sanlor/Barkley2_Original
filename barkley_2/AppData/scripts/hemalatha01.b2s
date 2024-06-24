@@ -1,0 +1,465 @@
+// event_dz2_hemalatha01
+
+    var hemalatha = id;
+    
+    // portrait
+    var hemaport = s_portrait;
+    
+    // events & snippets
+    var event = scr_event_create_main();
+    var store_snippet = scr_event_create_child(event);
+    var inquire_snippet = scr_event_create_child(event);
+    var hate_snippet = scr_event_create_child(event);
+    var restaurant_snippet = scr_event_create_child(event);
+    var secret_shopper_snippet = scr_event_create_child(event);
+    var met_snippet = scr_event_create_child(event);
+    var safiatou_snippet = scr_event_create_child(event);
+ 
+    //------------------------------------------------------------------------------------------
+    // main event
+    //------------------------------------------------------------------------------------------
+    with (event) 
+    {
+        // secret shopper loop
+        if (scr_quest_get_state("hemalathaSecret") == 1) 
+        {
+            scr_event_build_quest_state("hemalathaSecret", 2);
+            scr_event_build_event_snippet(secret_shopper_snippet);
+        }
+        // hate loop
+        else if (scr_quest_get_state("hemalathaHateLoop") == 1) 
+        {
+            scr_event_build_quest_state("hemalathaHateLoop", 0);
+            scr_event_build_event_snippet(restaurant_snippet);
+        }
+        else if (scr_quest_get_state("hemalathaSecret") == 2)
+        {
+            scr_event_build_dialogue("Hemalatha", hemaport, "So, youngster? Do you have any word on Safiatou? Ah, I apologize, you're probably here to spend money... spend first, talk later! Bwhahaha!");
+            scr_event_build_event_snippet(store_snippet);
+        }
+        // talked before, "normal"
+        else if (scr_quest_get_state("hemalathaState") == 1) 
+        {
+            scr_event_build_dialogue("Hemalatha", hemaport, "The unfortunate youngster returns! Sit awhile, shake the sand out of your crannies and nooks... and buy something, perhaps. Bwahahaha!");
+            scr_event_build_event_snippet(store_snippet);
+        }
+        // first time talking
+        else 
+        {
+            // hemalathaScene is on
+            if (scr_quest_get_state("hemalathaScene") == 1) 
+            {
+                scr_event_build_dialogue("Hemalatha", hemaport, "Welcome, welcome! My name is Hemalatha, poor traveler. I am the proprietor of Hemalatha's Hardtack and General Store. Please, have a look at my wares. But keep in mind, out here in the desert, all goods are /'dry goods/'... bwahahaha!");
+            }
+            // normal
+            else 
+            {
+                scr_event_build_dialogue("Hemalatha", hemaport, "Bwahaha! I never thought I'd see one so young wind up in Al Akihabara. My heart aches!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, what's your problem?");
+                scr_event_build_dialogue("Hemalatha", hemaport, "No problem, child. Only sympathy... these accursed sands are becoming ever more full with lost souls like you and I. We're all in it together, yes? Might as well buy something... bwahahaha!");
+            }
+            scr_event_build_quest_state("hemalathaState", 1);
+            scr_event_build_event_snippet(store_snippet);
+        }
+    } 
+    
+    
+    //------------------------------------------------------------------------------------------
+    // store_snippet
+    //------------------------------------------------------------------------------------------
+    with (store_snippet) 
+    {
+        scr_event_build_dialogue_debug("bort", s_portrait, "Hemalatha's store should appear here. She sells hardtack, and maybe a few random things, time-based.");
+        //scr_event_build_store("Hemalatha");
+        
+        // not yet discussed safiatou
+        if (scr_time_get() >= 6) && (scr_quest_get_state("hemalathaSafiatou") == 0) 
+        {
+            scr_event_build_event_snippet(inquire_snippet);
+        }
+        else if ( (scr_quest_get_state("hemalathaSafiatou") == 1) && (scr_quest_get_state("safiatouSwamp") >= 1)) || (scr_quest_get_state("hemalathaSecret") == 2) && ( (scr_item_count("Hemalatha Receipt") == 1) || (scr_item_count("Hemalatha Bill") == 1) ) {
+            var saf_choice = scr_event_build_choice("Tell Hemalatha...", s_port_hoopz);
+            var saf_nothing = scr_event_build_add_choice(saf_choice, "Nothing.");
+            with (saf_nothing) {
+                scr_event_build_end();
+            }
+            if (scr_quest_get_state("hemalathaSecret") == 2) && (scr_item_count("Hemalatha Receipt") == 1) {
+                var saf_receipt = scr_event_build_add_choice(saf_choice, "I've got a receipt.");
+                with (saf_receipt) {
+                    scr_event_build_quest_state("hemalathaSafiatou", 4);
+                    scr_event_build_event_snippet(receipt_snippet);
+                }
+            }
+            else if (scr_quest_get_state("hemalathaSecret") == 2) && (scr_item_count("Hemalatha Bill") == 1) {
+                var saf_receipt = scr_event_build_add_choice(saf_choice, "I've got a bill.");
+                with (saf_receipt) {
+                    scr_event_build_quest_state("hemalathaSafiatou", 3);
+                    scr_event_build_event_snippet(bill_snippet);
+                }
+            }
+            // met safiatou
+            else if (scr_quest_get_state("safiatouSwamp") >= 1) 
+            {
+                var saf_safiatou = scr_event_build_add_choice(saf_choice, "I found Safiatou.");
+                with (saf_safiatou) {
+                    scr_event_build_quest_state("hemalathaSafiatou", 2);
+                    scr_event_build_event_snippet(met_snippet);
+                }
+            }
+        }
+        else {
+            // 2+ exit
+            if (scr_quest_get_state("hemalathaState") >= 1) 
+            {
+                
+                
+            }
+            // first exit
+            else 
+            {
+                // normal
+                if (scr_quest_get_state("hemalathaSafiatou") == 0) 
+                {
+                    scr_event_build_dialogue("Hemalatha", hemaport, "I wonder what sins could have been committed by one so young... only the truly bedamned wind up in the scorching sands of Al-Akihabara! Bwahahaha!");
+                }
+                // hemalathaScene is on
+                else 
+                {
+                    scr_event_build_dialogue("Hemalatha", hemaport, "Pleased to do business with you, child. The desert is where a dwarf learns the meaning of necessity. If you do find that you need something -- and everyone in Al Akihabara does -- be sure to return to me. I, the great Hemalatha, can help you, for a price.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Come to you, sure thing.");
+                    scr_event_build_dialogue("Hemalatha", hemaport, "Just don't come looking for water... bwahahahahaha!");
+                }
+            }
+        }
+    }
+
+    
+    //------------------------------------------------------------------------------------------
+    // inquire_snippet
+    //------------------------------------------------------------------------------------------
+    with (inquire_snippet) 
+    {
+        // saw hemalatha cutscene
+        if (scr_quest_get_state("hemalathaScene") == 1) 
+        {
+            scr_event_build_dialogue("Hemalatha", hemaport, "Excellent! You know, youngster, it appears you've grown stronger since we last met. I can see the desert winds have buffeted a few wrinkles into your delicate skin... what a pity! Bwahaha!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "*Gulp*... you think I look older?");
+            scr_event_build_dialogue("Hemalatha", hemaport, "Certainly! In fact, in your sand-beaten robes you strike a quite worldly figure! Tell me, have you in your travels come across my subordinate, Safiatou? You remember her, right? The good-for-nothing who was standing next to me when you first came to my shop.");
+            
+            // met safiatou, get choice
+            if (scr_quest_get_state("safiatouAlaki") == 1) || (scr_quest_get_state("safiatouSwamp") == 1) 
+            {
+                // Remember Choice
+                var remember = scr_event_build_choice("Remember Safiatou?", s_port_hoopz);
+                
+                // Choice 1:
+                // BOTH alakihabara AND swamp
+                //if (scr_quest_get_state("safiatouAlaki") == 1) && (scr_quest_get_state("safiatouSwamp") == 1)
+                if (scr_quest_get_state("safiatouHate") == 1)
+                {
+                    var rem_both = scr_event_build_add_choice(remember, "Yep. She hates you, and runs a restaurant in the swamp.");
+                    with (rem_both) 
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yep, I remember Safiatou. She is out running a restaurant in the swamp. She REALLY doesn't like you, you know that?");
+                        scr_event_build_quest_state("hemalathaRemember", 1);
+                        scr_event_build_event_snippet(hate_snippet);
+                    }
+                }
+                // Choice 2:
+                // ONLY swamp
+                if (scr_quest_get_state("safiatouSwamp") == 1) 
+                {
+                    var rem_swamp = scr_event_build_add_choice(remember, "Yep. She runs a restaurant in the swamp now.");
+                    with (rem_swamp) 
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yep, I remember Safiatou. She is out running a restaurant in the swamp.");
+                        scr_event_build_quest_state("hemalathaRemember", 1);
+                        scr_event_build_event_snippet(restaurant_snippet);
+                    }
+                }
+                // Choice 3:
+                // ONLY alakihabara
+                if (scr_quest_get_state("safiatouAlaki") == 1) 
+                {
+                    var rem_alaki = scr_event_build_add_choice(remember, "Yep, I talked to her for a sec, here in Al Akihabara.");
+                    with (rem_alaki) 
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yep, I talked to her for a sec, here in Al Akihabara.");
+                        scr_event_build_quest_state("hemalathaRemember", 1);
+                        scr_event_build_event_snippet(safiatou_snippet);
+                    }
+                }
+                // Choice 4:
+                // ALWAYS CHOICE: lie
+                var rem_dont = scr_event_build_add_choice(remember, "Nope, I don't remember her.");
+                with (rem_dont) 
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nope, I don't remember her at all.");
+                    scr_event_build_quest_state("hemalathaRemember", 0);
+                    scr_event_build_event_snippet(safiatou_snippet);
+                }
+            }
+            // never met, no choice!
+            else 
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You were talking to her? Um, I don't really remember her at all.");
+                scr_event_build_quest_state("hemalathaRemember", 0);
+                scr_event_build_event_snippet(safiatou_snippet);
+            }
+        }
+        
+        // did not see hemalatha cutscene
+        else 
+        {
+            scr_event_build_dialogue("Hemalatha", hemaport, "Excellent! I am always eager to aid a vigorous and paying customer like yourself. In fact, you seem like a worldly youngster... have you not, in your travels, come across a subordinate of mine, one by the name of Safiatou?");
+            
+            // met safiatou, get choice
+            if (scr_quest_get_state("safiatouSwamp") == 1) 
+            {
+                // Know Choice
+                var know = scr_event_build_choice("Know Safiatou?", s_port_hoopz);
+                
+                // Choice 1:
+                // Met in swamp.
+                var know_swamp = scr_event_build_add_choice(know, "She runs a restaurant in the swamp.");
+                with (know_swamp) 
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yep, I've met Safiatou. She is out running a restaurant in the swamp.");
+                    scr_event_build_quest_state("hemalathaMet", 1);
+                    scr_event_build_event_snippet(restaurant_snippet);
+                }
+                
+                // Choice 2:
+                // Spill the beans
+                if (scr_quest_get_state("safiatouHate") == 1) {
+                    var know_hate = scr_event_build_add_choice(know, "She hates you, and runs a restaurant in the swamp.");
+                    with (know_hate) 
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yep, I remember Safiatou. She is out running a restaurant in the swamp. She REALLY doesn't like you, you know that?");
+                        scr_event_build_quest_state("hemalathaMet", 1);
+                        scr_event_build_event_snippet(hate_snippet);
+                    }
+                }
+                
+                // Choice 3:
+                // ALWAYS CHOICE: lie
+                var know_dont = scr_event_build_add_choice(know, "Nope, never met her.");
+                with (know_dont) 
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nope, I've never met anyone named Safiatou.");
+                    scr_event_build_quest_state("hemalathaMet", 0);
+                    scr_event_build_event_snippet(safiatou_snippet);
+                }
+            }
+            // never talked to safiatou
+            else 
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nope, I've never met anyone named Safiatou.");
+                scr_event_build_quest_state("hemalathaMet", 0);
+                scr_event_build_event_snippet(safiatou_snippet);
+            }
+        }
+    }
+    
+    //------------------------------------------------------------------------------------------
+    // met_snippet
+    //------------------------------------------------------------------------------------------
+    with (met_snippet)
+    {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hemalatha, I met Safiatou!");
+        scr_event_build_dialogue("Hemalatha", hemaport, "Excellent work, youngster. Al Akihabara always gets the resourceful ones. Where is she? What is she doing?");
+        var met_choice = scr_event_build_choice("What is Safiatou doing?", s_port_hoopz);
+        
+        // Choice 1:
+        // Met in swamp.
+        var met_swamp = scr_event_build_add_choice(met_choice, "She runs a restaurant in the swamp.");
+        with (met_swamp) 
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "She is out running a restaurant in the swamp.");
+            scr_event_build_quest_state("hemalathaMet", 1);
+            scr_event_build_event_snippet(restaurant_snippet);
+        }
+        // Choice 2:
+        // Spill the beans
+        if (scr_quest_get_state("safiatouHate") == 1) {
+            var met_hate = scr_event_build_add_choice(met_choice, "She hates you, and runs a restaurant in the swamp.");
+            with (met_hate) 
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "She is out running a restaurant in the swamp. She REALLY doesn't like you, you know that?");
+                scr_event_build_quest_state("hemalathaMet", 1);
+                scr_event_build_event_snippet(hate_snippet);
+            }
+        }
+    }
+    
+    //------------------------------------------------------------------------------------------
+    // hate_snippet
+    //------------------------------------------------------------------------------------------
+    with (hate_snippet) {
+        scr_event_build_dialogue("Hemalatha", hemaport, "What? She hates me? Why do you say this? Why do you say this? You're just a wandering devil from the sands, spreading deceit. I am the only one who cares for Safiatou! Urggggghghgh! She's so... so... ungrateful!");
+        
+        var hate_choice = scr_event_build_choice("Reply...", s_port_hoopz);
+        
+        if (scr_quest_get_state("safiatouRecipe") == 1) 
+        {
+            with (scr_event_build_add_choice(hate_choice, "She said it all right. She wants her recipe book back."))
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, it's her words not mine. Oh and she wants her recipe book back, ya bitter old crone!");
+                scr_event_build_dialogue("Hemalatha", hemaport, "Her recipe book? Her recipe book!? I'll show that good-for-nothing what I think about her recipe book! I'll... I'll... throw it down to the bottom of the poisoned well! Grrrrrr!!!!");
+                scr_event_build_quest_state("hemalathaRecipe", 1);
+                scr_event_build_quest_state("hemalathaHate", 2);
+                scr_event_build_teleport(room, 192, 192);
+            }
+        }
+        with (scr_event_build_add_choice(hate_choice, "She said it all right.")) 
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, it's her words not mine. She's still out there working for you but she sure doesn't like you.");
+            scr_event_build_dialogue("Hemalatha", hemaport, "What insolence! Doesn't she realize she owes everything to me!? I am Hemalatha! She would be shriveled up like a raisin on the desert sands if it wasn't for me!");
+            scr_event_build_quest_state("hemalathaHate", 2);
+        }
+        with (scr_event_build_add_choice(hate_choice, "Well, maybe it just seemed that way."))
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um... maybe I'm putting words in her mouth... I don't want to get her in trouble...");
+            scr_event_build_dialogue("Hemalatha", hemaport, "Well, it certainly sounds like something she would say... I knew she'd betray me one day! Even after all I've done for you. You're too good, Hemalatha! They'll always let you down...");
+            scr_event_build_quest_state("hemalathaHate", 1);
+        }
+        scr_event_build_quest_state("hemalathaHateLoop", 1);
+        scr_event_build_execute_event_script(event_dz2_hemalatha01);
+    }
+    
+    //------------------------------------------------------------------------------------------
+    // restaurant_snippet
+    //------------------------------------------------------------------------------------------
+    with (restaurant_snippet)
+    {
+        // hated
+        if (scr_quest_get_state("hemalathaHate") >= 1) 
+        {
+            scr_event_build_dialogue("Hemalatha", hemaport, "And what about this restaurant? Grrr I just can't stand it! Tell me, what is she doing!");
+        }
+        // neutral
+        else 
+        {
+            scr_event_build_dialogue("Hemalatha", hemaport, "A restaurant!? In the swamp!? I sent her out to the desert to SELL hardtack, not open up a cafe! It was supposed to show her how good she has it! Here in Al Akihabara, life is short and tomorrow is never guaranteed!... and yet I gave her a steady job cooking up 'tack. She is a laborer, MY laborer... not a restaurateur! So... give me the scoop!");
+        }
+        var restaurant = scr_event_build_choice("About Safiatou's restaurant...", s_port_hoopz);
+        if (scr_quest_get_state("safiatouDine") >= 2) 
+        {
+            var rest_gomp = scr_event_build_add_choice(restaurant, "I sat down and gomped. Good hardtack!");
+            with (rest_gomp) 
+            {
+                if (scr_quest_get_state("safiatouOrder") == 0) 
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I got the small plates... they were good, but they were sort of the same. Pretty tasty... for hardtack anyway.");
+                }
+                else if (scr_quest_get_state("safiatouOrder") == 1) 
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I jammed on that hardtack entree... it was a little gamey, but filling as all get out. Good hardtack.");
+                }
+                else if (scr_quest_get_state("safiatouOrder") == 2) 
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I tore into that hardtack special... it seemed like all the other hardtack that was for sale, but when you're in the swamp, ya gotta eat something!");
+                }
+                else 
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I got the three course prix fixe menu... I sorta wish dish after dish wasn't just plain old hardtack, but Safiatou has a way with it. Overall... it was pretty dang good.");
+                }
+            }
+            scr_event_build_dialogue("Hemalatha", hemaport, "I... I don't believe it! No, wait... of course I believe it! That damned Safiatou! What deception! I sent her into the desert to sell hardtack as a lesson in humility! I expected her to come crawling back to town, to come crawling to my feet! Instead she opens up a restaurant? With MY hardtack? How dare she!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "But Hemalatha, it was really tasty 'tack...");
+            scr_event_build_dialogue("Hemalatha", hemaport, "Hardtack is not meant to be tasty! This is the desert! Life is harsh, and cheap... and dry! We're damned to dryness! Damned! There's no need for a saucier on these scorching sands! What use is a demi-glace in the devil's fiery grasp!? Hardtack is hardy food for hardier souls... her dreams of being a restaurateur are just that... dreams! Illusions, no more real than a mirage!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Yikes...)");
+            scr_event_build_event_snippet(secret_shopper_snippet);
+        }
+        else {
+            var rest_take = scr_event_build_add_choice(restaurant, "I've only gotten take-out.");
+            with (rest_take) 
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I've only gotten take-out... but I think it's just like the hardtack you're selling.");
+                scr_event_build_dialogue("Hemalatha", hemaport, "Take-out? What does that mean? She's doing table service? I sent her out there to the desert to learn a lesson in humility, and now she's opened up a restaurant!? You, youngster, you've done well telling me this. I've got a job for you...");
+                scr_event_build_event_snippet(secret_shopper_snippet);
+            }
+        }
+        var rest_forget = scr_event_build_add_choice(restaurant, "I forget.");
+        with (rest_forget) 
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ummm... honestly, Hemalatha, I forget, ya know, hardtack is hardtack, right?");
+            scr_event_build_dialogue("Hemalatha", hemaport, "You've forgotten!? I've been around long enough to know when someone is lying to me, child... we're all sinners who wind up walking the sands of Al Aki. All the same, I think I have a job for you...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh yeah?");
+            scr_event_build_event_snippet(secret_shopper_snippet);
+        }
+    }
+
+        
+    //------------------------------------------------------------------------------------------
+    // secret_shopper_snippet
+    //------------------------------------------------------------------------------------------
+    with (secret_shopper_snippet) 
+    {
+        // reset to save information
+        if (scr_quest_get_state("hemalathaSecret") == 0)
+        {
+            scr_event_build_quest_state("hemalathaSecret", 1);
+            scr_event_build_execute_event_script(event_dz2_hemalatha01);
+        }
+        // know about the restaurant
+        if (scr_quest_get_state("hemalathaRestaurant") == 1) 
+        {
+            // dined in
+            if (scr_quest_get_state("safiatouDine") >= 2)
+            {
+                scr_event_build_dialogue("Hemalatha", hemaport, "Do you have some proof? Do you have some proof you ate there?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, I-");
+                scr_event_build_dialogue("Hemalatha", hemaport, "Get me a receipt! When she gets back I'm gonna shove it in her face! She'll be so ashamed, she'll beg to work for me again... and then I'll fire her! Go on, " + P_NAME + ", there's your job. Get me a receipt!");
+            }
+            else
+            {
+                scr_event_build_dialogue("Hemalatha", hemaport, "Go back to the restaurant, dine in, and get me a receipt! When she gets back I'm gonna shove it in her face! She'll be so ashamed, she'll beg to work for me again... and then I'll fire her! Go on, " + P_NAME + ", there's your job. Get me a receipt!");
+            }
+        }
+    }    
+  
+    //------------------------------------------------------------------------------------------
+    // safiatou_snippet
+    //------------------------------------------------------------------------------------------
+    with (safiatou_snippet) 
+    {
+        // met in al akihabara
+        if (scr_quest_get_state("hemalathaScene") == 1)
+        {
+            // remember
+            if (scr_quest_get_state("hemalathaRemember") == 1)
+            {
+                scr_event_build_dialogue("Hemalatha", hemaport, "Ah, good. I had a small task for her outside of Al Akihabara, but I am surprised she hasn't returned yet. I'm sure she's out there in the desert somewhere... let me know if you happen to cross paths. I have a lot of sway in this town... I'm sure I can repay you somehow. Bwahahaha!");
+            }
+            // don't remember
+            else
+            {
+                scr_event_build_dialogue("Hemalatha", hemaport, "You don't say? Well, I'm sure if you see her you'll remember. I had a small task for her outside of Al Akihabara, but I'm surprised she hasn't returned yet. I'm sure she's out there in the desert somewhere... let me know if you happen to cross paths. I have a lot of sway in this town... I'm sure I can repay you somehow. Bwahahaha!");
+            }
+        }
+        // didn't meet
+        else 
+        {
+            scr_event_build_dialogue("Hemalatha", hemaport, "At any rate, she is my subordinate. I had a small task for her outside of Al Akihabara, but I'm surprised she hasn't returned yet. I'm sure she's out there in the desert somewhere... let me know if you happen to cross paths.  I have a lot of sway in this town... I'm sure I can repay you somehow. Bwahahaha!");
+        }
+    }
+    
+    //------------------------------------------------------------------------------------------
+    // receipt_snippet
+    //------------------------------------------------------------------------------------------
+    with (receipt_snippet) 
+    {   
+    
+    }
+    
+    //------------------------------------------------------------------------------------------
+    // bill_snippet
+    //------------------------------------------------------------------------------------------
+    with (bill_snippet) 
+    {   
+    
+    }
+    
+    
+    scr_event_advance(event);
