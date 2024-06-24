@@ -1,0 +1,32 @@
+// Read(name, dialogue, portrait[optional]);
+
+var name = argument[0];
+var port = NULL;
+
+name = name;
+
+if (argument_count == 3)
+{
+    port = argument[2];
+}
+else
+{
+    port = Portrait("from name", name);
+}
+
+
+diaRead = ds_list_create();
+diaRead[| 0] = NULL; //x
+diaRead[| 1] = NULL; //y
+diaRead[| 2] = NULL; //textbox_width
+diaRead[| 3] = NULL; //lines
+diaRead[| 4] = NULL; //text_speed
+diaRead[| 5] = NULL; //title_color
+diaRead[| 6] = $6699cc; //text_color
+diaRead[| 7] = NULL_STRING; //talk_sound
+diaRead[| 8] = NULL_STRING; //confirm_sound
+diaRead[| 9] = 0; //portrait_speed
+diaRead[| 10] = false; //always_play_portrait_animation
+diaRead[| 11] = NULL; //boxless
+
+scr_event_build_dialogue_ext(name, port, argument[1], diaRead);

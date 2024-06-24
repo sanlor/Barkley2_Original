@@ -1,0 +1,116 @@
+// This is not so much the Van Cleef script as it is the script that lets the player temporarily exit the Duergar base quest. 
+// They do so through Van Cleef and uses the Van Cleef sprite, so there's nothing else to call this script. This script is only availale while 
+// the player is in the duergar base, it is gone from the game otherwise.
+// Like the vancleef01 script, this is incomplete, and will need to be finished once the maps are created and the placement of everything is finalized. 
+// This script should actually auto-trigger as well, but I'm not messing with that sort of thing right now.
+// NOTE: I don't entirely know how this is going to work right now. The idea is that once Van Cleef has injected the player with the duergar musk, 
+// they cannot exit the base UNTIL they have spoken to Van Cleef again and gotten the antidote. This falls sufficiently outside of what I could figure 
+// out about scripting, and will need to be coordinated with map design and the teleporters, so I've generally skipped the functionality of this for now.
+
+/*
+if (argument0 == SCRIPT_START)
+{
+    if (Quest("vancleefinjectionState") == 0)
+    {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var vancleef = id;
+    var event = scr_event_create_main();
+    with (event)
+    {
+        if (Quest("baseescapeQuest") == 1)
+        {
+            Dialogue(P_NAME, "I'm finished......");
+            Dialogue("Van Cleef", "You're good. Didn't see anyone running out of there screaming. Didn't know you had it in you.");
+            Dialogue(P_NAME, "I screwed up. I couldn't take over the base.");
+            Dialogue("Van Cleef", "Don't care about taking over the base, what's your body count?");
+            Dialogue(P_NAME, "I dunno. Zero, I think. Everything's a big blur.");
+            Dialogue("Van Cleef", "Zero? Fucking zero?\You telling me I wasted the last of this shit on a fucking zero?");
+            Dialogue(P_NAME, "I'm really sorry.");
+            Dialogue("Van Cleef", "The fucking kobolds could at least take a bite out of a couple of them.");
+            Dialogue(P_NAME, "I tried my best. I really did.\I was trying to be sneaky. I couldn't kill them all on my own, you know. I was going to try turning the turrets on them at the end, but I was too dazed to work the computer.");
+            Dialogue("Van Cleef", "The turrets, huh? That wouldn't have been a bad idea.\Ha ha ha ha ha! Oh boy, I'm just seeing this in my head now. Ha ha ha ha ha ha!!!\Shit, now I'm really disappointed. Look, don't tell me that shit. It was better just hearing you was a fuckup. Stings more seeing that you fucked a perfect idea.");
+            Dialogue(P_NAME, "I said I was sorry.");
+            Dialogue("Van Cleef", "Yeah, whatever. I don't really care all that much about your stupid shit. It's this Lafayette guy you should be worrying about.\If he's the type I think he is, you may be what's for dinner. Just saying.\So, I'm feeling generous right now, you need any of that antidote?");
+            Dialogue(P_NAME, "Yeah, I'm still a little woozy.");
+            Dialogue("Van Cleef", "The woozy ain't gonna go away. This is just to make sure you don't bite the heads off of no cybergremlins. I'm guessin' you don't wanna do that.");
+            Dialogue(P_NAME, "I already ate earlier, so yeah, I'd like to not have an urge to bite the heads off of cybergremlins.");
+            Dialogue("Van Cleef", "You fucking dwarfs wouldn't know a good time if it knifed you in the ribs.\Yeah, hold still........");
+            Dialogue("Van Cleef", "Yeah, that should do it.\Actually, I don't really give a fuck about you and may have just injected it into your shirt instead. Wasn't really looking.\If the smell of dwarf gives you bloodlust, just take your shirt off and start sucking on it.");
+            Dialogue(P_NAME, "Thanks, mister.\It may be the drugs talking, but you are my favorite duergar. I'm sorry I got your hopes up and all....");
+            Dialogue("Van Cleef", "Hey, what the fuck do you know? We got something in common. I'm my favorite duergar too.\Now hit the fucking road. You're just bad enough that I'm starting to wonder how easily I could get that skin of yours off.");
+            Quest("vancleefinjectionState", 0);
+            Quest("rebelQuest", 4);
+            scr_event_build_end();
+        }
+        
+        else if (Quest("vancleefinjectionState") == 2)
+        {
+            Dialogue("Van Cleef", "Where the fuck were you?");
+            Dialogue(P_NAME, "I had to use the toilet.");
+            Dialogue("Van Cleef", "YOU'RE a fucking toilet, mate.\Now hold still. Giving you the musk again. And you're gonna go in there and wreck some shit for me.");
+            
+            var injection = Choice("Are you ready to go back in the duergar base?", s_port_hoopz);
+            
+            with (ChoiceAdd(injection, "No, wait!!! I'm not ready yet!!!"))
+            {
+                Dialogue(P_NAME, "No, wait!!! I'm not ready yet!!! Just give me a little longer.");
+                Dialogue("Van Cleef", "I'm growing officially fucking sick of you and your shotglass bladder. Hurry the fuck up, I got shit to do.");
+                scr_event_build_end();
+            }
+            
+            with (ChoiceAdd(injection, "Ok. Let's do this."))
+            {
+                Dialogue(P_NAME, "Ok. let's do this.");
+                Dialogue("Van Cleef", "Yeah, whatever.......#.....there you go.\How does it feel?");
+                Dialogue(P_NAME, "Hmm......\I don't feel anything. I'm not building up an immunity to it, am I?");
+                Dialogue("Van Cleef", "I'm not a fucking doctor. I don't know how this shit works.");
+                Dialogue(P_NAME, "Great! Left for dead with the biggest idiot in existence. I guess it's a miracle you know how those pants of yours even work.");
+                Dialogue("Van Cleef", "Yeah, I see it now. It's working.");
+                Dialogue(P_NAME, "Uh, hello? No, it's not working. You stupid sack of garbage. I'll tell you when it's working.\You don't know me. Don't pretend like you do. I'll snap you in two, kid. Free of charge.");
+                Dialogue("Van Cleef", "Fuck you. Get fucking moving. Expecting lots of carnage from you.");
+                Quest("vancleefinjectionState", 1);
+                scr_event_build_end();
+            }
+        } 
+        
+        else if (Quest("vancleefinjectionState") == 1)
+        {
+            scr_event_build_dialogue_debug("Hundley", NULL, "This script is supposed to auto-trigger whenever the player is already in the dbase and is attempting to leave.\This may require a light automatic walking cinematic for the player depending on how we build this.");
+            // if the player aborts the quest and leaves. this script auto-triggers and the player walks out to meet Van Cleef beyond the front gates.
+            
+            Dialogue("Van Cleef", "You chicken out? Can hit you with an antidote if you don't got the stomach for being a duergar.");
+            
+            var antidote = Choice("Do you need an antidote?", s_port_hoopz);
+            with (ChoiceAdd(antidote, "Can you give me the antidote please? I want to leave."))
+            {
+                Dialogue(P_NAME, "Being a duergar sucks. I don't know how you do it. I'm so disgusting and pathetic. All I want to do is throw myself off a building.\Gimme the antidote or I'm going to rip it off your corpse.");
+                Dialogue("Van Cleef", "Heh. I'll give it to you, but you gotta promise me you'll finish the job when you build the nerve back up.");
+                Dialogue(P_NAME, "Whatever, whatever, just do it, bonehead!");
+                Dialogue("Van Cleef", "Aaaaand........\There.");
+                Dialogue(P_NAME, "Ugh.......\That was.......\Awful......");
+                Dialogue("Van Cleef", "Good as new. And you ARE coming back to finish this off. I didn't give you this so you can fuck around.");
+                
+                scr_event_build_dialogue_debug("Hundley", NULL, "POTENTIAL TODO: Depending on the design of the map, Van Cleef may need to walk to a separate spot away from the duergar base at this point.\For narrative reasons, he probably shouldn't be waiting right in front of the base when the player isn't in it.");
+                // Depending on the design, there may be the need for Van Cleef to walk off.
+                
+                Dialogue(P_NAME, "What a nightmare.");
+                Quest("vancleefinjectionState", 2);
+                scr_event_build_end();
+            }
+            
+            with (ChoiceAdd(antidote, "Just getting some fresh air."))
+            {
+                Dialogue(P_NAME, "Did I say you could even talk to me?!?! I'll be the one who tells you when I've chickened out, smart guy. Not before. Got it?");
+                Dialogue("Van Cleef", "Heh. Good luck with all that in there, fuckhead.");
+                Dialogue(P_NAME, "I SAID GOT IT, GENIUS. THAT'S CALLED A QUESTION. DO YOU NOT EVEN HAVE THE BRAINPOWER TO ANSWER A SIMPLE QUESTION!?!");
+                Dialogue("Van Cleef", "Run along now. You're making me really want to choke you to death on your intestines.");
+                scr_event_build_end();
+            }
+        }
+    }
+    scr_event_advance(event);
+}

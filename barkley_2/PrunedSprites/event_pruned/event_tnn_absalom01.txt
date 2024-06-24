@@ -1,0 +1,409 @@
+// event_tnn_absalom01
+// Absalom
+// Computer guy in Tnn Rebel Base
+
+if (argument0 == SCRIPT_INTERACT) then
+    {
+    // scr_tnn_paper();
+    var rank_absalom = scr_longinus_get_rank("absalom") + " Absalom";
+    var rank_carlton = scr_longinus_get_rank("carlton") + " Carlton";
+    var charname = P_NAME;
+    if (BodySwap() == "governor") { charname = "Governor Elagabalus"; }
+    var absalom = id;
+    var event = scr_event_create_main();
+    var question_snippet = scr_event_create_child(event);
+    var paper_snippet = scr_event_create_child(event);
+    var report_snippet = scr_event_create_child(event);
+    var computer_snippet = scr_event_create_child(event);
+    var choose_snippet = scr_event_create_child(event);
+
+    // Clear handler variables
+    if is_real(Quest("absalomLoop")) then scr_quest_set_state("absalomLoop", "");
+    if is_real(Quest("absalomPaper")) then scr_quest_set_state("absalomPaper", "");
+
+    //------------------------------------------------------------------------------
+    // question_snippet
+    //------------------------------------------------------------------------------
+    with (question_snippet)
+        {
+        Quest("absalomLoop", "question");
+        var questions = Choice("Ask Absalom...", s_port_hoopz);
+
+        // Is this L.O.N.G.I.N.U.S.?
+        if (Quest("absalomLonginus") == 0) then
+            {
+            var longinus = ChoiceAdd(questions, "Is this L.O.N.G.I.N.U.S.?");
+            with (longinus)
+                {
+                Dialogue(charname, "Um, is this L.O.N.G.I.N.U.S.?");
+                Dialogue("Absalom", "Correct! This is the Tir na Nog branch of L.O.N.G.I.N.U.S. It's quite amazing to me that you managed to find us! I'm a little concerned you'll compromise our safety! I'm Absalom, the group technician. I assist Dr. Liu, our leader, with... secret weapons. Private Madison handles weapon supplies and our poker players over there handle the poker games.");
+                Dialogue(charname, "You're supposed to be fighting the Duergars, right? That's all of you?");
+                Dialogue("Absalom", "Correct again! L.O.N.G.I.N.U.S. is the dwarf resistance force. We try to stymie the Duergars as much as we can, and improve living conditions for the dwarfs of Necron 7. We may be small group, but we're dedicated to the cause of dwarf liberation.");
+                Quest("knowLONGINUSTnn", 1);
+                }
+            }
+
+        // What are you doing?
+        var doing = ChoiceAdd(questions, "What are you doing?");
+        with (doing)
+            {
+            Dialogue(charname, "What are you doing?");
+            Dialogue("Absalom", "Right now? I'm decoding messages. You see this computer of mine? I've developed a powerful new decryption tool. Duergar messages, reports from our scouts, fragments of radio communication - you wouldn't believe the kinds of secrets contained in these messages. Duergars disguise their messages as songs, love letters, farewell letters - they're all codes! But enough about that. Is there something I can help you with?");
+            //Dialogue("Absalom", "Right now? I'm decoding messages. You see this computer of mine? I've developed a powerful new decryption tool. Duergar messages, reports from our scouts, fragments of radio communication - you wouldn't believe the kinds of secrets contained in these messages. Duergars disguise their messages as songs, love letters, farewell letters - they're all codes! If you find any interesting messages, please give them to me. They're certainly Duergar codes.");
+            Quest("absalomLetter", 1);
+            }
+
+        // How can I help?
+        if (Quest("absalomLetter") == 2) then
+            {
+            var help = ChoiceAdd(questions, "Is there anything I can do to help?")
+            with (help)
+                {
+                if (Quest("absalomLetter") == 2) then
+                    {
+                    Dialogue(charname, "Is there anything else I can do to help out L.O.N.G.I.N.U.S.?");
+                    Dialogue("Absalom", "Not at the moment. Delivering that message to me was a big help. Thanks.");
+                    }
+                else if (Quest("absalomLetter") <= 1) then
+                    {
+                    Dialogue(charname, "I want to help out L.O.N.G.I.N.U.S. Is there anything I can do?");
+                    Dialogue("Absalom", "Beyond helping Dr. Liu with the body transference device? Well, I've been expecting a report from our scout Carlton for some time now. I would be much obliged if you could get that report to me. Don't even bother trying to read it - Carlton's messages are so layered in code and innuendo that no layman could ever decipher it.");
+                    Quest("absalomLetter", 1);
+                    }
+                }
+            }
+
+        // Turn in Letter
+        if (Quest("absalomLetter") == 1) then
+            {
+            var letter = ChoiceAdd(questions, "Turn in a report.");
+            with (letter)
+                {
+                Dialogue(charname, "Hey, I think I've got that report you told me about.");
+                Dialogue("Absalom", "Oh, yes?");
+                Snippet(choose_snippet);
+                }
+            }
+
+        // How do I get out of here?
+        var getout = ChoiceAdd(questions, "How do I get out of here?");
+        with (getout)
+            {
+            if (Quest("govQuest") == 6) then
+                {
+                Dialogue(charname, "How do I get out of here?");
+                Dialogue("Absalom", "Well, you could always find one of the exits even deeper in the sewers, if that sounds like an enticing prospect. Or you could, you know, walk right out the front gate of Tir na Nog since /'the Governor/' just gave you permission *wink*.");
+                }
+            else if (Quest("govQuest") == 5) then
+                {
+                Dialogue("Governor Elagabalus", "How do I get out of here?");
+                Dialogue("Absalom", "In your current state? I can't imagine why you'd want to. You've got a speech to give, Mr. Governor!");
+                }
+            else
+                {
+                Dialogue(charname, "How do I get out of here?");
+                Dialogue("Absalom", "I'm quite impressed that you made it to our hideout! Not even the Duergars can make it this far through the sewers. It's certainly a frightening proposition but there are several exits even deeper in the sewers. Although if that doesn't sound like a particularly enticing prospect, I believe that you could potentially escape using the body transference device Dr. Liu and I made. You should ask her more about that.");
+                }
+            }
+
+        // See ya. [exits conversation]
+        var seeya = ChoiceAdd(questions, "See ya.");
+        with (seeya)
+            {
+            Dialogue(charname, "See ya later.");
+            Dialogue("Absalom", "Indeed.");
+            Quest("absalomLoop", "question");
+            scr_event_build_end();
+            }
+
+        Execute(event_tnn_absalom01);
+        }
+
+    //------------------------------------------------------------------------------
+    // Main event
+    //------------------------------------------------------------------------------
+    with (event)
+        {
+        // Paper Handler
+        //if (Quest("absalomPaper") != "") Snippet(paper_snippet);
+            
+        // Looper
+        // else
+        if (Quest("absalomLoop") != "") then
+            {
+            Quest("absalomLoop", "");
+            switch (Quest("absalomLoop"))
+                {
+                case "question": Snippet(question_snippet); break;
+                case "choose": Snippet(choose_snippet); break;
+                case "computer": Snippet(computer_snippet); break;
+                }
+            }
+
+        // govQuest complete
+        else if (Quest("govQuest") == 6) then
+            {
+            Dialogue("Absalom", "It was a long shot but you pulled it off - the people of Tir na Nog are the better for it and you've got an exit into the Necron 7 wilds. I'm quite impressed! I sincerely hope you find whatever it is you're looking for, and if you cross paths with L.O.N.G.I.N.U.S. again, I hope you help in any way you can. But about the governor, I'm not too sure what we're going to do with him...!");
+            }
+            
+        // Currently in Governor's Body
+        else if (Quest("govQuest") == 5) then
+            {
+            Dialogue("Absalom", "Oh, don't worry, we'll make sure no harm comes to your body while your consciousness is inhabiting the Governor's. But please do be quick, just in case!");
+            }
+
+        // Ready to become Governor
+        else if (Quest("govQuest") == 4) then
+            {
+            Dialogue("Absalom", "Look at him over there, convulsing in rage and indignation. Perhaps I shouldn't say this, but I almost take pleasure in his misery. Well, I suppose it's almost time to see if the body switching device is working correctly, then?");
+            Snippet(question_snippet);
+            }
+
+        // Have Duergar Urine
+        else if (Quest("govQuest") == 3) then
+            {
+            Dialogue("Absalom", "Ah, the Duergar solution! That must have been quite a challenge to obtain. I must say that I'm quite impressed. You should take it to Dr. Liu immediately.");
+            Snippet(question_snippet);
+            }
+
+        // Accepted Governor Quest, need Duergar Urine
+        else if (Quest("govQuest") == 2) then
+            {
+            Dialogue("Absalom", "Duergars are instinctually territorial creatures - they mark their turf with their, ah, fluids. It is my hope, as well as Dr. Liu's, that we can trigger Governor Elagabalus hormonal territorial instincts with a sample of ah, Duergar solution. I wish you good luck, " + charname + ", but unfortunately I wouldn't know where to obtain any. But you made it through the sewers to get here, you're a tenacious youngster. I'm sure you can get your hands on some quite easily! So to speak.");
+            Snippet(question_snippet);
+            }
+
+        // Rejected Governor's Quest
+        else if (Quest("govQuest") == 1) then
+            {
+            Dialogue("Absalom", "I know it's a long shot, but if we can somehow capture the incoming governor and body switch with him, we'll be able to deliver his upcoming speech and lay out a plan that helps the people of Tir na Nog and L.O.N.G.I.N.U.S... at least temporarily.");
+            Snippet(question_snippet);
+            }
+
+        // First Talk
+        else if (Quest("govQuest") == 0) then
+            {
+            Dialogue("Absalom", "I'm quite pleased with the body transfer system Dr. Liu and I devised. Without going into the specifics, when two individuals are strapped properly into the chairs with the electrodes in place and the lever is pulled, the consciousness of each individual is transferred to the other. And there's only a minimal chance of frying!");
+            Snippet(question_snippet);
+            }
+        }
+        
+    // Gameboy advance //
+    scr_event_advance(event);
+    }
+
+/*
+
+
+        // Who's Carlton?
+        /*if (Quest("absalomCarlton") == 1)
+        {
+            var carlton = ChoiceAdd(questions, "Who is Carlton?");
+            with (carlton)
+            {
+
+            }
+        }
+
+
+//------------------------------------------------------------------------------
+    // choose_snippet
+    //------------------------------------------------------------------------------
+    with (choose_snippet)
+        {
+        var paper_choice = Choice("Give Absalom which report?", s_port_hoopz);
+
+        var size = ds_map_size(global.tnnpapermap) - 1;
+        var i = 0;
+        var item = ds_map_find_first(global.tnnpapermap);
+        var qvar = "";
+        for (i = 0; i < ds_map_size(global.tnnpapermap) - 1; i++)
+        {
+            qvar = global.tnnpapermap[? item];
+            if (Item("have", item)) && (Quest("absalom" + qvar) == 0)
+            {
+                with (ChoiceAdd(paper_choice, string(item) + "."))
+                {
+                    Quest("absalomPaper", qvar);
+                    Quest("absalom" + qvar , 1);
+                    Execute(event_tnn_absalom01);
+                }
+            }
+            item = ds_map_find_next(global.tnnpapermap, item);
+        }
+    }
+
+
+    //------------------------------------------------------------------------------
+    // paper_snippet
+    //------------------------------------------------------------------------------
+    with (paper_snippet)
+    {
+        Quest("absalomPaper", "");
+
+        switch (Quest("absalomPaper"))
+        {
+            // ... from VR Chair
+            case "Almanac":
+                Debug("Almanac");
+
+                // This is a note now -> Gamesmasterjasper's Vidcon Almanac", -1);
+                break;
+
+            // ... from Fede
+            case "Printed":
+                Debug("Printed Invitation");
+
+                // This is a note now -> Printed Invitation", -1);
+                break;
+
+            // ... from Anxo
+            case "Sealed":
+                Debug("Sealed Letter");
+
+                // This is a note now -> Sealed Letter", -1);
+                break;
+
+            // ... from Joad
+            case "Dead":
+                Debug("Dead Soldier's Note");
+
+                // This is a note now -> Dead Soldier's Note", -1);
+                break;
+
+            case "Joad":
+                Debug("Joad's Letter");
+
+                // This is a note now -> Joad's Letter", -1);
+                break;
+
+            case "Ancient":
+                Debug("Ancient Scroll");
+
+                // This is a note now -> Ancient Scroll
+                break;
+
+            case "Tattered":
+                Debug("Tattered Paper");
+
+                // This is a note now -> Tattered Paper
+                break;
+
+            case "Bloody":
+                Debug("Bloody Paper");
+
+                // This is a note now -> Bloody Paper
+                break;
+
+            // ... from Baldomero
+            case "Blank":
+                Debug("Blank");
+
+                // This is a note now -> Blank Paper
+                break;
+
+            case "Suicide":
+                Debug("Suicide");
+
+                // This is a note now -> Suicide Note
+                break;
+
+            case "Augustine":
+                Debug("Augustine");
+
+                // This is a note now -> Augustine's Letter
+                break;
+
+            case "Carlton":
+                Debug("Carlton");
+
+                // This is a note now -> Carlton's Letter
+                break;
+
+            //-----------------------------------
+            // Clandestine Courts Baller Zine
+            //-----------------------------------
+            case "Clandestine":
+                Dialogue(P_NAME, "");
+                DialogueItem("Gave the /'Clandestine Courts/' Baller Zine to ______.");
+                // This is a note now -> Clandestine Courts Baller Zine", -1);
+                Dialogue("______", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("______", "");
+                Dialogue(P_NAME, "");
+                DialogueItem("______ gave back the Baller Zine.");
+                // This is a note now -> Clandestine Courts Baller Zine
+                Dialogue(P_NAME, "()");
+                break;
+
+            //-----------------------------------
+            // Cornrow's Note
+            //-----------------------------------
+            case "Cornrow":
+                Dialogue(P_NAME, "");
+                DialogueItem("Gave Cornrow's Note to ______.");
+                // This is a note now -> Cornrow's Note", -1);
+                Dialogue("______", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("______", "");
+                Dialogue(P_NAME, "");
+                DialogueItem("______ gave back Cornrow's Note.");
+                // This is a note now -> Cornrow's Note
+                Dialogue(P_NAME, "()");
+
+                break;
+
+            //-----------------------------------
+            // Eric's Resume
+            //-----------------------------------
+            case "Eric":
+                Dialogue(P_NAME, "");
+                DialogueItem("Gave Eric's Resume to ______.");
+                // This is a note now -> Eric's Resume", -1);
+                Dialogue("______", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("______", "");
+                Dialogue(P_NAME, "");
+                DialogueItem("______ gave back Eric's Resume.");
+                // This is a note now -> Eric's Resume
+                Dialogue(P_NAME, "()");
+                break;
+
+            //-----------------------------------
+            // Eric's Pet Manifesto
+            //-----------------------------------
+            case "Pet":
+                Dialogue(P_NAME, "");
+                DialogueItem("Gave Pet Manifesto to ______.");
+                // This is a note now -> Pet Manifesto", -1);
+                Dialogue("______", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("______", "");
+                Dialogue(P_NAME, "");
+                DialogueItem("______ gave back the Pet Manifesto.");
+                // This is a note now -> Pet Manifesto
+                Dialogue(P_NAME, "()");
+                break;
+
+            //-----------------------------------
+            // Pet Apocrypha
+            //-----------------------------------
+            case "Apocrypha":
+                Dialogue(P_NAME, "");
+                DialogueItem("Gave the Pet Apocrypha to ______.");
+                // This is a note now -> Pet Apocrypha", -1);
+                Dialogue("______", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("______", "");
+                Dialogue(P_NAME, "");
+                DialogueItem("______ gave back the Pet Apocrypha.");
+                // This is a note now -> Pet Apocrypha
+                Dialogue(P_NAME, "()");
+                break;
+        }
+    }
+
+
+    //------------------------------------------------------------------------------
+    // Questions Snippet
+    //------------------------------------------------------------------------------

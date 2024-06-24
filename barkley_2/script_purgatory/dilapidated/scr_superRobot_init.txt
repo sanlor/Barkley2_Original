@@ -1,0 +1,55 @@
+/*
+if (!scr_savedata_contains("supergrid")) {
+    // create tenant grid/list
+    global.supergrid = ds_list_create();
+    for (var i = 0; i < ROOMS_TOTAL; i += 1) {
+        global.supergrid[| (RP * i) + 0] = "EMPTY"; // tenant name
+        global.supergrid[| (RP * i) + 1] = 0; // rent
+        global.supergrid[| (RP * i) + 2] = 0; // rent total
+        global.supergrid[| (RP * i) + 3] = "NONE"; // occupation
+        global.supergrid[| (RP * i) + 4] = 0; // time
+        global.supergrid[| (RP * i) + 5] = 0; // happiness
+        global.supergrid[| (RP * i) + 6] = 0; // happiness minimum
+        global.supergrid[| (RP * i) + 7] = 0; // value to cause unhappiness
+        global.supergrid[| (RP * i) + 8] = 0; // absolute value minimum
+        global.supergrid[| (RP * i) + 9] = 0; // complaint
+        global.supergrid[| (RP * i) + 10] = 5; // maximum happiness
+    }
+    // save supergrid in save data
+    scr_savedata_put_list("supergrid", global.supergrid);
+    
+    // create improvement map
+    global.improvemap = ds_map_create();
+    global.improvemap[? "room"] = "NONE";
+    global.improvemap[? "decor"] = "NONE";
+    global.improvemap[? "facade"] = "NONE";
+    global.improvemap[? "internet"] = "NONE";
+    global.improvemap[? "door"] = "NONE";
+    global.improvemap[? "lights"] = "NONE";
+    global.improvemap[? "hvac"] = "NONE";
+    global.improvemap[? "plants"] = "NONE";
+    // save improvemap in save data
+    scr_savedata_put_map("improvemap", global.improvemap);
+    
+    // get correct number of empty rooms
+    scr_quest_set_state("superEmpty", ROOMS_TOTAL);
+    
+    // save superRobot's location
+    //scr_quest_set_state("superRobotLocation", "r_bct_dilapidatedExterior01");
+    //scr_quest_set_state("superRobotLocation", r_bct_dilapidatedExterior01);
+    
+    // superImprove
+    scr_quest_set_state("superImprove", "NONE");
+    scr_quest_set_state("superFacade", "NONE");
+    scr_quest_set_state("superDecor", "NONE");
+    
+    // default tenants
+    scr_dilapidated_rent("Wendy");
+    scr_dilapidated_rent("Kirshnik");
+    scr_dilapidated_rent("DISREPAIR");
+    
+    // again, save the save data! (possibly remove this!)
+    scr_savedata_put_list("supergrid", global.supergrid);
+    scr_savedata_put_map("improvemap", global.improvemap);
+    //scr_savedata_save();
+}

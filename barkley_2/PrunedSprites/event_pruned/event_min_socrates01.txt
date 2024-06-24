@@ -1,0 +1,84 @@
+// event_min_socrates01;
+/*
+BIO: 
+    Guard standing outside the duergar prison.
+    He can arrest you for the prison quest if you haven't been arrested by Coulombe first. 
+    Though you need to talk to Van Cleef before this arresting dialogue occurs.
+
+NOTE:
+    This dialogue is good as shit. I think the part with the mothballs is the best sentence I've written for this game.
+NOTE2:
+    Big deal here: This is one of the two scripts that link the player to the prison quest. They can't get arrested otherwise. 
+    I don't know how to do that shit and it involves location scripts, so I've skipped that.
+NOTE3:
+    Late in this I decided to script a dialogue where, if the player escapes BEFORE completing the prison break quest(aborting the prison break quest essentially), 
+    they can get back into jail by simply walking up to Socrates and talking to him again. This will not start the prison quest over from the start, 
+    but essentially piggy-back on the generic cinematic that plays when the player leaves the courtyard every day, just getting taken back to their cell. 
+    This may be irrelevant dialogue idk, but it's there if we need an ABORT in all of this.
+*/
+
+/*
+if (argument0 == SCRIPT_START)
+{
+    if (Quest("rebelQuest") >= 9) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var socrates = id;
+    var event = scr_event_create_main();
+    with (event)
+    {
+        if (Quest("socratesState") == 2)
+        {
+            scr_event_build_dialogue_debug("Hundley", NULL, "NOTE: This dialogue may be unused, since it's only here in case the player escapes or aborts the prison break and wants to start it up again.\I guess it's also useful in case somebody BREAKS THE GAME????");
+            Dialogue("Socrates", "Hi, how are you?");
+            Dialogue(P_NAME, "Fine, thanks. How's it going with you?");
+            Dialogue("Socrates", "I'm doing great! Thank you for asking.......");
+            scr_event_build_wait(3);
+            Dialogue("Socrates", "YOU!?!?!?!\I THOUGHT I PUT YOU IN JAIL?!?!?");
+            Dialogue(P_NAME, "You did, but I escaped. Can I come back in?");
+            Dialogue("Socrates", "DON'T BOTHER BEGGING FOR FORGIVENESS. IT'S FAR TOO LATE TO APOLOGIZE. BACK TO THE SLAMMER WITH YOU!!!!");
+            Quest("socratesState", 2);
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Player gets teleported to the prison.\HOWEVER, since this piece of dialogue is only here if the player escapes, it doesn't connect to the lafferty01 sequence.\Instead, it piggy-backs on the courtyard cinematic, and links to the player being taken directly to their cell.");
+            // CINEMATIC TODO: Player gets teleported to their jail cell. 
+            // HOWEVER, since this piece of dialogue is only here if the player escapes, 
+            // it doesn't connect to the lafferty01 sequence. 
+            // Instead, it piggy-backs on the courtyard cinematic, and links to the player 
+            // being taken directly to their cell.
+            scr_event_build_end();
+        } 
+        else if (Quest("socratesState") == 1)
+        {
+            Dialogue(P_NAME, "Uh.....hi....");
+            Dialogue("Socrates", "Good morning. Can I help you with something?");
+            Dialogue(P_NAME, "Uh.....I'm a rebel.");
+            Dialogue("Socrates", "Really? Well, isn't that nice?\I'm a guard, you know. Guard this prison.");
+            Dialogue(P_NAME, "Well I'm a rebel so you should arrest me because I'm a dangerous rebel.");
+            Dialogue("Socrates", "You don't look that dangerous. I can't even see your perfect hardass glutes underneath all that armor of yours.\Besides, you aren't even a dwarf, so if you are a rebel, that means you're just a mercenary. I don't have orders to arrest mercenaries.");
+            Dialogue(P_NAME, "Yeah, that's true. But I'm a really mean mercenary.");
+            Dialogue("Socrates", "Nah, I think you're fine.\I'm a bit of a mercenary too. I'm only a quarter duergar. It's just that my Pop-Pop was a duergar. I'm actually three quarters cybergremlin.\Got this job because I take after Pop-Pop. Duergar genes are made from leather and demin. They're kickass and strong and cool.");
+            Dialogue(P_NAME, "I should go to jail. I am really mega-dangerous. I am probably wanted all over Necron 7 by now.\You don't know how dangerous I am because I have killed all the witnesses. That's really very dangerous.");
+            Dialogue("Socrates", "Yeah, hmmm.....yes.....\Gosh, I miss my Pop-Pop.\He actually murdered the rest of my family. He wanted to show me what it was like to be the ideal duergar.\Yeah, my Pop-Pop was really strong and tough. I miss the rest of my family too, but that's what happens when you live with somebody so strong and tough. Sometimes your entire family gets murdered by your Pop-Pop.");
+            Dialogue(P_NAME, "Well I have killed lots of people too, and......\Wait, he just murdered your entire family?");
+            Dialogue("Socrates", "Yeah. It was pretty brutal. Just after lunch. He was really angry that day. I never got most of the bloodstains out of the carpet.");
+            Dialogue(P_NAME, "Yeah, but why did he do it? That's kinda mean of him.");
+            Dialogue("Socrates", "Well, that's the duergar way!\I was getting really good at knitting. I was good as shit at knitting. My knitting was definitely some good-ass shit.\Pop-Pop didn't like my knitting though. During parent-teacher conference day he stabbed my teacher in the face with all my knitting needles.\Pop-Pop was good as shit at stabbing my teacher in the face with knitting needles.");
+            Dialogue(P_NAME, "No offense, but your Pop-Pop sounds like a jerk.");
+            Dialogue("Socrates", "What?");
+            Dialogue(P_NAME, "He could have just challenged them to an arm-wrestling contest or something, right?\I'd rather someone tear my arms off than just kill me. That kinda sucks.\I'm sorry for you. I wish your Pop-Pop didn't suck so bad.");
+            Dialogue("Socrates", "Ah, yes, persecuted yet again. I am so sick of this multi-cultural bull and horse shit.\My Pop-Pop didn't sell moth balls out of his houseboat for seven seasons to jerks like you just so I could be humiliated and disgraced.\You know what, you're under arrest. I thought maybe you'd be a cool and handsome mercenary like me, but you're just a cheat.\Get your fat hands up or I'm going to knit you a beautiful and perfect noose right here and now.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Player gets teleported to the prison and starts the prison quest.\The next-displayed script is the lafferty01 script.");
+            // INSERT: Player goes to jail!!! 
+            // Start of Quest3 of the rebel quest. (The next displayed script is lafferty01)
+            scr_event_build_end();
+        } 
+        else
+        {
+            Dialogue("Socrates", "Wow. It is such a good as shit and excellent day today.\Today; it's just good as hell. It's superior as hell out here today.");
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

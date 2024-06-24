@@ -1,0 +1,323 @@
+/*
+// scr_superRobot_update()
+
+    // load data
+    global.supergrid = scr_savedata_get("supergrid");
+    global.improvemap = scr_savedata_get("improvemap");
+        
+    // collect data
+    var empty_rooms = scr_quest_get_state("superEmpty");
+    if (scr_quest_get_state("superRepair") == 0) {
+        //empty_rooms = scr_quest_get_state("superEmpty") - 1;
+        empty_rooms = scr_quest_get_state("superEmpty");
+    }
+    var improve_val = 0;
+    var available_rooms = 0;
+    var rent_avg = 0;
+    var rent_total = 0;
+    var value_new = 0;
+    var value = scr_quest_get_state("superValue");
+    var happiness_half = 0; // 0 = restores 1, 1 = restores half remaining, 2 = restores all
+    var complaint_add = 1; // 0 = decrease happiness by 1, 1 = decrease happiness by complaint number
+    
+    // define constants
+    var gFactor = 0.1; // 0.1 adjust this to make time-unit-growth more important!
+    var eFactor = 0.1; // 0.1 adjust this to make devaluation from empty rooms more important!
+    var iFactor = 0.1; // 0.1 - adjust this to make building improvements more important!
+    var rFactor = 0.25; // 0 to 1 - adjust this to make the current rent affect value more or less.
+    var fFactor = 0.25; // 0 to 1 - adjust the amount of rent that goes to the maintenance fund
+    scr_quest_set_state("superFundFactor", fFactor);
+    
+    // NEW IMPROVEMENTS
+    if (scr_quest_get_state("superImprove") != "NONE") {
+        var improvement = string(scr_quest_get_state("superImprove"));
+        switch (improvement) {
+        // room
+            case "room":
+                global.improvemap[? "room"] = improvement;
+                break;
+        // decor
+            case "decor1":
+            case "decor2":
+            case "decor3": 
+                global.improvemap[? "decor"] = improvement;
+                break;
+        // facade
+            case "facade1":
+            case "facade2":
+            case "facade3": 
+                global.improvemap[? "facade"] = improvement;
+                break;
+        // internet
+            case "internet1":
+            case "internet2":
+                global.improvemap[? "internet"] = improvement;
+                break;
+        // door
+            case "revolving":
+            case "metal":
+                global.improvemap[? "door"] = improvement;
+                break;
+        // lights
+            case "neon":
+            case "flood":
+                global.improvemap[? "lights"] = improvement; 
+                break;
+        // hvac
+            case "sound":
+            case "ac":
+                global.improvemap[? "hvac"] = improvement;
+                break;
+        // plants
+            case "trees":
+            case "garden":
+                global.improvemap[? "plants"] = improvement;
+                break;
+            default:
+                // show an UH OH message
+                break;
+        }
+    }
+        
+    // value from improvements
+    if (global.improvemap[? "decor"] != "NONE") {
+        if (global.improvemap[? "decor"] = "decor1") {
+            improve_val += 2;
+        }
+        else if (global.improvemap[? "decor"] = "decor2") {
+            improve_val += 4;
+        }
+        else if (global.improvemap[? "decor"] = "decor3") {
+            improve_val += 6;
+        }
+    }
+    if (global.improvemap[? "facade"] != "NONE") {
+        if (global.improvemap[? "facade"] = "facade1") {
+            improve_val += 3;
+        }
+        else if (global.improvemap[? "facade"] = "facade2") {
+            improve_val += 5;
+        }
+        else if (global.improvemap[? "facade"] = "facade3") {
+            improve_val += 7;
+        }
+    }
+    if (global.improvemap[? "internet"] != "NONE") {
+        if (global.improvemap[? "internet"] = "internet1") {
+            improve_val += 2;
+        }
+        else if (global.improvemap[? "internet"] = "internet2") {
+            improve_val += 3;
+        }
+    }
+    if (global.improvemap[? "door"] != "NONE") {
+        if (global.improvemap[? "door"] = "revolving") {
+            improve_val += 2;
+        }
+        else if (global.improvemap[? "door"] = "metal") {
+            improve_val += 1;
+        }
+    }
+    if (global.improvemap[? "lights"] != "NONE") {
+        if (global.improvemap[? "lights"] = "neon") {
+            improve_val += 1;
+        }
+        else if (global.improvemap[? "lights"] = "flood") {
+            improve_val += 1;
+        }
+    }
+    if (global.improvemap[? "hvac"] != "NONE") {
+        if (global.improvemap[? "hvac"] = "ac") {
+            improve_val += 2;
+        }
+        else if (global.improvemap[? "hvac"] = "sound") {
+            improve_val += 1;
+        }
+    }
+    if (global.improvemap[? "plants"] != "NONE") {
+        if (global.improvemap[? "plants"] = "trees") {
+            improve_val += 3;
+        }
+        else if (global.improvemap[? "plants"] = "garden") {
+            improve_val += 1;
+        }
+    }
+    scr_quest_set_state("superImproveValue", improve_val);
+        
+    //----------------------------------------------------------
+    // NEW STUFF
+    //----------------------------------------------------------
+    
+    // get rent total, increase individual room rent
+    for (var r = 0; r < ROOMS_TOTAL; r += 1) {
+        // increase rent total
+        rent_total += global.supergrid[| (RP * r) + 1];
+        // increase individual room rent
+        global.supergrid[| (RP * r) + 2] += global.supergrid[| (RP * r) + 1];
+    }
+    
+    // detract from rent total to get superFund
+    var funds = rent_total * fFactor;
+    rent_total = rent_total * (1 - fFactor);
+    // save variables
+    scr_quest_set_state("superRentCurrent", rent_total);
+    scr_quest_set_state("superRentTotal", scr_quest_get_state("superRentTotal") + rent_total);
+    scr_quest_set_state("superFund", funds + scr_quest_get_state("superFund"));
+    
+    // find bonuses
+    var _growth = 1 + gFactor;
+    var _empty = empty_rooms * eFactor;
+    if (improve_val < 1) { improve_val = 1; }
+    var _improvements = improve_val * iFactor;
+    
+    // get available rooms
+    available_rooms = ROOMS_TOTAL - empty_rooms;
+    // average rent per available room
+    rent_avg = rent_total / available_rooms;
+    scr_quest_set_state("superRentAverage", rent_avg);
+    // the new value
+    value_new = (rent_avg * rFactor) + (value * (1 - rFactor));
+    scr_quest_set_state("superValue", value_new);
+    scr_quest_set_state("superApparent", (value_new div 100) * 100)
+
+    
+    //----------------------------------------------------------
+    // HAPPINESS STUFF
+    //----------------------------------------------------------
+    
+    for (h = 0; h < ROOMS_TOTAL; h += 1) {
+         // increment time
+        global.supergrid[| (RP * h) + 4] += 1;
+        
+        // if room is occupied...
+        if (global.supergrid[| (RP * h) + 0] != "EMPTY") && (global.supergrid[| (RP * h) + 0] != "DISREPAIR") {
+            
+            // evict if value has dropped below eviction point
+            if (value_new < global.supergrid[| (RP * h) + 8]) {
+                // evict tenant
+                scr_dilapidated_evict(global.supergrid[| (RP * h) + 0]);
+            }
+
+            //----------------------------------------------------
+            // CHECK COMPLAINTS!
+            //----------------------------------------------------
+            switch (global.supergrid[| (RP * h) + 0]) {
+                case "Qutlugh":
+                    
+                    break;
+                case "Fievel":
+                    
+                    break;
+                case "WIZARD":
+                
+                    break;
+                case "Richyrich":
+                    //----------------------------------------------------
+                    // soundproofing complaints
+                    //if (h = 0) { f = 1; g = 2; }
+                    //else if (h = 1) { f = 0; g = 2; }
+                    //else { f = 0; g = 1; }
+                    if (global.supergrid[| (RP * f) + 1] == "WIZARD") || (global.supergrid[| (RP * h) + 1] == "Sabah") {
+                        // turn on demand
+                        if (scr_quest_get_state("tenantRichyrichSound") == 0) {
+                            if (global.improvemap[? "vents"] != "sound") {
+                                // increase complaint
+                                global.supergrid[| (RP * h) + 9] += 1;
+                                // turn on quest state
+                                scr_quest_set_state("tenantRichyrichSound", 1);
+                            }
+                        }
+                        // increment or solve demand
+                        else if (scr_quest_get_state("tRichyrichSound") >= 1) {
+                            if (global.improvemap[? "vents"] == "sound") {
+                                // reduce complaint
+                                global.supergrid[| (RP * h) + 9] -= 1;
+                                // turn off complaint
+                                scr_quest_set_state("tRichyrichSound", -1);
+                            }
+                            else if (global.improvemap[? "vents"] != "sound") {
+                                scr_quest_set_state("tRichyrichSound", scr_quest_get_state("tRichyrichSound") + 1);
+                            }
+                        }
+                        // reset demand fully
+                        else if (scr_quest_get_state("tRichyrichSound") == -1) {
+                            scr_quest_set_state("tRichyrichSound", 0);
+                        }
+                    }
+                    //----------------------------------------------------
+                    break;
+            }
+            //----------------------------------------------------
+            // value < "value to cause unhappiness" (supergrid 7)
+            // VALUE-DERIVED COMPLAINT
+            //----------------------------------------------------
+            if (value_new < global.supergrid[| (RP * h) + 7]) {
+                // get unique quest state or dialogue
+                switch (global.supergrid[| (RP * h) + 0]) {
+                    case "Qutlugh":
+                        break;
+                    case "Fievel":
+                        break;
+                    case "WIZARD":
+                        break;
+                    case "Richyrich":
+                        break;
+                }
+                // add to complaints
+                global.supergrid[| (RP * h) + 10] += 1;        
+            }
+            //----------------------------------------------------
+            // complaint >= 1 (supergrid 9)
+            // REDUCE HAPPINESS
+            //----------------------------------------------------
+            if (global.supergrid[| (RP * h) + 9] >= 1) {
+                // reduce happiness by 1
+                if (complaint_add) = 1 {
+                    global.supergrid[| (RP * h) + 5] -= global.supergrid[| (RP * h) + 10];
+                }
+                else {
+                    global.supergrid[| (RP * h) + 5] -= 1;
+                }
+                //----------------------------------------------------
+                // happiness < happiness minimum (supergrid 5 < supergrid 6)
+                // EVICT IF HAPPINESS IS TOO LOW
+                //----------------------------------------------------
+                // evict if tenant is now below happiness threshold
+                if (global.supergrid[| (RP * h) + 5] < global.supergrid[| (RP * h) + 6]) {
+                    // evict tenant
+                    scr_dilapidated_evict(global.supergrid[| (RP * h) + 0]);
+                }
+            }
+            //----------------------------------------------------
+            // complaint = 0 (supergrid 9)
+            // RESTORE HAPPINESS
+            //----------------------------------------------------
+            else {
+                // if happiness is less than max happiness
+                if (global.supergrid[| (RP * h) + 5] < global.supergrid[| (RP * h) + 10]) {
+                    // happiness_half determines which option to use. change at top of script.
+                    if (happiness_half == 0) {
+                        // increase happiness by 1
+                        global.supergrid[| (RP * h) + 5] += 1;
+                    }
+                    else if (happiness_half = 1) {
+                        // increase happiness by half of distance to 10, at least 1 each time
+                        global.supergrid[| (RP * h) + 5] += ceil((-1 * global.supergrid[| (RP * h) + 5] + global.supergrid[| (RP * h) + 10]) / 2);
+                    }
+                    else {
+                        // increase happiness to max happiness
+                        global.supergrid[| (RP * h) + 5] += global.supergrid[| (RP * h) + 10];
+                    }
+                }
+                if (global.supergrid[| (RP * h) + 5] > global.supergrid[| (RP * h) + 10]) {
+                    global.supergrid[| (RP * h) + 5] = global.supergrid[| (RP * h) + 10];
+                }
+            }
+        }
+    }
+    
+    // reset improvement to NONE
+    scr_quest_set_state("superImprove", "NONE");
+    // decor and facade are updated
+    scr_quest_set_state("superFacade", global.improvemap[? "facade"]);
+    scr_quest_set_state("superDecor", global.improvemap[? "decor"]);

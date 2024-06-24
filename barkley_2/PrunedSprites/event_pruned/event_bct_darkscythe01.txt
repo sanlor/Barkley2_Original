@@ -1,0 +1,40 @@
+// Event for Darkscythe, mysterious guy in Brain City who has a crypto-currency quest.
+//involved in Under the Radar quest.
+//underTheRadar = 1 - Under the Radar rejected.
+//underTheRadar = 2 - Under the radar accepted, need to find darkscythe.
+//underTheRadar = 3 - Found Darkscythe once, need to find Sanzalot the second time.
+//underTheRadar = 4 - Returned to Sanzalot, need to go back to DarkScythe the second time.
+//underTheRadar = 5 - Found Darkscythe twice, need to return to Sanzalot third time.
+//underTheRadar = 6 - Returned to Sanzalot, delivering last message to Darkscythe.
+//underTheRadar = 7 - Gave Darkscythe last letter, need to return to Sanzalot.
+//underTheRadar = 8 - Returned to Sanzalot, finished quest.
+//underTheRadar = 9 - Failed quest, Sanzalot and Darkscythe pissed.
+
+/*if (argument0 == SCRIPT_START) {
+
+    //on part 2 or 3 of underTheRadar
+    if (scr_quest_get_state("underTheRadar") == 2) || (scr_quest_get_state("underTheRadar") == 3) {
+        scr_event_interactive_activate();
+    }else {
+        scr_event_interactive_deactivate();
+    } 
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var darkscythe = id;
+    var event = scr_event_create_main();
+    with (event) {
+
+    
+        //Found Darkscythe once, need to find Sanzalot the second time.
+        if (scr_quest_get_state("underTheRadar") == 3) {
+            scr_event_build_dialogue("Darkscythe", NULL, "4");  
+    
+        //Under the radar accepted, need to find darkscythe.
+        }else if (scr_quest_get_state("underTheRadar") == 2) {
+            scr_event_build_dialogue("Darkscythe", NULL, "2");
+            scr_event_build_quest_state("underTheRadar", 3);
+        }
+    }
+    scr_event_advance(event);
+}

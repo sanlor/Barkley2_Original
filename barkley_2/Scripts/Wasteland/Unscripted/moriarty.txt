@@ -1,0 +1,67 @@
+//Moriarty
+
+//------------------------------------------------------------------------------
+//*** no conditions ***
+//------------------------------------------------------------------------------
+
+Moriarty:
+Meat on the bone... meat on the bone... gotta get that meat on the bone...
+
+//end dialogue;
+
+//------------------------------------------------------------------------------
+//*** figbottomQuest = 5 - Kunigunde has been spoken to. ***
+//------------------------------------------------------------------------------
+
+Moriarty:
+Meat... meat on the bone... meat on the bone...
+
+X114JAM9:
+Um, are you uh... Morrison?
+
+Moriarty:
+Moriarty... Flesh... you have... tender... delicious... flesh...
+
+X114JAM9:
+It's one of the symptoms of being alive, I guess. I've got a couple questions for you about the missing junk prospector Figbottom. Think you've got the time?
+
+Moriarty:
+Figbottom... I know that guy... I saw him digging around in the trash with his buddy a couple days ago... His friend looked too gristly but Figbottom... Figbottom looked perfect... they found this thing in the trash, a jerkin... they fought over the jerkin but in the end Figbottom took it... but today his friend is wearing it...
+
+X114JAM9:
+What the shuck... Suresh didn't mention that to me. I've got one more question for you, Moriarty. Are you uh... eating a glove?
+
+Moriarty:
+Meat on the bone... gotta get that... meat on the bone...
+
+X114JAM9:
+I sincerely hope that's just a glove you picked up off the ground and not Figbottom's. I'll be back if I've got anymore questions.
+
+Moriarty:
+Meat....... on the bone...
+
+//figbottomQuest = 6;
+//end dialogue;
+
+//------------------------------------------------------------------------------
+//*** figbottomQuest > 5 - Moriarty has been spoken to. ***
+//------------------------------------------------------------------------------
+
+Moriarty:
+You look so tender... so... succulent... what I wouldn't give to have a taste...
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+//*** figbottomQuest = 9 - Quest has been completed ***
+//------------------------------------------------------------------------------
+
+Moriarty:
+Soft, pliant flesh, still warm, the cruor still wet... chewy tendons and sinews, brittle bones snapping under compaction, giving way to succulent marrow... meat on the bone... meat on the bone...
+
+//------------------------------------------------------------------------------
+//*** moriartyArrest = 1 - Moriarty has been arrested. ***
+//------------------------------------------------------------------------------
+
+//Moriarty doesn't exist.

@@ -1,0 +1,25 @@
+// A brief one-liner that occurs when the player sees that this security room they've been trying to break 
+// into is just a boring computer room without much in it. This is different from the computer script in that 
+// this one auto-triggers when the player enters the room, while the other one is activated by clicking on the computer.
+ 
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("dbaseNPCsState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var computer = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("computereventState") == 0) {
+            Dialogue(P_NAME, "This? I came all the way here for this?\SOME DAYS I FEEL LIKE THE ROUNDEST HOLE AND THE REST OF THE UNIVERSE IS THE SQUAREST PEG.");
+            Quest("computereventState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

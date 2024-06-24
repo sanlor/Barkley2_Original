@@ -1,0 +1,56 @@
+// RESET EVERYTHING //
+scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Wait up, wait up, wait up, I change my mind about all that stuff. Except the " + P_NAME + " thing, he's leaving. But all that other stuff, I'm taking it back. Lemme do this again.");
+
+// Gander at the crowd //
+scr_event_build_camera_move_to_point(o_hoopz.x, o_hoopz.y + 112, CAMERA_FAST);
+scr_event_build_wait_for_actions();
+
+// Pro-duergar results //
+if (scr_quest_get_state("govChoicesRemaining") > 3)
+    {
+    scr_event_build_user(o_crowdcontrol01, 2);
+    scr_event_build_user(o_crowdcontrol01, 1);
+    scr_event_build_wait(4);
+    }
+    
+// Pro-dwarf results //
+else if (scr_quest_get_state("govChoicesRemaining") < 3)
+    {
+    scr_event_build_user(o_crowdcontrol01, 0);
+    scr_event_build_user(o_crowdcontrol01, 3);
+    scr_event_build_wait(4);
+    }
+    
+// Neutral results //
+else
+    {
+    scr_event_build_sound_play("sn_duergar_neutral01");
+    scr_event_build_sound_play("sn_dwarf_neutral01");
+    scr_event_build_wait(4);
+    }
+    
+// RETURN CAMERA //
+scr_event_build_camera_move_to_point(o_hoopz.x, o_hoopz.y + 32, CAMERA_FAST);
+scr_event_build_wait_for_actions();
+
+// RESET CROWD VARS //
+if (scr_quest_get_state("govNegative") != -1) then scr_event_build_quest_state("govNegative", 0); 
+if (scr_quest_get_state("govPositive") != -1) then scr_event_build_quest_state("govPositive", 0); 
+if (scr_quest_get_state("govNeutral") != -1) then scr_event_build_quest_state("govNeutral", 0); 
+
+// RESET CHOICES REMAINING //
+scr_event_build_quest_state("govChoicesRemaining", 3);
+
+// Reset Gov variables so you can start over //
+if (scr_quest_get_state("wilmerEvict") == 6) then scr_event_build_quest_state("wilmerEvict", 3); 
+if (scr_quest_get_state("govGuillaume") == 2) then scr_event_build_quest_state("govGuillaume", 1); 
+if (scr_quest_get_state("govKalevi") == 2) then scr_event_build_quest_state("govKalevi", 1); 
+if (scr_quest_get_state("govCandy") == 2) then scr_event_build_quest_state("govCandy", 1); 
+if (scr_quest_get_state("govBball") == 2) then scr_event_build_quest_state("govBball", 1);    
+if (scr_quest_get_state("govChurch") == 2) then scr_event_build_quest_state("govChurch", 1); 
+if (scr_quest_get_state("govCar") == 2) then scr_event_build_quest_state("govCar", 1);       
+if (scr_quest_get_state("govCow") == 2) then scr_event_build_quest_state("govCow", 1); 
+if (scr_quest_get_state("govMedicine") == 2) then scr_event_build_quest_state("govMedicine", 1);    
+if (scr_quest_get_state("govKelpster") == 2) then scr_event_build_quest_state("govKelpster", 1); 
+if (scr_quest_get_state("govZhang") == 2) then scr_event_build_quest_state("govZhang", 1);              
+scr_event_build_quest_state("govHandler", 1);

@@ -1,0 +1,28 @@
+// event_chu_confrontation_x1
+
+/*if (argument0 == SCRIPT_START) {
+
+} else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var confrontation_x1 = id;
+    var event = scr_event_create_main()
+    with (event) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "There you are, Cuchulainn!");
+        scr_event_build_dialogue("Cuchulainn", s_port_cuchuPrimo, "Yes... here we are... it's approaching, faster and faster, faster and faster! Hell - your final resting place!");
+        if (scr_quest_get_state("wiglafMission") >= 1) { // On Wiglaf's quest
+            // Looking to kill Cuchulainn
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Not a chance, Cuchulainn! I'm beating you... and finding Cyberdwarf! Take this!")
+        }
+        else if (scr_quest_get_state("wiglafMission") == 0) { // Not on Wiglaf's quest
+            // Looking for Cyberdwarf
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hell!? There's no way. Tell me where Cuchulainn is, or I'll have to beat it out of ya. Take this!")
+        }
+        // BATTLE BEGINS
+        scr_event_build_dialogue_debug("PRIMORDIA", NULL, "The battle begins, with regular Cuchu Primordia.");
+        scr_event_build_quest_state("primoFight", 1);
+        scr_event_build_dialogue_debug("bort", NULL, "Talk to Primordia / Omnidwarf again to end the fight!");
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,36 @@
+// Event for Ronald, random traveller in the Industrial Park at times 2 and 12.
+
+if (argument0 == SCRIPT_STEP) {
+    if (scr_time_get() == 2) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 12) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var ronald = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("ronaldState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Ronald", NULL, "Hey, " + P_NAME + ". You're looking pretty good. How's it going?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess I'm doing alright. Things are kinda rough right now, but I think I'll get through it.");
+            scr_event_build_dialogue("Ronald", NULL, "Yeah, you're a tough kid, you'll make it. Hey, this is gonna sound a little out-of-the-blue, but have you ever thought much about life insurance?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? Life insurance? What's that?");
+            scr_event_build_dialogue("Ronald", NULL, "Now I know you're healthy and strong - you're a real chip off the old block! - but if something happened, maybe a corn shucking accident or fatal overinflation, life insurance would provide your loved ones with the finances needed to cover any sudden expenses.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "But... why would I need that?");
+            scr_event_build_dialogue("Ronald", NULL, "Accidents come when least expected; nobody thinks the worst will happen to them and yet it could at any moment. If we're not prepared for tragic accidents, we're offloading our burdens onto others. And to me, that's just selfish. Life insurance makes sure that doesn't happen by providing the people around us with the means to settle our affairs.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow. I'd never thought about it before, but I'm convinced. I really do need life insurance. Where can I go to get it?");
+            scr_event_build_dialogue("Ronald", NULL, "The Sexual Goon Brothers.");
+            scr_event_build_quest_state("ronaldState", 1);
+        } else {
+            scr_event_build_dialogue("Ronald", NULL, "None of us like to think about untimely accidents. But sometimes it's best to be prepared. That's why I say invest in life insurance - so the people around you aren't left hanging in case something happens.");
+        }
+    }
+    scr_event_advance(event);
+}

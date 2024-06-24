@@ -1,0 +1,94 @@
+//knightFabian
+
+//------------------------------------------------------------------------------
+// *** fabianKnight = 1 - Fabian has returned to the Round Table. ***
+//------------------------------------------------------------------------------
+
+//Knight Fabian doesn't exist if fabianKnight = 1
+
+//------------------------------------------------------------------------------
+// *** roundTable = 1 ***
+//------------------------------------------------------------------------------
+
+X114JAM9:
+Hey, you're one of the Knights of the Round Table, right?
+
+Knight Fabian:
+Untold fortnights have passed since I last called myself a Knight of the Round Table. But indeed, I witnessed their glory days...
+
+X114JAM9:
+The glory days aren't over yet. The Round Table is reconvening at the Necropolis. There's a new Round Table and a spot's open for you. I'm tracking down all the knights and spreading the word.
+
+Knight Fabian:
+By Rittbomm's barbellate beard! That's the best news this old knight has heard in a long time! I'm glad the knights have gathered up the gumption to get back together. If you're looking for more knights, harken to my words, for perhaps I have a clue. It's been said that Sewer Knight is fond of sewers. Now, I must be off! A new era of quests and goblets is upon us!
+
+//fade out and in - Knight Fabian is gone.
+//fabianKnight = 1
+//knightCount ++
+//end dialogue;
+
+//------------------------------------------------------------------------------
+// *** fabianPleased = 1 ***
+//------------------------------------------------------------------------------
+
+Knight Fabian:
+Had the Round Table not been dissolved and the Knights not scattered, I would induct you as a squire so you could tend to my sore calves when I take off my greaves.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** villageMoved = 1 - The Cybergremlins have moved to the ruins of the Industrial Park. ***
+//------------------------------------------------------------------------------
+
+Knight Fabian:
+What ho, noble youngster! 'Twas you that tricked these goblins a-swart into leaving, was it not?
+
+X114JAM9:
+It wasn't really a trick...
+
+Knight Fabian:
+Ahhh, my good and merry youngster. My good and merry youngster! You have displayed a chivalry far beyond your years. I believe you are deserving of a reward! Take your pick, my fair kinder: a hauberk tried and true, a gambeson for your pleasure or an aketon most splendid.
+
+A hauberk tried and true.
+
+	X114JAM9:
+	I guess I'll go with the hauberk.
+	
+	//go to Response
+	
+A gambeson for my pleasure.
+
+	X114JAM9:
+	I'll take a gambeson for my pleasure.
+
+	//go to Response
+	
+An aketon most splendid.
+
+	X114JAM9:
+	The aketon sounds good to me.
+	
+	//go to Response
+	
+//------------------------------------------------------------------------------
+// Response
+//------------------------------------------------------------------------------
+
+Knight Fabian:
+But alas! I have none of those things. You, my knight errant, shall have to make do with the good will you have generated with me. And believe you me, I think quite highly of you now.
+
+X114JAM9:
+Gee, thanks...
+
+//fabianPleased = 1
+//end dialogue;
+
+//------------------------------------------------------------------------------
+// *** No conditions ***
+//------------------------------------------------------------------------------
+
+Knight Fabian:
+ This village was built upon an ancient tumulus, the resting place of many a doughty knight and squire. I have returned from beyond the grave to haunt these swarthy hobs into leaving, but alack and alay! Young people these days scare me...
+ 
+ //end dialogue;

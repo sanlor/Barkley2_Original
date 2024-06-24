@@ -1,0 +1,276 @@
+// Script for LEMUEL, the beggar in the Industrial Park
+// usage: event_dz1_lemuel01
+/*
+-------------
+
+-------------
+*/
+/*if (argument0 == SCRIPT_START)
+{
+    // delete if the player stole from lemuel
+    if (scr_quest_get_state("lemuelStole") >= 1) || (scr_quest_get_state("lemuelRoom") != room)
+    {
+        scr_event_interactive_deactivate();
+    }
+    // done with game
+    else if (scr_quest_get_state("lemuelBeggingGame") == 4)
+    {
+        // Done Alming
+        if (scr_quest_get_state("lemuelAlmDone") == 1)
+        {
+            scr_event_set_object(o_lemuel01, o_beggingRug01.x + 32, o_beggingRug01.y - 16);
+        }
+        // Not Done Alming
+        else
+        {
+            scr_event_set_object(o_lemuel01, o_beggingRug01.x, o_beggingRug01.y - 8);
+        }
+    }
+    
+    // save map to global variable for this event
+    global.mapbegging = scr_savedata_get("mapbegging");
+    
+    // save list to global variable for this event
+    global.listlemuel = scr_savedata_get("listlemuel");
+    
+} 
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var lemuel = id;
+    
+    var event = scr_event_create_main();
+    var choice_snippet = scr_event_create_child(event);
+    
+    //------------------------------------------------
+    // Choice Snippet
+    //------------------------------------------------
+    with (choice_snippet) 
+    {
+        // Money Breakout
+        Breakout("build", "add", "money");
+        Breakout("build", "clear");
+        var game_choice = scr_event_build_choice("Renounce wealth and become a beggar?", s_port_hoopz);
+        
+        // no
+        var game_yet = scr_event_build_add_choice(game_choice, "Not yet... gotta stay wealthy.");
+        with (game_yet) 
+        {
+            Breakout("build", "clear");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Not yet, Lemuel. I gotta stay wealthy for the time being!");
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "I understand. I've renounced my wealth, but the begging arts are there to draw me closer to it. Even I am not free. But let me know if you want to be freer.");
+            scr_event_build_end();
+        }
+        
+        // yes
+        var game_yes = scr_event_build_add_choice(game_choice, "I renounce my wealth! Let me learn!");
+        with (game_yes)
+        {
+            Breakout("build", "clear");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I renounce my wealth! Let me learn from you!");
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "This is very good news. However, I must be positive that you are sure of the hardship this path will lead to. To learn from me you must surrender all of your neuro-shekels at once, and separate yourself from the system of wealth, wages, and labor. If you take up the beggar's bowl, you may only depend on others' charity to survive... aside from what's in your possession right now, every shekel, every piece of candy, every last jerkin-thread will come from this bowl. Are you sure about this?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "So, to make sure we're on the same page... to be a beggar, first I surrender my neuro-shekels. I can keep anything else, like my jerkins and candy and gun's I have right now. The other thing is, I can't accept any payment or rewards for work, or helping people out. I have to live on what is placed in my bowl alone. Is that right?");
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Precisely! Now, what will it be?");
+
+            Breakout("build", "add", "money");
+            // cancel
+            var sure_choice = scr_event_build_choice("Renounce wealth, and live bowl-to-mouth?", s_port_hoopz);
+            var sure_no = scr_event_build_add_choice(sure_choice, "No, not yet.");
+            with (sure_no)
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yikes... if you put it that way, I need some more time to think about it.");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Perfectly understandable. The mendicant's path is not for everyone, but its rewards are unique. Return if you change your mind.");
+                scr_event_build_end();
+            }
+            
+            // repeat
+            var sure_again = scr_event_build_add_choice(sure_choice, "What are these terms again?");
+            with (sure_again)
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Okay, going over these terms again... to be a beggar, first I surrender my neuro-shekels. I can keep anything else, like my jerkins and candy and gun's I have right now. The other thing is, I can't accept any payment or rewards for work, or helping people out. I have to live on what is placed in my bowl... am I ready for that life?)");
+                scr_event_build_goto_choice(sure_choice);
+            }
+            
+            // continue to game
+            var sure_yes = scr_event_build_add_choice(sure_choice, "Hurl your neuro-shekels to the ground and become a beggar.");
+            with (sure_yes)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm doing it! No more of this wicked materialist life for me! I'm a beggar, baby!... well... after I learn from you, of course!");
+                scr_event_build_money_add(scr_money_count() * -1);
+                scr_event_build_dialogue_item("Forsook all " + string(scr_money_count()) + " neuro-shekels!");
+                Breakout("build", "clear");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Good! Good!... I'll just take these... and, ahem! Your lesson begins!");
+                scr_event_build_fade(true, 3);
+                scr_event_build_wait_for_actions();
+                scr_event_build_quest_state("lemuelBeggingGame", 2);
+                // teleport atop begging rug and begin the game
+                scr_event_build_teleport(room, o_beggingRug01.x, o_beggingRug01.y);
+            }
+        }
+        
+        // get more info
+        var game_tell = scr_event_build_add_choice(game_choice, "Can't decide... what's being a beggar like?")
+        with (game_tell)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Umm... I can't decide! What is being a beggar like?");
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "The life of the mendicant is one of poverty... first and foremost, you must renounce your wealth. Secondly, you must depend on alms for survival.");
+            // go back to first choice
+            scr_event_build_quest_state("lemuelBeggingLoop", 1);
+            scr_event_build_execute_event_script(event_dz1_lemuel01);
+        }
+    }
+    
+    //------------------------------------------------
+    // Main Event
+    //------------------------------------------------
+    with (event) 
+    {
+        // loop for lemuel begging choice    
+        if (scr_quest_get_state("lemuelBeggingLoop") == 1)
+        {
+            scr_event_build_quest_state("lemuelBeggingLoop", 0);
+            scr_event_build_event_snippet(choice_snippet);
+        }
+        // after the begging game
+        else if (scr_quest_get_state("lemuelBeggingGame") == 4)
+        {
+            // donated Big Alms
+            if (scr_quest_get_state("lemuelAlmDone") == 1)
+            {
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "It's strange that I have enough money to retire. I, Lemuel, living a life of comfort. What a strange turn of events! The Lord has many mysteries, does he not?");
+            }
+            // just got wisdom
+            else
+            {
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Now that I've dispensed all my wisdom, I'm not sure how much there is for me to do here. I'll probably be moving on... somewhere. I'll probably need some more alms though...");
+            }
+        }
+        // qualified for begging game
+        else if (scr_quest_get_state("lemuelBeggingGame") == 1)
+        {
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Well? Shall you forsake the material world? Will you choose to study under me?");
+            scr_event_build_event_snippet(choice_snippet);
+        }
+        // answered question
+        else if (scr_quest_get_state("lemuelState") == 2)
+        {
+            scr_event_build_dialogue("Lemuel", "s_port_lemuelClosed", "._._._");
+        }
+        
+        // talked!
+        else if (scr_quest_get_state("lemuelState") == 1) 
+        {
+            scr_event_build_dialogue("Beggar", "s_port_lemuelClosed", "._._._ the bowl._._._");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh... the bowl. People just give you things?");
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Yes, of course. My name is Lemuel. I am a wandering mendicant, and a humble beggar. I rely upon the goodness and generosity of every dwarf. There is always someone ready to open their heart and alm.");
+            scr_event_build_quest_state("lemuelName", 1);
+            
+            var rotten_choice = scr_event_build_choice("Reply:", s_port_hoopz);
+            var nice = scr_event_build_add_choice(rotten_choice, "I think that's nice!");
+            with (nice)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think that's really nice! These dwarfs are great.");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "All of life is great, friend. Why not try the bowl?");
+            }
+            var rotten = scr_event_build_add_choice(rotten_choice, "I think that's rotten.");
+            with (rotten)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think that's rotten. Not everybody has something to give... maybe I don't have any spare shekels for a freeloader like you!");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "An unfortunate attitude! So be it. If you ever change your mind... the bowl...");
+            }
+            scr_event_build_quest_state("lemuelState", 2);
+        }
+        
+        // haven't actually talked yet
+        else if (scr_quest_get_state("lemuelState") == 0)
+        {
+            // if the count is below 10, lemuel is still ignoring you
+            if (scr_quest_get_state("lemuelCount") < 10)
+            {
+                // if the count is 0, you attempt to speak to lemuel
+                if (scr_quest_get_state("lemuelTalk") == 0)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hello, how are you?");
+                    scr_event_build_quest_state("lemuelTalk", 1);
+                }
+                // standard lemuel "..." each time
+                scr_event_build_dialogue("Beggar", "s_port_lemuelClosed", "._._._");
+                
+                // different brief little dialogues from hoopz
+                switch (scr_quest_get_state("lemuelCount"))
+                {        
+                    case 0:
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Hmm... better not wake him up...)");
+                        break;
+                    case 1:
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Still sleeping?)");
+                        break;
+                    case 2:
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This guy sleeps a lot...)");
+                        break;
+                    case 3:
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Hey... wake up already!)");
+                        break;
+                    case 4:
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(He's snoozin'...)");
+                        break;
+                    case 5:
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I wonder how he sleeps sitting straight up like that...)");
+                        break;
+                    case 6:
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(He's got really great posture... especially for someone who's sleeping.)");
+                        break;
+                    case 7:
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Such poise...!)");
+                        break;
+                    case 8:
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I wonder what he's dreaming about...)");
+                        break;
+                    case 9:
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Still sitting... still sleeping...)");
+                        break;
+                    case 10:
+                        // TODO: Following line only said IF you have completed the waterfall meditation quest.
+                        if (scr_quest_get_state("TEMPwaterfall") == 1)
+                        {
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(He's so still... I wish I was that good.)");
+                        } 
+                        else
+                        {
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I wonder if I could sit that still...)");
+                        }  
+                        break;                         
+                }
+                // lemuelCount now increases
+                scr_event_build_quest_state("lemuelCount", scr_quest_get_state("lemuelCount") + 1);
+                // time switch now turns on, if off
+                if (scr_quest_get_state("lemuelCountSwitch") == 0)
+                {
+                    // switch is on
+                    scr_event_build_quest_state("lemuelCountSwitch", 1);
+                }
+            }
+            // if lemuelCount >= 10... lemuel acknowledges you and mentions the bowl
+            else if (scr_quest_get_state("lemuelCount") >= 10)
+            {
+                scr_event_build_dialogue("Beggar", "s_port_lemuelClosed", "._._._");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "._._._");
+                scr_event_build_dialogue("Beggar", "s_port_lemuelClosed", "._._._");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "._._._");
+                scr_event_build_dialogue("Beggar", s_port_lemuelOpen, "._._._");
+                scr_event_build_dialogue(P_NAME, s_port_hoopzSurprise, "._._._");
+                scr_event_build_dialogue("Beggar", s_port_lemuelOpen, "Feel free to use the bowl... please. Please feel free, I mean.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh... oh, okay. Thanks.");
+                scr_event_build_dialogue("Beggar", "s_port_lemuelClosed", "._._._");
+                scr_event_build_quest_state("lemuelCount", 11);
+                scr_event_build_quest_state("lemuelState", 1); // TODO: check again
+            }
+        }
+    }
+    scr_event_advance(event);
+} 

@@ -1,0 +1,111 @@
+/* Event for Jhodfrey, the right hand man 
+
+Jhodfrey's Variables:
+jhodfreyState == 0 - have not talked
+jhodfreyState == 1 - you've talked to Jhodfrey before talking to Wiglaf
+jhodfreyState == 2 - you've accepted the mission and entered the Undersewers Hatch
+
+Related Variables:
+wiglafMission = 1 - You've been assigned to kill Cuchulainn in order to meet Cyberdwarf.
+wiglafMission = 2 - You've exited the rebel base through the hatch the Jhodfrey shows you.
+wiglafMission = 3 - You've reported back to Wiglaf and have full permission to meet Cyberdwarf.
+
+*/
+
+if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var jhodfrey = id;
+    var event = scr_event_create_main();
+    var cuchuMissionStart = scr_event_create_child(event);
+    
+    /*----------------------------------------------------
+    Mission Start Decision
+    ----------------------------------------------------*/
+    
+    with (cuchuMissionStart) {
+        scr_event_build_camera_frame(CAMERA_NORMAL, o_cts_hoopz, o_jhodfrey01);
+        var choiceStartMission = scr_event_build_choice("Begin your first sortie?", s_port_hoopz);
+        // Accept the mission
+        with scr_event_build_add_choice(choiceStartMission, "I'm locked and loaded, Mission Start!") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm ready.  Let me at this Cuchulainn.");
+            scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "You need to listen to me carefully, don't pretend this is anything other than your first mission, Private.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh ... yes sir!");
+            scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "Very well, the Leftenant seems to think you have what it takes to earn a star. I guess that comes from his years of glorious dwarven service.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I will try my best!");
+            scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "We'll soon see if it is good enough, Private. Now, you can access the Elevator through the Tunnel King's Foward Operating Base.  Access is now granted.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Great, time to jet.");
+            scr_event_build_camera_follow(CAMERA_NORMAL, o_cts_hoopz);
+            scr_event_build_move_to_point(o_cts_hoopz, o_manhole_cover.x, o_manhole_cover.y + 32);
+            scr_event_build_wait_for_actions();
+            scr_event_build_look(o_jhodfrey01, SOUTHWEST);
+            scr_event_build_look(o_cts_hoopz, NORTH);
+            //TODO: Add in animations for Hoopz moving towards the hatch.
+            //scr_event_build_dialogue_debug("Bhroom", NULL, "Here a hatch will open and Hoopz will gain access to the Undersewers shortcut to the Elevator.");
+            scr_event_build_sound_play("sn_debug_one"); // Play a shifting sound for the manhole cover
+            scr_event_build_user(o_manhole_cover, 1);
+            scr_event_build_wait(2);
+            
+            
+            scr_event_build_move_to_point(o_cts_hoopz, o_manhole_cover.x, o_manhole_cover.y + 8);
+            scr_event_build_wait_for_actions();
+            scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+            scr_event_build_wait(0.5);
+            scr_event_build_animation_play_and_set(o_cts_hoopz, "kneelDown", "kneel");
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "Oh and Private.");
+            scr_event_build_wait(0.5);
+            //scr_event_build_look_object(o_cts_hoopz, o_jhodfrey01);
+            //scr_event_build_wait(0.5);
+            //TODO: Hoopz enters the hatch and stops to hear out Jhodfrey
+            //scr_event_build_dialogue_debug("Bhroom", NULL, "Hoopz enters the hatch and stops to hear out Jhodfrey");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yes?");
+            scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "You're not better than me.");
+            scr_event_build_object_alpha(o_cts_hoopz, 0, 1);
+            Wait();
+            //TODO add in slamming hatch
+            scr_event_build_sound_play("sn_debug_one"); // Play a shifting sound for the manhole cover
+            scr_event_build_user(o_manhole_cover, 0);
+            scr_event_build_wait(2);
+            //scr_event_build_dialogue_debug("Bhroom", NULL, "The hatch slams shut.");
+            //TODO: add in teleport to Undersewers Room
+            scr_event_build_quest_state("jhodfreyState", 3);
+            scr_event_build_quest_state("wiglafMission", 2);
+            scr_event_build_teleport(r_usw_rebelwell01, 256, 56, 1, 1);
+        }
+        // Postpone the mission
+        with scr_event_build_add_choice(choiceStartMission, "I'm still prepping my load-out.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm gearing up, be back in a few minutes.");
+            scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "When the commander says jump, you ask 'How high?' not for another 5 minutes.  Be quick about it.");
+        }
+    }        
+    
+    with (event) {
+        // Cuchulainn's Assassination mission is accepted.
+        if (scr_quest_get_state("wiglafMission") == 2) {
+            scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "Has the sortie been sorted?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm working on it.");
+            scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "Figures, I'll detail this hesistation in my report to the Commander.");
+        }    
+        else if (scr_quest_get_state("wiglafMission") == 1) {
+        // Talked and accepted the Cuchu Mission from Wiglaf
+            scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "Well if it isn't the new recruit.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Private First Class " + P_NAME + " reporting for duty!");
+            scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "Pretty eager to prove yourself.  Are you ready?");
+            scr_event_build_event_snippet(cuchuMissionStart);
+        }
+        else if (scr_quest_get_state("wiglafMission") == 0) {  
+            // Haven't accepted the Quest from Wiglaf
+            if (scr_quest_get_state("jhodfreyState") == 0) {
+                scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "If you have anything you want to say to the commander, you'd better bring it up the chain of command.  And that chain's biggest link is me.");
+                scr_event_build_quest_state("jhodfreyState", 1);
+            }
+            if (scr_quest_get_state("jhodfreyState") == 1) {
+            // Talked to him once.
+            scr_event_build_dialogue("Jhodfrey", "s_port_jhodfrey", "I'm busy, and so is the Commander. Civilians shouldn't even be here anyways.");
+            }
+            scr_event_build_quest_state("cdwarfCinema", 1);
+            scr_event_build_quest_state("wiglafMission", 3);
+        }
+    }
+    scr_event_advance(event);
+}

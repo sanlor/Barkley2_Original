@@ -1,0 +1,24 @@
+/// scr_event_build_set_depth_set(object_id,new_depth)
+/// Builds an event to set the depth of an object.
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_depth_set);
+ds_list_add(action, argument0); // object id
+ds_list_add(action, argument1); // new depth
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;
+
+
+
+
+/// scr_event_action_depth_set(list)
+/// An action to make an object a new depth.
+/// The list contains entity id, new depth.
+
+var object = ds_list_find_value(argument0, 1);
+with (object) {
+    dny = ds_list_find_value(argument0, 2);
+}
+
+scr_event_advance(id);

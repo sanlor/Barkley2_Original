@@ -1,0 +1,42 @@
+// Prison Courtyard NPC script for the dwarf prisoner Abimbola. A slightly-unhinged, yet oddly brave, ex-arisocrat.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var abimbola = id;
+    var event = scr_event_create_main();
+    var DayOver = scr_event_create_child(event);
+    with DayOver {
+        scr_event_build_dialogue("Loudspeaker", NULL, "Attention please! All inferior lifeforms not scheduled for afternoon activities, please report to the courtyard entrance.\All those scheduled for torture, please form a queue behind the silver line.\And all those scheduled for execution, please remain where you are, someone will come to pick you up.\Thanks, and have an awful day.");
+        Quest("prisondayoverState", 0);
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC NOTE: The screen should fade to black and the player is teleported to a cinematic showing them being led back to their cell.\This snippet is identical for all the NPCs in the prison courtyard. If you're seeing this now, you're on your way back to your prison cell, buster.");
+        // CINEMATIC NOTE: This is where the player is teleported back to their cell for the day. After a fade to black, this event should link to the brief cinematic of the player being led to their jail cell.
+        scr_event_build_end();
+    }
+
+    with (event) {
+        if (Quest("abimbolaState") == 1) {
+            scr_event_build_dialogue("Abimbola", NULL, "I'm just glad nobody at the club will ever get to see me in this hellhole. Just an absolute nightmare.");
+            scr_event_build_end();
+        } else {
+            QuestAdd("prisondayoverState", 1);
+            scr_event_build_dialogue("Abimbola", NULL, "Absolutely dreadful. Positively deplorable. Infinitely terrifying. The worst.");
+            Dialogue(P_NAME, "I hear you. Being in prison sucks.");
+            scr_event_build_dialogue("Abimbola", NULL, "Certainly. You understand.\But do you REALLY understand?\What's the worst trait of this prison?");
+            Dialogue(P_NAME, "I dunno. It sounds like they beat and murder lots of people. That's pretty bad, I guess.");
+            scr_event_build_dialogue("Abimbola", NULL, "Wrong. That happens everywhere. You can get murdered in your own bed.\Just look at these walls. Look at that shade of white, if you can even call it white. It's just filthy. Did they really think that shade goes with the color of the floors?\Do you know what was sitting outside my cell for a week?? Do you?!?!\Somebody's wooden leg. It was this dull amber color, had a bunch of scuff marks on it.\That leg could have been seen as a nice piece, could be used as a nice conversation starter in the middle of a foyer, and the amber shade had a certain attractive quality to it, but you don't use something like that as decoration without even an ottoman or an end table nearby. That's just common sense. It's just not done.\I sent word to the warden about this gaudy transgression, but I didn't hear a word back.\It's more than clear at this point that he knows I'm right and is too ashamed to show his face around my cell.\I mean, we're living in the 1,324th century here, we're not savages here. You could at least put a little thought into the decor before inviting all these people over to stay.");
+            Dialogue(P_NAME, "Maybe this is a new trend in interior design? Maybe this is the future. Maybe we're witnessing the birth of a whole new art movement.\That's kinda exciting if you look at it this way.");
+            scr_event_build_dialogue("Abimbola", NULL, "Don't even joke about that......\I shudder to think about something so awful.\Do you know what color my wallpaper is??? HUH?!?!?\Null. There is null wallpaper. That means no wallpaper at all.\Not even a speck of carpenter glue suggesting there EVER WAS wallpaper there.\I requested a transfer to a different prison but they rejected it. I'm scheduled for execution next week.\And I'll tell you what, that's fine by me. I hear there's at least wallpaper in the execution chamber.\I already know it'll be some grotty, pastel yellow, spottily splattered over part of the walls, most of which will undoubtedly be peeling off, but at least I'll die in a room that TRIES to be with the times.");
+            Quest("abimbolaState", 1);
+            if (Quest("prisondayoverState") == 3) {
+                Snippet(DayOver);
+            }
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

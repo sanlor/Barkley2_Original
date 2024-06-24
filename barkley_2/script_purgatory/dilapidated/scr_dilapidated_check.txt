@@ -1,0 +1,20 @@
+// scr_dilapidated_check
+
+// i am breaking these up, just because i feel like it
+// maybe it'll have some use in the future, what quality of room
+// anyway... i like it. ~ bort
+/*if (room == r_bct_dilapidatedRoom01) || (room == r_bct_dilapidatedRoom02) || (room == r_bct_dilapidatedRoom03) {
+    return true;
+}
+else if (room == r_bct_dilapidatedRoomBetter01) || (room == r_bct_dilapidatedRoomBetter02) || (room == r_bct_dilapidatedRoomBetter03) {
+    return true;
+}
+else if (room == r_bct_dilapidatedRoomPlus01) || (room == r_bct_dilapidatedRoomPlus02) || (room == r_bct_dilapidatedRoomPlus03) {
+    return true;
+}
+else if (room == r_bct_dilapidatedRoomMax01) || (room == r_bct_dilapidatedRoomMax02) || (room == r_bct_dilapidatedRoomMax03) {
+    return true;
+}
+else {
+    return false;
+}

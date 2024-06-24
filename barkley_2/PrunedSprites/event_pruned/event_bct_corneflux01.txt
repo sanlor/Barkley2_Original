@@ -1,0 +1,188 @@
+// Corneflux // Mostly robotic guy in BCT who wants to dry/clean his chinchilla jerkin //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+    // Timeframe //
+    if scr_time_get() >= 0 and scr_time_get() <= 24 then scr_event_interactive_deactivate();
+        
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+            // bct_corneflux //
+            // 0 = First interaction //
+            // 1 = Decided to help //
+            // 2 = Decided not to help //
+            // 3 = Talk after search is on //
+            // 4 = Quest over //
+
+            // Hoopz talks to Corneflux for the first time //
+            if (scr_quest_get_state("bct_corneflux") == 0) {
+
+                scr_event_build_dialogue("Corneflux", NULL, "That jerkin you are wearing... You must be the Jerkin Professor? About time you showed up. I'm having an emergency here!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "An emergency?");
+                scr_event_build_dialogue("Corneflux", NULL, "My Chinchilla jerkin! Just look at it. There is no shine to it, no glamour. The sparkles are gone.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What are you talking about? What sparkles?");
+                scr_event_build_dialogue("Corneflux", NULL, "Yes I know it doesn't sparkle anymore! You don't have to twist the knife in me. I know I flubbed up. I... I didn't read the labels before I washed it, but I just... Look mister, I need the sparkles, I need the shine back on my jerkin. Please...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uhh...");
+                scr_event_build_dialogue("Corneflux", NULL, "It won't dry... It just won't... It needs to be completely dry before I can wax and polish it.");
+
+                // Choices: Help or Dont //
+                var choice_task = scr_event_build_choice("What will you do?", NULL); 
+                
+                // Suggest hanging jerkin out to dry //
+                var choice1 = scr_event_build_add_choice(choice_task, "Tell him to hang the jerkin outside");
+                with choice1 {
+                
+                    // Hoopz decides to help the poor guy out //
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "You should set it outside to dry. That's what people in Tir na Nog did.");
+                    scr_event_build_dialogue("Corneflux", NULL, "O-outside...? But... Yes, ofcourse. Outside! That's brilliant!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "T-thanks...");
+                    scr_event_build_dialogue("Corneflux", NULL, "I think I know just the spot. Please, come with me to see it. I want you to approve of the spot before I proceed with this plan. This jerkin is very important to me. I'm not taking any chances with it.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know why you'd want my approval, but I guess I can take a look if it doesn't take too long.");
+                    scr_event_build_dialogue("Corneflux", NULL, "Ah, yes yes. You must be very busy. Okay, I'll make it quick. Follow me.");
+                    scr_event_build_quest_state("bct_corneflux", 1);
+                    
+                    // TODO: Corneflux and Hoopz move to an exterior location //
+
+                    }
+
+                // Ignore him //
+                var choice2 = scr_event_build_add_choice(choice_task, "Ignore him");
+                with choice2 {
+
+                    // Hoopz decides to ignore this jerkin problem //
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I really don't know much about clothing. Or about washing them.");
+                    scr_event_build_dialogue("Corneflux", NULL, "What? Aren't you the Jerkin Professor? The one who wrote all those books?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "No.");
+                    scr_event_build_dialogue("Corneflux", NULL, "Well what the HECK am I talking to you for then? Clispaeth Christ! I'm having a JERKIN MELTDOWN here! I can't waste my time talking to you. I need my jerkin clean and dry, pronto!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Don't you have a blowdryer or some sort of-");
+                    scr_event_build_dialogue("Corneflux", NULL, "SHUT IT! SHUT THE HECK UP! SHUT THE FLUBBING HECK UP! Get the FLUB outta my face!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow.");
+                    scr_event_build_quest_state("bct_corneflux", 2);
+                    }
+                }
+                
+            // Scene that happens at the exterior //
+            else if (scr_quest_get_state("bct_corneflux") == 1) {
+
+                scr_event_build_dialogue("Corneflux", NULL, "Here's the spot, mister. What do you think? This will do, right?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess...");
+                scr_event_build_dialogue("Corneflux", NULL, "Guess? You gotta be certain about this! This is my prized jerkin we are talking about here.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It is windy in here, I'm sure it'll dry up in no time.");
+                scr_event_build_dialogue("Corneflux", NULL, "Okay, that makes sense. Alright, I'll set it up here then.");
+                
+                // TODO: animation of the jerkin being blown off //
+                
+                scr_event_build_dialogue("Corneflux", NULL, "M-mein jerkin...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh wow. You should've used some clothespins.");
+                scr_event_build_dialogue("Corneflux", NULL, "...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Come on, cheer up. It was a very heavy looking jerkin, so it can't fly off too far.");
+                scr_event_build_dialogue("Corneflux", NULL, "Chinchilla jerkin...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's alright mister. I'm always on the move on Necron 7. I'll keep my eyes open for your jerkin.");
+                scr_event_build_dialogue("Corneflux", NULL, "...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Wow, this guy is really serious about that jerkin...)");
+                scr_event_build_quest_state("bct_corneflux", 3);
+                }
+                
+            // Talk to Corneflux after you declined him //
+            else if (scr_quest_get_state("bct_corneflux") == 2) {
+
+                scr_event_build_dialogue("Corneflux", NULL, "Jerkin emergency! Please send help! S.O.S.!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Just take your jerkin to a dryclean.");
+                scr_event_build_dialogue("Corneflux", NULL, "What, and just leave it there?? You think they know how to handle a jerkin of this magnitude? They'll just ruin it! I'm not taking a risk like that! No way in HECK am I risking my Chinchilla jerkin!");
+                }
+
+            // Talk to Corneflux after he has lost his jerkin and...//
+            else if (scr_quest_get_state("bct_corneflux") == 3) {
+
+                // ...You haven't found it //
+                // This is equipment -> Chinchilla Jerkin") {
+                
+                    scr_event_build_dialogue("Corneflux", NULL, "...");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Uh... I don't think I should bother him right now.)");
+                //    }
+                
+                // ...You have seen it but did not claim it //
+                //else {
+                
+                    scr_event_build_dialogue("Corneflux", NULL, "...");
+    
+                    // Choices //
+                    var choice_task = scr_event_build_choice("I've been looking for your jerkin...", s_port_hoopz); 
+                    
+                    // Say that you haven't seen it //
+                    var choice1 = scr_event_build_add_choice(choice_task, "... but I haven't found it yet. Sorry.");
+                    with choice1 {
+    
+                        // Tell him you haven't seen it //
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "... but I haven't found it yet. Sorry.");
+                        scr_event_build_dialogue("Corneflux", NULL, "Chin... chilla...");
+                        }
+            
+                    // Unlock this option only if you've talk to Suleiman //
+                        
+                    // Say that you have seen it //
+                    var choice2 = scr_event_build_add_choice(choice_task, "... I think I found it in this place called Al-Akihabara.");
+                    with choice2 {
+                                
+                        // Tell him you have seen it in Al-Aki //
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "... I think I found it in this place called Al-Akihabara.");
+                        scr_event_build_dialogue("Corneflux", NULL, "Mein jerkin...? You have found it...?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah. This one guy had it on him, but he wouldn't give it back. something about Clispaeth giving it to him.");
+                        scr_event_build_dialogue("Corneflux", NULL, "M-my jerkin! Was it still in one piece?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think so. It looked a bit better actually. All that sand and desert air must've improved it somehow. It had this nice glimmer to it, kinda like what you were talking about before.");
+                        scr_event_build_dialogue("Corneflux", NULL, "Glimmer? So... the legends were true then. It CAN glimmer! Not just sparkle. I must see it immediately. Where is this place you speak of?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Al-Akihabara? It's in the middle of the swamps. But it's really dangerous out there. You aren't thinking about-");
+                        scr_event_build_dialogue("Corneflux", NULL, "Enough talk! I must depart at once!");
+                        
+                        // TODO: Corneflux runs off //
+    
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I've never seen anyone care so much for their jerkin...");
+                        }
+                
+                    // TODO: Unlock this option only if you have the item //
+                        
+                    // Say that you have it //
+                    var choice3 = scr_event_build_add_choice(choice_task, "... I believe this is your jerkin.");
+                    with choice3 {
+    
+                        // ...You have found it //
+                        scr_event_build_dialogue("Corneflux", NULL, "...");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey mister, check this out. I got this from some guy in Al-Akihabara. This is your jerkin right?");
+                        scr_event_build_dialogue("Corneflux", NULL, "T-this...!? This can't be...!!!");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is something wrong?");
+                        scr_event_build_dialogue("Corneflux", NULL, "Just look at it. The beauty. The majesty. This... This is the Chinchilla jerkin in it's true form. I'm at a loss for words...");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay... But, this is yours, right? Like, the guy said it fell fro mthe sky so it must be the one you lost.");
+                        scr_event_build_dialogue("Corneflux", NULL, "Are you kidding me? The chinchilla jerkin I had was like a shitty old mans diaper compared to this. I must ask you... How much?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "What?");
+                        scr_event_build_dialogue("Corneflux", NULL, "How much? I must have it. This is the finest garment I have ever seen in my life. The finest garment I WILL ever see in my life.");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "You want to buy it? But it's yours to begin with.");
+                        scr_event_build_dialogue("Corneflux", NULL, "Here, let me see... I have, uh... I have 673£ on me. Will that be enough? Please... I must have it.");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm telling you mister, it's yours.");
+                        scr_event_build_dialogue("Corneflux", NULL, "I... You... Does that mean that you will sell it then? Oh thank Clispaeth! Here, take the money and let me have it. Oh, this glimmer. I will have to get myself a pair of sunglasses...");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "But mister, you aren't listening to me. This is the same-");
+                        scr_event_build_dialogue("Corneflux", NULL, "Mirror... I need a mirror. I have to see how it looks on me!");
+                        
+                        // TODO: Corneflux runs off //
+                        
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know if I feel right about keeping this money... But it was what he wanted.");
+                        scr_event_build_quest_state("bct_corneflux", 4);
+                        // This is equipment now -> Chinchilla Jerkin");
+                        }    
+                    }
+                //} 
+    }
+    scr_event_advance(event);
+}

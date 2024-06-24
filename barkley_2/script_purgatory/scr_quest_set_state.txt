@@ -1,0 +1,7 @@
+/// scr_quest_set_state(quest_name,state)
+scr_savedata_put("quest.vars." + argument0, argument1);
+QuestTracker("add", argument0, argument1);
+
+// OLD
+// var quest = scr_quest_get(argument0);
+// ds_list_replace(quest, 2, argument1);

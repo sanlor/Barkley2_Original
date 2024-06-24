@@ -1,0 +1,173 @@
+/* Template for status effects.
+
+arg0 - Configuration map
+arg1 - Actor to target
+arg2 - Command to execute ("generate", "apply", "step", "draw", "finish")
+arg3 - Other data (e.g. changestat, damaging CombatAttackEntity...)
+
+
+var conf = argument0;
+var actor = argument1;
+var command = argument2;
+var changestat = argument3; // Used only when command = "changestat"
+
+if (command == "generate") {
+    // Copy attack stats into Conf so it can be used as an attack object
+    var atk = scr_stats_newAttackStats();
+    ds_map_copy(conf, atk);
+    ds_map_destroy(atk);
+    // Append basic information
+    scr_statusEffect_generateBasicInfo(conf, statusEffect_firewalling, 80);
+    
+    conf[? "affixPower"]        = 1;
+    conf[? "affixPower_2"]      = 1;
+    
+    conf[? STAT_BASE_RESISTANCE_CYBER]     = 0;
+    conf[? STAT_BASE_RESISTANCE_BIO]       = 0;
+    
+    conf[? "hitInterval"] = 5;
+    conf[? "hitTimer"] = 1;
+    conf[? "hitNumber"] = 1;
+    conf[? "hitTimer2"] = 1;
+    conf[? "hitNumber2"] = 6;
+    conf[? "restorationNumber"] = 0;
+    conf[? "timerTotal"] = conf[? "timer"];
+    conf[? "timerStart"] = conf[? "timer"] - 30;
+    conf[? "timerEnd"] = 30;
+
+    conf[? "effectImage"] = 0;
+    conf[? "effectImageMin"] = 0;
+    conf[? "effectImageMax"] = 4;
+    conf[? "effectY"] = 0;
+
+    conf[? "effectFlickerTimer"] = 0;
+    conf[? "effectFlickerTimerReset"] = 5;
+    conf[? "effectFlickerToggle"] = 1;
+
+    return conf;
+}
+
+else if (!instance_exists(actor)) {
+    return 0;
+}
+
+else if (command == "apply") {
+    // -- On-hit effects --
+    /* In this part, we can take into consideration resistances,
+       the current state of the CombatActor (such as if he already
+       has the status effect on him), etc. 
+            var currentFirewalling = scr_statusEffect_getFromCombatActor(actor, statusEffect_firewalling);
+            if (currentFirewalling == -1)
+                {
+                // Apply //
+                scr_statusEffect_applyNewToCombatActor(actor, conf);
+                
+                // Visuals //
+                audio_play_sound_on_actor(actor,scr_soundbank_pickSound("affix_compressing"),false,70);
+                }
+                else {
+                    // Refresh time on existing
+                    var timer = conf[? "timer"];
+                    timer = max(timer, currentFirewalling[? "timer"]);
+                    currentFirewalling[? "timer"] = timer;
+                }
+    return 0;
+} 
+
+else if (command == "step") {
+    // -- Effect to perform each step --
+    // This is for the status effect visual //
+    scr_fx_statusFlicker(conf, 4, 1);
+        
+    // Set up some variables needed down below //
+    var hitTimer = conf[? "hitTimer"];
+    var hitNumber = conf[? "hitNumber"];
+    var hitTimer2 = conf[? "hitTimer2"];
+    var hitNumber2 = conf[? "hitNumber2"];
+    var restorationNumber = conf[? "restorationNumber"];
+
+    // Timer shyte //
+    hitTimer -= dt();
+    hitTimer2 -= dt();
+    
+    // Stat changes //
+    if (hitTimer <= 0 and hitNumber > 0) then
+        {
+        conf[? STAT_BASE_RESISTANCE_CYBER] = conf[? STAT_BASE_RESISTANCE_CYBER] + (conf[? "affixPower"]);     
+        hitNumber -= 1;        
+        }
+        
+    // Drain stats from actor // X SECONDS AT THE START //
+    if conf[? "timer"] >= conf[? "timerStart"] then
+        {
+        if (hitTimer2 <= 0 and hitNumber2 > 0) 
+            {
+            conf[? STAT_BASE_RESISTANCE_BIO] = conf[? STAT_BASE_RESISTANCE_BIO] - conf[? "affixPower_2"];
+            hitTimer2 = conf[? "hitInterval"];
+            hitNumber2 -= 1;
+            restorationNumber += 1;
+            }
+        }
+        
+    // Return stats to actor // X SECONDS AT THE END //
+    else if conf[? "timer"] <= conf[? "timerEnd"] then
+        {
+        if (hitTimer2 <= 0 and restorationNumber > 0) 
+            {
+            conf[? STAT_BASE_RESISTANCE_BIO] = conf[? STAT_BASE_RESISTANCE_BIO] + conf[? "affixPower_2"];
+            hitTimer2 = conf[? "hitInterval"];
+            hitNumber2 += 1;
+            restorationNumber -= 1;
+            }
+        }
+    
+    // Get variables back for the next step coming up //
+    conf[? "hitNumber"] = hitNumber;
+    conf[? "hitTimer"] = hitTimer;
+    conf[? "hitNumber2"] = hitNumber2;
+    conf[? "hitTimer2"] = hitTimer2;
+    conf[? "restorationNumber"] = restorationNumber;
+    return false;
+}
+
+else if (command == "changestat") {
+    // -- Change RPG stats --
+    /* This is called when a stat should be changed, with the stat (or statgroup)
+       to change in the 'changestat' argument. See scr_stats_genEffectiveStats
+       for reference on when this is called and with which arguments. 
+    if(changestat== STATGROUP_RESISTANCES)
+    {
+        scr_stats_setEffectiveStat(actor, STAT_BASE_RESISTANCE_CYBER, scr_stats_getEffectiveStat(actor, STAT_BASE_RESISTANCE_CYBER) + conf[? STAT_BASE_RESISTANCE_CYBER]);
+        scr_stats_setEffectiveStat(actor, STAT_BASE_RESISTANCE_BIO, scr_stats_getEffectiveStat(actor, STAT_BASE_RESISTANCE_BIO) + conf[? STAT_BASE_RESISTANCE_BIO]);
+    }
+    return 0;
+}
+
+else if (command == "damage") {
+    // -- Actor takes damage --
+    /* This is called when the actor takes damage. The ID of the damaging
+       CombatAttackEntity is provided as arg3. Here you can do things like
+       return damage to attacker or other cool on-hit effects. 
+    // Return 'true' to remove this status effect from the combatactor.
+    return 0;
+}
+
+else if (command == "draw") {
+    // -- Draw effect to perform before CombatActor is drawn --
+    /* This can apply draw effects to the actor, such as change
+       rendering colors, configure a shader, particle effects, etc. 
+       return 0;
+}
+
+else if (command == "draw_post") {
+    // -- Draw effect to perform after CombatActor is drawn --
+    /* This can apply draw effects to the actor, such as change
+       rendering colors, configure a shader, particle effects, etc. 
+       scr_fx_statusDrawEffect(conf, actor, s_effect_affix_TEMP);
+    return 0;
+}
+
+else if (command == "finish") {
+    // -- Action to perform when status effect ends --
+    return 0;
+}

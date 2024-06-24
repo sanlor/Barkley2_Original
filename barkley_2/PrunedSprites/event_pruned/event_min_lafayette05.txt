@@ -1,0 +1,36 @@
+// Lafayette NPC script - REBEL QUEST GOOD ENDING
+// NOTE: NO REWARDS are scripted in here yet. Though I can add them to either lafayette05 or lafayette04.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonquestgoodState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var lafayette = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("lafayettegoodState") == 3) {
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "But you can't get there from the swamps......hmmm.....\.......need to figure out a different path.......");
+            scr_event_build_end();
+        } else if (Quest("lafayettegoodState") == 2) {
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Oh yeah, your duergar friend Van Cleef. I think he's my friend now too.");
+            Dialogue(P_NAME, "Really? He's a pretty rough guy.");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Yeah, but he likes my ideas for adventures. I tell him all about the things I'd do if I still had my legs.\He likes my ideas a lot too!! He swears all the time, but it's fun talking with him. I really like him a lot!\It makes me sad about killing that many duergars, though. I had a feeling I could find some duergars I'd like. Not all are that bad.......\Well.....actually, Van Cleef likes killing all the time, so I guess he's bad too. Is he a good kind of bad?");
+            Dialogue(P_NAME, "I have no idea. Just roll with it, I guess. I'm just happy when somebody isn't shooting at me.");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Yeah, you're right. I'm just happy I made another friend. That's always really great.");
+            Quest("lafayettegoodState", 3);
+            scr_event_build_end();
+        } else if (Quest("lafayettegoodState") == 1) {
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Compson isn't talking to anybody anymore. He's just sitting there staring at the ground. I'm really worried about him.\I don't know what we should do if he doesn't want to be our leader anymore.");
+            Dialogue(P_NAME, "You could do it, you know.");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Me? No way. Absolutely no way.");
+            Dialogue(P_NAME, "I don't know about that. You did a pretty good job giving me orders.");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Maybe. I don't know. I'll think about it.\Oh! I almost forgot!! Sorry, but I need to go.\I promised that Van Cleef guy and some of the dwarfs that I'd come up with some cool ideas for adventures for them.\I need to really think hard about this.");
+            Quest("lafayettegoodState", 2);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

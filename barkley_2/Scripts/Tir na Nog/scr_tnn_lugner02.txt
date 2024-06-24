@@ -1,0 +1,113 @@
+// State 0
+
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "Hey, you're back. I didn't think I'd see you again.");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I really wanted to help you out. I hate seeing the Dwarfs live like this.");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "I know. It breaks my heart. I'm just glad you were able to help me save a couple from this mess. Now let's see how many you've brought me...");
+
+// Brought no dwarfs
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "Wait a minute, where are they?");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Giuseppi didn't believe me. He wouldn't send any of them.");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "Are you fucking kidding me? You couldn't get ANY?");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Nope.");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "For fuck's sake, what the hell good are you? It's not like I asked you to do very much here. Just bring a couple of Dwarfs here, that's it. There's tons of these idiots running around out there, you didn't have to get them all from Giuseppi.");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I'm sorry...");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "Well all these stupid fucks are going to be dead and it's going to be your fault.");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, ".....");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "Get out of my sight. You stupid fucking idiot.");
+
+// Quest end. Time increases. The player gets ABSOLUTELY NOTHING.
+
+// Successfully persuade all dwarfs:
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "Wow, you got a lot of them! Nice work. I knew I could count on you.\There should be enough food for the trip in there already. Had a feeling you'd come through, so I got a little extra.");
+
+// Continue at State 1
+
+// Persuaded some dwarfs, but not all.
+
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "You got some. That's good! Not as many as I hoped, but this is better than nothing.\There should be more than enough food for the trip in there already. Thought you'd bring a little more, so I guess I over prepared.");
+
+// Continue at State 1
+
+// State 1
+
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "I guess that's everything. Now I just need to load the container into the ship.");
+
+// Lugner turns to the console. Or something. Maybe there's no necessary blocking here????
+
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "This never gets old. Always the same excitement, just a couple button presses away.");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Yeah...");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "Ok, it's ready. Do you want to have the honors?");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "What do I have to do?");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "There's a little green button right here. All you need to do is push it. They'll be loaded on the ship, and the ship will automatically start the engines and embark on its course to the Sombrero Galaxy.");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Just that one little button means so much to them.");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "That's right, just one little button. Go ahead and press it if you want.");
+
+// Warehouse door temporarily inaccessible.
+// At the point, the player regains control and can optionally go and talk to Slag at the bottom of the screen. They will there have the option to revert to Slag's resolution of the quest. This will delete this script from the map and replace it with the image of Lugner's dead body. This is a bit of an optional thing I thought up while talking to Frankie, so it can be dropped if it's deemed unnecessary. We can just have the player refuse to leave until they press the button.
+
+// State 1(in the lull before the button press
+
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "Aren't you going to press the button?");
+
+// State 2(after the dwarfs are dead)
+
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "You're still here? Get lost. Let me enjoy the moment.");
+
+
+//Shipping container script.
+// The player activating the shipping container control panel activates this script.
+
+// State 0
+// The warehouse door is accessible again.
+// The music cuts out entirely for now, resumes after the player has left the warehouse.
+// Some sort of sound plays to draw the player's attention to the shipping container, and a moment later the piston crushes the crate entirely, killing all of the dwarfs. A long pause.
+
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, ".....what.....");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "Oh my.....");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "WHAT JUST HAPPENED?!?");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "Darn! That must have been the wrong button. I guess the red button was the save all Dwarfs from certain death on Necron 7 button. Red must have been the crush all the stupid goddamn Dwarfs with a heavy thing button.\I always get the two mixed up.");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "WHAT DID YOU JUST DO?!?!?");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "What did I do? What did YOU do? You pressed the button. Shouldn't go around pressing buttons like that. Never know what they're going to do. Buttons can be pretty dangerous.");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "But...but...you made me do it!!! You told me to push the button!!");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "I didn't make you do it. You could have walked away. I didn't make you do anything. It's your stupid fault that all these sweet, innocent Dwarfs are dead now.");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "No.....what.....what have I done....");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "You know, we could always just send the crushed crate of smashed Dwarf bones to the Sombrero Galaxy anyway. Let them worry about it before it starts stinking up the place. Better than nothing, I guess. They wanted to leave, probably should have been more specific about how uncrushed they expected their bones to be.");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "......");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "I'm sure I'll get this straightened out one day. Look, why don't you bring a bunch more of them back and we can have at it again? I'm sure we won't accidentally kill them all the next time. I mean, what are the odds?\Seriously, what are the odds?");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "You are a horrible person.");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "No, I'm seriously asking you the odds. I really want you to do this again for me. It'll mean a lot. I got bored of kicking Dwarfs down the stairwell so long ago. This is all I've got going for me. The more of these wastes of space I can kill the closer I am to getting off this rock, finding something else to smash for a change.\Fucking Kobolds are just too goddamn squishy to smash effectively. It needs to be Dwarfs. I NEED THIS.\YOU DON'T KNOW HOW MUCH I FUCKING NEED THIS.");
+    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "......");
+    scr_event_build_dialogue("Lugner", s_port_lugner01, "Oh look at this, you're crying now, and not even in one of those blubbering, dramatic ways. Just silently weeping like a little fucking girl.\Get the fuck out of my face. As reward for giving me a couple nice moments before you had to go ruin it with your repulsive crying I will not smash you and roll around in your entrails, even though you're just stupid and repulsive enough that I know I'd really, really enjoy it.");
+
+    
+    /* Slag exit script.
+    // When the player tries to walk away, Slag approaches him.
+
+        Slag: Heh, I see he didn't come through on the deal.");
+
+        scr_event_build_dialogue("X114JAM9", s_port_hoopz, ".....what?");
+
+        Slag: The money. He didn't give you the money he promised.");
+
+        scr_event_build_dialogue("X114JAM9", s_port_hoopz, "He didn't promise me any money.");
+
+        Slag: What? What did he offer you?");
+
+        scr_event_build_dialogue("X114JAM9", s_port_hoopz, "He said he was going to put them on a cargo ship back to the Sombrero Galaxy.");
+
+        Slag: You believed that shit?");
+
+        scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I didn't know he was a liar...");
+
+        Slag: Heh, guess it's good you learned this pretty young. Always assume every one of these cocksuckers you run into is trying to pull a fast one on you. They're just waiting for you to look away long enough to stick a knife up in your ribs.\Money's the only truth on Necron 7.");
+
+        scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Why should I believe you? What do you know about telling the truth.");
+
+        Slag: I don't know nothing. We're just talking.\What I do know is if you went along with old Slag here we'd have quite a few more happy folks right now. I'd have my money, you'd have your money, and a handful of stupidass Dwarfs would be on their way to mining work right about now.");
+
+        scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I didn't know that's where you were sending them. I thought you were going to do something bad to them. They.....probably would have really liked that.");
+
+        Slag: Should have asked. So long, kid.");
+
+        //Quest end. Time increases.
+    */

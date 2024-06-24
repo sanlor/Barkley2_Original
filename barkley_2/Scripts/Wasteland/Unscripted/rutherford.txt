@@ -1,0 +1,23 @@
+//Rutherford
+
+//time < 10
+
+Rutherford:
+See that gun in the stone over there? They say only those pure of heart can remove it.
+//end dialogue;
+
+//time < 10, gunStone = 1;
+
+Rutherford:
+Guess you weren't pure of heart enough.
+//end dialogue;
+
+//time > 10
+
+Rutherford:
+You missed it. Some buff guy with huge muscles came and pulled the gun out of the stone. He must've been the most pure-of-heart guy I've ever seen.
+
+//gunStone = 2
+
+Rutherford:
+That's not how you were supposed to do it...

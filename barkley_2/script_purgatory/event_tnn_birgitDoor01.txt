@@ -1,0 +1,404 @@
+/* event_tnn_birgitDoor01
+This is the event script for Birgit, in Tir na n0g.
+
+She is a lady inside a TNN apartment building. Maybe not too old?
+She has been a shut-in ever since the disappearance of her husband Anxo.
+
+She is behind a door, and I think NEVER visible.
+
+For now, this script will be called "birgit" but actually be accessed by talking to her door
+*/
+/*
+if (argument0 == SCRIPT_START)
+{
+    show_debug_message("start event");
+    scr_tnn_paper();
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    /*
+    with (o_door_parent)
+    {
+        show_debug_message("with o_door_parent")
+        // Lock door if should be locked
+        if (name == "birgit_door")
+        {
+            show_debug_message("name == birgit_door")
+            if (Quest("birgitOpen") == 0) && (step_event_timer == -1)
+            {
+                show_debug_message("locking door; " + string(step_event_timer))
+                event_user(0); // lock door
+                step_event_timer = 10;
+            }
+            if (locked == true) { show_debug_message("locked == true"); _disableOutline = false; }
+            else { show_debug_message("locked == true"); _disableOutline = true; }
+        }
+    }
+    */
+/*}
+else if (argument0 == SCRIPT_INTERACT)
+{
+
+    scr_tnn_paper();
+
+    var birgit = id;
+
+    var event = scr_event_create_main();
+
+    var knock_snippet = scr_event_create_child(event);
+    var talk_snippet = scr_event_create_child(event);
+
+    var choose_snippet = scr_event_create_child(event);
+    var paper_snippet = scr_event_create_child(event);
+
+    // Clear handler variables
+    if is_real(Quest("birgitLoop")) { scr_quest_set_state("birgitLoop", ""); }
+    if is_real(Quest("birgitPaper")) { scr_quest_set_state("birgitPaper", ""); }
+
+    //------------------------------------------------------------------------------
+    // choose_snippet
+    //------------------------------------------------------------------------------
+    with (choose_snippet)
+    {
+        var paper_choice = Choice("Slip which letter under the door?", s_port_hoopz);
+
+        var size = ds_map_size(global.tnnpapermap) - 1;
+        var i = 0;
+        var item = ds_map_find_first(global.tnnpapermap);
+        var qvar = "";
+        for (i = 0; i < ds_map_size(global.tnnpapermap) - 1; i++)
+        {
+            qvar = global.tnnpapermap[? item];
+            if (Item("have", item)) && (Quest("birgit" + qvar) == 0)
+            {
+                with (ChoiceAdd(paper_choice, string(item) + "."))
+                {
+                    Quest("birgitPaper", qvar);
+                    Quest("birgit" + qvar, 1);
+                    Execute(event_tnn_birgitDoor01);
+                }
+            }
+            item = ds_map_find_next(global.tnnpapermap, item);
+        }
+    }
+
+
+    //------------------------------------------------------------------------------
+    // paper_snippet
+    //------------------------------------------------------------------------------
+    with (paper_snippet)
+    {
+        Quest("birgitPaper", "");
+
+        switch (Quest("birgitPaper"))
+        {
+            //------------------------------------
+            // ... from VR Chair
+            //------------------------------------
+            case "Almanac":
+                //Debug("Almanac");
+                Think(P_NAME, "(Maybe this old biddy likes vidcons...)");
+                DialogueItem("Slid the Vidcon Almanac under the door.");
+                // This is a note now -> Gamesmasterjasper's Vidcon Almanac", -1);
+                Debug("TODO: GFX the letter slides out from under the door.");
+                DialogueItem("The door returned the Vidcon Almanac.");
+                Think(P_NAME, "(Hmm... guess not...)");
+                // This is a note now -> Gamesmasterjasper's Vidcon Almanac", 1);
+                break;
+
+            //------------------------------------
+            // ... from Fede
+            //------------------------------------
+            case "Printed":
+                Debug("Printed");
+                Think(P_NAME, "(I bet she's looking for that guy in the hospital...)");
+                DialogueItem("Slid the Printed Invitation under the door.");
+                // This is a note now -> Printed Invitation", -1);
+                Dialogue("Birgit", " is in the hospital? My beloved Anxo");
+                Debug("TODO: Write Megasobs.");
+                Quest("birgitTalk", 1);
+                break;
+
+            //------------------------------------
+            // ... from Anxo
+            //------------------------------------
+            case "Sealed":
+                Debug("Sealed Letter");
+                Think(P_NAME, "(It's still sealed... I wonder if the dwarf I found it on is her husband...)");
+                DialogueItem("Slid the Sealed Letter under the door.");
+                // This is a note now -> Sealed Letter", -1);
+                Wait(2);
+                Think(P_NAME, "(Uh oh... is she all right?)");
+                Wait(1);
+                Dialogue(P_NAME, "Um... excuse me. Are you okay? Are you okay in there?");
+                Wait(1);
+                Debug("SFX: Door clicks unlocked.");
+
+                // UNLOCK DOOR
+
+                Quest("birgitTalk", 1);
+                break;
+
+            //------------------------------------
+            // ... from Joad
+            //------------------------------------
+            case "Dead":
+                Debug("Dead Soldier's Note");
+
+                DialogueItem("Slid the Dead Soldier's Note under the door.");
+                // This is a note now -> Dead Soldier's Note", -1);
+
+                Debug("TODO: Write Megasobs.");
+                Quest("birgitTalk", 1);
+                break;
+
+            case "Joad":
+                Debug("Joad's Letter");
+
+                DialogueItem("Slid Joad's Letter under the door.");
+                // This is a note now -> Joad's Letter", -1);
+                Debug("TODO: GFX the letter slides out from under the door.");
+                DialogueItem("The door returned Joad's Letter.");
+                // This is a note now -> Joad's Letter", 1);
+                break;
+
+            case "Ancient":
+                Debug("Ancient Scroll");
+
+                DialogueItem("Slid the Ancient Scroll under the door.");
+                // This is a note now -> Ancient Scroll", -1);
+
+                Debug("TODO: Write Megasobs.");
+                Quest("birgitTalk", 1);
+                break;
+
+            case "Tattered":
+                Debug("Tattered Paper");
+
+                DialogueItem("Slid the Tattered Paper under the door.");
+                // This is a note now -> Tattered Paper", -1);
+
+                Debug("TODO: Write Megasobs.");
+                Quest("birgitTalk", 1);
+                break;
+
+            case "Bloody":
+                Debug("Bloody Paper");
+
+                DialogueItem("Slid the Bloody Paper under the door.");
+                // This is a note now -> Bloody Paper", -1);
+
+                Debug("TODO: Write Megasobs.");
+                Quest("birgitTalk", 1);
+                break;
+
+            //------------------------------------
+            // ... from Baldomero
+            //------------------------------------
+            case "Blank":
+                Debug("Blank");
+
+                DialogueItem("Slid the Blank Paper under the door.");
+                // This is a note now -> Blank Paper", -1);
+                Debug("TODO: GFX the letter slides out from under the door.");
+                DialogueItem("The door returned the Blank Paper.");
+                // This is a note now -> Blank Paper", 1);
+                break;
+
+            case "Suicide":
+                Debug("Suicide");
+                DialogueItem("Slid the Suicide Note under the door.");
+                // This is a note now -> Suicide Note", -1);
+
+                Debug("TODO: Write Megasobs.");
+                Quest("birgitTalk", 1);
+                break;
+
+            case "Augustine":
+                Debug("Augustine");
+
+                DialogueItem("Slid Augustine's Letter under the door.");
+                // This is a note now -> Augustine's Letter", -1);
+                Debug("TODO: GFX the letter slides out from under the door.");
+                DialogueItem("The door returned Augustine's Letter.");
+                // This is a note now -> Augustine's Letter", 1);
+                break;
+
+            case "Carlton":
+                Debug("Carlton");
+
+                DialogueItem("Slid Carlton's Letter under the door.");
+                // This is a note now -> Carlton's Letter", -1);
+                Debug("TODO: GFX the letter slides out from under the door.");
+                DialogueItem("The door returned Carlton's Letter.");
+                // This is a note now -> Carlton's Letter", 1);
+                break;
+        }
+    }
+
+    //------------------------------------------------------------------------------
+    // knock_snippet
+    //------------------------------------------------------------------------------
+    with (knock_snippet)
+    {
+        var knock_choice = Choice("Knock on the door?", s_port_hoopz);
+
+        var knock_yes = ChoiceAdd(knock_choice, "Yes, knock away!");
+        with (knock_yes)
+        {
+            Debug("TODO: SFX - Knocking SFX");
+            if (Quest("birgitTalk") == 1)
+            {
+                Snippet(talk_snippet);
+            }
+            else
+            {
+                QuestAdd("birgitKnock", 1);
+                Dialogue("Door", ". . .");
+                if (Quest("birgitKnock") != 0)
+                {
+                    Dialogue(P_NAME, "(Nobody's answering...)");
+                }
+                else
+                {
+                    Dialogue(P_NAME, "(Nobody's home...)");
+                }
+            }
+        }
+
+        var knock_no = ChoiceAdd(knock_choice, "Refrain. Refrain from knocking.");
+        with (knock_no)
+        {
+            Dialogue(P_NAME, "(You can't always trust your instincts... I'll refrain from knocking. For now...)");
+        }
+    }
+
+    //------------------------------------------------------------------------------
+    // event
+    //------------------------------------------------------------------------------
+    with (event)
+    {
+
+        //------------------------------------------
+        // Body Swap States
+        //------------------------------------------
+        //if you're controlling the Governor.
+        if (BodySwap() == "governor")
+        {
+            Dialogue("Governor Elagabalus", "Attention, this is your governor! Open up!");
+            Dialogue("Door", "...");
+        }
+        //------------------------------------------
+        // Paper Handler
+        //------------------------------------------
+        else
+        {
+            if (Quest("birgitPaper") != "")
+            {
+                Snippet(paper_snippet);
+            }
+            //------------------------------------------
+            // Event Handler
+            //------------------------------------------
+            else if (Quest("birgitLoop") != "")
+            {
+                Quest("birgitLoop", "");
+
+                switch("birgitLoop")
+                {
+                    case "knock": Snippet(knock_snippet); break;
+                    case "letter": Snippet(choose_snippet); break;
+                }
+            }
+            //------------------------------------------
+            // Normal States
+            //------------------------------------------
+            else if (Quest("birgitState") == 1)
+            {
+                Snippet(choice_snippet);
+            }
+            else
+            {
+                Debug("TODO: SFX door handle jiggle.");
+                Dialogue(P_NAME, "(It's locked...)");
+                Snippet(knock_snippet);
+            }
+        }
+    }
+    scr_event_advance(event);
+
+}
+
+
+
+
+
+/*
+Birgit
+
+"There's an old granny in there who never comes out."
+"Hope we're not playing too loud... she doesn't get mad ever but... sometimes we're really loud. Maybe she can't hear so well... poor old granny..."
+
+Knocking
+
+"Hello? Anyone there?"
+"..."
+
+Who lives there?
+
+"Some old granny... someone she knows got lost in the sewer and she hasn't left since. She doesn't open the door for anyone. She's probably just waiting for him to come back, or for the Duergars to bring by the death receipt and move her to a smaller apartment."
+
+
+//-------------------------------------------------
+
+// "Blank Paper"
+    She slides it back out, a time unit later.
+
+// "Suicide Note"
+    There is caution tape outside, you can't figure out what happened.
+    ... but she leaves!!!
+
+// "Augustine's Note"
+    *cannot give*
+
+// "Carlton's Note"
+    *cannot give*
+
+//-------------------------------------------------
+
+// "Ancient Scroll"
+    Says a mystic prayer... ???
+
+// "Tattered Paper"
+    Says a mystic prayer... ???
+
+// "Bloody Paper"
+    There is caution tape outside, you can't figure out what happened.
+    ... but she leaves!!!
+
+// "Dead Dwarf's Note"
+    There is caution tape outside, you can't figure out what happened.
+    ... but she leaves!!!
+
+// "Joad's Note"
+    Slides it back out, a time unit later.
+
+//-------------------------------------------------
+
+//  Printed Invitation
+    He's coming back? My Anzo is coming back?
+
+//-------------------------------------------------
+
+//  Sealed Note
+    There is caution tape outside, you can't figure out what happened.
+    ... but she leaves!!!
+
+//-------------------------------------------------
+
+There does not really NEED to be differing dialogue by the Duergars nearby, especially if you don't go in, but there could be. However, I need to determine the other effects.
+
+* Is she the washer lady?
+* Does she ever let you in?
+* Where does she go? The sewers? Where else?
+*/

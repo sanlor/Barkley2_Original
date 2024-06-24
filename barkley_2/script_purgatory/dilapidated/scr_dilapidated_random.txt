@@ -1,0 +1,29 @@
+/*
+tenant_rnd = ds_list_create();
+ds_list_add(tenant_rnd, "Qutlugh");
+ds_list_add(tenant_rnd, "Andromeda");
+ds_list_add(tenant_rnd, "Fievel");
+ds_list_add(tenant_rnd, "Cuong");
+ds_list_add(tenant_rnd, "Safiatou");
+ds_list_add(tenant_rnd, "Durudee");
+ds_list_add(tenant_rnd, "Ugra");
+ds_list_add(tenant_rnd, "Jadwiga");
+ds_list_add(tenant_rnd, "WIZARD");
+ds_list_add(tenant_rnd, "Sabah");
+ds_list_add(tenant_rnd, "Prisoner");
+ds_list_add(tenant_rnd, "Dwarfnet");
+ds_list_add(tenant_rnd, "Daliborka");
+ds_list_add(tenant_rnd, "Deathtower");
+ds_list_add(tenant_rnd, "Ozanne");
+ds_list_add(tenant_rnd, "Gleb");
+ds_list_add(tenant_rnd, "Hippies");
+ds_list_add(tenant_rnd, "Kunigunde");
+ds_list_add(tenant_rnd, "Suresh");
+ds_list_add(tenant_rnd, "Moriarty");
+ds_list_shuffle(tenant_rnd);
+for (var z = 0; z < ROOMS_TOTAL; z += 1) {
+    //global.supergrid[| (RP * z) + 0] = tenant_rnd[| z];
+    scr_dilapidated_rent(tenant_rnd[| z]);
+}
+scr_quest_set_state("superEmpty", 0);
+scr_savedata_save();

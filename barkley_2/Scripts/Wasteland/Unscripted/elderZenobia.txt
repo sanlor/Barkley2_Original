@@ -1,0 +1,204 @@
+//Elder Zenobia
+
+//------------------------------------------------------------------------------
+//*** conversionQuest = 3 - Conversion Quest has been accepted. ***
+//------------------------------------------------------------------------------
+
+Elder Zenobia:
+Hey! You got that Clisp guy totem yet?
+
+X114JAM9:
+Well...
+
+//if you have bowling ball && brimbleTalk = 1
+...this is Clispaeth's bowling ball of 
+//if you have boot && brimbleTalk = 1
+//if you have car bumper && brimbleTalk = 1
+//if you have snow globe && brimbleTalk = 1
+//if you have baseball hat ("He used to wear it backwards because he liked rap.") && brimbleTalk = 1
+//if you have world's greatest dad mug && brimbleTalk = 1
+
+//------------------------------------------------------------------------------
+//*** conversionQuest = 2 - Conversion Quest has been accepted. ***
+//------------------------------------------------------------------------------
+
+X114JAM9:
+Excuse me, you're the chief of the Cybergremlin Village, right?
+
+Elder Zenobia:
+Me chief! Me oldest and wisest! What you want, human?
+
+X114JAM9:
+I'd like to talk to you about something important today. I'd like to talk to you about your soul, salvation and the F.A.T.E. of the Cybergremlin people. I'd like to talk to you about Clispaeth.
+
+Elder Zenobia:
+Clispaste? What that?
+
+X114JAM9:
+Believe it or not, your soul is in danger. Not just yours, but the souls of all Cybergremlins are in danger. What F.A.T.E. awaits the souls of the Cybergremlin people? I hate to say it, but, well? Eternal darnation. But don't be afraid - this course is reversable... but only if you choose to cast aside your sinful, heathen ways and follow the light of Clispaeth. 
+
+Elder Zenobia:
+Okay, me not really care, take it to the shaman or something.
+
+You don't care?
+
+	X114JAM9:
+	Y-you don't care about salvation?
+	
+	Elder Zenobia:
+	Nope. Take you's crap to shaman.
+
+	X114JAM9:
+	O-oh... didn't anticipate that one.
+	
+	//conversionQuest = 4
+	//end dialogue;
+	
+You look lovely today.
+
+	X114JAM9:
+	I'll do just that. And by the way, have I mentioned you look lovely today, miss?
+	
+	Elder Zenobia:
+	Yeah? Go fuck yourself!
+	
+	X114JAM9:
+	Wh-what? It was a compliment...
+	
+	Elder Zenobia:
+	You's gotta lotta nerve to insult chief of Cybergrems! Get outta here, human! Piss off!
+	
+	X114JAM9:
+	I think I blew that one...
+	
+	//conversionQuest = 4
+	//end dialogue;
+
+You look putrid today.
+
+	X114JAM9:
+	I'll do that. But before I go, I just wanted to let you know how putrid-looking you are today.
+	
+	Elder Zenobia:
+	M-me? Putrid? Oh, me old lady, me not putrid...
+	
+	X114JAM9:
+	Old? I thought you were the village elder on account of the Cybergremlins' disastrously short lifespan, not because you're old. You look as putrid as a compost pile. And you smell absolutely repugnant.
+	
+	Elder Zenobia:
+	Oh, you's is charmer... you a good human... know how to appreciate real beauty. Me like. You was talkin' 'bout Clispaste?
+	
+	X114JAM9:
+	Yes, of course, Clispaeth. I'm glad you're interested! Clispaeth is a merciful, just and peace-loving god that-
+	
+	Elder Zenobia:
+	Does Clispy love trash?
+	
+	X114JAM9:
+	What?
+	
+	Elder Zenobia:
+	Trash, crud, boils, bad smells. Clip Paste love 'em?
+	
+	X114JAM9:
+	Uh... yes. He loves bad smells. He's the patron of bad smells.
+	
+	Elder Zenobia:
+	Ok. Me tell Cybergrems village we Klispies now. But you gotta do one thing for me. We Cybergrems, we liketa fight and conquer, ok? We get strong from totems, old things, old magic, you know? So we gotta get something that shows us how strong Clip Paste is.
+	
+	X114JAM9:
+	Wh-what?? What do you mean? Like a relic?
+	
+	Elder Zenobia:
+	You gotta gimme something that belonged to Clispaste so we get strong, ok? Use it as totem. Our trash god not strong, but if Clispy strong then Cybergrems strong. So you go out there and gimme something that belonged to Clispy and we convert!
+	
+	X114JAM9:
+	Something that belonged to Clispaeth... uhhh...
+	
+	//conversionQuest = 3
+	//end dialogue;
+	
+Where's the shaman?
+
+	X114JAM9:
+	I'll do just that. By the way, could you tell me where the shaman is?
+	
+	Elder Zenobia:
+	No! Piss off, human!
+	
+	X114JAM9:
+	I don't think she's really that interested in converting...
+	
+	//conversionQuest = 4
+	//end dialogue;
+
+You know, I don't think I care either.
+
+	X114JAM9:
+	You know something? I really don't care about this. This was a bad idea. See you later. Maybe not, who cares!
+	
+	//conversionQuest = 4
+	//end dialogue;
+	
+
+//------------------------------------------------------------------------------
+//*** cybergremlinMove = 1 ***
+//------------------------------------------------------------------------------
+
+X114JAM9:
+So I hear you guys are looking for a new place to live?
+
+Elder Zenobia:
+Somewhere with lots of moist trash and dung beetles.
+
+X114JAM9:
+How come you want to relocate?
+
+Elder Zenobia:
+Want more trash, more crap, more crud! Duh!
+
+X114JAM9:
+Um, well that's pretty disgusting. But if I see anywhere a tribe of Cybergremlins might fit in, I'll let you know.
+
+Elder Zenobia:
+Piss off, human!
+
+//end dialogue;
+
+//------------------------------------------------------------------------------
+//*** zenobiaSpoken = 1 ***
+//------------------------------------------------------------------------------
+
+Elder Zenobia:
+Me chief! Me say you go away, human! Cybergrems is busy!
+
+X114JAM9:
+What are you busy with?
+
+Elder Zenobia:
+Cybergrems wanna move. Lookin' for new place to live. Nice place with lots of trash!
+
+X114JAM9:
+Somewhere with lots of trash? That sounds kind of gross to me.
+
+Elder Zenobia:
+Cuz' you dumb! Go away!
+
+//cybergremlinMove = 1
+//end dialogue;
+
+//------------------------------------------------------------------------------
+//*** no conditions ***
+//------------------------------------------------------------------------------
+
+Elder Zenobia:
+You in Cybergrem Village, human. What you want!
+
+X114JAM9:
+I'm just looking around.
+
+Elder Zenobia:
+Go somewhere else!
+
+zenobiaSpoken = 1
+//end dialogue;

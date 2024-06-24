@@ -1,0 +1,33 @@
+// event_sw1_anxo01
+
+if (argument0 == SCRIPT_START)
+{
+    //
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    //
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    
+    var anxo = id;
+    var event = scr_event_create_main();
+    
+    with (event)
+    {
+
+    
+    
+    }
+    scr_event_advance(event);
+}
+
+/*
+    "(Poor dwarf... this guy looks like a goner...)"
+    "Hey! Hello!? Are you okay?"
+    "..."
+    "(Dang... huh? What's this? A letter... I don't think anyone else is going to come down here and read it. I guess I'll take a look at who its for...)"
+    scr_event_build_dialogue_item("Got the Sewer Letter.", 1);
+    "I don't think any
+*/

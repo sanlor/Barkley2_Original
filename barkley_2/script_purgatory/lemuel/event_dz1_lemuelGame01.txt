@@ -1,0 +1,152 @@
+// Script for LEMUEL'S MINIGAME, how Lemuel teaches you begging
+// usage: event_dz1_lemuelGame01
+/*
+-------------
+
+-------------
+*/
+/*if (argument0 == SCRIPT_START)
+{
+    // move characters into position
+    scr_event_set_object(o_lemuel01, o_beggingRug01.x + 32, o_beggingRug01.y - 16);
+    scr_event_set_object(o_hoopz, o_beggingRug01.x, o_beggingRug01.y - 8);
+
+    // initiate list of begging items if it does not exist yet
+    scr_lemuel_init();
+    
+    // save in global variable for this game instance
+    global.mapbegging = scr_savedata_get("mapbegging");
+    
+    // create a temporary list to hold bowl contents
+    global.listbegging = ds_list_create();
+    
+    /*
+    var q;
+    for (q = 0; q <= scr_begging_count(); q += 1)
+    {
+        global.listbegging[| q] = scr_begging("random");
+        show_debug_message("Begging Queue " + string(q) + ": " + string(global.listbegging[| q]) + ".");
+    }
+    */
+
+    // first three are random
+/*    global.listbegging[| 0] = scr_begging("none");
+    global.listbegging[| 1] = scr_begging("money");
+    global.listbegging[| 2] = scr_begging("item");
+    
+    // shuffle
+    ds_list_shuffle(global.listbegging);
+    
+    // end 2 are either path of last choice
+    global.listbegging[| 3] = scr_begging("none");
+    global.listbegging[| 4] = scr_begging("none");
+    
+    var lemuelGame = id;
+    var event = scr_event_create_main();
+    
+    //-------------------------------------------------
+    // Main Event
+    //-------------------------------------------------
+    with (event)
+    {
+        // setup
+        scr_event_build_fade(true, 0);
+        scr_event_build_animation_set(o_cts_hoopz, "meditation");
+        scr_event_build_wait_for_actions();
+        scr_event_build_fade(false, 3);
+        scr_event_build_wait_for_actions();
+        scr_event_build_wait(1);
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue_debug("BEGGING", NULL, "Player should be seated, in a meditative position, atop the begging rug.");
+        
+        // intro
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, so I've been sitting here like you told me, Lemuel. It doesn't seem like anybody's coming. Is this all I have to do?");
+        scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Good alms come to those who wait, young " + P_NAME + "! Just wait a little bit longer and... oh! There, someone's coming!");
+        scr_event_build_dialogue_debug("BEGGING", NULL, "Camera pans to an autodwarf who enters the screen.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "What do I do!? What do I do!?");
+        scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Well, we're learning for a reason, right. What did it seem like I was doing?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Umm... you looked pretty pathetic, I thought...");
+        scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Good! Our Lord Clispaeth teaches that the meek and humble among us will inherit everything. So... give it a try!");
+        
+        // first prompt
+        scr_event_build_dialogue_debug("BEGGING", NULL, "First autodwarf walks up to player.");
+        var prompt_1 = scr_event_build_choice("Look pathetic?", s_port_hoopz);
+        var p1_choice1 = scr_event_build_add_choice(prompt_1, "Remove shoes and socks");
+        with (p1_choice1) { }
+        var p1_choice2 = scr_event_build_add_choice(prompt_1, "Rub dirt all over jerkin.");
+        with (p1_choice2) { }
+        var p1_choice3 = scr_event_build_add_choice(prompt_1, "Look hungry and bewildered.");
+        with (p1_choice3) { }
+        scr_event_build_dialogue_debug("BEGGING", NULL, "If the player can do a slight animation here, that would be cool.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I hope this works...)");
+        scr_event_build_dialogue_debug("BEGGING", NULL, "Autodwarf reaches player, looks at them, and pauses.");
+        scr_event_build_begging_receive();
+        scr_event_build_dialogue_debug("BEGGING", NULL, "Autodwarf starts moving offscreen.");
+        
+        // second prompt
+        scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Well, how did that go? If you didn't like what you got, you can try making it more appetizing for them. You know... make 'em think there's something in it for themselves. Here someone comes!");
+        scr_event_build_dialogue_debug("BEGGING", NULL, "Second autodwarf walks up to player.");
+        var prompt_2 = scr_event_build_choice("Make it appetizing?", s_port_hoopz);
+        var p2_choice1 = scr_event_build_add_choice(prompt_2, "Promise them a nugget of wisdom.");
+        with (p2_choice1) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um... how about a special alm saying? Like... /'an alm in hand is.../', aw dang, I dunno what comes next."); }
+        var p2_choice2 = scr_event_build_add_choice(prompt_2, "Give them a proposed budget.");
+        with (p2_choice2) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um... I won't spend much of it on candy, I promise! Uh... unless you want me to!"); }
+        var p2_choice3 = scr_event_build_add_choice(prompt_2, "Make a karmic appeal.");
+        with (p2_choice3) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um... you'll be repaid sometime... uh... in your next life, I promise!"); }
+        scr_event_build_dialogue_debug("BEGGING", NULL, "Autodwarf reaches player, looks at them, and pauses.");
+        scr_event_build_begging_receive();
+        scr_event_build_dialogue_debug("BEGGING", NULL, "Autodwarf starts moving offscreen.");
+        
+        // third prompt
+        scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Hmm... you've tried being nice, and you've tried being difficult... why don't you give it another shot? Test out the big gun's. Actively make 'em feel guilty!");
+        scr_event_build_dialogue_debug("BEGGING", NULL, "Third autodwarf walks up to player.");
+        var prompt_3 = scr_event_build_choice("Make them feel guilty?", s_port_hoopz);
+        var p3_choice1 = scr_event_build_add_choice(prompt_3, "Talk about sick, hungry offspring.");
+        with (p3_choice1) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "Please! It's for my kids! ... my kids are pregnant and need some vittles and alms, please!"); }
+        var p3_choice2 = scr_event_build_add_choice(prompt_3, "Mention unemployment.");
+        with (p3_choice2) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "Please! I was fired... and then laid off! And my unemployment was canceled! And I'm all alone! Please!"); }
+        var p3_choice3 = scr_event_build_add_choice(prompt_3, "Grovel and flatter them.");
+        with (p3_choice3) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "Please! I've never met such a generous dwarf, and in such a fine jerkin! Please, a wealthy dwarf like you must have alms to spare? Please!"); }
+        scr_event_build_dialogue_debug("BEGGING", NULL, "Autodwarf reaches player, looks at them, and pauses.");
+        scr_event_build_begging_receive();
+        scr_event_build_dialogue_debug("BEGGING", NULL, "Autodwarf starts moving offscreen.");
+        
+        // final prompt
+        scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "So? How do you feel? Think the life of a beggar is for you?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Dang... you know, this feels sorta weird. Maybe sorta manipulative... you used to just sit there, and I still felt compelled to alm you, for some reason. Why do I have to do all these tricks? Why can't people just share because they can?");
+        scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Very good, " + P_NAME + "! You have seen through the illusions. Here is the truth that has fed me and supplied me alms in my most dire times. Are you ready?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hit me!");
+        scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "We exist in the glorious light of Clispaeth! Even the most glittering alm is but a mere reflection of his love and light! All things belong to all dwarfs. Sit and await his splendor! What shall get you what you deserve, is your faith that Clispaeth will get you what you deserve! Have faith in your dwarf brothers and sisters. They will let you down. Clispaeth will not!");
+        scr_event_build_dialogue_debug("BEGGING", NULL, "Final autodwarf walks up to player.");
+        var clispaeth = scr_event_build_choice("Sit and await Clispaeth's alms?", s_port_hoopz);
+        var sit = scr_event_build_add_choice(clispaeth, "Sit and be pious.");
+        with (sit)
+        { 
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Okay... if you're out there, Clispaeth, I'd really like some alms now...)");
+            // ROUNDMOUND CLISPAETH UP
+            scr_event_build_dialogue_debug("BEGGING", NULL, "Autodwarf reaches player, looks at them, and pauses.");
+            scr_event_build_begging_receive();
+            scr_event_build_dialogue_debug("BEGGING", NULL, "Autodwarf starts moving offscreen.");
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Oh... oh well...");
+        }
+        var poppycock = scr_event_build_add_choice(clispaeth, "Reject this holy poppycock.");
+        with (poppycock)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "How laughable! I reject this holy poppycock! Come on, dwarf! You can make your own decisions... now alm me up!");
+            // ROUNDMOUND CLISPAETH DOWN
+            scr_event_build_dialogue_debug("BEGGING", NULL, "Autodwarf reaches player, looks at them, and pauses.");
+            scr_event_build_begging_receive();
+            scr_event_build_dialogue_debug("BEGGING", NULL, "Autodwarf starts moving offscreen.");
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Poor lost soul...");
+        }
+        
+        // end event
+        scr_event_build_fade(true, 3);
+        scr_event_build_quest_state("lemuelBeggingGame", 3);
+        scr_event_build_teleport(room, o_hoopz.x, 32 + o_hoopz.y);
+        
+        
+    }
+    scr_event_advance(event);
+    
+}

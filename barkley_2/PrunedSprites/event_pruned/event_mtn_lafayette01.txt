@@ -1,0 +1,290 @@
+/*
+NPC script for Lafayette. This is the guy that gives you the rebel quests. You get the first three quests through this script.
+
+From my design document - Bio: Plucky and optimistic. Missing an arm and his legs due to stepping on a landmine, 
+    so he's stuck in a wheelchair. Nobody much takes him seriously despite the fact that he has a lot of rather good ideas. 
+    He gives all the rebel quests, as he's the only one actually thinking about this. UPDATE NOTE: At the end of the day, 
+    Lafayette is ecstatic that the player is just talking to him and taking him seriously. That he's going through with 
+    these quests is just a bonus.
+    
+NOTE: Currently DOES have a face, so the script reflects this. It's not currently in the build, so this script will break. 
+    DELETE THIS COMMENT WHEN THIS IS OUTDATED INFORMATIONS
+    
+/* REBEL QUEST BREAKDOWN:
+    rebelQuest=1 - Accepted the KILL DUERGAR CAMP quest from Lafayette
+    rebelQuest=2 - Completed the KILL DUERGAR CAMP quest
+    rebelQuest=3 - Accepted the DUERGAR BASE INFILTRATION quest from Lafayette
+    rebelQuest=4 - Completed the DUERGAR BASE INFILTRATION quest
+    rebelQuest=5 - Accepted the JAIL BREAK quest
+    rebelQuest=6 - Completed the JAIL BREAK quest. ALL REBEL BASE NPCS DISAPPEAR!!!!
+    rebelQuest=7 - Rebel Quest completed. prisonquestbadState and prisonquestgoodState will now determine who is still 
+        left alive.
+    typhoidlarryState=2 - Killed the duergars at the encampment without Lafayette telling you to do so.
+
+Also Lafayette himself has tons of fucking states, for completing quests/rejecting quests, that sort of thing:
+    lafayetteState=0 - not spoken to
+    lafayetteState=1 - spoken to, did not listen to quest
+    lafayetteState=2 - accepted Quest1 of the rebel questline
+    lafayetteState=3 - completed and turned in Quest1 of the rebel questline
+    lafayetteState=4 - heard infiltration quest, still thinking about it.
+    lafayetteState=5 - accepted infiltration quest
+    lafayetteState=6 - completed infiltration quest
+    lafayetteState=7 - heard prison quest, still thinking about it
+    lafayetteState=8 - accepted prison quest. Final state of Lafayette's rebel base NPC.
+*/
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("rebelQuest") >= 6) {
+        scr_event_interactive_deactivate();
+    }
+}
+
+else if (argument0 == SCRIPT_INTERACT) {
+    var lafayette = id; 
+    var event = scr_event_create_main();
+    
+    var lafayetteD = scr_longinus_get_rank("lafayette") + " Lafayette";
+
+    // Lafayette pitching Quest1
+    var quest1snippet = scr_event_create_child(event);
+    with quest1snippet {
+        Dialogue(P_NAME, "Sure. I love adventures too. Let's hear your ideas.");
+        Dialogue(lafayetteD, "You do!?! Wow, this is so great!!! Nobody else likes to hear my ideas, they think they are stupid ideas. But I like them a lot!!!\So here goes...\There are a whole bunch of Duergars nearby!! Like really close by!!! I think they have a camp or something. I was riding around in my wheelchair and I spotted them. I was pretty far away, but I can see really, really good. That's why I'm a scout, you know!!\So Duergars aren't supposed to be out this far!! Most of them are in the mines, but it's really bad if some of them start coming up here.\So my idea is to make the Duergars go away! Scare them off or something! I don't like hurting anybody, I'm just a scout, but I'm afraid what they'd do if they stayed here. We may all be killed! I would really not like this very much. This is supposed to be a secret base!! It would be very bad if they found out about it.");
+        // The player interrupts Lafayette here, moves to another snippet if they've already killed the duergars, or, in other words, reached typhoidlarryState=2. Redirects to the snippet "quest1earlyfinish"
+        if (Quest("typhoidlarryState") == 2) {
+            Snippet(quest1earlyfinish);
+        }
+        Dialogue(P_NAME, "That doesn't sound good. I should at least try to figure out why they're out here. Maybe I can talk them into leaving.");
+        Dialogue(lafayetteD, "Would you? That would be the best!!\I started thinking about it and realized that there may be a lot of really cool scouts like me who may be in danger if these Duergars keep hanging around here!! I would hate for anybody else to not be able to climb anymore.\Just thinking about this happening to other scouts makes me really upset. This shouldn't be allowed to happen to anyone ever. There should be laws against this.");
+        Dialogue(P_NAME, "I agree. I'll see what I can do if I run into them. Maybe it's time I put some of my own law down.....");
+        Dialogue(lafayetteD, "Great!! The first thing you should always do is talk to Compson! He's our leader, after all! You should always talk to the leader about stuff! That's what leaders are there for.\Other than that, just be careful!! I would hate for the Duergars to take away basketball from you like they took climbing away from me. That would be the worst...");
+        Dialogue(P_NAME, "Thanks. I'll let you know what happens.");
+        Quest("rebelQuest", 1)
+        Quest("lafayetteState", 2);
+        scr_event_build_end();
+    }
+    
+    var quest3snippet = scr_event_create_child(event);
+    with quest3snippet {
+        Dialogue(P_NAME, "This idea is totally ridiculous, but I'll do it.");
+        Dialogue(lafayetteD, "You will!?!? Awesome!!!!\While you are doing this you should keep an eye out for one really special dwarf. His name is Aloysius.");
+        Dialogue(P_NAME, "All right. Do you know what this Aloysius guy looks like?");
+        Dialogue(lafayetteD, "What?!? You've never heard of the famous Aloysius?!?! He's famous!!! He has the coolest long blond hair of any dwarf.\He's really cool. All dwarfs want to be as cool as Aloysius.");
+        Dialogue(P_NAME, "What's so special about this guy? I could probably find another dwarf that has long blond hair if you really need that.");
+        Dialogue(lafayetteD, "Oh, no!! I mean, that's how you can identify him. We need him because he's a computer hacker!\He's the best dwarf computer hacker, the best ever. It was so bad when the duergars got him. All the other rebels were really sad!!\All dwarfs want to be Aloysius! Except the part about being in jail. That part isn't so good, but everything else about him is great!!!");
+        Dialogue(P_NAME, "I'll see if I can track him down in there. Do we know anything else about the prison? Any idea how I can get in there?");
+        Dialogue(lafayetteD, "Hmmm.....well.....not really actually. Not many dwarfs ever get out of there alive.\But some of the best rebels we've got are in there!! I bet one of them can help you out!! I'm sure of it.\Also, you should be able to find lots of ways of getting in. I don't know how you aren't in jail yet, actually!!!\The duergars throw everybody cool in jail. They probably just haven't gotten around to putting you there yet. You were probably going to get put in jail eventually. You are just too cool to not be in jail.");
+        Dialogue(P_NAME, "Thanks, Lafayette. That's real nice of you to say.\(I hope I'm cool enough for jail......maybe I'm not cool enough.....)");
+        Dialogue(lafayetteD, "Well, good luck!!!\Oh, and don't forget to talk to Compson about your mission!!!\You should always talk to Compson!! He's in charge of this whole base, you know!!! He calls all of the shots!!!");
+        Quest("lafayetteState", 8);
+        Quest("rebelQuest", 5)
+        scr_event_build_end();
+    }
+
+    var quest1earlyfinish = scr_event_create_child(event);
+    with quest1earlyfinish {
+        Dialogue(P_NAME, "I've already taken care of those lousy Duergars. You don't need to worry about them anymore.");
+        Dialogue(lafayetteD, "What?!? You did???");
+        Dialogue(P_NAME, "Yeah, I bumped into them earlier. You don't need to worry about them anymore. I think they were setting up a camp there, but the camp is destroyed.");
+        Dialogue(lafayetteD, "Wow!! You are the greatest!!! Here's some money as a reward. I've been saving up for better wheels for my wheelchair, but I want you to have this. I just wish I had more to give you.\Boy___.___.___.___I can't believe this idea worked!! Compson always says that my ideas are just stupid ideas and I should be quiet like everybody else. Was this a good idea???");
+        Dialogue(P_NAME, "Of course. You shouldn't be so hard on yourself. I wouldn't have done it if I didn't think so. Duergars are tough customers. You should let me know if you think up anything else. We shouldn't just let Duergars do whatever they want.");
+        Dialogue(lafayetteD, "Wow, yeah!! I've got lots of cool ideas!!! Whenever you have some time, just talk to me!!");
+        Quest("lafayetteState", 3);
+        Quest("rebelQuest", 2);
+        scr_event_build_end();
+        }
+
+    // MAIN EVENT
+    with (event) {
+        if (Quest("lafayetteState") == 8) {
+            Dialogue(lafayetteD, "Hey, if that prison break idea I had is too dangerous, you shouldn't do it!!! Forget I said anything if it's too dangerous and you may get hurt.\Just come back here if it's too dangerous. Maybe we can play board games instead.\I have a really cool board game we can play. It's about climbing the tallest mountain in the world!!! It's so cool!!!!\You'll have to move the pieces for me though......");
+        } else if (Quest("lafayetteState") == 7) {
+            Dialogue(lafayetteD, "Oh, hi. Did you think any more about my prison break idea?\I know it's kind of a stupid idea, but I think it's so cool. I'd do it if I wasn't.......");
+            var choice7 = Choice("So, what do you think?!?!", "s_port_lafayette");
+            with (ChoiceAdd(choice7, "I'll do it.")) {
+                Snippet(quest3snippet);
+            }
+            with (ChoiceAdd(choice7, "No way.")) {
+                Dialogue(P_NAME, "No way, this is just too dangerous.");
+                Dialogue(lafayetteD, "Yeah.....you're probably right.....\Compson said this was my stupidest idea yet. I'm sorry to bother you with such a stupid idea.....");
+                Dialogue(P_NAME, "Well....I'll think about it I guess.");
+                Dialogue(lafayetteD, "Ok.....thanks for listening to my idea anyway.....");
+                Quest("lafayetteState", 7);
+                scr_event_build_end();
+            }
+        } else if (Quest("lafayetteState") == 6) {
+            Dialogue(lafayetteD, "Hey!! I just had another idea!! This one is a really cool one this time. Do you want to hear it?!?");
+            var choice3 = Choice("Do you want to hear it?!?", "s_port_lafayette");
+            with (ChoiceAdd(choice3, "Maybe later, kinda busy.")) {
+                Dialogue(P_NAME, "Maybe later, kinda busy.");
+                Dialogue(lafayetteD, "Ok. I'll be sitting here thinking about more cool ideas if you have some more time.");
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice3, "Sure. Hit me.")) {
+                Dialogue(P_NAME, "Sure. Hit me.");
+                Dialogue(lafayetteD, "Great!!! Wonderful!! This is such a great idea!!! I'm so glad you want to hear it.\Ok, so here goes. We should start a prison break!!!");
+                Dialogue(P_NAME, "What?!?!");
+                Dialogue(lafayetteD, "Yeah!! Isn't that a cool idea?? There are a whole bunch of rebels like me who have been stuck in prison. We should break them all out!!!\I'm sure the Duergars are being really mean to them in there, they'd be really happy to have somebody come and break them out.\I know if I was in prison I'd be hoping every day that somebody would come and let me out. This is the best idea for them I think!!\So, what do you think?!?!");
+                var choice4 = Choice("So, what do you think?!?!", "s_port_lafayette");
+                with (ChoiceAdd(choice4, "I'll do it.")) {
+                    Snippet(quest3snippet);
+                }
+                with (ChoiceAdd(choice4, "No way.")) {
+                    Dialogue(P_NAME, "No way, this is just too dangerous.");
+                    Dialogue(lafayetteD, "Yeah.....you're probably right.....\Compson said this was my stupidest idea yet. I'm sorry to bother you with such a stupid idea.....");
+                    Dialogue(P_NAME, "Well....I'll think about it I guess.");
+                    Dialogue(lafayetteD, "Ok.....thanks for listening to my idea anyway.....");
+                    Quest("lafayetteState", 7);
+                    scr_event_build_end();
+                }
+            }
+        } else if (Quest("rebelQuest") == 4) {
+            Dialogue(lafayetteD, "Hi! Hello!!\I was hoping you'd come back!! I wanted to tell you something.....\Maybe you shouldn't do the thing at the duergar base. Compson said that.... I'm...... a.......\Well, he said it was just really dangerous and you shouldn't go.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "That's not what I said.\What I really said was that you were a filthy piece of shit for sending off this dumb fuck friend of yours here to die.");
+            Dialogue(P_NAME, "Well, it's too late now. I went through with it anyway. I made it inside the base.");
+            Dialogue(lafayetteD, "What?!?! You did????? Are you ok!?!?!\They didn't hit you or anything did they? They like punching people. I hope you aren't hurt.");
+            Dialogue(P_NAME, "I'm ok. A little woozy.");
+            Dialogue(lafayetteD, "Oh, so you must have gotten the injection from Van Cleef, then!!");
+            Dialogue(P_NAME, "Yeah, I did, actually. How did you know that?");
+            Dialogue(lafayetteD, "I came up with all the possible ways to get in and that was the second best one!!! That would explain why you're woozy too!!\I thought about mentioning it to you, but they say that Van Cleef guy is really dangerous!!! He likes to kill people!!! I think that probably makes somebody pretty dangerous.\Oh, and the best way in was to seal up the entrance and flood the entire caves. But so many would have died.....I don't think that would be a nice thing to do.\But I knew you'd come up with the coolest way to do it!!! I just knew it!!!\So did you get to the security room!?! What's it like in there?!?! I bet it was scary!!! Do the duergars keep their cool things there???");
+            Dialogue(P_NAME, "Not really. I found the computer that controls everything, but I couldn't get it to work.");
+            Dialogue(lafayetteD, "Oh, shucks.....");
+            Dialogue(P_NAME, "It's a shame. I think the weakpoint of the base are the turrets everywhere.\They're set to shoot everything but duergars, but it didn't shoot me after Van Cleef injected me. We could probably hack that to shoot only duergars, but.......\I mean, I don't know how I'd even get back in there again. They could tell something was up with me when I ran out, and I can't break into the computers on my own.");
+            Dialogue(lafayetteD, "Turrets, huh? I didn't know about that.");
+            Dialogue(P_NAME, "Yeah. I guess the whole thing was a failure. I didn't really get anything done in there.");
+            Dialogue(lafayetteD, "Oh, no, don't say that!! You found out all kinds of neat stuff!!! And you did something really difficult!! That's so cool!!! I wish I could have been there with you!!!\Well, thanks for going through with my idea. Maybe sometime when you're feeling better you can tell me all about the people you saw there!!\Oh, here is some money for doing this. It means a lot. Florian and Meinhardt kicked in some this time too. They're also really proud of you.\Come back and talk to me again sometime, ok?? I'm always thinking of cool ideas.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert quest completion reward and/or change dialogue to compensate for whatever this is.");
+            // INSERT REWARD/REVISE DIALOGUE TO COMPENSATE FOR NON-MONETARY REWARD.
+            Quest("lafayetteState", 6);
+        } else if (Quest("lafayetteState") == 5) {
+            Dialogue(lafayetteD, "I'm really looking forward to hearing all about the duergar base. I bet it's really scary in there.\But you're such a strong guy. I don't think they're a match for you.");
+        } else if (Quest("lafayetteState") == 4) {
+            Dialogue(lafayetteD, "Hey, did you think any more about my cool idea about sneaking into the duergar base??");
+            var choice6 = Choice("I don't know. That sounds pretty dangerous.", s_port_hoopz);
+            with (ChoiceAdd(choice6, "I'll think it over.")) {
+                Dialogue(P_NAME, "I'll need some time to think about this. That sounds pretty dangerous.");
+                Dialogue(lafayetteD, "Yeah.....I shouldn't be asking you to do dangerous things. I'm sorry.\Just forget I asked, it was wrong of me to even ask.");
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice6, "That might work, actually.")) {
+                Dialogue(P_NAME, "I don't know. That might work, actually. Is there a way I could sneak in that you know about?");
+                Dialogue(lafayetteD, " Me??? Hmmmm......\Maybe you could disguise yourself. You look pretty different from most people, and duergars rely a lot on their sense of smell to identify people. Maybe you could trick them somehow.");
+                Dialogue(P_NAME, "Hmmm...");
+                Dialogue(lafayetteD, "You could talk more with Compson about it! You should always check with Compson. He's the big boss, the big cheese, he's in charge of everything. Compson always knows!");
+                Quest("lafayetteState", 5);
+                Quest("rebelQuest", 3)
+                scr_event_build_end();
+            }
+        } else if (Quest("lafayetteState") == 3) {
+            Dialogue(lafayetteD, "Hello again!!! Do you have a moment? I have something I wanted to talk to you about.");
+            Dialogue(P_NAME, "Yeah, sure. What's on your mind?");
+            Dialogue(lafayetteD, "Well, you did such a great job getting rid of the Duergar camp, it got me thinking about all the other rotten things the Duergars have been doing in this area lately. I wonder if there could be more things we could do to stop them.");
+            Dialogue(P_NAME, "I'm sure there is, but you don't have many people here, it's just the four of you, right?");
+            Dialogue(lafayetteD, "Yeah, but we have you now!!! And you're so good at things. A really smart guy one told me that you don't always need an army to make a difference, just one well placed dwarf.\It's like a house of cards. Have you ever seen a house of cards?");
+            Dialogue(P_NAME, "Is there actually a house made of cards on Necron 7?");
+            Dialogue(lafayetteD, "Oh, I don't know. Is there?");
+            Dialogue(P_NAME, "I don't know, you brought it up.");
+            Dialogue(lafayetteD, "Oh, no, I mean like a little house made out of cards, you can stack them up and make a house of of it. A small house, not a real one. Nobody can live in it.");
+            Dialogue(P_NAME, "Ok, I see what you mean now.\Do you need help making a house of cards?");
+            Dialogue(lafayetteD, "Oh! No, I'm just talking about a house of cards. If you pull out any of the cards from the bottom, the whole house falls down.\It's really sad when this happens after you've beeen working on it for a while. Back when I had two arms I tried to do it once, but I kept breaking it. They're really hard to do.");
+            Dialogue(P_NAME, "That sucks.\Wait, what are we talking about?");
+            Dialogue(lafayetteD, "The house of cards!!! The duergars have their main base nearby!!! What if you snuck in and tried to figure out what their most delicate card is? Then you can pull it out.");
+            Dialogue(P_NAME, "Oh, I see what you mean.");
+            Dialogue(lafayetteD, "Yeah! This is the idea I've been thinking of. It's like a house of cards, maybe you can find the weakness.");
+            Dialogue(P_NAME, "I don't know. That sounds pretty dangerous.");
+            Dialogue(lafayetteD, "Yeah......I know. It was just one of my stupid ideas. You don't have to think any more about it if you don't want to.");
+            Dialogue(P_NAME, "Well.....");
+            var choice2 = Choice("I don't know. That sounds pretty dangerous.", s_port_hoopz);
+            with (ChoiceAdd(choice2, "I'll think it over.")) {
+                Dialogue(P_NAME, "I'll need some time to think about this. That sounds pretty dangerous.");
+                Dialogue(lafayetteD, "Yeah.....I shouldn't be asking you to do dangerous things. I'm sorry.\Just forget I asked, it was wrong of me to even ask.");
+                Quest("lafayetteState", 4);
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice2, "That might work, actually.")) {
+                Dialogue(P_NAME, "I don't know. That might work, actually. Is there a way I could sneak in that you know about?");
+                Dialogue(lafayetteD, " Me??? Hmmmm......\Maybe you could disguise yourself. You look pretty different from most people, and duergars rely a lot on their sense of smell to identify people. Maybe you could trick them somehow.");
+                Dialogue(P_NAME, "Hmmm...");
+                Dialogue(lafayetteD, "You could talk more with Compson about it! You should always check with Compson. He's the big boss, the big cheese, he's in charge of everything. Compson always knows!");
+                Quest("lafayetteState", 5);
+                Quest("rebelQuest", 3)
+                scr_event_build_end();
+            }
+        } else if (Quest("rebelQuest") == 2) {
+            Dialogue(P_NAME, "Hey, I took care of those Duergars for you.");
+            Dialogue(lafayetteD, "What?!? You did???");
+            Dialogue(P_NAME, "Yeah, you don't need to worry about them anymore. I think they were setting up a camp there, but the camp is destroyed.");
+            Dialogue(lafayetteD, "Wow!! You are the greatest!!! Here's some money as a reward. I've been saving up for better wheels for my wheelchair, but I want you to have this. I just wish I had more to give you.\Boy___.___.___.___I can't believe this idea worked!! Compson always says that my ideas are just stupid ideas and I should be quiet like everybody else. Was this a good idea???");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert quest completion reward and/or change dialogue to compensate for whatever this is.");
+            // NOTE: REWARDS NEED TO BE DETERMINED!!!!! ONE OF THOSE POPUP THINGS SHOULD APPEAR FOR LAFAYETTE GIVING THE PLAYER HIS WHEELCHAIR STASH.
+            Dialogue(P_NAME, "Of course. You shouldn't be so hard on yourself. I wouldn't have done it if I didn't think so. Duergars are tough customers. You should let me know if you think up anything else. We shouldn't just let Duergars do whatever they want.");
+            Dialogue(lafayetteD, "Wow, yeah!! I've got lots of cool ideas!!! Whenever you have some time, just talk to me!!");
+            Quest("lafayetteState", 3);
+        } else if (Quest("lafayetteState") == 2) {
+            Dialogue(lafayetteD, "Hey there! Did you look into those duergars???");
+            Dialogue(P_NAME, "Not yet.");
+            Dialogue(lafayetteD, "Oh....\Well you don't have to if you don't want to. I just thought it'd be a cool idea.\Talk to Compson if you have any questions. He knows pretty much everything!");
+        } else if (Quest("lafayetteState") == 1) {
+            Dialogue(lafayetteD, "Hi again! I've still been thinking about cool adventure ideas now that I can't climb anymore. Want to hear them?");
+            var choice5 = Choice("Do you want to hear my ideas??", "s_port_lafayette");
+            with (ChoiceAdd(choice5, "I'm kinda busy. Maybe later.")) {
+                Dialogue(P_NAME, "I'm kinda busy. Maybe later.");
+                Dialogue(lafayetteD, "Oh, ok. I understand. Well I think they are really cool ideas. Everyone else thinks they are stupid ideas, but I like them.");
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice5, "Sure. I love adventures too.")) {
+                Snippet(quest1snippet);
+            }
+        } else if (Quest("lafayetteState") == 0) {
+            Dialogue(lafayetteD, "Hi! I'm Lafayette! Who are you? Where did you come from?");
+            Dialogue(P_NAME, "I'm " + P_NAME_F + ". I'm just a traveller.");
+            Dialogue(lafayetteD, "That sounds interesting! How did you get here though?? Did you climb through the mountains?");
+            Dialogue(P_NAME, "Yeah, I guess. Not too much climbing, though. I walked a lot.");
+            Dialogue(lafayetteD, "You should climb sometime. It's really fun. I used to climb all the time! I'm a scout, so I used to climb all sorts of things. That's why I asked!! I like meeting other people who like to climb. I miss it a lot.");
+            Dialogue(P_NAME, "What happened to you? Why can't you climb anymore?");
+            Dialogue(lafayetteD, "One of the really mean Duergars knew I liked to climb the mountains so he put a landmine on top of one of my secret spots. I didn't see it so I stepped on it and it exploded!!\Now I can't climb so good anymore. Climbing is really hard for me in a wheelchair. I really liked exploring a lot but now all I can do is just follow the main paths and pretend.");
+
+            //Flavor Response with ROUNDMOUND Points
+            var empathyResponse = Choice("Respond?", s_port_hoopz)
+            with (ChoiceAdd(empathyResponse, "I can empathize...")){
+                Dialogue(P_NAME, "I bet you were great at climbing. I like basketball probably as much as you like to climb. I'd be really sad if the Duergars did something to take it away from me.");
+                //TODO: RM + BASKETBALL
+                Dialogue(lafayetteD, "Yeah, you understand what it's like! Climbing was so cool. Even though I can't get around, I'm always thinking about cool stuff to do in these mountains.");
+            }
+            
+            with (ChoiceAdd(empathyResponse, "Sounds like you botched it.")) {
+                Dialogue(P_NAME, "You know what they say: Look before you leap, scout before you scale. I always assume there is a landmine around every corner. I guess that's probably why I still have my legs.")
+                Dialogue(lafayetteD, "Oh... you didn't have to be so mean.")
+                //TODO: RM + DWARF? REBEL?
+            }
+        
+            var choice1 = Choice("Do you want to hear the ideas?", s_port_hoopz);
+            with (ChoiceAdd(choice1, "I'm kinda busy. Maybe later.")) {
+                Dialogue(P_NAME, "I'm kinda busy. Maybe later.");
+                Dialogue(lafayetteD, "Oh, ok. I understand. Well I think they are really cool ideas. Everyone else thinks they are stupid ideas, but I like them.");
+                Quest("lafayetteState", 1);
+                scr_event_build_end();
+            }
+            
+            with (ChoiceAdd(choice1, "Sure. I love adventures too.")) {
+                Snippet(quest1snippet);
+            }
+            
+            // Add this question if you are looking for Cyberdwarf
+            // This checks to see if you have heard of the Dojo being a Cybderdwarf area, and that you don't know Cdwarf isn't there.
+            if (Quest("cdwarfSearchDojo") >= 1) or (Quest("cdwarfSearchGlobal") >= 4) and (Quest("cdwarfSearchGlobal") != 9) {
+                with (ChoiceAdd(choice1, "Seen any Cyberdwarfs around?")) {
+                    Dialogue(lafertyB, "Cyber-who?...\Oh you mean the guy who's supposed to be giving us orders?");
+                    Dialogue(P_NAME, "Yeah! I think that's the one!", s_port_hoopzHappy);
+                    Wait(0.5);
+                    Dialogue(lafayetteP, "... actually no I don't. We get all our communication through carrier rats and normally the paper is just eaten off. We're kinda flying blind here.");
+                    Dialogue(lafayetteP, "Although I can tell you one thing.  At the top of the Mountain they say there is a wise old man, with mystical knowledge so vast that travellers brave the mountains just to get a minute of audience with him. Maybe that's the Cyberdwarf you are looking for?");
+                    Dialogue(P_NAME, "Hmm, that could be him! Looks like I'm heading up the mountain!");
+                    //You know there is a wise man at the top of the mountain
+                    Quest("cdwarfSearchDojo", 2);
+                }       
+            }
+        }
+    }
+    scr_event_advance(event);
+}

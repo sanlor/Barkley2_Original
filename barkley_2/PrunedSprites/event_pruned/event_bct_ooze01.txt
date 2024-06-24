@@ -1,0 +1,195 @@
+// event_bct_scr_event_build_dialogue("Ooze", "s_port_ooze", 01
+
+//oveta
+//panjandrums
+//brio
+//postprandial
+//assiduously
+
+/*if (argument0 == SCRIPT_START) {}
+else if (argument0 == SCRIPT_STEP) {}
+else if (argument0 == SCRIPT_INTERACT) {
+
+    var ooze = id;
+    var event = scr_event_create_main();
+    var guilder_snippet = scr_event_create_child(event);
+    var choice_snippet = scr_event_create_child(event);
+    
+    var price = scr_money_db("oozeProtesters");
+    
+    //----------------------------------------------------
+    // main event
+    //----------------------------------------------------
+    with (event) {
+        // finished guilderberg event
+        if (scr_quest_get_state("oozeGuilderComplete") == 1) {
+            scr_event_build_dialogue("Ooze", "s_port_ooze", "Hey kid, told you I'd get it done!");
+            switch (scr_quest_get_state("guilderPlazaQuest")) {
+                case 2:
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, you took care of it? Whew, you saved me. My bosses will be happy.");
+                    break;
+                case 3:
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I saw! You really helped me out. My bosses will be happy.");
+                    break;
+                case 4:
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I saw! I got in really good with my bosses, Ooze. You really helped me out.");
+                    break;
+                default:
+                    scr_event_build_dialogue_debug("bort", NULL, "impossible dialogue! fix this!");
+                    break;
+            }
+            switch (scr_quest_get_state("oozeGuilder")) {
+                case 2:
+                    scr_event_build_dialogue("Ooze", "s_port_ooze", "Turns out your target had some political enemies looking for her... I tell ya, these dwarfs are spineless! Put a little heat on 'em and they cave! Easy money!");
+                    break;
+                case 3:
+                    scr_event_build_dialogue("Ooze", "s_port_ooze", "Turns out your target had a bad record with the duergars... I tell ya, these dwarfs are spineless! Put a little heat on 'em and they cave! Easy money!");
+                    break;
+                case 4:
+                    scr_event_build_dialogue("Ooze", "s_port_ooze", "Turns out your target had a few skeletons in his closet... I tell ya, these dwarfs are spineless! Put a little heat on 'em and they cave! Easy money!");
+                    break;
+                default:
+                    scr_event_build_dialogue_debug("bort", NULL, "impossible dialogue! fix this!");
+                    break;
+            }
+            if (scr_quest_get_state("guilderPlazaCount") == 3) && (scr_quest_get_state("guilderPlazaQuest") < 3) {
+                scr_event_build_quest_state("guilderPlazaQuest", 3);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(That should be all of them gone now... I should tell the Guilderbergs.)");
+            }
+            scr_event_build_quest_state("oozeGuilderComplete", 2);
+            scr_event_build_quest_state("oozeGuilder", 5);
+        }
+        // waiting for quest to be complete
+        else if (scr_quest_get_state("oozeGuilder") >= 2) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "So, aren't you going to get started?");
+            scr_event_build_dialogue("Ooze", "s_port_ooze", "Trust me kid, I always finish my job. Don't rush me! I'll make it happen, real soon.");
+        }
+        // first time talking in brain city
+        else if (scr_quest_get_state("oozeBrainCity") == 0) {
+            scr_event_build_quest_state("oozeBrainCity", 1);
+            // spoken to ooze before
+            if (scr_quest_get_state("oozeVar") >= 1) {
+                scr_event_build_dialogue("Hoopz", s_port_hoopz, "Excuse me Mr. Ooze...");
+                scr_event_build_dialogue("Ooze", "s_port_ooze", "The fanclub's back? Gimme a freakin' break. What do you want?");
+                scr_event_build_event_snippet(choice_snippet);
+            }
+            // never spoken
+            else {
+                scr_event_build_dialogue("Hoopz", s_port_hoopz, "Um, excuse me...");
+                scr_event_build_dialogue("Ooze", "s_port_ooze", "Do I know you? I'm looking for some quick work. State your business or piss off.");
+                scr_event_build_quest_state("oozeVar", 1); // TODO: make sure this is the correct variable
+                scr_event_build_event_snippet(choice_snippet);
+            }
+        }
+        // talked 2+ times in brain city
+        else {
+            scr_event_build_dialogue("Ooze", "s_port_ooze", "You again? What do you want?");
+            scr_event_build_event_snippet(choice_snippet);
+        }
+    }
+    
+    //----------------------------------------------------
+    // choice_snippet
+    //----------------------------------------------------
+    with (choice_snippet) {
+        var choice = scr_event_build_choice("Reply?", s_port_hoopz, );
+        // if plaza quest is available...
+        if (scr_quest_get_state("guilderPlazaQuest") == 2) {
+            var guilder_plaza = scr_event_build_add_choice(choice, "Get help clearing the plaza.");
+            with (guilder_plaza) {
+                scr_event_build_event_snippet(guilder_snippet);
+            }
+        }
+        var about = scr_event_build_add_choice(choice, "What's going on.");
+        with (about) {
+            scr_event_build_dialogue("Hoopz", s_port_hoopz, "Hey, um, what's going on?");
+            // default
+            if (scr_quest_get_state("oozeBcActivity") == 0) {
+                scr_event_build_dialogue("Ooze", "s_port_ooze", "Are you kidding me? I'm a busy guy... I'm looking to make some quick cash, then hit the road. I don't have time for this small talk, kid.");
+            }
+            // if ooze is doing something interesting
+            else {
+            
+            }
+        }
+        var nothing = scr_event_build_add_choice(choice, "Nothing.");
+        with (nothing) {
+            scr_event_build_dialogue("Hoopz", s_port_hoopz, "I don't want anything, that's all.");
+            scr_event_build_dialogue("Ooze", "s_port_ooze", "Good. Next time, if it's not about making me some neuro-shekels, just stay out of my way.");
+        }
+    }
+    
+           
+    //----------------------------------------------------
+    // guilder_snippet
+    //----------------------------------------------------
+    with (guilder_snippet) {
+        // bring up job description if you haven't before
+        if (scr_quest_get_state("oozeGuilder") == 0) {
+            scr_event_build_dialogue("Hoopz", s_port_hoopz, "I think I may have a job for you. I need help getting rid of some people.");
+            scr_event_build_dialogue("Ooze", "s_port_ooze", "That's what this thing's for, baby.");
+            scr_event_build_dialogue_debug("bort", NULL, "ooze waggles laser sword menacingly!!!!!");
+            // cool animation
+            scr_event_build_dialogue("Ooze", "s_port_ooze", "... if the price is right.");
+            scr_event_build_dialogue("Hoopz", s_port_hoopz, "No, no, not that at all! There are some people hanging around where they shouldn't, and my bosses want them to just go somewhere else. They don't have to be hurt!");
+            scr_event_build_dialogue("Ooze", "s_port_ooze", "Just... coerced. I got it.");
+            scr_event_build_dialogue_debug("bort", NULL, "ooze unwaggles laser sword unmenacingly!!!!!");
+            // gets rid of laser sword
+            scr_event_build_dialogue("Hoopz", s_port_hoopz, "Yeah... so does that sound like something you can do?");
+            scr_event_build_dialogue("Ooze", "s_port_ooze", "Sure, but there's just one rule... no questions! I can do it for " + string(price) + " a head, but I'm warning ya, I'll probably get bored after I do one. Who am I getting rid of?");
+        }
+        else {
+            scr_event_build_dialogue("Ooze", "s_port_ooze", "Changed your mind? Who do you want me to take care of?");
+        }
+        Breakout("build", "add", "money");
+        var target = scr_event_build_choice("Who's the target?" + string(price) + "N.S.", s_port_hoopz, );
+        
+        // ertharin
+        if (scr_quest_get_state("ertharinPlaza") <= 2) {
+            var ertharin = scr_event_build_add_choice(target, "Ertharin.");
+            with (ertharin) {
+                Breakout("build", "clear");
+                scr_event_build_quest_state("oozeGuilder", 2); // oozeGuilder == 2, Ertharin
+                scr_event_build_dialogue("Hoopz", s_port_hoopz, "There's a protester named Ertharin at the foot of that big office building. Kinda looks like a granny, she's got a megaphone in her hand.");
+                scr_event_build_dialogue("Ooze", "s_port_ooze", "Ertharin, megaphone, got it. Now hand it over.");
+            }
+        }
+        // durriyah
+        if (scr_quest_get_state("durriyahPlaza") <= 2) {
+            var durriyah = scr_event_build_add_choice(target, "Durriyah.");
+            with (durriyah) {
+                Breakout("build", "clear");
+                scr_event_build_quest_state("oozeGuilder", 3); // oozeGuilder == 3, Durriyah
+                scr_event_build_dialogue("Hoopz", s_port_hoopz, "There's a protester named Durriyah at the foot of that big office building. She's got a cool t-shirt with a flower and is holding a big sign.");
+                scr_event_build_dialogue("Ooze", "s_port_ooze", "Durriyah, t-shirt, got it. Now hand it over.");
+            }
+        }
+        // qutlugh
+        if (scr_quest_get_state("qutlughPlaza") <= 1) {
+            var qutlugh = scr_event_build_add_choice(target, "Qutlugh.");
+            with (qutlugh) {
+                Breakout("build", "clear");
+                scr_event_build_quest_state("oozeGuilder", 4); // oozeGuilder == 4, Qutlugh
+                scr_event_build_dialogue("Hoopz", s_port_hoopz, "There's a protester named Qutlugh at the foot of that big office building. He's a bald guy with a sign.");
+                scr_event_build_dialogue("Ooze", "s_port_ooze", "Qutlugh, bald, got it. Now hand it over.");
+            }
+        }
+        // nobody
+        var nobody = scr_event_build_add_choice(target, "Nobody.");
+        with (nobody) {
+            scr_event_build_dialogue("Hoopz", s_port_hoopz, "Um, let me think, nobody right now.");
+            scr_event_build_dialogue("Ooze", "s_port_ooze", "What a tease! I wanted some action... and some gold...");
+            scr_event_build_quest_state("oozeGuilder", 1);
+            scr_event_build_end();
+        }
+        // all choices but "nobody":
+        Breakout("build", "add", "money");
+        scr_event_build_money_add(-price);
+        scr_event_build_dialogue_item("Gave Ooze " + string(price) + " neuro-shekels!");
+        Breakout("build", "clear")
+        scr_event_build_dialogue("Ooze", "s_port_ooze", "Good doing business with you. I'll take care of it soon. Bartender, another!");
+    }
+    
+
+    scr_event_advance(event);
+}

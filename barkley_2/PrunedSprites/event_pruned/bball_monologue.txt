@@ -1,0 +1,90 @@
+// Event for Hoopz monologue.
+// This is the monologue Hoopz has the first time he steps in the basketball court.
+// usage: event_tnn_basketballMonologue01();
+if (argument0 == SCRIPT_COLLISION_HOOPZ and (scr_quest_get_state("bballMonologue") != 1)) then 
+    {
+    scr_quest_set_state("bballMonologue", 1);
+    
+    var event = scr_event_create_main();
+    with (event) 
+        {
+        // SOUTH ENTRANCE //
+        if o_hoopz.x > 256 then
+            {
+            scr_event_build_look(o_cts_hoopz, NORTH);
+            scr_event_build_wait(0.5);
+            Emote("build", "question", o_cts_hoopz, 0, 0);
+            scr_event_build_camera_move_to_point(352, 360, CAMERA_SLOW);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point(o_cts_hoopz, 310, 360);
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(0.5);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is... is this a b-ball court?");
+            scr_event_build_wait(0.75);
+            scr_event_build_look(o_cts_hoopz, WEST);
+            scr_event_build_wait(0.5);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "The tall, dignified posts stand proudly on the asphalt. Rusty chain hoops hang like leaves of a weeping willow... this is definitely a b-ball court.");
+            scr_event_build_wait(1);
+            scr_event_build_move(o_cts_hoopz, 0, -16);
+            scr_event_build_wait(1.25);
+            scr_event_build_look(o_cts_hoopz, WEST);
+            scr_event_build_wait(0.75);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heh, that was from a poem, I think.");
+            scr_event_build_wait(1.5);
+            scr_event_build_look(o_cts_hoopz, NORTHWEST);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, NORTH);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, NORTHEAST);
+            scr_event_build_wait(0.75);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Just an empty b-ball court, out here in the middle of... Tir na Nog... nobody playing. Nobody hooping or pickin' rolls or making freethrows, no jock jams or cheerleaders or dunks. Nothing. I guess that's kind of like...\me...");
+            scr_event_build_wait(0.75);
+            scr_event_build_look(o_cts_hoopz, SOUTH);
+            scr_event_build_wait(0.75);
+            }
+            
+        // WEST ENTRANCE //
+        else         
+            {
+            scr_event_build_look(o_cts_hoopz, EAST);
+            scr_event_build_wait(0.5);
+            Emote("build", "question", o_cts_hoopz, 0, 0);
+            scr_event_build_camera_move_to_point(352, 344, CAMERA_SLOW);
+            scr_event_build_wait(1.5);
+            scr_event_build_move_to_point(o_cts_hoopz, 290, 360);
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(0.75);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is... is this a b-ball court?");
+            scr_event_build_wait(0.75);
+            scr_event_build_look(o_cts_hoopz, EAST);
+            scr_event_build_wait(0.5);
+            //scr_event_build_look(o_cts_hoopz, NORTH);
+            //scr_event_build_wait(0.25);
+            //scr_event_build_look(o_cts_hoopz, NORTHEAST);
+            //scr_event_build_wait(0.75);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "The tall, dignified posts stand proudly on the asphalt. Rusty chain hoops hang like leaves of a weeping willow... this is definitely a b-ball court.");
+            scr_event_build_wait(1.25);
+            scr_event_build_look(o_cts_hoopz, SOUTH);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heh, that was from a poem, I think.");
+            scr_event_build_move(o_cts_hoopz, 32, 0);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Just an empty b-ball court, out here in the middle of... Tir na Nog... nobody playing. Nobody hooping or pickin' rolls or making freethrows, no jock jams or cheerleaders or dunks. Nothing. I guess that's kind of like...\me...");
+            scr_event_build_wait(0.75);
+            scr_event_build_look(o_cts_hoopz, SOUTH);
+            scr_event_build_wait(0.75);   
+            }
+            
+        // END OF THE SCENE //
+        scr_event_build_wait(0.2);
+        scr_event_build_animation_play_and_set(o_cts_hoopz, "sad0", "sad1");
+        scr_event_build_wait(1);
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why do I have to find the Cyberdwarf? Why do I have to be here on the Necron 7? \Why can't I just go home and shoot hoops?");
+        scr_event_build_animation_play_and_set(o_cts_hoopz, "sad1", "sad2");
+        scr_event_build_wait(1);
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "... who am I?");
+        scr_event_build_wait(1);
+        }
+        
+    // GAMEBOY ADVANCE //
+    scr_event_advance(event);
+    }

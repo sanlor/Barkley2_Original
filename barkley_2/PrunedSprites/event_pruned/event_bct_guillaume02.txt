@@ -1,0 +1,60 @@
+// Event for Guillaume after she's been recruited for wedding quest. Hangs out in Brain City
+//Bar
+// usage: event_bct_guillaume02();
+
+/*if (argument0 == SCRIPT_STEP) {
+
+//if wedding quest is currently active
+if (scr_quest_get_state("guillaumeWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+    scr_event_interactive_activate();
+} else{
+    scr_event_interactive_deactivate();
+}
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var guillaume = id;
+    var event = scr_event_create_main();
+    with (event) {
+    //if you have wizard in group.
+    if (scr_quest_get_state("wizardWedding") == 1) and (scr_quest_get_state("guillaumeWizard") == 0) {
+        scr_event_build_dialogue("Guillaume", s_port_guillaume, "That Wizard guy needs to take a chill pill. It's all doom and gloom, all this pent up aggression with him. Slow down, bro, kick your feet up, stop and smell the roses, y'know? We're all in this cosmic journey together, maaaan... we gotta love one another.");
+        scr_event_build_quest_state("guillaumeWait", 1);
+        scr_event_build_quest_state("guillaumeWizard", 1);
+    }
+        
+    //if you have zalmoxis
+    else if (scr_quest_get_state("zalmoxisWedding") == 1) and (scr_quest_get_state("guillaumeZalmoxis") == 0) {
+        scr_event_build_dialogue("Guillaume", s_port_guillaume, "That Zalmoxis chick, she seems kinda cold but I'm really diggin' that cuica thing she's got. It's real wild, y'know? Real spacey, takin' me to plateaus I never thought I'd reach. She's one cosmic cat, man.");
+        scr_event_build_quest_state("guillaumeWait", 1);
+        scr_event_build_quest_state("guillaumeZalmoxis", 1);
+    }
+    
+    //if you have dinah
+    else if (scr_quest_get_state("dinahWedding") == 1) and (scr_quest_get_state("guillaumeDinah") == 0) {
+        scr_event_build_dialogue("Guillaume", s_port_guillaume, "Maaan, is Dinah like, a robot a somethin'? No matter how hard I try, I just can't vibe with her, y'know? Like... her drums are just so soulless. No vibes, man. No vibes.");
+        scr_event_build_quest_state("guillaumeWait", 1);
+        scr_event_build_quest_state("guillaumeDinah", 1);
+    }
+    
+    //if you have boris
+    else if (scr_quest_get_state("borisWedding") == 1) and (scr_quest_get_state("guillaumeBoris") == 0) {
+        scr_event_build_dialogue("Guillaume", s_port_guillaume, "That flute dude, Boris, he's a pretty chill cat. We were freestylin' a little bit earlier, gettin' pretty funky, gettin' pretty cosmic, y'know? I could play more with that dude.");
+        scr_event_build_quest_state("guillaumeWait", 1);
+        scr_event_build_quest_state("guillaumeBoris", 1);
+    }
+    
+    //if you've spoken to before.
+    else if (scr_quest_get_state("guillaumeWait") == 1) {
+        scr_event_build_dialogue("Guillaume", s_port_guillaume, "Man, this booty bass stuff is killin' my vibe. Why's it gotta be so aggressive, y'know? Why can't they like, chill, stop for a minute, take it all in, feel the cosmic energy, y'know?");
+    }
+    
+    //Haven't spoken to Guillaume while waiting.
+    else {
+        scr_event_build_dialogue("Guillaume", s_port_guillaume, "'eeeeey, what's happenin' friend? Just chillin' here, hangin' out, crankin' out the riffs, all the good stuff. This is gonna be one laid back wedding, y'know?");
+        scr_event_build_quest_state("guillaumeWait", 1);
+        }
+    }
+    scr_event_advance(event);
+}

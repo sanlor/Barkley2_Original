@@ -1,0 +1,141 @@
+/* event_min_dozier01
+Bio: Works at the help desk. Would rather be out killing things. Hates his life. 
+
+UPDATE1: 
+    A vaguely useful figure in this part of the quest, as Dozier GENERALLY directs the player around, 
+    and is one of the trigger characters that the player needs to talk to in order to complete
+    the quest (they can also talk with Hasdrubal). 
+    
+UPDATE2: 
+    Really tried hard avoiding this too much with NPCs, but Dozier just repeats his dialogue if you ask him questions a second time. 
+    Didn't feel like making a dozen quest states for this and write unneeded dialogue. 
+    Decided it wasn't worth the effort, though I can change that if anybody thinks Dozier works a little awkwardly otherwise.
+
+NOTE: This npc COULD be a work in progress if there are any other elements to this location that need to be added/explained. 
+      It's all pretty modular though, with the dialogue tree and all, so it shouldn't be a hassle just adding in another choice in his little dialogue tree.
+*/
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("dbaseNPCsState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var dozier = id;
+    var event = scr_event_create_main();
+    var helpdesk = scr_event_create_child(event);
+    
+    // helpdesk
+    with helpdesk {
+        var helpchoice = Choice("The fuck do you want?", s_port_hoopz);
+        with (ChoiceAdd(helpchoice, "Who is in charge around here?")) {
+            Dialogue(P_NAME, "What jackrabbit is in charge here?");
+            Dialogue("Dozier", "You're talking about Mr. Ng.");
+            Dialogue(P_NAME, "Well he sounds like a total idiot and if you're any indication I'm pretty sure I'm right.");
+            Dialogue("Dozier", "Yeah he is an idiot. Park me here instead of giving me real work to do. What a fucking jerkoff.");
+            Dialogue(P_NAME, "You gonna tell me where I can find him or stand there talking to yourself a while longer?");
+            Dialogue("Dozier", "Yeah, fucking genius like you can probably find him. Scoot.");
+            scr_event_build_goto_choice(helpchoice);
+        }
+        with (ChoiceAdd(helpchoice, "Wow, what are all these gun's for?")) {
+            Dialogue(P_NAME, "What's with all the gun's around here.");
+            Dialogue("Dozier", "Shootin people I guess. That's what gun's do.");
+            Dialogue(P_NAME, "Wow, you're a real brainiac. You must have been first in your class.\The IDIOT class. And you're first because you're the MOST STUPID.");
+            Dialogue("Dozier", "Why don't you just get stuffed.\They're for intruders. Intruders come in and the gun's turn them into goo and shit.");
+            Dialogue(P_NAME, "What intruders? What, are you guys chicken or something?");
+            Dialogue("Dozier", "The fuck kind of duergar are you? This is a DUERGAR-ONLY ZONE. Got it? DUERGAR-ONLY.\We don't want any other kinds of filth in here EVER unless them gun's over there are turning them to paste.\So those gun's are set to kill any non-duergar. Period, no exceptions, no begging for their life and shit.");
+            Dialogue(P_NAME, "Great, but I'm not even listening to you at this point. I just don't care about the things you have to say to me.");
+            Dialogue("Dozier", "Look, they told me not to pummell any jerkoffs that try to get smart with me, just answer the fucking questions they said.\I hate my fucking life.\So just ask another fucking question or get the hell out of my sight.");
+            scr_event_build_goto_choice(helpchoice);
+        }
+        with (ChoiceAdd(helpchoice, "What fun things can I do around here?")) {
+            Dialogue(P_NAME, "What is there to do around here? I hope the biggest attraction isn't your deafening stink or I'm leaving.");
+            Dialogue("Dozier", "I don't even fucking know anymore. I just stand at the desk and tell people where to go.");
+            Dialogue(P_NAME, "Can you at least tell me where they have one of those suggestion boxes?\I have a suggestion. It is as follows:#They should burn this place to the ground. This place is boring and stupid and full of lame-o's.");
+            Dialogue("Dozier", "You're really hot shit, huh?\Look, it's really just a fucking lounge. Hang around with your brothers, trade your best dwarf murdering stories, shit like that.\Probably someone around here manages the dwarf-murdering leaderboards, but I don't know who the hell does that anymore.\I don't even care about this. Fuck you. Go figure this shit out for yourself.");
+            Dialogue(P_NAME, "You will never be promoted to Regional Customer Liason with that garbage attitude.");
+            Dialogue("Dozier", "Bite me.");
+            scr_event_build_goto_choice(helpchoice);
+        }
+        if (Quest("dcardsState") == 0) {
+            with (ChoiceAdd(helpchoice, "Got any neat trivia about this place?")) {
+                Dialogue(P_NAME, "Tell me everything you know about the security vulnerabilities of this dump.");
+                Dialogue("Dozier", "What? Why do you want to know about that?");
+                Dialogue(P_NAME, "Lesson one: Ask too many questions, turn up dead.\Lesson two: I ASK THE QUESTIONS AROUND HERE, MEATBALL. TELL ME WHAT I NEED TO KNOW!!!");
+                Dialogue("Dozier", "What? Are you the new security tech we're supposed to be getting?");
+                Dialogue(P_NAME, "Wow, I didn't know I was supposed to be wearing a bright yellow badge that said SECURITY.");
+                Dialogue("Dozier", "You want to go out to the room in the back, then. It's important you get over there because being around you is about to make me fucking hurl.\Oh, wait, you need a keycard to get in there. But you should probably have one already if you're the security guy.");
+                Dialogue(P_NAME, "Oh, that. I was using it to scrape dwarf guts off my beautiful biceps and it broke into a million pieces.\Didn't know it was some life or death thing. Better give me a new one.");
+                Dialogue("Dozier", "Don't give 'em out here. Talk to Ng, he can assign you one.");
+                Dialogue(P_NAME, "Who else has one of these things, just in case I accidentally find that I hate this guy you just mentioned and have to murder him.");
+                Dialogue("Dozier", "You'd be doing me a favor if you killed that prick. I fucking hate that guy.\Uh....I think Garth has one. But he's fucking creepy. Took one in the head. He's gone out to sea.\Oh, Honus has one, but he'll kill you before he gives it to you.\And I think that asshole Hasdrubal has one too. I forget.\Or just talk to Ng.");
+                Dialogue(P_NAME, "I am certain you are just reading names out of the phone book, but I will let this slide......\.......THIS TIME.");
+                Dialogue("Dozier", "Whatever. Go bother one of those assholes for a change.");
+                Quest("dcardsState", 1);
+                scr_event_build_end();
+            }
+        }
+        if (Quest("dcardsState") == 1) {
+            with (ChoiceAdd(helpchoice, "Can I borrow your keycard, please?")) {
+                Dialogue(P_NAME, "Hey you, let me hold your keycard.");
+                Dialogue("Dozier", "What?");
+                Dialogue(P_NAME, "Your keycard. Give it to me.");
+                Dialogue("Dozier", "What makes you think I got a keycard?");
+                Dialogue(P_NAME, "I DIDN'T ASK FOR YOUR LIFE STORY, JUST GIVE ME YOUR STUPID KEYCARD.");
+                Dialogue("Dozier", "I don't have one. They took it away when they put me here.");
+                Dialogue(P_NAME, "Who is the less-worthless idiot I should be talking to, then.");
+                Dialogue("Dozier", "Ng, I guess. Honus, Garth, and Hasdrubal could let you use theirs I guess.");
+                scr_event_build_goto_choice(helpchoice);
+            }
+        }
+        if (Quest("ngQuest") == 3) {
+            with (ChoiceAdd(helpchoice, "Can you help me fill out this petition?")) {
+                Dialogue(P_NAME, "So this stupid Ng guy says I need to get fifty dying dwarfs to fill out this petition or I won't be a real duergar.");
+                Dialogue("Dozier", "Yeah. So?");
+                Dialogue(P_NAME, "So I'm not doing that. How can I forge fifty signatures.");
+                Dialogue("Dozier", "Fuck you.");
+                scr_event_build_goto_choice(helpchoice);
+            }
+        }
+        with (ChoiceAdd(helpchoice, "Do you like your job?")) {
+            Dialogue(P_NAME, "What do you even do here? You pretty much just stand there. The biggest paperweight in the universe.");
+            Dialogue("Dozier", "Just taking names. Eventually Ng will realize I never should have been given such a shit post. Then it's payback time.");
+            Dialogue(P_NAME, "In my humble opinion, you should give up and accept that your entire life is a failure.\I bet you didn't even spell all those names right on your list.");
+            Dialogue("Dozier", "They're close enough. And don't worry, your name is underlined on the list.");
+            scr_event_build_goto_choice(helpchoice);
+        }
+        with (ChoiceAdd(helpchoice, "Thanks for your help.")) {
+            Dialogue(P_NAME, "Yeah, I'm through with you for now. I somehow learned ABSOLUTELY NOTHING from this. Good job.");
+            Dialogue("Dozier", "My shift is over in 37 hours. You better be far the fuck away from here if you don't want every bone in your body broken.");
+            scr_event_build_end();
+        }
+    }
+    // main event
+    with (event) {
+        if (Quest("baseescapeQuest") == 1) {
+            Dialogue("Dozier", "The fuck is that smell? Is that you?");
+            scr_event_build_end();
+        } else if (Quest("dozierState") == 2) {
+            Dialogue("Dozier", "The fuck do you want?");
+            Snippet(helpdesk);
+        } else if (Quest("dozierState") == 1) {
+            Dialogue(P_NAME, "The heck are you looking at? This is the help desk, right? You gonna help me or what?");
+            Dialogue("Dozier", "The fuck do you want?");
+            Quest("dozierState", 2);
+            Snippet(helpdesk);
+        } else {
+            Dialogue("Dozier", "Help desk.");
+            Dialogue(P_NAME, "Hey turkey, do I look like I need any help to you?");
+            Dialogue("Dozier", "Yeah, you do. Stupid lousy punk.");
+            Dialogue(P_NAME, "Then TELL ME, TELL ME WHAT I NEED TO KNOW ALREADY. Geez.");
+            Dialogue("Dozier", "Hey, up yours, I don't know what the fuck you need to know.");
+            Quest("dozierState", 1);
+            Snippet(helpdesk);
+        }
+    }
+    scr_event_advance(event);
+}

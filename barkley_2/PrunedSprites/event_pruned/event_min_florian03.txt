@@ -1,0 +1,76 @@
+// Florian NPC script - REBEL QUEST GOOD ENDING
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonquestgoodState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var florian = id;
+    var event = scr_event_create_main();
+    var healsnippet = scr_event_create_child(event);
+    with healsnippet {
+        Dialogue(scr_longinus_get_rank("florian") + " Florian", "Oh hey, do you need me to take a look at you?");
+        var doctorvisit = Choice("Do you need medical attention?", NULL);
+        with (ChoiceAdd(doctorvisit, "Yes.")) {
+            Dialogue(P_NAME, "Sure, if you don't mind.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "I was afraid you'd say that......\Ok, here goes.....");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Still don't know how to do this, but Florian restores ALL of the player's health at this point.");
+            // TODO: Still don't know how to do this, but Florian restores ALL of the player's health at this point.
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "That should do it.\If you get hurt again, just......\Just.....don't get hurt again, ok?");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(doctorvisit, "No.")) {
+            Dialogue(P_NAME, "No, I think I'm ok. Thanks.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "No, thank you! I'm so relieved!! One less patient is always a good thing!!");
+            scr_event_build_end();
+        }
+    }
+
+    with (event) {
+        if (Quest("floriangoodState") == 3) {
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "I wonder how many duergars need to die before I can quit being a doctor. What a lousy thing to hope for.");
+            Snippet(healsnippet);
+        } else if (Quest("floriangoodState") == 2) {
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Hey......do you have a minute?");
+            Dialogue(P_NAME, "Yeah, is something wrong?");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "That guy you brought from the prison with you, not Aloysius or the rock guy, the other one......");
+            Dialogue(P_NAME, "Yeah, Devigny.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah, whatever his name is.\When's he leaving?");
+            Dialogue(P_NAME, "Beats me.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "You need to get him out of here. He keeps asking about all the people who died.\That's......\No, that's not what I mean. Lots of people ask about that. He keeps asking what I'm going to do with the corpses.");
+            Dialogue(P_NAME, "Oh, well he's a grave digger. That's his job to ask.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah, I know. That's fine, I don't want to tell him how to do his job or anything, but.....\I mean, he was standing around my patients, the ones still alive, looking at his watch, asking them to hurry. I doubt that's good for the healing process.\I stitched another guy up and he comes up and asks if he can take him away and get him buried. I had the patient stabilized, sitting right there. He heard all of this.\Ok, so I know he's not leaving, but I'm basically just asking you if it's ok if I kick his ass if he comes back here. I'm so fucking tired of that guy. As if this job wasn't hard enough.\I know he's your friend and all, I just wanted to make sure it was ok.");
+            Dialogue(P_NAME, "Huh....\I.....yeah, sure, I guess. Sounds like he deserves it.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Great, excellent, thank you!");
+            Dialogue(P_NAME, "Just.....I guess just try talking with him first, don't just immediately knock him out.\He's kinda dumb, to be honest. Just tell him you're going to bring him tons of corpses. That should cool him down.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Roger.\But I'm still going to leave one of my beds empty for him. I just wanted you to know that.");
+            Quest("floriangoodState", 3);
+            Snippet(healsnippet);
+        } else if (Quest("floriangoodState") == 1) {
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "It's good you took out the duergars when you did. I was just starting to run out of medical supplies.\They've got somebody out getting more now, but.....");
+            Dialogue(P_NAME, "I'll be honest with you, everybody almost died anyway. Aloysius went berserk and tried to turn the turrets on everybody still left in the base after he took out the duergars.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah, that's the guy that was with you, right? The one without the......err.....you know......\I'm not really surprised. I think he would have had a difficult time passing his physical. No way I would have cleared him for active duty with an injury like that.");
+            Dialogue(P_NAME, "He seemed to move around ok. The eye exam would have done him in, though.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Ha ha, yeah.\So he just tried to kill us all?");
+            Dialogue(P_NAME, "Pretty much. I had to kill him to get him to stop.\Don't tell anybody else, ok? Nobody needs to know that part of it. We wouldn't have made it if he didn't do what he did.\I guess I'm telling you this for future reference. Somebody needs to make sure to keep an eye on those security terminals. Those are still really dangerous.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Man, I already had a lot of stuff to worry about here.....\But I'm glad you told me. I'll try to get some people to look at it.\It's funny, people are actually listening to me when I say stuff now. I told this one guy I was out of supplies and he said /'Yes, Sir/' and ran off to get me some more.\That's kinda cool. Nobody ever called me /'Sir/' before.");
+            Quest("floriangoodState", 2);
+            Snippet(healsnippet);
+        } else if (Quest("prisonquestgoodState") == 1) {
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Oh, there you are. I've got a minute, I wanted to tell you something......\Erm.....I just wanted to tell you good luck! We're all counting on you.......\Uh......\Shit, I'm not good at speeches. Just don't get killed, ok? This next mission sounds rough.");
+            Dialogue(P_NAME, "Ok! Thanks!! I'll try!!\I don't know what mission you mean, though. Is there something else they need me to do?");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "You know, this whole thing. With the turrets, and that guy you got, and the security room Lafayette kept talking about. That thing.\I don't want to hold you up, I know how important that is.");
+            Dialogue(P_NAME, "Didn't anybody tell you what happened? That's over. It's finished. There's no duergars left. We took the base.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Ok......\What?");
+            Dialogue(P_NAME, "Yeah, it's over. We won! Nobody told you?");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "No! Nobody tells me anything!!! When did this happen?? Does this mean I don't have to......anymore......\No, I guess it wouldn't. I'm still going to get hurt people coming to me.\Well, thanks for doing what you did anyway. Wow, it's just sinking in how bad my life would be right now if you didn't and we were still fighting....");
+            Dialogue(P_NAME, "You'd probably be dead too, actually. These turrets are pretty serious.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "I guess that's right, isn't it? Then someone would get to operate on me for a change....\You know......I really like the thought of not being a doctor. Even if it means I'd just be dead or something, then I wouldn't.....\So many injuries to tend to, I can't stop working to think about this. I should stay busy. Busy, busy, busy!!!");
+            Quest("floriangoodState", 1);
+            Snippet(healsnippet);
+        }
+    }
+    scr_event_advance(event);
+}

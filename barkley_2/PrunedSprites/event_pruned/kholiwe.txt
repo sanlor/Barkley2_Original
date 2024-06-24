@@ -1,0 +1,37 @@
+// Wastelander lady, wandering merchant who sells you things. Times 1, 5, 6, 7, 10
+/*
+if (argument0 == SCRIPT_STEP) {
+    if (scr_time_get() == 1) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 5) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 6) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 7) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 10) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var kholiwe = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("kholiweState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Kholiwe", NULL, "Kholiwe placeholder.");
+            scr_event_build_quest_state("kholiweState", 1);
+        } else {
+            scr_event_build_dialogue("Kholiwe", NULL, "Kholiwe placeholder 2.");
+        }
+    }
+    scr_event_advance(event);
+}

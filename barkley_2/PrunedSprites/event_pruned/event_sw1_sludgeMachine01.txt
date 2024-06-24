@@ -1,0 +1,62 @@
+// event_sw1_sludgeMachine01
+
+
+if (argument0 == SCRIPT_START)
+{
+    
+}
+else if (argument0 == SCRIPT_STEP)
+{   
+    if (scr_quest_get_state("sludgeMachineState") == 1)
+    {
+        // OFF animation
+    }
+    else
+    {
+        // ON animation
+    }
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    sludge = id;
+    
+    var event = scr_event_create_main();
+    
+    //------------------------------------
+    //  Main Event
+    //------------------------------------
+    with (event)
+    {
+        if (scr_quest_get_state("sludgeMachineState") == 1)
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "Sludge Machine is OFF.");
+        }
+        if (scr_quest_get_state("sludgeMachineState") == 0)
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "Sludge Machine is ON.");
+            scr_event_build_dialogue_debug("TODO", NULL, "Sludge Machine's (real) interaction goes here. Could be... Hacking-related, Require an Item, or nothing at all.");
+            scr_event_build_dialogue_debug("TODO", NULL, "You could even shoot it to destroy it, in which case, all of the following should be moved to the Sludge Machine's death event.");
+            scr_event_build_dialogue_debug("bort", NULL, "Sludge Machine is now OFF.");
+            scr_event_build_dialogue_debug("bort", NULL, "Time advances.");
+            // TIME_CHANGE
+            scr_event_build_time_add(1);
+            
+            scr_event_build_dialogue_debug("TODO", NULL, "Something in the nearby water should change and look less sludgey.");
+            scr_event_build_dialogue_debug("TODO", NULL, "The Sludge Machine should stop emitting noise, and stop vibrating.");
+            
+            // display different information based on player quests...
+            if (scr_quest_get_state("growthElementalState") == 2)
+            {
+                scr_event_build_dialogue_debug("bort", NULL, "Quest completed! You may return to the Growth Elemental to receive a /'W Fruit/', which when planted gives the BIO Zauber item.");
+                scr_event_build_dialogue_debug("bort", NULL, "Hoopz could have some quest-referential dialogue here, if we desire.");
+            }
+            else
+            {
+                scr_event_build_dialogue_debug("bort", NULL, "The player does not have the quest, but speaking to the Growth Elemental now will give you a /'W Fruit/', which when planted gives the BIO Zauber item.");
+            }
+            scr_event_build_dialogue_debug("bort", NULL, "Not collecting the /'W Fruit/' here will cause the Fruit to be given at Growth Elemental's other possible location, the Biotek factory... (or the swamp??? Anywhere!)");
+            scr_event_build_quest_state("sludgeMachineState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,114 @@
+// Nose Dwarf Scoot // Filler NPC // 
+// ***************************************************************************************** //
+// Talks very casually yabout slavery, appears pro-slavery although he himself is a slave 
+// Can also provide some insight/hints as to what the Duergars are up to in the mines 
+// ***************************************************************************************** //
+
+// Initialize //
+if (argument0 == SCRIPT_START) 
+    {
+    // ****** Scoot exists on Alpha and Beta ****** //
+    // Alpha camp // Exists on Alpha Camp up until Alpha Camp is abandonend //
+    if room = r_min_baseCampAlpha01 then
+        {
+        if scr_time_get() >= 6 then scr_event_interactive_deactivate(); 
+        }
+    
+    // Beta Camp // Exists on Beta Camp up until Sneak Mission begins //
+    else if room = r_min_baseCampBeta01 then
+        {
+        if scr_min_cspear() == "during" or scr_min_cspear() == "after" then scr_event_interactive_deactivate(); 
+        }
+    } 
+                  
+// Step //
+if (argument0 == SCRIPT_STEP) 
+    {
+    
+    }
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) 
+    {
+    // Variables //
+    var event = scr_event_create_main();
+    var reply = irandom(2);
+        
+    // Main event //
+    with (event) 
+        {
+        // Talk to Scoot while in Alpha Camp //
+        if room = r_min_baseCampAlpha01 then
+            {
+            // Reply 01 //
+            if reply = 0 then scr_event_build_dialogue("Scoot", NULL, "My papa used to tell me not to become a slave. I think that was his way of trying to keep me from trouble, but honestly, he didn't know what he was talking about. This is great! I mean, I don't like it when the Duergars start beating us up, but other than that, it isn't half bad being a slave.");
+            
+            // Reply 02 //
+            if reply = 1 then scr_event_build_dialogue("Scoot", NULL, "All the people I've ever met have always hyped up the horrors of slavery. Pfft, what fools! They don't know what they are missing out on. Okay, sure, getting beat up or whipped isn't fun at all, but every occupation has it's downsides, right?");
+            
+            // Reply 03 //
+            if reply = 2 then scr_event_build_dialogue("Scoot", NULL, "I sometimes wonder if I would make for a good slavemaster. I mean, I have plenty of experience from the other side of the fence, being a slave and all. Guess I'll never find out. Being a slave is a life long career after all.");
+            }
+    
+        // Talk to Scoot while in Beta Camp //
+        else if room = r_min_baseCampBeta01 then
+            {
+            // Reply 01 //
+            if reply = 0 then scr_event_build_dialogue("Scoot", NULL, "Phew, I sure liked the previous camp a whole lot more. It was so much easier to keep it tidy.");
+            
+            // Reply 02 //
+            if reply = 1 then scr_event_build_dialogue("Scoot", NULL, "I heard the Duergars talking something about a new power source. Maybe they were discussing about that huge machine they are using to carve up tunnels.");
+            
+            // Reply 03 //
+            if reply = 2 then scr_event_build_dialogue("Scoot", NULL, "Ah, it'll be time for lunch soon enough. I can't wait to see what Luigi has got for us this time!");
+            }
+        }
+    scr_event_advance(event);
+    }
+
+
+// OLD 
+
+/*
+// Nose Dwarf // Yaleco-Burba // Nose Dwarf that is sweeping the floor // ALPHA CAMP //
+// Initialize //
+if (argument0 == SCRIPT_START) {
+
+    // Only exist while Alpha Camp is safe //
+    if scr_min_cspear() == "prep" or scr_min_cspear() == "during" or scr_min_cspear() == "after" then scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {       
+
+    // Variables //
+    var event = scr_event_create_main();
+    var talk = irandom(2);
+    
+    // Main event //
+    with (event) {
+        
+        // Hoopz talks to Yaleco //
+        if talk == 0 
+            {
+            scr_event_build_dialogue("Yaleco-Burba", NULL, "I love the mines! I love the stagnant air, the majestic odor it has, telling the tale of a thousand generations who still stink up the place. Heh! An ancient reminder of where we all came from and where we are all headed. They say home is where heart is, but I say home is in the mines!");
+            }
+        
+        else if talk == 1 
+            {
+            scr_event_build_dialogue("Yaleco-Burba", NULL, "The mines are -FANTASTIC-. I don't know about you, friend, but I love the mines. If the mines had a face and lips, I would kiss them. If the mines had a booty, I would grope it without hesitation. The mines are like a mysterious mistress, and love is in the air!");        
+            }
+        
+        else if talk == 2 
+            {
+            scr_event_build_dialogue("Yaleco-Burba", NULL, "Mines ahoy! Set sails for: The Mines! All hands on deck: Mining operations are imminent! Pick up the pickaxe, line up the rails! Chip away at the mighty walls, catch all the mineral balls!");        
+            }
+        }
+    scr_event_advance(event);
+    }

@@ -1,0 +1,38 @@
+// event_dz1_masegoStole01
+// This script occurs when the player stole from Lemuel
+// and returns to the Industrial Park
+/*
+if (argument0 == SCRIPT_START)
+{
+    scr_entity_animation_set(o_masego01, "default");
+    scr_event_set_object(o_masego01, 384, 1248);
+    scr_event_set_object(o_hoopz, 456, 1296);
+    
+    // Build Event
+    var masegoStole = id;
+
+    var event = scr_event_create_main();
+    with (event)
+    {
+        // update lemuel stole so the event doesn't repeat
+        scr_event_build_quest_state("lemuelStole", 2);
+        scr_event_build_fade(true, 0);
+        scr_event_build_wait(1);
+        scr_event_build_wait_for_actions();
+        scr_event_build_fade(false, 3);
+        scr_event_build_wait_for_actions();
+        scr_event_build_wait(1);
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue("Marshal Masego", s_port_masego, "Hey! You there! Freeze!");
+        scr_event_build_animation_play_and_set(o_masego01, "sword_draw", "drawn");
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? Me!?");
+        scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah, you! I'm looking for someone... a panhandler was yakking about thieves earlier. You know anything about that?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Gulp... I... I...");
+        scr_event_build_animation_play_and_set(o_masego01, "sword_putaway", "default");
+        scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah, me neither!");
+        scr_event_build_animation_play_and_set(o_masego01, "sword_putaway", "default");
+        scr_event_build_dialogue("Marshal Masego", s_port_masego, "I don't like naysayers like that hanging around... spreading discontent, and saying I'm not doing my job! He was causing a real ruckus, caterwauling about how someone stole from him! Well I think greedy ne'er-do-wells like him are the real problem! Anyway... he scampered off when I tried to keep the peace. I tell you, if he comes back, I'm throwing the book at him! Scratch that, I'm throwing him... in the brig!");
+    }
+    scr_event_advance(event);
+}

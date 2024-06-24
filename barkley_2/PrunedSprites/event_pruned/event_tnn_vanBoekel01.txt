@@ -1,0 +1,59 @@
+// event_tnn_vanBoekel01
+// van Boekel - CardPlay2
+// Card player in rebel base
+
+if (argument0 == SCRIPT_START) {
+
+}
+else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+
+    var rank_vb = scr_longinus_get_rank("vanboekel") + " van Boekel";
+
+    // Build Event
+    var vanBoekel = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("govQuest") == 6) {
+            // *** govQuest = 6 = Governor quest complete. ***
+            if (scr_quest_get_state("longinusGov") >= 1) {
+                scr_event_build_dialogue(rank_vb, NULL, "You did a lot of good for L.O.N.G.I.N.U.S. and the dwarfs of Tir na Nog today. Wish I could do something like that. We mostly just sit around playing poker here.");
+            }
+            else {
+                scr_event_build_dialogue(rank_vb, NULL, "Seems like that whole thing with the Governor you did was useless. That's too bad. You should've just sat around playing poker like us.");
+            }
+            
+        } else if (BodySwap() == "governor") {
+            // *** govQuest = 5 = currently governor. ***
+            scr_event_build_dialogue(rank_vb, NULL, "Even though I know you're really " + P_NAME + ", you're still a little intimidating...");
+
+                        
+        } else if (scr_quest_get_state("govQuest") == 4) {
+            // *** govQuest = 4 = ready to become governor. ***
+            scr_event_build_dialogue(rank_vb, NULL, "This opinion might be a little controversial in some circles, but you know what? I think Cuchulainn is bunk.");
+            
+            
+        } else if (scr_quest_get_state("govQuest") == 3) {
+            // *** govQuest = 3 = have duergar urine. ***
+            scr_event_build_dialogue(rank_vb, NULL, "Looks like you've got the stuff... don't worry, you don't need to show me, I can already tell.");
+            
+            
+        } else if (scr_quest_get_state("govQuest") == 2) {
+            // *** govQuest = 2 = Governor quest accepted, need duergar urine. ***
+            scr_event_build_dialogue(rank_vb, NULL, "Hey, that's real big of you to help out L.O.N.G.I.N.U.S. like that. Sorry you have to get Duergar urine though.");
+            
+            
+        } else if (scr_quest_get_state("govQuest") == 1) {
+            // *** govQuest = 1 = Governor quest rejected ***
+            scr_event_build_dialogue(rank_vb, NULL, "It's not my business if you don't want to help out L.O.N.G.I.N.U.S. but as far as I can tell, the only other way to get out of Tir na Nog is to go deep into the sewers. I've done it before and it's not fun.");
+            
+            
+        } else if (scr_quest_get_state("govQuest") == 0) {
+            // *** govQuest = 0 ***
+            scr_event_build_dialogue(rank_vb, NULL, "Hey, you came from the sewers, right? Have you seen our scout Carlton anywhere? He's a real skinny guy with a big beard, real goofy-looking. He's been incommunicado for a while now. I just hope he's not in trouble.");
+        }
+    }
+    scr_event_advance(event);
+}

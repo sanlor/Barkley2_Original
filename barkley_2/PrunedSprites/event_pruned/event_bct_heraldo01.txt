@@ -1,0 +1,206 @@
+// Event for Heraldo, AKA DarcknessMaster223, the creepypasta author of Necron7. Thinks highly of himself and his work. Will quizz you on creepypasta1 if you have read it //
+// Rewards you with another creepypasta story that is just as shitty. //
+
+/*if (argument0 == SCRIPT_STEP) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var event = scr_event_create_main();
+    var bloodquiz = scr_event_create_child(event);
+    with (event) {
+        // creepypastaHeraldo 
+        // 0 = Not talked to before
+        // 1 = talked to before
+        // 2 = got caught not knowing about Blood Killer
+        // 3 = Knew about Blood Killer and passed the test //
+        
+        // First interaction //
+        if (scr_quest_get_state("creepypastaHeraldo") == 0) {
+        
+            // Hoopz runs into Heraldo for the first time //
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hi there mister. What are you working on? Is that your homework?");
+            scr_event_build_dialogue("Heraldo", NULL, "Heh, another uneducated philistine... No, it is not my homework, it is my lifes work, my magnus opus.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, so it's some sort of a research or science paper?");
+            scr_event_build_dialogue("Heraldo", NULL, "No, it's not a " +'"' +"Science" +'"' + " paper. Nor a research, or homework or a work resume for a burger joint. It's " + '"' + "Dark Death" + '"' + ", the literature masterpiece that is going to be the next bestseller on Necron 7, following my previous masterpiece " + '"' + "Blood Killer" + '"' + ", that also claimed high praise from a wide array of critics.");
+            scr_event_build_event_snippet(bloodquiz);
+        }
+        
+    // Talked to before, Blood Killer not brought up //
+    else if (scr_quest_get_state("creepypastaHeraldo") == 1) {
+        scr_event_build_dialogue("Heraldo", NULL, "Oh, you again. If you want me to sign a copy of " + '"' + "Blood Killer" + '"' + ", then forget it. I don't do signatures.");                          
+        scr_event_build_event_snippet(bloodquiz);
+        }
+        
+    // Talked to before, got caught not knowing Blood Killer details //
+    else if (scr_quest_get_state("creepypastaHeraldo") == 2) {
+        scr_event_build_dialogue("Heraldo", NULL, "Oh, you again. Here's a suggestion for you: keep on walking, worm.");                          
+        }
+        
+    // Talked to before, knew the details and is offered the next story //
+    else if (scr_quest_get_state("creepypastaHeraldo") == 3) {
+        scr_event_build_dialogue("Heraldo", NULL, "Oh, " + P_NAME + ", my man. Hows it going? Are you here to the latest story?");                          
+        // Take a peek? //
+        var peek = scr_event_build_choice("Read the " + '"' + "Dark Death" + '"' + " story?", s_port_hoopz);
+        var answer1 = scr_event_build_add_choice(peek, "Lemme at it");
+        with answer1 {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Lemme at it!");
+            scr_event_build_dialogue("Heraldo", NULL, "Heh, alright. Here you go.")
+            scr_event_build_create_object(o_mg_creepypasta_story2, 0, 0);
+            scr_event_build_end();
+            }
+        var answer2 = scr_event_build_add_choice(peek, "Not right now");
+        with answer2 {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, I think I need to psyche myself up before going for it.");
+            scr_event_build_dialogue("Heraldo", NULL, "Heh, can't blame you. Come back anytime you want.")
+            scr_event_build_end();
+            }
+        }
+        
+        //------------------------------------- 
+        //------------ BLOOOD QUIZ ------------
+        //-------------------------------------
+        with (bloodquiz) {
+
+            // Blood Killer huh? //
+            var blood = scr_event_build_choice("Blood Killer?", s_port_hoopz); 
+            
+            // Have read it before //
+            if (scr_quest_get_state("creepypasta") == 1) 
+            {
+            var haveread = scr_event_build_add_choice(blood, "Hey, I've read that one");
+            with haveread {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, I've read that one. That's the one with the haunted vidcon, right?");
+                    scr_event_build_dialogue("Heraldo", NULL, "Y-you've read it? Really? Uh... Yeah, it's pretty popular but I'm just surprised that uh... someone as young as you would have read it. Wait a damn minute. Have you actually read it? Are you just trying to suck up to me? Newsflash kid: I don't do signatures.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I read it! I'm not lying mister! I have read it!");
+                    scr_event_build_dialogue("Heraldo", NULL, "Oh yeah? Prove it. Who's the main villain of the story?");
+                    
+                // Quiz question #1 //
+                var blood2 = scr_event_build_choice("Villain of Blood Killer?", s_port_hoopz);
+                    var answer1 = scr_event_build_add_choice(blood2, "Herman the Clown");
+                    with answer1 {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think it was Herman the Clown...?");
+                        scr_event_build_dialogue("Heraldo", NULL, "You asking me or answering me? No, idiot, it wasn't Herman the Clown. Who the fuck is Herman the Clown? Get outta my face kid, I can't stand posers...");
+                        scr_event_build_quest_state("creepypastaHeraldo", 2);
+                        scr_event_build_end();
+                        }
+                    var answer2 = scr_event_build_add_choice(blood2, "Bernard the Knifer");
+                    with answer2 {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think it was Bernard the Knifer...?");
+                        scr_event_build_dialogue("Heraldo", NULL, "You asking me or answering me? No, idiot, it wasn't Bernard the Knifer. Who the fuck is Bernard the Knifer? Get outta my face kid, I can't stand posers...");
+                        scr_event_build_quest_state("creepypastaHeraldo", 2);
+                        scr_event_build_end();
+                        }
+                    var answer3 = scr_event_build_add_choice(blood2, "Herbert the Tonfa");
+                    with answer3 {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think it was Herbert the Tonfa...?");
+                        scr_event_build_dialogue("Heraldo", NULL, "You asking me or answering me? Heh, I'll let this one slide since you got it right, although Herbert was the master of Tonfa, not A Tonfa. Next question...");
+                        scr_event_build_dialogue("Heraldo", NULL, "Who was the beautiful femme fatale of the story?");
+                        
+                        // Quiz question #2 //
+                        var blood3 = scr_event_build_choice("The most beautiful woman in the story?", s_port_hoopz);
+                        var answer1 = scr_event_build_add_choice(blood3, "Beatrice the Snail");
+                        with answer1 {
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm gonna say Beatrice the Snail.");
+                            scr_event_build_dialogue("Heraldo", NULL, "I knew it. You haven't read the story, or if you have you just skimmed over it. Too scary for you huh? Get out of my face, poser...");
+                            scr_event_build_quest_state("creepypastaHeraldo", 2);
+                            scr_event_build_end();
+                            }
+                        var answer2 = scr_event_build_add_choice(blood3, "Franco Pippin Junior");
+                        with answer2 {
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm gonna say Franco Pippin Junior");
+                            scr_event_build_dialogue("Heraldo", NULL, "I knew it. You haven't read the story, or if you have you just skimmed over it. Too scary for you huh? Get out of my face, poser...");
+                            scr_event_build_quest_state("creepypastaHeraldo", 2);
+                            scr_event_build_end();
+                            }
+                        var answer3 = scr_event_build_add_choice(blood3, "Shibatsu Bolor");
+                        with answer3 {
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm gonna say Shibatsu Bolor");
+                            scr_event_build_dialogue("Heraldo", NULL, "I knew it. You haven't read the story, or if you have you just skimmed over it. Too scary for you huh? Get out of my face, poser...");
+                            scr_event_build_quest_state("creepypastaHeraldo", 2);
+                            scr_event_build_end();
+                            }
+                        var answer4 = scr_event_build_add_choice(blood3, "Sakura the Beauty");
+                        with answer4 {
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm gonna say Sakura the Beauty");
+                            scr_event_build_dialogue("Heraldo", NULL, "Well... maybe I have misjudged you. But we won't know until you've answered this final question...");
+                            scr_event_build_dialogue("Heraldo", NULL, "Final question. Are you ready? Well, ready or not here it comes: How long did it take for the titular game in the story to load?");
+
+                            // Quiz question #3 //
+                            var blood4 = scr_event_build_choice("How long did it take for Blood Killer to load?", s_port_hoopz);
+                            var answer1 = scr_event_build_add_choice(blood4, "13.08 seconds");
+                            with answer1 {
+                                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It was 13.08 seconds.");
+                                scr_event_build_dialogue("Heraldo", NULL, "Sigh... I had high hopes for you. But in the end, you were nothing but a sad, pathetic poser. Get out of my sight...");
+                                scr_event_build_quest_state("creepypastaHeraldo", 2);
+                                scr_event_build_end();
+                                }
+                            var answer2 = scr_event_build_add_choice(blood4, "12.04 seconds");
+                            with answer2 {
+                                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It was 12.04 seconds.");
+                                scr_event_build_dialogue("Heraldo", NULL, "I'm impressed. It looks like Blood Killer really left a lasting impression on you. What was your name again?");
+                                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm " + P_NAME + ".");
+                                scr_event_build_dialogue("Heraldo", NULL, P_NAME + ". Right, right. Tell you what " + P_NAME + ". Since you are such a knowlegdeable fan of my stories, I'm willing to give you a sneak peek of this rough draft of my next tale, titled " +'"' + "Dark Death" + '"' + ". A word of warning though. It is EVEN scarier than Blood Killer, so only read it if you are well prepared. Oh and you can also have this VHS tape I seud for inspiration.")
+                                scr_event_build_dialogue("", NULL, "Beastie-X03 VHS tape obtained");
+                                Item("build", "gain", "Beastie-X03 VHS", 1);
+                                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh wow! Sounds exciting! Thanks a lot!");
+                                scr_event_build_dialogue("Heraldo", NULL, "Anyways, whaddaya say? Want to take a peek at my next masterpiece?")
+                                scr_event_build_quest_state("creepypastaHeraldo", 3);
+                                
+                                // Take a peek? //
+                                var peek = scr_event_build_choice("Read the " + '"' + "Dark Death" + '"' + " story?", s_port_hoopz);
+                                var answer1 = scr_event_build_add_choice(peek, "Lemme at it");
+                                with answer1 {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Lemme at it!");
+                                    scr_event_build_dialogue("Heraldo", NULL, "Heh, alright. Here you go.")
+                                    scr_event_build_create_object(o_mg_creepypasta_story2, 0, 0);
+                                    scr_event_build_end();
+                                    }
+                                var answer2 = scr_event_build_add_choice(peek, "Not right now");
+                                with answer2 {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, I think I need to psyche myself up before going for it.");
+                                    scr_event_build_dialogue("Heraldo", NULL, "Heh, can't blame you. Come back anytime you want.")
+                                    scr_event_build_end();
+                                    }
+                            var answer3 = scr_event_build_add_choice(blood4, "14.76 seconds");
+                            with answer3 {
+                                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It was 14.76 seconds.");
+                                scr_event_build_dialogue("Heraldo", NULL, "Sigh... I had high hopes for you. But in the end, you were nothing but a sad, pathetic poser. Get out of my sight...");
+                                scr_event_build_quest_state("creepypastaHeraldo", 2);
+                                scr_event_build_end();
+                                }
+                            var answer4 = scr_event_build_add_choice(blood4, "2 minutes and 12 seconds");
+                            with answer4 {
+                                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It was 2 minutes and 12 seconds.");
+                                scr_event_build_dialogue("Heraldo", NULL, "Sigh... I had high hopes for you. But in the end, you were nothing but a sad, pathetic poser. Get out of my sight...");
+                                scr_event_build_quest_state("creepypastaHeraldo", 2);
+                                scr_event_build_end();
+                                }
+                            }
+                        }
+                    var answer4 = scr_event_build_add_choice(blood2, "Angelique the Sailor");
+                    with answer4 {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think it was Angelique the Sailor...?");
+                        scr_event_build_dialogue("Heraldo", NULL, "You asking me or answering me? No, idiot, it wasn't Angelique the Sailor. Who the fuck is Angelique the Sailor? Get outta my face kid, I can't stand posers...");
+                        scr_event_build_quest_state("creepypastaHeraldo", 2);
+                        scr_event_build_end();
+                        }
+                    }
+                }
+                }
+            var havenotread = scr_event_build_add_choice(blood, "Blood Killer? Never heard of it...");
+            with havenotread {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Blood Killer? Never heard of it...");
+                scr_event_build_dialogue("Heraldo", NULL, "Yeah, doesn't surprise me. It isn't for kids, it's for sensible adults. People with some taste, you know? Also known as not you. I think " +'"' + "Heimdahls Happy Hotel" + '"' + " is more up your alley.");
+                scr_event_build_quest_state("creepypastaHeraldo", 1);
+                scr_event_build_end();
+                }
+            var whatis = scr_event_build_add_choice(blood, "Blood Killer? What's that?");
+            with whatis {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Blood Killer? What's that?");
+                scr_event_build_dialogue("Heraldo", NULL, "Sigh... look. I got a more important things to do here than wasting my time talking to you. If you want to know, buy the book and find out for yourself.");
+                scr_event_build_quest_state("creepypastaHeraldo", 1);
+                scr_event_build_end();
+                }
+            }
+    }
+    scr_event_advance(event);
+}

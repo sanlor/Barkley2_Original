@@ -1,0 +1,127 @@
+// event_chu_confrontation_cyberdwarf
+/*
+if (argument0 == SCRIPT_START) {
+
+} else if (argument0 == SCRIPT_STEP) {
+    
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var zig_x = 400;
+    var zig_y = 334;
+    var cs_x, cs_y, cs_x2, cs_y2;
+
+    var confrontation_cd = id;
+    var event = scr_event_create_main()
+    with (event) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "There you are, Cuchulainn!");
+        scr_event_build_dialogue("Cuchulainn", s_port_cuchuPrimo, "Yes... here we are... Hell approaches faster and faster. Are you ready? It will be your final resting place!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh yeah? Take this!");
+        // HOOPZ READIES CYBERSPEAR
+        scr_event_build_dialogue_debug("bort", NULL, "The player brandishes the Cyberspear, ready to throw!");
+        scr_event_build_animation_play_and_set(o_cts_hoopz, "csBrandishing", "csBrandished");
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue("Cyberdwarf", CD_PORT, "No, " + P_NAME + "! Wait!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh?");
+        scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Don't throw the Cyberspear! It isn't meant for Cuchulainn, " + P_NAME + "... it is for you. Place the Cyberspear to your neural jack, and I will be able to fight with you. Together, we'll have more than enough power to defeat Cuchulainn. It's the only way.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Fight with me? What do you mean?");
+        scr_event_build_dialogue("Cuchulainn", s_port_cuchuPrimo, "Ghuhuhuhu, this is too much! Do you really believe what he's saying, kid? Inject that thing into your neck and that AI will take over your brain in a second... go on, do it!");
+        scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Silence, you foul abomination!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cyberdwarf... is that true?");
+        scr_event_build_dialogue("Cuchulainn", s_port_cuchuPrimo, "Of course it is!");
+        scr_event_build_dialogue("Cyberdwarf", CD_PORT, "I said silence! Do not listen to this trickster, " + P_NAME + "! He means only to lead you astray, and into Hell with all of dwarfkind!");
+        scr_event_build_dialogue("Cuchulainn", s_port_cuchuPrimo, "Kyahahaha! This was his plan all along, kid! Do you really think he was willing to spend his whole existence cooped up in your CPU? He longs to return to the flesh, and that means claiming your body for himself! He looks at you and sees nothing but sinew! You're just an instrument! Kwehehehe!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Then... then all that stuff about my destiny...");
+        scr_event_build_dialogue("Cyberdwarf", CD_PORT, P_NAME + ", your destiny is real! You are destined to be the most powerful baller who ever lived. You have the power to save not only the dwarfs of Necron 7, but entire galaxies! You are the choosen one, " + P_NAME + ", trust me!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I... I don't know what to say...");
+        scr_event_build_dialogue("Cyberdwarf", CD_PORT, "You don't have to... inject yourself with the Cyberspear, " + P_NAME + ". That's all you have to do... we'll have power to beat Cuchulainn. Power beyond our wildest dreams!");
+        scr_event_build_dialogue("Cuchulainn", s_port_cuchuPrimo, "Bwahahahaha! Look at him panic. You won't last a second after you use that device, kid. We all know it!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is he telling the truth, Cyberdwarf? Is that what you believe in? Total apocalyptic ideals?");
+        scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Just the opposite, child. You... you are the Messiah. You, " + P_NAME + ", are Clispaeth.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "W-what? Clispaeth? ... I'm Clispaeth?... how can this be...?");
+        scr_event_build_dialogue("Cuchulainn", s_port_cuchuPrimo, "Clispaeth!? You two must be kidding me!");
+        scr_event_build_dialogue_debug("bort", NULL, "Cuchu Primordia does a vigorous bounce animation once.");
+        scr_event_build_animation_play_and_set(o_chu_primordia01, "primoBounce");
+        scr_event_build_wait_for_actions();
+        scr_event_build_wait(0.5);
+        scr_event_build_dialogue("Cuchulainn", s_port_cuchuPrimo, "I'm tired of this... I'll kill you both before we even get to Hell. Die!");
+        scr_event_build_dialogue_debug("bort", NULL, "Cuchu Primordia does a vigorous bounce animation repeatedly, as if he is getting ready for an attack.");
+        scr_event_build_animation_set(o_chu_primordia01, "primoBouncing");
+        // CUCHU ATTACKS!!!
+        scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Now, " + P_NAME + "! Inject the Cyberspear now!");
+        // CHOICES: Throw, Inject, Destroy
+        var cs_choice = scr_event_build_choice("What do you do?", s_port_hoopz);
+        var destroy_cs = scr_event_build_add_choice(cs_choice, "Destroy the Cyberspear.");
+        var throw_cs = scr_event_build_add_choice(cs_choice, "Throw the Cyberspear.");
+        var inject_cs = scr_event_build_add_choice(cs_choice, "Inject the Cyberspear.");
+        with inject_cs {
+            // INJECT CYBERSPEAR, CYBERDWARF TAKEOVER (BLACK SCREEN, FOR NOW)
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "We've come this far, Cyberdwarf. I trust you...");
+            scr_event_build_dialogue_debug("bort", NULL, "The player places the Cyberspear against their chest or noggin or whatever, and /'injects/' it.");
+            scr_event_build_animation_play_and_set(o_cts_hoopz, "csInjecting", "csInjected");
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue_debug("bort", NULL, "The player begins to shake or morph or do whatever shit to indicate that they are now possessed by Cyberdwarf.");
+            scr_event_build_dialogue_debug("bort", NULL, "Cuchu Primordia stops bouncing.");
+            scr_event_build_animation_set(o_chu_primordia01, "primoDefault");
+            scr_event_build_dialogue_debug("bort", NULL, "OPTION 1: The game ends here, with an abrupt fade. You're taken to the score screen, but the events that unfold between Cyberdwarf and Cuchulainn Primordia are not witnessed.");
+            scr_event_build_dialogue_debug("bort", NULL, "OPTION 2: The player watches a scripted battle between Cuchulainn and Cyberhoopz, now with a COOL CYBERDWARF CLASS ABILITY or two.");
+            scr_event_build_dialogue_debug("bort", NULL, "OPTION 3: The player then gets to fight a battle as Cyberhoopz, with a COOL CYBERDWARF CLASS ABILITY or two!!!");
+            scr_event_build_dialogue_debug("bort", NULL, "As of now, we're going with OPTION 1!");
+            scr_event_build_fade(true, 0.01);
+            scr_event_build_quest_state("cdwarfTakeover", 1);
+            scr_event_build_dialogue_debug("bort", NULL, "TODO: TELEPORT TO SCORE.");
+            //scr_event_build_teleport(r_ending01, 192, 192);
+            //scr_event_build_execute_event_script(event_gbl_gameover01);
+        }
+        with throw_cs {
+            // THROW CYBERSPEAR, OMNIDWARF BATTLE
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why? Why? I hate both of you! Enough!")
+            scr_event_build_dialogue_debug("bort", NULL, "The player hurls the Cyberspear at Cuchulainn!");;
+            scr_event_build_animation_play_and_set(o_cts_hoopz, "csThrowing", "csThrown");
+            //scr_event_build_create_object(o_cyberspear, cs_x, cs_y);
+            //scr_event_build_move_ext(o_cyberspear, cs_x2, cs_y2, 20);;
+            scr_event_build_dialogue_debug("bort", NULL, "The Cyberspear flies through the air.");
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue_debug("bort", NULL, "It sticks into Cuchu Primordia, and then begins TRANSFERRING DATA!")
+            //scr_event_build_animation_play_and_set(o_cyberspear, "strike", "transferring");
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue_debug("bort", NULL, "Primordia begins to shake and transform!")
+            scr_event_build_animation_play_and_set(o_chu_primordia01, "omniTransforming");
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue_debug("bort", NULL, "The screen has some kind of flash perhaps?");
+            scr_event_build_dialogue_debug("bort", NULL, "Where Cuchu Primordia once was, now there is SSJ Omnidwarf!")
+            scr_event_build_animation_set(o_chu_primordia01, "omniDefault");
+            scr_event_build_wait(3);
+            scr_event_build_dialogue("Omnidwarf", "s_port_omni", "What... what have you done!? My perfect body was so close... and you locked me in this putrid thing!" + P_NAME + "...");
+            scr_event_build_dialogue_debug("bort", NULL, "Omnidwarf BELLOWS and makes a horrific ape-noise!")
+            scr_event_build_animation_play_and_set(o_chu_primordia01, "omniBellow", "omniDefault");
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue("Omnidwarf", "s_port_omni", "You'll pay for this, you insolent child!");
+            scr_event_build_dialogue_debug("bort", NULL, "Omnidwarf LEAPS up to where the battle with him actually occurs.")
+            scr_event_build_animation_set(o_chu_primordia01, "omniLeaping");
+            scr_event_build_move_ext(o_chu_primordia01, zig_x, zig_y, 5);
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(1);
+            scr_event_build_animation_play_and_set(o_chu_primordia01, "omniLanding", "omniDefault");
+            scr_event_build_dialogue_debug("NARRATOR", NULL, "You then battle SSJ Omnidwarf, who is a mean S.O.B.");
+            scr_event_build_quest_state("cdwarfOmniFight", 1);
+            // scr_event_build_quest_state("cdwarfOmniDead", 1); // happens ONLY on victory! just here as a note.
+        }
+        with destroy_cs {
+            // DESTROY CYBERSPEAR, REGULAR PRIMORDIA BATTLE
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cyberdwarf, how could you lie to me!? I'm not going to be your puppet!");
+            scr_event_build_dialogue_debug("bort", NULL, "The player destroys the Cyberspear in a dramatic fashion, like cracking it over their knee!");
+            scr_event_build_dialogue("Cuchulainn", s_port_cuchuPrimo, "Kuehekeheke! Wise choice... but you'll still die here!");
+            scr_event_build_dialogue_debug("bort", NULL, "Omnidwarf LEAPS up to where the battle with him actually occurs.")
+            scr_event_build_animation_set(o_chu_primordia01, "primoLeaping");
+            scr_event_build_move_ext(o_chu_primordia01, zig_x, zig_y, 5);
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(1);
+            scr_event_build_animation_play_and_set(o_chu_primordia01, "primoLanding", "primoDefault");
+            scr_event_build_dialogue_debug("NARRATOR", NULL, "You then battle Cuchu Primordia, who is a mean S.O.B.");
+            scr_event_build_quest_state("primoFight", 1);
+            // scr_event_build_quest_state("primoDead", 1); // happens ONLY on victory! just here as a note.
+        }
+        scr_event_build_dialogue_debug("bort", NULL, "Talk to Primordia / Omnidwarf again to end the fight!");
+    }
+    scr_event_advance(event);
+}

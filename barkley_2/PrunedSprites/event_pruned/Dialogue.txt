@@ -1,0 +1,19 @@
+///Dialogue(name, text, portrait[optional]);
+// An alias for scr_event_build_dialogue()
+// Portrait is moved to the end, if omitted, passes "NULL"
+
+var name = argument[0];
+var port = NULL;
+
+name = name;
+
+if (argument_count == 3)
+{
+    port = argument[2];
+}
+else
+{
+    port = Portrait("from name", name);
+}
+
+scr_event_build_dialogue(name, port, argument[1]);

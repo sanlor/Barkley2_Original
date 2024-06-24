@@ -1,0 +1,67 @@
+// Event for Poly after she's been recruited for wedding quest. Hangs out in Brain City
+//Bar
+// usage: event_bct_poly02();
+
+/*if (argument0 == SCRIPT_STEP) {
+
+//if wedding quest is currently active
+if (scr_quest_get_state("polyWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+    scr_event_interactive_activate();
+} else{
+    scr_event_interactive_deactivate();
+}
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var poly = id;
+    var event = scr_event_create_main();
+    with (event) {
+    //if you have garcia in group.
+    if (scr_quest_get_state("garciaWedding") == 1) and (scr_quest_get_state("polyGarcia") == 0) {
+        scr_event_build_dialogue("Poly", s_port_poly, "Hey, who the fuck invited that old dad rock asshole Garcia? Was it you? Did his grandkids beg you to get him out of the retirement home or somethin'?");
+        scr_event_build_quest_state("polyWait", 1);
+        scr_event_build_quest_state("polyGarcia", 1);
+    }
+        
+    //if you have wizard
+    else if (scr_quest_get_state("wizardWedding") == 1) and (scr_quest_get_state("polyWizard") == 0) {
+        scr_event_build_dialogue("Poly", s_port_poly, "He's kind of a freak, but who fuckin' cares - that WIZARD guy kicks ass! He's metal and I'm punk but I think we can do some real damage together if we put our minds to it!");
+        scr_event_build_quest_state("polyWait", 1);
+        scr_event_build_quest_state("polyWizard", 1);
+    }
+    
+    //if you have guillaume
+    else if (scr_quest_get_state("guillaumeWedding") == 1) and (scr_quest_get_state("polyGuillaume") == 0) {
+        scr_event_build_dialogue("Poly", s_port_poly, "I don't mind Guillaume's stupid hippie BS 'cuz I can just tune him out, but his accoustic guitar? Unforgivable. Tell him to plug that shit in!");
+        scr_event_build_quest_state("polyWait", 1);
+        scr_event_build_quest_state("polyGuillaume", 1);
+    }    
+
+    //if you have cap'n jane
+    else if (scr_quest_get_state("janeWedding") == 1) and (scr_quest_get_state("polyJane") == 0) {
+        scr_event_build_dialogue("Poly", s_port_poly, "You ever heard of turbofolk? That shitty accordion music they play in the Balkans? I bet me'n Cap'n Jane could make a mean turbofolk duo if we put our minds to it, and if turbofolk didn't suck.");
+        scr_event_build_quest_state("polyWait", 1);
+        scr_event_build_quest_state("polyJane", 1);
+    }
+    
+    //if you have wayne
+    else if (scr_quest_get_state("wayneWedding") == 1) and (scr_quest_get_state("polyWayne") == 0) {
+        scr_event_build_dialogue("Poly", s_port_poly, "Why the fuck does Wayne have to use that stupid-ass 'doo' sound? Who thinks doo sounds are cool? Are we a fuckin' Rugrats cover band or something?");
+        scr_event_build_quest_state("polyWait", 1);
+        scr_event_build_quest_state("polyWayne", 1);
+    }
+    
+    //if you've spoken to before.
+    else if (scr_quest_get_state("polyWait") == 1) {
+        scr_event_build_dialogue("Poly", s_port_poly, "Hey, what the hell is takin' so long? When's this wedding thing gonna be? I'm sick of waiting! Hurry the fuck up!");
+    }
+    
+    //Haven't spoken to Poly while waiting.
+    else {
+        scr_event_build_dialogue("Poly", s_port_poly, "Where the hell have you been? I've been drummin' my ass off over here while you're takin' your sweet time getting the band together. C'mon, man! I'm sick of waiting!");
+        scr_event_build_quest_state("polyWait", 1);
+        }
+    }
+    scr_event_advance(event);
+}

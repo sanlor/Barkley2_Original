@@ -1,0 +1,26 @@
+/// scr_event_build_look(object_id, direction_cardinal)
+/// This script is used to build a look action.
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_look);
+ds_list_add(action, argument0); // object id
+ds_list_add(action, argument1); // direction
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;
+
+
+
+
+/// scr_event_action_look(list)
+/// An action to make an object look in a certain direction.
+/// The list contains entity id, direction.
+
+//var object = ds_list_find_value(argument0, 1);
+//with (object) {
+//    _last_direction = ds_list_find_value(argument0, 2);
+//}
+
+scr_entity_look(ds_list_find_value(argument0, 1), ds_list_find_value(argument0, 2));
+
+scr_event_advance(id);

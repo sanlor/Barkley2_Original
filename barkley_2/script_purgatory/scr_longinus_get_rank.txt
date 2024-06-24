@@ -1,0 +1,88 @@
+// scr_longinus_get_rank("name", "full"/"abv")
+/*  
+defaults to return abbreviated rank
+send "full" as argument1 for full rank name
+send "abv" or nothing for argumet1 for abbreviated rank
+
+usage in a script:
+var abv_wiglaf = scr_longinus_get_rank("wiglaf") + " Wiglaf";
+var full_wiglaf = scr_longinus_get_rank("wiglaf");
+scr_event_build_dialogue(abv_wiglaf, "s_port_wiglaf", "Rank displayed in Title Text.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "I hope I can be a " + full_wiglaf + " like Wiglaf one day.");
+*/
+
+var name = string_lower(argument[0]);
+var rank = "";
+var abv = 1;
+
+// determine if player is getting abbreviated or full rank
+if (argument_count = 2)
+{
+    if (argument[1] == "full") { abv = 0; }
+    else if (argument[1] == "abv") { abv = 1; }
+}
+
+// get rank by name
+switch (name)
+{
+    // BRAIN CITY
+    case "wiglaf": rank = "LftCol."; break;
+    case "nene": rank = "Capt."; break;
+    case "jhodfrey": rank = "Maj."; break;
+    
+    // TIR NA NOG
+    case "madison": rank = "Pvt."; break;
+    case "gormlaith": rank = "Pvt."; break;
+    case "van boekel": rank = "PFC."; break;
+    case "vanboekel": rank = "PFC."; break;
+    case "naoko": rank = "LCpl."; break;
+    case "absalom": rank = "Cpl."; break;
+    case "r. itkonen": rank = "Cpl."; break;
+    case "ritkonen": rank = "Cpl."; break;
+    
+    // MOUNTAIN PASS
+    case "compson": rank = "SgtMaj."; break;
+    case "lafayette": rank = "Lft."; break;
+    case "meinhardt": rank = "LCpl."; break;
+    case "florian": rank = "Cpl."; break;
+    /*
+    case "Wiglaf": rank = ""; break;
+    case "Wiglaf": rank = ""; break;
+    case "Wiglaf": rank = ""; break;
+    case "Wiglaf": rank = ""; break;
+    case "Wiglaf": rank = ""; break;
+    case "Wiglaf": rank = ""; break;
+    */
+    default: rank = "!NO RANK!"; break;
+}
+
+// if looking for full rank, convert to full rank
+if (abv = 0) 
+{
+    switch (rank)
+    {
+        // Enlisted
+        case "Pvt.": rank = "Private"; break;
+        case "PFC.": rank = "Private First Class"; break;
+        case "LCpl.": rank = "Lance Corporal"; break;
+        case "Cpl.": rank = "Corporal"; break;
+        case "Sgt.": rank = "Sergeant"; break;
+        case "SSgt.": rank = "Staff Sergeant"; break;
+        case "GySgt.": rank = "Gunnery Sergeant"; break;
+        case "MSgt.": rank = "Master Sergeant"; break;
+        case "1stSgt.": rank = "First Sergeant"; break;
+        case "MGySgt.": rank = "Master Gunnery Sergeant"; break;
+        case "SgtMaj.": rank = "Sergeant Major"; break;
+        // Officer
+        case "Lft.": rank = "Leftenant"; break;
+        case "Capt.": rank = "Captain"; break;
+        case "Maj.": rank = "Captain"; break;
+        case "LftCol.": rank = "Leftenant Colonel"; break;
+        case "Col.": rank = "Colonel"; break;
+        case "Gen.": rank = "General"; break;
+        // List everything here!!!!
+    }
+}
+
+// return rank
+return rank;

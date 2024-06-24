@@ -1,0 +1,85 @@
+// Nose Dwarf Gloves // Filler NPC // 
+// ***************************************************************************************** //
+// Delirious gossip
+// ***************************************************************************************** //
+
+// Initialize //
+if (argument0 == SCRIPT_START) 
+    {
+    // ****** Gloves exists on Alpha Camp ****** //
+    // Alpha Camp // Exists as a beat up dwarf //
+    if scr_min_cspear() == "during" or scr_min_cspear() == "prep" or scr_min_cspear() == "after" then scr_event_interactive_deactivate(); 
+    } 
+                      
+// Step //
+if (argument0 == SCRIPT_STEP) 
+    {
+    
+    }
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) 
+    {
+    // Variables //
+    var event = scr_event_create_main();
+    var reply = irandom(2);
+    
+    // Main event //
+    with (event) 
+        {
+        // Reply 01 //
+        if reply = 0 then scr_event_build_dialogue("Gloves", NULL, "... Unhh... Find... hidden village... of the Proboscii...");
+        
+        // Reply 02 //
+        else if reply = 1 then scr_event_build_dialogue("Gloves", NULL, "... Stop... meteor... Find... the Zauber of Prayers... at the temple of...");
+        
+        // Reply 03 //
+        else if reply = 2 then scr_event_build_dialogue("Gloves", NULL, "... Don't... the Cyberdw-... *Cough* ... He is just... using...");
+        }
+        scr_event_advance(event);
+    }
+
+// OLD //
+/*
+// Nose Dwarf // Yaleco-Burba // Nose Dwarf that is snoozing // BETA CAMP //
+// Initialize //
+if (argument0 == SCRIPT_START) {
+
+    // Only exist during prep and mission //
+    if scr_min_cspear() == "before" or scr_min_cspear() == "after" then scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {       
+
+    // Variables //
+    var event = scr_event_create_main();
+    var talk = irandom(2);
+    
+    // Main event //
+    with (event) {
+        
+        // Hoopz talks to Yaleco //
+        if talk == 0 
+            {
+            scr_event_build_dialogue("Yaleco-Burba", NULL, "Zzz... B-ball... Zzz...");   
+            }
+        
+        else if talk == 1 
+            {
+            scr_event_build_dialogue("Yaleco-Burba", NULL, "Zzz... The Cyberspear is... Zzz...");        
+            }
+        
+        else if talk == 2 
+            {
+            scr_event_build_dialogue("Yaleco-Burba", NULL, "Zzz... ");        
+            }
+        }
+    scr_event_advance(event);
+    }

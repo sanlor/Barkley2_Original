@@ -1,0 +1,55 @@
+// scr_frog_update
+/*
+    This changes the location of the Frog Kid in the Swamp.
+    For now, we're gonna say that Frog Kid is available once per time unit.
+    His location could also change when you enter or leave the swamp.
+    But he is available to be talked to once per time unit.
+*/
+
+/*
+
+if (scr_quest_get_state("frogFriend") == 5) {
+    // do nothing ???
+}
+else if (scr_quest_get_state("frogFriend") >= 1)
+{
+    if (scr_quest_get_state("frogFrog") == 1) && (scr_quest_get_state("frogSpent") == 0)
+    {
+        Quest("frogFrog", 0);
+    }
+}
+
+// reset the frog kid
+Quest("frogSpent", 0);
+
+// vars
+var _frogroom = 0;
+var _frogx = 224;
+var _frogy = 144;
+
+
+// get random number
+_frogrnd = irandom(11);
+
+// get room & coordinates
+switch(_frogrnd) {
+    case 0: _frogroom = r_swp_bogchurch01; _frogx = 208; _frogy = 144; break;
+    case 1: _frogroom = r_swp_shacklake01; _frogx = 264; _frogy = 120; break;
+    case 2: _frogroom = r_swp_roundabout01; _frogx = 160; _frogy = 408; break;
+    case 3: _frogroom = r_swp_centralbend01; _frogx = 208; _frogy = 192; break;
+    case 4: _frogroom = r_swp_shacklake01; _frogx = 120; _frogy = 208; break;
+    case 5: _frogroom = r_swp_bogisland01; _frogx = 232; _frogy = 208; break;
+    case 6: _frogroom = r_swp_bograce01; _frogx = 256; _frogy = 280; break;
+    case 7: _frogroom = r_swp_alakientrance01; _frogx = 272; _frogy = 384; break;
+    case 8: _frogroom = r_swp_southPatch01; _frogx = 256; _frogy = 824; break;
+    case 9: _frogroom = r_swp_westpool01; _frogx = 312; _frogy = 88; break;
+    case 10: _frogroom = r_swp_westentrance01; _frogx = 312; _frogy = 128; break;
+    case 11: _frogroom = r_swp_flowerguardian01; _frogx = 320; _frogy = 240; break;
+}
+
+// save coordinates and room
+Quest("frogRoom", _frogroom);
+Quest("frogX", _frogx);
+Quest("frogY", _frogy);
+
+show_debug_message("frogRoom = " + string(_frogroom) + " = " + room_get_name(_frogroom) + ".");

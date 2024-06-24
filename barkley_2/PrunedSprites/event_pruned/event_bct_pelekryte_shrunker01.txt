@@ -1,0 +1,127 @@
+// Dr. Pelekryte // Quest: Starmap // Filler NPC that asks Hoopz to help him decipher a starmap //
+// Second Quest: Pixel Dwarf // Shrinks himself down to start a new age of discovery //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+    // TODO //
+    //if scr_time_get() >= 11 scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+
+            // bct_pelekryte_shrunk //
+            // 0 = First interaction //
+            // 1 = Second interaction //
+
+            // First meeting with Doctor Pelekryte //
+            if (scr_quest_get_state("bct_pelekryte_shrunk") == 0) {
+            
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hmm... What the heck am I looking at?");
+                
+                // TODO: Pelekryte runs up to X1 //
+
+                if (scr_quest_get_state("bct_pelekryte") >= 1) scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hey, it's you again! Oh, are you intereshted in my Shrunkomatic?");
+                else scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hello! Oh, are you intereshted in my Shrunkomatic?");
+                 
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "The what?");
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "The Shrunkomatic! It'sh ushed to shrink thingsh to a minishcule shize!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hah, yeah right...");
+                
+                // TODO: Pelekryte comes even closer to X1 //
+                
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "No I'm sherioush!");
+
+                // Choices: Starmap //
+                var choice_task = scr_event_build_choice("Oh yeah?", s_port_hoopz); 
+                
+                    // Zodiacs are my game //
+                    var yes = scr_event_build_add_choice(choice_task, "Then prove it.");
+                    with yes {
+
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Then prove it.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hah, I thought you'd never ashk! Here, let me show you how it all worksh. Firsht you go shtand in the deshignated area, like sho.");
+                   
+                    // TODO Pelekryte moves under the machine //
+                    
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "The next shtep ish that you input the passhcode to feed in a vortex cell into the shyshtem to power up the macine. You shee, shrinking thingsh takesh a lot of energy and the only way I've been able to do thish hash been with vortex cellsh.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cut to the point, buddy. I wanna see some shrinkage!");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Jumping jetshreamsh! Hold your horshesh young man! I'm working ash fasht ash I can. Here goesh the pashcode...");
+                    
+                    // TODO Pelekryte presses buttons //
+                    
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Now, the final shtep: pulling thish level! Okay, here goesh!");
+                    
+                    // TODO Pelekryte pulls the level and turns to a single pixel //
+                    
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, what the heck? Did that old geezer just pull a disappearing act on me? Pfft, I knew this thing didn't work as advertized...");
+                    
+                    // TODO A walkie talkie on the table starts moving and a message comes through //
+                    
+                    scr_event_build_dialogue("Radio", NULL, "H-hello? Can anyone hear me?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "...?");
+                    
+                    // TODO Hoopz walks to the radio //
+                    
+                    scr_event_build_dialogue("Radio", NULL, "It'sh me, Doctor Pelekryte! Can anyone hear me?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "What the flub is going on, old man? Where'd you go?");
+                    scr_event_build_dialogue("Radio", NULL, "Ish that you, " + string(P_NAME) + "? Hey lishten, I forgot to shet the timer on the machine before I hit the level. You shouldn't have rushed me! Now look what hash happened!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "What HAS happened? I don't get it. Where are you?");
+                    scr_event_build_dialogue("Radio", NULL, "I'm right down here, on the floor, jusht ash I wash previoushly. I jusht shrunk down to a shingle pixel. Hey, do me a favor and get me another passhcode from that book on the table. I need it to revershe the processh through my shpecial wrishtwatch.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Are you for real? You really shrunk down?");
+                    scr_event_build_dialogue("Radio", NULL, "Yeah! Why don't you believe me? Anywaysh, get me one of thoshe passhcodesh and I'll get out of thish messh.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, just a sec.");
+
+                    // TODO Hoopz looks at the book //
+                    
+                    // TODO a fly snatches pelekryte and flies off ///
+                    
+                    scr_event_build_dialogue("Radio", NULL, "Hey! Let me down! Let me dooooown! Help! Help meeee!!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "What's going on doc? Are you alright?");
+                    scr_event_build_dialogue("Radio", NULL, "A fly got me! " + string(P_NAME) + ", I need that passhcode, and I need it now!");
+                    
+                    // TODO a fly snatches pelekryte and flies off ///
+
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh shoot! Uhh, let's see... Okay, here's one: HUBRIS 666.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Doc? Did you get that?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh flub! That fly must've taken him out of here... How am I ever gonna find him on Necron 7? I guess the only thing I can do is keep an eye out for a single pixel... Yeah, if I wanna find and save Doctor Pelekryte, I need to scour all of Necron 7 for a single pixel...");
+                    scr_event_build_quest_state("bct_pelekryte_shrunk", 1);
+                    } 
+                    
+                // No thanks you looney //
+                var no = scr_event_build_add_choice(choice_task, "I guess I believe you...");
+                with no {
+
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess I believe you...");
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hah, you shure don't shound too convinced but who am I to blame shkeptics? They are what drivesh me forward to make new shcientific dishcoveries!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, you just keep on trucking, doc.");
+                scr_event_build_quest_state("bct_pelekryte_shrunk", 2);
+                }                 
+            }
+                
+         // Talk to Pelekryte again, haven't done the starmap //
+         else if (scr_quest_get_state("bct_pelekryte_shrunk") == 1) {
+            
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "This is that shrinking machine Doctor Pelekryte used on himself. I hope he's doing OK, wherever he might be. Rest assured doc, I'll find you... eventually.");
+                }
+                
+        // Starmap searching has been completed, this happens right after the minigame //
+        else if (scr_quest_get_state("bct_pelekryte") == 2) {
+           
+               scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's just some goofy gizmo. Shrimpomatic or whatever.");
+               }
+        }
+    scr_event_advance(event);
+    }

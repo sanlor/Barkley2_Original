@@ -1,0 +1,34 @@
+// scr_lemuel_bowl_remove("item" or position)
+/*
+    Removes an item from Lemuel's bowl.
+    Removes it by position in the bowl, in global.listlemuel
+    OR
+    Removes it by name.
+    
+    Has a built version at:
+    scr_event_build_lemuel_bowl_remove("item" or position);
+*/
+/*var pos = ds_list_find_index(global.listlemuel, argument0);
+
+// is a number
+if (is_real(argument0))
+{
+    // there is an item under that index position, and is above -1
+    if (argument0 <= ds_list_size(global.listlemuel)) && (argument0 >= 0)
+    {
+        // remove an item at a given position
+        ds_list_delete(global.listlemuel, argument0);
+        show_debug_message("Removed " + string(argument0) + ", the " + string(ds_list_find_value(global.listlemuel, argument0)) + ".");
+    }
+    // size is wrong!
+    else { show_debug_message(string(argument0) + " not removed: wrong index/size/something.") }
+}
+// is a string
+else if (pos != -1)
+{
+    // remove an item by name
+    ds_list_delete(global.listlemuel, pos);
+    show_debug_message("Removed " + string(argument0) + " from slot " + string(pos));
+}
+// item does not exist
+else { show_debug_message(string(argument0) + " not removed: Item does not exist in Lemuel's bowl."); }

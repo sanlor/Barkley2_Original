@@ -1,0 +1,17 @@
+/// scr_zauberGroup_get_zauber(zauberGroup, charge_lvl)
+/// Returns the current zauber of the zauberGroup, or NULL
+
+var zauberGroup = argument0;
+var chargeLvl = argument1;
+
+var maxLvl = zauberGroup[? "level"];
+chargeLvl = max(1, min(floor(chargeLvl), maxLvl));
+
+var zauber = NULL;
+switch (chargeLvl) {
+    case 1: zauber = assetOrNull(zauberGroup[? "zauber1"], asset_script); break;
+    case 2: zauber = assetOrNull(zauberGroup[? "zauber2"], asset_script); break;
+    case 3: zauber = assetOrNull(zauberGroup[? "zauber3"], asset_script); break;
+}
+
+return zauber;

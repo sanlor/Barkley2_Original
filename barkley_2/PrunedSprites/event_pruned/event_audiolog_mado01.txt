@@ -1,0 +1,30 @@
+// Mado the mechanical man // Exposition for Z signs minigame //
+/*if (argument0 == SCRIPT_START) {
+    // Init!
+    if (scr_quest_get_state("pdt_zorro") != 1) or scr_time_get() >= 9 scr_event_interactive_deactivate();
+    
+} else if (argument0 == SCRIPT_STEP) {
+    // Step logic.
+} else if (argument0 == SCRIPT_INTERACT) {
+    var event = scr_event_create_main();
+    with (event) {
+        // Build events!
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "What's this hunk o' junk? Hmm, there is a button on it that says push here...");
+   
+        // Choices: Push button? //
+        var choice_task = scr_event_build_choice("Press the button?", s_port_hoopz); 
+        
+            // Interested in a Radiation Suit //
+            var yes = scr_event_build_add_choice(choice_task, "Yeah");
+            with yes {
+                scr_event_build_audiolog("sn_audiolog_mado");
+                }
+                
+            // Interested in a Radiation Suit //
+            var no = scr_event_build_add_choice(choice_task, "Nope");
+            with no {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Don't really want to push that button. Who konws what it'll do.");
+                }
+    }
+    scr_event_advance(event);
+}

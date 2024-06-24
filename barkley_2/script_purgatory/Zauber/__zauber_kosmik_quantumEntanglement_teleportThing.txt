@@ -1,0 +1,34 @@
+/// __zauber_kosmik_quantumEntanglement_teleportThing(thing)
+
+var thing = argument0;
+
+if (enabled and life_teleports > 0) {
+    if (scr_entity_zcollision(id, thing) and
+            ds_list_find_index(recently_teleported, thing) == -1 and
+            instance_exists(other_portal)) {
+        // Teleport the actor
+        var zh = thing.z - z;
+        
+        var dx = other_portal.x - thing.x;
+        var dy = other_portal.y - thing.y;
+        var dz = (other_portal.z + zh) - thing.z;
+        
+        
+        thing.x = other_portal.x;
+        thing.y = other_portal.y;
+        thing.z = other_portal.z + zh;
+
+        ds_list_add(recently_teleported, thing);
+        life_teleports--;
+        other_portal.life_teleports--;
+        
+        if (thing.object_index == o_hoopz) {
+            // If teleported thing is hoopz, move camera
+            with (o_camera) {
+                x += dx;
+                y += dy;
+                y -= dz;
+            }
+        }
+    }
+}

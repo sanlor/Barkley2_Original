@@ -1,0 +1,39 @@
+// Prison Courtyard NPC script for the dwarf prisoner Faustina. Another one of the HOPELESS LOSERS that wastes your time in the courtyard.
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var faustina = id;
+    var event = scr_event_create_main();
+    var DayOver = scr_event_create_child(event);
+    with DayOver {
+        scr_event_build_dialogue("Loudspeaker", NULL, "Attention please! All inferior lifeforms not scheduled for afternoon activities, please report to the courtyard entrance.\All those scheduled for torture, please form a queue behind the silver line.\And all those scheduled for execution, please remain where you are, someone will come to pick you up.\Thanks, and have an awful day.");
+        Quest("prisondayoverState", 0);
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC NOTE: The screen should fade to black and the player is teleported to a cinematic showing them being led back to their cell.\This snippet is identical for all the NPCs in the prison courtyard. If you're seeing this now, you're on your way back to your prison cell, buster.");
+        // CINEMATIC NOTE: This is where the player is teleported back to their cell for the day. After a fade to black, this event should link to the brief cinematic of the player being led to their jail cell.
+        scr_event_build_end();
+    }
+
+    with (event) {
+        if (Quest("faustinaState") == 1) {
+            scr_event_build_dialogue("Faustina", NULL, ".....ty four.......... seven.............");
+            scr_event_build_end();
+        } else {
+            QuestAdd("prisondayoverState", 1);
+            scr_event_build_dialogue("Faustina", NULL, "Five thousand eight hundred sixty four, five thousand eight hundred sixty five, five thousand eight hundred sixty six, five thousand eight hundred sixty seven, five thousand eight hundred sixty eight-");
+            Dialogue(P_NAME, "What are you doing?");
+            scr_event_build_dialogue("Faustina", NULL, "Five thousand eight hundred sixty nine. Countin'.\Five thousand eight hundred seventy, five thousand eight hundred seventy one-");
+            Dialogue(P_NAME, "Yeah, I know. What are you counting?");
+            scr_event_build_dialogue("Faustina", NULL, "Nothin'. Jus' countin'.");
+            Quest("faustinaState", 1);
+            if (Quest("prisondayoverState") == 3) {
+                Snippet(DayOver);
+            }
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}*/

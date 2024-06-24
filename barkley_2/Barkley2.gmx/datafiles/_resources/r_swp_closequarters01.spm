@@ -1,0 +1,65 @@
+{
+    "3i8OwIwNKbkR0Bat4WJhhocKSaEb00": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_oozeMan",
+        "resources": 1,
+        "uuid": "3i8OwIwNKbkR0Bat4WJhhocKSaEb00",
+        "x": 339,
+        "y": 243
+    },
+    "71JCpDwjUNKQfsJwa8WT4mpaqIwsgC": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "71JCpDwjUNKQfsJwa8WT4mpaqIwsgC",
+        "x": 92,
+        "y": 149
+    },
+    "9B3ZmNYzrUAhG8MmxqmFgAYtjKbAA6": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "9B3ZmNYzrUAhG8MmxqmFgAYtjKbAA6",
+        "x": 301,
+        "y": 135
+    },
+    "9R8zGScEod7TDC0ya8VZlIv7e2Fl2k": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_oozeMan",
+        "resources": 1,
+        "uuid": "9R8zGScEod7TDC0ya8VZlIv7e2Fl2k",
+        "x": 98,
+        "y": 242
+    },
+    "RJVNRaEb3Lpz0P726SjUgrPibf4536": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_oozeMan",
+        "resources": 1,
+        "uuid": "RJVNRaEb3Lpz0P726SjUgrPibf4536",
+        "x": 216,
+        "y": 352
+    },
+    "lb6cxpWfNN74K7L2gGmJjA0l54s3EN": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "lb6cxpWfNN74K7L2gGmJjA0l54s3EN",
+        "x": 87,
+        "y": 333
+    },
+    "x9AqYFm9Ec2uIUdrJXeoq8HoRnogQh": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "x9AqYFm9Ec2uIUdrJXeoq8HoRnogQh",
+        "x": 359,
+        "y": 314
+    }
+}

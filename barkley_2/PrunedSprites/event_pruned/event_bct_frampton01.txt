@@ -1,0 +1,298 @@
+/*
+Frampton is the steward of the VRW Station Area.
+He looks after the people that are stuck in VRW but still have the mortal needs in Brain City.
+It would be great if he was applying Hydrating Gel into a VRW users mouth.
+He feels like he's stuck in Diner Dash.  This could only really be pulled off if he has a cool dashing animation so the alternative is:
+He jusy hates his job.
+
+Frampton's Variables:
+framptonState = 0 - you've never met Frampton
+framptonState = 1 - you've met Frampton and he's told you to talk to Cosette to buy your account
+framptonState = 2 - not used currently
+framptonState = 3 - you've been asked about OO and possibly been chided for good
+
+framptonRestart = 1 - used only to restart the event to count your chidings
+
+framptonChides = 0 - never been Chided
+framptonChides >= garners more intense chidings
+
+Related Variables:
+vrwAccount == 0 - no account for VRW
+vrwAccount == 1 - created an account for VRW
+vrwLoggedIn == 0 - you've never logged in
+vrwLoggedIn == 1 - you've experienced Oligarchy Online, even for a moment
+knowDwarfNET == 1 - you've heard about DwarfNET
+*/
+
+if (argument0 == SCRIPT_START) {
+    // Holding a spot for when we want him to do something on room start.
+} else if (argument0 == SCRIPT_STEP) {
+    // Holding a spot for when we want him to do something on step.
+} else if (argument0 == SCRIPT_INTERACT) {
+    var event = scr_event_create_main();
+    var accountInfo = scr_event_create_child(event);
+    var ooQuestions = scr_event_create_child(event);
+    var framptonAsksOO = scr_event_create_child(event);
+    
+    // Snippet for asking Frampton about OO Information
+    //-------------------------------------------------
+    with (ooQuestions) {
+        // TODO: Find out how many things we want Frampton to answer!  These questions will trickle away but come back if you talk to him again.
+        scr_event_build_dialogue_debug("Bhroom", NULL, "We will need to add in information here about OO, and possibly a hint that the spikey hair guy is in fact, Nene.");
+        
+        var ooInfo = scr_event_build_choice("What about Oligarchy Online?", s_port_hoopz);
+
+        //TODO: add in removing choices sometime!
+        
+        // Ask about where you get an Account
+        with scr_event_build_add_choice(ooInfo, "How do I sign up?") {
+            scr_event_build_dialogue("Frampton", NULL, "Just like everyone else. You can sign up for an account over there at the Intra-Reality Annex. Cosette can get you started.");
+            scr_event_build_goto_choice(ooInfo);
+        }
+        //TODO: Make this eventually conditional on knowing what to look for for Nene
+        with scr_event_build_add_choice(ooInfo, "Who's that spikey haired guy over there?") {       
+            scr_event_build_dialogue("Frampton", NULL, "Looks like you have competition.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "He looks ... well, is he L.O.N.G.I-");
+            if (scr_quest_get_state("framptonChides") >= 1) {
+                // High level chide
+                scr_event_build_dialogue("Frampton", NULL, "Clispaeth's Poker! What did I just tell you?! Watch your tongue! Loose lips scratch discs. Look, I'm not a reb, but I sympathize. And the last thing I do is endanger the safety of my patrons by running my gums.");
+                scr_event_build_quest_state_add("framptonChides", 1);
+            }
+            else {
+                // Low level chide
+                scr_event_build_dialogue("Frampton", NULL, "Hush it. This isn't the place for the L-word.");
+            }
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh sorry.");
+            scr_event_build_dialogue("Frampton", NULL, "It's called OPSEC. Anyways, if you want to know just ask him.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ask him? He doesn't look like he's gonna be able to answer too much here.");
+            scr_event_build_dialogue("Frampton", NULL, "Well he's not really 'here' is he?");
+            
+            // Wait a beat
+            scr_event_build_wait(0.5);
+            scr_event_build_dialogue(P_NAME, s_port_hoopzHappy, "Ohhhh I get what you mean ... not 'here, here.'");
+            scr_event_build_dialogue("Frampton", NULL, "Right, I'll see you in the chair.");
+            scr_event_build_quest_state("framptonRestart", 0)
+        }
+    }
+    
+    // Snippet for Frampton asking you about your Experience in OO
+    with (framptonAsksOO) {
+        scr_event_build_dialogue("Frampton", NULL, "How are you enjoying Oligarchy Online?");
+        
+        // Hoopz is asked if he likes Oligarchy Online, if you lie that you've ever logged in, then Frampton Chides Hoopz
+        var ooFeelings = scr_event_build_choice("Oligarchy Online...", s_port_hoopz);
+        var loveOO = scr_event_build_add_choice(ooFeelings, "I love OO!");
+        with loveOO {
+            scr_event_build_dialogue(P_NAME, s_port_hoopzHappy, "I love OO! The only reason I'm IRL is that I'm just waiting for my Purchase Tokens to refill.");
+            // Pause as Frampton thinks
+            scr_event_build_wait(0.3);
+            scr_event_build_dialogue("Frampton", NULL, "Huh...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait... what?");
+
+            // This checks to see if you are lying and haven't actually been in the VRW
+            if (scr_quest_get_state("vrwLoggedIn") == 1) {
+                scr_event_build_dialogue("Frampton", NULL, "Oh nothing, I just thought you would deride the graphics and features as barely passable for even a prototype. And that there is nothing to actually DO in Oligarchy Online. That it's just a communal bonfire of neuro-shekels, everydwarf throwing in their share just to impress the others on how much higher the flames reach.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh... No I thought it was pretty neat.");
+                scr_event_build_wait(0.3);
+                scr_event_build_dialogue("Frampton", NULL, "That's interesting. I guess I'll be seeing a lot more of you then.");
+                scr_event_build_quest_state("framptonState", 3);
+            }
+            else if (scr_quest_get_state("vrwLoggedIn") == 0) {
+                scr_event_build_dialogue("Frampton", NULL, "Look I've seen a lot of dwarfs come in and out of these chairs.  And they all leave with a sliver of color missing from their eyes. Like they leave a piece of their soul inside.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah and-.");
+                scr_event_build_dialogue("Frampton", NULL, "And you still have that sliver, that piece of yourself. You've never gone in. You've never visited OO. You're telling tales and flabbin' gums.");
+                scr_event_build_wait(0.3);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I made a mistake.");
+                if (scr_quest_get_state("framptonChides") >= 2) {
+                    // Maximum Chidings, Framption refuses to speak to you again.
+                    scr_event_build_dialogue("Frampton", NULL, "What you made was a sore error. I'll look they other way when you can't keep your mouth shut to protect a dwarf, but when you lie to me, that's when I realize my chidings fall on deaf ears.  Get lost.");
+                    scr_event_build_quest_state_add("framptonChides", 1);
+                }
+                else {
+                    scr_event_build_dialogue("Frampton", NULL, "You did indeed.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry.");
+                    scr_event_build_quest_state("framptonState", 3);
+                    // TODO: An idea about keeping track of Hoopz lying!
+                    scr_event_build_dialogue_debug("Bhroom", NULL, "So this is here as a placeholder for an idea once we get to RoundMound about keeping track of when Hoopz actually lies. No reason, but with the careful collection of variables we're doing, we can easily track when the player chooses something he didn't do.");
+                }
+            }               
+        }
+        
+        var hateOO = scr_event_build_add_choice(ooFeelings, "I hate OO!");
+        with hateOO {
+            scr_event_build_dialogue(P_NAME, s_port_hoopzHappy, "Honestly, every moment that I'm logged out of Oligarchy Online is a moment I cherish. The experience was slipshod and empty, something I thought I never would live through again after having an account with 'Gem Barrio: The World is Yours'.");
+            // Pause as Frampton thinks
+            scr_event_build_wait(0.3);
+            scr_event_build_dialogue("Frampton", NULL, "Huh...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm sorry; too harsh?");
+
+            // This checks to see if you are lying and haven't actually been in the VRW
+            if (scr_quest_get_state("vrwLoggedIn") == 1) {
+                scr_event_build_dialogue("Frampton", NULL, "No, not at all. That's the kind of honesty I love to hear from someone who's clearly examined the experience from within the system.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Phew.");
+                scr_event_build_quest_state("framptonState", 3);
+            }
+            else if (scr_quest_get_state("vrwLoggedIn") == 0) {
+                scr_event_build_dialogue("Frampton", NULL, "Look I've seen a lot of dwarfs come in and out of these chairs.  And they all leave with a sliver of color missing from their eyes. Like they leave a piece of their soul inside.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah and-.");
+                scr_event_build_dialogue("Frampton", NULL, "And you still have that sliver, that piece of yourself. You've never gone in. You've never visited OO. You're telling tales and flabbin' gums.");
+                scr_event_build_wait(0.3);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I made a mistake.");
+                if (scr_quest_get_state("framptonChides") >= 2) {
+                    // Maximum Chidings, Framption refuses to speak to you again.
+                    scr_event_build_dialogue("Frampton", NULL, "What you made was a sore error. I'll look the other way when you can't keep your mouth shut to protect a dwarf, but when you lie to me, that's when I realize all my chidings fall on deaf ears.  Get lost.");
+                    scr_event_build_quest_state_add("framptonChides", 1);
+                }
+                else {
+                    scr_event_build_dialogue("Frampton", NULL, "You did indeed.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry.");
+                    // TODO: An idea about keeping track of Hoopz lying!
+                    scr_event_build_dialogue_debug("Bhroom", NULL, "So this is here as a placeholder for an idea once we get to RoundMound about keeping track of when Hoopz actually lies. No reason, but with the careful collection of variables we're doing, we can easily track when the player chooses something he didn't do.");
+                }
+            }               
+        }
+        
+        var neutralOO = scr_event_build_add_choice(ooFeelings, "I haven't logged in yet.");
+        with neutralOO {
+            scr_event_build_dialogue(P_NAME, s_port_hoopzHappy, "I haven't got around to logging in yet.");
+            // Pause as Frampton thinks
+            scr_event_build_wait(0.3);
+            scr_event_build_dialogue("Frampton", NULL, "Huh...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What?");
+
+            // This checks to see if you are lying and haven't actually been in the VRW
+            if (scr_quest_get_state("vrwLoggedIn") == 1) {
+                scr_event_build_dialogue("Frampton", NULL, "Look I've seen a lot of dwarfs come in and out of these chairs.  And they all leave with a sliver of color missing from their eyes. Like they leave a piece of their soul inside.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah and-.");
+                scr_event_build_dialogue("Frampton", NULL, "And that sliver, that piece of yourself. It's gone. You've gone in and you're too afraid to tell me. Too afraid to tell me it sucks.")
+                scr_event_build_wait(0.3);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I made a mistake.");
+                if (scr_quest_get_state("framptonChides") >= 2) {
+                    // Maximum Chidings, Framption refuses to speak to you again.
+                    scr_event_build_dialogue("Frampton", NULL, "What you made was a sore error. I'll look they other way when you can't keep your mouth shut to protect a dwarf, but when you lie to me, that's when I realize my chidings fall on deaf ears.  Get lost.");
+                    scr_event_build_quest_state_add("framptonChides", 1);
+                }
+                else {
+                    scr_event_build_dialogue("Frampton", NULL, "You did indeed.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry.");
+                    // TODO: An idea about keeping track of Hoopz lying!
+                    scr_event_build_dialogue_debug("Bhroom", NULL, "So this is here as a placeholder for an idea once we get to RoundMound about keeping track of when Hoopz actually lies. No reason, but with the careful collection of variables we're doing, we can easily track when the player chooses something he didn't do.");
+                }
+            }
+            else if (scr_quest_get_state("vrwLoggedIn") == 0) {
+                scr_event_build_dialogue("Frampton", NULL, "I think there is a sale going on and I see a free chair, so you might want to seize the moment.");
+            } 
+        }
+    }  
+            
+            
+        
+    
+    //MAIN EVENT
+    //--------------    
+    with (event) {
+        
+        // This is a RESTART event for when you answer get chided or not by Frampton to add up the Chide variable.
+        if (scr_quest_get_state("framptonRestart") == 1) {
+            // Reset Frampton Restart and Go to Questions Prompt
+            scr_event_build_quest_state("framptonRestart", 0)
+            scr_event_build_event_snippet(ooQuestions);
+        }
+        
+        // You've spoken to Frampton and lied about 
+        if (scr_quest_get_state("framptonState") == 3) {
+                scr_event_build_dialogue("Frampton", NULL, "I've chided you one too many times. Get out of my sight.");
+            }
+        
+        // Have a VRW account     
+        if (scr_quest_get_state("vrwAccount") == 1) {
+            
+            // Spoken to Frampton
+            if (scr_quest_get_state("framptonState") == 1) {
+                //Sends you to the snippet where Frampton Asks for your OO Experience
+                scr_event_build_event_snippet(framptonAsksOO);
+            }   
+            // You have a vrwAccount, presumably by talking to Cosette, but this is your first time talking to Frampton
+            else if (scr_quest_get_state("framptonState") == 0) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopzHappy, "Hey is this Oligarchy Online?");                   
+                    scr_event_build_dialogue("Frampton", NULL, "It is indeed.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay great I plan on trying it sometime.");
+                    scr_event_build_dialogue("Frampton", NULL, "I think there is a sale going on and I see a free chair, so you might want to seize the moment.");
+            }
+        }
+        
+        //Spoken to Frampton once already but don't have an account
+        if (scr_quest_get_state("framptonState") == 1) {
+            scr_event_build_dialogue("Frampton", NULL, "Still having problems, kid?");
+
+            var askMore = scr_event_build_choice("Need more info?", s_port_hoopz);
+            var tellMeMore = scr_event_build_add_choice(askMore, "Yeah I have a few more questions.");
+            with tellMeMore {
+                scr_event_build_dialogue(P_NAME, s_port_hoopzHappy, "Actually, a few more questions."); 
+                scr_event_build_dialogue("Frampton", NULL, "I guess this is what they pay me for. What do you want to know?");                
+                scr_event_build_event_snippet(ooQuestions);
+            }
+            var tellMeLess = scr_event_build_add_choice(askMore, "No thanks.");
+            with tellMeLess {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm just admiring your steady hand. See you.");
+            }
+        }
+        
+        // Never spoken to Frampton
+        if (scr_quest_get_state("framptonState") == 0) && (scr_quest_get_state("knowOO") == 0) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What is all this?");
+            scr_event_build_dialogue("Frampton", NULL, "All this? Well it depends on how much time you have to kill.");
+            
+            // Decision to know more about Oligarchy Online
+            var timeToKill = scr_event_build_choice("Got time to kill?", s_port_hoopz);
+            var loadsOfTime = scr_event_build_add_choice(timeToKill, "Loads. Tell me what I need to do.");
+            with loadsOfTime {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Time is on my side.  What are these machines?");
+                scr_event_build_dialogue("Frampton", NULL, "These are the Technorganic Interface Stations for Oligarchy Online. The premiere online experience on Necron 7. You've never heard of this?");
+                
+                // If Hoopz knows about DwarfNET
+                if (scr_quest_get_state("knowDwarfNET") == 1) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is this like DwarfNET?");
+                    scr_event_build_dialogue("Frampton", NULL, "Easy with the D-word! You never know who's listening. No this is NOT that. OO is tied directly to the eco-balance here on Necron 7.");
+                    // Flavor text where Frampton remembers if he chided you for another chiding later.
+                    scr_event_build_quest_state_add("framptonChides", 1);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "So what does it do, exactly?");
+                }
+                
+                // Skip that line if Hoopz doesn't know abotu DwarfNET
+                else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Umm nope. What's it do?");
+                }    
+                scr_event_build_dialogue("Frampton", NULL, "What doesn't it do? Pay your rent, feed your cat, vote for absolutely anything gubernatorial. You whole life is in OO. Vidcons if you want them.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopzHappy, "I love Vidcons!");                   
+                scr_event_build_dialogue("Frampton", NULL, "Well those are probably coming once Oligarchy Online reaches Beta. Right now users are restricted to Early Access Intra-Reality Purchasing and Virtual Libations. If you think about it for a really long time, you'll see that it's the best way to get access to your favorite brands.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sounds complicated.");
+                scr_event_build_dialogue("Frampton", NULL, "It's not too bad once you realize you need it.");
+                
+                // Hoopz now knows about Oligarchy Online
+                scr_event_build_quest_state("knowOO", 1);
+                scr_event_build_quest_state("framptonState", 1);
+                
+                // For the restart
+                scr_event_build_quest_state("framptonRestart", 1);
+                scr_event_build_execute_event_script(event_bct_frampton01);
+            }
+            
+            var maybeLater = scr_event_build_add_choice(timeToKill, "Work's got me by the orbs, maybe later!");
+            with maybeLater {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry friend, duty calls.");
+                scr_event_build_dialogue("Frampton", NULL, "One less mouth to gel ... have a good one.");
+                scr_event_build_quest_state("framptonState", 1);
+            }
+        }
+        
+        // If you've never spoken to Frampton, but know that OO Exists
+        else if (scr_quest_get_state("framptonState") == 0) && (scr_quest_get_state("knowOO") == 1) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopzHappy, "Hey is this Oligarchy Online?");                   
+            scr_event_build_dialogue("Frampton", NULL, "It is indeed.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay great I plan on trying it sometime.");
+            scr_event_build_dialogue("Frampton", NULL, "I think there is a sale going on and I see a free chair, so you might want to seize the moment.");
+        }
+    }
+    scr_event_advance(event);
+}

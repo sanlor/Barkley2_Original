@@ -1,0 +1,159 @@
+// Event for Cap'n Jane, an accordion player currently in Al-Akihabara (but who should go somewhere else)
+// Cap'n Jane plays the song pirates2 on loop. The closer the player gets to Cap'n Jane, the louder it gets. 10 or 11 paces away and you can't hear it.
+// Participant in Wedding Quest
+// usage: event_dz2_jane01();
+/*
+if (argument0 == SCRIPT_STEP) {
+    //if jane is currently away on wedding quest.
+    if (scr_quest_get_state("janeWedding") == 1) && (scr_time_get() >= 4) && (scr_time_get() <= 10) && (scr_quest_get_state("weddingQuest") != 3) {
+        scr_event_interactive_deactivate();
+    }
+} else if (argument0 == SCRIPT_INTERACT) {
+    // id
+    var jane = id;
+    
+    // event & snippets
+    var event = scr_event_create_main();
+    var weddingQuestAsk = scr_event_create_child(event);
+    var sabahQuestAsk = scr_event_create_child(event);
+    var prepareQuestions = scr_event_create_child(event);
+
+    // choice text
+    var choice_title = "";
+    if (scr_wedding_quest_on() == true) { choice_title = "Should I ask Cap'n Jane to join my group?"; }
+    else { choice_title = "Should I ask Cap'n Jane to be quiet?"; }
+    var invite_text = "";
+    if (scr_quest_get_state("janeVar") == 1) { invite_text = "I've got a job for you if you want to play for a wedding."; }
+    else { invite_text = "I might have a job for you if you want to play music in a wedding."; }
+    
+    //--------------------------------------------
+    //------------ WEDDING QUEST ASK -------------
+    //--------------------------------------------  
+    with (weddingQuestAsk) { 
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Y'know, Cap'n Jane, you're pretty good at that accordion. I'm putting together a band for a wedding. You could join if you're looking for some work.");
+        scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Hmmm, a wedding band, eh? That doesn't sound too lucrative... but I'm stuck out here eatin' hardtack'n lemons. Alright, landlubber... I'll budge. What do I haveta do?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm still putting the band together, but I'll be ready soon. If you want to go to the booty bass club in Brain City, I'll meet you there when everything's set.");
+        scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Aaaalright, aaalright. Just don't take too much time. I'm not in the mood to wait around!");
+        scr_event_build_fade(true, 2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_quest_state("janeWedding", 1);
+        scr_event_build_quest_state_add("musicianCount", 1);
+        scr_event_build_set_object(o_capnJane01, -500, -500);
+        scr_event_build_fade(false, 2);
+        scr_event_build_wait_for_actions();
+        scr_wedding_recruited();
+    }
+    
+    //--------------------------------------------
+    //------------- SABAH QUEST ASK --------------
+    //--------------------------------------------
+    with (sabahQuestAsk) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, um, Cap'n Jane, you really like playing that accordion, huh? Have you ever thought about putting it down for awhile?");
+        scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "You gettin' sandsick, kiddo? I'll never part with me ol' bandoneon. It's one of the few things that keeps me goin' when I get lonely out here. Some nights when the winds are really blowin' over the top of these here dunes, I lay on me back, squeeze these here bellows, and sing a quiet sea shanty... it's almost like I'm on the sea again...");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow... that's really sweet Cap'n Jane. I never knew pirates could be so sensitive. You should keep playing your accordion, no matter what anyone says.");
+        scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Sensitive!? Mark my words, I'll send ya to a sandy grave if I ever hear ya saying something like that again. I swear it on the sea!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa! Sorry, Cap'n, I didn't mean it...");
+        scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Aye, ye are forgiven... but don't let it happen again! And get me a drink while you're at it!");
+        scr_event_build_quest_state("janeSabah", 1);
+    }
+    
+    //--------------------------------------------
+    //------------- PREPARE QUESTIONS ------------
+    //--------------------------------------------  
+    with (prepareQuestions) {
+        //If you're on the wedding quest and time >= 4 and <= 10
+        if (scr_wedding_quest_on() == true) {
+            // also on sabah quest
+            if (scr_quest_get_state("sabahQuest") == 1) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Actually, I am looking for musicians... maybe I can get her to play in my wedding band... and Sabah wants her to quit playing here anyway...)"); }
+            // just on the wedding quest
+            else { scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Actually, I am looking for musicians... maybe I can get her to play in my wedding band...)"); }
+        }
+        // just on sabah quest
+        else { scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I know Sabah would appreciate it if she stopped playing her accordion here...)"); }
+        
+        // question
+        var question = scr_event_build_choice(choice_title, s_port_hoopz);
+        // on the wedding quest
+        if (scr_wedding_quest_on() == true) {
+            //Ask Cap'n Jane.
+            var invite = scr_event_build_add_choice(question, invite_text); 
+            with (invite) {
+                scr_event_build_event_snippet(weddingQuestAsk);
+            }    
+            //Don't ask Cap'n Jane.
+            var reject = scr_event_build_add_choice(question, "Nah, I don't think the band needs an accordion.");
+            with (reject) {
+                if (scr_quest_get_state("janeVar") == 1) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know what I can find for an out-of-work pirate, but I'll look around..."); }
+                else { scr_event_build_dialogue(P_NAME, s_port_hoopz, "A-alright Cap'n Jane... good luck out there!"); }
+            }
+            //Ask to leave, for Sabah.
+            if (scr_quest_get_state("sabahQuest") == 1) && (scr_quest_get_state("janeSabah") == 0) {
+                var leave = scr_event_build_add_choice(question, "Just ask her to stop playing.");
+                with (leave) {
+                    scr_event_build_event_snippet(sabahQuestAsk);
+                }
+            }
+        }
+        // just on sabah quest
+        else if (scr_quest_get_state("sabahQuest") == 1) && (scr_quest_get_state("janeSabah") == 0) {
+            var sabah = scr_event_build_add_choice(question, "Ask her to stop playing.");
+            with (sabah) {
+                scr_event_build_event_snippet(sabahQuestAsk);
+            }
+            var nvm = scr_event_build_add_choice(question, "Don't ask.");
+            with (nvm) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I won't ask her now... it feels sort of rude to me...)");   
+            }
+        }
+    }
+    
+    //--------------------------------------------
+    //---------------- MAIN EVENT ----------------
+    //--------------------------------------------  
+    with (event) {
+          
+        //Did Wedding Quest with Cap'n Jane.
+        if (scr_quest_get_state("weddingQuest") == 3) and (scr_quest_get_state("janeWedding") == 3) {
+            scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Arrrr, if it isn't me ol' bandmate, " + P_NAME + "! You're not too bad for a landlubber! How're ya doin', friend? Boy, I sure wouldn't mind gettin' the Jazzy Rascals back together for one last hodown...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I hate the Jazzy Rascals...)");
+        }
+        
+        //Told Cap'n Jane to go to church in Brain City but did not show up, spoke to him again.
+        else if (scr_quest_get_state("janeWedding") == 2) {
+            scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Leave me be, ya treasonous bilge rat! Go waste someone else's time, 'cuz I've got nothin' to do with you now!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "G-geez... sorry...");
+        } 
+            
+        //Told Cap'n Jane to go to church in Brain City but did not show up.
+        else if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("janeWedding") == 1) and (scr_time_get() >= 11) {
+            scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "You mangy bilge rat... you scallywag, you scurvy dog, you... you... you've got some nerve showin' yer face here, " + P_NAME + ", after leavin' me marooned at that church in Brain City! Where the hell were you?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I got kinda busy and forgot...");
+            scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Arrrr, you may be slick as a sloop, but I'm not fallin' it again! Get outta my face 'fore I make ye walk the plank, lubber!");
+            scr_event_build_quest_state("janeWedding", 2);
+        }
+        else {
+            //Met jane before.
+            if (scr_quest_get_state("janeVar") == 1) {
+                scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "I told'ya to leave me alone, landlubber! Unless you know where I can get some steady pay or a foamy flagon of grog, I've got nothin' but spite for ya!");
+            }
+            //Never met Cap'n Jane in Al-Akihabara before.
+            else if (scr_quest_get_state("janeVar") == 0) {
+                scr_event_build_quest_state("janeVar", 1);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, you're an amazing accordion player! What's that song called?");
+                scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Arrrr, leave me to me accordion, landlubber. I'm in no mood to hear your tiresome squawking.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh, what's the matter?");
+                scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "It's been a hard few months, landlubber. I was cap'n of the Cursed Corsair, the crustiest, scurviest group'a pirates you ever laid eyes on. We'd raid the coast, aplunderin' booty and dubloons from anyone who crossed our paths - didn't matter who! Well, one day our deeds caught up to us and we were forced to make a choice - walk the plank or go legit. So whattaya think I chose, landlubber? 'course I chose goin' legit. I even threw away me ol' pegleg... didn't need it, but it looked good on me resume. Well, long story short, Al-Akihabara ain't the best of shrimping towns.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Shrimping? Out here? But there's no water at all!");
+                scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Arrrr, it was an unwise business decision. Now leave me alone! I'm in a bad mood and I want to play me accordion! And where's that blasted bartender?");
+            }
+            //If you're on the wedding quest and time >= 4 and <= 10
+            if (scr_wedding_quest_on() == true) {
+                scr_event_build_event_snippet(prepareQuestions);
+            }
+            else if (scr_quest_get_state("sabahQuest") == 1) && (scr_quest_get_state("janeSabah") == 0) {
+                scr_event_build_event_snippet(prepareQuestions);
+            }
+        }
+    }
+    scr_event_advance(event);
+}

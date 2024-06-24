@@ -1,0 +1,29 @@
+// Event for Matthias Times 1-3, dead dwarf in Tir na Nog Sewers, son of Firas.
+
+if (argument0 == SCRIPT_STEP) {
+    if (scr_time_get() >= 3) {
+        scr_event_interactive_deactivate();
+    }
+    else if (scr_quest_get_state("deadSon") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var matthias = id
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("deadSon") == 2) {
+        //if you've accepted Dead Son quest from Firas.
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh man, this guy's looking pretty messed up. I, uh... I better get outta here... w-wait a second... young guy, blue jeans, in the sewers... this has gotta be Firas' son Matthias. Oh man, oh man, this is bad, Old Man Firas is going to be heartbroken... what am I gonna say?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait a second, I've got an idea! What if I...");
+            scr_event_build_fade(true, 2);
+            scr_event_build_wait(2);
+            scr_quest_set_state("deadSon", 3);
+            scr_event_build_teleport(r_sewersfork01, 200, 168);
+            scr_event_build_fade(false, 2);
+        } else { //spoken
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh man, this guy's looking pretty messed up. I, uh... I better get outta here!");
+        }
+    }
+    scr_event_advance(event);
+}

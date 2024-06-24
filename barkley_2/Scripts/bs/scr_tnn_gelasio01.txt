@@ -1,0 +1,258 @@
+// Event for Gelasio.
+// usage: event_tnn_gelasio01();
+// 
+
+/*
+-------
+Different States:
+First talked
+Talked to Geladio
+Returned with money
+-------
+Time 2:
+	- gelasio 0, aelfleda 0 long intro, end
+	- gelasio 0, aelfleda 1 long intro, w/choice
+	- gelasio 0, aelfleda 2 long intro, w/choice
+-------    
+	- gelasio 1, aelfleda 0 repeat, end
+	- gelasio 1, aelfleda 1 repeat w/choice
+	- gelasio 1, aelfleda 2 repeat w/choice
+	
+Time 4+:
+	- gelasio 2, aelfleda 0 different intro, end
+	- gelasio 2, aelfleda 1 different intro, w/choice
+	- gelasio 2, aelfleda 2 different intro, w/choice
+------- 
+	- gelasio 3, aelfleda 0 augustine info
+	- gelasio 3, aelfleda 1 augustine info, w/choices
+	- gelasio 3, aelfleda 2 augustine info, w/choices
+-------    
+	- gelasio 4, aelfleda 0 back to different intro, end
+	- gelasio 4, aelfleda 1 back to different intro, w/choices
+	- gelasio 5, aelfleda 2 back to different intro, w/choices
+-------    
+	- gelasio 6, returned with money
+	- gelasio 6, returned with good message
+	- gelasio 6, returned with each note
+		- paper
+		- blood
+		- bainshee
+		- anxo
+		- ancient
+		- fake carlton
+		- late note
+		- fake body
+-------	
+	- gelasio 7, money
+	- gelasio 8, message
+	- gelasio 9, each note
+		- paper
+		- blood
+		- bainshee
+		- anxo
+		- ancient
+		- fake carlton
+		- late note
+		- fake body
+-------
+
+if (scr_event_check_create()) {
+	// Init
+	// step event
+	
+} else {
+    // Build Event
+    var gelasio = id;
+    var event = instance_create(0, 0, o_event);
+    with (event) {
+		// Build events!
+		scr_event_build_dialogue(")
+		
+	
+	}
+	scr_event_advance(event);
+}
+aelfleda state
+    0 or 1 or 2
+geladio state
+    0 or 1 or 2 or 3
+    
+aelfleda_info
+    0 or 1
+augustine_info
+    0 or 1
+
+*/
+// 	"Fruit and toil, fruit and toil!"
+
+// ----------------------------------------------------------------------
+if (argument0 == SCRIPT_START) {
+    // Init!
+} 
+else if (argument0 == SCRIPT_STEP) {
+    // Step logic.
+    if (visible and !scr_event_etc_instance_on_screen(id) and scr_time_get() == 3) {
+        visible = false;
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // --------------
+    // CHOICE_SNIPPET
+    // --------------
+    var choice_snippet = instance_create(0, 0, o_event);
+    with (choice_snippet) {
+        var question = scr_event_build_choice("Ask about...", s_port_hoopz);
+        // CHOICE.
+        if (scr_event_get_variable(gelasio, "augustine_info") == 1) {
+            // Augustine question not asked - add "About Augustine" choice.
+            var augustine_choice = scr_event_build_add_choice(choice, "About Augustine.");
+            with augustine_choice {
+                if (scr_event_get_state(aelfleda) == 0) {
+                    // Augustine choice.
+                    // Learned about Augustine from Gelasio. Aelfleda not spoken to.
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Who's Augustine?");
+                    scr_event_build_dialogue("Gelasio", NULL, "Hey, you know Augie too?");
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Um, no actually, I just overheard you mention him. Who is it?");
+                    scr_event_build_dialogue("Gelasio", NULL, "Augie's an old mining buddy of mine. Clispaeth knows I thought we'd die out there... but we're back! Bwahaha!  You know, me and Augie usually get really graped out of our skulls on days like this... I wonder where he is. Hey what about you, you want some grapes?");
+                    // augustine_info learned.
+                    scr_event_get_variable(gelasio, "augustine_info", 2);
+                } 
+                else {
+                    // Augustine choice.
+                    // Aelfleda spoken to.
+                    if scr_event_
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Do you know a dwarf named Augustine?");
+                    scr_event_build_dialogue("Gelasio", NULL, "Oh, you met Augie huh? What a prince! Umm... where about?");
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Well, I didn't actually meet him. Aelfleda told me about him. She seemed pretty upset.");
+                    scr_event_build_dialogue("Gelasio", NULL, "Bwaha, typical! Aelfleda's just mad 'cause she can't stay mad! Augie's as charismatic a dwarf as they come, kid. He's got monumental charisma...as monumental as my capacity for the juice! Ha ha ha!");
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Oh, that's cool. But Aelfleda she says it's because of money.");
+                    scr_event_build_dialogue("Gelasio", NULL, "Oh, that's true, I guess he ran up quite the bar tab the other night. Haven't really seen him since. That means he must be laying low. What a sly dog! That's Augie for ya!... I wonder where he got off to.");
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Hmm, okay. Thanks for the info.");
+                    scr_event_build_dialogue("Gelasio", NULL, "No sweat. Anything else? Grapes?");
+                    // augustine_info learned.
+                    scr_event_get_variable(gelasio, "augustine_info", 2);
+                }
+                if (scr_event_get_variable(gelasio, "aelfleda_info") != 1) {
+                    // Remove augustine_choice.
+                    scr_event_build_remove_choice("choice, augustine_choice);
+                    // Return to choice.
+                    scr_event_build_goto_choice(choice);
+                }
+            }
+        }
+        if (scr_event_get_variable(gelasio, "aelfleda_info") == 1) {
+            // Aelfleda question not asked - add "About Aelfleda" choice.
+            var aelfleda_choice = scr_event_build_add_choice(choice, "About Aelfleda.");
+            with aelfleda_choice {
+                // Aelfleda choice.
+                scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Do you know a dwarf named Aelfleda?");
+                scr_event_build_dialogue("Gelasio", NULL, "Yeah, I know Aelfleda. She used to be fun, before they sent me to the mines... I get back, and she's a total grouch. What gives?");
+                scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Umm, I don't know. Well, thanks for the info anyway.");              
+                scr_event_build_dialogue("Gelasio", NULL, "No problem kid. Anything else? Grapes?");
+                // aelfleda_info learned.
+                if (scr_event_get_variable(gelasio, "augustine_info") =! 1) {
+                    // Remove aelfleda_choice.
+                    scr_event_build_remove_choice("choice, aelfleda_choice);
+                    // Return to choice.
+                    scr_event_build_goto_choice(choice);
+                }      
+            }
+        }
+        var nothing_choice = scr_event_build_add_choice(choice, "Nothing.");
+        with nothing_choice {
+            // Nothing choice.
+            scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Actually, nevermind.");
+            scr_event_build_dialogue("Gelasio", NULL, "Okay kid, later.
+            // End event.
+            scr_event_build_end();
+        }
+        scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Nope, I'm good. Thanks for the help.");
+        scr_event_build_dialogue("Gelasio", NULL, "Later!");
+        scr_event_build_dialogue() 
+    }
+
+    // ----------
+    // MAIN EVENT
+    // ----------
+    var event = instance_create(0, 0, o_event);
+    event._event_object = id;
+    with (event) {
+    
+        // ------------------
+        // ----- TIME 2 -----
+        // ------------------
+        if (scr_time_get() == 2) {
+            if (scr_event_get_state(gelasio) == 0) {
+                // Gelasio not spoken.
+                scr_event_build_dialogue("Gelasio", NULL, "I survived the mines, and now I gorge on fine fruits. How could life be better? Fruit and toil, fruit and toil!");
+                if (scr_event_get_state(aelfleda) == 1) {
+                    // Aelfleda spoken to.
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Hey, you're Gelasio, right?");
+                    scr_event_build_dialogue("Gelasio", NULL, "You bet, I'm Gelasio. Hey, bartender, get this one some grapes, and hustle! What's your name anyway?");
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "X114JAM9. And that's okay, I don't need any grapes.");
+                    scr_event_build_dialogue("Gelasio", NULL, "Fwahaha! Doesn't need grapes? Now I've heard it all! I kind of pity you, buddy. What kind of life do you live?");
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Well I'm pretty new here... and I can't remember very much. So I don't really know yet. But tell me...");
+                    scr_event_build_event_snippet(choice_snippet);
+                } 
+                else if (scr_event_get_state(aelfleda) == 2) {
+                    // Aelfleda spoken to twice.
+                }
+            }
+            if (scr_event_get_state(gelasio) = 1) {
+                // Gelasio spoken to.
+                // scr_event_build_variable(object id, variable name, value);
+                scr_event_build_dialogue("Gelasio", NULL, "Fruit and toil, fruit and toil!");
+                if (scr_event_get_variable(gelasio, "aelfleda_info") == 1) || (scr_event_get_variable(gelasio, "augustine_info") == 1) {
+                    // Either question is known but not asked. Go to choice.
+                    scr_event_build_event_snippet(choice_snippet);
+                }
+            }   
+        }
+        
+        // -------------------
+        // ----- TIME 4+ -----
+        // -------------------
+        if (scr_time_get() >= 4) {
+            if (scr_event_get_state(gelasio) == 0) {
+                // Gelasio not spoken.
+                scr_event_build_dialogue("Gelasio", NULL, "I survived the mines, and now I gorge on fine fruits. How could life be better? Fruit and toil, fruit and toil!");   
+                if (scr_event_get_state(aelfleda) == 1) {
+                    // Aelfleda spoken to.
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Hey, you're Gelasio, right?");
+                    scr_event_build_dialogue("Gelasio", NULL, "You bet, I'm Gelasio. Hey, bartender, get this one some grapes, and hustle! What's your name anyway?");
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "X114JAM9. And that's okay, I don't need any grapes.");
+                    scr_event_build_dialogue("Gelasio", NULL, "Fwahaha! Doesn't need grapes? Now I've heard it all! I kind of pity you, buddy. What kind of life do you live?");
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Well I'm pretty new here... and I can't remember very much. So I don't really know yet. But tell me...");
+                    scr_event_build_event_snippet(choice_snippet);
+                } 
+                else if (scr_event_get_state(aelfleda) == 2) {
+                    // Aelfleda spoken to twice.
+                    
+                }
+            }
+            if (scr_event_get_state(gelasio) = 1) {
+                // Gelasio spoken to.
+                // scr_event_build_variable(object id, variable name, value);
+                scr_event_build_dialogue("Gelasio", NULL, "My pal Augustine usually gets grapes with me... I wonder where he is right now.");
+                if (scr_event_get_variable(gelasio, "augustine_info") == 0) {
+                    // Augustine isn't known. Change to known.
+                    scr_event_build_variable(gelasio, "augustine_info", 1);
+                }
+                if (scr_event_get_variable(gelasio, "aelfleda_info") == 1) || (scr_event_get_variable(gelasio, "augustine_info") == 1) {
+                    // Either question is known but not asked. Go to choice.
+                    scr_event_build_event_snippet(choice_snippet);
+                }
+            }   
+            
+        }
+    }
+    scr_event_advance(event);
+} 
+
+
+-----------------------------------
+
+
+
+	

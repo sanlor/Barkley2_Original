@@ -1,0 +1,103 @@
+// event_tnn_govFinish01
+// Cutscene runs in Rebel Base after finishing Governor Speech.
+
+if (argument0 == SCRIPT_START)
+{
+    BodySwap("hoopz");
+    scr_event_hoopz_switch_cutscene();
+    scr_entity_look(o_cts_hoopz, SOUTHEAST);
+    
+    // Only runs one time now.
+    scr_quest_set_state("govFinishInitiate", 2);
+    
+    // Build Event
+    var govFinish = id;
+    var event = scr_event_find_main();
+    with (event)
+    {
+        scr_event_build_time_add(1);
+        scr_event_build_dialogue("Dr. Liu", s_port_drliu, "Hey... hey, " + P_NAME + ", how do you feel? Are you back?");
+        
+        scr_event_build_wait(0.5);
+        scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, NORTHWEST);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, NORTHEAST);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+        scr_event_build_wait(0.5);
+        
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yep! Yep, it's me... wow, it's nice to be back in my own body again. although it was kind of a power trip being the Governor for a little bit. I'm so glad your machine worked, Dr. Liu... especially the second time.");
+        
+        //--------------------------------------
+        // ------ Made things worse ------------
+        //--------------------------------------
+        if (scr_quest_get_state("concessionCurrent") >= 4)
+        {
+            scr_event_build_quest_state("longinusGov", -2);
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "For all I care, you could've stayed in there! All you did was get up there and make things worse for us. What's the matter with you? That was a once-in-a-lifetime opportunity for L.O.N.G.I.N.U.S. and we were stupid enough to trust you. You've got your body back and your freedom. Why don't you go get lost. Tir na Nog will get along better without you.");
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "You did even better than I could have, you fucking idiot!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I... I ruined everything...)");
+        }
+        //--------------------------------------
+        // ------ Maintained status-quo --------
+        //--------------------------------------
+        else if (scr_quest_get_state("concessionCurrent") == 3)
+        {
+            scr_event_build_quest_state("longinusGov", -1);
+            if (scr_quest_get_state("govPositive") >= 1) && (scr_quest_get_state("govNegative") >= 1)
+            {
+                scr_event_build_dialogue("Dr. Liu", s_port_drliu, "I guess I'm glad you're back and that you didn't get caught, but you really could've done us some more favors when you were up there making the speech. I don't know what you were doing up there, but you spent an awful lot of time pleasing the Duergars instead of giving the dwarfs some much-needed relief. I'm pretty disappointed, honestly. We're never going to get a chance like that again, " + P_NAME + ".");
+            }
+            else
+            {
+                scr_event_build_dialogue("Dr. Liu", s_port_drliu, "I guess I'm glad you're back and that you didn't get caught, but you really could've done us some more favors when you were up there making the speech. It seemed like you just took care of yourself and got out of there. I'm pretty disappointed, honestly. It's shameful we couldn't capitalize on such an opportunity. We're never going to get a chance like that again, " + P_NAME + ".");
+            }
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Sounds like you really botched it, you dumb fucks! Let me go at once!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Dang... I didn't mean to botch it like that... not at all!)");
+        }
+        else
+        {
+            //--------------------------------------
+            // -------- Made things better ---------
+            //--------------------------------------
+            if (scr_quest_get_state("concessionCurrent") >= 1)
+            {
+                scr_event_build_quest_state("longinusGov", 1);
+                if (scr_quest_get_state("govNegative") >= 1)
+                {
+                    scr_event_build_dialogue("Dr. Liu", s_port_drliu, "Me too! But look at you! I don't want to say it was a long shot, but, well... it was a long shot! Not only did you pull the wool over the Duergars' eyes, but you managed to do some good for Tir na Nog. I sorta wish you had done more though. You also made a some decisions that seemed oddly, uh... pro-Duergar. I tell you, it kind of surprised me. Oh well, I guess you did what you had to do to not get caught.");
+                }
+                else
+                {
+                    scr_event_build_dialogue("Dr. Liu", s_port_drliu, "Me too! But look at you! I don't want to say it was a long shot, but, well... it was a long shot! Not only did you pull the wool over the Duergars' eyes, but you managed to do some good for Tir na Nog. I sorta wish you had done more though. You were in such a good position to strike a blow against the Duergars!... oh well. I guess you did what you could, sorry.");
+                }
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry for not being able to do more for you guys. Say, what are you gonna do with the Governor now?");
+            }
+            //--------------------------------------
+            // ------ Made things way better -------
+            //--------------------------------------
+            else if (scr_quest_get_state("concessionCurrent") == 0)
+            {
+                scr_event_build_quest_state("longinusGov", 2);
+                if (scr_quest_get_state("govNegative") >= 1)
+                {
+                    scr_event_build_dialogue("Dr. Liu", s_port_drliu, "Me too! But look at you! I don't want to say it was a long shot, but, well... it was a long shot! Not only did you pull the wool over the Duergars' eyes, but you managed to do some serious good for Tir na Nog. You also made a few decisions helping out the Duergars that kind of surprised me... whatever, I guess you did what you had to do to not get caught.");
+                }
+                else
+                {
+                    scr_event_build_dialogue("Dr. Liu", s_port_drliu, "Me too! But look at you! I don't want to say it was a long shot, but, well... it was a long shot! Not only did you pull the wool over the Duergars' eyes, but you managed to do some serious good for Tir na Nog. Things will hopefully be a lot more liveable around here.");
+                }
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm glad I was able to help you out. It was a great plan, Dr. Liu! By the way, what are you gonna do with the Governor now?");
+            }
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "Well, at this point I think he's going to be L.O.N.G.I.N.U.S.' special weapon in Tir na Nog, but we'll just have to see."); 
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Fuck you, assholes!!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, I guess since I can just leave through the front gate, I'm gonna take off now. Thanks for helping me out, guys. I won't forget you.");
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "Take care, " + P_NAME_S + "! You've always got a place here if you ever want to return!");
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Eat my shit, mother fucker!!!");
+        }
+    }
+}
+if (argument0 == SCRIPT_STEP) {}
+else if (argument0 == SCRIPT_INTERACT) {}

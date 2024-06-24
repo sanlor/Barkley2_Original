@@ -1,0 +1,264 @@
+// event_tnn_cuchulainnPlaque01
+// Pvt. Madison tells you to place bomb here
+
+if (argument0 == SCRIPT_START)
+{
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // coordinates
+    var cornerx = 256; //272;
+    var cornery = 464; //440;
+    
+    var centerx = 312;
+    var centery = 464; //448;
+    
+    var leftx = 544;
+    var lefty = 408;
+    var lmovex = 392;
+    var lmovey = 440;// + 24;
+    
+    var belowx = 488 + 24; //304;
+    var belowy = 448;//576 - 32;
+    var bmovex = 312;
+    var bmovey = 496; // + 12; - removed to fix a pathfinding error
+    
+    var rightx = 144;
+    var righty = 360;
+    var rmovex = 240;
+    var rmovey = 440;// + 24;
+    
+    // duergars
+    var dobj1 = o_lafferty01;
+    var dname1 = "Lafferty";
+    var dport1 = "s_port_lafferty";
+    
+    var dobj2 = o_honus01;
+    var dname2 = "Honus";
+    var dport2 = "s_port_honus";
+    
+    var dobj3 = o_vikingstad01;
+    var dname3 = "Vikingstad";
+    var dport3 = "s_port_vikingstad";
+    
+    Quest("demoComplete", 2);
+    
+    //The gate is not an actor
+    //scr_actor_unsetRigid(o_tnn_gate01);
+    //scr_actor_instantRigid(o_tnn_gate01);
+    
+    // name/rank
+    var full_madison = "Private Madison";
+    var rank_madison = "Pvt. Madison";
+
+    // Build Event
+    var bombX = id;
+    var event = scr_event_create_main();
+    var bomb_snippet = scr_event_create_child(event);
+    var caught_snippet = scr_event_create_child(event);
+    
+    //----------------------------------------------
+    //  caught_snippet
+    //----------------------------------------------
+    with (caught_snippet)
+    {
+        Item("build", "lose", "Bomb", 1);
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Let's blow this sucker to smithereens!)");
+        Breakout("build", "clear");
+        
+        scr_event_build_move_to_point_ext(o_cts_hoopz, centerx, centery, MOVE_NORMAL);
+        scr_event_build_wait_for_actions();
+        scr_event_build_look(o_cts_hoopz, NORTH);
+        scr_event_build_wait(2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Hm... this thing is kind of tricky to get off. I thought she was supposed to have loosened it...)");
+        scr_event_build_wait(2);
+        scr_event_build_wait_for_actions();
+        
+        // TODO: add in Hoopz USE Animation
+        //GZ basic using stuff
+        scr_event_build_look(o_cts_hoopz, NORTH);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, NORTHWEST);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, NORTH);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, NORTHEAST);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, NORTH);
+        scr_event_build_wait(0.5);
+        //scr_event_build_look(o_cts_hoopz, SOUTH);
+        scr_event_build_wait_for_actions();
+        scr_event_build_wait(1);
+        scr_event_build_wait_for_actions();
+        //GZ basic using stuff
+        
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(What the heck! It's like it's welded on!)");
+        
+        // create 3 duergars offscreen
+        scr_event_build_create_object(dobj1, rightx, righty);
+        scr_event_build_look(dobj1, WEST);
+        scr_event_build_create_object(dobj2, belowx, belowy);
+        scr_event_build_entity_settings(dobj2, 0, 0, 1);
+        scr_event_build_look(dobj2, NORTH);
+        scr_event_build_create_object(dobj3, leftx, lefty);
+        scr_event_build_look(dobj3, EAST);
+        scr_event_build_wait(1);
+        scr_event_build_wait_for_actions();
+        
+        // pan to right duergar
+        scr_event_build_camera_frame(CAMERA_FAST, dobj1, o_cts_hoopz);
+        scr_event_build_wait_for_actions();
+        scr_event_build_wait(1);
+        scr_event_build_wait_for_actions();
+        
+        // dialogue
+        scr_event_build_dialogue(dname1, dport1, "You there! Halt at once!");
+        scr_event_build_look(o_cts_hoopz, WEST);
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "H-huh!? Oh no...!");
+        scr_event_build_wait_for_actions();
+        
+        // duergars encroach
+        scr_event_build_camera_frame(CAMERA_NORMAL, dobj1, dobj2, dobj3);
+        scr_event_build_move_to_point_ext(dobj1, rmovex, rmovey, MOVE_NORMAL);
+        scr_event_build_move_to_point_ext(dobj2, bmovex, bmovey, MOVE_FAST);
+        scr_event_build_move_to_point_ext(dobj3, lmovex, lmovey, MOVE_NORMAL);
+        
+        // dialogue
+        scr_event_build_camera_frame(CAMERA_NORMAL, o_cts_hoopz, dobj2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_look(o_cts_hoopz, SOUTH);
+        scr_event_build_look(dobj1, EAST);
+        scr_event_build_look(dobj2, NORTH);
+        scr_event_build_look(dobj3, WEST);
+        scr_event_build_dialogue(dname2, dport2, "Our informant was indeed correct!");
+        scr_event_build_camera_frame(CAMERA_NORMAL, o_cts_hoopz, dobj3);
+        scr_event_build_wait_for_actions();
+        scr_event_build_look(o_cts_hoopz, EAST);
+        scr_event_build_dialogue(dname3, dport3, "Yes... just as was reported, a terrorist seeks to detonate a bomb during the inaugural speech of Governor Elagabalus!");
+        scr_event_build_camera_frame(CAMERA_NORMAL, o_cts_hoopz, dobj1);
+        scr_event_build_wait_for_actions();
+        scr_event_build_look(o_cts_hoopz, WEST);
+        scr_event_build_dialogue(dname1, dport1, "Even worse, this treasonous scumbag is using the statue of the great Cuchulainn to do it! What insolence and disrespect!");
+        scr_event_build_camera_frame(CAMERA_NORMAL, o_cts_hoopz, dobj2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_look(o_cts_hoopz, SOUTH);
+        scr_event_build_dialogue(dname2, dport2, "It's clear then... Governor Elagabalus must issue a swift reprisal against the treacherous dwarfs of Tir na Nog...");
+        
+        scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, SOUTH);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, WEST);
+        scr_event_build_wait(0.50);
+        scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, SOUTH);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, EAST);
+        scr_event_build_wait(0.50);
+        scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, SOUTH);
+        scr_event_build_wait(0.25);
+        
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "There's no way out... how did this happen...");
+        scr_event_build_dialogue(dname3, dport3, "How stupid can you be? You've been ratted out! One of your dogs in L.O.N.G.I.N.U.S. knows better than to betray the great Cuchulainn. Governor Elagabalus will exact the necessary punishment here. And as for you... you're under arrest!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wh-what!? No... no, I didn't...!");
+        scr_event_build_dialogue(dname1, dport1, "Conspiracy, vandalism, treason, and an attempted act of terror... " + P_NAME_F + ", you're hereby sentenced to 666 years of hard labor in the Necron 7 mines!")
+        scr_event_build_quest_state("govQuest", 7);
+        //hoopz teleported to mines.
+        scr_event_build_teleport(r_debugGreets01, 192, 96, 5, 2);
+    }
+    
+    
+    //----------------------------------------------
+    //  bomb_snippet
+    //----------------------------------------------
+    with (bomb_snippet)
+    {
+        Breakout("build", "add", "Bomb");
+        // No Bomb
+        if (Item("count", "Bomb") == 0)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This is the plaque " + full_madison + " Madison told me about. I'm supposed to place the bomb here... but I don't have anymore. Maybe I shouldn't have been such a bomb-glutton...)");
+            Breakout("build", "clear");
+        }
+        // Have Bomb
+        else
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This is the plaque " + full_madison + " Madison told me about. I'm supposed to place the bomb here...)");
+            scr_event_build_move_to_point_ext(o_cts_hoopz, cornerx, cornery, MOVE_SLOW);
+            scr_event_build_wait_for_actions();
+            scr_event_build_look(o_cts_hoopz, NORTHWEST);//scr_event_build_look(o_cts_hoopz, SOUTH);
+            scr_event_build_wait(1);
+            
+            scr_event_build_camera_frame(CAMERA_NORMAL, o_onslow01);
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(3);
+            scr_event_build_wait_for_actions();
+            scr_event_build_camera_follow_frame(CAMERA_NORMAL, o_cts_hoopz);
+            scr_event_build_wait(2.5);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I'm pretty sure that Duergar can't see me from here. If I wanna do it, now's my chance...)");
+            
+            var usebomb = scr_event_build_choice("Place the bomb in the statue?", s_port_hoopz);
+            //Blow up the mansion.
+            with scr_event_build_add_choice(usebomb, "Let's blow it to smithereens.")
+            {
+                scr_event_build_event_snippet(caught_snippet);
+            }
+            //Don't blow up the mansion
+            with scr_event_build_add_choice(usebomb, "I think I'll pass on blowing this up.")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I'm getting this feeling in my gut that maybe it's a bad idea to bomb the speech. Just a hunch...)");
+            }
+        }
+    }
+    
+    
+    //----------------------------------------------
+    //  main event
+    //----------------------------------------------
+    with (event)
+    {
+        // Plaque Description
+        scr_event_build_dialogue("Plaque", NULL, "The Great Dwarf War Hero Cuchulainn. Commemorated by the Great Dwarf War Hero Cuchulainn in His own likeness. Most dwarfs immediatly recognize that Cuchulainn looks JUST LIKE THEM! Reminder: Vandalism of the Great Dwarf War Hero Cuchulainn is a criminal offense.");
+        
+        // If you've agreed to bomb the Governor's Mansion for Pvt. Madison.
+        if (scr_quest_get_state("govBomb") == 2)
+        {
+            // Player is Governor
+            if (BodySwap() == "governor")
+            {
+                scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(" + rank_madison + " wanted me to place the bomb here and have it explode during the speech... but I'm the one doing the speech. I mean, the Governor is, but I'm in the Governor's body... at any rate, now I don't want to blow either of us up.)");
+            }
+            // Pre-Speech
+            else if (scr_quest_get_state("govQuest") <= 3)
+            {
+                scr_event_build_event_snippet(bomb_snippet);
+            }
+            // Post-Speech
+            else
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This is the plaque " + full_madison + " Madison told me about. She wanted me to place the bomb here and detonate it during the Governor's speech, but the speech is already over... I don't think it would do any good now.)");
+            }
+        } 
+        // Don't have bomb     
+        else
+        {
+            // scr_event_build_minigame("grab babby"); scr_event_build_wait_for_actions(); scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I hope you enjoyed the minigame.");
+        }
+    }
+    scr_event_advance(event);
+}

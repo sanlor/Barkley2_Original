@@ -1,0 +1,23 @@
+/// scr_event_create_main()
+/// Creates a new main event for Hoopz to interactive with.
+
+var event = instance_create(0, 0, o_event);
+event._event_object = id;
+event._type = EVENT_MAIN;
+
+if (global.eventFrame == 1)
+{
+    with (event)
+    {
+        //Facing code - Make lugner face hoopz
+        if (instance_exists(global.eventObject))
+        {
+            if (global.eventObject.faceAuto == 1) scr_entity_look_object(global.eventObject, o_hoopz);
+        }
+        scr_event_build_camera_frame(CAMERA_FAST, o_hoopz, global.eventObject);
+        scr_event_build_wait_for_actions();
+    }
+    global.eventFrame = 0;
+}
+
+return event;

@@ -1,0 +1,7 @@
+/// scr_combat_weapons_changeBullets(gun,amount)
+
+var gun = argument0;
+var _amount = argument1;
+
+gun[? "pCurAmmo"] += _amount;
+gun[? "pCurAmmo"] = median(0,gun[? "pCurAmmo"],gun[? "pMaxAmmo"]);

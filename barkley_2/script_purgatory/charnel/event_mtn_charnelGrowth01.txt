@@ -1,0 +1,22 @@
+// event_mtn_charnelGrowth01
+/*
+
+if (argument0 == SCRIPT_START) {
+
+}
+else if (argument0 == SCRIPT_START) {
+
+}
+if (argument0 == SCRIPT_INTERACT) {
+    var charnelGrowth = id;
+    var event = scr_event_create_main();
+    
+    
+    //--------------------------------------------
+    // Main Event
+    //--------------------------------------------
+    with (event) {
+        scr_event_build_dialogue_debug("bort", NULL, "This is the extra dialogue for the Growth Elemental that occurs at the Charnel Ground when it is fully grown.");
+    }
+    scr_event_advance(event);
+}

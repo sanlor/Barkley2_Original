@@ -1,0 +1,46 @@
+/// LensFlare("build" / "create", x0, y0, x1, y1, x2, y2, time_seconds)
+if (is_real(argument[0])) // ds_list containing actions
+{
+    var obj = instance_create(0, 0, o_lensflare);
+    obj.evt = id;
+    obj.lx0 = ds_list_find_value(argument[0], 1);
+    obj.ly0 = ds_list_find_value(argument[0], 2);
+    obj.lx1 = ds_list_find_value(argument[0], 3);
+    obj.ly1 = ds_list_find_value(argument[0], 4);
+    obj.lx2 = ds_list_find_value(argument[0], 5);
+    obj.ly2 = ds_list_find_value(argument[0], 6);
+    obj.tim = ds_list_find_value(argument[0], 7);
+    with (obj) event_user(0);
+    _events_active += 1;
+    scr_event_advance(id);
+}
+else if (argument[0] == "build")
+{
+    var act = ds_list_create();
+    ds_list_add(act, LensFlare);
+    ds_list_add(act, argument[1]); // x0
+    ds_list_add(act, argument[2]); // y0
+    ds_list_add(act, argument[3]); // x1
+    ds_list_add(act, argument[4]); // y1
+    ds_list_add(act, argument[5]); // x2
+    ds_list_add(act, argument[6]); // y2
+    ds_list_add(act, argument[7]); // time
+    ds_list_add(_event_list, act); // Add the action to the list
+    return ds_list_size(_event_list) - 1;
+}
+else if (argument[0] == "create")
+{
+    var obj = instance_create(0, 0, o_lensflare);
+    obj.lx0 = real(argument[1]);
+    obj.ly0 = real(argument[2]);
+    obj.lx1 = real(argument[3]);
+    obj.ly1 = real(argument[4]);
+    obj.lx2 = real(argument[5]);
+    obj.ly2 = real(argument[6]);
+    obj.tim = real(argument[7]);
+    with (obj) event_user(0);
+}
+else
+{
+    show_debug_message("LensFlare() - ERROR: No function that begins with '" + string(argument[0]) + "'.");
+}

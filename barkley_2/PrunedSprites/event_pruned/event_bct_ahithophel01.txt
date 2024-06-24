@@ -1,0 +1,415 @@
+// The priest in the Brain City Chapel
+
+/*if (argument0 == SCRIPT_START) {
+
+}
+else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    
+
+    var ahiport = NULL;
+    
+    // Build Event
+    var event = scr_event_create_main();
+    var clispaeth_snippet = scr_event_create_child(event);
+    var belief_snippet = scr_event_create_child(event);
+    var question_snippet = scr_event_create_child(event);
+    //var wizard_snippet = scr_event_create_child(event);
+    
+    
+    //-----------------------------------------------------------------------------------------------------
+    //  clispaeth_snippet
+    //-----------------------------------------------------------------------------------------------------
+        with (clispaeth_snippet) {
+        
+        // debug message
+        if (scr_quest_get_state("ahithophelHandler") != 2) {
+            scr_event_build_dialogue_debug("bort", NULL, "Clispaeth Snippet! All of these besides /'That's all/' loop back to here when answered.");
+        }
+        scr_event_build_quest_state("ahithophelHandler", 2);
+        
+        //Clispaeth Questions
+        var clispaeth_question = scr_event_build_choice("I've got some questions about Clispaeth...", s_port_hoopz);
+        
+        //What's Clispaeth's Message?
+        with scr_event_build_add_choice(clispaeth_question, "What's Clispaeth's message?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What was Clispaeth's message?");
+            scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+            scr_event_build_execute_event_script(event_bct_ahithophel01);
+        }
+        //Who was Judas?
+        with scr_event_build_add_choice(clispaeth_question, "Who was Judas?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Who was this Judas guy?");
+            scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+            scr_event_build_execute_event_script(event_bct_ahithophel01);
+        }
+        //What's the Cyberpocalypse?
+        with scr_event_build_add_choice(clispaeth_question, "What's the Cyberpocalypse?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, that Cyberpocalypse thing sounds familiar. What is that?");
+            scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+            scr_event_build_execute_event_script(event_bct_ahithophel01);
+        }
+        //This sounds like a load of bunk.
+        with scr_event_build_add_choice(clispaeth_question, "Sounds like a bunch of bunkum to me.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow. This sounds like a bunch of baloney. I can't believe you buy this bunk.");
+            scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+            
+            var clispaeth_bunkum = scr_event_build_choice("Hmmm, maybe there's something to what she says...", s_port_hoopz);
+            
+            //Maybe she's right.
+            with scr_event_build_add_choice(clispaeth_bunkum, "Hmmm, maybe you're right.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hmm, I hadn't looked at it that way before. I'll think about it.");
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+                scr_event_build_execute_event_script(event_bct_ahithophel01);
+            }
+            //Cram it, granny.
+            with scr_event_build_add_choice(clispaeth_bunkum, "Cram it, granny.") {
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+                scr_event_build_dialogue_debug("bort", NULL, "Event ends.");
+                scr_event_build_quest_state("ahithophelHandler", 0);
+                scr_event_build_end();
+                //TODO: Lower Clispaeth Roundmound.
+            }
+        }
+        //That's all I want to know about Clispaeth for now.
+        with scr_event_build_add_choice(clispaeth_question, "That's all I wanted to know about Clispaeth.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Think that's all I wanted to know about Clispaeth.");
+            scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+            // send back to question snippet
+            scr_event_build_quest_state("ahithophelHandler", 1);
+            scr_event_build_execute_event_script(event_bct_ahithophel01);
+        }
+    }
+    
+    //-----------------------------------------------------------------------------------------------------
+    //  belief_snippet
+    //-----------------------------------------------------------------------------------------------------
+    with (belief_snippet) {
+        
+        // debug message
+        if (scr_quest_get_state("ahithophelHandler") != 3) {
+            scr_event_build_dialogue_debug("bort", NULL, "Clispaeth Snippet! All of these besides /'That's all/' loop back to here when answered.");
+        }
+        scr_event_build_quest_state("ahithophelHandler", 3);
+        
+        //Belief Questions
+        var belief_question = scr_event_build_choice("I've got some questions about Klispins...", s_port_hoopz);
+        
+        //What's Clispaeth's Message?
+        with scr_event_build_add_choice(belief_question, "Why should I treat people nicely?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why am I supposed to treat people nicely?");
+            scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+            scr_event_build_execute_event_script(event_bct_ahithophel01);
+        }
+        //When's Clispaeth returning?
+        with scr_event_build_add_choice(belief_question, "When is he returning?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "When is Clispaeth returning?");
+            scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+            
+            var clispaeth_return = scr_event_build_choice("How do I feel about that...", s_port_hoopz);
+            
+            //That sounds important
+            with scr_event_build_add_choice(clispaeth_return, "That sounds really important.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, sounds like it's pretty important to get the message of Clispaeth out to as many people as possible.");
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+                scr_event_build_execute_event_script(event_bct_ahithophel01);
+            }
+                
+            //That actually sounds kind of crazy.
+            with scr_event_build_add_choice(clispaeth_return, "That actually sounds kind of crazy.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "That actually sounds a little crazy. In the nutjob, tin foil hat kind of way.");
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+                scr_event_build_execute_event_script(event_bct_ahithophel01);
+            }
+                
+            //That actually sounds kind of crazy.
+            with scr_event_build_add_choice(clispaeth_return, "I don't believe you.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I just don't believe this stuff.");
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+                scr_event_build_execute_event_script(event_bct_ahithophel01);
+            }
+        }
+        //What about b-ball?
+        with scr_event_build_add_choice(belief_question, "What about b-ball?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What about b-ball?");
+            scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "--------");
+            scr_event_build_quest_state("ahithophelHandler", 3);
+            scr_event_build_execute_event_script(event_bct_ahithophel01);
+        }
+        //That's all.
+        with scr_event_build_add_choice(belief_question, "That's all I wanted to know about that.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Think that's all I wanted to know about that.");
+            scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Please let me know if you ever have more questions. Was there anything else?");
+            scr_event_build_quest_state("ahithophelHandler", 1);
+            scr_event_build_execute_event_script(event_bct_ahithophel01);
+        }    
+    }
+    
+    
+    //-----------------------------------------------------------------------------------------------------
+    //  question_snippet
+    //-----------------------------------------------------------------------------------------------------
+    with (question_snippet) {    
+        scr_event_build_dialogue_debug("bort", NULL, "This is the Question Snippet. Ahithophel will have information that is totally contrary to Irmingard here.");
+        
+        var question_choice = scr_event_build_choice("I've got a question...", s_port_hoopz);
+        
+        //Who is Clispaeth?
+        with scr_event_build_add_choice(question_choice, "Who is Clispaeth?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Who's this Clispaeth character I keep hearing about?");
+            scr_event_build_dialogue("Brother Ahithophel", ahiport, "-------- A response that sends you to clispaeth_snippet.");
+            scr_event_build_event_snippet(clispaeth_snippet);
+        }
+        //What do Klispins believe?
+        with scr_event_build_add_choice(question_choice, "What do Klispins believe?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "So what exactly do Klispins believe?");
+            scr_event_build_dialogue("Brother Ahithophel", ahiport, "-------- A response that sends you to belief_snippet.");
+            scr_event_build_event_snippet(belief_snippet);
+        }
+        //How can I be a good Klispin?
+        with scr_event_build_add_choice(question_choice, "How can I be a good Klispin?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "So how am I supposed to be a good Klispin?");
+            scr_event_build_dialogue("Brother Ahithophel", ahiport, "-------- A response.");
+            scr_event_build_quest_state("ahithophelHandler", 1);
+            scr_event_build_execute_event_script(event_bct_ahithophel01);
+        }
+        //Wedding Quest - haven't spoken to Ahithophel about it yet
+        with scr_event_build_add_choice(question_choice, "How can I spread the good news of Clispaeth?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "How can I spread the word about Clispaeth?");
+            scr_event_build_dialogue("Brother Ahithophel", ahiport, "-------- A reponse. Possibly stuff about the wedding, if the time is right.");
+            scr_event_build_quest_state("ahithophelHandler", 1);
+            scr_event_build_execute_event_script(event_bct_ahithophel01);
+        }
+        //Don't believe in Clispaeth.
+        with scr_event_build_add_choice(question_choice, "I don't believe any of this hoo-hah.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't believe any of this Clispaeth bunkum. It's all just a bunch of hoo-hah.");
+            scr_event_build_dialogue("Brother Ahithophel", ahiport, "-------- An argument or something.");
+            scr_event_build_quest_state("ahithophelHandler", 1);
+            scr_event_build_execute_event_script(event_bct_ahithophel01);
+        }
+        //Where can I shoot hoops around here?
+        with scr_event_build_add_choice(question_choice, "Where can I shoot some hoops around here?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey father, where can I shoot hoops around here?");
+            scr_event_build_dialogue("Brother Ahithophel", ahiport, "-------- Stupendous b-ball banter!");
+            scr_event_build_quest_state("ahithophelHandler", 1);
+            scr_event_build_execute_event_script(event_bct_ahithophel01);
+        }
+        //End convo
+        with scr_event_build_add_choice(question_choice, "Smell ya later.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Smell ya later, dude.");
+            scr_event_build_quest_state("ahithophelHandler", 0);
+            scr_event_build_end();
+        }
+    }
+    
+    
+    
+    //-----------------------------------------------------------------------------------------------------
+    //  main event
+    //-----------------------------------------------------------------------------------------------------
+    with (event) {
+        
+        //--------------------------------------------
+        //----------- QUESTION HANDLER ---------------
+        //--------------------------------------------
+        if (scr_quest_get_state("ahithophelHandler") >= 1) {
+            //Reset ahitophelHandler to 0;
+            scr_event_build_quest_state("ahithophelHandler", 0);
+            
+            //Send to question snippet.
+            if (scr_quest_get_state("ahithophelHandler") == 1) {
+                scr_event_build_event_snippet(question_snippet);
+            }
+            //Send to clispaeth snippet.
+            else if (scr_quest_get_state("ahithophelHandler") == 2) {
+                scr_event_build_event_snippet(clispaeth_snippet);
+            }
+            //Send to belief snippet.
+            else if (scr_quest_get_state("ahithophelHandler") == 3) {
+                scr_event_build_event_snippet(belief_snippet);
+            }
+        }
+        
+        //--------------------------------------------
+        //---------- REMOVE WIZARD QUEST -------------
+        //--------------------------------------------
+        if (scr_quest_get_state("wizardChapel") >= 1) {
+            
+            // ---------- WIZARD IS CONVERTED ----------
+            if (scr_quest_get_state("wizardChapel") == 3) {
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "WIZARD is converted.");
+            }
+            
+            // ---------- WIZARD IS RESISTING ----------
+            if (scr_quest_get_state("wizardChapel") == 2) {
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "WIZARD is resisting conversion.");
+            }
+            
+            // ---------- WIZARD STILL IN ROOM ----------
+            if (scr_quest_get_state("wizardChapel") == 1) {
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Implores you again to remove WIZARD.");
+            }
+        }
+        
+        //--------------------------------------------
+        //--------- COMPLETE WEDDING QUEST -----------
+        //--------------------------------------------
+        if (scr_quest_get_state("weddingQuest") == 3) {
+            
+            // ---------- WIZARD IN THE BAND ----------
+            if (scr_quest_get_state("wizardWedding") == 3) {
+                // talked to ahithophel during quest
+                if (scr_quest_get_state("ahithophelWedding") == 2) {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Talked to Ahithophel during the wedding, then he saw you sing, if it matters for dialogue.");
+                }
+                // got mission from ahithophel
+                else if (scr_quest_get_state("ahithophelWedding") == 1) {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Got mission from Ahithophel, then he saw you sing,if it matters for dialogue.");
+                }
+                else {
+                    // talked to ahithophel before
+                    if (scr_quest_get_state("ahithophelState") == 1) {
+                        scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Talked to Ahithophel before the wedding, then he saw you sing, if it matters for dialogue.");
+                    }
+                    // never talked
+                    else {
+                        scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Never talked to Ahithophel, but he saw you sing, if it matters for dialogue.");
+                        scr_event_build_dialogue_debug("bort", NULL, "/'ahithophelState/' is set to 1.");
+                        scr_event_build_quest_state("ahithophelState", 1);
+                    }
+                    scr_event_build_dialogue_debug("bort", NULL, "/'ahithophelWedding/' is set to 2.");
+                    scr_event_build_quest_state("ahithophelWedding", 2);
+                }
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Ahithophel complains about WIZARD standing around.");
+                scr_event_build_dialogue_debug("bort", NULL, "Quest /'wizardChapel/' is set to 1.");
+                scr_event_build_dialogue_debug("bort", NULL, "All these state variables are cleaned up at this point... the only one that matters is /'wizardChapel/'.");
+                scr_event_build_quest_state("wizardChapel", 1);
+            }
+            
+            // ---------- NORMAL END ----------
+            else {
+                // talked to ahithophel during quest
+                if (scr_quest_get_state("ahithophelWedding") == 2) {
+                    scr_event_build_dialogue("Brother Ahithophel", ahiport, "");
+                }
+                // got mission from ahithophel
+                else if (scr_quest_get_state("ahithophelWedding") == 1) {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "");
+                }
+                else {
+                    // talked to ahithophel before
+                    if (scr_quest_get_state("ahithophelState") == 1) {
+                        scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "");
+                    }
+                    // never talked
+                    else {
+                        scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "");
+                        scr_event_build_dialogue_debug("bort", NULL, "/'ahithophelState/' is set to 1.");
+                        scr_event_build_quest_state("ahithophelState", 1);
+                    }
+                    scr_event_build_dialogue_debug("bort", NULL, "/'ahithophelWedding/' is set to 2.");
+                    scr_event_build_quest_state("ahithophelWedding", 2);
+                }
+            }
+        }
+        
+        //--------------------------------------------
+        //---------- FAILED WEDDING QUEST ------------
+        //--------------------------------------------
+        if (scr_quest_get_state("weddingQuest") == 2) {
+            // got wedding information from ahithophel, or talked to ahithophel after getting the quest
+            if (scr_quest_get_state("ahithophelWedding") >= 1) {
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Ahithophel is disappointed you ruined the wedding.");
+            }
+            // ahithophel doesn't know you were on the quest
+            else {
+                // talked to ahithophel before
+                if (scr_quest_get_state("ahithophelState") == 1) {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Says hello again, complains that there was a wedding that had no music.");
+                }
+                // haven't talked before
+                else {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Introduces self, complains that there was a wedding that had no music.");
+                    scr_event_build_dialogue_debug("bort", NULL, "/'ahithophelState/' is set to 1.");
+                    scr_event_build_quest_state("ahithophelState", 1);
+                }
+            }
+        }
+        
+        //--------------------------------------------
+        //---------- DURING WEDDING QUEST ------------
+        //--------------------------------------------
+        if (scr_quest_get_state("weddingQuest") == 1) {
+            // repeating dialogue until you finish the quest
+            if (scr_quest_get_state("ahithophelWedding") == 2) {
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Time is between 4 and 10, wedding quest is on. Repetitive talk about the wedding.");
+            }
+            // got wedding information from ahithophel
+            if (scr_quest_get_state("ahithophelWedding") == 1) {
+                scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Time is between 4 and 10, wedding quest is on. Ahithophel is happy you took on the quest. Ahithophel says something about the wedding, like to keep the music clean or something.");
+            }
+            // haven't talked about wedding
+            else {
+                // talked to ahithophel before
+                if (scr_quest_get_state("ahithophelState") == 1) {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Time is between 4 and 10, wedding quest is on. Already introduced. Ahithophel says hello again, then something about the wedding, like to keep the music clean or something.");
+                }
+                // haven't talked before
+                else {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Time is between 4 and 10, wedding quest is on. Ahithophel says /'nice to meet you/', then something about the wedding, like to keep the music clean or something.");
+                    scr_event_build_dialogue_debug("bort", NULL, "/'ahithophelState/' is set to 1.");
+                    scr_event_build_quest_state("ahithophelState", 1);
+                }
+                scr_event_build_dialogue_debug("bort", NULL, "/'ahithophelWedding/' is set to 2.");
+                scr_event_build_quest_state("ahithophelWedding", 2);
+            }
+        }
+        
+        //--------------------------------------------
+        //----------- PRE- WEDDING QUEST -------------
+        //--------------------------------------------
+        else {
+            // heard about the wedding
+            if (scr_quest_get_state("ahithophelWedding") == 1) {
+                // wedding still available
+                if (scr_time_get() >= 4) && (scr_time_get() <= 10) {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Time is between 4 and 10, so Ahithophel says something else about the upcoming wedding.");  
+                }
+                // wedding no longer available
+                else {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Time for the wedding expired, so Ahithophel says something sad about it not having music.");
+                    scr_event_build_dialogue_debug("bort", NULL, "/'ahithophelWedding/' is set to 2.");
+                    scr_event_build_quest_state("ahithophelWedding", 2);
+                }
+            }
+            // haven't heard about wedding
+            else {
+                // talked before
+                if (scr_quest_get_state("ahithophelState") == 1) {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "You've talked to Ahithophel before, still says whatever.");  
+                }
+                // never talked
+                else if (scr_quest_get_state("ahithophelState") == 0) {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Ahithophel says whatever.");
+                    scr_event_build_dialogue_debug("bort", NULL, "/'ahithophelState/' is set to 1.");
+                    scr_event_build_quest_state("ahithophelState", 1);
+                }
+                // in both cases, if it's time for wedding, you hear about it!!!
+                if (scr_time_get() >= 4) && (scr_time_get() <= 10) {
+                    scr_event_build_dialogue_debug("Brother Ahithophel", ahiport, "Time is between 4 and 10, so Ahithophel mentions the wedding quest. Tells you to go see Stonewall.");
+                    scr_event_build_dialogue_debug("bort", NULL, "This can slightly alter the player's dialogue with Stonewall.");
+                    scr_event_build_dialogue_debug("bort", NULL, "/'ahithophelState/' is set to 1.");
+                    scr_event_build_quest_state("ahithophelWedding", 1);
+                }
+                // not time for wedding
+                else {
+                    scr_event_build_dialogue_debug("bort", NULL, "Not time for wedding yet. Advance time to 4 to 10 and try again!"); 
+                }
+            }
+        }
+    }
+    
+    scr_event_advance(event);    
+}

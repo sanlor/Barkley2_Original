@@ -1,0 +1,735 @@
+// event_dz2_sabah01
+/*
+
+    sabahState
+        1 = met sabah and heard his plight
+    sabahWorking
+        0 = not working
+        1 = on step 1 of his work
+        2 = on step 2 of his work
+        This will update on time units IF he has the quiet, materials, etc.
+    sabahWorkCurrent
+        0 = not working
+        1 = on step 1 of his work
+        2 = on step 2 of his work
+    sabahQuest
+        1 = heard quest
+    sabahCrazy
+        1 = currently crazy
+        2 = crazy and...................................... what?????????
+    sabahSound
+        "none", "both", "guil", "jane", etc. = scr_sabah_sound()
+        This is either one of two sounds: 
+        the PREVIOUS SOUND when sabah was last talked to
+        OR, if the map was changed, the sound when you LAST ENTERED the map
+    sabahWedding
+        1 = asked while crazy
+        2 = asked while sane
+        3 = asked while sane, time passed
+        4 = got sabah's forgiveness
+        
+        
+    scr_sabah_sound()
+    scr_sabah_random()
+
+*/
+/*
+if (argument0 == SCRIPT_START) {
+    // if you haven't talked to sabah, 
+    //   set the quest variable "sabahSound" to whatever the current sound is
+    if (scr_quest_get_state("sabahState") == 0) {
+        Quest("sabahCrazy", 1);
+        Quest("sabahSound", scr_sabah_sound());
+    }
+    
+    // no sound, sabah is not crazy
+    if (scr_sabah_sound() != "none") { 
+        Quest("sabahCrazy", 1); 
+    }
+
+    // deactivate if moved-in
+    if (scr_quest_get_state("sabahOffer") == 3) {
+        scr_event_interactive_deactivate();
+        scr_actor_unsetRigid(id);
+    }
+}
+if (argument0 == SCRIPT_STEP) {
+
+}
+if (argument0 == SCRIPT_INTERACT) {
+    
+    
+
+    //id
+        var sabah = id;
+    
+    // portrait
+        var sabahport = s_portrait;
+    
+    // events & snippets
+        var event = scr_event_create_main();
+        var crazy_snippet = scr_event_create_child(event);
+        var healed_snippet = scr_event_create_child(event);
+        var working_snippet = scr_event_create_child(event);
+        var question_snippet = scr_event_create_child(event);
+        var wedding_snippet = scr_event_create_child(event);
+        var move_in_snippet = scr_event_create_child(event);
+        
+    
+    // move in value req
+        
+        var sabah_rent = 50;
+        var sabah_req = 50;
+        if (scr_quest_get_state("sabahCrazy") >= 1) {
+            sabah_req = -1;
+        }
+        
+    // peace & quiet time
+        // this is fake
+        var peace_time = 0;
+        if (scr_quest_get_state("sabahTime") > 0) {
+            peace_time = scr_quest_get_state("sabahTime") - scr_time_get();
+        }
+        
+    // player has met jane
+        var janevar = 0;
+        var janename = "that accordion player's tune";
+        if (scr_quest_get_state("janeVar") == 1) {
+            janevar = 1;
+        }
+        if janevar = 1 { janename = "Cap'n Jane is on the accordion"; }
+
+    // just recovered from wedding anger
+        var forgive_text = "";
+        if (scr_quest_get_state("sabahWedding") == 3) {
+            forgive_text = "How true that is, " + P_NAME + "... now, where was I? Ah... ";
+        }
+        
+        
+    // choice text
+        var choice_text = "Ask Sabah..."; // testing it starting out with the "long" text in order to not be a big problem!
+    
+    //------------------------------------------------------------------------------------------
+    // working_snippet
+    //------------------------------------------------------------------------------------------
+    with (working_snippet) {
+        // just asked to join wedding
+        if (scr_quest_get_state("sabahWedding") == 2) {
+            scr_event_build_dialogue("Sabah", sabahport, "Begone at once! I cannot believe my honor as the Lord's servant was sullied by such a request. Begone, while I rethink you! I shall not have it now!");
+            scr_event_build_end();
+        }
+        // returned later
+        else if (scr_quest_get_state("sabahWedding") == 3) {
+            scr_event_build_dialogue("Sabah", sabahport, "My lovely cherub! Thank you for returning... I spoke to harshly when we last spoke...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, tell me about it!");
+            scr_event_build_dialogue("Sabah", sabahport, "I am ashamed... it is sinful for a servant of the Lord to strike at another so quickly. You... you are not, nor do you resemble, a demon, or a devil, or a djinni, or anything of the sort.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Master Sabah, by now I know you get a little high strung. It's cool... just learn your lesson! You're never to old to learn a lesson!");
+            scr_event_build_quest_state("sabahWedding", 4);
+        }
+        // if sabah has done work in the meantime
+        if (scr_quest_get_state("sabahWorking")) > (scr_quest_get_state("sabahWorkCurrent")) {
+            switch (scr_quest_get_state("sabahWorking")) {
+                case 1:
+                    scr_event_build_dialogue("Sabah", sabahport, forgive_text + "");
+                    break;
+                case 2:
+                    scr_event_build_dialogue("Sabah", sabahport, forgive_text + "");
+                    scr_event_build_dialogue_debug("bort", NULL, "working 2");
+                    break;
+                case 3:
+                    scr_event_build_dialogue("Sabah", sabahport, forgive_text + "");
+                    scr_event_build_dialogue_debug("bort", NULL, "working 3");
+                    break;
+                case 4:
+                    scr_event_build_dialogue("Sabah", sabahport, forgive_text + "");
+                    scr_event_build_dialogue_debug("bort", NULL, "working 4");
+                    break;
+            }
+            // update state
+            scr_event_build_quest_state("sabahWorkCurrent", scr_quest_get_state("sabahWorking"));
+        }
+        // talked to sabah on the same time unit
+        else {
+            switch (scr_quest_get_state("sabahWorking")) {
+                case 1:
+                    scr_event_build_dialogue("Sabah", sabahport, "My next work must be my best... I shall think upon what to make. Only the the finest materials and the most precise construction will do if I am to capture the Lord's tone. For now, I'll play my old stock, think, and praise the Lord! Please, return later. I know I will need you again.");
+                    break;
+                case 2:
+                    scr_event_build_dialogue_debug("bort", NULL, forgive_text + "working 2");
+                    break;
+                case 3:
+                    scr_event_build_dialogue_debug("bort", NULL, forgive_text + "working 3");
+                    break;
+                case 4:
+                    scr_event_build_dialogue_debug("bort", NULL, forgive_text + "working 4");
+                    break;
+            }
+        }
+        // go to question snippet if qualifying
+        if ((scr_wedding_quest_on() == true) && (scr_quest_get_state("sabahWedding") <= 1)) || (scr_dilapidated_tenant_able("Sabah") == true) {
+            scr_event_build_event_snippet(question_snippet);
+        }
+    }
+    
+    //------------------------------------------------------------------------------------------
+    // question_snippet
+    //------------------------------------------------------------------------------------------
+    with (question_snippet) {
+        // wedding quest on
+        
+        if (scr_wedding_quest_on() == true) && (scr_quest_get_state("sabahWedding") <= 1) {
+            // apartment on also
+            if (scr_dilapidated_tenant_able("Sabah") == true) {
+                Breakout("build", "add", "superEmpty");
+                choice_text = "Ask Sabah...";
+            }
+            // just wedding
+            else {
+                choice_text = "Ask Sabah...";
+            }
+        }
+        // just apartment
+        else {
+            Breakout("build", "add", "superEmpty");
+            choice_text = "Ask Sabah...";
+        }
+        // build breakout
+        // choice goes here
+        var choice = scr_event_build_choice(choice_text, s_port_hoopz);
+
+        // wedding choice is available
+        if (scr_wedding_quest_on() == true) && (scr_quest_get_state("sabahWedding") <= 1) {
+            var wedding = scr_event_build_add_choice(choice, "Ask Sabah to join the wedding band.");
+            with (wedding) {
+                // go to wedding snippet
+                Breakout("build", "clear");
+                scr_event_build_event_snippet(wedding_snippet);
+            }
+            if (scr_dilapidated_tenant_able("Sabah") == false) {
+                var dont = scr_event_build_add_choice(choice, "Don't ask to join the wedding band.");
+                with (dont) {
+                    // sabah is crazy
+                    if (scr_quest_get_state("sabahCrazy") >= 1) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I don't know if this guy's really in the state to play...)"); }
+                    // sabah is not crazy
+                    else { scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I don't think he'll really want to play in a wedding band... but I dunno...)"); }
+                    Breakout("build", "clear");
+                    scr_event_build_end();
+                }
+            }
+        }
+        // dilapidated zone is available
+        if (scr_dilapidated_tenant_able("Sabah") == true) {
+            
+            var move_in = scr_event_build_add_choice(choice, "Ask Sabah to move in to the Dilapidated Zone.");
+            with (move_in) {
+                scr_event_build_event_snippet(move_in_snippet);
+            }
+            // wedding quest is off
+            if (scr_wedding_quest_on() != true) || (scr_quest_get_state("sabahWedding") >= 2) {
+                var no_move = scr_event_build_add_choice(choice, "Don't ask Sabah to move in.");
+                with (no_move) {
+                    // end event
+                    Breakout("build", "clear");
+                    scr_event_build_dialogue_debug("bort", NULL, "Possibly something is written here?");
+                    scr_event_build_end();
+                }
+            }
+        }
+        // all are on
+        if (scr_dilapidated_tenant_able("Sabah") == true) && (scr_wedding_quest_on() == true) && (scr_quest_get_state("sabahWedding") <= 1) {
+            var nvm = scr_event_build_add_choice(choice, "Don't ask anything.");
+            with (nvm) {
+                Breakout("build", "clear");
+                scr_event_build_dialogue_debug("bort", NULL, "Possibly something is written here?");
+                scr_event_build_end();
+            }
+        }
+    }
+    
+    //------------------------------------------------------------------------------------------
+    // wedding_snippet
+    //------------------------------------------------------------------------------------------
+    with (wedding_snippet) {
+        // sabah is crazy
+        if (scr_quest_get_state("sabahCrazy") >= 1) {
+            // first ask
+            if (scr_quest_get_state("sabahWedding") == 0) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Sabah, I know work is frustrating with all this noise, so what about taking a little side gig? I know some people who are looking to put a band together to play at a wedding. How does that sound? You in?");
+                scr_event_build_dialogue("Sabah", sabahport, "Wedding? Yes! My F.A.T.E. is sealed. I am betrothed to my quest. Finish this instrument! Finish my Lord's instrument! Sonic devils are sent to instill doubt, but my task will lead to harmonious matrimony!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(He doesn't even know what I'm asking him...)");
+                scr_event_build_quest_state("sabahWedding", 1);
+            }
+            // second ask
+            else {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Excuse me, Master Sabah, have you thought any more about playing for that wedding?");
+                scr_event_build_dialogue("Sabah", sabahport, "My finished instrument will mark the end of the wedding ceremony. The first blissful note is the honeymoon and I am my Lord's blushing bride! I must continue work, my Lord. The pain you inflict on me is never questioned. I am your loyal servant. I do, my Lord!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(He still doesn't understand what I'm asking him...)");
+            }
+        }
+        // sabah is not crazy
+        else {
+            // asked while crazy
+            if (scr_quest_get_state("sabahWedding") == 1) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Now that you're a little more with it, Master Sabah, I was wondering. You think you'd like to take a little side gig? I know some people who are looking to put a band together to play at a wedding. How does that sound? You in?");
+            }
+            // first ask
+            else {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Sabah, I was wondering. You think you'd like to take a little side gig? I know some people who are looking to put a band together to play at a wedding. How does that sound? You in?");
+            }
+            // moved in
+            if (scr_quest_get_state("sabahOffer") == 3) {
+                scr_event_build_dialogue("Sabah", sabahport, "Angel... I... I will disregard this! My Lord is leading you, and you are leading me to the promised land! I will forget you asked me such a question. I will forget that you asked me to tarnish my spirit and blaspheme my Lord by using my holy instrument at a wedding. I will forget, and we will move on.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Yikes... that was a faux pas all right... a big time faux pas.)");
+                scr_event_build_quest_state("sabahWedding", 4);
+            }
+            else {
+                scr_event_build_dialogue("Sabah", sabahport, "A wedding? A wedding? You show your true form! I believed the Lord had sent you here as my angel, and now you, as a demon, wish to tempt me away from my work? Proffer my plucks to lubricate a carnal dwarf fete? Blasphemy! Blasphemy! Thank you, my Lord, for opening my eyes yet again! Your gift of your servant " + P_NAME + " has morphed before me! Your communion, unduly savored, transmutes to sublingual poison! Thank you, my Lord! A wedding? A wedding? Begone, you! My work is still to be done! Praise the Lord!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey man... JUST SAY NO NEXT TIME! Holy crap...");
+                // cannot talk until time unit updates
+                scr_event_build_quest_state("sabahWedding", 2);
+            }
+        }
+    }
+        
+    //------------------------------------------------------------------------------------------
+    // crazy_snippet
+    //------------------------------------------------------------------------------------------
+    with (crazy_snippet) {
+        //--------------------------------------------
+        // sound JUST returned or JUST occured
+        //--------------------------------------------
+        if (scr_quest_get_state("sabahCrazy") == 1) {
+            
+            // 2+ return of noise
+            if (scr_quest_get_state("sabahPeak") >= 1) {
+                scr_event_build_dialogue("Sabah", sabahport, "Again, again, again, my Lord! Your torments are never-ending! This noise! Bless your noise!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Come on, Sabah, get it together!");
+            }
+            // first return of noise
+            else if (scr_quest_get_state("sabahPeak") == 1) {
+                scr_event_build_dialogue("Sabah", sabahport, "My Lord, I apologize! Your devils have returned to torment me! I am a fool to think that my mortal deeds could in any way please you! I will destroy my instrument anew!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, Sabah! Just hold on, don't break your stuff!");
+            }
+            scr_event_build_quest_state("sabahQuest", 1);
+            scr_event_build_quest_state("sabahCrazy", 2);
+            //scr_event_build_quest_state_add("sabahPeak", 1);
+        }
+        
+        //--------------------------------------------
+        // sound occured a little bit ago
+        //--------------------------------------------
+        else if (scr_quest_get_state("sabahCrazy") == 2) {
+            // a bonus dialogue if the quality of the sound has changed:
+            // is both, wasn't before... SOUND GOT WORSE
+            if (scr_sabah_sound() == "both") && (scr_quest_get_state("sabahSound") != "both") {
+                scr_event_build_dialogue("Sabah", sabahport, "My Lord, I hear you! You're making it worse, for me, aren't you?");
+            }
+            // was both, isn't any longer... SOUND GOT BETTER
+            else if (scr_quest_get_state("sabahSound") == "both") && (scr_sabah_sound() != "both") {
+                scr_event_build_dialogue("Sabah", sabahport, "I hear you my Lord! You've pulled back on the devils' reins, I can feel it!");
+            }
+            // was guillaume or jane, now vice versa... SOUND JUST CHANGED
+            else if (scr_sabah_sound() != scr_quest_get_state("sabahSound")) {
+                scr_event_build_dialogue("Sabah", sabahport, "Your devils twist and turn, my Lord! They come at me in a different shape!");
+            }
+        }
+        
+        //--------------------------------------------
+        // shared by all
+        //--------------------------------------------
+        
+        // random sabah lines!
+        scr_sabah_random();
+        // save current noise level
+        scr_event_build_quest_state("sabahSound", scr_sabah_sound() );
+        
+        // go to QUESTION_SNIPPET if qualifying
+        if ((scr_wedding_quest_on() == true) && (scr_quest_get_state("sabahWedding") <= 1)) || (scr_quest_get_state("superOn") == 1) {
+            scr_event_build_event_snippet(question_snippet);
+        }
+        // otherwise, generic departure
+        else {
+            // 2+ insanity
+            if (scr_quest_get_state("sabahPeak") >= 1) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Oh boy... this guy is pretty fragile. I guess he needs some help again...)");
+            }
+            // first insanity
+            else {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This guy needs help... he seems disturbed. I wonder if I can make it any quieter around here.)");
+            } 
+        }
+    }
+    
+    
+    //------------------------------------------------------------------------------------------
+    // healed_snippet
+    //------------------------------------------------------------------------------------------
+    with (healed_snippet) {
+
+        // been healed before
+        if (scr_quest_get_state("sabahWorking") >= 1) {
+            scr_event_build_dialogue("Sabah", sabahport, "Clispaeth!? Clispaeth is that you? I felt like I was in a dark tunnel... a screaming black vortex that shrieked and howled until my contemplation of your beauty became less than perfect!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's me, Sabah...");
+            scr_event_build_dialogue("Sabah", sabahport, "Clispaeth and his angels are one! Clispaeth and his believers are one! But I know it's you. Now... back to work.");
+        }
+        // first time being healed
+        else {
+            // 2+ conversations
+            if (scr_quest_get_state("sabahState") == 1) {
+                scr_event_build_dialogue("Sabah", sabahport, "Clispaeth!? Clispaeth is that you? It's so quiet out... I've never heard you more clearly!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's me again, " + P_NAME + "! Come on, you knew it was me.");
+                scr_event_build_dialogue("Sabah", sabahport, "Thank you my Lord! And you have chosen such a splendid vessel for your deeds to be done! This youngster came to town and your demons subsided... is this child one your even greater devils? This is the first of your cherubim to not frighten me so...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm just a kid, Master Sabah. But say, you can probably get back to work now, right?");
+                scr_event_build_dialogue("Sabah", sabahport, "Indeed, indeed. Listen, " + P_NAME + "! In this silence, you can hear the desert's very ether around us! The spirit of the place is returning to me... and the spirit of the Lord is filling me! Hallelujah!");
+            }
+            // first conversation
+            else {
+                scr_event_build_dialogue("Sabah", sabahport, "Clispaeth!? Clispaeth is that you? It's so quiet out... I've never heard you more clearly!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um... I'm not Clispaeth. My name is " + P_NAME_F + ", what's yours?");
+                scr_event_build_dialogue("Sabah", sabahport, "My name is Master Sabah, the luthier. You may not be Clispaeth but you are certainly my Lord's harbinger and servant. Do you know how long I was tormented by his divine cacophony until you arrived? How devils pursued me through the desert with their relentless strumming and organ-grinding and mouth-harping and hand-drumming, even all the way to this forsaken spot?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't really... must have been bad though, huh?");
+                scr_event_build_dialogue("Sabah", sabahport, "It was my Lord's doing, and so it was my Lord's blessing and my Lord's curse. I was chosen to come to a quiet spot and craft a divine instrument, to hopefully sing my Lord's divine song. I was filled with his divine mission, and yet he beset me with sonic torment... and now, as you arrive, my Lord's beautiful cherub, the noise has subsided. Thank you! Thank you, my Lord!");
+                // ROUNDMOUND
+                scr_event_build_dialogue_debug("bort", NULL, "Maybe work another ROUNDMOUND choice in here?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Come on, I'm just a kid!");
+                scr_event_build_dialogue("Sabah", sabahport, "Say what you want, I know it to be true. I am certain you were put here to guide me... now that you have delivered peace to the desert, my work can begin once again. Listen, " + P_NAME + "! In this silence, you can hear the desert's very ether around us! The spirit of the place is returning to me... and the spirit of the Lord is filling me! Hallelujah!");
+            }
+            // shared by both
+            scr_event_build_dialogue_debug("bort", NULL, "Sabah starts playing his instrument, and the music starts up.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Awesome. Well, let me know how it goes. I wanna hear you play this thing! I bet you can get pretty funky, huh?");
+            scr_event_build_dialogue("Sabah", sabahport, "My playing has been refined over many years... it was once a passion of my dwarf youth, now it is a passion directed towards my Lord. Please, return soon. The restoration of silence to the desert must truly be a sign from Clispaeth. My powers will reach their zenith when this next instrument is built. Perhaps I will need your guidance again. Thank you, thank you so much. Be proud you have served Clispaeth!");
+        }
+        
+        // update sabahPeak if it has not been updated yet
+        scr_event_build_quest_state_add("sabahPeak", 1);
+        
+        // make un-crazy
+        scr_event_build_quest_state("sabahCrazy", 0);
+        scr_event_build_quest_state("sabahSound", "none"); // unnecessary?
+        // turn on the working snippet
+        if (scr_quest_get_state("sabahWorking") == 0) {
+            scr_event_build_quest_state("sabahWorking", 1);
+        }
+        // complete sabah's quest
+        scr_event_build_quest_state("sabahQuest", 2);
+        scr_event_build_end();
+    }
+    
+    //------------------------------------------------------------------------------------------
+    // main event
+    //------------------------------------------------------------------------------------------
+    with (event) {
+        //---------------------------------
+        // MOVING
+        //---------------------------------
+        if (scr_quest_get_state("sabahOffer") == 3) {
+            // not crazy
+            if (scr_quest_get_state("sabahCrazy") == 0) {
+                scr_event_build_dialogue("Sabah", sabahport, "I'm an old man, and it will take me a moment to gather my things. I shall begin my journey soon.");
+            }
+            // crazy
+            else {
+                scr_event_build_dialogue("Sabah", sabahport, "At last, deliverance has come! Lord Clispaeth, give me the strength to carry my weary body home!");
+            }
+            if (scr_wedding_quest_on() == true) && (scr_quest_get_state("sabahWedding") <= 1) {
+                scr_event_build_event_snippet(question_snippet);
+            }
+            scr_event_build_end();
+        }
+        //---------------------------------
+        // NOT CRAZY
+        //---------------------------------
+        if (scr_quest_get_state("sabahCrazy") == 0) {
+            // if sabah is working
+            if (scr_quest_get_state("sabahWorking") >= 1) && (scr_quest_get_state("sabahPeak") >= 1) {
+                // go to working snippet
+                scr_event_build_event_snippet(working_snippet);
+            }
+        }
+        //---------------------------------
+        // CRAZY
+        //---------------------------------
+        else if (scr_quest_get_state("sabahCrazy") >= 1) {
+            
+            // -------------------------- 2+ conversations --------------------------
+            if (scr_quest_get_state("sabahState") >= 1) {
+                
+                // pre-choice
+                scr_sabah_random();
+                var wake = scr_event_build_choice("Get Sabah's attention?", s_port_hoopz);
+                var wake_yes = scr_event_build_add_choice(wake, "Yeah, pipe up!");
+                with (wake_yes) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "HEY, SABAH! SABAH! I'M TALKING TO YOU!");
+                    // sound has stopped since last conversation
+                    if (scr_sabah_sound() == "none") {
+                        // send to healed snippet
+                        scr_event_build_event_snippet(healed_snippet);
+                    }
+                    // sound is still happening
+                    else {
+                        // send to crazy snippet
+                        scr_event_build_event_snippet(crazy_snippet);
+                    }
+                }
+                var wake_no = scr_event_build_add_choice(wake, "Don't disturb him.");
+                with (wake_no) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This guy needs help... I shouldn't rile him up.)");
+                    scr_event_build_end();
+                }
+            }
+            // -------------------------- first conversation --------------------------
+            else if (scr_quest_get_state("sabahState") == 0) {
+                
+                // wake up sabah
+                scr_sabah_random();
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hello sir. Whatcha' working on?... Sir?");
+                scr_sabah_random();
+                var louder = scr_event_build_choice("Speak louder?", s_port_hoopz);
+                var loud_yes = scr_event_build_add_choice(louder, "Yeah, pipe up!");
+                with (loud_yes) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "HELLO! HELLO! CAN YOU HEAR ME?");
+                }
+                var loud_no = scr_event_build_add_choice(louder, "Stay quiet.");
+                with (loud_no) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Better not bug him...)");
+                    scr_event_build_end();
+                }
+                
+                // update state
+                scr_event_build_quest_state("sabahState", 1);
+                
+                // silent in al-akihabara
+                if (scr_sabah_sound() == "none") {
+                    // go to healed snippet
+                    scr_event_build_event_snippet(healed_snippet);
+                }
+                
+                // there is noise
+                else {
+                    // hasn't started his masterpiece
+                    if (scr_quest_get_state("sabahWorking") == 0) {
+                        scr_event_build_dialogue("Sabah", sabahport, "Oh Lord, oh Clispaeth, oh please my Lord! Please give me the strength to endure your many trials. Please oh Lord I do my work for you and yet this ceaseless and infernal noise continues to pester me!");
+                    }
+                    // has started his masterpiece
+                    else {
+                        scr_event_build_dialogue("Sabah", sabahport, "Oh Lord, oh Clispaeth, oh please my Lord! Please give me the strength to endure your many trials. Now, as work on my final instrument draws closer, you assault me with ever more powerful devils and an ever louder cacophony. Thank you Lord Clispaeth! Help me weather your storm, Lord Clispaeth!");
+                    }
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm not Clispaeth, I-");
+                    scr_event_build_dialogue("Sabah", sabahport, "My Lord Clispaeth, you tell me what I already know! Long ago I made my sojourn to this desert to make my songs for you in silence, and yet I know it is because of my iniquity that the noise has followed my footsteps through the sand to haunt me still!");
+                    // variable dialogue based on current noise
+                    switch (scr_sabah_sound()) {
+                        case "both":
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh please, aren't you being dramatic? My voice isn't half as loud as " + string(janename) + ", or Guillaume's guitar strumming.");
+                            scr_event_build_dialogue("Sabah", sabahport, "At last, Clispaeth, you make it known you understand me, your humble servant! Though you do not speak, I hear you above this maelstrom! The accordion, the guitar, the buzzing mosquito, none of the demons you have sent will keep me from my duties. Thank you my lord, it is in the light of your grace I shall endure! Amen.");
+                            break;
+                        case "jane":
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh please, aren't you being dramatic? My voice isn't half as loud as " + string(janename) + ".");
+                            scr_event_build_dialogue("Sabah", sabahport, "At last, Clispaeth, you make it known you understand me, your humble servant! Though you do not speak, I hear you above this maelstrom! The accordion, the buzzing mosquito, none of the demons you have sent will keep me from my duties. Thank you my lord, it is in the light of your grace I shall endure! Amen.");
+                            break;
+                        case "guil":
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh please, aren't you being dramatic? My voice isn't half as loud as Guillaume is on the guitar.");
+                            scr_event_build_dialogue("Sabah", sabahport, "At last, Clispaeth, you make it known you understand me, your humble servant! Though you do not speak, I hear you above this maelstrom! The guitar, the buzzing mosquito, none of the demons you have sent will not keep me from my duties. Thank you my lord, it is in the light of your grace I shall endure! Amen.");
+                            break;
+                    }
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "For the last time, I'm not Clispaeth!!!");
+                    scr_event_build_dialogue("Sabah", sabahport, "..hm... what?... you! You there? How long have you been standing there hovering over me? I am Master Sabah, the luthier! Can't you see I'm trying to work?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "It didn't look like you were working. It looked like you were talking to yourself.");
+                    scr_event_build_dialogue("Sabah", sabahport, "Talking to myself? Perhaps... 'tis in my mind that the kingdom of God resides! Is it not in yours?");
+                    
+                    // ROUNDMOUND fun here!
+                    var god_choice = scr_event_build_choice("What's in my mind?", s_port_hoopz);
+                    var god_melon = scr_event_build_add_choice(god_choice, "... is Clispaeth really in my melon?");
+                    with (god_melon) {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Clispaeth? Are you saying Clispaeth is really in my melon? Is there a god in my gourd?");
+                        scr_event_build_dialogue("Sabah", sabahport, "An inquisitive mind, good. There are many pathways to grace. My Lord has tasked me with putting voice to it. I have crafted thousands of instruments during my long life, each a failed attempt at capturing my Lord's holy timbre. You are still young!... Perhaps you will be so lucky as to have a great failure in your life, as I have.");
+                    }
+                    var god_dot = scr_event_build_add_choice(god_choice, "/'.../' is all I'll say. Just /'.../'");
+                    with (god_dot) {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "...");
+                        scr_event_build_dialogue("Sabah", sabahport, "Silence... so be it. There are many pathways to grace. My Lord has tasked me with putting voice to it. I have crafted thousands of instruments during my long life, each a failed attempt at capturing my Lord's holy timbre. You are still young!... Perhaps you will be so lucky as to have a great failure in your life, as I have.");
+                    }
+                    var god_feh = scr_event_build_add_choice(god_choice, "A skeptical 'tude. Clispaeth? Feh.");
+                    with (god_feh) {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Me? I'm a skeptic. An old dwarfs tale in my brain? Up here there's nothing but good old gray matter, geezer!");
+                        scr_event_build_dialogue("Sabah", sabahport, "Your doubt will lead you to despair, but all is the same. There are many pathways to grace. My Lord has tasked me with putting voice to it. I have crafted thousands of instruments during my long life, each a failed attempt at capturing my Lord's holy timbre. You are still young!... Perhaps you will be so lucky as to have a great failure in your life, as I have.");
+                    }
+                    var god_bball = scr_event_build_add_choice(god_choice, "Hoop dreams, baby.");
+                    with (god_bball) {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hoop dreams, baby. I'm thinking about getting up and jamming. Really putting my weight down on a rim.");
+                        scr_event_build_dialogue("Sabah", sabahport, "Training the body can also be done for the glory of the Lord. There are many pathways to grace. My Lord has tasked me with putting voice to it. I have crafted thousands of instruments during my long life, each a failed attempt at capturing my Lord's holy timbre. You are still young!... Perhaps you will be so lucky as to have a great failure in your life, as I have.");
+                    }
+                    var god_candy = scr_event_build_add_choice(god_choice, "My mind is made of gumdrops. I want more candy.");
+                    with (god_candy) {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "My mind is made of gumdrops. I want more candy. Bon bons on the brain. I'm out for candy.");
+                        scr_event_build_dialogue("Sabah", sabahport, "Gluttony has been the fall of many, child, but you will find your way. There are many pathways to grace. My Lord has tasked me with putting voice to it. I have crafted thousands of instruments during my long life, each a failed attempt at capturing my Lord's holy timbre. You are still young!... Perhaps you will be so lucky as to have a great failure in your life, as I have.");
+                    }
+                    var god_codes = scr_event_build_add_choice(god_choice, "Cheat codes, combos, and pro strats.");
+                    with (god_codes) {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I love codes. I love combos. I love collecting games and conquering them with pro strats. I'm gonna set all the game's World Records.");
+                        scr_event_build_dialogue("Sabah", sabahport, "Toiling in falsehood... our world is already an illusory system, and yet you dive deeper? Regardless, there are many pathways to grace. My Lord has tasked me with putting voice to it. I have crafted thousands of instruments during my long life, each a failed attempt at capturing my Lord's holy timbre. You are still young!... Perhaps you will be so lucky as to have a great failure in your life, as I have.");
+                    }
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Man that sounds grim. Don't be like that, Master Sabah. I'm sure your work is great.");
+                    
+                    // hasn't started his masterpiece
+                    if (scr_quest_get_state("sabahWorking") == 0) {
+                        scr_event_build_dialogue("Sabah", sabahport, "No, no, no, this is good news, child... a lifetime ago, I arrived at the desolate and silent sands of Al Akihabara to make instruments in a divine image... my Lord has sent accordions, guitars, sandstorms, salesman, drunks, buffoons, bassoons, they all pass through the desert to torment me. A sign from the heavens that I am getting close! The devils' fire licks at my ears and distorts my purity of thought... but through each of these flawed instruments, my vision becomes more refined! Praise the Lord! Please end this cacophony! I praise your cacophony my Lord!");
+                    }
+                    // has started his masterpiece
+                    else {
+                        scr_event_build_dialogue("Sabah", sabahport, "No, no, no, this is good news, child... a lifetime ago, I arrived at the desolate and silent sands of Al Akihabara to make instruments in a divine image... my Lord has sent accordions, guitars, sandstorms, salesman, drunks, buffoons, bassoons, they all pass through the desert to torment me. A sign from the heavens that I am getting close! The devils' fire licks at my ears and distorts my purity of thought... but through each of these flawed instruments, my vision becomes more refined! Praise the Lord! Please end this cacophony! I praise your cacophony my Lord!");
+                    }
+                    
+                    // update state, turn on quest variable
+                    scr_event_build_quest_state("sabahQuest", 1);
+                    // save current noise level
+                    scr_event_build_quest_state("sabahSound", scr_sabah_sound() );
+                    scr_event_build_quest_state("sabahCrazy", 2);
+                    
+                    // go to question snippet if qualifying
+                    if ((scr_wedding_quest_on() == true) && (scr_quest_get_state("sabahWedding") <= 1)) || (scr_dilapidated_tenant_able("Sabah") == true) {
+                        scr_event_build_event_snippet(question_snippet);
+                    }
+                    // otherwise, generic departure
+                    else {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This guy needs help... he seems disturbed. I wonder if I can make it any quieter around here.)");
+                        scr_event_build_end();
+                    }
+                }
+            }
+        }
+    }
+    
+    //------------------------------------------------------------------------------------------
+    // move_in_snippet
+    //------------------------------------------------------------------------------------------
+    with (move_in_snippet) {
+        Breakout("build", "add", "superEmpty");
+        
+            // first attempt
+            if (scr_quest_get_state("sabahOffer") == 0) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "Master Sabah, how would you like to get out of the desert and move somewhere you can work a little easier? I run an apartment in Brain City."); }
+            // already offered and reneged, or offered and rejected because of value
+            else { scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Sabah, about that room..."); }
+            
+        // value is high enough!
+        if (scr_quest_get_state("superApparent") >= sabah_req) {
+            // first attempt
+            if (scr_quest_get_state("sabahOffer") == 0) { 
+                // sabah is crazy
+                if (scr_quest_get_state("sabahCrazy") >= 1) { scr_event_build_dialogue("Sabah", sabahport, "My Lord, you grant me deliverance? How much may I offer you for sanctuary, Lord? I have " + string(sabah_rent) + " to lay at your feet! Please, take me to your promised land, my Lord!"); }
+                // sabah is working
+                else { scr_event_build_dialogue("Sabah", sabahport, "Brain City? A city teeming with foul sounds and corrupted minds, no doubt... but perhaps a craftsman for the Lord needs a true workshop. A room, you say? Deliverance from the desert? You truly are the Lord's messenger... what are the terms? I have " + string(sabah_rent) + " to pay."); }
+            }
+            // 2+ attempts, not enough money last time
+            else if (scr_quest_get_state("sabahOffer") == 1) { 
+                // sabah is crazy
+                if (scr_quest_get_state("sabahCrazy") >= 1) { scr_event_build_dialogue("Sabah", sabahport, "Thank you Lord, for another chance at sonic sanctuary. I have " + string(sabah_rent) + " to lay at your feet! Please, take me to your promised land, my Lord!"); }
+                // sabah is working
+                else { scr_event_build_dialogue("Sabah", sabahport, "Brain City sounds like a truly foul place... but perhaps a craftsman for the Lord needs a true workshop. A room? Deliverance from the desert? You are truly a messenger sent from Clispaeth... what are the terms? I have " + string(sabah_rent) + " to pay."); }
+            }
+         
+            // 2+ attempts, changed mind last time
+            else if (scr_quest_get_state("sabahOffer") == 2) { 
+                // sabah is crazy
+                if (scr_quest_get_state("sabahCrazy") >= 1) { scr_event_build_dialogue("Sabah", sabahport, "Please, my Lord, I have been waiting! I have " + string(sabah_rent) + " to lay at your feet! Please, take me to your promised land, my Lord!"); }
+                // sabah is working
+                else { scr_event_build_dialogue("Sabah", sabahport, "I am still hesitant of the lifestyle in the Gomorrah of Necron 7, but if the Lord wishes it, I shall. I have " + string(sabah_rent) + " to pay."); }
+            }
+            
+            // CHOICE: confirm offer?
+            var confirm_choice = scr_event_build_choice("Rent room to Sabah for " + string(sabah_rent) + " N.S.?", s_port_hoopz);
+            
+            // confirm1: yes, confirm rental
+            var confirm_yes = scr_event_build_add_choice(confirm_choice, "Yes, rent the room!");
+            with (confirm_yes) {
+                // have enough rooms
+                if (scr_quest_get_state("superEmpty") >= 1) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sounds like a deal to me!");
+                    scr_event_build_dilapidated_rent("Sabah");
+                    scr_event_build_dialogue("", NULL, "Rented a room to Sabah!");
+                    Breakout("build", "clear");
+                    // sabah is crazy
+                    if (scr_quest_get_state("sabahCrazy") >= 1) { scr_event_build_dialogue("Sabah", sabahport, "My Lord, I now I have my very own cell in which to do your bidding! Your work will be done! Thank you, my Lord!"); }
+                    // sabah is working
+                    else { scr_event_build_dialogue("Sabah", sabahport, "Excellent, a true site at which to do the Lord's bidding! I will move very soon. Thankfully, all I have to move is my work."); }
+                    // reset sabahState for tenant stuff
+                    scr_event_build_quest_state("sabahState", 0);
+                    scr_event_build_quest_state("sabahOffer", 3);
+                }
+                // not enough rooms
+                else {
+                    Breakout("build", "clear");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ummm, I actually realized I don't have any vacancies right now...");
+                    // sabah is crazy
+                    if (scr_quest_get_state("sabahCrazy") >= 1) { scr_event_build_dialogue("Sabah", sabahport, "Another temptation from the Lord... yet I shall endure! It only makes my faith stronger! Thank you, my Lord!"); }
+                    // sabah is working
+                    else { scr_event_build_dialogue("Sabah", sabahport, "Perhaps my Lord means for me to move at a later date, then. All is well, I shall continue to work here."); }
+                    // reset sabahState for tenant stuff
+                    scr_event_build_quest_state("sabahOffer", 2);
+                }
+            }
+            // confirm2: no, don't rent
+            var confirm_no = scr_event_build_add_choice(confirm_choice, "No, don't rent!");
+            with (confirm_no) {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Umm, lemme think about it!");
+                // sabah is crazy
+                if (scr_quest_get_state("sabahCrazy") >= 1) { scr_event_build_dialogue("Sabah", sabahport, "So be it! I shall stay and face the tempest alone! Thank you for your tempest, my Lord!"); }
+                // sabah is working
+                else { scr_event_build_dialogue("Sabah", sabahport, "Understood, but return when it is time. You, the Lord's cherub, I trust your guidance in my quest. Place me where you should have me."); }
+                scr_event_build_quest_state("sabahOffer", 2);
+            }
+        }
+        // value is too low!
+        else {
+        
+            /*
+            // first attempt
+            if (scr_quest_get_state("sabahOffer") == 0) { scr_event_build_dialogue("Sabah", sabahport, "Oh, you run the new apartment complex, yes? Sorry, not nice enough. Give it some work, make it nice, then I rent and spin all the time!"); }
+            // 2+ attempts, not enough money last time
+            else if (scr_quest_get_state("sabahOffer") == 1) { scr_event_build_dialogue("Sabah", sabahport, "No, no, no! Make the apartment nicer! I want to spin in a great place... with good energy! Just a little nicer, a little work! Then I spin!"); }
+            // 2+ attempts, changed mind last time
+            else if (scr_quest_get_state("sabahOffer") == 2) { scr_event_build_dialogue("Sabah", sabahport, "What happened? Your apartment was nice, now it is worse! It looked like a nice place to spin, but I have only heard bad things... nothing good for spinning. Get it together... then I'll spin!"); }
+            scr_event_build_quest_state("sabahOffer", 1);
+            
+            
+            
+            
+            
+            
+            Breakout("build", "clear");
+            // first attempt
+            if (scr_quest_get_state("sabahOffer") == 0) { 
+                // sabah is crazy
+                if (scr_quest_get_state("sabahCrazy") >= 1) { scr_event_build_dialogue_debug("Sabah", sabahport, "Sabah, while crazy, cannot refuse the apartment. Impossible dialogue!"); }
+                // sabah is working
+                else { 
+                    scr_event_build_dialogue("Sabah", sabahport, "Brain City? I shall not step foot in such a hotbed of iniquity. My vision must remain pure! My Lord's signs have guided me against moving to an unclean place.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I bet if I can spruce it up, he'll want to stay!)");
+                }
+            }
+            // 2+ attempts, not enough money last time
+            else if (scr_quest_get_state("sabahOffer") == 1) {                     
+                // sabah is crazy
+                if (scr_quest_get_state("sabahCrazy") >= 1) { scr_event_build_dialogue_debug("Sabah", sabahport, "Sabah, while crazy, cannot refuse the apartment. Impossible dialogue!"); }
+                // sabah is working
+                else { 
+                    scr_event_build_dialogue("Sabah", sabahport, "I was willing for a moment... but I had a vision from my Lord... I was told not to move to Brain City. Not until the accomodations were improved, at any rate. I must stay put until my Lord's will is done. Improve the apartment!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Dang, more work to do... then I can move him in.)"); 
+                }
+            }
+            // 2+ attempts, changed mind last time
+            else if (scr_quest_get_state("sabahOffer") == 2) { 
+                // sabah is crazy
+                if (scr_quest_get_state("sabahCrazy") >= 1) { scr_event_build_dialogue_debug("Sabah", sabahport, "Sabah, while crazy, cannot refuse the apartment. Impossible dialogue!"); }
+                // sabah is working
+                else { 
+                    scr_event_build_dialogue("Sabah", sabahport, "I was willing for a moment... but I had a vision from my Lord... I was told not to move to Brain City. Not until the accomodations were improved, at any rate. I must stay put until my Lord's will is done. Improve the apartment!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Dang, more work to do... then I can move him in.)");
+                }
+            }
+            scr_event_build_quest_state("sabahOffer", 1);
+        }
+    }
+
+    scr_event_advance(event);
+}

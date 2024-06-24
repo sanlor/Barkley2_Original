@@ -1,0 +1,123 @@
+// Event for Chandragupta the chess master, guy in longinus base of brain city.
+//gives player the false flag quest, which is not a real quest but just stupid bullshit.
+//falseFlag = 1 - Rejected quest.
+//falseFlag = 2 - Accepted quest.
+//flagTimer - set to whatever time you accept quest. As time increases, chandragupta says new things.
+//falseFlagWedding = 1 - did wedding quest while false flag active
+
+/*if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var chandragupta = id;
+    var event = scr_event_create_main();
+    with (event) {
+         
+        //Did Wedding Quest with False Flag active.
+         if (scr_quest_get_state("falseFlagWedding") == 1) {
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "Mhm hm hm hm. The wedding band? A masterstroke. Nobody - NOBODY suspected it was a false flag. Your cunning far surpasses my initial expectations. Perhaps I will have to recalculate...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(...................teny.)");
+            scr_event_build_quest_state("falseFlagWedding", 2);
+         }
+         
+         /*
+         //quest
+         else if (scr_quest_get_state("") == 1) {
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "Rook to E7. Pawn to G4. Ah, " + P_NAME + ", you caught me in the middle of a game of mind chess. Just a moment. Queen to A5. Bishop to H6 aaaaaaaaand... checkmate. Mhm hm hm. I heard about the false flag you planted in ______. Subtle. Very subtle. Just a few more false flags until we can land the coup de grace...);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(...................teny.)");
+            scr_event_build_quest_state("", 2);
+            }    
+         */   
+    
+        //10 time units after you first got quest.
+/*         else if (scr_time_get() >= (scr_quest_get_state("flagTimer") + 10) ) {
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "Mhm hm hm hm hm.......... checkmate.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(..............teny.)");
+        }  
+        
+        //8 time units after you first got quest.
+         else if (scr_time_get() >= (scr_quest_get_state("flagTimer") + 8) ) {
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "The king is in check, surrounded on all sides by knights, rooks, bishops. They couldn't possibly have predicted this, not with the masterful series of false flags you've planted. And the best part? They will never know. Mhm hm hm hm hm. They will never know...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(..............teny.)");
+        }  
+            
+        //6 time units after you first got quest.
+         else if (scr_time_get() >= (scr_quest_get_state("flagTimer") + 6) ) {
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "They've taken the bait. Their queen is in danger. One more false flag and our most dangerous foe will be an unpleasant memory. Our little game is getting quite interesting, indeed.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(..............teny.)");
+        }  
+            
+        //4 time units after you first got quest.
+         else if (scr_time_get() >= (scr_quest_get_state("flagTimer") + 4) ) {
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "Interesting... a bishop retreats. A rook advances. Turmoil spreads as the enemy loses sight of your next move. Very interesting, indeed...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(..............teny.)");
+        }    
+        
+         //2 time units after you first got quest.
+         else if (scr_time_get() >= (scr_quest_get_state("flagTimer") + 2) ) {
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "Impressive... impressive. The invisible hand of your false flags move pieces into position and nobody knows the better. Your craft is subtle... subtle but potent. Operation: Covert Stratagem is getting interesting...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(............teny.)");
+         
+         //accepted quest
+         }else if (scr_quest_get_state("falseFlag") == 2) {
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "I can't tell you when or where to do false flags, but trust me - you will know. And remember: the codeword is /'teny/'.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Teny...)");
+            
+        //Rejected quest.
+        }else if (scr_quest_get_state("falseFlag") == 1) {
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "3... 2... 1... ah, you're right on time, precisely when I predicted. I assume you're here to talk about Operation: Covert Stratagem. Have you... rethought your role in the game? Or are you going to continue to allow yourself to be controlled by players beyond your reckoning?");
+            var operation2 = scr_event_build_choice("Am I in?", s_port_hoopz);
+            
+            //I'm in.
+            with scr_event_build_add_choice(operation2, "...I'm in.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "...I'm in.");
+                scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "Heh. So you've taken Kasparov's gambit. Just as I predicted. Your mission is simple. Destroy the enemy's ability to obtain and process information by any means necessary: deception, manipulation, betrayal, disinformation.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "So what exactly am I doing and how am I doing it?");
+                scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "False flags, my friend. False flags. I can't tell you how to do it. I can only tell you this: when the opportunity to spread chaos presents itself, you. Will. Know. Live life exactly as you would. Go about your business. Act like this conversation never happened. But when the crack in the armor presents itself, twist the dagger in and watch the fools squirm.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I think I've got it. So I'm just gonna keep doing what I'm doing... with a twist.");
+                scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "One last thing. The codeword is /'teny/'. Good luck out there, operative. You'll know when to plant false flags. And remember: we've never met.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "...teny.");
+                scr_event_build_quest_state("falseFlag", 2);
+                scr_event_build_quest_state("flagTimer", scr_time_get());
+            }
+            
+            //I'm a pawn in a game beyond my understanding.
+            with scr_event_build_add_choice(operation2, "I want to keep being controlled by players beyond my reckoning.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "No thanks. I want to keep being controlled by players beyond my reckoning. Thanks for the offer though.");
+                scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "Mhm hm hm hm hm. Of course, of course. Keep telling yourself that. They may have less control over you than realize. One day you will. And that realization... will change everything.");
+            }
+                           
+        //Never spoken to before.
+        } else {
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "So you're the new recruit, eh? Welcome to L.O.N.G.I.N.U.S. - 'oorah and all that military grandstanding.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You don't sound that impressed with L.O.N.G.I.N.U.S. What's your beef?");
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "Heh, don't get me wrong, I recognize the role my colleagues play in this little game. They're the soldiers, the frontline fighters. The pawns. To quote myself, /'every king needs an army of pawns/'. But it is not pawns that win the game we play. My colleagues? They fight with bombs, with gun's, with brutality. Me? My methods are a little more... let's say /'cerebral/'. Social engineering. Psy ops. Hacktivism. Subterfuge. I find and exploit my enemies' weaknesses, sowing seeds of chaos and strife in my wake.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "So you're like the intelligence guy, huh?");
+            scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "You catch on quickly. I like that. Perhaps you will have some use to me after all... Name's Chandragupta but people here call me /'The Chess Master./' I'd advise you to do the same. I've been working on a project, a little experiment I like to call /'Operation: Covert Stratagem/'. The goal? Global intelligence network meltdown. The means? False flags. The target? Mhm hm hm hm hm... everyone. I need an operative with the cunning to move all the pieces into place and the nuance to evade detection. Someone I can trust not to go rogue. Someone like you. The next move is yours. Will you be my knight, or are you just another pawn in a game far beyond your understanding?");
+            var operation1 = scr_event_build_choice("Am I in?", s_port_hoopz);
+            
+            //I'm in.
+            with scr_event_build_add_choice(operation1, "...I'm in.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "...I'm in.");
+                scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "Heh. So you've taken Kasparov's gambit. Just as I predicted. Your mission is simple. Destroy the enemy's ability to obtain and process information by any means necessary: deception, manipulation, betrayal, disinformation.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "So what exactly am I doing and how am I doing it?");
+                scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "False flags, my friend. False flags. I can't tell you how to do it. I can only tell you this: when the opportunity to spread chaos presents itself, you. Will. Know. Live life exactly as you would. Go about your business. Act like this conversation never happened. But when the crack in the armor presents itself, twist the dagger in and watch the fools squirm.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I think I've got it. So I'm just gonna keep doing what I'm doing... with a twist.");
+                scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "One last thing. The codeword is /'teny/'. Good luck out there, operative. You'll know when to plant false flags. And remember: we've never met.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Teny...)");
+                scr_event_build_quest_state("falseFlag", 2);
+                scr_event_build_quest_state("flagTimer", scr_time_get());
+            }
+            
+            //I'm a pawn in a game beyond my understanding.
+            with scr_event_build_add_choice(operation1, "I'm a pawn in a game beyond my understanding.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm a pawn in a game beyond my understanding. Sorry, Chandragupta.");
+                scr_event_build_dialogue("Chandragupta", "s_port_chandragupta", "Heh. Just as I predicted. All according to plan. All according to plan...");
+                scr_event_build_quest_state("falseFlag", 1);
+            }
+            
+        }
+    }
+    scr_event_advance(event);
+}

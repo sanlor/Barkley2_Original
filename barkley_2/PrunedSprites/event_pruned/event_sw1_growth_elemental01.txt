@@ -1,0 +1,153 @@
+/* event_swp_growthElemental01
+
+DESCRIPTION:
+    The Growth Elemental is in a box in the Sewers.
+    Talking to it psychically shows you an image (gives you a quest) of the Sludge Machine further into the sewers.
+    Turning off the Sludge Machine (with or without getting the Quest first) gets 
+
+    
+VARIABLES:
+    growthElementalState
+        1 = Autostart cutscene has happened upon room entry.
+        2 = Got Quest for turning off Sludge Machine.
+        3 = Got Quest, turned off Machine (req. sludgeMachineState == 1), talked. Got "W Fruit" item.
+        4 = After 3, talked again and got a hint to plant the fruit.
+        5 = Did not get Quest, turned off Machine (req. sludgeMachineState == 1), talked. Got "W Fruit" item.
+
+    sludgeMachineState
+        1 = Sludge Machine turned off.
+        
+*/
+if (argument0 == SCRIPT_START) then
+    {
+    /*
+    var event = scr_event_create_main();
+    with (event)
+        {
+        // autostart, first time in room
+        if (scr_quest_get_state("growthElementalState") == 0)
+            {
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, NORTH);
+            scr_event_build_wait(0.5);
+            scr_event_build_camera_move_to_point(o_growth_elemental01.x, o_growth_elemental01.y, MOVE_NORMAL);
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(1.25);
+            scr_event_build_camera_move_to_point(o_cts_hoopz.x, o_cts_hoopz.y, MOVE_NORMAL);
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(0.75);
+            scr_event_build_quest_state("growthElementalState", 1);
+            }
+        }
+    scr_event_advance(event);
+    */
+    }
+else if (argument0 == SCRIPT_INTERACT)
+    {
+    growthElemental = id;
+    
+    var event = scr_event_create_main();
+    
+    with (event)
+    {
+        // return from sludge vision...
+        if (scr_quest_get_state("growthSludgeVision") == 1)
+        {
+            scr_event_build_quest_state("growthSludgeVision", 0);
+            if (scr_quest_get_state("growthElementalState") == 2)
+            {
+                
+            }
+            else
+            {
+            
+            }
+            scr_event_build_end();
+        }
+        else if (scr_quest_get_state("growthCharnelVision") == 1)
+        {
+            scr_event_build_quest_state("growthCharnelVision", 0);
+            if (scr_quest_get_state("growthElementalState") == 5)
+            {
+                
+            }
+            else if (scr_quest_get_state("growthElementalState") == 4)
+            {
+            
+            }
+            else if (scr_quest_get_state("growthElementalState") == 3)
+            {
+            
+            }
+            scr_event_build_end();
+        }
+        else
+        {        
+            // didn't get quest, got w fruit, talked
+            if (scr_quest_get_state("growthElementalState") == 5)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This thing is weird... but it gave me a fruit. I respect it.)");
+            }
+            // got quest, got w fruit, talked again
+            else if (scr_quest_get_state("growthElementalState") == 4)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey plant! Sorry, haven't found any good dirt yet!");
+            }
+            // got quest, got w fruit, talked
+            else if (scr_quest_get_state("growthElementalState") = 3)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "So um... what do I do with this? Do I eat it?");
+                scr_event_build_dialogue_debug("TODO", NULL, "The plant droops, sadly.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Do I sell it for some quick cash?");
+                scr_event_build_dialogue_debug("TODO", NULL, "The plant droops, sadly.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh um... ummm... do I plant it?");      
+                scr_event_build_dialogue_debug("TODO", NULL, "The plant waggles around, happily!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay! I'll look for some good dirt!");
+                scr_event_build_quest_state("growthElementalState", 4);
+            }
+            // turned off machine, get w fruit
+            else if (scr_quest_get_state("sludgeMachineState") == 1)
+            {
+                // got quest
+                if (scr_quest_get_state("growthElementalState") == 2)
+                {
+                    scr_event_build_dialogue_debug("TODO", NULL, "The plant waggles around, happily!");
+                    scr_event_build_dialogue_debug("TODO", NULL, "There is a flash of light or some other animation near the top of the plant, and a little sparkle or pixel falls down to where the player is standing.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa... is this for me!?");
+                    scr_event_build_dialogue_debug("TODO", NULL, "The plant waggles around, happily!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "All right! Thanks!");
+                    scr_event_build_quest_state("growthElementalState", 3);
+                }
+                // did not get quest
+                else
+                {
+                    scr_event_build_dialogue_debug("TODO", NULL, "The game plays a cool sound effect.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Whoa... what is this thing?)");
+                    scr_event_build_dialogue_debug("TODO", NULL, "There is a flash of light or some other animation near the top of the plant, and a little sparkle or pixel falls down to where the player is standing.");
+                    scr_event_build_dialogue("P_NAME", s_port_hoopz, "Uh... thanks plant!");
+                    scr_event_build_quest_state("growthElementalState", 5);
+                }
+                // shared by both       
+                Item("build", "gain", "W Fruit", 1);
+                scr_event_build_dialogue_item("Got 1 W Fruit.");
+            }
+            // got quest, talking again
+            else if (scr_quest_get_state("growthElementalState") == 2)
+            {
+                scr_event_build_dialogue_debug("TODO", NULL, "The game plays a cool sound effect.");
+                scr_event_build_dialogue_debug("TODO", NULL, "An image of the SLUDGE MACHINE flashes on the screen.");
+                scr_event_build_create_object(o_mg_psychicvision_vision_sludge, 0, 0);
+            }
+            // first talk, get quest
+            else if (scr_quest_get_state("growthElementalState") == 0) // was 1
+            {
+                scr_event_build_dialogue_debug("TODO", NULL, "The game plays a cool sound effect.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Huh?... What is this thing?)");
+                scr_event_build_dialogue_debug("TODO", NULL, "An image of the SLUDGE MACHINE flashes on the screen.");
+                scr_event_build_create_object(o_mg_psychicvision_vision_sludge, 0, 0);
+                scr_event_build_quest_state("growthElementalState", 2);
+            }
+        }
+    }
+    scr_event_advance(event);
+}

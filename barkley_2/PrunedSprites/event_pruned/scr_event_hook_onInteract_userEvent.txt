@@ -1,0 +1,2 @@
+/// scr_event_hook_onInteract_userEvent(user_event)
+hook_onInteract_event = argument0;

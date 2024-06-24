@@ -1,0 +1,13 @@
+/// scr_event_build_if("money OR quest", "< <= == != >= >", value, trueEvent, falseEvent)
+// Simplified IF
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_if);
+ds_list_add(action, argument0); // compare list
+ds_list_add(action, argument1); // comparison type
+ds_list_add(action, argument2); // value for the variable to be true for
+ds_list_add(action, argument3); // true event
+ds_list_add(action, argument4); // false event
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;

@@ -1,0 +1,200 @@
+// Kelpster, a guy living in TNN. You can purchase an item for the artgallery from him //
+// Has a simple haggling system where you can screw yourself over if you try to go too low //
+
+// Initialize //
+if (argument0 == SCRIPT_START) {
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    var current_money = scr_money_count();
+    var task_sequence = scr_event_create_child(event);
+    
+    // Main event //
+    with (event) {
+    
+        // Quest variable used: kelpster //
+        // 0 = Not interacted with //
+        // 1 = Item purchased //
+        // 2 = Tried to buy but Didn't have money //
+        // 3 = Declined deal //
+        // 4 = Interacted with him as governor //
+        
+        // While playing as Mathias //
+        if (BodySwap() == "matthias") {
+            scr_event_build_dialogue("Kelpster", NULL, "Oh, hi Matthias. Dropped in to check on your ol' pal Kelpster huh? Heh, you're a good kid... Doncha worry 'bout me. Life ain't easy in this stinkin' city, but it's nothing I can't handle.");
+            } 
+        
+        // While playing as governor //
+        else if (BodySwap() == "governor") {
+        
+            // Haven't met him before, OR bought the game from him //
+            if (scr_quest_get_state("kelpster") == 0) or (scr_quest_get_state("kelpster") == 1) {
+
+                scr_event_build_dialogue("Kelpster", NULL, "A-are you the g-governor!? Look, I... I ain't done nuthin'. P-please, have mercy on me, please!");
+                scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Hmm, I think I'm going to have mercy on you, but only this once. That is what real governors do."); 
+                scr_event_build_dialogue("Kelpster", NULL, "T-thank you, m'lord! Thank you!");
+                scr_event_build_quest_state("kelpster", 4);
+                }
+
+            // Tried to purchase item from him, but didn't //
+            else if (scr_quest_get_state("kelpster") == 2) or (scr_quest_get_state("kelpster") == 3) {
+            
+                scr_event_build_dialogue("Kelpster", NULL, "*Gulp* Mister g-governor!? W-w-what b-brings you to my h-humble d-d-d-domain, your m-majesty?");
+                scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Uh, I'm just making sure everything is as it should. It's a tough job governing a city, but as the governor it is my job to govern."); 
+                scr_event_build_dialogue("Kelpster", NULL, "O-oh, well, t-that's good to hear. Here, you c-can have this vidcon as a t-t-token of my loyalty.");
+                scr_event_build_vidcon(5);
+                scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Whoa, Thanks! Uh, I mean... This tribute pleases me greatly. Now I must bid you farewell.");
+                scr_event_build_dialogue("Kelpster", NULL, "Y-yes, of course. (*Phew*)");
+                scr_event_build_quest_state("kelpster", 4);
+                }
+                
+            // Talk to him second time as governor //
+            else if (scr_quest_get_state("kelpster") == 4) {
+            
+                scr_event_build_dialogue("Kelpster", NULL, "M'lord! H-how may I serve you?");
+                scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Oh, I was just... Uh... I think this is the wrong house. Stand tall, citizen. I must go now."); 
+                scr_event_build_dialogue("Kelpster", NULL, "Yessir! Absolutely, sir!");
+                }
+            } 
+            
+        // While playing as X1 //
+        else if (scr_quest_get_state("kelpster") == 0) {
+        
+            // Talk some shit and then offer item //
+            scr_event_build_dialogue("Kelpster", NULL, "Hey man, what's the haps? You here to check out my retro vidcon collection?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, excuse me?");
+            scr_event_build_dialogue("Kelpster", NULL, "You know, the stuff I'm selling on dBay? I'm sorry to tell you this but I've only got one more vidcon left. Everything else has been bought off already. You shoulda come by earlier.\Wait a minute. You are here for the collection, right?");
+            scr_event_build_event_snippet(task_sequence);
+            }
+            
+        // Bought item //
+        else if (scr_quest_get_state("kelpster") == 1) {
+        
+            // Kelpster dialog after purchasing item from him //
+            scr_event_build_dialogue("Kelpster", NULL, "Now that I'm rid of that vidcon collection I can finally consider getting some furnishing in here.");
+            }
+
+        // Botched the deal with having not enough money //
+        else if (scr_quest_get_state("kelpster") == 2) {
+        
+            // Kelpster is not happy to see you again //
+            scr_event_build_dialogue("Kelpster", NULL, "Hmm? Oh, it's the kid without money. Still interested in the vidcon I'm selling? If so, I hope you got the money this time around.");
+            scr_event_build_event_snippet(task_sequence);
+            }
+
+        // Item declined //
+        else if (scr_quest_get_state("kelpster") == 3) {
+        
+            // Kelpsters talks some shit //
+            scr_event_build_dialogue("Kelpster", NULL, "Ah, changed your mind eh? I've still got the vidcon if you have the money to pay for it.");
+            scr_event_build_event_snippet(task_sequence);
+            }
+        }
+    
+        //------------------------------------- 
+        //------------ TASK SNIPPET -----------
+        //-------------------------------------
+        with (task_sequence) {
+        
+          // Here for the vidcons? //
+            var choice_vidcon = scr_event_build_choice("Retro vidcons...", s_port_hoopz); 
+            
+            // Choice: yes I want to purchase //
+            var yes = scr_event_build_add_choice(choice_vidcon, "Well, since I'm here...");
+            with yes {
+
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, since I'm here I might as well see what you've got.");
+            scr_event_build_dialogue("Kelpster", NULL, "Alright then. Like I said earlier, I've already sold all of my vidcons except for one. The one last vidcon from my retro collection. That's what I'm selling here.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's not too terribly expensive is it? I'm a bit short on cash at the moment.");
+            scr_event_build_dialogue("Kelpster", NULL, "Hey, I'm a down to earth kinda guy. I'm sure we can reach an agreement we both can live with... so, how about it?");
+            
+                // Interested ? //
+                var choice_purchase = scr_event_build_choice("Vidcon for sale, huh?", s_port_hoopz); 
+                
+                // Choice: yes I want to purchase //
+                var yes = scr_event_build_add_choice(choice_purchase, "Let's talk business");
+                with yes {
+                
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, lets talk business mister.");
+                    scr_event_build_dialogue("Kelpster", NULL, "Great! Okay, here's what I'm offering:\A reproduction cartridge labeled as " + '"' + "Creppy Ghoulies IV" + '"' + ". Never played it, don't know anything about it. Could be a great vidcon, could be some demo cart. It could even be one of those keygen cartridges to mess with the region locks on your console. Who knows. It's a mystery, and it can be yours for the modest price of " + string(scr_money_db("kelpsterArtifact")) + " N$.");
+                    
+                    // Creppy Ghoulie IV diskette //
+                    Breakout("build", "add", "money");
+                    var choice_purchase2 = scr_event_build_choice("Creppy Ghoulie IV repro cart for " + string(scr_money_db("kelpsterArtifact")) + " N$", s_port_hoopz); 
+                    
+                    // Choice: Purchase //
+                    var yes = scr_event_build_add_choice(choice_purchase2, "Okay, I'll take it");
+                    with yes {
+                    
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I'll take it.");
+    
+                        // Do I have the money for it? //
+                        if (current_money>=scr_money_db("kelpsterArtifact")) {
+                        
+                            scr_event_build_money_add(-scr_money_db("kelpsterArtifact"));
+                            scr_event_build_dialogue("Kelpster", NULL, "Good choice, good choice... here you go, have fun!");
+                            scr_event_build_vidcon(5);
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I will, mister. You can count on that!");
+                            Breakout("build", "clear");
+                            scr_event_build_quest_state("kelpster", 1);
+                        }
+                        else {
+                            scr_event_build_dialogue("Kelpster", NULL, "Good choice, good choice... wait a minute. Do you even have the money for this?");
+                            Breakout("build", "clear");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I uhh... no. Could you give me a discount?");
+                            scr_event_build_dialogue("Kelpster", NULL, "What? This is a premium item I'm selling here. It's worth every penny that I'm asking for it. Sorry, but I'm not giving out any discounts on this one.");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess I'll have to come back when I have enough money.");
+                            scr_event_build_dialogue("Kelpster", NULL, "Ah... Well, don't mess around for too long or someone else might beat you to it.");
+                            scr_event_build_quest_state("kelpster", 2);
+                            Breakout("build", "clear");
+                            }
+                        }
+                        
+                    // Choice: Forget it //
+                    var no = scr_event_build_add_choice(choice_purchase2, "I can't afford that");
+                    with no {
+                    
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry, but I honestly can't afford that.");
+                        scr_event_build_dialogue("Kelpster", NULL, "Oh? You didn't think I would just give it away for free?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, but I thought it would've been cheaper...");
+                        scr_event_build_dialogue("Kelpster", NULL, "Sorry buddy, that's the closest I can get to what the price is on the market. I guarantee you, no one else in Tir na Nog is selling Creppy Ghoulies IV, so this is the best deal you're gonna get. Besides, Kelpster's gotta eat too. But if you can't afford it then I suppose these negotiations are concluded.");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopzSad, "Dang...");
+                        scr_event_build_quest_state("kelpster", 3);
+                        Breakout("build", "clear");
+                        }
+                    }
+                
+                // Choice: no thanks //
+                var no = scr_event_build_add_choice(choice_purchase, "Not interested");
+                with no {
+                
+                    // Do not purchase anything //
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry mister, but while I love vidcons more than anything, I have more pressing matters to focus on right now.");
+                    scr_event_build_dialogue("Kelpster", NULL, "Oh, I see. A conflicted gamer... Well, I'll be here if you change your mind.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Alright, I'll keep that in mind.");
+                    scr_event_build_quest_state("kelpster", 3);
+                    Breakout("build", "clear");
+                    }
+                }
+                    
+                // Choice: yes I want to purchase //
+                var yes = scr_event_build_add_choice(choice_vidcon, "I've got other things to do.");
+                with yes {
+    
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry, I've got some other things I need to take care of right now. Maybe some other time.");
+                scr_event_build_dialogue("Kelpster", NULL, "Oh, well, alright then, I guess. I'll be here if you change your mind.");    
+                scr_event_build_quest_state("kelpster", 3);
+                }
+            }
+    scr_event_advance(event);
+}

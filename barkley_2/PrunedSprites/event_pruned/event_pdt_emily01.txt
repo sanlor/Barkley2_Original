@@ -1,0 +1,27 @@
+// Crazy Robinsons // Emily //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+   
+    // Can occur only once //
+    if (scr_quest_get_state("pdt_zorro") == 1) or (scr_quest_get_state("pdt_zorro_fritz") >= 2) or (scr_time_get() <= 1) or (scr_time_get() >= 10) scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+        // Variables //
+        var event = scr_event_create_main();
+        scr_entity_look(id, EAST);
+        // Main event //
+        with (event) {
+                
+                scr_event_build_dialogue("Emily Jenny Montrose Siwss Robinson", "s_port_sfr_emily", "Ernest is the second oldest son, but he is the least physically active. He is intelligent and often described as indolent. He is a master of gun's. I would like to go back to Smoking Rock.");
+                }
+        scr_event_advance(event);
+}

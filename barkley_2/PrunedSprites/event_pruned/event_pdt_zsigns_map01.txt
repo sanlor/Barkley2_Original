@@ -1,0 +1,39 @@
+// Z sign // Quest: Mask of Zorro //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+        
+            // Zorro discovered //
+            if (scr_quest_get_state("pdt_dondiego_identity") == 1) {
+                
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't need this map anymore... I already figured out El Zorro is hiding inside Drugs de la Vega.");
+                }
+    
+            // Hoopz finds all the signs //
+            else if (scr_quest_get_state("pdt_z_signs_found") == 6) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I can visualize all the marks on this map in my head. Now, if I estimate the center of all these marks that leads me to... Drugs de la Vega! That's it! That must be El Zorros base of operations. I think it's time to visit my local pharmacist...");
+                scr_quest_set_state("pdt_dondiego_identity", 1);
+                }
+                
+            // Just a map //
+            else{
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "A map of some sort. The text on it says: " + '"' + "Map of Ys-Kolob, property of the crown" + '"' + ". It's all worn out though, I can hardly make out anything that is on it.");
+                }
+            }
+scr_event_advance(event);
+}

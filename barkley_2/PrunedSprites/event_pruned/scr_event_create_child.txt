@@ -1,0 +1,25 @@
+/// scr_event_create_child(event)
+/// Creates a new child event to the event specified.
+
+show_debug_message("Creating child event from main event with id " + string(argument0));
+
+var event = instance_create(0, 0, o_event);
+
+// Initial parent event, this will be change during execution depending
+// on what event calls this one.
+event._parent_event = argument0;
+
+// Adds the child event to the root event list to be deleted later.
+var root = scr_event_find_root(argument0);
+ds_list_add(root._events, event);
+
+// Give the event a type depending on the root.
+if (root._type == EVENT_MAIN) {
+    event._type = EVENT_MAIN_CHILD;
+} else if (root._type == EVENT_BACKGROUND) {
+    event._type = EVENT_BACKGROUND_CHILD;
+} else {
+    show_message("This event's type is neither main or background: " + argument0._type);
+}
+
+return event;

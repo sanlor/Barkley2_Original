@@ -1,0 +1,453 @@
+//------------------------------------------------------------------------------
+// Absalom
+//------------------------------------------------------------------------------
+absalomLetter = 1 - Absalom told you he's expecting a letter from the scout.
+absalomLetter = 2 - You've given Absalom a letter.
+
+
+//------------------------------------------------------------------------------
+// The Anime Bulldog
+//------------------------------------------------------------------------------
+animeBulldogState = 1 - Spoke to the Anime Bulldog at Booty Bass concert.
+
+
+//------------------------------------------------------------------------------
+// Booty Bass Quest
+//------------------------------------------------------------------------------
+bootyBassQuest = 1 - Booty Bass Quest has been rejected.
+bootyBassQuest = 2 - Lost Booty Bass tournament.
+bootyBassQuest = 3 - Won Booty Bass tournament.
+
+
+//------------------------------------------------------------------------------
+// Boris
+//------------------------------------------------------------------------------
+borisVar = 1 - Boris has been spoken to.
+
+borisArrest = 1 - Boris has been arrested.
+
+
+//------------------------------------------------------------------------------
+// Castor / VR Den / Fadima
+//------------------------------------------------------------------------------
+castorDead = 1 - Castor's dead body has been discovered.
+castorDead = 2 - You've spoken to Fadima about Castor's death.
+
+
+//------------------------------------------------------------------------------
+// Clispaeth Statue in Industrial Park
+//------------------------------------------------------------------------------
+clispaethStatue = 1 - Clispaeth Statue has been spoken to.
+clispaethStatue = 2 - Was rude at Clispaeth statue.
+
+clispaethResponsibility = 1 - Talked about responsibility with Clispaeth statue. In a certain dialogue with Cyberdwarf, he'll say "make grapeade out of grapes" which makes you question whether he was your dad or not.
+
+
+//------------------------------------------------------------------------------
+// Clive / Chup Quest
+//------------------------------------------------------------------------------
+chupQuest = 1 - Chup Quest has been rejected.
+chupQuest = 2 - Chup Quest has been accepted.
+chupQuest = 3 - Chup Quest has been failed.
+chupQuest = 4 - Chup Quest has been completed but didn't have enough money for Clive.
+chupQuest = 5 - Chup Quest has been completed.
+
+cliveArrest = 1 - Clive has been arrested.
+
+chupCount - number of chups you have.
+chupShekel - the amount of neoshekels you've made.
+chupSuspicion - The number of times people have rejected you. Hit 3 and Marshal Masego catches you.
+
+
+//------------------------------------------------------------------------------
+// Crossword Guys / Ernstig Van De Drol & Altijd Poepen
+//------------------------------------------------------------------------------
+crosswordQuest = 1 - Refused to do crossword.
+crosswordQuest = 2 - Got the crossword wrong.
+crosswordQuest = 3 - Got the crossword right.
+
+
+//------------------------------------------------------------------------------
+// Cyberdwarf/Main Quest
+//------------------------------------------------------------------------------
+mainQuest = 0 - Cyberdwarf hasn't been spoken to.
+mainQuest = 1 - Cyberdwarf has been spoken to.
+
+
+//------------------------------------------------------------------------------
+// Cybergremlin Village
+//------------------------------------------------------------------------------
+villageMoved = 1 - The Cybergremlins have moved to the ruins of the Industrial Park.
+
+
+//------------------------------------------------------------------------------
+// Deacon Brimble
+//------------------------------------------------------------------------------
+deaconBrimbleChup = 1 - You accepted 25 neo-shekels for the chups.
+deaconBrimbleChup = 2 - You accepted the promise of 500 neo-shekels for the chups.
+deaconBrimbleChup = 3 - You didn't sell Deacon Brimble the chups. This variable is never referenced, it only exists so the other deaconBrimbleChup variables aren't used.
+deaconBrimbleTime - deaconBrimbleTime is set to whatever the current time is when you accept the promise of 500 chups. If you speak to it at time 5, deaconBrimbleTime is set to 5. If time exceeds deaconBrimbleTime by 4 or more and you talk to him, he has Marshal Masego throw you in jail.
+
+brimbleTalk = 1 - Deacon Brimble has told you to give the Cybergremlins a fake idol.
+
+
+//------------------------------------------------------------------------------
+// DJ Booty Slayer
+//------------------------------------------------------------------------------
+bootySlayerState = 1 - Talked to DJ Booty Slayer 1 time in Tir na Nog.
+bootySlayerState = 2 - Talked to DJ Booty Slayer 2 times in Tir na Nog.
+bootySlayerState = 3 - Talked to DJ Booty Slayer 3 times in Tir na Nog.
+bootySlayerState = 4 - Talked to DJ Booty Slayer 4 times in Tir na Nog.
+
+
+//------------------------------------------------------------------------------
+// Elder Zenobia
+//------------------------------------------------------------------------------
+zenobiaSpoken = 1 - Zenobia has been spoken to.
+
+cybergremlinMove = 1 - You know the Cybergremlins want to move.
+
+
+//------------------------------------------------------------------------------
+// Elise
+//------------------------------------------------------------------------------
+eliseFrontier = 1 - Elise has gone to the Frontier Town.
+
+//------------------------------------------------------------------------------
+// Frampton
+//------------------------------------------------------------------------------
+framptonState = 0 - 
+
+//------------------------------------------------------------------------------
+// Figbottom's Quest
+//------------------------------------------------------------------------------
+figbottomQuest = 1 - Figbottom's Death quest rejected
+figbottomQuest = 2 - Figbottom's Death quest failed (can only be accessed by accusing Marshal Masego of killing Figbottom)
+figbottomQuest = 3 - Figbottom's Death quest activated
+figbottomQuest = 4 - Suresh has been spoken to.
+figbottomQuest = 5 - Kunigunde has been spoken to.
+figbottomQuest = 6 - Moriarty has been spoken to.
+figbottomQuest = 7 - Found out truth behind Suresh's jerkin.
+figbottomQuest = 8 - Found out truth behind tontine.
+figbottomQuest = 9 - Quest has been completed.
+
+kunigundeArrest = 1 - Kunigunde has been arrested.
+moriartyArrest = 1 - Moriarty has been arrested.
+sureshArrest = 1 - Suresh has been arrested.
+
+
+//------------------------------------------------------------------------------
+// Firas/Dead Son/Matthias
+//------------------------------------------------------------------------------
+
+deadSon = 6 means you completed the quest and talked to Firas.
+deadSon = 5 means you completed the quest, haven't talked to firas
+deadSon = 4 means Firas saw through your disguise and realized his son is dead
+deadSon = 3 means you're currently controlling the dead son who is in the sewers
+deadSon = 2 means the quest has been accepted
+deadSon = 1 means Firas has been spoken to but the quest was rejected
+deadSon = 0 means Firas hasn't been spoken to and the quest is not active
+
+
+//------------------------------------------------------------------------------
+// Frontier Town
+//------------------------------------------------------------------------------
+frontierQuest = 1 - Frontier Quest has been activated, you can now get people to come to the Frontier Town.
+
+
+//------------------------------------------------------------------------------
+// Governor's Quest
+//------------------------------------------------------------------------------
+govQuest = 1 = Governor quest rejected.
+govQuest = 2 = Governor quest accepted, need duergar urine.
+govQuest = 3 = have duergar urine.
+govQuest = 4 = ready to become governor.
+govQuest = 5 = currently governor.
+govQuest = 6 = Governor quest complete.
+govQuest = 7 - Governor's quest failed.
+
+concessionVal - Your maximum number of points to use in the Governor's speech.
+concessionCurrent - Your current number of points to use in Governor's speech.
+
+govBomb = 1 - Rejected bomb.
+govBomb = 2 - Accepted bomb.
+
+govIntro = 1 - Rebel base intro has played.
+
+pvtMadisonShout = 1 - Madison has shouted at you after govQuest 2 is accepted.
+
+govCow = 1 - Talked to Marina, aware of cow problem.
+govCow = 2 - Marina is allowed to take her cows to the pasture. Hasn't been spoken to.
+govCow = 3 - Marina has been spoken to after being allowed to take cows to pasture.
+
+govCar = 1 - Talked to Hildeberga or Amalberga about the car.
+govCar = 2 - Gave Hildeberga and Amalberga a garage to work in.
+govCar = 3 - Spoken to Hildeberga and Amalberga about garage.
+
+govCandy = 1 - Nothing, using for consistency.
+govCandy = 2 - Agreed to candy for the poor.
+govCandy = 3 - Spoken to Mortimer about candy for the poor.
+
+govGuillaume = 1 - Spoken to Guillaume, know he's too loud.
+govGuillaume = 2 - Kicking Guillaume out of Tir na Nog.
+govGuillaume = 3 - Spoken to Guillaume after 
+
+govBball = 1 - Talked to Uschi, aware of basketball problem.
+govBball = 2 - B-ball court has been restored in gov quest.
+
+govChurch = 1 - You've had contact with Father Giuseppe.
+govChurch = 2 - Promised to build church in Governor's speech.
+govChurch = 3 - Talked to Giuseppe about building church.
+
+govKalevi = 1 - You've spoken to Kalevi and are aware he wants a transfer.
+govKalevi = 2 - Kalevi's getting a transfer!!!!!!!!!
+govKalevi = 3 - You've spoken to Kalevi about his transfer.
+
+govMedicine = 1 - Nothing, using for consistency.
+govMedicine = 2 - You've decided the elderly get free medicine.
+govMedicine = 3 - Spoken to Wilmer about medicine.
+
+govHandler - Used to reset Governor's Speech event.
+
+
+//------------------------------------------------------------------------------
+// Gun in the Stone
+//------------------------------------------------------------------------------
+gunStone = 1 - You've tried and failed to get the gun.
+gunStone = 2 - You used dynamite to destroy the stone.
+
+
+//------------------------------------------------------------------------------
+// Hoopz - variables that affect Hoopz's endings, desires, goals
+//------------------------------------------------------------------------------
+hoopzBball - Hoopz's b-ball value.
+hoopzCandy - Hoopz's candy value.
+hoopzClispaeth - Hoopz's Clispaeth value.
+hoopzPower - Hoopz's power value.
+hoopzZauber - Hoopz's zauber value.
+
+gunsVar - Hoopz's gun value.
+transhumanismVar - Hoopz's transhumanist value.
+zauberVar - Hoopz's level of Zauber mastery. Classes and spells open as the zauberVar increases.
+zauberVar = 1 - Zauberjugend
+zauberVar = 2 - Zauberneophyte
+zauberVar = 3 - Zauberjourneyman
+zauberVar = 4 - Zaubermagician
+zauberVar = 5 - Zaubermancer
+
+tnnBan = 1 - Banned from Tir na Nog, can't return.
+
+barkleyDad - Implying Barkley is Hoopz's dad.
+cuchulainnDad - Implying Cuchulainn is Hoopz's dad.
+cyberdwarfDad - Implying Cyberdwarf is Hoopz's dad.
+
+dynamiteOwned - Number of sticks of dynamite Hoopz has.
+
+
+//------------------------------------------------------------------------------
+// Hyacinth
+//------------------------------------------------------------------------------
+hyacinthState = 1 - You've talked to Hyacinth.
+
+//------------------------------------------------------------------------------
+// Jhodfrey
+//------------------------------------------------------------------------------
+jhodfreyState == 0 - have not talked
+jhodfreyState == 1 - you've talked to Jhodfrey before talking to Wiglaf
+jhodfreyState == 2 - you've accepted the mission and entered the Undersewers Hatch
+
+
+//------------------------------------------------------------------------------
+// Knight Fabian
+//------------------------------------------------------------------------------
+fabianPleased = 1 - You've spoken to Knight Fabian after the Cybergremlins have moved.
+
+
+//------------------------------------------------------------------------------
+// Knights of the Round Table
+//------------------------------------------------------------------------------
+roundTable = 1 - Knights of the Round Table quest is accepted.
+
+knightCount - the number of knights that have returned to the Round Table. At 12, the quest is complete.
+
+fabianKnight = 1 - Fabian has returned to the Round Table.
+
+
+//------------------------------------------------------------------------------
+//Kunigunde
+//------------------------------------------------------------------------------
+kunigundeState = 1 - Kunigunde has been spoken to.
+
+
+//------------------------------------------------------------------------------
+// Lft. Wiglaf
+//------------------------------------------------------------------------------
+wiglafMission = 1 - You've been assigned to kill Cuchulainn in order to meet Cyberdwarf.
+wiglafMission = 2 - You've exited the rebel base through the hatch the Jhodfrey shows you.
+wiglafMission = 3 - You've reported back to Wiglaf and have full permission to meet Cyberdwarf.
+
+cuchFought = 1 - You've fought Cuchulainn.
+
+
+//------------------------------------------------------------------------------
+// L.O.N.G.I.N.U.S. Door (Brain City)
+//------------------------------------------------------------------------------
+longinusDoorOpen = 1 - You've failed at opening the L.O.N.G.I.N.U.S. door and need to talk to Nene.
+longinusDoorOpen = 2 - You've spoken to Nene and learned the L.O.N.G.I.N.U.S. knock.
+longinusDoorOpen = 3 - The L.O.N.G.I.N.U.S. door has been opened either through successfully knocking or telling the guards you've helped another L.O.N.G.I.N.U.S. group.
+
+neneKnock = 1 - You've learned the knock from Nene.
+longinusHelp = 1 - Temporary variable, stand in for helping another L.O.N.G.I.N.U.S. group. Need to rename eventually.
+
+
+//------------------------------------------------------------------------------
+// Machinist Sepideh
+//------------------------------------------------------------------------------
+sepidehVar = 1 - Power Diversion quest accepted.
+sepidehVar = 2 - Power Diversion quest rejected.
+sepidehVar = 3 - Power Diversion quest completed.
+
+sepidehMachine = 1 - Sepideh has been spoken to about machines.
+sepidehMachine = 2 - Sepideh has been spoken to about machines + you can talk to her during Ooze's quest about turrets.
+
+industrialPower = 1 - Power has been redirected to the Industrial Park.
+
+
+//------------------------------------------------------------------------------
+// Marshal Masego
+//------------------------------------------------------------------------------
+masegoSpoken = 1 - You've spoken to Marshal Masego at least once.
+
+
+//------------------------------------------------------------------------------
+// Nene
+//------------------------------------------------------------------------------
+neneKnock = 1 - You've learned the knock from Nene.
+
+
+//------------------------------------------------------------------------------
+// Ooze
+//------------------------------------------------------------------------------
+oozeTurret = 1 - Ooze's Turret Hacking quest has been accepted.
+oozeTurret = 2 - Ooze's Turret Hacking quest has been rejected.
+oozeTurret = 3 - Ooze's Turret Hacking quest failed.
+oozeTurret = 4 - Ooze's Turret Hacking quest succeeded, need to return to Ooze.
+oozeTurret = 5 - Ooze's Turret Hacking quest completed.
+oozeTurret = 6 - Ooze turned in to Marshal Masego.
+
+oozeSpoken - the number of times Ooze has been spoken to.
+oozeVar - How much Ooze likes you.
+
+oozeIdentity = 1 - Ooze told you there's more than 1 Hoopz in the Industrial Park (bring up wtih Cyberdwarf)
+
+oozeIndustrial = 1 - Ooze was spoken to in the Industrial Park.
+oozeTirNaNog = 1 - Ooze was spoken to in Tir na Nog.
+
+
+//------------------------------------------------------------------------------
+// Power Generator
+//------------------------------------------------------------------------------
+industrialPower = 1 - Power has been redirected to Industrial Park.
+junkyardPower = 1 - Power has been redirected to P.Y.T.H.A.G.O.R.A.S.
+
+
+//------------------------------------------------------------------------------
+// P.Y.T.H.A.G.O.R.A.S.
+//------------------------------------------------------------------------------
+pythagorasSpoken = 1 - P.Y.T.H.A.G.O.R.A.S. has been spoken to.
+
+pythagorasDead = 1 - P.Y.T.H.A.G.O.R.A.S. is dead.
+pythagorasLife - pythagorasLife is set to whatever the current time is when you first speak to it. If you speak to it at time 5, pythagorasLife is set to 5. If time ever exceeds pythagorasLife by 4 or more and power is not restored to P.Y.T.H.A.G.O.R.A.S., it dies.
+
+
+junkyardPower = 1 - Power has been redirected to P.Y.T.H.A.G.O.R.A.S.
+junkyardPower = 2 - P.Y.T.H.A.G.O.R.A.S. has been spoken to after power returns.
+
+pythagorasAI = 1 - You've talked to P.Y.T.H.A.G.O.R.A.S. about non-living AI (bring up with Cyberdwarf)
+pythagorasCyber = 1 - You've talked to P.Y.T.H.A.G.O.R.A.S. about cyber zaubers.
+pythagorasZauber = 1 - P.Y.T.H.A.G.O.R.A.S. has taught you the path of zaubers.
+
+
+//------------------------------------------------------------------------------
+// Rosario
+//------------------------------------------------------------------------------
+rosarioState = 1 - Rosario has been spoken to.
+
+
+//------------------------------------------------------------------------------
+// Rumi
+//------------------------------------------------------------------------------
+rumiSpoken = 1 - Told Rumi you've never seen a movie.
+
+rumiCamera = 1 - Rejected the film quest.
+rumiCamera = 2 - Accepted the film quest.
+rumiCamera = 3 - Completed the film quest.
+
+rumiCave = 1 - Have picture of cave.
+rumiDumpster = 1 - Have picture of dumpster.
+rumiTree = 1 - Have picture of tree.
+
+
+//------------------------------------------------------------------------------
+// Sister Irmingard / Conversion Quest
+//------------------------------------------------------------------------------
+irmingardVar = 1 - Sister Irmingard has been spoken to.
+irmingardVar = 2 - Was rude to Sister Irmingard.
+
+conversionQuest = 1 - Conversion Quest has been rejected.
+conversionQuest = 2 - Conversion Quest has been accepted.
+conversionQuest = 3 - Elder Zenobia wants artifact.
+conversionQuest = 4 - Speak to shaman about Clispaeth.
+conversionQuest = 5 - Cybergremlins want artifact.
+conversionQuest = 6 - Cybergremlins have artifact.
+conversionQuest = 7 - Returned to Sister Irmingard, quest completed.
+
+brimbleTalk = 1 - Deacon Brimble has told you to give the Cybergremlins a fake idol.
+
+conversionBall = 1 - Gave Cybergremlins a bowling ball.
+conversionBoot = 1 - Gave Cybergremlins a boot.
+conversionBumper = 1 - Gave Cybergremlins a car bumper.
+conversionGlobe = 1 - Gave Cybergremlins a snow globe.
+conversionHat = 1 - Gave Cybergremlins a baseball hat. ("He used to wear it backwards because he liked rap.")
+conversionMug = 1 - Gave Cybergremlins a world's greatest dad mug.
+
+
+//------------------------------------------------------------------------------
+// Suresh
+//------------------------------------------------------------------------------
+sureshState = 1 - Suresh has been talked to in Times 1-3.
+sureshState = 2 - Suresh has been talked to in a Time > 3.
+
+
+//------------------------------------------------------------------------------
+// Sviatoslav
+//------------------------------------------------------------------------------
+sviatoslavState = 0 - Never talked to.
+sviatoslavState = 1 - Spoken to Sviatoslav before.
+
+
+//------------------------------------------------------------------------------
+// Uschi / Basketball Girl
+//------------------------------------------------------------------------------
+uschiState = 1 - Spoken to Uschi.
+
+uschiBall = 1 - You turned down the chance to ball.
+uschiBall = 2 - You've balled with Uschi.
+
+//------------------------------------------------------------------------------
+// VRW Station
+//------------------------------------------------------------------------------
+vrwStationState == 0 - Hoopz is seeing the Station for the first time
+vrwStationState == 1 - Hoopz knows what the VRW station is.
+
+vrwAccount == 0 - no account
+vrwAccount == 1 - created an account
+
+//------------------------------------------------------------------------------ 
+// Ziusudra
+//------------------------------------------------------------------------------
+Ziusudra can be spoken to in multiple locations over multiple times. ziusudraVar is your position in ziusudra's story and ziusudraIndustrialPark checks to see if you've spoken to him in this particular location. If you've already spoken to him in this location, you can't advance his story any further until he moves location.
+
+ziusudraIndustrialPark = 1 - Ziusudra has been spoken to in the Industrial Park.
+
+ziusudraVar = 1 - Ziusudra has been spoken to once.

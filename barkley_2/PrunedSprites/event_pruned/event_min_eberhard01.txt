@@ -1,0 +1,39 @@
+// Prison Courtyard NPC script for the dwarf prisoner Eberhard. He is not a big fan of the food the prison serves.
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var eberhard = id;
+    var event = scr_event_create_main();
+    var DayOver = scr_event_create_child(event);
+    with DayOver {
+        scr_event_build_dialogue("Loudspeaker", NULL, "Attention please! All inferior lifeforms not scheduled for afternoon activities, please report to the courtyard entrance.\All those scheduled for torture, please form a queue behind the silver line.\And all those scheduled for execution, please remain where you are, someone will come to pick you up.\Thanks, and have an awful day.");
+        Quest("prisondayoverState", 0);
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC NOTE: The screen should fade to black and the player is teleported to a cinematic showing them being led back to their cell.\This snippet is identical for all the NPCs in the prison courtyard. If you're seeing this now, you're on your way back to your prison cell, buster.");
+        // CINEMATIC NOTE: This is where the player is teleported back to their cell for the day. After a fade to black, this event should link to the brief cinematic of the player being led to their jail cell.
+        scr_event_build_end();
+    }
+
+    with (event) {
+        if (Quest("eberhardState") == 1) {
+            scr_event_build_dialogue("Eberhard", NULL, "I won't last long, I think. I've stopped eating the food.");
+            scr_event_build_end();
+        } else {
+            QuestAdd("prisondayoverState", 1);
+            scr_event_build_dialogue("Eberhard", NULL, "I don't really like the food here. You find strange stuff in the food.");
+            Dialogue(P_NAME, "Like what?");
+            scr_event_build_dialogue("Eberhard", NULL, "Apart from stuff like rocks? I found a diamond ring in the sausage broth.");
+            Dialogue(P_NAME, "That doesn't sound so bad. Diamond rings are pretty valuable. Maybe it's worth something.");
+            scr_event_build_dialogue("Eberhard", NULL, "Yeah, they are. This one was worth 18,753 neuro-shekels.\I know it was that much because it was the same ring I gave my darling Claudette for her birthday. Had to save up for months to get it.\You can still make out some of the inscription. To my d- [bite marks] -ver lose its luster, E.\I'm the E.\At least I don't have to sit around wondering if the guards will ever bring her back now.");
+            Quest("eberhardState", 1);
+            if (Quest("prisondayoverState") == 3) {
+                Snippet(DayOver);
+            }
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,194 @@
+// event_sw1_dolvolund01
+
+/*
+This is the event script for DOLVOLUND.
+Located in Sewers, tricks player into jumping in and
+entering the FARY HUT.
+
+Can give him multiple names, based on who you think
+he may be looking for.
+
+OPTIONS:
+1. P_NAME - rejects, leaves
+2. Augustine - rejects, leaves
+3. Carlton - rejects, leaves
+4. Baldomero - leads to Fary Hut
+
+May require a Collision Event to begin the interaction.
+
+
+*/
+/*
+if (argument0 == SCRIPT_START)
+{
+    if (is_real(Quest("dolvolundName")) == true)
+    {
+        Quest("dolvolundName", "");
+    }
+
+    if (Quest("dolvolundFail") == 1)
+    || (scr_time_get() >= scr_time_db("dolvolundDepart"))
+    {
+        scr_event_interactive_deactivate();
+    }
+}
+
+///else if (argument0 == SCRIPT_STEP) { }
+
+else if  (argument0 == SCRIPT_INTERACT)
+{
+    var dolvolund = id;
+    
+    var p_name = P_NAME
+
+    var event = scr_event_create_main();
+
+    var name_snippet = scr_event_create_child(event);
+    var baldomero_snippet = scr_event_create_child(event);
+    var rather_snippet = scr_event_create_child(event);
+
+    //--------------------------------------------
+    // main_event
+    //--------------------------------------------
+    with (event)
+    {
+
+        // Return as Baldomero
+        switch (Quest("dolvolundName"))
+        {
+            // Baldomero
+            case "Baldomero":
+                Snippet(baldomero_snippet);
+                break;
+
+            // I'd Rather Not Say
+            case "I'd Rather Not Say":
+                if (Quest("dolvolundFail") == 1)
+                {
+                    Snippet(rather_snippet);
+                }
+                else
+                {
+                    Snippet(name_snippet);
+                }
+                break;
+
+            // Other Names
+            case "Augustine":
+            case "Carlton":
+            case p_name:
+                Snippet(name_snippet);
+                break;
+
+            // First Conversation
+            case "":
+                CameraFrame(CAMERA_NORMAL, o_dolvolund01);
+                Wait();
+                Dialogue("Dolvolund", "Name?");
+                CameraFrame(CAMERA_NORMAL, o_dolvolund01, o_hoopz);
+                Wait();
+
+                var dolvolund_choice = Choice("Name?");
+
+                // Choice 1: Default Name
+                with (ChoiceAdd(dolvolund_choice, P_NAME + "."))
+                {
+                    Quest("dolvolundName", P_NAME);
+                    Dialogue(P_NAME, "My name's " + P_NAME + "... I think...");
+                }
+                // Choice 2: Carlton
+                if (Quest("carltonName") == 1)
+                {
+                    with (ChoiceAdd(dolvolund_choice, "Carlton."))
+                    {
+                        Quest("dolvolundName", "Carlton, " + scr_longinus_get_rank("Carlton", "full"));
+                        Dialogue(P_NAME, "My name's Carlton..." + scr_longinus_get_rank("Carlton", "full") + " .");
+                    }
+                }
+                // Choice 3: Augustine
+                if (Quest("augustineName") == 1)
+                {
+                    with (ChoiceAdd(dolvolund_choice, "Augustine."))
+                    {
+                        Quest("dolvolundName", "Augustine");
+                        Dialogue(P_NAME, "My name's Augustine.");
+                    }
+                }
+                // Choice 4: Baldomero
+                if (Quest("baldomeroName") == 1)
+                {
+                    with (ChoiceAdd(dolvolund_choice, "Baldomero."))
+                    {
+                        Quest("dolvolundName", "Baldomero");
+                        Dialogue(P_NAME, "My name's Baldomero.");
+                    }
+                }
+                // Choice 5: Don't Say
+                with (ChoiceAdd(dolvolund_choice, "Don't say."))
+                {
+                    Quest("dolvolundName", "I'd Rather Not Say");
+                    Dialogue(P_NAME, "I'd rather not say.");
+                }
+
+                // Restart Event
+                Execute(event_sw1_dolvolund01);
+                break;
+        }
+    }
+    scr_event_advance(event);
+
+    //--------------------------------------------
+    //  name_snippet
+    //--------------------------------------------
+    with (name_snippet)
+    {
+        if (Quest("dolvolundFail") == 0)
+        {
+            Dialogue("Dolvolund", "Hmm...");
+            CameraFrame(CAMERA_NORMAL, o_dolvolund01);
+            Wait();
+            Dialogue("Dolvolund", "Go away, " + Quest("dolvolundName") + ".");
+            Wait();
+            CameraFrame(CAMERA_NORMAL, o_dolvolund01, o_hoopz);
+            Wait();
+            Quest("dolvolundFail", 1);
+        }
+        else
+        {
+            switch (Quest("dolvolundFail"))
+            {
+                case 1: Dialogue("Dolvolund", Quest("dolvolundName") + ". " + Quest("dolvolundName") + ". You need to leave."); break;
+                case 2: Dialogue("Dolvolund", "You are inconveniencing me, " + Quest("dolvolundName") + "."); break;
+                default: Debug("Continue this... eventually Dolvolund will leave."); break; // TODO
+            }
+            QuestAdd("dolvolundFail", 1);
+        }
+    }
+
+
+    //--------------------------------------------
+    // rather_snippet
+    //--------------------------------------------
+    with (rather_snippet)
+    {
+        
+        CameraFrame(CAMERA_NORMAL, o_dolvolund01);
+        Debug("Chance to change name here.");
+        //Dialogue()
+    }
+
+    //--------------------------------------------
+    // baldomero_snippet
+    //--------------------------------------------
+    with (baldomero_snippet)
+    {
+        if (Quest("baldomeroWait") == 1)
+        {
+
+        }
+        else
+        {
+
+        }
+    }
+}

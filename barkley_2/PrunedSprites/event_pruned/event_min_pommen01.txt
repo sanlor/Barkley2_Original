@@ -1,0 +1,96 @@
+// Nose Dwarf Pommen // Filler NPC // 
+// ***************************************************************************************** //
+// Talks about how he is so beat up 
+// ***************************************************************************************** //
+
+// Initialize //
+if (argument0 == SCRIPT_START) 
+    {
+    // ****** Gloves exists on Alpha Camp ****** //
+    // Alpha Camp // Exists as a beat up dwarf //
+    if scr_min_cspear() == "during" or scr_min_cspear() == "prep" or scr_min_cspear() == "after" then scr_event_interactive_deactivate(); 
+    }
+                  
+// Step //
+if (argument0 == SCRIPT_STEP) 
+    {
+    
+    }
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) 
+    {
+    // Variables //
+    var event = scr_event_create_main();
+    var reply = irandom(2);
+        
+    // Main event //
+    with (event) 
+        {
+        // Reply 01 //
+        if reply = 0 then scr_event_build_dialogue("Pommen", NULL, "Ugh... It hurts... so bad...");
+        
+        // Reply 02 //
+        else if reply = 1 then scr_event_build_dialogue("Pommen", NULL, "... Oww...");
+        
+        // Reply 03 //
+        else if reply = 2 then scr_event_build_dialogue("Pommen", NULL, "I think I... broken ribs...");
+        }
+    scr_event_advance(event);
+    }
+
+// Nose Dwarf // Beushtachio // Nose Dwarf lying on the ground, beaten up // ALPHA CAMP //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+    // Only exist while Alpha Camp is safe //
+    if scr_min_cspear() == "prep" or scr_min_cspear() == "during" or scr_min_cspear() == "after" then scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {       
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+
+        // alpha_beushtachio //
+        // 0 = First interaction //
+        // 1 = Second ((
+        // 2 = Third //
+        
+        // Hoopz talks to Hanuman //
+        if scr_quest_get_state("alpha_beushtachio") == 0 
+            {
+            scr_event_build_dialogue("Beushtachio", NULL, "... It hurts so bad... I'm so sorry... I... I didn't mean to...");
+            scr_event_build_quest_state("alpha_beushtachio", irandom(3));
+            }
+        
+        else if scr_quest_get_state("alpha_beushtachio") == 1 
+            {
+            scr_event_build_dialogue("Beushtachio", NULL, "... Please... Help me... I feel so weak... I... dying...");
+            scr_event_build_quest_state("alpha_beushtachio", irandom(3));
+            }
+        
+        else if scr_quest_get_state("alpha_beushtachio") == 2 
+            {
+            scr_event_build_dialogue("Beushtachio", NULL, "... Feels like... on fire... I'm so sorry, I didn't...");
+            scr_event_build_quest_state("alpha_beushtachio", irandom(3));
+            }
+            
+        else if scr_quest_get_state("alpha_beushtachio") == 3 
+            {
+            scr_event_build_dialogue("Beushtachio", NULL, "... I don't... to die... Please, someone... help me...");
+            scr_event_build_quest_state("alpha_beushtachio", irandom(3));       
+            }
+        }
+    scr_event_advance(event);
+    }

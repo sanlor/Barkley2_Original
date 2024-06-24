@@ -1,0 +1,17 @@
+// BCT tower teleporters //
+script = "
+IF bct_teleport == 0 | GOTO | TELEPORTERO
+TELEPORTERO
+QUEST  | bct_teleport = 1
+MOVE   | o_cts_hoopz | oBCTWarpA | MOVE_NORMAL
+Misc   | alpha | o_cts_hoopz | 0 | 0.5
+WAIT   | 0
+Misc   | set | o_cts_hoopz | oBCTWarpB     
+Misc   | set | o_hoopz | oBCTWarpB     
+WAIT   | 2            
+Misc   | alpha | o_cts_hoopz | 1 | 0.5
+MOVETO | o_cts_hoopz | o_cinema25 | MOVE_NORMAL
+WAIT   | 0
+LOOK   | o_cts_hoopz | SOUTH
+QUEST  | bct_teleport = 0
+";

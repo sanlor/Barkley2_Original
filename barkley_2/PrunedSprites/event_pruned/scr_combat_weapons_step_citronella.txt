@@ -1,0 +1,13 @@
+/// scr_combat_weapons_step_citronella(actor, gun)
+
+var actor = argument0;
+var gun = argument1;
+
+if (instance_exists(o_enemy_mosquito)) {
+    with (o_enemy_mosquito) {
+        if (point_distance(x, y, actor.x, actor.y) <= 64) {
+            repel = actor;
+            event_user(1);
+        }
+    }
+}

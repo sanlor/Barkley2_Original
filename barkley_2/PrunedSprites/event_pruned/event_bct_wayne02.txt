@@ -1,0 +1,60 @@
+// Event for Wayne after he's been recruited for wedding quest. Hangs out in Brain City
+//Bar
+// usage: event_bct_wayne02();
+
+/*if (argument0 == SCRIPT_STEP) {
+
+//if wedding quest is currently active
+if (scr_quest_get_state("wayneWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+    scr_event_interactive_activate();
+} else{
+    scr_event_interactive_deactivate();
+}
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var wayne = id;
+    var event = scr_event_create_main();
+    with (event) {
+    //if you have guillaume in group.
+    if (scr_quest_get_state("guillaumeWedding") == 1) and (scr_quest_get_state("wayneGuillaume") == 0) {
+        scr_event_build_dialogue("Wayne", s_port_wayne, "__.__.__.what's a chakra? Why's Guillaume keep saying I gotta let open up my chakras? Tell him to shut up.");
+        scr_event_build_quest_state("wayneWait", 1);
+        scr_event_build_quest_state("wayneGuillaume", 1);
+    }
+        
+    //if you have boris
+    else if (scr_quest_get_state("borisWedding") == 1) and (scr_quest_get_state("wayneBoris") == 0) {
+        scr_event_build_dialogue("Wayne", s_port_wayne, "__.__.__.tell Boris to stop piping in my face.");
+        scr_event_build_quest_state("wayneWait", 1);
+        scr_event_build_quest_state("wayneBoris", 1);
+    }
+    
+    //if you have cap'n jane
+    else if (scr_quest_get_state("janeWedding") == 1) and (scr_quest_get_state("wayneJane") == 0) {
+        scr_event_build_dialogue("Wayne", s_port_wayne, "__.__.__.__don't like Cap'n Jane. All I'm sayin' about that.");
+        scr_event_build_quest_state("wayneWait", 1);
+        scr_event_build_quest_state("wayneJane", 1);
+    }
+    
+    //if you have dinah
+    else if (scr_quest_get_state("dinahWedding") == 1) and (scr_quest_get_state("wayneDinah") == 0) {
+        scr_event_build_dialogue("Wayne", s_port_wayne, "__.__.__.Dinah seems cool.");
+        scr_event_build_quest_state("wayneWait", 1);
+        scr_event_build_quest_state("wayneDinah", 1);
+    }
+    
+    //if you've spoken to before.
+    else if (scr_quest_get_state("wayneWait") == 1) {
+        scr_event_build_dialogue("Wayne", s_port_wayne, "__.__.__.we starting yet?");
+    }
+    
+    //Haven't spoken to Wayne while waiting.
+    else {
+        scr_event_build_dialogue("Wayne", s_port_wayne, "__.__.__.tell Stonewall to turn down the music. Can't shred with it this loud.");
+        scr_event_build_quest_state("wayneWait", 1);
+        }
+    }
+    scr_event_advance(event);
+}

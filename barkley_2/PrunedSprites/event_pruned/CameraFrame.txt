@@ -1,0 +1,8 @@
+// CameraFrame
+
+if (argument_count == 5) { scr_event_build_camera_frame(argument[0], argument[1], argument[2], argument[3], argument[4]); }
+else if (argument_count == 4) { scr_event_build_camera_frame(argument[0], argument[1], argument[2], argument[3]); }
+else if (argument_count == 3) { scr_event_build_camera_frame(argument[0], argument[1], argument[2]); }
+else if (argument_count == 2) { scr_event_build_camera_frame(argument[0], argument[1]); }
+else if (argument_count == 1) { scr_event_build_camera_frame(argument[0]); }
+else { scr_event_build_camera_frame(); }

@@ -1,0 +1,38 @@
+// event_bct_officeStairsUp01
+
+/*if (argument0 == SCRIPT_START) {  
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var stairsUp = id;
+    
+    var event = scr_event_create_main();
+    
+    //----------------------------------------------------------
+    // main event
+    //----------------------------------------------------------
+    with (event)
+    {
+        if (room == r_bct_officeBasement01) {
+            scr_event_build_teleport(r_bct_officeFirst01, 96, 160);
+        }
+        else if (room == r_bct_officeFirst01) {
+            scr_event_build_teleport(r_bct_officeSecond01, 96, 160);
+        }
+        else if (room == r_bct_officeSecond01) {
+            scr_event_build_teleport(r_bct_officeThird01, 96, 160);
+        }
+        else if (room == r_bct_officeThird01) {
+            scr_event_build_teleport(r_bct_officeFourth01, 96, 160);
+        }
+        else if (room == r_bct_officeFourth01) {
+            scr_event_build_teleport(r_bct_officeFifth01, 96, 160);
+        }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,35 @@
+// scr_lemuel_init()
+
+// if "lemuelRoom" == 0, set to r_dwarfzone01
+/*if (scr_quest_get_state("lemuelRoom") == 0) { scr_quest_set_state("lemuelRoom", r_wst_industrialZone01); }
+
+// Initialize "mapbegging"
+if (!scr_savedata_contains("mapbegging"))
+{
+    // Initizlize, if not done already!
+    if (scr_quest_get_state("beggingInit") == 0)
+    {
+        // creates the list used to hold the bowl inventory
+        global.mapbegging = ds_map_create();
+        scr_begging_items();
+        // save the list data
+        scr_savedata_put_map("mapbegging", global.mapbegging);
+        // make sure it doesn't initialize anymore
+        scr_quest_set_state("beggingInit", 1);
+    }
+}
+
+// Initialize "listlemuel"
+if (!scr_savedata_contains("listlemuel"))
+{
+    // Initizlize, if not done already!
+    if (scr_quest_get_state("lemuelInit") == 0)
+    {
+        // creates the list used to hold the bowl inventory
+        global.listlemuel = ds_list_create();
+        // save the list data
+        scr_savedata_put_list("listlemuel", global.listlemuel);
+        // make sure it doesn't initialize anymore
+        scr_quest_set_state("lemuelInit", 1);
+    }
+}

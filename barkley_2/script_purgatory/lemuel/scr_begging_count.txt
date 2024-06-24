@@ -1,0 +1,25 @@
+// scr_begging_count()
+/*
+    Returns an integer, 0 to X of how many items
+    will be given to the player when begging.
+    
+    THIS CAN BE DEFINITELY ENHANCED!!!
+    
+    The number should decay for each time you beg
+    at a given carpet. Advancing time should then
+    increase this value.
+    
+    http://www.talesofgames.com/trac/ticket/1332
+*/
+
+// if you're in Lemuel's Begging Game
+/*if (scr_quest_get_state("lemuelBeggingGame") == 2)
+{
+    return 2;
+}
+// if you're in the Normal Begging Game
+else
+{
+    // VERY TEMPORARY
+    return 3;
+}

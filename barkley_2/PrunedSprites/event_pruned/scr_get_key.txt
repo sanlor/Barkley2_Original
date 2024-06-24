@@ -1,0 +1,35 @@
+// Get Key Input
+
+// keys
+if keyboard_check_pressed(vk_anykey) {
+  for(i=8;i<224;i+=1) {
+        if keyboard_check_pressed(i) and str_keycode[i] != "Undefined"
+                break;
+        }
+
+ if str_keycode[i] != "Undefined" and b_kallowed[i]
+    return str_keycode[i];
+ }
+
+// mouse
+if mouse_check_button_pressed(mb_any) {
+  for(ii=1;ii<4;ii+=1) {
+    if mouse_check_button_pressed(ii) and str_mousecode[ii] != "Undefined"
+        break;
+    }
+    
+  if str_mousecode[ii] != "Undefined"
+    return str_mousecode[ii];
+ }
+   
+// mouse wheel 
+if mouse_wheel_up()
+    return str_mousecode[4]; 
+if mouse_wheel_down()
+    return str_mousecode[5];
+    
+if keyboard_check_pressed(vk_anykey) and !b_kallowed[i]
+    return "Reserved";
+    
+       
+return "";

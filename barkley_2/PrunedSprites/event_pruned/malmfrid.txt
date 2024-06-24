@@ -1,0 +1,111 @@
+// Event for Malmfrid, adventurer with Lonnie's party who appears in the Industrial
+// Park at times 3, 4, 5, 8 and 12. Survives the expedition.
+/*
+if (argument0 == SCRIPT_STEP) {
+
+    if (scr_time_get() == 3) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 4) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 5) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 8) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 12) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var malmfrid = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_time_get() == 12) {
+        //Time = 12
+            if (scr_quest_get_state("malmfridState") == 4){
+            //You've spoken to Malmfrid at Time 11.
+                scr_event_build_dialogue("Malmfrid", NULL, "..........................................");
+            } else if (scr_quest_get_state("malmfridState") == 3) || (scr_quest_get_state("malmfridState") == 2) || (scr_quest_get_state("malmfridState") == 1) {
+            //Time = 12, Spoken to before
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Malmfrid, why are you on your own? Where'd the rest of the Ultimate Hellbanes go?");
+                scr_event_build_dialogue("Malmfrid", NULL, "They uh... I don't know. I guess they're gone... I don't know...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Are... are you okay, Malmfrid?");
+                scr_event_build_dialogue("Malmfrid", NULL, "Yes... I don't know... maybe...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Take care of yourself... I hope you find them again...");
+                scr_event_build_dialogue("Malmfrid", NULL, "Yes... uh... yes...");
+                scr_event_build_quest_state("malmfridState", 4);
+            } else {
+            //Never spoken to before.
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey lady, are you alright? You look upset.");
+                scr_event_build_dialogue("Malmfrid", NULL, "What...? Oh. I'm okay... thank you.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm sorry... I'll leave you alone then. Take care.");
+                scr_event_build_quest_state("malmfridState", 4);
+            }
+        } else if (scr_time_get() == 8) {
+        //Time = 8
+            if (scr_quest_get_state("malmfridState") == 3) {
+            //Spoken to during Time 8
+                scr_event_build_dialogue("Malmfrid", NULL, "Some of those grapes there don't even have names. I'm gonna go back and name 'em. Malmfrid's Grapes. How's that sound, huh? And when people see me walking down the streets, they'll point and go /'there's Malmfrid! That's Malmfrid with the grapes! He's a hero!/' Yeah, I'll be a fucking hero. I can see it now.");
+            } else if (scr_quest_get_state("malmfridState") == 2) || (scr_quest_get_state("malmfridState") == 1) {
+            //Time = 8, Spoken to previously
+                scr_event_build_dialogue("Malmfrid", NULL, "We... we did it! We did it, kid! We found Shangri-La, we found the Grapester's Paradise! Grapes of every flavor, grapes of every culture... chromatic grapes. I can hardly breathe from all the grapes I ate.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You really think it's okay to indulge yourself like that? I don't want to be blunt or anything, but it sounded kind of like you had uh... a grape problem, I guess.");
+                scr_event_build_dialogue("Malmfrid", NULL, "Grape problem? Haha, kid, we're goin' back! We only got a taste of what's there! There's enough grapes there for every dwarf in Tir na Nog! We're gonna be millionaires - no, billionaires! You don't get it, kid. This is the motherload, the gravy train. And it's all ours. This is what they dream of, and we've got it. I haven't even started to indulge myself yet. Tell you what, when we get back, I'll treat you to a few grapes, whatever kind you want. It's on me, Malmfrid. Malmfrid the Generous. I like the sound of that.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks Malmfrid, but I mostly just like candy and bagel bites. But I'll think about it.");
+                scr_event_build_quest_state("malmfridState", 3);
+            } else {
+            //Time = 8, Never spoken to before
+                scr_event_build_dialogue("Malmfrid", NULL, "Concord grapes... Thompson's Seedless... Malbec...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? What are you talking about?");
+                scr_event_build_dialogue("Malmfrid", NULL, "You know what we've seen? You know what we just got back from? SHANGRI-LA! We did it!!! It's real, Shangri-La is real!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay...");
+                scr_event_build_dialogue("Malmfrid", NULL, "It's a never-ending vineyard, kid. They've got grapes of every flavor, every culture. I ate grapes you wouldn't believe, grapes that don't even have names. I had 'em all. And we're goin' back! We're gonna go back and get 'em all. We just had a taste, but the real prize is still there waiting for us. We're gonna be millionaires - no, billionaires!");
+                scr_event_build_quest_state("malmfridState", 3);
+            }
+        } else if (scr_time_get() == 5) {
+        //Time = 5
+            if (scr_quest_get_state("malmfridState") == 2) {
+            //Time = 5, Spoken to during Time 5
+                scr_event_build_dialogue("Malmfrid", NULL, "We're gonna be millionaires, kid. We're gonna have enough grapes for every dwarf in Tir na Nog. I'm gonna build a mansion and have a little vineyard in the back, have my servants take care of it. You'll see. We're gonna hit it big.");
+            } else if (scr_quest_get_state("malmfridState") == 1){
+            //Time = 5, Spoken to during Times 3-4
+                scr_event_build_dialogue("Malmfrid", NULL, "Hey, hey, kid... let's keep this on the down low, okay? You uh... you got any grapes?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nope, no grapes. Sorry.");
+                scr_event_build_dialogue("Malmfrid", NULL, "It's all good. Yeah, it's fine. You know where we're heading? Shangri-La. It's real, dude, a never-ending vineyard with grapes of every flavor. Every. Single. Grape. I'm not shitting you dude, grapes you couldn't even dream of - you thought Concords were off the deep end? Two words: Thompson's Seedless. We'll be gorging ourselves on these bad boys 'til we explode.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "That doesn't really sound too healthy. Maybe you should lay off the grapes, Malmfrid.");
+                scr_event_build_dialogue("Malmfrid", NULL, "I'm just havin' some fun, kid. I can quit whenever I want. Chill out, you're a real buzzkill.");
+                scr_event_build_quest_state("malmfridState", 2);
+            } else {
+            //Time = 5, never spoken to before.
+                scr_event_build_dialogue("Malmfrid", NULL, "Concord grapes... Pinot Noir... Cabernet... Malbec...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, are you okay dude? Your eyes are grapeshot...");
+                scr_event_build_dialogue("Malmfrid", NULL, "Huh, grapes...? Uh, yeah, yeah, I'm okay. I'm good. Hey, do you think you could spot me a grape or something? Maybe even just a raisin. Just a grape skin.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't have any right now. But uh, do you have a grape problem?");
+                scr_event_build_dialogue("Malmfrid", NULL, "Me? ME? Haha, no way. Not me. No. But back in Tir na Nog I might have had a problem. Yeah, back before I met Lonnie and the gang it might have been a problem. But I'm in good shape now. Look at me - I can handle myself, see? I wouldn't be out here if I couldn't handle myself. That's why I'm comfortable having a grape from time to time. Besides, we wouldn't be going to Shangri-La if I had a problem. Grapes of every flavor, every variety there. I'm not shitting you, kid. They've got grapes off the deep end. So keep your grapes, I don't care, we'll be in Grapester's Paradise pretty soon.");
+                scr_event_build_quest_state("malmfridState", 2);
+            }
+        } else if (scr_time_get() == 3)  || (scr_time_get() == 4)
+        //Time = 3 or 4
+            if (scr_quest_get_state("malmfridState") == 1 ){
+            //Time = 3 or 4, Spoken to before.
+                scr_event_build_dialogue("Malmfrid", NULL, "Me? Grape problems? No, no, not me. I'm good, I'm all here. But if you have any grapes you want to get rid of, I'd be down.");
+            } else {
+            //Time = 3 or 4, never spoken to before.
+                scr_event_build_dialogue("Malmfrid", NULL, "What're you lookin' at, braster?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "M-me?");
+                scr_event_build_dialogue("Malmfrid", NULL, "I'm talkin' to you, pipsqueek! What are you lookin' at!?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "N-nothing, ma'am!");
+                scr_event_build_dialogue("Malmfrid", NULL, "");
+                scr_event_build_quest_state("malmfridState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,358 @@
+// Event for Aelfleda.
+// usage: event_tnn_aelfleda01();
+/*   
+    QUESTS:
+        baldomeroAug
+            0 = none
+            1 = identified baldomero as augustine
+            2 = told gelasio baldomero is augustine
+    
+    VARIABLES:
+        repeat:
+            0 = haven't heard penultimate dialogue
+            1 = have heard penultimate dialogue, display final dialogue
+
+        aelfledaAugustine
+            0 = none
+            1 = heard short version
+            2 = heard long version
+            
+        aelfledaEvict
+            0 = haven't heard about her eviction, OR declined to help her, can't be saved at curfew
+            1 = have heard about her eviction and can pay money to keep her from being evicted
+            2 = payed her rent and allowed her to get back to her house
+            3 = Aelfleda is instantly taken to the sewers and can be found dead
+        
+    STATES:
+        0 = not talked, starting state
+        1 = chose "neither"... have not heard story
+        2 = chose "short" or "long"... heard her story
+        3 = final dialogue
+
+        
+    ALSO EFFECTS:
+        o_gelasio01, "augustine_question"
+            0 = unable to be asked
+            1 = able to be asked
+            2 = asked about augustine: jindrich/gelasio question
+            3 = asked about augustine: aelfleda question
+            
+        o_gelasio01, "aelfleda_question"
+            0 = unable to be asked
+            1 = able to be asked
+            2 = asked about aelfleda
+            3 = asked about aelfleda, and talked to her
+            
+    Needs:
+        1. Move to sewers, possibly.
+        2. Return with money, possibly.
+            3 different amounts
+        3. Tweak dialogue... TODO/REALLYBAD
+*/
+
+if (argument0 == SCRIPT_START) then
+    {
+    // Indoors //
+    if (scr_inside() == true) then 
+        { 
+        // When is she ever indoors? //
+        if (ClockTime() >= 1) then scr_event_interactive_deactivate();  
+        }
+        
+    //Remove her if you've hesitated on paying her rent
+    else if (Quest("aelfledaEvict") == 3) then scr_event_interactive_deactivate();
+    
+    //Remove her if curfew gets too far gone
+    else if (scr_time_db("tnnCurfew") == "during") and (ClockTime() > 2.7) then scr_event_interactive_deactivate();
+    
+    //To be safe, also remove after curfew
+    else if (scr_time_db("tnnCurfew") == "after") then scr_event_interactive_deactivate();
+    }
+
+else if (argument0 == SCRIPT_INTERACT) then
+    {
+    var ael_aug = string(scr_money_db("aelfledaAug"));
+    var ael_fee = string(scr_money_db("aelfledaFee"));  
+    var ael_rent = string(scr_money_db("aelfledaRent"));  
+    
+    var aelfleda = id;
+    var event = scr_event_create_main();
+    var story_snippet = scr_event_create_child(event);
+    var waiting_snippet = scr_event_create_child(event);
+    
+    //----------------------------------------------------
+    //      story_snippet
+    //----------------------------------------------------
+    with (story_snippet)
+        {
+        Quest("aelfledaShort", 0);
+        
+        // choice: "Short", "Long", or "Neither"
+        var version = scr_event_build_choice("Hear what?", s_port_hoopz);
+        
+        // "Short"
+        var short_version = scr_event_build_add_choice(version, "Short.");
+        with (short_version)
+            {
+            if (Quest("aelfledaShort") != 1) then
+                {
+                Dialogue(P_NAME, "Let's stick with the short version.");
+                }
+            else
+                {
+                Dialogue(P_NAME, "Sure, I'll hear it.");
+                }
+            Dialogue("Aelfleda", "All right. In short, this bum Augustine appeared from out of nowhere and ran up an exorbitant bill on my tab, and then borrowed money from as many of his friends as he could, and then skipped town.");
+            Dialogue(P_NAME, "Wow, he sounds like a jerk.");
+            Dialogue("Aelfleda", "Oh, who cares.");
+            // SET "aelfledaAugustine" = 1 ::: heard aelfleda's "short" story
+            Quest("aelfledaAugustine", 1);
+            // SET aelfledaState = 2 ::: chose "short" or "long"... heard her story
+            Quest("aelfledaState", 2);
+            }
+        
+        // "Long"
+        if (Quest("aelfledaShort") != 1) then
+            {
+            var long_version = scr_event_build_add_choice(version, "Long.");
+            with (long_version)
+                {
+                Dialogue(P_NAME, "Hit me with the long version.");
+                // If you've already refused, she is no longer in the mood:
+                // aelfledaState == 1 ::: chose "neither"... have not heard story
+                if (Quest("aelfledaState") == 1)
+                    {
+                    Dialogue("Aelfleda", "Eh, you know what, now I don't really feel like talking all that much. Basically this bum Augustine appeared from out of nowhere and ran up an exorbitant bill on my tab, and then borrowed money from as many of his friends as he could, and then skipped town.");
+                    Dialogue(P_NAME, "Wow, he sounds like a jerk.");
+                    Dialogue("Aelfleda", "Yeah, who even cares though?");
+                    // SET "aelfledaAugustine" = 1 ::: heard aelfleda's "short" story
+                    Quest("aelfledaAugustine", 1);
+                    }
+                    
+                // aelfledaState == 0: not talked, starting state
+                else
+                    {
+                    Dialogue("Aelfleda", "Okay, here it goes...\Recently these dwarfs I used to know, Augustine and Gelasio, showed up back in Tir na Nog. Last I heard, the Duergars had banished them to the mines to toil for Cuchulainn eternally... so seeing them was a big surprise. Dwarfs don't usually last too long around here anyway, let alone come back from the mines. But here they were, living large and blowing a lot of shekels. I didn't even know where they got them.\What a dope I was! I was hanging out with Augustine a few nights ago, and maybe we had a bit too much juice... it's possible. He told me he forgot his billfold, and asked if I would cover the check, that he would pay me back first thing the next day. I said sure, and put it on my tab. It's been days now and no sign of him, anywhere, from anyone! And three people so far have told me he borrowed money from them too. Then he vanishes!");
+                    Dialogue(P_NAME, "I tell you what... I don't think that's fair to you.");
+                    Dialogue("Aelfleda", "I know! And it was only " + ael_aug + " neuro-shekels but one, that's a lot to me and two... okay, here it goes...\Since I didn't pay with cash the other day, the balance got charged to my bank account. This would have been fine. But since I haven't been able to bring that money to the bank, I'll overdraft. Overdraft protection kicks in and tries to cover the overdraft penalty with funds from my savings account. They don't let you turn this off. And really, even at this point, things were still fine.\My utility payment is automatically deducted from my savings account, so I went down there the other morning with some of my rent money to cover that. Only after they took my money, however, the Duergars running that scam informed me that my balance had dipped below some arbitrary number and there's a /'low balance fee/' of " + ael_fee + " neuro-shekels.");
+                    Dialogue(P_NAME, "Cripes... that's cold.");
+                    Dialogue("Aelfleda", "It turns out the low balance fees are issued every day at 11:59 PM, and past zero they become /'insufficient funds penalties/' and which just last night I graduated into something called /'felony debt./'");
+                    Dialogue(P_NAME, "W-... what kind of place is this?");
+                    Dialogue("Aelfleda", "So they proceed with eviction, and even that was okay, I do fine right here on the steps. I like the steps. But I got fired from my job after I showed up with no uniform. I told them... /'My uniform is in my apartment, and I got evicted from my apartment./' Really, they wouldn't let me back in! At least with a job I would have been able to pay the Duergars their protection money... for a couple days anyway.");
+                    Dialogue(P_NAME, "What are you going to do?");
+                    Dialogue("Aelfleda", "Well, come the next curfew, the Duergars are going to drag me out of here and into the sewers. I don't know what I'm actually going to do.");
+                    Dialogue(P_NAME, "... hm. This really uh...");
+                    Dialogue("Aelfleda", "It sucks. It really sucks. But thanks for listening to all that.");
+                    Dialogue(P_NAME, "Is there anything I can do?");
+                    Dialogue("Aelfleda", "Honestly, I think if I sit right here they'll beat me and throw me in the sewers instead of processing all my information and finding out how much I really owe them. At this point, this is probably the best way it can happen.");
+                    Dialogue(P_NAME, "Man...");
+                    Dialogue("Aelfleda", "I know.");
+                    // SET "aelfledaAugustine" = 2 ::: heard aelfleda's "long" story
+                    Quest("aelfledaAugustine", 2);
+                    
+                    //Chance to get Aelfleda's Bill for covering her rent.
+                    var helpHer = scr_event_build_choice("Help out Aelfleda?", s_port_hoopz);
+                    
+                    //Ask to help
+                    var helpYes = scr_event_build_add_choice(helpHer, "Is there anything I can do to help?");
+                    with (helpYes) 
+                        {
+                        Dialogue(P_NAME, "Um, well maybe there is something I can do!");
+                        Dialogue("Aelfleda", "Maybe there is, but it won't matter in the long run._._._ because we all end up dead.");
+                        Dialogue(P_NAME, "Oh come on don't say that, here, let me see if I can talk to the Duergars and clear this up.");
+                        Dialogue("Aelfleda", "Bank's closed, part of the Proto Deal the old governor put in place. But here-");
+
+                        //You get Aelfleda's Bill here
+                        DialogueItem("Got Aelfleda's Eviction Notice.");
+                        Note("build", "take", "Aelfleda's Eviction");
+
+                        Dialogue("Aelfleda", "I was going to write my last will and testament on it, but a lot of good that'll do anybody when I'm gone.");
+                        Dialogue(P_NAME, "Don't worry, I'll get to the bottom of this!");
+                        Quest("aelfledaEvict", 1);
+                        }
+                    
+                    //Decline to help
+                    var helpNo = scr_event_build_add_choice(helpHer, "(Leave her for the dogs.)");
+                    with (helpNo) 
+                        {
+                        Dialogue(P_NAME, "I'd help ya but-");
+                        Dialogue("Aelfleda", "I don't need help, I need a reset button.");
+                        scr_event_build_wait(0.25);
+                        scr_event_build_look(o_cts_hoopz, WEST);
+                        scr_event_build_wait(0.25);
+                        scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+                        scr_event_build_wait(0.25);
+                        scr_event_build_look(o_cts_hoopz, SOUTH);
+                        scr_event_build_wait(0.25);
+                        scr_event_build_animation_play_and_set(o_cts_hoopz, "sad0", "sad1");
+                        scr_event_build_wait(1);
+                        Dialogue(P_NAME, "I guess these really are - /'The Mean Streets./'", s_port_hoopzSad);
+                        scr_event_build_animation_play_and_set(o_cts_hoopz, "sad1", "sad2");
+                        scr_event_build_wait(0.25);
+                        scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+                        scr_event_build_wait(0.25);
+                        scr_event_build_look(o_cts_hoopz, WEST);
+                        scr_event_build_wait(0.25);
+                        scr_event_build_look(o_cts_hoopz, NORTHWEST);
+                        }
+                    }
+                    
+                // SET aelfledaState = 2 ::: chose "short" or "long"... heard her story
+                Quest("aelfledaState", 2);
+                }
+            }
+        
+        // "Neither"
+        var neither = scr_event_build_add_choice(version, "Neither.");
+        with (neither)
+            {
+            Dialogue(P_NAME, "I'm sorry, I thought I was getting a tip, and I really only have enough time for tips. See ya later!")
+            // SET aelfledaState = 1 ::: chose "neither"... have not heard story
+            Quest("aelfledaState", 1);
+            }       
+        }
+    
+    
+    //----------------------------------------------------
+    //      waiting_snippet
+    //----------------------------------------------------
+    with (waiting_snippet)
+        {
+        if (ClockTime() < 2) then
+            { 
+            Dialogue("Aelfleda", "I knew I was living right on the line, but I was trying my best... things sure fell apart really fast.");
+            }
+        else // (ClockTime("get") < 2.7) // but you could stay on the map longer, yeah?
+            {
+            // "aelfledaRepeat" == 0: haven't heard penultimate dialogue
+            if (Quest("aelfledaRepeat") == 0) then
+                {
+                if (scr_time_db("tnnCurfew") == "during") then Dialogue("Aelfleda", "Hey again. You heard that curfew announcement? I'm sure the Duergars are coming to round me up soon... maybe we cross paths again, " + P_NAME + ".");
+                else Dialogue("Aelfleda", "Hey again. Nothing new here. I feel like my time's up if I stay here for long. I guess I'll have to get out of here and in the sewers maybe? I've heard they can be uh... liveable... I guess.");
+                    
+                // SET "repeat" = 1: have heard penultimate dialogue, display final dialogue
+                Quest("aelfledaRepeat", 1);
+                }
+            // "aelfledaRepeat" == 1: have heard penultimate dialogue, display final dialogue
+            else Dialogue("Aelfleda", "I'm pretty sure I'll be gone soon. Maybe we'll cross paths again, " + P_NAME_S + ".");               
+            }
+        }
+    
+    //----------------------------------------------------
+    //      main event
+    //----------------------------------------------------
+    with (event)
+        {
+        //-------------------------------------------------
+        // Prepare Snippet
+        //-------------------------------------------------
+        if (Quest("aelfledaShort") == 1) then scr_event_build_event_snippet(story_snippet);
+                
+        //-------------------------------------------------
+        // Body Swap States
+        //-------------------------------------------------
+
+        //if you're controlling the Governor.
+        else if (Quest("govQuest") == 5) then Dialogue("Aelfleda", "Sorry for loitering, using stairs for non-stair climbing purposes and breaking the frowning ban, Mr. Governor. I'll get up in a minute...");
+        
+        //-------------------------------------------------
+        // Interior
+        //-------------------------------------------------
+        //else if (scr_inside() == true)
+        //{        
+        //}
+ 
+        //--------------------------------------------------------
+        //  Before Curfew, During Curfew
+        //--------------------------------------------------------
+        else
+            {
+            // aelfledaState == 0 ::: not talked, starting state
+            if (Quest("aelfledaState") == 0) then
+                {
+                Dialogue(P_NAME, "Excuse me, I'm new.");
+                Dialogue("Aelfleda", "... hm? What?"); 
+                Dialogue(P_NAME, "I'm new here. I'm a new kid. My name is " + P_NAME + ". Do you think you could give me some help with this place? Some pointers?");
+                Dialogue("Aelfleda", "I'm Aelfleda. And I doubt it. I can barely help myself.");
+                Dialogue(P_NAME, "What do you mean?");
+                Dialogue("Aelfleda", "I have some bad money problems. I got evicted. I think... I think I'm going down.");
+                Dialogue(P_NAME, "What happened to you?");
+                
+                // During Curfew
+                if (scr_time_db("tnnCurfew") == "during") then
+                    { 
+                    Dialogue("Aelfleda", "Well, I'd tell you the long version but it's curfew time so I'm sure the Duergars are going to come any minute now and give me their worst. So... do you want to hear the short version or not?");
+                    Quest("aelfledaShort", 1);
+                    scr_event_build_execute_event_script(event_tnn_aelfleda01);
+                    }
+                    
+                // Before Curfew
+                else
+                    { 
+                    Dialogue("Aelfleda", "Do you want the short version or the long version?");
+                    // GOTO story_snippet
+                    scr_event_build_event_snippet(story_snippet);
+                    }
+                }
+            
+            // aelfledaState == 1 ::: chose "neither"... have not heard story
+            else if (Quest("aelfledaState") == 1) then
+                {
+                Dialogue(P_NAME, "I've got some free time. You still have that tip?");
+                
+                // During Curfew
+                if (scr_time_db("tnnCurfew") == "during") then
+                    {
+                    Dialogue("Aelfleda", "Well, I'd tell you the long version but it's curfew time, so I'm sure the Duergars are going to come any minute now and give me their worst. So... do you want to hear the short version or not?");
+                    Quest("aelfledaShort", 1);
+                    scr_event_build_execute_event_script(event_tnn_aelfleda01);
+                    }
+                // Before Curfew
+                else
+                    { 
+                    Dialogue("Aelfleda", "Short or long??");
+                    // GOTO story_snippet
+                    scr_event_build_event_snippet(story_snippet);
+                    }
+                }
+            
+            // aelfledaState == 2 ::: chose "short" or "long"... heard her story
+            else if (Quest("aelfledaState") == 2) then
+                {
+                // TODO: MAKE THIS REAL
+                // "Augustine" spoken to
+                if (Quest("baldomeroAug") == 1)
+                    { 
+                    Dialogue(P_NAME, "Hey, Aelfleda. About Augusti-");
+                    Dialogue("Aelfleda", "I don't wanna hear it!");
+                    Dialogue(P_NAME, "You mean you don't want t-");
+                    Dialogue("Aelfleda", "Nope! None of it. I'm done! I don't care!");
+                    Dialogue(P_NAME, "Okay, if you say so.");
+                    // SET aelfledaState = 3 ::: final dialogue, neither gelasio nor augustine spoken to
+                    Quest("aelfledaState", 3);
+                    }
+                
+                // Talked to Gelasio
+                else if (Quest("gelasioAelfledaQuestion") == 2) then
+                    {
+                    Dialogue("Aelfleda", "Time's almost up. What brings you by again?");
+                    Dialogue(P_NAME, "I talked to your friend Gelasio.");
+                    Dialogue("Aelfleda", "Do I want to hear what he has to say?");
+                    Dialogue(P_NAME, "Um, probably not.");
+                    Dialogue("Aelfleda", "Figures. He needs to get a life.");
+                    // SET "gelasioAelfledaQuestion" = 3 ::: heard "long" OR "short" + talked to gelasio + talked to aelfleda again
+                    Quest("gelasioAelfledaQuestion", 3);
+                    }
+                
+                // Gelasio not spoken to AND "Augustine" not spoken to
+                else scr_event_build_event_snippet(waiting_snippet);
+                }
+            
+            // Nothing more to say, go to repeated dialogue snippet
+            else scr_event_build_event_snippet(waiting_snippet);
+            }
+        }
+        
+    // Gameboy advance //
+    scr_event_advance(event);
+    }

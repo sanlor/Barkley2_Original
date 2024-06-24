@@ -1,0 +1,179 @@
+// NPC script for Typhoid Larry, one of the duergars in the duergar encampment.
+// From my design document: No prerequisites needed, the player gets into a gunfight with the three duergars through this dialogue. UPDATE: Essentially, at any point in time, the player can talk to Larry and pick a fight. This can be done BEFORE accepting the rebelQuest. You don't actually need to be involved in the rebel quest at all to finish this encounter. The dialogue with Lafayette plays out a little differently if this is the case, so I've compensated for that in the dialogue.
+// note: tyhpoidlarryState=2 is fairly important, as it is the quest state that means that the player killed the duergars BEFORE Lafayette told them to do so. I have absolutely no idea how to do this myself.
+// note2: The whole deal here is that this NPC and the two others with him go hostile and fight the player if the player gets antagonistic in the dialogue tree and stops kissing up to them. I have absolutely no idea how to do this, and have basically just left room for when someone can come along and give me a hand.
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("rebelQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var typhoidlarry = id;
+    var event = scr_event_create_main();
+    var fuckyoularry1 = scr_event_create_child(event);
+    var fuckyoularry2 = scr_event_create_child(event);
+var fucktoyou = scr_event_create_child(event);
+
+    with fuckyoularry1 {
+        Quest("typhoidlarryState", 1);
+        Dialogue(P_NAME, "No. You guys are jerks. Just picking on people for no reason. Why don't you turkeys get a life?");
+        Dialogue("Typhoid Larry", "BREAK'S OVER FELLAS. IT'S TIME TO GET ME A DWARF PELT.");
+        scr_event_build_dialogue_debug("Hundley", NULL, "TODO: All three duergars go hostile and fight you. If the three duergars are killed, the quest states typhoidlarryState=2, detectiveQuest=1 and detectivegunQuest=1 are built.");
+        // All three duergars go hostile and fight you. For this quest snippet, if all three duergars are killed, the quest state typhoidlarryState=2 is built, which is the state for when you've killed the duergars before Lafayette has asked you to do so. If the player is killed, there is no change.
+    }
+
+    with fuckyoularry2 {
+        Quest("typhoidlarryState", 3);
+        Dialogue(P_NAME, "No. You guys are jerks. Just picking on people for no reason. Why don't you turkeys get a life?");
+        Dialogue("Typhoid Larry", "BREAK'S OVER FELLAS. IT'S TIME TO GET ME A DWARF PELT.");
+        scr_event_build_dialogue_debug("Hundley", NULL, "TODO: All three duergars go hostile and fight you. If the three duergars are killed, the quest states rebelQuest=2, detectiveQuest=1 and detectivegunQuest=1 are built.");
+        // All three duergars go hostile and fight you. This is the snippet if the player has officially gotten this quest from Lafayette, so all the quest states are updated if the player kills all three duergars. The following states are built: rebelQuest=2, detectiveQuest=1, detectivegunQuest=1
+    }
+
+
+    with fucktoyou {
+        var choice6 = Choice("They don't seem to like you very much.", NULL);
+        with (ChoiceAdd(choice6, "Walk away.")) {
+            Dialogue(P_NAME, "Ok. So long, I guess.");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(choice6, "Stand your ground.")) {
+            Dialogue(P_NAME, "Why don't you guys go away and stop bothering people for a change. Why are you such jerks?");
+            Dialogue("Schatzeder", "Heh, he called you a jerk Larry.....");
+            Dialogue("Typhoid Larry", "NOBODY CALLS ME A JERK.");
+            Dialogue("Roethlisbuergar", "Larry, you are a fucking jerk, ya know. 's why I like ya.");
+            Dialogue("Typhoid Larry", "NO FUCKING SLIMY DWARF CALLS LARRY A JERK. ONLY MY FRIENDS GET TO CALL ME THAT. AND NO DWARF IS A FRIEND OF MINE.");
+            Dialogue("Schatzeder", "You dead already, son.");
+            Dialogue("Roethlisbuergar", "Dead where you stand.\Better say you's sorry or you gonna be roasting over this fire.");
+            var choice7 = Choice("Better say you's sorry...", NULL);
+            with (ChoiceAdd(choice7, "No.")) {
+                Snippet(fuckyoularry2);
+            }
+            with (ChoiceAdd(choice7, "Say you're sorry.")) {
+                Dialogue(P_NAME, "I'm sorry. I didn't mean to hurt your feelings. I'm having a rough day.");
+                Dialogue("Schatzeder", "Ain't enough. Say you're dirt.");
+                Dialogue(P_NAME, "I'm dirt?");
+                Dialogue("Roethlisbuergar", "Fuckin say it or we'll make a fuckin dwarf-killin flag out of your ass.");
+                var choice8 = Choice("Better say you's sorry...", NULL);
+                with (ChoiceAdd(choice8, "No.")) {
+                    Snippet(fuckyoularry2);
+                }
+                with (ChoiceAdd(choice8, "Say you're dirt.")) {
+                    Dialogue(P_NAME, "I'm dirt. Anyone who would say anything mean like that to somebody is dirt.");
+                    Dialogue("Schatzeder", "That's better.");
+                    Dialogue("Typhoid Larry", "BULLSHIT. YOU'RE FUCKING PUSHING IT. YOU JUST SAID MEAN PEOPLE ARE DIRT, AND I SURE AS FUCK AIN'T DIRT.");
+                    Dialogue("Roethlisbuergar", "Gotta try harder if you wanna survive the night, boy.");
+                    var choice9 = Choice("Gotta try harder...", NULL);
+                    with (ChoiceAdd(choice9, "No.")) {
+                        Snippet(fuckyoularry2);
+                    }
+                    with (ChoiceAdd(choice9, "I am worthless and stupid.")) {
+                        Dialogue(P_NAME, "I mean I'm dirt, you guys are cool. I am filth under your shoe. I am worthless and stupid.");
+                        Dialogue("Typhoid Larry", "GROVEL FUCKING HARDER.");
+                        Dialogue("Schatzeder", "Clispaeth fuck, I can smell the back acne flaring up on this twerp.");
+                        Dialogue("Roethlisbuergar", "Larry don't get out of his killing phase easy. Keep at it. Tell him how stupid dwarfs are.");
+                        var choice10 = Choice("GROVEL FUCKING HARDER.", NULL);
+                        with (ChoiceAdd(choice10, "No.")) {
+                            Snippet(fuckyoularry2);
+                        }
+                        with (ChoiceAdd(choice10, "All dwarfs are worthless and stupid.")) {
+                            Dialogue(P_NAME, "I'm sorry and I'm stupid and I'm dirty and I'm worthless and all dwarfs are stupid and worthless and dirty.\Can I go now?");
+                            Dialogue("Typhoid Larry", "Glad you've come around to my way of thinking.");
+                            Dialogue("Roethlisbuergar", "Yea, that means you can buzz off now.");
+                            Dialogue("Schatzeder", "Say the part where he should run if he knows what's good for him. I love that part.");
+                            Dialogue("Roethlisbuergar", "Yeah, you better run in case we change our minds. Make sure to kick up lots of dust behind you so we know you mean it.");
+                            Dialogue("Schatzeder", "Lots of dust.");
+                            Dialogue("Roethlisbuergar", "Lots.");
+                            Quest("typhoidlarryState", 3);
+                            scr_event_build_end();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    with (event) {
+        if (Quest("typhoidlarryState") == 3) {
+            Dialogue("Typhoid Larry", "You again. I thought we told your ass to take a hike.");
+            Snippet(fucktoyou);
+        } else if (Quest("rebelQuest") == 1) {
+            Dialogue("Typhoid Larry", "Well ain't that something. Told you guys we'd find dwarfs if we just sat here looking for them. Didn't think they'd be stupid enough to just walk right up to us, but here we are.");
+            Dialogue("Roethlisbuergar", "That's just a puny one. We ain't gonna get paid for killin puny ones.");
+            Dialogue(P_NAME, "What are you guys doing around here?");
+            Dialogue("Schatzeder", "Gah, so fuckin polite too.  Wonder if he's got any back acne. Makes it harder to skin em.");
+            Dialogue("Typhoid Larry", "We're huntin dwarfs. And it looks like you picked the wrong campfire to try warmin yourself up at.\Fortunately for you we're on our break right now, we already met our dwarf maiming quota for the day. You can take that ugly mug of yourn down the road if you want to live another day.");
+            Snippet(fucktoyou);
+        } else if (Quest("typhoidlarryState") == 1) {
+            Dialogue("Typhoid Larry", "You again. I thought we told your ass to take a hike.");
+            scr_event_build_goto_choice(choice1);
+        } else if (Quest("rebelQuest") == 0) {
+            Dialogue("Typhoid Larry", "Well ain't that something. Told you guys we'd find dwarfs if we just sat here looking for them. Didn't think they'd be stupid enough to just walk right up to us, but here we are.");
+            Dialogue("Roethlisbuergar", "That's just a puny one. We ain't gonna get paid for killin puny ones.");
+            Dialogue(P_NAME, "What are you guys doing around here?");
+            Dialogue("Schatzeder", "Gah, so fuckin polite too.  Wonder if he's got any back acne. Makes it harder to skin em.");
+            Dialogue("Typhoid Larry", "We're huntin dwarfs. And it looks like you picked the wrong campfire to try warmin yourself up at.\Fortunately for you we're on our break right now, we already met our dwarf maiming quota for the day. You can take that ugly mug of yourn down the road if you want to live another day.");
+            var choice1 = Choice("They don't seem to like you very much.", NULL);
+            with (ChoiceAdd(choice1, "Walk away.")) {
+                Dialogue(P_NAME, "Ok. So long, I guess.");
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice1, "Stand your ground.")) {
+                Dialogue(P_NAME, "Why don't you guys go away and stop bothering people for a change. Why are you such jerks?");
+                Dialogue("Schatzeder", "Heh, he called you a jerk Larry.....");
+                Dialogue("Typhoid Larry", "NOBODY CALLS ME A JERK.");
+                Dialogue("Roethlisbuergar", "Larry, you are a fucking jerk, ya know. 's why I like ya.");
+                Dialogue("Typhoid Larry", "NO FUCKING SLIMY DWARF CALLS LARRY A JERK. ONLY MY FRIENDS GET TO CALL ME THAT. AND NO DWARF IS A FRIEND OF MINE.");
+                Dialogue("Schatzeder", "You dead already, son.");
+                Dialogue("Roethlisbuergar", "Dead where you stand.\Better say you's sorry or you gonna be roasting over this fire.");
+                var choice2 = Choice("Better say you's sorry...", NULL);
+                with (ChoiceAdd(choice2, "No.")) {
+                    Snippet(fuckyoularry1);
+                }
+                with (ChoiceAdd(choice2, "Say you're sorry.")) {
+                    Dialogue(P_NAME, "I'm sorry. I didn't mean to hurt your feelings. I'm having a rough day.");
+                    Dialogue("Schatzeder", "Ain't enough. Say you're dirt.");
+                    Dialogue(P_NAME, "I'm dirt?");
+                    Dialogue("Roethlisbuergar", "Fuckin say it or we'll make a fuckin dwarf-killin flag out of your ass.");
+                    var choice3 = Choice("Better say you's sorry...", NULL);
+                    with (ChoiceAdd(choice3, "No.")) {
+                        Snippet(fuckyoularry1);
+                    }
+                    with (ChoiceAdd(choice3, "Say you're dirt.")) {
+                        Dialogue(P_NAME, "I'm dirt. Anyone who would say anything mean like that to somebody is dirt.");
+                        Dialogue("Schatzeder", "Schatzeder: That's better.");
+                        Dialogue("Typhoid Larry", "BULLSHIT. YOU'RE FUCKING PUSHING IT. YOU JUST SAID MEAN PEOPLE ARE DIRT, AND I SURE AS FUCK AIN'T DIRT.");
+                        Dialogue("Roethlisbuergar", "Gotta try harder if you wanna survive the night, boy.");
+                        var choice4 = Choice("Gotta try harder...", NULL);
+                        with (ChoiceAdd(choice4, "No.")) {
+                            Snippet(fuckyoularry1);
+                        }
+                        with (ChoiceAdd(choice4, "I am worthless and stupid.")) {
+                            Dialogue(P_NAME, "I mean I'm dirt, you guys are cool. I am filth under your shoe. I am worthless and stupid.");
+                            Dialogue("Typhoid Larry", "GROVEL FUCKING HARDER.");
+                            Dialogue("Schatzeder", "Clispaeth fuck, I can smell the back acne flaring up on this twerp.");
+                            Dialogue("Roethlisbuergar", "Larry don't get out of his killing phase easy. Keep at it. Tell him how stupid dwarfs are.");
+                            var choice5 = Choice("GROVEL FUCKING HARDER.", NULL);
+                            with (ChoiceAdd(choice5, "No.")) {
+                                Snippet(fuckyoularry1);
+                            }
+                            with (ChoiceAdd(choice5, "All dwarfs are worthless and stupid.")) {
+                                Dialogue(P_NAME, "I'm sorry and I'm stupid and I'm dirty and I'm worthless and all dwarfs are stupid and worthless and dirty.\Can I go now?");
+                                Dialogue("Typhoid Larry", "Glad you've come around to my way of thinking.");
+                                Dialogue("Roethlisbuergar", "Yea, that means you can buzz off now.");
+                                Dialogue("Schatzeder", "Say the part where he should run if he knows what's good for him. I love that part.");
+                                Dialogue("Roethlisbuergar", "Yeah, you better run in case we change our minds. Make sure to kick up lots of dust behind you so we know you mean it.");
+                                Dialogue("Schatzeder", "Lots of dust.");
+                                Dialogue("Roethlisbuergar", "Lots.");
+                                Quest("typhoidlarryState", 1);
+                                scr_event_build_end();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    scr_event_advance(event);
+}

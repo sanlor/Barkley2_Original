@@ -1,0 +1,42 @@
+/// scr_event_action_move_baller_to_point(list)
+/// An action to move a b-ball tactics baller to a specific point!
+/// The list contains entity id, x, y, and speed.
+/// If speed is NULL, use normal speed.
+/// If allow_diag is NULL, forbid diagonal movement
+
+var move_object = instance_create(0, 0, o_move);
+var move_speed = ds_list_find_value(argument0, 4);
+if (move_speed == NULL) {
+    move_speed = 6;
+}
+
+var allow_diag = ds_list_find_value(argument0, 5);
+if (allow_diag == NULL) {
+    allow_diag = false;
+}
+
+var object = ds_list_find_value(argument0, 1);
+move_object._event = id;
+move_object._object = object;
+
+var path_created;
+with object {
+    scr_actor_unsetRigid(id);
+    var move_x = ds_list_find_value(argument0, 2);
+    var move_y = ds_list_find_value(argument0, 3);
+    path_created = scr_path_set_diag(x, y, move_x, move_y, move_speed, 0, NULL, allow_diag);
+    if (path_created) {
+        move_object._move_x = path_get_x(scr_path_get(), 1);
+        move_object._move_y = path_get_y(scr_path_get(), 1);
+    } else {
+        show_message("Unable to move to this spot: " + string(move_x) + " " + string(move_y) + "!");
+    }
+}
+if (path_created) {
+    _events_active++;
+} else {
+    with move_object {
+        instance_destroy();
+    }
+}
+scr_event_advance(id);

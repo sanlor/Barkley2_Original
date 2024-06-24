@@ -1,0 +1,21 @@
+// Event for Matthias if deadSon >=3, dead dwarf in Tir na Nog Sewers, son of Firas.
+
+if (argument0 == SCRIPT_STEP) {
+    if (scr_quest_get_state("deadSon") >= 4) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var matthias = id
+    var event = scr_event_create_main();
+    with (event) {
+
+        //Dialogue always happens
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Matthias' shoe... this was probably the worst idea I've ever had.");
+    
+    }
+    scr_event_advance(event);
+}

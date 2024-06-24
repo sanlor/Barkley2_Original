@@ -1,0 +1,696 @@
+// Script for LEMUEL'S BOWL, next to Lemuel, the beggar in the Industrial Park
+// usage: event_dz1_lemuelBowl01
+/*
+-------------
+
+-------------
+*/
+/*if (argument0 == SCRIPT_START)
+{
+    // save map to global variable for this event
+    global.mapbegging = scr_savedata_get("mapbegging");
+     
+    // save list to global variable for this event
+    global.listlemuel = scr_savedata_get("listlemuel");
+    
+    // delete if the player stole from lemuel
+    if (scr_quest_get_state("lemuelStole") >= 1) || (scr_quest_get_state("lemuelRoom") != room)
+    {
+        scr_event_interactive_deactivate();
+    }
+    
+    // if player is not begging
+    if (scr_quest_get_state("lemuelBeggingGame") != 2) && (scr_quest_get_state("beggingGame") != 1)
+    {
+        // if lemuel is done collecting alms
+        if (scr_quest_get_state("lemuelAlmDone") == 1)
+        {
+            scr_event_interactive_deactivate();
+        }
+    }
+} 
+else if (argument0 == SCRIPT_STEP)
+{
+    
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var lemuelBowl = id;
+    
+    // prepare bowl
+    scr_lemuel_bowl_prepare();
+    
+    var event = scr_event_create_main();
+    var bowl_snippet = scr_event_create_child(event);
+    var alm_snippet = scr_event_create_child(event);
+    var take_snippet = scr_event_create_child(event);
+    var big_snippet = scr_event_create_child(event);
+    var exit_snippet = scr_event_create_child(event);
+    var stole_snippet = scr_event_create_child(event);
+    var game_snippet = scr_event_create_child(event);
+    
+    // wait time between preparing and speaking nugget
+    var nugget_wait = 1;
+    
+    
+    //------------------------------------------------------
+    // Exit Snippet
+    //------------------------------------------------------
+    with (exit_snippet)
+    {
+        scr_event_build_quest_state("lemuelAlmPrepare", 0);
+        scr_event_build_end();
+    }
+    
+    //------------------------------------------------------
+    // Main Event
+    //------------------------------------------------------
+    with (event)
+    {
+        // add to alm total
+        if (scr_quest_get_state("lemuelAlmLoop") == 2)
+        {
+            // add to alm count
+            scr_event_build_quest_state_add("lemuelAlmCount", 1);
+            // add to alm total
+            scr_event_build_quest_state_add("lemuelAlmPlayer", scr_quest_get_state("lemuelAlmNew"));
+            // if you gave 100 alms, go to big_snippet
+            if (scr_quest_get_state("lemuelAlmNew") == 100)
+            {
+                // big alm on
+                scr_event_build_quest_state("lemuelAlmBig", 1);
+            }
+            else if (scr_quest_get_state("lemuelAlmNew") == 1000)
+            {
+                // big alm on ++
+                scr_event_build_quest_state("lemuelAlmBig", 2);
+            }
+            // reset alm count
+            scr_event_build_quest_state("lemuelAlmNew", 0);
+            // go to next phase of loop
+            scr_event_build_quest_state("lemuelAlmLoop", 1);
+            // restart event
+            scr_event_build_execute_event_script(event_dz1_lemuelBowl01);
+        }
+        
+        // send to big snippet if necessary, otherwise send regular alm_snippet
+        else if (scr_quest_get_state("lemuelAlmLoop") == 1)
+        {
+            // turn off loop
+            scr_event_build_quest_state("lemuelAlmLoop", 0);
+            //
+            if (scr_quest_get_state("lemuelAlmBig") >= 1) || (scr_quest_get_state("lemuelAlmTotal") >= 60)
+            {
+                scr_event_build_event_snippet(big_snippet);
+            }
+            if (scr_quest_get_state("lemuelAlmCount") >= 14) && (scr_quest_get_state("lemuelWisdom") == 0)
+            {
+                scr_event_build_event_snippet(big_snippet);
+            }
+            // otherwise, go to alm_snippet
+            else
+            {
+                scr_event_build_event_snippet(alm_snippet);
+            }
+        }
+        
+        // loop if the player just looked inside the bowl
+        else if (scr_quest_get_state("lemuelBowlLoop") == 1)
+        {
+            scr_event_build_quest_state("lemuelBowlLoop", 0);
+            scr_event_build_event_snippet(bowl_snippet);
+        }
+        
+        else if (scr_quest_get_state("lemuelBowlState") == 0)
+        {
+            scr_event_build_dialogue("Beggar", "s_port_lemuelClosed", "._._._");
+            scr_event_build_quest_state("lemuelBowlState", 1);
+            scr_event_build_event_snippet(bowl_snippet);
+        }
+        else if (scr_quest_get_state("lemuelAlmDone") == 1)
+        {
+            if (scr_quest_get_state("classBeggar") == 0)
+            {
+                scr_event_build_dialogue("Beggar", s_port_lemuelOpen, "No, no, please, no more! I couldn't accept another alm! I am your servant now. Just ask, and I will teach you all I can.");
+            }
+            else
+            {
+                scr_event_build_dialogue("Beggar", s_port_lemuelOpen, "No, no, please, no more! I couldn't accept another alm!");
+            }
+        }
+        else
+        {
+            scr_event_build_event_snippet(bowl_snippet);
+        }
+    }
+    
+    //------------------------------------------------------
+    // Big Snippet
+    //------------------------------------------------------
+    with (big_snippet)
+    {
+        // gave 1000 neuro-shekels
+        if (scr_quest_get_state("lemuelAlmBig") == 2)
+        {
+            // Already a beggar, got here through Wisdom Track
+            if (scr_quest_get_state("classBeggar") == 1)
+            {
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "W-what!? 1000 neuro-shekels!? How could you afford this... and on a mendicant's meager income... thank you! Thank you so much, " + P_NAME + "! You truly must have been sent by Clispaeth!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "No sweat, Lemuel. It's always good to alm, right?");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Y-yes! Yes! What shall I do with all these blessings? With all these neuro-shekels? I know... I know... I'll finally retire! I'll leave the begging to you! Thank you, thank you!");
+                scr_event_build_quest_state("lemuelAlmLate", 1);
+            }
+            else
+            {
+                scr_event_build_dialogue_debug("bort", NULL, "Player gave 1000 neuro-shekels at once.");
+                scr_event_build_dialogue("Lemuel", "s_port_lemuelClosed", "Hmmm!? So many little clinks... that's gotta be.. no... it can't be...!");
+                scr_event_build_dialogue_debug("bort", NULL, "Lemuel grabs bowl and looks inside.");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "1000 neuro-shekels! 1000 neuro-shekels! You! You, why did you do this!?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "... ummm, it's always good to alm, right?");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Yes! Yes it is SO good! I'll never have to beg another day in my life! A lifetime of leisure awaits me at last! Clispaeth must have sent you! Clispaeth's little angel of alms, you are!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "An angel?... I think I'm just a kid...");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Nonsense! Please, allow me to repay you! Let me teach you all that I know. The life of the mendicant is a true path to wisdom. Renounce society's lust for wealth and let Clispaeth provide for you! Accept my teachings, please!");
+            }
+            scr_event_build_quest_state("lemuelAlmDone", 1);
+        }
+        // gave 100 neuro-shekels
+        else if (scr_quest_get_state("lemuelAlmBig") == 1)
+        {
+            // Already a beggar, got here through Wisdom Track
+            if (scr_quest_get_state("classBeggar") == 1)
+            {
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Th-thank you! Such generosity, " + P_NAME + "! Even on a mendicant's meager income, you gave! You gave to me!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "No sweat, Lemuel. It's always good to alm, right?");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Y-yes! Yes! What shall I do with all these blessings? With all these neuro-shekels? I think I'll really be able to take a break and think things through... devote myself to Clispaeth more deeply. I'll leave the begging to you! Thank you, thank you!");
+                scr_event_build_quest_state("lemuelAlmLate", 1);
+            }
+            else 
+            {
+                scr_event_build_dialogue("Lemuel", "s_port_lemuelClosed", "Hmmm? Is that it? Did that do it!?");
+                scr_event_build_dialogue_debug("bort", NULL, "Lemuel grabs bowl and looks inside.");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Yes, yes, yes! At last! This should be enough for me to live out my days. No more begging for Lemuel. The life of a beggar was once freedom for me, but now my opportunities are endless! Perhaps I furnish a small shrine to Clispaeth and spend my days in thoughtful meditation... or, perhaps, I go on a vacation... you, you there! What may I do to repay you!?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Who, me? Umm... I don't know, I think I'm okay...");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Nonsense! Please, let me teach you all that I know. The life of the mendicant is a true path to wisdom. Renounce society's lust for wealth and let Clispaeth provide for you! Accept my teachings, please!");
+            }
+            scr_event_build_quest_state("lemuelAlmDone", 1);
+        }
+        // total over 60
+        else if (scr_quest_get_state("lemuelAlmTotal") >= 60)
+        {
+            // Already a beggar, got here through Wisdom Track
+            if (scr_quest_get_state("classBeggar") == 1)
+            {
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Hmmm? Is it so? Yes, " + P_NAME + ", I believe that's enough for me to be less hungry, for awhile. I am deeply humbled... even as a beggar, you found yourself able to give!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess I've just been lucky with the alms!");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "I think I'll really be able to take a break and think things through... devote myself to Clispaeth more deeply. I suppose I'll leave the begging to you for awhile. Thank you again, " + P_NAME + "!");
+                scr_event_build_quest_state("lemuelAlmLate", 1);
+            }
+            else
+            {
+                scr_event_build_dialogue_debug("bort", NULL, "Player exceeded 60 neuro-shekels total.");
+                scr_event_build_dialogue("Lemuel", "s_port_lemuelClosed", "Hmmm? Is that it? Did that do it!?");
+                scr_event_build_dialogue_debug("bort", NULL, "Lemuel grabs bowl and looks inside.");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Yes, yes, yes! At last! This should be enough for me to live out my days. No more begging for Lemuel. The life of a beggar was once freedom for me, but now my opportunities are endless! Perhaps I furnish a small shrine to Clispaeth and spend my days in thoughtful meditation... or, perhaps, I go on a vacation... you, you there! What may I do to repay you!?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Who, me? Umm... I don't know, I think I'm okay...");
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Nonsense! Please, let me teach you all that I know. The life of the mendicant is a true path to wisdom. Renounce society's lust for wealth and let Clispaeth provide for you! Accept my teachings, please!");
+            }
+            scr_event_build_quest_state("lemuelAlmDone", 1);
+        }
+        else if (scr_quest_get_state("lemuelAlmCount") >= 14)
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "Player exhausted wisdom nuggets.");
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "You... you almed again. This is no good...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What!? Well I can go ahead and take it back, mister...");
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "No, that's not it at all! I thank you again youngster... but my fount of wisdom has dried up. I have no more adages, no more maxims to give you... I have nothing to offer...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Don't worry mister, that's okay...");
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Wait! Wait! Please, let me offer you the only thing I have remaining... my begging arts. The life of the mendicant is a true path to wisdom. Renounce society's lust for wealth and let Clispaeth provide for you! Accept my teachings, please!");
+            scr_event_build_quest_state("lemuelWisdom", 1);
+        }
+        // should never occur
+        else 
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "impossible dialogue.");        
+        }
+        if (scr_quest_get_state("lemuelBeggingGame") == 0)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Renounce my... renounce my wealth!? But I can't...)");
+            // this makes the begging game available
+            scr_event_build_quest_state("lemuelAlmPrepare", 0);
+            scr_event_build_quest_state("lemuelBeggingGame", 1);
+            scr_event_build_quest_state("lemuelBeggingLoop", 2);
+            scr_event_build_execute_event_script(event_dz1_lemuel01);
+        }
+        else
+        {
+            scr_event_build_event_snippet(exit_snippet);
+        }
+    }
+    
+    //------------------------------------------------------
+    // Bowl Snippet
+    //------------------------------------------------------
+    with (bowl_snippet)
+    {
+        var bowl_choice = scr_event_build_choice("Do what?", s_port_hoopz);
+        
+        // -----------------GIVE CHOICE -----------------
+        var give = scr_event_build_add_choice(bowl_choice, "Give an alm to the bowl.");
+        with (give)
+        {
+            if (scr_money_count() == 0)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Dagnabbit... I've got no alms to spare...)")
+            }
+            else
+            {
+                if (scr_quest_get_state("lemuelAlmCount") == 0)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I wonder if he'll take a cash alm...)");
+                }
+                Breakout("build", "add", "money");
+                var almount = scr_event_build_choice("How many alms should I put in the bowl?", s_port_hoopz);
+                if (scr_money_count() >= 1)
+                {
+                    var alm_1 = scr_event_build_add_choice(almount, "1 N.S. of alms.");
+                    with (alm_1)
+                    {
+                        scr_event_build_money_add(-1);
+                        scr_event_build_dialogue_item("Put 1 alm in the bowl.");
+                        scr_event_build_quest_state("lemuelAlmNew", 1);
+                    }
+                }
+                if (scr_money_count() >= 10)
+                {
+                    var alm_10 = scr_event_build_add_choice(almount, "10 N.S. of alms.");
+                    with (alm_10)
+                    {
+                        scr_event_build_money_add(-10);
+                        scr_event_build_dialogue_item("Put 10 alms in the bowl.");
+                        scr_event_build_quest_state("lemuelAlmNew", 10);
+                    }
+                }
+                if (scr_money_count() >= 20)
+                {
+                    var alm_20 = scr_event_build_add_choice(almount, "20 N.S. of alms.");
+                    with (alm_20)
+                    {
+                        scr_event_build_money_add(-20);
+                        scr_event_build_dialogue_item("Put 20 alms in the bowl.");
+                        scr_event_build_quest_state("lemuelAlmNew", 20);
+                    }
+                }
+                if (scr_money_count() >= 100)
+                {
+                    var alm_100 = scr_event_build_add_choice(almount, "100 N.S. of alms.");
+                    with (alm_100)
+                    {
+                        scr_event_build_money_add(-100);
+                        scr_event_build_dialogue_item("Put 100 alms in the bowl.");
+                        scr_event_build_quest_state("lemuelAlmNew", 100);
+                    }
+                }
+                if (scr_money_count() >= 1000)
+                {
+                    var alm_100 = scr_event_build_add_choice(almount, "100 N.S. of alms.");
+                    with (alm_100)
+                    {
+                        scr_event_build_money_add(-1000);
+                        scr_event_build_dialogue_item("Put 100 alms in the bowl.");
+                        scr_event_build_quest_state("lemuelAlmNew", 1000);
+                    }
+                }
+                var alm_no = scr_event_build_add_choice(almount, "No alms.");
+                with (alm_no)
+                {
+                    Breakout("build", "clear");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I'd better make sure I alm wisely...)");
+                    scr_event_build_end();
+                }
+                // if you didn't choose NO ALMS...
+                scr_event_build_quest_state("lemuelAlmLoop", 2);
+                Breakout("build", "clear");
+                scr_event_build_execute_event_script(event_dz1_lemuelBowl01);
+            }
+        }
+
+        // ----------------- LOOK CHOICE -----------------
+        var look = scr_event_build_add_choice(bowl_choice, "Look inside the bowl.");
+        with (look)
+        {
+            //scr_event_build_dialogue_debug("bort", NULL, "The bowl currently has a SIZE of " + string(ds_list_size(global.listlemuel)) + ".");
+            //scr_event_build_dialogue(P_NAME, s_port_hoopz, "Let's see...");
+            scr_event_build_lemuel_bowl_contents();
+
+            //scr_event_build_quest_state("lemuelBowlLooked", 1);
+            scr_event_build_quest_state("lemuelBowlLoop", 1);
+            
+            // if there's no alms...
+            if ((scr_quest_get_state("lemuelAlmTotal") != 0) || (ds_list_size(global.listlemuel) != 0))
+            {
+                // if player hasn't befriended lemuel
+                if (scr_quest_get_state("classBeggar") != 1)
+                {
+                    scr_event_build_event_snippet(take_snippet);
+                }
+            }
+            else 
+            {
+                scr_event_build_execute_event_script(event_dz1_lemuelBowl01);
+            }
+        }
+        
+        
+        // ----------------- NOTHING CHOICE -----------------
+        var nothing = scr_event_build_add_choice(bowl_choice, "Do nothing.");
+        with (nothing)
+        {
+            scr_event_build_event_snippet(exit_snippet);
+            // TODO: something here?
+        }  
+    }
+    
+    
+    //------------------------------------------------------
+    // Take Snippet
+    //------------------------------------------------------
+    with (take_snippet)
+    {
+        //if (scr_quest_get_state("lemuelBowlLooked") == 1) && ((ds_list_size(global.listlemuel) >= 1) || (scr_quest_get_state("lemuelAlmTotal") != 0))
+        if (scr_quest_get_state("lemuelState") == 0)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This guy's taking a nap... I could probably snatch something, if I made a break for it...)");
+        }
+        else
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This guy's always got his eyes closed meditating... I could probably snatch something, if I made a break for it...)");
+        }
+        Breakout("build", "add", "money");
+        var take_choice = scr_event_build_choice("Snatch an alm?", s_port_hoopz);
+        if (ds_list_size(global.listlemuel) >= 1)
+        {
+            var take_0 = scr_event_build_add_choice(take_choice, "Snatch the " + string(global.listlemuel[| 0]) + ".");
+            with (take_0)
+            {
+                Breakout("build", "clear");
+                Item("build", "gain", string(global.listlemuel[| 0]), 1);
+                scr_event_build_dialogue_item("Got a " + string(global.listlemuel[| 0]) + "!");
+                scr_event_build_lemuel_bowl_remove(0);
+                scr_event_build_event_snippet(stole_snippet);
+            }
+        }
+        if (ds_list_size(global.listlemuel) >= 2)
+        {
+            var take_1 = scr_event_build_add_choice(take_choice, "Snatch the " + string(global.listlemuel[| 1]) + ".");
+            with (take_1)
+            {
+                Breakout("build", "clear");
+                Item("build", "gain", string(global.listlemuel[| 1]), 1);
+                scr_event_build_dialogue_item("Got a " + string(global.listlemuel[| 1]) + "!");
+                scr_event_build_lemuel_bowl_remove(1);
+                scr_event_build_event_snippet(stole_snippet);
+            }
+        }
+        if (ds_list_size(global.listlemuel) >= 3)
+        {
+            var take_2 = scr_event_build_add_choice(take_choice, "Snatch the " + string(global.listlemuel[| 2]) + ".");
+            with (take_2)
+            {
+                Breakout("build", "clear");
+                Item("build", "gain", string(global.listlemuel[| 2]), 1);
+                scr_event_build_dialogue_item("Got a " + string(global.listlemuel[| 2]) + "!");
+                scr_event_build_lemuel_bowl_remove(2);
+                scr_event_build_event_snippet(stole_snippet);
+            }
+        }
+        if (ds_list_size(global.listlemuel) == 4)
+        {
+            var take_3 = scr_event_build_add_choice(take_choice, "Snatch the " + string(global.listlemuel[| 3]) + ".");
+            with (take_3)
+            {
+                Breakout("build", "clear");
+                Item("build", "gain", string(global.listlemuel[| 3]), 1);
+                scr_event_build_dialogue_item("Got a " + string(global.listlemuel[| 3]) + "!");
+                scr_event_build_lemuel_bowl_remove(3);
+                scr_event_build_event_snippet(stole_snippet);
+            }
+        }
+        if (scr_quest_get_state("lemuelAlmApparent") >= 1)
+        {
+            var take_alms = scr_event_build_add_choice(take_choice, "Snatch the " + string(scr_quest_get_state("lemuelAlmApparent")) + " cash alms.");
+            with (take_alms)
+            {
+                scr_event_build_money_add(scr_quest_get_state("lemuelAlmTotal"));
+                scr_event_build_dialogue_item("Got " + string(scr_quest_get_state("lemuelAlmTotal")) + " neuro-shekels!");
+                Breakout("build", "clear");
+                scr_event_build_quest_state("lemuelAlmTotal", 0);
+                scr_event_build_quest_state("lemuelAlmPlayer", 0);
+                scr_event_build_quest_state("lemuelAlmOther", 0);
+                scr_event_build_quest_state("lemuelAlmApparent", 0);
+                scr_event_build_event_snippet(stole_snippet);
+            }
+        }
+        var take_none = scr_event_build_add_choice(take_choice, "Don't snatch.");
+        with (take_none)
+        {
+            Breakout("build", "clear");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I... I can't do it... I can't snatch his stuff...)");
+            scr_event_build_execute_event_script(event_dz1_lemuelBowl01);
+        }
+    }
+    
+    
+    //------------------------------------------------------
+    // Alm Snippet
+    //------------------------------------------------------
+    with (alm_snippet)
+    {
+        if (scr_quest_get_state("classBeggar") == 1)
+        {
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Thank you again, friend. May you be just as fortunate on your travels.");
+        }
+        else if (scr_quest_get_state("lemuelAlmCount") >= 14)
+        {
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Thank you again, child. Alas, I have no more wisdom to offer you besides the skills of my trade. It can be a difficult path, but let me know if you would care to take up the mendicant's mantle.");
+        }
+        else
+        {
+            if (scr_quest_get_state("lemuelName") == 0)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, sorry mister. I didn't mean to wake you up.");
+                scr_event_build_quest_state("lemuelName", 1);
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "No worries, friend. I was just in meditation, where I will soon return. My name is Lemuel, just a humble mendicant. A meager beggar. I thank you greatly for this alm. Your... fine, fine monetary alm. I subsist on charity alone, and have naught to give you but a word of wisdom. Would you care for that, friend? A nugget of wisdom to digest? Take your pick!");
+            }
+            else 
+            {
+                scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Thank you, thank you, youngster! All I have to offer in return is wisdom... I hope it suits you...");
+            }
+            // SOME SELECTION MECHANISM HERE
+            var wisdom_choice = scr_event_build_choice("Accept which nugget?", s_port_hoopz);
+            
+            if (!scr_quest_get_state("lemuelAphorism"))
+            {
+                var aphorism = scr_event_build_add_choice(wisdom_choice, "An aphorism.");
+                with (aphorism)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'll take an aphorism, if ya got one!");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then an aphorism it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'Alm well, alm wisely./'");
+                    scr_event_build_quest_state("lemuelAphorism", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelMaxim"))
+            {
+                var maxim = scr_event_build_add_choice(wisdom_choice, "A maxim.");
+                with (maxim)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I bet your maxims slay... gimme one!");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then a maxim it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'An alm in the bowl is worth two in the purse./'");
+                    scr_event_build_quest_state("lemuelMaxim", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelMeditation"))
+            {
+                var meditation = scr_event_build_add_choice(wisdom_choice, "A meditation.");
+                with (meditation)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I'm ready to focus, so let's hear a meditation.");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then a meditation it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'Counting is miserly, but do not let the value of your alms escape thee./'");
+                    scr_event_build_quest_state("lemuelMeditation", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelProverb"))
+            {
+                var proverb = scr_event_build_add_choice(wisdom_choice, "A proverb.");
+                with (proverb)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Give me your most astute 'verb, pronto.");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then a proverb it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'Alm too much, and ye will want for much. Alm too less, and ye will want for much more./'");
+                    scr_event_build_quest_state("lemuelProverb", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelAdage"))
+            {
+                var adage = scr_event_build_add_choice(wisdom_choice, "An adage.");
+                with (adage)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "An adage for an alm... how about it?");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then an adage it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'An excess of alms belongs in another's palms./'");
+                    scr_event_build_quest_state("lemuelAdage", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelParable"))
+            {
+                var parable = scr_event_build_add_choice(wisdom_choice, "A parable.");
+                with (parable)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I wanna wise up with a good parable. Lay it on me...");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then a parable it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'An almist was splayed out on the roadside. Dejected over the lack of alms, the almist slept. Anxious over the lack of alms, the almist watched and waited. At last, awake and content with the lack of alms, the almist sat and received an alm./'");
+                    scr_event_build_quest_state("lemuelParable", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelTruism"))
+            {
+                var truism = scr_event_build_add_choice(wisdom_choice, "A truism.");
+                with (truism)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Gimme a juicy truism... a truism I can sink my teeth into!");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then a truism it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'An alm in your bowl is a balm for your ledger./'");
+                    scr_event_build_quest_state("lemuelTruism", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelOldsaw"))
+            {
+                var oldsaw = scr_event_build_add_choice(wisdom_choice, "A old saw.");
+                with (oldsaw)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm tired of these newfangled nuggets... just gimme an old saw.");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then an old saw it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'An alm a day keeps the mendicant at bay./'");
+                    scr_event_build_quest_state("lemuelOldsaw", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelChiasmus"))
+            {
+                var chiasmus = scr_event_build_add_choice(wisdom_choice, "A chiasmus.");
+                with (chiasmus)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "A chiasmus, if you dare...");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then an chiasmus it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'An alm is a gift, yet it's a gift to alm./'");
+                    scr_event_build_quest_state("lemuelChiasmus", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelPsalm"))
+            {
+                var psalm = scr_event_build_add_choice(wisdom_choice, "A psalm.");
+                with (psalm)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sling a joyous psalm my way.");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then a psalm it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'... and so blessed is the almist who giveth an an alm to the psalmist, or placeth an alm in a bowl, or otherwise hath made gifts of alms, so sayeth the LORD, Amen./'");
+                    scr_event_build_quest_state("lemuelPsalm", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelBromide"))
+            {
+                var bromide = scr_event_build_add_choice(wisdom_choice, "A bromide.");
+                with (bromide)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Calm my nerves... gimme your standard issue bromide.");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then an bromide it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'All are well that alm well./'");
+                    scr_event_build_quest_state("lemuelBromide", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelPlatitude"))
+            {
+                var platitude = scr_event_build_add_choice(wisdom_choice, "A platitude.");
+                with (platitude)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "A pleasant platitude, please.");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then an platitude it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'An alm gives much to me, but also some to thee./'");
+                    scr_event_build_quest_state("lemuelPlatitude", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelKoan"))
+            {
+                var koan = scr_event_build_add_choice(wisdom_choice, "A koan.");
+                with (koan)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Really flip my wig... really scramble the ol' gray matter. I'm ready for a koan.");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then a koan it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'A pauper places an alm in the mendicant's bowl. The mendicant notes the pauper's poverty and exhorts the pauper to reclaim her alm. Amongst the pile of alms, which alm is the pauper's?/'");
+                    scr_event_build_quest_state("lemuelKoan", 1);
+                }
+            }
+            if (!scr_quest_get_state("lemuelSaying"))
+            {
+                var saying = scr_event_build_add_choice(wisdom_choice, "A saying.");
+                with (saying)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Just any old saying will do...");
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Then a saying it is... ahem...");
+                    scr_event_build_wait(nugget_wait);
+                    scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "/'Alm me once, thank you. Alm me twice, thank you even more./'");
+                    scr_event_build_quest_state("lemuelSaying", 1);
+                }
+            }
+        }
+        scr_event_build_event_snippet(exit_snippet);
+    }
+    
+    
+    
+    //------------------------------------------------------
+    // Stole Snippet
+    //------------------------------------------------------
+    with (stole_snippet)
+    {
+        if (scr_quest_get_state("lemuelName") == 1)
+        {
+            scr_event_build_dialogue("Lemuel", "s_port_lemuelClosed", "Yes, yes, thank you, thank you...");
+            scr_event_build_dialogue_debug("bort", NULL, "Player sprints toward exit.");
+            scr_event_build_wait(1);
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Hmm!? Wait! Wait!!!");
+            scr_event_build_dialogue_debug("bort", NULL, "Player is off-screen.");
+            scr_event_build_wait(2);
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "My... my alms...");
+        }
+        else 
+        {
+            scr_event_build_dialogue("Beggar", "s_port_lemuelClosed", "Yes, yes, thank you, thank you...");
+            scr_event_build_dialogue_debug("bort", NULL, "Player sprints toward exit.");
+            scr_event_build_wait(1);
+            scr_event_build_dialogue("Beggar", s_port_lemuelOpen, "Hmm!? Wait! Wait!!!");
+            scr_event_build_dialogue_debug("bort", NULL, "Player is off-screen.");
+            scr_event_build_wait(2);
+            scr_event_build_dialogue("Beggar", s_port_lemuelOpen, "My... my alms...");
+        }
+        scr_event_build_quest_state("lemuelStole", 1);
+        scr_event_build_fade(true, 2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_teleport(r_sludgewalk01, 248, 184);
+        scr_event_build_end();
+    }
+    scr_event_advance(event);
+}

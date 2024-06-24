@@ -1,0 +1,112 @@
+//X for the bomb segment of the Governor's Quest
+//Pvt. Madison tells you to place bomb here
+
+if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    
+    var full_madison = scr_longinus_get_rank("madison", "full");
+    var rank_madison = scr_longinus_get_rank("madison") + " Madison";
+
+    // Build Event
+    var bombX = id;
+    var event = scr_event_create_main();
+    
+    with (event)
+    {
+        //if you're controlling the Governor.
+        if (BodySwap() == "governor")
+        {
+            if (scr_quest_get_state("govBomb") == 2)
+            {
+                scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(" + rank_madison + " asked me to plant the bomb she gave me here, but it's a little late for that now!)");
+            }
+            else
+            {
+                scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(A mysterious red /'X/' at the foot of the Governor's mansion... I wonder why this is here...)");
+            }
+        }
+        // Don't have bomb           
+        if (scr_quest_get_state("govBomb") != 2)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Huh, a red /'X./' I wonder what this is for. Maybe it's where they deliver milk... very suspicious...)");
+            //scr_event_build_minigame("grab babby"); scr_event_build_wait_for_actions(); scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I hope you enjoyed the minigame.");
+        }
+        // Was given the bomb by Private Madison
+        else
+        {
+            // It's before govQuest 2 or past govQuest 3
+            if (scr_quest_get_state("govQuest") <= 1) || (scr_quest_get_state("govQuest") >= 4)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This is the /'X/' " + full_madison + " Madison told me about. She wanted me to place the bomb here, but now that I'm already done impersonating the governor, I think I should get out of here before I cause too much trouble...)");
+            }
+            // If you've agreed to bomb the Governor's Mansion for Pvt. Madison.
+            else
+            {
+                Breakout("build", "add", "Bomb");
+                // No Bomb
+                if (Item("count", "Bomb") == 0)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This is the /'X/' " + full_madison + " Madison told me about. I'm supposed to place the bomb here... but I don't have anymore. Maybe I shouldn't have been a dyno-glutton...)");
+                    Breakout("build", "clear");
+                }
+                // Have Bomb
+                else
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This is the /'X/' " + full_madison + " Madison told me about. I'm supposed to place the bomb here...)");
+                    
+                    var usebomb = scr_event_build_choice("Blow up the mansion? ", s_port_hoopz);
+
+                    //Blow up the mansion.
+                    with scr_event_build_add_choice(usebomb, "Let's blow it to smithereens.")
+                    {
+                        Item("build", "lose", "Bomb", 1);
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Let's blow this sucker to smithereens!)");
+                        Breakout("build", "clear");
+                        scr_event_build_wait(1);
+                        scr_event_build_dialogue_debug("bort", NULL, "Hoopz should have some kind of action animation, and a burning piece of bomb should appear.");
+                        // Runs away...
+                        scr_event_build_move(o_cts_hoopz, 0, -50);
+                        scr_event_build_wait_for_actions();
+                        scr_event_build_look(o_cts_hoopz, NORTH);
+                        // Long wait...
+                        scr_event_build_wait(5);
+                        // Bomb stops burning...
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? Nothing's happening...");
+                        // Duergar walks up to Hoopz...
+                        scr_event_build_dialogue_debug("bort", NULL, "Duergar walks up to Hoopz.");
+                        scr_event_build_wait_for_actions();
+                        scr_event_build_dialogue("Duergar", "s_port_duergar", "Heh, you're the chump Madison set up with the fake bomb.");
+                        scr_event_build_wait_for_actions();
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "H-huh? What's going on?");
+                        scr_event_build_look(o_cts_hoopz, SOUTH);
+                        scr_event_build_dialogue("Duergar", "s_port_duergar", "How dumb can you be, man? How'd you not know it was a set-up? Madison's a spy. Now here's the fun part: hold still.")
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wh-what?");
+                        
+                        // TODO:Hoopz getting punched animation;
+                        
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ugh...");
+                        scr_event_build_dialogue("Duergar", "s_port_duergar", "Heh heh, have fun in the Mines, kid, 'cuz you're never comin' back to Tir na Nog.")
+                        scr_event_build_quest_state("govQuest", 7); //govQuest failed
+                        
+                        //hoopz teleported to mines.
+                        scr_event_build_fade(true, 4);
+                        //TODO: teleport hoopz to mine scr_event_build_teleport("barkley2_interiors.oep", "NULL", NULL, 0, 0);
+                        scr_event_build_fade(false, 4);
+                    }
+                        
+                    //Don't blow up the mansion
+                    with scr_event_build_add_choice(usebomb, "I think I'll pass on blowing this up.")
+                    {
+                        Breakout("build", "clear");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I'm getting this feeling in my gut that maybe it's a bad idea to blow this mansion up. Just a hunch...)");
+                    }
+                }
+            } 
+        } 
+    }
+    scr_event_advance(event);
+}

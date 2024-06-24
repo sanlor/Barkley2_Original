@@ -1,0 +1,47 @@
+// event_bct_trigal01.txt
+// this is what happens when our Youngster of Reluctant Destiny runs into the field
+// of wheat - "Trigal" - and sings his song, sees Cuchulainn, etc.
+
+if (argument0 == SCRIPT_START) {
+    if (scr_quest_get_state("cdwarfCinema") == 6) {
+        script_execute(event_bct_trigal01, SCRIPT_INTERACT);
+    } //else if (scr_quest_get_state("cdwarfCinema") >= 7) {
+        //instance_destroy();
+    //}
+} else if (argument0 == SCRIPT_STEP) {
+
+} else if (argument0 == SCRIPT_INTERACT) {
+    // Init!
+    var trigal = id;
+    var event = scr_event_create_main();
+    with event {
+        // TODO: change the location of this scene to the real map
+        scr_event_build_dialogue_debug("bort", NULL, "The player teleports to what should be a special Wheat Field Scene map, in Mode 7. The Forlorn Youngster is represented by their VR World sprite.");
+        // TODO: animation.
+        scr_event_build_dialogue_debug("bort", NULL, "The camera maybe orbits around the childe's sprite, and maybe they walk around a bit, says a line. I'm not sure how this scene will work in Mode 7. Same scripting or not?");
+        scr_event_build_dialogue("Forlorn Youngster", s_untamo, "No, it's not true... I... I don't believe him! I'm not who he says I am!");
+        scr_event_build_animation_play(o_cts_hoopz, "sad_s");
+        scr_event_build_dialogue("Forlorn Youngster", s_untamo, "I just want to be me... Why can't I just be me!?");
+        // TODO: childe walks thru a wheat
+        // TODO: maybe talks
+        // TODO: stuff happens
+        scr_event_build_dialogue_debug("bort", NULL, "Eventually the wheat field song / movie plays, where the Forlorn Youngster sings a song.");
+        // TODO: sings a song
+        scr_event_build_dialogue_debug("bort", NULL, "When Hoopz stops singing, the song continues and possibly gets more foreboding? And visage of Cuchulainn appears as a VR World character.");
+        scr_event_build_dialogue("Cuchulainn", "s_port_cuchuVR", "You fool, don't you realize what's happening! It's hopeless! The Necron 7 is on a collision course with what lies beyond the universe. The vast expanse known as Hell! In " + string(ClockTime("get")) + " hours, you, the Cyberdwarf, and every dwarf in the galaxy will be shuttled into an eternity of torment! The prophecy of Clispaeth will never come to pass! Bwahahahaha! Here's a taste of what lies ahead!");
+        scr_event_build_dialogue_debug("bort", NULL, "The wheat field ignites in flames, and the child unplugs their shit.");
+        scr_event_build_quest_state("trigalScene", 1);
+        scr_event_build_teleport(r_bct_tower05, 272, 632, 2, 2);
+        /*  ----------- the following moved to the beginning of cdwarf cinema --------------
+        // wheat field ignites
+        // hoopz unplugs his sh*t
+        // bright light again, we wake up in AI Market of Brain City once more
+        // hoopz is crouching down on the ground
+        scr_event_build_dialogue("Forlorn Youngster", NULL, "My word, good grief, oh lordy, gracious, mercy me, my oh my...");
+        scr_event_build_fade(true, 4);
+        scr_event_build_quest_state("cdwarfCinema", 7);
+        // scr_event_build_teleport(room, x, y);
+        */
+    }
+    scr_event_advance(event);
+}

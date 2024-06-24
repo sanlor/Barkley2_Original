@@ -1,0 +1,27 @@
+// Crazy Robinsons // Fangs //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+   
+    // Can occur only once //
+    if (scr_quest_get_state("pdt_zorro") == 1) or (scr_quest_get_state("pdt_zorro_fritz") >= 2) or (scr_time_get() <= 1) or (scr_time_get() >= 10) scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+        // Variables //
+        var event = scr_event_create_main();
+        scr_entity_look(id, EAST);
+        // Main event //
+        with (event) {
+                
+                scr_event_build_dialogue("Fangs Swiss Robinson", "s_port_sfr_fangs", "Franz is the youngest of the boys. When the story begins he is just eight years old. Most of the time he stays home with his mother.");
+                }
+        scr_event_advance(event);
+}

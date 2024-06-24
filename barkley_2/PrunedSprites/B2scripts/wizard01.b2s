@@ -1,0 +1,214 @@
+    var P_NAME = scr_quest_get_state("playerName");
+    var true = 1;
+    var false = 0;
+    
+    // Build Event
+    var wizard = id;
+
+    // move in value req
+    var wizard_rent = 50;
+    var wizard_req = 0;
+    
+    var event = scr_event_create_main();
+    var wedding_snippet = scr_event_create_child(event);
+    var move_in_snippet = scr_event_create_child(event);
+    var prepareQuestions = scr_event_create_child(event);
+
+    
+    //--------------------------------------------
+    //------------ WEDDING SNIPPET ---------------
+    //--------------------------------------------  
+    with (wedding_snippet) { 
+        scr_event_build_dialogue("X114JAM9", s_port_hoopz, "(Huh, maybe I could get this dude to play at the wedding...?");
+        var weddingQuestion = scr_event_build_choice("Should I ask WIZARD to join my group?", s_port_hoopz);
+        
+        // Ask WIZARD.
+        with (scr_event_build_add_choice(weddingQuestion, "It's, uh, probably not your usual venue, but do you want to play at a wedding?")) {
+            scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Hey WIZARD, you're pretty sick with that bass. It's, er... very /'kvlt/'. I'm trying to put together a band to play at... uh, a wedding... I don't know if that's your thing or not...");
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "IF YOU ARE GIVING ME THE OPPORTUNITY TO SPREAD MY MASTER'S TRITONES, THEN I WILL OBLIGE. TELL ME WHERE TO GO.");
+            scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Wh-whoa... that was easy. Okay, yeah, I'm still putting the band together but if you go to the booty bass club in Brain City, I'll be there when I'm ready.");
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "I DEPART.");
+            scr_event_build_fade(true, 2);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("wizardWedding", 1);
+            scr_event_build_quest_state_add("musicianCount", 1);
+            scr_event_build_set_object(o_wizard01, -500, -500);
+            scr_event_build_fade(false, 2);
+            scr_event_build_wait_for_actions();
+            scr_wedding_recruited();
+        }
+            
+        // Don't ask WIZARD.
+        with (scr_event_build_add_choice(weddingQuestion, "Nah, I don't think the band needs a bass.")) {
+            scr_event_build_dialogue("X114JAM9", s_port_hoopz, "(I-I think I should leave... this guy's pretty scary...)");
+        }
+    }   
+    
+    
+    //--------------------------------------------
+    //--------------- MAIN EVENT -----------------
+    //--------------------------------------------  
+    with (event) {
+          
+        
+        
+        // Did Wedding Quest with WIZARD.
+        if (scr_quest_get_state("weddingQuest") == 3) and (scr_quest_get_state("wizardWedding") == 3) {
+            // normal
+            if (scr_quest_get_state("wizardChurch") == 0) {
+                scr_event_build_dialogue("WIZARD", s_port_wizard, "WE MEET AGAIN. HAVE YOU COME AGAIN TO DESECRATE THE ALTAR OF THE ANOINTED IN SONIC BLASPHEMY? JAZZY RASCALS IST KVLT.");
+                scr_event_build_dialogue("X114JAM9", s_port_hoopz, "(Why did we have to call them the Jazzy Rascals...)");
+            }
+            // wizard has been asked to leave
+            else {
+                // wizard asked to leave, first time talking
+                if (scr_quest_get_state("wizardChurch") == 1) {
+                    scr_event_build_quest_state("wizardChurch", 1);
+                    scr_event_build_dialogue("WIZARD", s_port_wizard, "WE MEET AGAIN. HAVE YOU COME AGAIN TO DESECRATE THE ALTAR OF THE ANOINTED IN SONIC BLASPHEMY? JAZZY RASCALS IST KVLT.");
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Ugh, the Jazzy Rasc-... wait, no, WIZARD I'm not here to desecrate anything. The church people want you to leave.");
+                    scr_event_build_dialogue("WIZARD", s_port_wizard, "");
+                    scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I think you're scaring people away. Your music is pretty heavy.");
+                    if (scr_dilapidated_tenant_able("WIZARD") == 1) {
+                        scr_event_build_event_snippet(move_in_snippet);
+                    }
+                    else {
+                        
+                    }
+                }
+                else {
+                
+                
+                }
+            }
+        } 
+        
+        
+        // Told WIZARD to go to church in Brain City but did not show up, spoke to him again.
+        else if (scr_quest_get_state("wizardWedding") == 2) {
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "THE APOSTATE RETURNS. I WILL NOT SUFFER YOUR DECEPTION AGAIN. BEGONE, KNAVE.");
+            scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I... I'm sorry... I didn't mean to forget...");
+        } 
+        
+        
+        // Told WIZARD to go to church in Brain City but did not show up.
+        else if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("wizardWedding") == 1) and (scr_time_get() >= 11) {
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "I AWAITED YOUR ARRIVAL IN THE TEMPLE OF LIES FOR NAUGHT. YOU DECEIVED ME, TREACHEROUS KNAVE.");
+            scr_event_build_dialogue("X114JAM9", s_port_hoopz, "O-oh yeah... the wedding... I, uh, I guess I kinda forgot about that. Sorry.");
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "THE UNYIELDING MORNING STAR SHOWS NO MERCY FOR THE DECEITFUL. YOU SHALL KNOW PUNISHMENT IN DUE TIME.");
+            scr_event_build_dialogue("X114JAM9", s_port_hoopz, "G-gulp...");
+            scr_event_build_quest_state("wizardWedding", 2);
+        }
+       
+        // Met WIZARD before.
+        else if (scr_quest_get_state("wizardVar") == 1) {
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "-KNOW- THE CARNAL ENLIGHTENMENT OF THE UNBLEMISHED SERPENT. SPREAD MY APOTHIC HYMN UNTIL ALL EXTOL HIS PROFANE PRAISE.");
+            // If the Wedding Quest is available
+            if (scr_wedding_quest_on() == 1) {
+                scr_event_build_event_snippet(wedding_snippet);
+            } 
+            // Not on wedding quest.
+            else {
+                scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I-I'm on it, mister! B-bye!");
+            }
+        }
+        
+        // Never met WIZARD in the Cybergremlin Village before.
+        else if (scr_quest_get_state("wizardVar") == 0) {
+            scr_event_build_quest_state("wizardVar", 1);
+            scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Whoa, that's a heavy riff. What are you doing here? You don't look like a Cybergremlin to me.");
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "BLASPHEMOUS SONIC LIBATIONS UNTO THE ETERNAL ANATHEMATIZER. ZENITHAL PRAISES TO THE LIGHT BRINGER, WHOSE ORGIASTIC CREED OF SIN SPATES THE COSMOS IN UNREMITTING VICE.");
+            scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Are you talking about Clispaeth? Are you a bassist for the Big Guy?");
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "DEBASE YOURSELF IN PROPITIATION TO THE MORNING STAR, WHOSE ALMIGHTY LIGHT BATHES US IN FORBIDDEN WISDOM. THE SERPENT ALONE GUIDES MY DISCORDANT THRENODY.");
+            scr_event_build_dialogue("X114JAM9", s_port_hoopz, "O-ooooh... that's what I figured... (I still don't know what this guy is talking about...)");
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "GO NOW. PROLIFERATE MY CRUSHING DIRGE TO THE ILLITERATE MASSES, SHACKLED IN THE IGNORANCE OF THEIR HYPOCRITICAL DOGMA AND ITS FALSE PROPHETS. /LEVIATHAN./ /IST./ /KRIEG./");
+            
+            // If the Wedding Quest is available
+            if (scr_wedding_quest_on() == 1) {
+                scr_event_build_event_snippet(wedding_snippet);
+            } 
+            // Not on wedding quest.
+            else {
+                scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I-I'll put it on my to-do list... b-bye...");
+            }
+        }
+    }
+    
+    
+    //--------------------------------------------
+    //----------- MOVE IN SNIPPET ----------------
+    //--------------------------------------------
+    with (move_in_snippet) {
+        scr_event_build_breakout("add", "superEmpty");
+        
+        // CHOICE: offer a room?
+        var rent_choice = scr_event_build_choice("Offer a room?", s_port_hoopz);
+        
+        // rent1: yes, offer the room
+        var rent_yes = scr_event_build_add_choice(rent_choice, "Yes, offer WIZARD a room.");
+        with (rent_yes) {
+            // first attempt
+            if (scr_quest_get_state("wizardOffer") == 0) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, WIZARD, I was wondering, since you can't dance in Dwarf Zion anymore, would you be interested in renting a room from me?"); }
+            // already offered and reneged, or offered and rejected because of value
+            else { scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey WIZARD, about that room..."); }
+            
+            // value is high enough!
+            if (scr_quest_get_state("superApparent") > wizard_req) {
+                // first attempt
+                if (scr_quest_get_state("wizardOffer") == 0) { scr_event_build_dialogue("WIZARD", s_port_wizard, "Oh, you run the new apartment complex, yes? Seems like a fine place to spin. I will love to move in and spin there. I can pay " + string(wizard_rent) + " rent? Deal?"); }
+                // 2+ attempts, not enough money last time
+                else if (scr_quest_get_state("wizardOffer") == 1) { scr_event_build_dialogue("WIZARD", s_port_wizard, "Oh yes, the room! I hear it is much nicer now. So what do you think? I will love to move in and spin there. I can pay " + string(wizard_rent) + " rent? Deal?"); }
+                // 2+ attempts, changed mind last time
+                else if (scr_quest_get_state("wizardOffer") == 2) { scr_event_build_dialogue("WIZARD", s_port_wizard, "You change your mind? Then I want to spin in this new home! I can pay " + string(wizard_rent) + " rent? Deal?"); }
+                
+                // CHOICE: confirm offer?
+                var confirm_choice = scr_event_build_choice("Rent room to WIZARD for " + string(wizard_rent) + " N.S.?", s_port_hoopz);
+                
+                // confirm1: yes, confirm rental
+                var confirm_yes = scr_event_build_add_choice(confirm_choice, "Yes, rent the room!");
+                with (confirm_yes) {
+                    // have enough rooms
+                    if (scr_quest_get_state("superEmpty") >= 1) {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sounds like a deal to me!");
+                        scr_event_build_dilapidated_rent("WIZARD");
+                        scr_event_build_dialogue("", NULL, "Rented a room to WIZARD!");
+                        scr_event_build_breakout("clear");
+                        scr_event_build_dialogue("WIZARD", s_port_wizard, "Wonderful! I'll go soon. Clean myself up... maybe take a break.. maybe start spinning...!");
+                        // reset wizardState for tenant stuff
+                        scr_event_build_quest_state("wizardState", 0);
+                        scr_event_build_quest_state("wizardOffer", 3);
+                    }
+                    // not enough rooms
+                    else {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ummm, I actually realized I don't have any vacancies right now...");
+                        scr_event_build_dialogue("WIZARD", s_port_wizard, "Aw, too bad! I was looking forward to having a nice spot to spin. Let me know if it changes, please!");
+                        scr_event_build_quest_state("wizardOffer", 2);
+                    }
+                }
+                // confirm2: no, don't rent
+                var confirm_no = scr_event_build_add_choice(confirm_choice, "No, don't rent!");
+                with (confirm_no) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Umm, lemme think about it!");
+                    scr_event_build_dialogue("WIZARD", s_port_wizard, "Okay. I'll be here, for awhile I think... still not feeling good. Not in a spinning state...");
+                    scr_event_build_quest_state("wizardOffer", 2);
+                }
+            }
+            // value is too low!
+            else {
+                // first attempt
+                if (scr_quest_get_state("wizardOffer") == 0) { scr_event_build_dialogue("WIZARD", s_port_wizard, "Oh, you run the new apartment complex, yes? Sorry, not nice enough. Give it some work, make it nice, then I rent and spin all the time!"); }
+                // 2+ attempts, not enough money last time
+                else if (scr_quest_get_state("wizardOffer") == 1) { scr_event_build_dialogue("WIZARD", s_port_wizard, "No, no, no! Make the apartment nicer! I want to spin in a great place... with good energy! Just a little nicer, a little work! Then I spin!"); }
+                // 2+ attempts, changed mind last time
+                else if (scr_quest_get_state("wizardOffer") == 2) { scr_event_build_dialogue("WIZARD", s_port_wizard, "What happened? Your apartment was nice, now it is worse! It looked like a nice place to spin, but I have only heard bad things... nothing good for spinning. Get it together... then I'll spin!"); }
+                scr_event_build_quest_state("wizardOffer", 1);
+            }
+        }
+        
+        // rent2: no, don't offer
+        var rent_no = scr_event_build_add_choice(rent_choice, "No, don't offer the room.");
+        with (rent_no) {
+            scr_event_build_end();
+        }
+    }
+    
+    scr_event_advance(event);

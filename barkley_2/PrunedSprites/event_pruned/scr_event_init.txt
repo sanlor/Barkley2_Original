@@ -1,0 +1,50 @@
+/// scr_event_init()
+/// Initialize everything before an event starts.
+
+// The list that contains all of the actions of the event.
+_event_list = ds_list_create();
+// The cursor that determines which action the event is currently on.
+_event_cursor = 0;
+// How many events are currently active.
+_events_active = 0;
+// True if the event should wait for all actions to complete, false otherwise.
+_wait_for_actions = false;
+// Links to the parent event for this event, or NULL if it is the root.
+_parent_event = NULL;
+// An id to the object that initiated this event.
+_event_object = NULL;
+// A type to identify what type of event this is.
+_type = NULL_STRING;
+
+// Keep a references to all of the lists that need to be deleted at the end.
+// This is only kept by the root event.
+_lists = ds_list_create();
+
+// Keep a reference to all of the sub events that need to be deleted at the end.
+// This is only kept by the root event.
+_events = ds_list_create();
+
+// Used for background events. If you active a main event on an object that already
+// has a background event running, will pause that background event.
+_paused = false;
+
+// True if the event can be skipped, false otherwise. Defaults to false.
+_skippable = false;
+
+// The event to play after the player skips an event.
+_skip_event = NULL;
+
+// True if the event is currently in the process of being skipped.
+_skipping = false;
+
+// Used to indicate if there is a next script that should be executed after deleting
+// this event. Because deleting an event could be asynchronous if not all the events
+// are tidied up, this will help everything execute correctly.
+_next_object = NULL;
+_next_script = NULL;
+
+//GZ Added to fix camera reset as requested in ticket 
+_camera_reset = true;
+
+// When false, event doesn't run on wait - will be extended as needed (for BG events)
+_active = true;

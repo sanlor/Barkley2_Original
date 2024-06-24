@@ -1,0 +1,29 @@
+// Event for Gorandukht, a wandering doctor in the Wasteland who shows up in the Industrial Park at
+//times 2 and 12.
+/*
+if (argument0 == SCRIPT_STEP) {
+    if (scr_time_get() == 2) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 12) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var gorandukht = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("gorandukhtState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Gorandukht", NULL, "I'm sorry. I'm tired right now, I don't really want to talk unless there's something you need. I'm a travelling doctor and life on the road is more than just house calls. The mosquitos that suck dwarfs dry in the swamps to the south of here, the undead creatures to the north of here that bezaub all who cross them, the Cybergremlins who waylay innocent folk in the Wasteland and worst of all... the Bainshees. You... you don't want to see what Bainshee survivors look like. Sometimes I think it's a crueler fate to survive a Bainshee encounter than to die...");
+            scr_event_build_quest_state("gorandukhtState", 1);
+        } else {
+            scr_event_build_dialogue("Gorandukht", NULL, "I seek a salve most potent, an unguent to soothe one's aches and the silks and linens to wrap any bruise, bump or ding. Let me make it patently clear for you: I love to heal wounds.");
+        }
+    }
+    scr_event_advance(event);
+}

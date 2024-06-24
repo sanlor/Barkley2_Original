@@ -1,0 +1,27 @@
+// Event for Elnaz, mystical b-ball hag at Time 10
+
+// TODO Check this out, commented it off to save one millionth of a second on compiles //
+/*
+if (argument0 == SCRIPT_STEP) {
+    if (scr_time_get() == 10) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var elnaz = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("elnazState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Elnaz", NULL, "Elnaz placeholder.");
+            scr_event_build_quest_state("elnazState", 1);
+        } else {
+            scr_event_build_dialogue("Elnaz", NULL, "Elnaz placeholder 2.");
+        }
+    }
+    scr_event_advance(event);
+}

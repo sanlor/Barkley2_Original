@@ -1,0 +1,44 @@
+// NPC script for Compson, at the start of the Rebel Quest finale.
+// PLACEMENT NOTE: Since I used it somewhat extensively in the duergar quest anyway, the courtyard is probably a good place to put Florian, Meinhardt, and Compson for the final infiltration quest.
+// PS I love Compson btw. This may be my personal favorite dialogue in this entire fucking game. I hope people have been talking to Compson all along so they get to see his ARC OF MISERY.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") <= 9) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") == 7) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var compson = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("compsonBaseState") == 2) {
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "I got some cyanide capsules if you've had a change of heart. Otherwise, I'm done talking to you.");
+            scr_event_build_end();
+        } else if (Quest("compsonBaseState") == 1) {
+            Dialogue(P_NAME, "You know, it wouldn't kill you to stop being such a jerk.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "That a fact? Can you prove it?");
+            Dialogue(P_NAME, "People are dying here. They could really use your help. And all you're doing is sitting here being as big a jerk as possible.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Well look who went and grew a pair.");
+            Dialogue(P_NAME, "Yeah, maybe you should try it sometime.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "That's a good one.\Fact of that matter is that I just don't care. We aren't going to win this fight.\Been up against duergars enough in my life to know that they just can't be beaten. Not in some ground fight, anyway. Get a couple big bombs, maybe we'll talk.\And you want to tell me about guts. I'm still here. I know we're going to lose and I'm still here. All these clowns here think we got a chance, there's nothing brave about that.\How many of them would still fucking be here if they've seen the shit I saw? One.....two maybe. Maybe one in a thousand is that stupid.\Yeah, what a big fucking jerk I am, being straight with these guys for a change. Maybe they'd be somewhere in their stupid lives if they listened to guys like me. Maybe they wouldn't be out here throwing themselves right into the gunfire.\But that doesn't happen. Just follow the pack, follow the pack, follow the pack, follow the pack, follow the fucking pack.\Sons of bitches won't get it 'til they're dead. Keep looking at me like I can save the fucking day. All because I earned a couple stars in another life.");
+            Dialogue(P_NAME, "I still see those stars. I don't know why you wear them if they don't mean anything to you.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "It's because they're sewn in.\Take a closer look. Most of those stars have rusted away. I don't even care enough to pull them off.\They're just part of the shirt, came with the frame, that kind of thing.\Here, you can pull them off if it means that fucking much to you, I don't give a shit.");
+            Dialogue(P_NAME, "No. Those stars don't fool me. That's enough.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Glad to see we're on the same page.\Now the next page is you fucking off. Your sorry face is the last thing I want to see before I die.");
+            Quest("compsonBaseState", 2);
+            scr_event_build_end();
+        } else if (Quest("rebelQuest") == 6) {
+            Dialogue(P_NAME, "Hey, Lafayette said I should check in with you.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "So? Doesn't mean you had to go and do it.");
+            Dialogue(P_NAME, "I just wanted to know what the plan was.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Plan? What fucking plan? Just go in and get yourself killed like the rest.\Now scram. If you don't hurry, they might run out of fucking bullets before you get there.");
+            Quest("compsonBaseState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

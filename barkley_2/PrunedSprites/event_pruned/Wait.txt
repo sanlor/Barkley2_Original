@@ -1,0 +1,10 @@
+// Wait(optional: seconds);
+
+if (argument_count == 0)
+{
+    scr_event_build_wait_for_actions();
+}
+else
+{
+    scr_event_build_wait(argument[0]);
+}

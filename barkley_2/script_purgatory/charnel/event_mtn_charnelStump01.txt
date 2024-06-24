@@ -1,0 +1,621 @@
+// event_mtn_charnelStump01
+/*
+
+if (argument0 == SCRIPT_START)
+{
+    // all the graphics changes need to occur here!
+    if (Quest("charnelGrowth") == 0) { scr_entity_animation_set(o_charnelStump01, "stump"); }
+    else if (Quest("charnelGrowth") == 1) { scr_entity_animation_set(o_charnelStump01, "hole"); }
+    else if (Quest("charnelGrowth") == 2) { scr_entity_animation_set(o_charnelStump01, "seedling"); }
+    else if (Quest("charnelGrowth") == 3) { scr_entity_animation_set(o_charnelStump01, "sprout"); }
+    else if (Quest("charnelGrowth") == 4) { scr_entity_animation_set(o_charnelStump01, "sapling"); }
+    else if (Quest("charnelGrowth") == 5) { scr_entity_animation_set(o_charnelStump01, "shrub"); }
+    else if (Quest("charnelGrowth") == 6) { scr_entity_animation_set(o_charnelStump01, "tree"); }
+    else if (Quest("charnelGrowth") == 7) { scr_entity_animation_set(o_charnelStump01, "mightytree"); }
+    
+    if (Quest("charnelGrowth") >= 3) && (Quest("zauberBioGrowing") == 1)
+    {
+        instance_create(o_bioZauber01, 224, 136);
+    }
+}
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var charnelStump = id;
+    
+    var event = scr_event_create_main();
+    
+    // content snippets
+    var intro_snippet = scr_event_create_child(event);
+    var use_snippet = scr_event_create_child(event);
+    var examine_snippet = scr_event_create_child(event);
+    var plant_snippet = scr_event_create_child(event);
+    var pick_snippet = scr_event_create_child(event);
+    var rebranch_snippet = scr_event_create_child(event);
+    var sit_snippet = scr_event_create_child(event);
+    var meditate_snippet = scr_event_create_child(event);
+    
+    // functional snippets
+    var loop_snippet = scr_event_create_child(event);
+    var exit_snippet = scr_event_create_child(event);
+    
+    // variables
+    var sapling_string = "sapling";
+    var zauber_x = 0;
+    var zauber_y = 0;
+    
+    if (Quest("charnelPlant") == 0)
+    {
+        sapling_string = "soil";
+    }
+    else
+    {
+        if (Quest("charnelGrowth") == 1) { sapling_string = "hole"; }
+        else if (Quest("charnelGrowth") == 2) { sapling_string = "seedling"; }
+        else if (Quest("charnelGrowth") == 3) { sapling_string = "sprout"; zauber_x = 224; zauber_y = 136;}
+        else if (Quest("charnelGrowth") == 4) { sapling_string = "sapling"; zauber_x = 224; zauber_y = 136;}
+        else if (Quest("charnelGrowth") == 5) { sapling_string = "shrub"; zauber_x = 224; zauber_y = 136;}
+        else if (Quest("charnelGrowth") == 6) { sapling_string = "tree"; zauber_x = 224; zauber_y = 136;}
+        else if (Quest("charnelGrowth") == 7) { sapling_string = "mighty tree"; zauber_x = 224; zauber_y = 136;}
+    }  
+    
+    // c&p zone:
+    // scr_event_build_dialogue_debug("bort", NULL, "");
+    // Dialogue(P_NAME, "");
+    
+    
+    //--------------------------------------------
+    // Intro Snippet
+    //--------------------------------------------
+    with (intro_snippet)
+    {
+        // W. Fruit
+        if (Quest("charnelGrowth") >= 1)
+        {
+            
+            if (Quest("charnelGrowth") >= 2) && (Quest("charnelGrowthCheck") <= 1)
+            {
+                if (Quest("charnelGrowthCheck") <= 1)
+                {
+                    switch (Quest("charnelGrowth"))
+                    {
+                        case 2: Dialogue(P_NAME, "(Whoa! Something's sprouted! It's growing, it's really growing!)"); break;
+                        case 3: Dialogue(P_NAME, "(Whoa! Something's sprouted! ... and there's even a little fruit growing!)"); break;
+                        case 4: Dialogue(P_NAME, "(Whoa! Something's grown! ... it's a little sapling, with a little fruit and everything!)"); break;
+                        case 5: Dialogue(P_NAME, "(Whoa! Something's grown! ... that's quite a shrub! And it's bearing fruit too!)"); break;
+                        case 6: Dialogue(P_NAME, "(Whoa! It's huge! I did it, I grew something! ... and that's a tasty looking fruit at the top!)"); break;
+                        case 7: Dialogue(P_NAME, "(Whoa! Whoa! Whoa! This is the most magnificent tree I've seen in my life! ... and fruit perfection rests at the top... unbelievable!)"); break;
+                    }
+                }
+            }
+            /*
+            if (Quest("charnelGrowth") == 1)
+            {
+                Dialogue(P_NAME, "(Man... I just planted the thing, but I'm already impatient! I can't wait to see what it grows into!)"); 
+            }
+            else if (Quest("charnelGrowth") == 2)
+            {
+                if (Quest("charnelGrowthCheck") != 2) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+            }
+            else if (Quest("charnelGrowth") == 3)
+            {
+                if (Quest("charnelGrowthCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelGrowthCheck") != 3) { Dialogue(P_NAME, ""); }
+            }
+            else if (Quest("charnelGrowth") == 4)
+            {
+                if (Quest("charnelGrowthCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelGrowthCheck") != 4) { Dialogue(P_NAME, ""); }
+            }
+            else if (Quest("charnelGrowth") == 5)
+            {
+                if (Quest("charnelGrowthCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelGrowthCheck") != 5) { Dialogue(P_NAME, ""); }
+            }
+            if (Quest("charnelGrowth") == 6)
+            {
+                if (Quest("charnelGrowthCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelGrowthCheck") != 6) { Dialogue(P_NAME, ""); }
+            }
+            if (Quest("charnelGrowth") == 7)
+            {
+                if (Quest("charnelGrowthCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelGrowthCheck") != 7) { Dialogue(P_NAME, ""); }
+                else { Dialogue(P_NAME, ""); }
+            }
+            /
+            // sets the "Last Time Checked" variable to the current Growth value
+            Quest("charnelGrowthCheck", Quest("charnelGrowth"));
+        }
+    
+        // Dreadfruit
+        else if (Quest("charnelDread") >= 1)
+        {
+            if (Quest("charnelDread") == 1)
+            { 
+                Dialogue(P_NAME, "(I just planted the seed, but I'm already impatient! I can't wait to see what it grows into!)"); 
+            }
+            else if (Quest("charnelDread") == 2)
+            {
+                if (Quest("charnelDreadCheck") != 2) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+            }
+            else if (Quest("charnelDread") == 3)
+            {
+                if (Quest("charnelDreadCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelDreadCheck") != 3) { Dialogue(P_NAME, ""); }
+            }
+            else if (Quest("charnelDread") == 4)
+            {
+                if (Quest("charnelDreadCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelDreadCheck") != 4) { Dialogue(P_NAME, ""); }
+            }
+            else if (Quest("charnelDread") == 5)
+            {
+                if (Quest("charnelDreadCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelDreadCheck") != 5) { Dialogue(P_NAME, ""); }
+            }
+            if (Quest("charnelDread") == 6)
+            {
+                if (Quest("charnelDreadCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelDreadCheck") != 6) { Dialogue(P_NAME, ""); }
+            }
+            if (Quest("charnelDread") == 7)
+            {
+                if (Quest("charnelDreadCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelDreadCheck") != 7) { Dialogue(P_NAME, ""); }
+                else { Dialogue(P_NAME, ""); }
+            }
+            // sets the "Last Time Checked" variable to the current Dread value
+            Quest("charnelDreadCheck", Quest("charnelDread"));
+        }
+    
+        // Chup
+        else if (Quest("charnelChup") >= 1)
+        {
+            if (Quest("charnelChup") == 1)
+            { 
+                Dialogue(P_NAME, "(I just planted the seed, but I'm already impatient! I can't wait to see what it grows into!)"); 
+            }
+            else if (Quest("charnelChup") == 2)
+            {
+                if (Quest("charnelChupCheck") != 2) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+            }
+            else if (Quest("charnelChup") == 3)
+            {
+                if (Quest("charnelChupCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelChupCheck") != 3) { Dialogue(P_NAME, ""); }
+            }
+            else if (Quest("charnelChup") == 4)
+            {
+                if (Quest("charnelChupCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelChupCheck") != 4) { Dialogue(P_NAME, ""); }
+            }
+            else if (Quest("charnelChup") == 5)
+            {
+                if (Quest("charnelChupCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelChupCheck") != 5) { Dialogue(P_NAME, ""); }
+            }
+            if (Quest("charnelChup") == 6)
+            {
+                if (Quest("charnelChupCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelChupCheck") != 6) { Dialogue(P_NAME, ""); }
+            }
+            if (Quest("charnelChup") == 7)
+            {
+                if (Quest("charnelChupCheck") == 1) { Dialogue(P_NAME, "(Whoa! Something's sprouted!)"); }
+                else if (Quest("charnelChupCheck") != 7) { Dialogue(P_NAME, ""); }
+                else { Dialogue(P_NAME, ""); }
+            }
+            // sets the "Last Time Checked" variable to the current Growth value
+            Quest("charnelChupCheck", Quest("charnelChup"));
+        }
+        // go to USE snippet
+        
+        // check if charnel ground is usable at all
+        if (charnel_usable() == true) 
+        {
+            Snippet(use_snippet);
+        }
+        // charnel ground is unusable
+        else
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "Charnel Ground is currently unusable. Event ends.");
+            scr_event_build_end();
+        }
+    }
+    
+    
+    //--------------------------------------------
+    // Use Snippet
+    //--------------------------------------------
+    with (use_snippet)
+    {
+        Breakout("build", "clear");
+        
+        var charnel_choice = Choice("What should I do?", s_port_hoopz);
+        
+        // If nothing planted...
+        if (Quest("charnelPlant") == 0)
+        {
+            // Add Plant choice.
+            var plant = ChoiceAdd(charnel_choice, "Plant something.");
+            with (plant)
+            {
+                Snippet(plant_snippet);
+            }
+        }
+        
+        // Something planted?
+        else if (Quest("charnelPlant") >= 1)
+        {
+            var growth_examine = ChoiceAdd(charnel_choice, "Examine the " + sapling_string + ".");
+            with (growth_examine)
+            {
+                Snippet(examine_snippet);
+            }
+            
+            // BIO Zauber is a functioning plant
+            if (Quest("charnelGrowth") >= 3)
+            {
+                // Don't have the Zauber (pick options available)
+                if (zauber_bio_have() == false) 
+                {
+                    // Growth fruit (unknown BIO Zauber) is on the branch
+                    if (Quest("zauberBio") == 0)
+                    {
+                        var growth_pick = ChoiceAdd(charnel_choice, "Pick the fruit.");
+                        with (growth_pick)
+                        {
+                            Snippet(pick_snippet);
+                        }
+                    }
+                    
+                    // BIO Zauber (known) is on the branch 
+                    else
+                    {
+                        var growth_zauber = ChoiceAdd(charnel_choice, "Pick the zauber.");
+                        with (growth_zauber)
+                        {
+                            Snippet(pick_snippet);
+                        }
+                    }
+                }
+                // Have the BIO Zauber (rebranch option available)
+                else if (zauber_bio_have() == true) && (Quest("zauberBioGrowing") != -1)
+                {
+                    var growth_rebranch = ChoiceAdd(charnel_choice, "Place the zauber back on the branch.");
+                    with (growth_rebranch)
+                    {
+                        Snippet(rebranch_snippet);
+                    }
+                }
+            }
+        }
+        
+        // If on Mystic Class track...
+        if (Quest("classMysticTotal") >= 1) // set to 1 normally
+        {
+            // Add MEDITATE choice
+            var meditate = ChoiceAdd(charnel_choice, "Meditate.");
+            with (meditate)
+            {
+                Snippet(meditate_snippet);
+            }
+        }
+        
+        // If not...
+        else
+        {
+            // Add SIT choice
+            var sit = ChoiceAdd(charnel_choice, "Sit.");
+            with (sit)
+            {
+                Snippet(sit_snippet);
+            }
+        }
+        
+        // Add LEAVE choice
+        var leave = ChoiceAdd(charnel_choice, "Just leave.");
+        with (leave)
+        {
+            Breakout("build", "clear");
+            scr_event_build_dialogue_debug("bort", NULL, "Hoopz says something about ignoring the Charnel Ground.");
+            Snippet(exit_snippet);
+        }
+    }
+    
+    //--------------------------------------------
+    // Examine Snippet
+    //--------------------------------------------
+    with (examine_snippet)
+    {
+        scr_event_build_dialogue_debug("bort", NULL, "Not working yet!");
+        Snippet(loop_snippet);
+    }
+    
+    //--------------------------------------------
+    // Plant Snippet
+    //--------------------------------------------
+    with (plant_snippet)
+    {
+        // Nothing planted? Add breakout boxes
+        if (Quest("charnelPlant") == 0) 
+        {
+            if (Item("have", "W Fruit")) { Breakout("build", "add", "W Fruit"); }
+            if (Item("have", "Dreadfruit")) { Breakout("build", "add", "Dreadfruit"); }
+            if (Item("have", "Chup")) { Breakout("build", "add", "Chup"); }
+        }
+        
+        if ( (!Item("have", "W Fruit")) && (!Item("have", "Dreadfruit")) && (!Item("have", "Chup")) )
+        {
+            Dialogue(P_NAME, "Shucks... I've got nothing to plant. The kid is barren... better come back when I've got some goodies to plant.");
+            Snippet(loop_snippet);
+        }
+        else
+        {
+            var plant_choice = Choice("What to plant?", s_port_hoopz)
+            
+            // W Fruit
+            if (Item("have", "W Fruit") && (Quest("charnelGrowth") == 0))
+            {
+                var plant_growth = ChoiceAdd(plant_choice, "Plant the W Fruit.");
+                with (plant_growth)
+                {
+                    scr_event_build_dialogue_debug("ANIMATION", NULL, "Hoopz digs a little hole in the ground and plants the W. Fruit.");
+                    Item("build", "lose", "W Fruit", 1);
+                    scr_event_build_dialogue_item("Planted the W Fruit in the soil.");
+                    Breakout("build", "clear");
+                    Dialogue(P_NAME, "Okay, that should do it. Hmm... I wonder what it will grow into?");
+                    Quest("charnelGrowth", 1);
+                    Quest("charnelGrowthCheck", 1);
+                    Quest("charnelPlant", 1);
+                    Quest("zauberBioGrowing", 1);
+                    Snippet(exit_snippet);
+                }
+            }
+            // Dreadfruit
+            if (Item("have", "Dreadfruit") && (Quest("charnelDread") == 0))
+            {
+                var plant_dread = ChoiceAdd(plant_choice, "Plant the Dreadfruit.");
+                with (plant_dread)
+                {
+                    scr_event_build_dialogue_debug("ANIMATION", NULL, "Hoopz digs a little hole in the ground and plants the Dreadfruit.");
+                    Item("build", "lose", "Dreadfruit", 1);
+                    scr_event_build_dialogue_item("Planted the Dreadfruit in the soil.");
+                    Breakout("build", "clear");
+                    Dialogue(P_NAME, "Okay, that should do it. Hmm... I wonder what it will grow into?");
+                    Quest("charnelDread", 1);
+                    Quest("charnelDreadCheck", 1);
+                    Quest("charnelPlant", 1);
+                    Snippet(exit_snippet);
+                }
+            }
+            // Chup
+            if (Item("have", "Chup") && (Quest("charnelChup") == 0))
+            {
+                var plant_chup = ChoiceAdd(plant_choice, "Plant a Chup.");
+                with (plant_chup)
+                {
+                    scr_event_build_dialogue_debug("ANIMATION", NULL, "Hoopz digs a little hole in the ground and plants the Chup.");
+                    Item("build", "lose", "Chup", 1);
+                    scr_event_build_dialogue_item("Planted the Chup in the soil.");
+                    Breakout("build", "clear");
+                    Dialogue(P_NAME, "Okay, that should do it. Hmm... I wonder what it will grow into?");
+                    Quest("charnelChup", 1);
+                    Quest("charnelChupCheck", 1);
+                    Quest("charnelPlant", 1);
+                    Snippet(exit_snippet);
+                }
+            }
+            var plant_nothing = ChoiceAdd(plant_choice, "Plant nothing.")
+            with (plant_nothing)
+            {
+                Snippet(loop_snippet);
+            }
+        }
+    }
+    
+    //--------------------------------------------
+    // Pick Snippet
+    //--------------------------------------------
+    with (pick_snippet)
+    {
+        // if the zauber is a key item
+        // OR
+        // the zauber goes into a pocket directly and there is sufficient pocket space
+        if (ZC_UNPOCKET == 1) || ((ZC_UNPOCKET == 0) && (Jerkin("pockets free") > 0))
+        {
+            // zauber known or unknown
+            if (Quest("zauberBio") == 0) { Dialogue(P_NAME, "Whoa... that's no fruit! It's a Zauber!"); }
+            else { Dialogue(P_NAME, "Lemme at this Zaub!"); }
+            scr_event_build_dialogue_debug("ANIMATION", NULL, "The zauber either FALLS into the player's hands or the player REACHES UP and takes it.");
+            scr_event_build_destroy_object(o_bioZauber01);
+            // get zauber by level
+            if (Quest("charnelGrowth") == 3)
+            {
+                scr_event_build_dialogue_item("Got the Budding Zauber!");
+                if (ZC_UNPOCKET == 1) { Item("build", "gain", "Budding Zauber", 1); }
+                else { zauber_give("Budding Zauber", 1); }
+                Quest("zauberBio", 1);
+            }
+            else if (Quest("charnelGrowth") == 4)
+            {
+                scr_event_build_dialogue_item("Got the Unripe Zauber!");
+                if (ZC_UNPOCKET == 1) { Item("build", "gain", "Unripe Zauber", 1); }
+                else { zauber_give("Unripe Zauber", 1); }
+                Quest("zauberBio", 2);
+            } 
+            else if (Quest("charnelGrowth") == 5)
+            {
+                scr_event_build_dialogue_item("Got the Ripened Zauber!");
+                if (ZC_UNPOCKET == 1) { Item("build", "gain", "Ripened Zauber", 1); }
+                else { zauber_give("Ripened Zauber", 1); }
+                Quest("zauberBio", 3);
+            }
+            else if (Quest("charnelGrowth") == 6)
+            {
+                scr_event_build_dialogue_item("Got the Succulent Zauber!");
+                if (ZC_UNPOCKET == 1) { Item("build", "gain", "Succulent Zauber", 1); }
+                else { zauber_give("Succulent Zauber", 1); }
+                Quest("zauberBio", 4);
+            }
+            else if (Quest("charnelGrowth") == 7)
+            {
+                scr_event_build_dialogue_item("Got the Bletted Zauber!");
+                if (ZC_UNPOCKET == 1) { Item("build", "gain", "Bletted Zauber", 1); }
+                else { zauber_give("Bletted Zauber", 1); }
+                Quest("zauberBio", 5);
+            }
+            // zauber is no longer on vine
+            Quest("zauberBioGrowing", 0);
+        }
+        else 
+        {
+            scr_event_build_dialogue_debug("ZAUBER", NULL, "You don't have the pocket space!");
+        }
+    }
+    
+    //--------------------------------------------
+    // Rebranch Snippet
+    //--------------------------------------------
+    with (rebranch_snippet)
+    {
+        Quest("zauberBioGrowing", 1);
+        if (scr_items_has(ITEMTYPE_ZAUBER, "Bletted Zauber") || Item("have", "Bletted Zauber"))
+        {
+            Dialogue(P_NAME, "No way... this thing may be too ripe already! If I put this thing back on the vine, who the heck knows what'll happen. This baby could burst!");
+            Quest("zauberBioGrowing", -1);
+        }
+        else 
+        {
+            Dialogue(P_NAME, "I think this baby needs some more time on the vine...");
+            scr_event_build_dialogue_debug("ANIMATION", NULL, "The zauber either FALLS into the player's hands or the player REACHES UP and takes it.");
+            scr_event_build_create_object(o_bioZauber01, zauber_x, zauber_y);
+            if (scr_items_has(ITEMTYPE_ZAUBER, "Succulent Zauber") || Item("have", "Succulent Zauber"))
+            {
+                if (ZC_UNPOCKET == 1) { Item("build", "lose", "Succulent Zauber", 1); }
+                else { zauber_remove("Succulent Zauber"); }
+                scr_event_build_dialogue_item("Placed the Succulent Zauber back on the branch.");
+            }
+            else if (scr_items_has(ITEMTYPE_ZAUBER, "Ripened Zauber") || Item("have", "Ripened Zauber"))
+            {
+                if (ZC_UNPOCKET == 1) { Item("build", "lose", "Ripened Zauber", 1); }
+                else { zauber_remove("Ripened Zauber"); }
+                scr_event_build_dialogue_item("Placed the Ripened Zauber back on the branch.");
+            }
+            else if (scr_items_has(ITEMTYPE_ZAUBER, "Unripe Zauber") || Item("have", "Unripe Zauber"))
+            {
+                if (ZC_UNPOCKET == 1) { Item("build", "lose", "Unripe Zauber", 1); }
+                else { zauber_remove("Unripe Zauber"); }
+                scr_event_build_dialogue_item("Placed the Unripe Zauber back on the branch.");
+            }
+            else if (scr_items_has(ITEMTYPE_ZAUBER, "Budding Zauber") || Item("have", "Budding Zauber"))
+            {
+                if (ZC_UNPOCKET == 1) { Item("build", "lose", "Budding Zauber", 1); }
+                else { zauber_remove("Budding Zauber"); }
+                scr_event_build_dialogue_item("Placed the Budding Zauber back on the branch.");
+            }
+        }
+        Snippet(exit_snippet);
+    }
+    
+    
+    //--------------------------------------------
+    // Sit Snippet
+    //--------------------------------------------
+    with (sit_snippet)
+    {
+        Breakout("build", "clear");
+        scr_event_build_dialogue_debug("bort", NULL, "Sit choice.");
+        Snippet(exit_snippet);
+    }
+    
+    //--------------------------------------------
+    // Meditate Snippet
+    //--------------------------------------------
+    with (meditate_snippet)
+    {
+        Breakout("build", "clear");
+        if (Quest("charnelMeditate") == 0)
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "Meditate mode ON.");
+            Quest("charnelMeditate", 1);
+            scr_event_build_outline_disabled(o_charnelDwarf01, false);
+            scr_event_build_outline_disabled(o_charnelKirin01, false);
+            scr_event_build_outline_disabled(o_charnelRabbit01, false);
+        }
+        else 
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "Meditate mode OFF.");
+            Quest("charnelMeditate", 0);
+            scr_event_build_outline_disabled(o_charnelDwarf01, true);
+            scr_event_build_outline_disabled(o_charnelKirin01, true);
+            scr_event_build_outline_disabled(o_charnelRabbit01, true);
+        }
+        Snippet(exit_snippet);
+    }
+    
+    
+    //--------------------------------------------
+    // Loop Snippet
+    //--------------------------------------------
+    with (loop_snippet)
+    {
+        Quest("charnelLoop", 1);
+        Execute(event_mtn_charnelStump01);
+    }
+    
+    //--------------------------------------------
+    // Exit Snippet
+    //--------------------------------------------
+    with (exit_snippet)
+    {
+        scr_event_build_end();
+    }
+ 
+    
+    //--------------------------------------------
+    // Main Event
+    //--------------------------------------------
+    with (event)
+    {
+        //scr_event_build_dialogue_debug("bort", NULL, "This is the Charnel Ground Stump. It is a HUGE work in progress!");
+        if (Quest("charnelLoop") == 1)
+        {
+            Quest("charnelLoop", 0);
+            Snippet(use_snippet);
+        }
+        
+        // First time at Charnel Ground
+        else if (Quest("charnelState") == 0) 
+        {
+            Dialogue(P_NAME, "What is this place? All these bones give me a pretty spooky vibe... and I don't spook easy. This soil seems nice and soft though. Hmmmm... I wonder...");
+            Quest("charnelState", 1);
+        }
+        
+        // If something has been planted...
+        if (Quest("charnelPlant") == 1)
+        {
+            Snippet(intro_snippet);
+        }
+        else
+        {
+            // If Charnel Ground is usable...
+            if (charnel_usable() == true) 
+            {
+                Snippet(use_snippet);
+            }
+            // Charnel Ground is unusable
+            else
+            {
+                scr_event_build_dialogue_debug("bort", NULL, "Charnel Ground is currently unusable. Event ends.");
+                scr_event_build_end();
+            }
+        }
+    }
+
+    scr_event_advance(event);
+}
+*/

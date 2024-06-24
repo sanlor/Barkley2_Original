@@ -1,0 +1,9 @@
+// scr_wedding_quest_on()
+// Returns true if the wedding quest is ongoing, returns false if the wedding quest is not
+
+/*if (scr_quest_get_state("weddingQuest") == 1) && (scr_quest_get_state("musicianCount") <= 3) && (scr_time_get() >= 4) && (scr_time_get() <= 10) {
+    return true;
+}
+else {
+    return false;
+}

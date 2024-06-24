@@ -1,0 +1,90 @@
+// Suleiman // A very religious dwarf in Al-Aki who prays respite from the heat // Finds Corneflux' Chinchilla jerkin //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+    // Timeframe //
+    if scr_time_get() >= 0 and scr_time_get() <= 24 then scr_event_interactive_deactivate();
+        
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+            // dz2_suleiman //
+            // 0 = First interaction ///
+            // 1 = Second interaction ///
+            
+            // Chinchilla quest //
+            if (scr_quest_get_state("bct_corneflux") == 3) {
+
+                scr_event_build_dialogue("Suleiman", NULL, "Praise be... to Clispaeth... The one who hath... giveth me this Chinchilla.... Jerkin... My prayers... answered... The suns wicked rays... no longer...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why on Necron 7 do you have that thick winter jerkin on you in a place like this? You gotta take it off before you get a stroke!");
+                scr_event_build_dialogue("Suleiman", NULL, "No... I... must... wear... blessing from....");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait... I've seen this jerkin before. This is the Chinchilla Jerkin. Where'd you find this?");
+                scr_event_build_dialogue("Suleiman", NULL, "Clispaeth... gave... to me... fell from the... heavens...");
+                
+                // Choice: Ask it back, Ignore it, Barter //
+                
+                // Ask the jerkin back //
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "This might sound pretty weird but I would like to have that jerkin. It belongs to this guy in Brain City.");
+                scr_event_build_dialogue("Suleiman", NULL, "... No one... my jerkin... Clispaeth...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You'll roast alive wearing that thing in this heat! We have to get you out of that thing. Here, let me help...");
+                scr_event_build_dialogue("Suleiman", NULL, "NO!! You shall never rob me of my gift from Clispaeth!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "But-");
+                scr_event_build_dialogue("Suleiman", NULL, "The lord giveth... and the... taketh... This is my final... trial... I must endure... and then... finally meet Clispaeth...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You're crazy...");
+                
+                // Ignore the situation //
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Clispaeth gave it to you, huh?");
+                scr_event_build_dialogue("Suleiman", NULL, "That's right... Praise be to... Amen...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Hmm, I don't think this guy will willingly give up the jerkin. But at least I've found it now...)");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, well, take care mister.");
+                scr_event_build_dialogue("Suleiman", NULL, "Clispaeth...");
+                
+                // Barter //
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Listen, that jerkin belongs to someone I met at Brain city. Is there anything I can trade you for it?");
+                scr_event_build_dialogue("Suleiman", NULL, "Trade my gift...? Don't be... ridiculous... It was... by Clispaeth himself...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Clispaeth huh...? Hmm, I might have just the thing. What do you think about this ITEMNAME? Would you trade your chinchilla Jerkin for it?");
+                scr_event_build_dialogue("Suleiman", NULL, "Mein Gott...! Can it be... the actual... ITEMNAME... that the legends...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, uhh... It's very clispian, I think. I got it from a true believer.");
+                scr_event_build_dialogue("Suleiman", NULL, "Here, take... this accursed Jerkin... and give me that ITEMNAME...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Alright. Pleasure doing business with you.");
+                
+                // TODO: Suleiman takes off the jerkin and gives it to hoopz //
+                
+                scr_event_build_dialogue("Suleiman", NULL, "Ahh... The desert wind on my skin... So refreshing.... So vigorating.... This... this must be a sign!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, yeah, maybe it is, but I wouldn't think too much about it. Anyways I better get this jerkin back to Brain City. Smell you later.");
+                }
+            
+            // Hoopz talks to Suleiman for the first time //
+            if (scr_quest_get_state("dz2_suleiman") == 0) {
+
+                scr_event_build_dialogue("Suleiman", NULL, "O'lord in the heavens, gaze upon your faithful servant Suleiman. He walks in the valley of drought, his throat parched and his eyes weary. His skin 100% sunburnt. Please grant your good servant Suleiman respite from the vicious sun.");
+                scr_event_build_quest_state("dz2_suleiman", 1);
+                } 
+                
+            // Hoopz talks to Suleiman for the second time //
+            if (scr_quest_get_state("dz2_suleiman") == 1) {
+
+                scr_event_build_dialogue("Suleiman", NULL, "...and behold there shall be a parch upon this land and everything shall wither and thirst. I plead thee, o'mighty Clispaeth. Release us from from this wretched heat, give us our salvation.");
+                scr_event_build_quest_state("dz2_suleiman", 2);
+                }
+                
+            // Hoopz talks to Suleiman for the third time //
+            if (scr_quest_get_state("dz2_suleiman") == 2) {
+
+                scr_event_build_dialogue("Suleiman", NULL, "Ugh... My poor parched throat... I can't pray for much longer...");
+                }
+    }
+    scr_event_advance(event);
+}

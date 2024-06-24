@@ -1,0 +1,706 @@
+// event_dz1_masego01
+// this is the script for marshal masego
+// Marshal in Wasteland Dwarf Zone. Involved in a Figbottom Dead Dwarf quest, 
+// arrests NPCs, arrests you during Mole Kid quest.
+
+/*
+        
+figbottomQuest
+    0 - Nothing has been done
+    1 - Heard about Figbottom Quest
+    2 - Failed Quest?
+    3 - Quest accepted
+    4 - Suresh tells you to talk to Kunigunde
+    5 - Kunigunde tells you to talk to Moriarty
+    6 - Moriartys clue about Suresh        
+    7 - Sureshs clue about Kunigunde
+    8 - Kunigunde talked to about tontine
+    9 - Someone has been arrested
+*/
+
+/*
+if (argument0 == SCRIPT_START)
+{
+    scr_entity_animation_set(o_masego01, "default");
+}
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var masego = id;
+
+    var event = scr_event_create_main();
+    
+    // Snippet declarations.
+    var question_snippet = scr_event_create_child(event);
+    var help_snippet = scr_event_create_child(event);
+    var snitch_snippet = scr_event_create_child(event);
+    var figbottom_snippet = scr_event_create_child(event);
+    
+    //--------------------------------------------
+    //------------ SNITCH SNIPPET ----------------
+    //--------------------------------------------
+    with (snitch_snippet)
+    {
+        // Tell Choice...
+        var something_choice = scr_event_build_choice("Tell Masego...", s_port_hoopz);
+            
+        // Boris Tooting
+        if (scr_quest_get_state("borisVar") == 1) && (scr_quest_get_state("borisArrest") == 0)
+        {
+            var flute = scr_event_build_add_choice(something_choice, "I saw a guy tooting a flute.");
+            with (flute)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I saw a guy tooting a flute by the shop. His name is Boris and he was really going at it.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Flute flaunting, huh? That's a criminal offense in the Industrial Park. Thanks for letting me know, kid. I'll get this taken care of right away.");
+                scr_event_build_fade(true, 2);
+                scr_event_build_wait_for_actions();
+                scr_event_build_fade(false, 2);
+                scr_event_build_wait_for_actions();
+                scr_event_build_quest_state("borisArrest", 1);
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "You did a good job, kid. I got that scumbag off the streets and into the pen. Keep it up, we need more people like you in the Industrial Park. Was there anything else?");
+                // TODO: REMOVE BORIS!!!!
+                scr_event_build_quest_state("masegoLoop", 1);
+                scr_event_build_execute_event_script(event_dz1_masego01);
+            }
+        }
+        // Ooze Turrets
+        if ((scr_quest_get_state("oozeIndustrial") == 1) and (scr_quest_get_state("oozeTurret") > 0) and (scr_quest_get_state("oozeTurret") < 3) and (scr_time_get() == 12))
+        {
+            with scr_event_build_add_choice(something_choice, "Ooze told me to disable the Industrial Park turrets.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ooze wants to sabotage the Industrial Park turrets. He tried to recruit me to do it. He's hanging out near the machinist's place.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Ooze, huh? That guy always rubbed me the wrong way. Alright, I'll go lock that scumbag up...");
+                scr_event_build_fade(true, 2);
+                scr_event_build_wait_for_actions();
+                scr_event_build_fade(false, 2);
+                scr_event_build_wait_for_actions();
+                scr_event_build_quest_state("oozeTurret", 6);
+                scr_event_build_quest_state("oozeVar", scr_quest_get_state("oozeVar") - 1);
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "I couldn't find that rat anywhere. I guess he got away.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Maybe he knew I'd tell you...");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Well it's too bad I couldn't get him. I'll keep an eye out for him. Thanks for letting me know. It looks like I've got one more thing to worry about.");
+            }
+        }
+        // Clive Chups
+        if (scr_time_get() == 8) and (scr_quest_get_state("chupQuest") == 2)
+        {
+            with scr_event_build_add_choice(something_choice, "A guy named Clive selling chups.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "There was this guy named Clive who was trying to sell chups by the junk pile over there. He seemed like a really weird and dangerous guy.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Selling chups, huh? Not on my watch. Thanks for the tip, kid. You did the right thing. I think Clive's gonna be spending some hard time in the slammer.");
+                scr_event_build_fade(true, 4); 
+                scr_event_build_fade(false, 3); 
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Well, he put up a chase but I managed to get him. Selling chups in the Industrial Park: 25 years. Resisting arrest: 10 years. We won't be seeing Clive for a long time. Good catch, kid.");
+                scr_event_build_time_add(1);
+                scr_event_build_quest_state("cliveArrest", 1);
+                scr_event_build_quest_state("chupQuest", 3);
+            }
+        }
+        // Slag Granny
+        if (scr_quest_get_state("littleRobbingHood") == 1) and ((scr_time_get() == 9) or (scr_time_get() == 10))
+        {
+            with scr_event_build_add_choice(something_choice, "A Kobold named Slag wants me to rob Granny")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "There was this Kobold named Slag who asked me to steal from Granny. He seemed like a real dangerous creep.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Slag the Kobold? I've seen him slinking around and I didn't like the cut of his jib, not one bit. I could tell he was up to no good as soon as he oozed his way in here. Thanks for the tip, I'll make sure he's locked up in no time.");
+                scr_event_build_fade(true, 4); 
+                scr_event_build_fade(false, 3); 
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Ugh, that slimy cretin slipped out of my fingers at the last minute. Heh, I'm starting to think I should deputize you. Let me know if he crawls back in, I won't let him get away from me next time.");
+                scr_event_build_time_add(1);
+                scr_event_build_quest_state("littleRobbingHood", 4);
+                scr_event_build_quest_state_add("slagVar", -1);
+            }
+        }
+        // Nevermind... nothing to tell.
+        with scr_event_build_add_choice(something_choice, "Never mind.")
+        { 
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Never mind. Just spoofin' you.");
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "Was there anything else?");
+            scr_event_build_quest_state("masegoLoop", 1);
+            scr_event_build_execute_event_script(event_dz1_masego01);
+        }
+    }
+    
+    //--------------------------------------------
+    //------------ HELP SNIPPET ------------------
+    //--------------------------------------------
+    with (help_snippet)
+    {
+        // Figbottom quest started at all.
+        if (scr_time_get() <= 7)
+        {
+            // Figbottom quest is solved.
+            if (scr_quest_get_state("figbottomQuest") == 9)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, is there anything else I can do to help?");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah, actually. You remember those rules I told you when you came here? If you see anyone breaking those rules, I want you to tell me. I know you're trustworthy, I know you've got a good head on your shoulders. Let me know who's doing it and I'll toss 'em in jail. Got it?");   
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I guess so, but it seems like snitching...");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah? Well you'll be doing everyone in the Industrial Park a big favor, so just do it. Anything else?"); 
+                scr_event_build_event_snippet(question_snippet);
+            }
+            // Figbottom quest incomplete.
+            else if (scr_quest_get_state("figbottomQuest") > 2)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is there anything I can do to help out? You seem kind of busy.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Aside from finding out what happened to Figbottom you mean? Yeah, I've got a whole laundry list for you. But focus on this for now. Anything else?");   
+                scr_event_build_event_snippet(question_snippet);
+            }
+            // Figbottom quest not started.
+            else
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is there anything I can do to help out? You seem kind of busy.");
+                // Heard about Figbottom quest.
+                if (scr_quest_get_state("figbottomQuest") == 1)
+                {
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "Have you given any thought about helping me find out what happened to Figbottom? He's that junk collector who disappeared. That's what I need the most help with right now, think you've got the time?");
+                }
+                // Haven't heard about Figbottom quest.
+                else
+                {
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "As a matter of fact, yeah, you can. There was this guy who used to hang around here, Figbottom, who's gone missing. He and his buddy Suresh would scavenge for scraps at the Junk Yard south of here, so it's not unusual that he'd disappear for a while, but never this long. I don't know what's up, but there have been a handful of other disappearances lately and I'm worried that they all might be connected.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "What do you want me to do? Find him?");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah, if it's still possible. It may be too late to find him and if you can't, I want you to find out if there was foul play, if anyone did something to him. Is this something you think you've got the time for?");         
+                }
+                // FIGBOTTOM QUEST CHOICE
+                var figbottom_choice = scr_event_build_choice("Help Marshal Masego?", s_port_hoopz);
+                
+                // Help Out
+                with scr_event_build_add_choice(figbottom_choice, "Yeah, I can help you out.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I think I can help you out. Where should I start?");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "Ah, that's a load off my shoulders. I appreciate it. What I'd do is talk to his friend Suresh to see if he knows anything and go from there. Figbottom and Suresh were best friends who scavenged everywhere together so he should know something.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I think I've got it. I may not be the best gumshoe in the world, but I'll give it my all.");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "Don't gum it up too much, youngster. And most importantly, I want a perp. Remember that everyone is a suspect and nobody's above suspicion. If you think you know what happened to Figbottom or who was involved in his disappearance, you tell me. Got it?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, got it.");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "Good, then get out of here.");
+                    scr_event_build_quest_state("figbottomQuest", 3);
+                }
+                // Not Now
+                with scr_event_build_add_choice(figbottom_choice, "No, not today.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sounds like you've got your hands full. Wish I could help, but I just don't have the time.");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah, it's a big, messy job. I wouldn't want to do it if I were in your shoes. Let me know if you change your mind, I can use the help.");
+                    scr_event_build_quest_state("figbottomQuest", 1);
+                }
+            }
+        }
+        
+        // Figbottom time expired. Too late.
+        else if (scr_time_get() >= 8)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is there anything I can do to help out? You seem kind of busy.");
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "If you'd have asked a while ago, you could've helped me out with a disappearance of one of the local junk collectors, but it's been too long and the case is cold. Too bad, justice would've been nice.");   
+            scr_event_build_event_snippet(question_snippet);
+        }
+    }
+    
+    //--------------------------------------------
+    //----------- QUESTIONS SNIPPET --------------
+    //--------------------------------------------
+    with (question_snippet)
+    {
+        // CHOICE 1: QUESTIONS?
+        var choice_1 = scr_event_build_choice("Got any questions?", s_port_hoopz);
+        
+        // Chup Quest
+        if (scr_chup_available("masego") == true)
+        {
+            with scr_event_build_add_choice(choice_1, "Hey... you want any chups?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey... you're looking pretty beat right now. What do you say you take a load off, relax a little with some quality blue fresh from the chup mines?");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Chup mines? Are you trying to sell me chups?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "These aren't your every day Tir na Nog street chups, these are certified Grade A goopenthalers hydroponically grown in an anime rejuvenation tank by the most qualified chupeteers this side of the Sombrero Galaxy. This is the stuff most people can only dream of.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "You've got to be joking, right? You're trying to sell me chups. The first thing I told you when you walked into town was that there are no chups allowed. None. Not for you, not for me. I don't want that here. I've seen what it does to people, to communities, and I'm not letting that happen. And here you are trying to sell me chups. You're serious, too. You're actually trying to sell me chups.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heh, I was just, uh...");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "I made a big mistake letting you in here. That's it. You're going in the slammer.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "J-jail? I... I didn't do anything... I was being ironic...");
+                scr_event_build_quest_state("chupQuest", 3);
+                scr_event_build_fade(true, 2);
+                scr_event_build_wait(1);
+                scr_event_build_fade(false, 2); 
+                scr_event_build_dialogue_debug("bort", NULL, "Player is now ARRESTED.");  
+                //TODO: NOW YER IN JAIL BUCKO!
+            }
+        }
+        
+        // Industrial Park?
+        with scr_event_build_add_choice(choice_1, "What's the Industrial Park?")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "This might seem like a kind of stupid question but... what's the Industrial Park?");
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "It's a dwarf zone, a safe place for dwarfs to rest outside of Tir na Nog. Or it would be if we didn't have to deal with Bainshees, Cybergremlins and troublemakers all the time.");
+            
+            // CHOICE 2: ENEMY INFO?
+            var choice_2 = scr_event_build_choice("More about...", s_port_hoopz);
+            
+            // Bainshees?
+            with scr_event_build_add_choice(choice_2, "Bainshees?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Bainshees?");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Cuchulainn's 13 Zodiac Nightmare Terrors. Don't go out alone if you can help it. That's all I can tell you.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow...");
+                scr_event_build_goto_choice(choice_2);
+            }
+            // Cybergremlins?
+            with scr_event_build_add_choice(choice_2, "Cybergremlins?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cybergremlins?");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "The Cybergremlins like to cause mischief, get into the turret systems, steal stuff and occasionally mug lone dwarfs outside of the Industrial Park, but they almost seem tame compared to the Bainshees. Sister Irmingard is trying to civilize them with Clispaeth. We'll see how that works out.");
+                scr_event_build_goto_choice(choice_2);
+            }
+            // Troublemakers?
+            with scr_event_build_add_choice(choice_2, "Troublemakers?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What kind of troublemakers?");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Too many to count... we've had a string of unsolved disappearances lately. Most of them are drifters who are always coming and going, but now Figbottom's gone so things are getting serious. Every once in a while we get dealers trying to push their chups and we've always got beggars and flautists tooting up a racket.");
+                scr_event_build_goto_choice(choice_2);
+            }
+            // Other questions...
+            with scr_event_build_add_choice(choice_2, "I had some other questions.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I had some other questions.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah?");
+                scr_event_build_quest_state("masegoLoop", 1);
+                scr_event_build_execute_event_script(event_dz1_masego01);
+            }
+        }
+        // Rules?
+        with scr_event_build_add_choice(choice_1, "What were those rules again?")
+        {
+            
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Could you go over those rules for me one more time?");
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "I don't like to pester people or give them a hard time but if we want to make it out here, we've got to follow the rules. We've got better things to worry about than ourselves, okay? There's the obvious stuff: no killing, no stealing, no fighting. No begging, no flute toots, no chups. Period. No working with Cuchulainn, no messing with the turret system. If you see anyone doing any of these things, you report it to me. If YOU do any of these things, you'll be thrown in the slammer, no exceptions. And last, I can change these rules whenever I want so stay on my good side. Got it?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, got it. Thanks.");
+            scr_event_build_quest_state("masegoLoop", 1);
+            scr_event_build_execute_event_script(event_dz1_masego01);         
+        }
+        // What's going on?!
+        with scr_event_build_add_choice(choice_1, "What's going on here?")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is anything special going on right now?");
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "Special's not the way I'd put it. There's a lot on my plate right now and Figbottom's disappearance is at the center of it. I think Sister Irmingard is trying to convert the Cybergremlins and our mechanic Sepideh is building some ridiculous contraption like usual. We've got drifters coming into the Industrial Park and making trouble and I've got to worry about Cuchulainn as well. I'm getting a little tired and I wouldn't mind a little help.");
+            
+            // CHOICE 3: WHAT'S GOING ON HERE?
+            var choice_3 = scr_event_build_choice("Ask about...", s_port_hoopz);
+            
+            // Figbottom's disappearance?
+            with scr_event_build_add_choice(choice_3, "Figbottom's disappearance?")
+            {
+                // If figbottom quest completed.
+                if (scr_quest_get_state("figbottomQuest") == 7)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "What happened to Figbottom?");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "Well, he disappeared a few weeks ago. We found the culprit and I guess you know what happened next. Anything else?");
+                    scr_event_build_goto_choice(choice_3);
+                }
+                // Still have time to complete the quest.
+                else if (scr_time_get() <= 7)
+                {
+                    // Figbottom quest started.
+                    if (scr_quest_get_state("figbottomQuest") > 0)
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "What happened to Figbottom?");
+                        scr_event_build_dialogue("Marshal Masego", s_port_masego, "Well, Figbottom disappeared a few weeks ago. This wouldn't be a big problem but I don't want it to become a precedent. More than that, I'm pretty sure whoever did him in (and I know there was foul play) is still in town. Since you're looking for the culprit, what I'd do is talk to his closest friend, Suresh. The two were inseparable, so I'd start with him.");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, will do.");
+                        scr_event_build_dialogue("Marshal Masego", s_port_masego, "Anything else?");
+                        scr_event_build_goto_choice(choice_3);
+                    }
+                    // Figbottom quest not started.
+                    else
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "What happened to Figbottom?");
+                        scr_event_build_dialogue("Marshal Masego", s_port_masego, "To be honest, Figbottom was kind of a chump and nobody's too upset that he's gone. In fact, as far as I can see, a handful of people are pleased that he's gone and I'd be one of them if it didn't make my life more difficult. At this point I don't think there's much of a chance that I'll be finding him, but I might still be able to find out who did him in and put them to justice. See, that's what it's my job to care about: justice.");
+                        // HELP CHOICE
+                        var choice_help = scr_event_build_choice("Reply...", s_port_hoopz);
+                        
+                        // Can I help?
+                        with scr_event_build_add_choice(choice_help, "Can I help?")
+                        {
+                            scr_event_build_event_snippet(help_snippet);
+                        }
+                        // Other questions...
+                        with scr_event_build_add_choice(choice_help, "I have some other questions.")
+                        {
+                           scr_event_build_goto_choice(choice_3);
+                        }
+                    }
+                }
+                // If there is no possible way to figure out what happened to Figbottom....
+                else if (scr_time_get() >= 8)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "What happened to Figbottom?");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "Figbottom was a junk collector who disappeared a couple weeks ago. It's been too long since we've lost him and the case is cold. I suspect foul play, but at this point I don't think we'll ever know what happened. Too bad. Anything else?");
+                    scr_event_build_goto_choice(choice_3);
+                }
+            }
+            // Sister Irmingard?
+            with scr_event_build_add_choice(choice_3, "Who's Sister Irmingard?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Who is Sister Irmingard?");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "She's a Klispin preacher. I guess she got it into her head that the Cybergremlins outside of town should be Klispins too. Who knows, maybe if they convert they'll stop causing so much trouble. Worth a shot, I guess. Anything else?");
+                scr_event_build_goto_choice(choice_3);
+            }
+            // Sepideh building?
+            with scr_event_build_add_choice(choice_3, "What is Sepideh building?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Who's Sepideh and what is she building?");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "She's the town mechanic. She built our turrets, our water pumps and pretty much everything else in the Industrial Park. I have no idea what she's building but she's never done us wrong so let her build whatever she wants. Anything else?");
+                scr_event_build_goto_choice(choice_3);
+            }
+            // Drifters?
+            with scr_event_build_add_choice(choice_3, "Who are the drifters?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Who are the drifters?");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Not sure, really. People come and go since we're so close to Tir na Nog. Most people who make it out end up here at some point, but these guys have really gotten on my nerves. Especially that flautist. There is no tooting in the Industrial Park. NO tooting. Got that?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah...");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Good. Now anything else?");
+                scr_event_build_goto_choice(choice_3);
+            }
+            // Cuchulainn?
+            with scr_event_build_add_choice(choice_3, "Cuchulainn?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cuchulainn is a problem out here?");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "You think that because we're not in Tir na Nog, Cuchulainn isn't a problem? No. Out here, Cuchulainn is ten times the problem he was in Tir na Nog. The Duergars and Bainshees are the reason we've got that turret system set up. Cuchulainn's minions are the reason I have a perpetual headache, not to mention a job, so yes, he's a problem out here. Anything else?");
+                scr_event_build_goto_choice(choice_3);
+            }
+            // Can I help?
+            with scr_event_build_add_choice(choice_3, "Can I help?")
+            {
+                scr_event_build_event_snippet(help_snippet);
+            }
+            // All I wanted to know.
+            with scr_event_build_add_choice(choice_3, "That's all I wanted to know.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's all I wanted to know. Thanks.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah.");
+                scr_event_build_quest_state("masegoLoop", 1);
+                scr_event_build_execute_event_script(event_dz1_masego01);
+            }
+        }
+        
+        /*var stressed = scr_event_build_add_choice(choice_1, "You look pretty stressed out.");
+        with stressed {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You seem kind of stressed out, are you alright?");
+            // UNFINISHED
+        }*/
+/*        
+        // Can I help?
+        with scr_event_build_add_choice(choice_1, "Is there anything I can do to help?")
+        {
+            scr_event_build_event_snippet(help_snippet);
+        }
+        
+        // Report on Figbottom
+        // Once figbottomQuest > 2, you can make an informed decision on who the killer was.
+        if (scr_quest_get_state("figbottomQuest") > 2) && (scr_quest_get_state("figbottomQuest") != 9)
+        {
+            with scr_event_build_add_choice(choice_1, "I think I know something about Figbottom's disappearance.")
+            {
+                scr_event_build_event_snippet(figbottom_snippet); 
+            }
+        }
+        
+        // Something to tell!
+        with scr_event_build_add_choice(choice_1, "There's something I need to tell you...")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, there's something I need to tell you.");
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah?");
+            scr_event_build_event_snippet(snitch_snippet);
+        }
+        
+        with scr_event_build_add_choice(choice_1, "Nope, I'm good, see you later.")
+        {
+            // Nothing to ask.
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nope, I'm good. See you later.");
+        }
+    }
+
+    
+    //--------------------------------------------
+    //-------------FIGBOTTOM SNIPPET--------------
+    //--------------------------------------------      
+    with (figbottom_snippet)
+    {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Marshal Masego, I think I know something about Figbottom's disappearance.");
+        scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah? What is it?");
+        
+        // CHOICE 4: WHO KILLED MR. FIGBOTTOM?
+        var choice_4 = scr_event_build_choice("What do you say?", s_port_hoopz);
+        
+        if (scr_quest_get_state("figbottomQuest") > 3)
+        {
+            // Suresh killed him.
+            with scr_event_build_add_choice(choice_4, "I think Suresh the junk collector killed him.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think Suresh the junk collector killed him.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah? Why's that?");
+                
+                // Suresh's Jerkin
+                if (scr_quest_get_state("figbottomQuest") >= 7)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, Suresh and Figbottom found a jerkin while scavenging the Junk Yard together and got into a fight over who got to keep it. It got pretty bitter and the two ended up having a falling out the day before Figbottom disappeared. Now Suresh is wearing the jerkin and Figbottom's gone.");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "And that's it? You think Suresh killed him for the jerkin?");
+                }
+                // Told by Moriarty
+                if (scr_quest_get_state("figbottomQuest") == 6)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Moriarty, this crazy vagrant, told me he saw Suresh and Figbottom fighting over a jerkin shortly before he disappeared. Not only does Suresh have the jerkin now, but he deliberately withheld this information from me. He's clearly hiding something to protect himself.");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "And that's it? You think Suresh killed just because?");
+                }
+                // Hunch
+                else if (scr_quest_get_state("figbottomQuest") < 6)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, I'm not really sure. Just a hunch, I guess, but it seems suspicious that Suresh doesn't seem to care that his pal is gone. I mean, I'd be pretty upset about it.");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "And that's it? You think Suresh killed just because?");
+                }
+                
+                // Confirm Suresh?
+                var suresh_choice = scr_event_build_choice("Well...", s_port_hoopz);
+                
+                // YES!
+                with scr_event_build_add_choice(suresh_choice, "That's my theory.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, I think it could have happened that way, it's just a theory. We should probably investigate more.");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "...okay. Good enough for me. I'm locking him up.");
+                    scr_event_build_fade(true, 2);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_disappear(o_suresh01);
+                    scr_event_build_fade(false, 2);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "Well, justice has been served. That scumbag's rotting in a prison cell as we speak. I never trusted that guy, he always seemed like he was only out for himself, like he'd turn on you as soon as he knew he could get away with it. Well Suresh didn't get away with it this time and he won't be getting away with it again.");   
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Glad I could help... but you seemed a little eager to arrest him though... shouldn't he at least have gotten a trial?");
+                   
+                    // Jerkin Known
+                    if (scr_quest_get_state("figbottomQuest") >= 8)
+                    {
+                        scr_event_build_dialogue("Marshal Masego", s_port_masego, "Hey, so about that jerkin they found? I confiscated it as evidence but I'm never going to use it. Why don't you take it?");
+                    }
+                    // Jerkin Unknown
+                    else
+                    {
+                        scr_event_build_dialogue("Marshal Masego", s_port_masego, "Hey, so I found a jerkin in his belongings. I confiscated it as evidence but I'm never going to use it. Why don't you take it?");
+                    }
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, wow, I wasn't expecting this. Thanks, I guess.");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "No problem, kid. Good to work with you. You know, it's people like you with a zeal for justice that give me hope that maybe things will be okay. Take care of yourself out there.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks... (did we really get the right guy?)");
+                    //TODO: get actual Junk Yard Jerkin
+                    scr_event_build_dialogue_item("Got Junk Yard Jerkin!");
+                    scr_event_build_time_add(1);
+                    scr_event_build_quest_state("figbottomQuest", 9);
+                    scr_event_build_quest_state("sureshArrest", 1);
+                }
+                // NO!
+                with scr_event_build_add_choice(suresh_choice, "Wait, let me think about it.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait, actually I think...");
+                    scr_event_build_goto_choice(choice_4);
+                }
+            }
+        }
+        
+        if (scr_quest_get_state("figbottomQuest") > 4)
+        {
+            // Kunigunde killed him!
+            with scr_event_build_add_choice(choice_4, "I think Kunigunde, the town gossip, killed him.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think Kunigunde, the town gossip, killed Figbottom.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Yeah? And why's that?"); 
+                
+                // Tontine Truth
+                if (scr_quest_get_state("figbottomQuest") >= 8)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "You wouldn't think Figbottom and Kunigunde really knew each other, right? Well it turns out they did a long time ago back when they were in Tir na Nog. They were part of a tontine together and were its last remaining members; the death of one would directly profit the other. When Figbottom died, Kunigunde inherited the money from the tontine.");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "And so you think Kunigunde killed Figbottom to get the tontine money?");
+                }
+                // Tontine Rumors
+                if (scr_quest_get_state("figbottomQuest") == 7)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "You wouldn't think Figbottom and Kunigunde really knew each other, right? Well guess what Suresh told me? They were part of a tontine together and were its last remaining members; the death of one would directly profit the other. When Figbottom died, Kunigunde inherited the money from the tontine.");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "And so you think Kunigunde killed Figbottom to get the tontine money?");
+                }
+                // Hunch
+                else if (scr_quest_get_state("figbottomQuest") < 7)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uhhh. To be honest, I'm just kind of throwing her name out there. It might have been her, I guess. I mean, she seems to know what's up about most stuff, so why wouldn't she know what happened to Figbottom? ");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "And so you think Kunigunde killed Figbottom for no real reason?");
+                }
+                
+                // Confirm Kunigunde?
+                var kunigunde_choice = scr_event_build_choice("Well...", s_port_hoopz);
+                
+                if (scr_quest_get_state("figbottomQuest") < 8)
+                {
+                    // Guess.
+                    with scr_event_build_add_choice(kunigunde_choice, "I guess.")
+                    {
+                       
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's just a theory I'm pitching to you. I mean, I guess it could have happened that way.");
+                    }
+                }
+                else
+                {
+                    // Theory
+                    with scr_event_build_add_choice(kunigunde_choice, "It's my theory.")
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's my theory but I don't think we've got the whole story to be honest.");
+                    }
+                }
+                // NO!
+                with scr_event_build_add_choice(kunigunde_choice, "Wait, let me think about it.")
+                {
+                    
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait, actually I think...");
+                    scr_event_build_goto_choice(choice_4);
+                }
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "...okay. That sounds reasonable enough to me. I'm locking her up.");
+                scr_event_build_fade(true, 2);
+                scr_event_build_wait_for_actions();
+                scr_event_build_disappear(o_kunigunde01);
+                scr_event_build_fade(false, 2);
+                scr_event_build_wait_for_actions();
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "That scumbag's rotting in a prison cell as we speak. I never trusted her anyway, always poking her nose in everyone's business and yapping about things she didn't know about. Whether or not she did it, the town's better off without her. Justice is served in my books.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Glad I could help... but you seemed a little eager to arrest her though... shouldn't she at least have gotten a trial? Did you lock her up as an excuse to get rid of her?");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Hey, so about that tontine money? I confiscated it as evidence but it won't do anyone any good if it's just sitting around a vault. What do you say we split it 50/50? That'd make your cut 3,000 neuro-shekels.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, wow, I wasn't expecting this. Thanks, I guess.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "No problem, kid. Good to work with you. You know, it's people like you with a zeal for justice that give me hope that maybe things will be okay. Take care of yourself out there.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks... (did we really get the right person?)");
+                scr_event_build_dialogue_item("Got 3000 neuro-shekels!");
+                scr_event_build_money_add(3000);
+                scr_event_build_time_add(1);
+                scr_event_build_quest_state("figbottomQuest", 9);
+                scr_event_build_quest_state("kunigundeArrest", 1);
+            }
+        }
+        
+        if (scr_quest_get_state("figbottomQuest") >= 6)
+        {
+            // Moriarty killed him!
+            with scr_event_build_add_choice(choice_4, "I think Moriarty the vagrant killed him.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think Moriarty, a vagrant living at the edge of town, killed him.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "A vagrant, huh? Doesn't surprise me. What's the MO?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Moriarty was really hostile when I talked to him and refused to let me ask him questions. He was chewing on a bloody glove that I think might have been Figbottom's. To be honest, he seemed pretty crazy and dangerous. I was a little intimidated being around him.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "So you think this crazy vagrant might have killed Figbottom then?");
+                
+                // Moriarty Confirm?
+                var moriarty_choice = scr_event_build_choice("Well...", s_port_hoopz);
+                // YES!
+                with scr_event_build_add_choice(moriarty_choice, "It's my theory.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, that's my theory but I think we should investigate more.");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "...okay. That's a good enough reason for me. I'm locking him up.");
+                    scr_event_build_fade(true, 2);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_disappear(o_moriarty01);
+                    scr_event_build_fade(false, 2);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "Well, that slimy cretin's rotting in a jail cell as we speak. You were on the money with that one, that guy was nuts. He had this crazy look in his eyes, almost like he wanted to eat me. There's no doubt in my mind that he was responsible for the string of disappearances lately.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "How many people disappeared? Are you sure they're all related to this guy?");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "It's been a problem for a while now but people come and go. Figbottom was a regular, though. He wouldn't leave the Industrial Park without telling us. Justice is served in my books. Good work kid.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Are you sure? I mean, I think it was probably him, but doesn't he deserve a trial or something?");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "Hey, so about that bloody glove? I confiscated it as evidence but it won't do anyone any good if it's just sitting around a vault. Do you want to keep it as a souvenir or something? I don't want it.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ummm, not really... but I guess I'll take it...");
+                    scr_event_build_dialogue("Marshal Masego", s_port_masego, "No problem, kid. Good to work with you. You know, it's people like you with a zeal for justice that give me hope that maybe things will be okay. Take care of yourself out there.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks... (did we really get the right guy?)");
+                    //TODO: get actual Figbottom's Glove item.
+                    scr_event_build_dialogue_item("Got Figbottom's Glove.");
+                    scr_event_build_time_add(1);
+                    scr_event_build_quest_state("figbottomQuest", 9);
+                    scr_event_build_quest_state("moriartyArrest", 1);
+                }
+                // NO!
+                with scr_event_build_add_choice(moriarty_choice, "Wait, let me think about it.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait, actually I think...");
+                    scr_event_build_goto_choice(choice_4);
+                }
+            }
+        }
+        // Masego killed him?
+        with scr_event_build_add_choice(choice_4, "I think you killed him.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think you killed him.");
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "Are you just goofing me or are you serious?");
+            
+            // Masego Confirm?
+            var masego_kill_choice = scr_event_build_choice("Well...", s_port_hoopz);
+            
+            // NO!
+            with scr_event_build_add_choice(masego_kill_choice, "I'm spoofing you.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm just spoofing you. It was just a spoof. You got goofed.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Piss off, kid. Clispaeth Christ...");
+            }
+            // YES!
+            with scr_event_build_add_choice(masego_kill_choice, "I'm serious.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "This isn't a goof, I'm being completely serious. I think you set this whole thing up as a convenient excuse to get rid of Figbottom. You're acting concerned to deflect suspicion from yourself as the culprit.");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "You... I can't believe this... you stupid kid. Do you know how hard I work to keep this place safe? You know how much sleep I lose over Cuchulainn and vagrants and the Industrial Park and criminals and everything else? To say I killed Figbottom when I'm the only one who cares is... you stupid kid...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa, uh, maybe I was wrong. Don't get so worked up about it...");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "I can't believe I ever trusted you to investigate Figbottom's disappearance! I guess this was a real wakeup call: you can't trust anyone who just walks in here no matter how competent they seem. I'm throwing you in jail, you gatdam brat.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What? Jail? I didn't do anything!");
+                scr_event_build_dialogue("Marshal Masego", s_port_masego, "Shut up, you insolent little brat! You're coming with me!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Looks like the one who got goofed... was me...");
+                scr_event_build_fade(true, 2);
+                scr_event_build_wait_for_actions();
+                scr_event_build_fade(false, 2);
+                scr_event_build_wait_for_actions();
+                // game teleports to jail and executes jail script
+                // scr_event_build_teleport(room, x, y); // TO JAIL
+                // scr_event_build_execute_event_script(event script); // FOR JAIL SCRIPT
+            }
+        }
+        
+        // Nevermind...
+        with scr_event_build_add_choice(choice_4, "Never mind.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Never mind. I need to think about it a little more.");
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "Sure, anything else?");
+            scr_event_build_quest_state("masegoLoop", 1);
+            scr_event_build_execute_event_script(event_dz1_masego01);
+        }
+    }
+    
+    //--------------------------------------------
+    //------------ MAIN EVENT --------------------
+    //--------------------------------------------      
+    with (event)
+    {
+        // *** Loop to Choice 1 ***
+        if (scr_quest_get_state("masegoLoop") == 1)
+        {
+            scr_event_build_quest_state("masegoLoop", 0);
+            scr_event_build_event_snippet(question_snippet);
+        }
+        // *** figbottomQuest = 2 ***    
+        else if (scr_quest_get_state("figbottomQuest") == 2)
+        {
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "I thought I made myself completely clear when I told you I didn't want to see you around anymore. You're exactly the kind of person who ticks me off; someone who doesn't give a rat dip about anyone but yourself. Get the hell out of the Industrial Park and don't come back.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "But...");
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "No buts, buster! I said scram!");
+        }
+        // *** figbottomQuest = 9 ***    
+        else if (scr_quest_get_state("figbottomQuest") == 9)
+        {
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "Well if it isn't the sleuth. How's it going, gumshoe? What can I do for you?");
+            scr_event_build_event_snippet(question_snippet);
+        }
+        // *** masegoState = 1 ***
+        else if (scr_quest_get_state("masegoState") == 1)
+        {
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "Still here, huh? You need something?");
+            scr_event_build_event_snippet(question_snippet);
+        }
+        // *** masegoState = 0 ***
+        else
+        {
+            scr_event_build_dialogue("Marshal Masego", s_port_masego, "I don't know if you're a drifter or if you're here to stay, but you're new to the Industrial Park so I'm gonna lay down the ground rules. Let's get the obvious stuff out of the way: no killing, no stealing, no fighting. If you see anyone doing any of these things, you tell me and I'll take care of it. No begging, no flute playing and especially no chups. No collaborating with agents of Cuchulainn and no messing with the turrets. You follow these rules or you get tossed in the slammer, no questions, no exceptions. Most importantly, I can change any of these rules at my discretion, especially if I'm tired of you. With that, I welcome you to the Industrial Park. You got any questions?");
+            scr_event_build_quest_state("masegoState", 1);
+            scr_event_build_event_snippet(question_snippet);
+        }
+    }
+    scr_event_advance(event);
+}

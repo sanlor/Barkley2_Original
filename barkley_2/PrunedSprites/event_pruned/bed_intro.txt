@@ -1,0 +1,51 @@
+// GZ NOTE: This script is only run if "sceneBrandingStart" is equal to 2
+if (argument0 == SCRIPT_START) {
+    if (scr_quest_get_state("sceneBrandingStart") != 2) 
+    {
+        with (o_obj_bedsheet01) event_user(0);
+        exit;
+    }
+    scr_quest_set_state("sceneBrandingStart", 3);
+    
+    scr_event_hoopz_switch_cutscene();
+    scr_entity_look(o_cts_hoopz, SOUTH);
+    scr_event_set_object(o_cts_hoopz, 228 + 2, 136 - 4);
+    
+    var event = scr_event_create_main(); //Since it will be picking up a transition
+    with (event) {
+        // Start at black
+        scr_event_build_fade(true, 0);
+        scr_event_build_wait(4.0);
+        scr_event_build_sound_play("sn_wasteland_seagull01");
+        scr_event_build_wait(2.0);
+        scr_event_build_sound_play("sn_revolver1_2");
+        scr_event_build_wait(1);
+        scr_event_build_sound_play("sn_revolver1_1");
+        scr_event_build_wait(0.6);
+        scr_event_build_sound_play("sn_wasteland_seagull03");
+        scr_event_build_wait(0.5);
+        scr_event_build_sound_play("sn_revolver1_1");
+        scr_event_build_wait(2.0);
+        scr_event_build_dialogue("???", NULL, "Come on, sleepyhead! The festival is about to begin!");
+        scr_event_build_fade(false, 3);
+        scr_event_build_wait_for_actions();
+        scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+        scr_event_build_wait(0.6);
+        scr_event_build_look(o_cts_hoopz, EAST);
+        scr_event_build_wait(0.7);
+        scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+        scr_event_build_wait(0.6);
+        scr_event_build_look(o_cts_hoopz, SOUTH);
+        scr_event_build_wait(0.6);
+        scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+        scr_event_build_wait(0.6);
+        scr_event_build_look(o_cts_hoopz, WEST);
+        //scr_event_build_collision(o_cts_hoopz, COLLISION_NONE);
+        scr_event_build_wait(0.5);
+        scr_event_build_move(o_cts_hoopz, -40, 6);
+        scr_event_build_wait_for_actions();
+        scr_event_build_call_user_event(o_obj_bedsheet01, 0);
+        //scr_event_build_collision(o_cts_hoopz, COLLISION_NORMAL);
+    }
+    scr_event_advance(event);
+}

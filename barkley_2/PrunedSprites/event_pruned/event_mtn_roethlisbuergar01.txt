@@ -1,0 +1,121 @@
+// NPC script for Roethlisbuergar, one of the duergars in the duergar encampment.
+// From my design document: The player needs to have purchased the rigged box of candy from Meinhardt. They leave it with them and it will explode. This doesn't necessarily need to be presented visually.
+// Note: I don't know how to do this, but this NPC should GO HOSTILE along with the other two NPCs if the player triggers the fight in the Typhoid Larry dialogue.
+// NOTE2: This script is hinged on there being the items "advent_calendar" and "rigged_advent_calendar". I have no idea if this is the appropriate naming convention for items, or even how to put items into the game, so this script will need an edit to reflect these when they're in the game.
+// NOTE3: This script activates the "detectiveQuest" which is where Detective Coulombe hounds you for a while unless you finish enough rebel quests or successfully cover up the murders you just committed. Also activated is "detectivemineQuest" which is for the dialogue specific to the crime committed here. Not exactly the same thing.
+/*
+
+if (argument0 == SCRIPT_START) {
+    if (Quest("rebelQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var roethlisbuergar = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("roethlisbuergarState") == 1) && (Item("have", "rigged_advent_calendar")) {
+            Dialogue("Roethlisbuergar", "Yo, we hungry again. You got more grub?");
+            var choice4 = Choice("You got more grub?", NULL);
+            with (ChoiceAdd(choice4, "I got some more of this candy.")) {
+                Dialogue(P_NAME, "I got some more of this candy.");
+                Dialogue("Roethlisbuergar", "Then keep it comin, this fucken stakeout shit makes me hungry.");
+                scr_event_build_dialogue("", NULL, "You lost the rigged advent calendar.");
+                Item("build", "lose", "rigged_advent_calendar", 1);
+                Quest("rebelQuest", 2);
+                Quest("detectiveQuest", 1);
+                Quest("detectivemineQuest", 1);
+                // SHOULD BE LIGHT ANIMATION HERE WHERE THE PLAYER WALKS AWAY AND THE THREE DUERGARS EXPLODE. BUT I'M BAD AT EVERYTHING SO IDK HOW TO DO THIS YET.
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice4, "Nope.")) {
+                Dialogue("Roethlisbuergar", "Then it's about time you fucked off. Don't bother coming back 'less you got something to eat.");
+                scr_event_build_end();
+            }
+        } else if (Quest("roethlisbuergarState") == 1) && (Item("have", "advent_calendar")) {
+            Dialogue("Roethlisbuergar", "Yo, we hungry again. You got more grub?");
+            var choice3 = Choice("You got more grub?", NULL);
+            with (ChoiceAdd(choice3, "I got some more of this candy.")) {
+                Dialogue(P_NAME, "I got some more of this candy.");
+                Dialogue("Roethlisbuergar", "Then keep it comin, this fucken stakeout shit makes me hungry.");
+                scr_event_build_dialogue("", NULL, "You lost your advent calendar.");
+                Item("build", "lose", "advent_calendar", 1);
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice3, "Nope.")) {
+                Dialogue("Roethlisbuergar", "Then it's about time you fucked off. Don't bother coming back 'less you got something to eat.");
+                scr_event_build_end();
+            }
+        } else if (Quest("roethlisbuergarState") == 1) {
+            Dialogue("Roethlisbuergar", "Yo, we hungry again. You got more grub?");
+            Dialogue(P_NAME, "Nope.");
+            Dialogue("Roethlisbuergar", "Then it's about time you fucked off. Don't bother coming back 'less you got something to eat.");
+            scr_event_build_end();
+        } else if (Item("have", "rigged_advent_calendar")) {
+            Dialogue("Roethlisbuergar", "You one a them travelin salesman types?");
+            var choice2 = Choice("You one a them travelin salesman types?", NULL);
+            with (ChoiceAdd(choice2, "Nope.")) {
+                Dialogue("Roethlisbuergar", "Then it's about time you fucked off. Don't bother coming back 'less you got something to eat.");
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice2, "I guess you could say that.")) {
+                Dialogue("Roethlisbuergar", "Hey jackoffs, I told you I'd fucken find one.");
+                Dialogue("Typhoid Larry", "Suck it, just get me food.");
+                Dialogue("Roethlisbuergar", "Yea, what the fuck you got to eat?");
+                Dialogue(P_NAME, "Uh..../All I got is this advent calendar. You use it to celebrate Clispaethmas.");
+                Dialogue("Roethlisbuergar", "The fuck? This ain't no food. Kinda shit you feed plants. We look like plants to you, fuckball?");
+                Dialogue(P_NAME, "Not really.");
+                Dialogue("Roethlisbuergar", "Not at all more lke it.");
+                Dialogue("Schatzeder", "He lyin'. He holdin back. I smell the meat on him.");
+                Dialogue("Roethlisbuergar", "Yeah, hangin off his sorry ass.");
+                Dialogue("Typhoid Larry", "Heh heh. Let's smash him.");
+                Dialogue(P_NAME, "Look, you want the food or not? I'm a busy guy.");
+                Dialogue("Roethlisbuergar", "Fine, give us whatever the fuck you got.");
+                Dialogue(P_NAME, "This one's on the house. A gift from me to you. Merry Clispaethmas.");
+                scr_event_build_dialogue("", NULL, "You lost the rigged advent calendar.");
+                Dialogue("Schatzeder", "Ha ha. What, you thought we was gonna pay for this?");
+                Dialogue("Roethlisbuergar", "Yo, sight a your face makes me lose my apetite. Why don't you go fuck off til we get hungry again.");
+                Item("build", "lose", "rigged_advent_calendar", 1);
+                Quest("rebelQuest", 2);
+                Quest("detectiveQuest", 1);
+                Quest("detectivemineQuest", 1);
+                // SHOULD BE LIGHT ANIMATION HERE WHERE THE PLAYER WALKS AWAY AND THE THREE DUERGARS EXPLODE. BUT I'M BAD AT EVERYTHING SO IDK HOW TO DO THIS YET.
+                scr_event_build_end();
+            }
+        } else if (Item("have", "advent_calendar")) {
+            Dialogue("Roethlisbuergar", "You one a them travelin salesman types?");
+            var choice1 = Choice("You one a them travelin salesman types?", NULL);
+            with (ChoiceAdd(choice1, "Nope.")) {
+                Dialogue("Roethlisbuergar", "Then it's about time you fucked off. Don't bother coming back 'less you got something to eat.");
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice1, "I guess you could say that.")) {
+                Dialogue("Roethlisbuergar", "Hey jackoffs, I told you I'd fucken find one.");
+                Dialogue("Typhoid Larry", "Suck it, just get me food.");
+                Dialogue("Roethlisbuergar", "Yea, what the fuck you got to eat?");
+                Dialogue(P_NAME, "Uh..../All I got is this advent calendar. You use it to celebrate Clispaethmas.");
+                Dialogue("Roethlisbuergar", "The fuck? This ain't no food. Kinda shit you feed plants. We look like plants to you, fuckball?");
+                Dialogue(P_NAME, "Not really.");
+                Dialogue("Roethlisbuergar", "Not at all more lke it.");
+                Dialogue("Schatzeder", "He lyin'. He holdin back. I smell the meat on him.");
+                Dialogue("Roethlisbuergar", "Yeah, hangin off his sorry ass.");
+                Dialogue("Typhoid Larry", "Heh heh. Let's smash him.");
+                Dialogue(P_NAME, "Look, you want the food or not? I'm a busy guy.");
+                Dialogue("Roethlisbuergar", "Fine, give us whatever the fuck you got.");
+                Dialogue(P_NAME, "This one's on the house. A gift from me to you. Merry Clispaethmas.");
+                scr_event_build_dialogue("", NULL, "You lost your advent calendar.");
+                Dialogue("Schatzeder", "Ha ha. What, you thought we was gonna pay for this?");
+                Dialogue("Roethlisbuergar", "Yo, sight a your face makes me lose my apetite. Why don't you go fuck off til we get hungry again.");
+                Item("build", "lose", "advent_calendar", 1);
+                Quest("roethlisbuergarState", 1);
+                scr_event_build_end();
+            }
+        } else {
+            Dialogue("Roethlisbuergar", "You one a them travelin salesman types?");
+            Dialogue(P_NAME, "Nope.");
+            Dialogue("Roethlisbuergar", "Then it's about time you fucked off. Don't bother coming back 'less you got something to eat.");
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

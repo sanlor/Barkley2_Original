@@ -1,0 +1,65 @@
+// Duergar from Squad 6: Constantine // Is guarding some of the nose dwarfs at Alpha Camp //
+// Initialize //
+if (argument0 == SCRIPT_START) {
+
+    // Only exist while Alpha Camp is safe //
+    if scr_min_cspear() == "prep" or scr_min_cspear() == "during" or scr_min_cspear() == "after" then scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {       
+
+    // Variables //
+    var event = scr_event_create_main();
+    var constantname = Duergar("getname", "constantine");
+    
+    // Main event //
+    with (event) {
+
+        // alpha_constantine //
+        
+        // Hoopz talks to Constantine down at the Alpha Camp //
+        if scr_quest_get_state("alpha_constantine") == 0 {
+        
+            scr_event_build_dialogue(constantname, s_port_constantine, "Hey, haven't I seen you somewhere before?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uhh... I don't know.");
+            
+            // Piss Vial //
+            if scr_quest_get_state("constantineState") == 2 {
+            
+                scr_event_build_dialogue(constantname, s_port_constantine, "Yeah, now I remember. You're that kid with the vial back in Tir na Nog. What the hell are you here for? Back for some more samples, you fucking weirdo?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry about that, but it was something I had to do.");
+                scr_event_build_dialogue(constantname, s_port_constantine, "You try something like that again and I'll beat the shit out of you. I have my eyes on you, kid.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I won't, my sampling days are long gone. I hope.");
+                }
+            else
+                {            
+                scr_event_build_dialogue(constantname, s_port_constantine, "Yeah, I think I saw you running around Tir na Nog. How in the hell did you end up here, kid?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's a long story.");
+                scr_event_build_dialogue(constantname, s_port_constantine, "Is that so? Then save it, kid. I don't really give a shit either way. Just know that if you try anything funny, I'll beat the shit out of you.");
+                scr_event_build_quest_state("alpha_constantine", 1);
+                }
+            }
+        else if scr_quest_get_state("alpha_constantine") == 1 {
+        
+            // Piss Vial //
+            if scr_quest_get_state("constantineState") == 2 {
+                
+                scr_event_build_dialogue(constantname, s_port_constantine, "What the hell are you looking at kid?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "N-nothing, mister duergar!");            
+                scr_event_build_dialogue(constantname, s_port_constantine, "You better not be planning anything weird you sicko.");
+                }
+            else
+                {
+                scr_event_build_dialogue(constantname, s_port_constantine, "You lost or something, kid? Beat it, before I beat you.");
+                }
+            }
+        }
+    scr_event_advance(event);
+    }

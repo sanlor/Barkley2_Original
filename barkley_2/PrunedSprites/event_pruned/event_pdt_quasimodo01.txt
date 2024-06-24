@@ -1,0 +1,132 @@
+// Quasimodo // Quest: none // Filler NPC that provides some insight on Pinocchios empty grave //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+    // Leave Ys-Kolob //
+    if scr_time_get() >= 12 scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+
+            // pdt_quasimodo //
+            // 0 = First interaction //
+            // 1 = Second interaction //
+            // 2 = Third interaction //
+            // 3 = Interaction after talked about graves //
+              
+            // Covered in blood //
+            if (scr_quest_get_state("pdt_covered_in_blood") == 1) {
+
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Sacre bleu! Les cadavres are real after all! Please, have mercy on me, Seigneur des tenebres!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uhh... bye.");
+                }
+            
+            // Ask about Zorro //
+            else if (scr_quest_get_state("pdt_zorro_quasimodo") == 1) {
+            
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Salutations, mon petit. How may I be of service?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What can you tell me about masked vigilantes?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Le El Zorro? He is one of the great heroes of this ville, and also one of the most notoire pranksters on Necron sept.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I just want to say that I have nothing to do with him. I just heard someone mention him, that's all.");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Okay...?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "So is he a good guy or a bad guy? What do you think?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Hmm... I don't know what to say about that. He has been acting estrange lately. But rest assured, Le El Zorro is un homme bon, a hero.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It sounds like you know him pretty well.");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Oui, mon petit. Although we weren't very close, I used to work as one of his spies Il y a longtemps, relaying vital information to the Le Resistance.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You did?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Oui. It was very exciting. Thanks to Le El Zorro and the Le Resistance we got our independence from the Le Alcaldes.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Who's that?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "The Le Alcaldes were high ranking spanish officers who were sent to govern remote colonies, like Ys-Kolob, at the behest of their king, Louis-Philippe the first. But as they say, le pouvoir corrompt, and the Le Alcaldes had more pouvoir than anyone. Needless to say we were less than pleased by their rule and that is when Le El Zorro and Le Resistance were born. To this day nobody still knows who he really is, but he was the only man able to rally the clans to ride with him and put an end to the Le Alcaldes.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa! That sounds really cool! I uhh... I would love to have his autograph, since I don't know him and have nothing to do with him. You wouldn't know where I could find him or anything?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Malheureusement no one knows where he lives or who he really is under that masque. Desole, mon petit.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay. Thanks for the story mister Quasimodo. See you later.");
+                scr_event_build_quest_state("pdt_zorro_quasimodo", 2);
+                }
+                
+            // Ask about Zorro again //
+            else if (scr_quest_get_state("pdt_zorro_quasimodo") == 2) and (scr_quest_get_state("pdt_pinocchios_grave") != 1) {
+            
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Still looking for Le El Zorro?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah. I'm sure I'll find him... eventually.");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Good luck on that, mon petit.");
+                }
+            
+            // First interaction with Quasimodo //
+            else if (scr_quest_get_state("pdt_quasimodo") == 0) {
+
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Aah, what brings un jeune like yourself to this lieu sinistre?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "The what? What is this place?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Hmm, you are not une sorte de vagabond, are you? This is a cimetiere, mon ami.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "What?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "It is, how you say... the final resting place for les morts.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "Whos that?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Les morts, mon ami. The people from Ys-Kolob who are no more.")
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "Oh you mean this is a graveyard? Okay, now I get it.");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Oui, mon petit. The only one here who still draws breath are the two of us. Have you come to visit a tombe de vos ancetres?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "The what? I have no idea what you just said mister.");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Hah, oui, that is what they all say. But do not worry, I will not ask if you do not wish to tell, mon petit. This is a place of melancolie. Many come here to weep and to honour the memory of their amis et famille, and when they do, they wish to be seul.")
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "Okay, if you say so. I think I'll take a look around. See you later.");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Adieu, mon petit.");
+                scr_event_build_quest_state("pdt_quasimodo", 1);
+                }
+            
+            // Ask about empty grave //
+            else if (scr_quest_get_state("pdt_pinocchios_grave") == 1) {
+
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "Hey mister, I noticed one of the graves has been dug up. Whats that all about?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "I do not know for certain, mon petit. It has been like that for some weeks now. I was out on vacances when this happened. There was this monsieur... ah, what was his name? Breannam James? Braham Jones? Well something like that. Anyways, this guy had volunteered to fill in for me for deux ou trois jours, and I took the most out of it. When I got back, the grave was empty, and there was un message waiting for me here. It said that one of graves had been robbed and that les autorites have been informed about it. I asked around town and apparently it had happened during a une nuit de pleine lune. Maybe it was a revenant, eh? Hehehe...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "*Gulp* You mean... a zombie or something?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Why not, mon ami? Have you been out there on Necron sept? Il grouille de goules et de monstres roam in the outside world.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "I'd rather not think about stuff like that... but who was in that grave?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Hmm, I do not know, now that you mention it. The pierre tombale is blank, except for a picture of a tree. If you look closely, you can see that the text that was once on it has been removed. It is very mysterieux.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "Oh yeah, I saw that. Why would someone remove the text?");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "You know what I think, mon petit? I think the pierre tombale had a sortilege of some sort written on it, and once it was removed, the cadavre that was in the grave woke up.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "Cut it out! That isn't funny!");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Hoh hoh hoo, I think it is very funny.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "Aww shucks, I better go before I get spooked even more. See you later mister.");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Adieu, mon petit.");
+                scr_event_build_quest_state("pdt_quasimodo", 3);
+                scr_event_build_quest_state("pdt_pinocchios_grave", 2);
+                }
+                
+            // Second interaction with Quasimodo //
+            else if (scr_quest_get_state("pdt_quasimodo") == 1) {
+
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Have you found what you were looking for, mon petit?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "I wasn't looking for anything in particular really. I guess you could say that I'm just... morbidly curious, heh.");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Hoh hoh hoo, very good blague, mon ami!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopzHappy, "Thanks.");
+                scr_event_build_quest_state("pdt_quasimodo", 2);
+                }
+            
+            // Third interaction with Quasimodo //
+            else if (scr_quest_get_state("pdt_quasimodo") == 2) {
+
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Ah, it is the joking mon petit. What can I do for you, mon ami?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "Not much really, I don't really know why I came over. I guess I'll be going now, see ya.");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Adieu, petit bouffon.");
+                }
+                
+            // Interaction after asking about the grave //
+            else if (scr_quest_get_state("pdt_quasimodo") == 3) {
+
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Ah, it is mon ami. What can I do for you?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz,  "Not much really, I don't really know why I came over. I guess I'll be going now, see ya.");
+                scr_event_build_dialogue("Quasimodo", "s_port_quasimodo", "Adieu.");
+                }
+        }
+    scr_event_advance(event);
+    }

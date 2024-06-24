@@ -1,0 +1,7 @@
+// Debug(text);
+// An alias for scr_event_build_dialogue_debug()
+
+var name = "DEBUG";
+var port = "s_port_tvGuy01";
+
+scr_event_build_dialogue_debug(name, port, argument[0]);

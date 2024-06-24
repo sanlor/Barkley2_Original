@@ -1,0 +1,3 @@
+///DialogueItem(text)
+
+scr_event_build_dialogue_item(argument0);

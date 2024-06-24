@@ -1,0 +1,669 @@
+// Script for Stonewall "Booty Daimyo" Jackson
+// usage: event_tnn_stonewallBootyDaimyoJackson01
+
+if (argument0 == SCRIPT_START)
+{
+    // Default DJ Name to current P_NAME
+    if (string(scr_quest_get_state("djName")) == "0") { scr_quest_set_state("djName", P_NAME); }
+    if (string(scr_quest_get_state("djNamePrefix")) == "0") { scr_quest_set_state("djNamePrefix", P_NAME); }
+    
+    // Object Variables used during Booty Bass Minigame
+    scr_quest_set_state("booty_just_named", 0);
+    scr_quest_set_state("booty_just_won", 0);
+    scr_quest_set_state("booty_just_lost", 0);
+    scr_quest_set_state("booty_bootyslayer_go", 0);
+    scr_quest_set_state("booty_bulldog_go", 0);
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var stonewall = id;
+    
+    var event = scr_event_create_main();
+    
+    var spotlight_change = scr_event_create_child(event);
+    var acceptance = scr_event_create_child(event);
+    var performance_1 = scr_event_create_child(event);
+    var performance_2 = scr_event_create_child(event);
+    var performance_3 = scr_event_create_child(event);
+    var name_selection = scr_event_create_child(event);
+    var win = scr_event_create_child(event);
+    var lose = scr_event_create_child(event);
+    
+    var djname = string(scr_quest_get_state("djName"));
+    var djpref = string(scr_quest_get_state("djNamePrefix"));
+    
+    //--------------------------------------------
+    //------------ ACCEPTANCE SNIPPET ------------
+    //--------------------------------------------  
+    with (acceptance)
+    {
+        // begin_choice
+        var begin_choice = scr_event_build_choice("Reply?", s_port_hoopz); 
+        
+        // begin_choice, heck yeah
+        var heck_yeah = scr_event_build_add_choice(begin_choice, "Heck yeah.");
+        with (heck_yeah)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heck yeah, I'm gonna be the next Baron of Booty. Flub the haters (or worse...)");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "You got here just in the nick of time, the signups are almost over and the Bootypocalypse is about to begin. Haven't seen you around before, you new to the booty bass scene? What do you spin?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uhh, spin?");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Vinyl, man - what do you play?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, yeah, of course, uh...");
+            
+            // genre_choice
+            var genre_choice = scr_event_build_choice("What do you DJ?", s_port_hoopz); 
+            
+            // genre_choice, jock jams
+            var jock = scr_event_build_add_choice(genre_choice, "Jock Jams.");
+            with (jock)
+            { 
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I usually play jock jams... but I also like Operation Ground and Pound by Dragonforce.");
+                scr_event_build_quest_state("faveMusic", "Jock Jams");
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Not bad, kid. I like it. I haven't seen you around before, we need some new blood in the Tir na Nog booty scene. What's your name?");
+            }
+            // genre_choice, doo wop
+            var doowop = scr_event_build_add_choice(genre_choice, "Doo Wop.");
+            with (doowop)
+            { 
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I usually play doo wop... but I also like Operation Ground and Pound by Dragonforce.");
+                scr_event_build_quest_state("faveMusic", "Doo Wop");
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Wop man! We've got a wop man on the premises! We've got a wop man on the premises! I like the sound of that, kid. We need some fresh blood in the Tir na Nog booty scene. What's your stage name?");
+            }
+            // genre_choice, smooth jazz
+            var smoothjazz = scr_event_build_add_choice(genre_choice, "Smooth Jazz.");
+            with (smoothjazz)
+            { 
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I usually play smooth jazz... but I also like Operation Ground and Pound by Dragonforce.");
+                scr_event_build_quest_state("faveMusic", "Smooth Jazz");
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Not bad, kid. I like it. I haven't seen you around before, we need some new blood in the Tir na Nog booty scene. What's your name?");
+            }
+            // genre_choice, animetal
+            var animetal = scr_event_build_add_choice(genre_choice, "Animetal.");
+            with (animetal)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I usually play animetal... but I also like Operation Ground and Pound by Dragonforce.");
+                scr_event_build_quest_state("faveMusic", "Animetal");
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Not bad, kid. I like it. I haven't seen you around before, we need some new blood in the Tir na Nog booty scene. What's your name?");
+            }
+            // genre_choice, osts
+            var osts = scr_event_build_add_choice(genre_choice, "OSTs.");
+            with (osts)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I usually play OSTs... but I'm also partial to Operation Ground and Pound by Dragonforce.");
+                scr_event_build_quest_state("faveMusic", "OSTs");
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Not bad, kid. I like it. I haven't seen you around before, we need some new blood in the Tir na Nog booty scene. What's your name?");
+            }
+            scr_event_build_event_snippet(name_selection);
+            // goto NAME_SELECTION snippet
+        }
+        // begin_choice, no
+        var um_no = scr_event_build_add_choice(begin_choice, "Um, I don't think so.");
+        with (um_no) { 
+           
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I'll sit this one out...");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Too bad, kid. You could've made it big. I could tell just by looking at your keister that there's something special about you. Guess we'll never know what it is.");
+            scr_event_build_quest_state("bootyBassQuest", 1);
+            // SET QUEST STATE bootyBassQuest = 3 ::: refused
+            scr_event_build_end();
+            // END EVENT
+        }
+        // begin_choice, what is baron of booty
+        var whats_baron = scr_event_build_add_choice(begin_choice, "What's the Baron of Booty?");
+        with (whats_baron)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What's the Baron of Booty?");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Every year, booty scholars, ballers, spinners and sinners gather for the annual Bootypocalypse, the biggest blowout for booty bass connoisseurs on Necron 7. This is it, kid. Welcome to the epicenter of the applebottom phenomenon.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa...");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "The top booty bass DJs spin their vinyl in contest for the title of Baron of Booty, whereafter they are recognized as an official pillar of the rump and tookis community. It is the greatest honor a booty bass (and any affiliated sub-genre (e.g. bootycore, ambient bootyhouse)) DJ can ever achieve, and what DJ spend their lives striving for.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I wanna be the Baron of Booty...");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "So what do you say, are you in?")
+            // TOVET
+            scr_event_build_goto_choice(begin_choice);
+            // goto top of BEGIN_CHOICE snippet
+        }
+        // begin_choice, who are bulldog and bootyslayer
+        var booty_bull = scr_event_build_add_choice(begin_choice, "Who are DJ Booty Slayer and the Anime Bulldog?");
+        with (booty_bull)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "DJ Booty Slayer and the Anime Bulldog? Who are they?");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Who are DJ Booty Slayer and the Anime Bulldog? Only the two hottest creatives in the booty bass scene. /'36 Bronze Booties of Humility/' by the Slayer, /'Booty Dracula/' by the Bulldog... you've never heard 'em before?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Umm, I don't think so...");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Well then feast your ears (and your keister) on the seismic bootyquaking rhythms they're playing right now. That's them on the stage and they're killin' it. Why don't you go talk to them yourself?");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "So what do you say, are you in?")
+            // TOVET
+            scr_event_build_goto_choice(begin_choice);
+            // goto top of BEGIN_CHOICE snippet
+        }
+    }
+    
+    //------------------------------------------------  
+    //------------ NAME_SELECTION SNIPPET ------------    
+    //------------------------------------------------
+    with (name_selection) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uhh...");
+        var name_choice = scr_event_build_choice("What's my name?", s_port_hoopz);
+        with (scr_event_build_add_choice(name_choice, "DJ Basket Ball")) {
+            scr_event_build_quest_state("djName", "DJ Basket Ball");
+            scr_event_build_quest_state("djNamePrefix", "Basket Ball");
+            // If you want name-specific dialogue, put it here.
+            // Otherwise, we can just say it in the beginning of the next snippet... this is easiest.
+            // The reply will always be "Dang, that's got some ring to it." If you want different replies,
+            //      you should copy and paste that here, and we will begin the next section with the first
+            //      universal line of script.
+        }
+        with (scr_event_build_add_choice(name_choice, "Erkin Baba")) {
+            scr_event_build_quest_state("djName", "Erkin Baba");
+            scr_event_build_quest_state("djNamePrefix", "Erkin");
+        }
+        with (scr_event_build_add_choice(name_choice, "WISE TONY")) {
+            scr_event_build_quest_state("djName", "WISE TONY");
+            scr_event_build_quest_state("djNamePrefix", "TONY");
+        }
+        with (scr_event_build_add_choice(name_choice, "Daddy Mulk")) {
+            scr_event_build_quest_state("djName", "Daddy Mulk");
+            scr_event_build_quest_state("djNamePrefix", "Mulk");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ 8-bit")) {
+            scr_event_build_quest_state("djName", "DJ 8-bit");
+            scr_event_build_quest_state("djNamePrefix", "8-bit");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Retro")) {
+            scr_event_build_quest_state("djName", "DJ Retro");
+            scr_event_build_quest_state("djNamePrefix", "Retro");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Brand Loyalty")) {
+            scr_event_build_quest_state("djName", "DJ Brand Loyalty");
+            scr_event_build_quest_state("djNamePrefix", "Brand Loyalty");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ IRC Cop")) {
+            scr_event_build_quest_state("djName", "DJ IRC Cop");
+            scr_event_build_quest_state("djNamePrefix", "IRC Cop");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ chatroom_boi")) {
+            scr_event_build_quest_state("djName", "DJ chatroom_boi");
+            scr_event_build_quest_state("djNamePrefix", "chatroom_boi");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ chatroom_gurl")) {
+            scr_event_build_quest_state("djName", "DJ chatroom_gurl");
+            scr_event_build_quest_state("djNamePrefix", "chatroom_gurl");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Feudalism")) {
+            scr_event_build_quest_state("djName", "DJ Feudalism");
+            scr_event_build_quest_state("djNamePrefix", "Feudalism");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ NASCAR")) {
+            scr_event_build_quest_state("djName", "DJ NASCAR");
+            scr_event_build_quest_state("djNamePrefix", "NASCAR");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Grand Slam Breakfast")) {
+            scr_event_build_quest_state("djName", "DJ Grand Slam Breakfast");
+            scr_event_build_quest_state("djNamePrefix", "Grand Slam Breakfast");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Sensitive Hedgehog")) {
+            scr_event_build_quest_state("djName", "DJ Sensitive Hedgehog");
+            scr_event_build_quest_state("djNamePrefix", "Sensitive Hedgehog");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Chad (the Country)")) {
+            scr_event_build_quest_state("djName", "DJ Chad (the Country)");
+            scr_event_build_quest_state("djNamePrefix", "Chad (the Country)");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Gamer")) {
+            scr_event_build_quest_state("djName", "DJ Gamer");
+            scr_event_build_quest_state("djNamePrefix", "Gamer");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Wise Jock")) {
+            scr_event_build_quest_state("djName", "DJ Wise Jock");
+            scr_event_build_quest_state("djNamePrefix", "Wise Jock");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Contact Juggling")) {
+            scr_event_build_quest_state("djName", "DJ Contact Juggling");
+            scr_event_build_quest_state("djNamePrefix", "Contact Juggling");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ DVD")) {
+            scr_event_build_quest_state("djName", "DJ DVD");
+            scr_event_build_quest_state("djNamePrefix", "DVD");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Bayeux Tapestry")) {
+            scr_event_build_quest_state("djName", "DJ Bayeux Tapestry");
+            scr_event_build_quest_state("djNamePrefix", "Bayeux");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ HD DVD")) {
+            scr_event_build_quest_state("djName", "DJ HD DVD");
+            scr_event_build_quest_state("djNamePrefix", "HD DVD");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Buccaneer Nugget")) {
+            scr_event_build_quest_state("djName", "DJ Buccaneer Nugget");
+            scr_event_build_quest_state("djNamePrefix", "Nugget");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Crosby, Stills, Nash and Young")) {
+            scr_event_build_quest_state("djName", "DJ Crosby, Stills, Nash and Young");
+            scr_event_build_quest_state("djNamePrefix", "Crosby, Stills, Nash and Young");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Tuber")) {
+            scr_event_build_quest_state("djName", "DJ Tuber");
+            scr_event_build_quest_state("djNamePrefix", "Tuber");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Gungan Autonomy Now")) {
+            scr_event_build_quest_state("djName", "DJ Gungan Autonomy Now");
+            scr_event_build_quest_state("djNamePrefix", "Gungan Autonomy Now");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ X-File")) {
+            scr_event_build_quest_state("djName", "DJ X-File");
+            scr_event_build_quest_state("djNamePrefix", "X-File");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Alazlam")) {
+            scr_event_build_quest_state("djName", "DJ Alazlam");
+            scr_event_build_quest_state("djNamePrefix", "Alazlam");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Caste System")) {
+            scr_event_build_quest_state("djName", "DJ Caste System");
+            scr_event_build_quest_state("djNamePrefix", "Caste System");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Alt. History")) {
+            scr_event_build_quest_state("djName", "DJ Alt. History");
+            scr_event_build_quest_state("djNamePrefix", "Alt. History");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Shardmaster")) {
+            scr_event_build_quest_state("djName", "DJ Shardmaster");
+            scr_event_build_quest_state("djNamePrefix", "Shardmaster");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Soccer")) {
+            scr_event_build_quest_state("djName", "DJ Soccer");
+            scr_event_build_quest_state("djNamePrefix", "Soccer");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Petsmart")) {
+            scr_event_build_quest_state("djName", "DJ Petsmart");
+            scr_event_build_quest_state("djNamePrefix", "Petsmart");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Blood Hermit")) {
+            scr_event_build_quest_state("djName", "DJ Blood Hermit");
+            scr_event_build_quest_state("djNamePrefix", "Blood Hermit");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Tamiflu")) {
+            scr_event_build_quest_state("djName", "DJ Tamiflu");
+            scr_event_build_quest_state("djNamePrefix", "Tamiflu");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Inside Job")) {
+            scr_event_build_quest_state("djName", "DJ Inside Job");
+            scr_event_build_quest_state("djNamePrefix", "Inside Job");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Newman's Own")) {
+            scr_event_build_quest_state("djName", "DJ Newman's Own");
+            scr_event_build_quest_state("djNamePrefix", "Newman");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Spindash")) {
+            scr_event_build_quest_state("djName", "DJ Spindash");
+            scr_event_build_quest_state("djNamePrefix", "Spindash");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Humongous Latvian")) {
+            scr_event_build_quest_state("djName", "DJ Humongous Latvian");
+            scr_event_build_quest_state("djNamePrefix", "Humongous Latvian");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Sorghum")) {
+            scr_event_build_quest_state("djName", "DJ Sorghum");
+            scr_event_build_quest_state("djNamePrefix", "Sorghum");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Kermit")) {
+            scr_event_build_quest_state("djName", "DJ Kermit");
+            scr_event_build_quest_state("djNamePrefix", "Kermit");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ iBouti")) {
+            scr_event_build_quest_state("djName", "DJ iBouti");
+            scr_event_build_quest_state("djNamePrefix", "iBouti");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ'Artagnan")) {
+            scr_event_build_quest_state("djName", "DJ'Artagnan");
+            scr_event_build_quest_state("djNamePrefix", "Artagnan");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Deathfire")) {
+            scr_event_build_quest_state("djName", "DJ Deathfire");
+            scr_event_build_quest_state("djNamePrefix", "Guido");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Herbie Fully Loaded")) {
+            scr_event_build_quest_state("djName", "DJ Herbie Fully Loaded");
+            scr_event_build_quest_state("djNamePrefix", "Herbie Fully Loaded");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Dangle")) {
+            scr_event_build_quest_state("djName", "DJ Dangle");
+            scr_event_build_quest_state("djNamePrefix", "Dangle");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Hoot Dog")) {
+            scr_event_build_quest_state("djName", "DJ Hoot Dog");
+            scr_event_build_quest_state("djNamePrefix", "Hoot Dog");
+        }
+        with (scr_event_build_add_choice(name_choice, "DJ Bootyvamp")) {
+            scr_event_build_quest_state("djName", "DJ Bootyvamp");
+            scr_event_build_quest_state("djNamePrefix", "Bootyvamp");
+        }
+        with (scr_event_build_add_choice(name_choice, "Yung Vasectomy")) {
+            scr_event_build_quest_state("djName", "Yung Vasectomy");
+            scr_event_build_quest_state("djNamePrefix", "Yung Vasectomy");
+        }
+        with (scr_event_build_add_choice(name_choice, "Funkmaster Tamerlane")) {
+            scr_event_build_quest_state("djName", "Funkmaster Tamerlane");
+            scr_event_build_quest_state("djNamePrefix", "Tamerlane");
+        }
+        scr_event_build_quest_state("booty_just_named", 1);
+        // turn on just_named variable ::: makes you resume to performance when event is restarted
+        scr_event_build_execute_event_script(event_tnn_stonewallBootyDaimyoJackson01);
+        // restart event to save name choice
+    }
+    
+    //-----------------------------------------------
+    //------------ PERFORMANCE_1 SNIPPET ------------
+    //-----------------------------------------------
+    with (performance_1) {
+        scr_event_build_dialogue(djname, s_port_hoopz, "Um... " + djname + ".");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Dang, that's got a ring to it. I like it. You better get on stage, cuz the Bootypocalypse is about to come thunderin' down.");
+        scr_event_build_camera_move_to_point(o_animeBulldog01.x, o_animeBulldog01.y + 16, MOVE_NORMAL);
+        scr_event_build_move_to_point(o_cts_hoopz, o_cinema1.x, o_cinema1.y);
+        scr_event_build_wait(0.75);
+        scr_event_build_move_to_point(o_cts_hoopz, o_cinema2.x, o_cinema2.y);
+        scr_event_build_wait(0.75);
+        scr_event_build_move_to_point(o_cts_hoopz, o_cinema3.x, o_cinema3.y);
+        scr_event_build_wait_for_actions();
+        scr_event_build_look(o_cts_hoopz, SOUTH);
+        scr_event_build_wait(0.5);
+        scr_event_build_look(o_cts_hoopz, WEST);
+        Wait(0.1);
+        scr_event_build_dialogue("The Anime Bulldog", "s_port_animebulldog", djname + ", huh? I liked your psy-bootytronica remix of Cryptic Butt Zone. Let's see if you can top it.");
+        scr_event_build_dialogue("DJ Booty Slayer", "s_port_bootyslayer", "This Isn't About Winning. It's About The Journey. Discovering Your Applebottom. Check This Out.");
+        scr_event_build_wait(0.5);
+        scr_event_build_animation_play_and_set(o_bootySlayer01, "frenzy", "frenzy");
+        scr_event_build_wait(0.1);
+        scr_event_build_sound_play("sn_bb_orchit");
+        scr_event_build_wait(1);
+        scr_event_build_sound_play("sn_bb_orchit");
+        scr_event_build_wait(1);
+        scr_event_build_sound_play("sn_bb_orchit");
+        scr_event_build_wait(1);
+        scr_event_build_sound_play("sn_bb_orchit");
+        scr_event_build_wait(1);
+        scr_event_build_animation_play_and_set(o_bootySlayer01, "default", "default");
+        scr_event_build_wait(0.1);
+        scr_event_build_wait(1.5);
+        scr_event_build_event_snippet(spotlight_change);
+    }
+    
+    //--------------------------------------------------
+    //------------ SPOTLIGHT_CHANGE SNIPPET ------------
+    //--------------------------------------------------
+    with (spotlight_change) {
+        if (scr_quest_get_state("booty_dj_spotlight") == 0)
+        {
+            scr_event_build_dialogue(djname, s_port_hoopz, "Th-the Anime Bulldog... DJ Booty Slayer... whoa...");
+            Wait(0.4);
+            scr_event_build_look(o_cts_hoopz, SOUTH);
+            Wait(0.25);
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Ladies and gentlemen, the Bootypocalypse is upon us! We've got three of the hypest up-and-coming booty masters this side of Brain City here to sonically melt your gluteus maximus! But they're not just spinning for your pleasure, this is for the big one, the title of Baron of Booty, the ultimate honor! Who's it gonna be? The Anime Bulldog?");
+            scr_event_build_quest_state("bootybassSpotlight", 2);
+            scr_event_build_dialogue("The Anime Bulldog", "s_port_animebulldog", "Heh... so desu ne...");
+            scr_event_build_wait(1);
+            scr_event_build_quest_state("bootybassSpotlight", 3);
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "DJ Booty Slayer?");
+            scr_event_build_dialogue("DJ Booty Slayer", "s_port_bootyslayer", "Charging My Booty Chakras...");
+            scr_event_build_wait(1);
+            
+            scr_event_build_quest_state("bootybassSpotlight", 1);
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Or newcomer " + djname + "?");
+            scr_event_build_dialogue(djname, s_port_hoopz, "G-gulp...");
+            scr_event_build_wait(1);
+
+            scr_event_build_quest_state("bootybassSpotlight", 0);
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "So without further ado... kick it off, Booty Slayer!");
+            scr_event_build_quest_state("booty_bootyslayer_go", 1);
+            scr_event_build_create_object(o_mg_booty_dj_bootyslayer, 0, 0); //gz added
+            scr_event_build_camera_stick();
+            //scr_event_build_camera_follow(CAMERA_FAST, o_mg_booty_camera);
+            //Wait();
+
+            // For Testing:
+            // scr_event_build_execute_event_script(event_tnn_stonewallBootyDaimyoJackson01);
+            //
+            // LAZ/CGELON
+            // lights dim, swirling light effect happens over crowd, bootyclapper.ogg plays. When it's over -
+            //      play bootylectro.ogg
+            //      restart event_tnn_stonewall01
+            //          (probably involves... scr_event_action_execute_event_script)
+        }
+    }
+
+    
+    //-----------------------------------------------
+    //------------ PERFORMANCE_2 SNIPPET ------------
+    //-----------------------------------------------
+    with (performance_2) {
+        
+        scr_event_build_wait_for_actions();
+        scr_event_build_camera_follow(CAMERA_FAST, o_cts_hoopz);
+        scr_event_build_look(o_cts_hoopz, SOUTH); // So he looks down
+        scr_event_build_dialogue(djname, s_port_hoopz, "(Th-that was awesome... how am I gonna top that...)");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Gatdam! No wonder they call him the Booty Slayer - cuz he killed it! But you may be barkin' up the wrong rump, cuz there's a bulldog on the loose and he wants revenge. Give it up for the Anime Bulldog!");
+        scr_event_build_dialogue("The Anime Bulldog", "s_port_animebulldog", "Heh... bow wow.");
+        scr_event_build_quest_state("booty_bulldog_go", 1);
+        scr_event_build_create_object(o_mg_booty_dj_animebulldog, 0, 0);
+        scr_event_build_camera_stick();
+        //scr_event_build_camera_follow(CAMERA_FAST, o_mg_booty_camera);
+        //Wait();
+        
+        // For Testing:
+        // scr_event_build_execute_event_script(event_tnn_stonewallBootyDaimyoJackson01);
+        //
+        // LAZ/CGELON
+        // lights dim, swirling light effect happens over crowd, theanimebulldog.ogg plays. When it's over -
+        //      play bootylectro.ogg
+        //      restart event_tnn_stonewall01
+        //          (probably involves... scr_event_action_execute_event_script)
+    }    
+    
+    //-----------------------------------------------
+    //------------ PERFORMANCE_3 SNIPPET ------------
+    //-----------------------------------------------
+    with (performance_3)
+    {
+        scr_event_build_wait_for_actions();
+        scr_event_build_camera_follow(CAMERA_FAST, o_cts_hoopz);
+        scr_event_build_dialogue(djname, s_port_hoopz, "(Whoa... that was so mature... so that's what adults listen to...)");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "You better clench yourself before you drench yourself, cuz the Anime Bulldog's on a rampage tonight and he's shaking beaucoup booties!");
+        scr_event_build_dialogue("The Anime Bulldog", "s_port_animebulldog", "S-Sakura...");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "But we've still got one challenger remaining. This DJ's a newcomer to the booty bass scene, the Bootypocalypse wild card. Are they gonna shake things up, or is this just another flat tire?  Last and potentially not least... " + djname + "!");
+        scr_event_build_dialogue(djname, s_port_hoopz, "I... I'm up...");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "(Psst, kid! You know how to do this, right?)");
+        scr_event_build_dialogue(djname, s_port_hoopz, "(Umm... I think so...)");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "(Just smash buttons. Don't even look at them, roll your face against your keyboard. Pummel 'em. Each key makes a different sound - it's all about that sweet spot, finding that sound people wanna hear.)");
+        scr_event_build_dialogue(djname, s_port_hoopz, "(This doesn't sound too tough...)");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Hit it, " + djname + "!");
+        scr_event_build_wait(1);
+        scr_event_build_quest_state("bootybassSpotlight", 1);
+        scr_event_build_create_object(o_mg_booty_minigame, 0, 0);
+        scr_event_build_camera_stick();
+        //scr_event_build_camera_follow(CAMERA_FAST, o_mg_booty_camera);
+        //scr_event_build_camera_stick();
+
+        //
+        // LAZ/CGELON
+        // start jockjam.ogg (or whatever it's called) dance sequence here. 
+        // Outcome changes whether you win or lose. 
+        // If you win... 
+        //      make the variable (o_stonewallBootyDaimyoJackson01, "just_won", 1)
+        //          (probably involves... scr_event_action_variable_set)
+        // If you lose...
+        //      make the variable (o_stonewallBootyDaimyoJackson01, "just_lost", 1)
+        //          (probably involves... scr_event_action_variable_set)
+        // then...
+        //      play bootylectro.ogg
+        //      restart event_tnn_stonewall01
+        //          (probably involves... scr_event_action_execute_event_script)
+        
+    }
+    
+    //------------------------------------- 
+    //------------ WIN SNIPPET ------------
+    //-------------------------------------
+    with (win)
+    {
+        scr_event_build_wait(1);
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Let's hear it for " + djname + ", everyone! It's finally time to count the votes and see who our next Baron of Booty's gonna be. Will it be the metaphysical booty pilgrim Booty Slayer? The silent and mysterious Anime Bulldog? Or our loose booty bass cannon " + djname + "? It looks like the votes are in and our next Baron of Booty is officially...");
+        scr_event_build_quest_state("bootybassSpotlight", 1);
+        scr_event_build_wait(1.5);
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "..." + djname + "! Our wild card wunderkind's come outta nowhere and rocked our rumps to the next level! Congratulations, " + djname + ", you're the presiding Baron of Booty! Everyone give 'em a hand!");
+        scr_event_build_dialogue("Crowd", NULL, djpref + "! " +  djpref + "! " + djpref + "!");
+        scr_event_build_dialogue("The Anime Bulldog", "s_port_animebulldog", "Not bad, kid... not bad...");
+        scr_event_build_dialogue("DJ Booty Slayer", "s_port_bootyslayer", "A Kaleidoscope Of Booties... Booty Fractals Shrinking, Evolving Into Thousands, Millions Of Booty Molecules. A Brief But Intense Glimmer Of Something Beyond Our Mortal Understanding. Brilliance... Nirvana... " + djname + "...");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "C'mere, Baron! I've got something for you...");
+        scr_event_build_quest_state("bootybassSpotlight", 0);                 
+        scr_event_build_camera_move_to_point(400, 272, MOVE_NORMAL);
+        scr_event_build_wait(0.25);
+        scr_event_build_move_to_point(o_cts_hoopz, o_cinema2.x, o_cinema2.y + 8);
+        scr_event_build_wait(0.75);
+        scr_event_build_move_to_point(o_cts_hoopz, o_cinema1.x, o_cinema1.y);
+        scr_event_build_wait(0.75);
+        scr_event_build_move_to_point(o_cts_hoopz, o_cinema0.x, o_cinema0.y);
+        scr_event_build_wait_for_actions();
+        scr_event_build_look(o_cts_hoopz, NORTHWEST);
+        scr_event_build_wait(0.5);
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Only the Baron gets to wear this bad boy. Try it on, it'll look good on you! It's the one and only... Booty Jerkin!");
+        Item("build", "gain", "Booty Jerkin", 1);
+        scr_event_build_dialogue_item("Got the Booty Jerkin.");
+        scr_event_build_dialogue(djname, s_port_hoopz, "Wh-whoa... thank you...");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "No, " + djpref + "... thank you. I'm glad I took a chance on you. All I want now is to see what comes next. Keep killin' it, " + djname + ". The booty bass scene is expecting big things from our new baron.");
+        scr_event_build_dialogue(djname, s_port_hoopz, "Y-yeah... I'll keep at it!");   
+        scr_event_build_wait(0.5);
+        scr_event_build_quest_state_add("concessionVal", 10);
+        scr_event_build_quest_state("bootyBassQuest", 3);
+        // SET QUEST STATE bootyBassQuest = 3 ::: won
+    }
+    //--------------------------------------
+    //------------ LOSE SNIPPET ------------
+    //--------------------------------------
+    with (lose)
+    {
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Let's hear it for " + djname + ", everyone! It's finally time to count the votes and see who our next Baron of Booty's gonna be. Will it be the metaphysical booty pilgrim Booty Slayer? The silent and mysterious Anime Bulldog? Or our loose booty bass cannon " + djname + "? It looks like the votes are in and our next Baron of Booty is officially...");
+        scr_event_build_wait(1.5);
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "...NOT " + djname + "! Let's give DJ Booty Slayer and the Anime Bulldog, the real bad boys of booty bass, a hand and boo this clown off the stage! Booooo! Boooo!");
+        scr_event_build_dialogue("Crowd", NULL, "Boooooo!");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Get outta here, chump! Ya blew it! Ya blew it!");
+        scr_event_build_dialogue("The Anime Bulldog", "s_port_animebulldog", "You make me sick... after all I've done for you...");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Scram, kid! You'll never be a booty bass DJ! Never!");
+        scr_event_build_dialogue(djname, s_port_hoopzSad, "I'm... I'm sorry everyone... I didn't mean to ruin everything...");
+        scr_event_build_wait(0.5);
+        scr_event_build_camera_move_to_point(384, 218, MOVE_NORMAL + 1);
+        scr_event_build_wait(0.4);
+        scr_event_build_move_to_point(o_cts_hoopz, o_cinema2.x, o_cinema2.y + 24);
+        scr_event_build_wait(0.65);
+        scr_event_build_move_to_point(o_cts_hoopz, o_cinema1.x, o_cinema1.y + 16);
+        Wait();
+        scr_event_build_look(o_cts_hoopz, SOUTH);
+        Wait(0.2);
+        scr_event_build_quest_state("bootyBassQuest", 2);
+        // SET QUEST STATE bootyBassQuest = 2 ::: failed
+    }
+    
+    //------------------------------------  
+    //------------ MAIN EVENT ------------    
+    //------------------------------------ 
+    with (event)
+    {
+        //------------------------------------
+        // During Minigame
+        //------------------------------------
+        
+        // if player just won minigame
+        if (scr_quest_get_state("booty_just_won") == 1)
+        {
+            scr_event_build_quest_state("booty_just_won", 0);
+            // goto WIN snippet
+            scr_event_build_event_snippet(win);
+            
+        }
+        // if player just lost minigame
+        else if (scr_quest_get_state("booty_just_lost") == 1)
+        {
+            scr_event_build_quest_state("booty_just_lost", 0);
+            // goto LOSE snippet
+            scr_event_build_event_snippet(lose);
+        }
+        // if ANIME BULLDOG just performed
+        else if (scr_quest_get_state("booty_bulldog_go") == 1) {
+            scr_event_build_quest_state("booty_bulldog_go", 0);
+            // goto PERFORMANCE_3 snippet
+            scr_event_build_event_snippet(performance_3);
+        }
+        // if ANIME BULLDOG just performed
+        else if (scr_quest_get_state("booty_bootyslayer_go") == 1)
+        {
+            scr_event_build_quest_state("booty_bootyslayer_go", 0);
+            // goto PERFORMANCE_2 snippet
+            scr_event_build_event_snippet(performance_2);
+        }
+        // if the SPOTLIGHTS ARE MOVING
+        else if (scr_quest_get_state("booty_dj_spotlight") >= 1)
+        {
+            // goto SPOTLIGHT_CHANGE snippet
+            scr_event_build_event_snippet(spotlight_change);
+        }
+        // if DJ_NAME has been selected
+        else if (scr_quest_get_state("booty_just_named") == 1)
+        {
+            scr_event_build_quest_state("booty_just_named", 0);
+            // goto PERFORMANCE_1 snippet
+            scr_event_build_event_snippet(performance_1);
+        }
+        
+        //------------------------------------
+        // Normal, Not During Minigame
+        //------------------------------------
+        else
+        {
+            //------------------------------------
+            // Won or Lost Booty Bass
+            //------------------------------------
+            
+            // *** if QUEST STATE bootyBassQuest = 3 ::: won ***
+            if (scr_quest_get_state("bootyBassQuest") == 3)
+            { 
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "M-my liege... I knew there was something special about you when you walked in here. Your air of dignity, your august fanny... it is an honor to be in your presence, oh Baron of Booty.");
+                scr_event_build_dialogue(djname, s_port_hoopz, "It's good to be the baron.");
+            }
+            // *** if QUEST STATE bootyBassQuest = 2 ::: failed ***
+            else if (scr_quest_get_state("bootyBassQuest") == 2)
+            { 
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Hmmm... maybe you weren't the booty jockey I thought you were. Do you even know how to spin? F for effort AND execution. The blogs are gonna have a field day with this one. Your career's over, buddy.");
+                scr_event_build_dialogue(djname, s_port_hoopz, "G-geez...");
+            }
+            
+            //------------------------------------
+            // After Curfew, Missed Out
+            //------------------------------------
+            else if (scr_time_db("tnnCurfew") == "after") // formerly (scr_time_get() > 3)
+            { 
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Heeeey, what's goin' on kid? You here for the Bootypocalypse? You're a little late to the party, that hootenanny's done and over but we've still got DJ Booty Slayer and the Anime Bulldog up there spinning the hottest booty bass vinyl this side of Brain City. Why don't you stick around and listen to our new Barons of Booty tear it up?");
+            }
+            
+            //------------------------------------
+            // Before Curfew, Didn't Compete Yet
+            //------------------------------------
+            else 
+            {
+                // Walk up to Stonewall //
+                scr_event_build_move_to_point(o_cts_hoopz, o_cinema0.x, o_cinema0.y);
+                scr_event_build_wait_for_actions();
+                scr_event_build_look(o_cts_hoopz, NORTH);
+            
+                // Refused Quest
+                if (scr_quest_get_state("bootyBassQuest") == 1)
+                {
+                    scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Well dang, it looks like the prodigal child of booty bass has returned. There's something special about you, kid. I can tell by the twinkle in your tookis, you might have what it takes to be the Baron of Booty.");
+                }
+                // First Talk
+                else
+                {
+                    scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Look at this. Look at this booty blowout, son. We got a booty hootenanny goin' on here. We got booties across the board. We got them big bubba booties and them petite keisters. We got booty beasts and applebottom addicts booty thunderin' up in here. But we're missing one thing, the most important thing... we're missing the Baron of Booty. Who's it gonna be? Is it gonna be DJ Booty Slayer? The Anime Bulldog? Or someone else, someone like... you?");
+                }
+                // goto ACCEPTANCE snippet
+                scr_event_build_event_snippet(acceptance);
+            }
+        }
+    }
+    scr_event_advance(event); 
+}

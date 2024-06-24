@@ -1,0 +1,47 @@
+// Kalevi, Beta Camp //
+// Initialize //
+/*
+if (argument0 == SCRIPT_START) {
+
+    if scr_quest_get_state("govKalevi") != 2 then scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {          
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+
+            // beta_kalevi //
+            // 0 = First interaction //
+            
+            // Talking to Kalevi //
+            if scr_quest_get_state("beta_kalevi") == 0 {
+            
+                scr_event_build_dialogue("Kalevi", NULL, "Ah, greeting's! What a surprise to see a dwarf enter my domain. Usually the Duergars only let themselves in here, no one else allowed.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, it's you! You're the blacksmith from Tir na Nog, right?");
+                scr_event_build_dialogue("Kalevi", NULL, "Yes, that's right. I finally got out of that dump and now I'm relatively free to pursue my one true passion: Zooks!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You like being down here?");
+                scr_event_build_dialogue("Kalevi", NULL, "Yes, I do. I love to work. What better place to get work than a slave camp? Sure, the duergars aren't very nice, and the food tastes weird, but I get to hammer away all day and night in here. Back in Tir na Nog all I could do is fix up the occasional sewer pipe and twiddle my thumbs, waiting for some real work to come my way.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You don't miss being among your dwarf friends?");
+                scr_event_build_dialogue("Kalevi", NULL, "What friends I've once had are long gone. Besides, I've always been a dwarf that prefers to keep to himself. Speaking of which, I would like to get back to my work.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, sure. Just... Keep safe, okay? Those duergars know how to play rough.");
+                scr_event_build_dialogue("Kalevi", NULL, "Don't worry. They won't do anything to me as long as I remain useful to them.");  
+                scr_event_build_quest_state("beta_kalevi", 1);
+                }
+            else {
+            
+                scr_event_build_dialogue("Kalevi", NULL, "'Zooks a plenty!"); 
+                }
+            }
+    scr_event_advance(event);
+    }

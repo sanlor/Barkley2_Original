@@ -1,0 +1,48 @@
+/// zauber_bio_jelloSanctuary(command, caster, aim_x, aim_y, aim_z)
+return ZauberPozzosPrison(argument0, argument1, argument2, argument3, argument4);
+
+// ----- Zauber configurations -----
+
+/* PIETY EFFECT: Jello HP = JELLO_HP_BASE + JELLO_HP_PIETY_MULT * piety */
+// HP per absorbed damage ratio
+var JELLO_HP_BASE = 0.2;
+// HP per absorbed damage piety multiplier
+var JELLO_HP_PIETY_MULT = 0.008;
+
+// Jello lifetime (HP decays over time)
+var JELLO_LIFETIME = 150;
+
+
+// ----- Input arguments -----
+var command = argument0;
+var caster = argument1;
+var aim_x = argument2;
+var aim_y = argument3;
+var aim_z = argument4;
+
+// ----- Commands -----
+if (command == "element") return "BIO";
+if (command == "name") return "JELLO SANCTUARY";
+
+if (command == "aim_decals") {
+    // Place decals when aiming
+    // TODO Should mark all wall positions
+    scr_fx_decal_transient(s_zauberCasting_circle, 1, aim_x, aim_y, aim_z,
+                           0.25, 0.25 * 0.7,
+                           0, c_white, 0.5);
+    scr_fx_decal_transient(s_zauberCasting_target, 1, aim_x, aim_y + 8, aim_z, 1, 1, 0, c_white, 1)
+}
+
+if (command == "cast") 
+{
+    // Cast the zauber! Do whatever you want here
+    if (isCombatActor(caster)) 
+    {
+        var piety = scr_stats_getEffectiveStat(caster, STAT_BASE_PIETY);
+        // TODO: Fail cast if diff between z and base_z is too great
+        var jello = instance_create(aim_x, aim_y, o_zauber_bio_jelloSanctuary);
+        var hp = JELLO_HP_BASE + JELLO_HP_PIETY_MULT * piety;
+        scr_stats_setBaseStat(jello, STAT_BASE_HP, hp);
+        jello.lifetime_total = JELLO_LIFETIME;
+    }
+}

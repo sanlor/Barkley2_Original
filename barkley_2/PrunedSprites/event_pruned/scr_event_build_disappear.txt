@@ -1,0 +1,23 @@
+/// scr_event_build_disappear(object)
+/// Builds an action that makes an object disappear.
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_disappear);
+ds_list_add(action, argument0); // object id
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;
+
+
+
+
+/// scr_event_action_disappear(list)
+/// An action to make an object disappear.
+/// List contains the object id.
+
+var object = ds_list_find_value(argument0, 1);
+with object {
+        scr_event_interactive_deactivate();
+        scr_actor_unsetRigid(id);
+}
+scr_event_advance(id);

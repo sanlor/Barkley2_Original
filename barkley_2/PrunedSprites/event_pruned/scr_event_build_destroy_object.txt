@@ -1,0 +1,25 @@
+/// scr_event_build_destroy_object(object)
+/// Builds an action to destroy an object.
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_destroy_object);
+ds_list_add(action, argument0); // the object
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;
+
+
+
+
+/// scr_event_action_destroy_object(list)
+/// An action to destroy an object.
+/// The list contains the object id to destroy.
+
+var object = ds_list_find_value(argument0, 1);
+if instance_exists(object) {
+    with (object) {
+        instance_destroy();
+    }
+}
+
+scr_event_advance(id);

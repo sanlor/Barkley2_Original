@@ -1,0 +1,244 @@
+// Script for HIKING DWARF
+// usage: event_wst_hiking01
+
+if (argument0 == SCRIPT_START) {
+    // Init!
+
+} 
+else if (argument0 == SCRIPT_STEP) {
+    // Step logic.
+    if (!visible and !scr_event_etc_instance_on_screen(id) and scr_time_get() == 4) {
+        // TIME = 4, reappear
+        scr_event_interactive_activate();
+    }
+    else if (visible and !scr_event_etc_instance_on_screen(id) and scr_time_get() == 3) {
+        // TIME = 3, disappear
+        scr_event_interactive_deactivate();
+    }
+}
+
+else if (argument0 == SCRIPT_INTERACT) {
+    var hiking = id;
+    
+    var event = scr_event_create_main();
+    var question_snippet = scr_event_create_child(event);
+    var shop_snippet = scr_event_create_child(event);
+    
+    // ALWAYS RUN
+    scr_travelling_dwarfs_start();
+
+    //-------------
+    // shop_snippet
+    //-------------
+    with (shop_snippet) {
+        /* Going to half-ass this, BUT we can have a short sample if it does not take any time.
+         
+        TASKS:
+        1. Load inventory
+        2. Load any new items
+            Will pull from 3 lists:
+                Directional items
+                Previous area items
+                Current area items
+                Time items
+                Quest items
+        3. Open shop (???)
+            Possibly words about purchases
+            Possibly refusal to sell certain items
+        4. Say goodbye (generic? time/quest/location-specific?)
+        
+        */
+    }  
+    
+    //-----------------
+    // question_snippet
+    //-----------------
+    with (question_snippet) {
+        var hiking_question = scr_event_build_choice("Ask:", s_port_hoopz);
+        
+        //--------------------------------
+        // Question 1: Self (Hiking Dwarf)
+        //--------------------------------
+        if (_hikingSelfQ == 0) {
+            var self_q = scr_event_build_add_choice(hiking_question, "Him.");
+            with self_q {
+                switch (_hikingSpeech) {
+                    case 0:
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Can you tell me anything about yourself?");
+                        scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "Not much to say 'bout myself. Been hiking for awhile.");
+                        _hikingSpeech += 1;
+                        break;
+                    case 1:
+                        scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "Anything new?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Just still been hiking. Prob'ly been... oh I'd say some years now.");
+                        _hikingSpeech += 1;
+                        break;
+                    _hikingSelfQ = 1;
+                    scr_event_build_event_snippet(question_snippet);
+                }
+            }
+        }
+        
+        //-----------------
+        // Question 2: Help
+        //-----------------
+        if (_hikingHelpQ == 0) {
+            var help_q = scr_event_build_add_choice(hiking_question, "Help.");
+            with help_q {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Can you give me any advice?");
+                scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "Hm, mayhap I can. Whereabouts you headed?");
+                // BY DIRECTION!
+                // check if hiking dwarf has been to previous area
+                var north = scr_event_build_add_choice(where, "North.");
+                with north { 
+                    if (_prevArea == "north") { _prevJust = 1; } 
+                }
+                var south = scr_event_build_add_choice(where, "South.");
+                with south { 
+                    if (_prevArea == "south") { _prevJust = 1; } 
+                }
+                var east = scr_event_build_add_choice(where, "East.");
+                with east { 
+                    if (_prevArea == "east") { _prevJust = 1; } 
+                }
+                var west = scr_event_build_add_choice(where, "West.");
+                with west { 
+                    if (_prevArea == "west") { _prevJust = 1; } 
+                }
+                // get dialogue from room, alter if hiking dwarf was there previously
+                switch (room) {
+                    case r_wasteland01:
+                        switch (string(_prevArea)) {
+                            case "north":
+                                if (_prevJust == 1) {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "North of here, you'll find some dwarfs hidin' out. Got a little spot for themselves. Your best bet if you're lookin' for help.");
+                                } else {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "North of here, you'll find some dwarfs hidin' out. Got a little spot for themselves. Your best bet if you're lookin' for help.");
+                                }
+                                break;
+                            case "south":
+                                if (_prevJust == 1) {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "Heading down south it gets a little wet. Bring somethin' to keep your rations dry. I got a nice lunchpail for sale that might help. Used it all over those parts.");
+                                } else {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "Heading down south it gets a little wet. Bring somethin' to keep your rations dry.");
+                                }
+                                break;
+                            case "east":
+                                if (_prevJust == 1) {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "East o' this spot there's some high ground. I'm headin' over that way myself.");
+                                } else {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "East o' this spot there's some high ground. I'm headin' over that way myself.");
+                                }
+                                break;
+                            case "west":
+                                if (_prevJust == 1) {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "Goin' west is a fools' errand. Barely got those two through. There's some trouble spots if you don't know the trail... if you are headed that ways, I got something for sale I found over that way. Probably don't need it anymore, and best to travel light.");
+                                } else {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "Goin' west is a fools' errand. Barely got those two through. There's some trouble spots if you don't know the trail.");
+                                }
+                                break;
+                        }
+                        break;
+                    /*
+                    case r_anywhere01:
+                        switch (string(_prevArea)) {
+                            case "north":
+                                if (_prevJust == 1) {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, string(_hdDialogue) + " that should put ya");
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                                } else {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, string(_hdDialogue) + " ");
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                                }
+                                break;
+                            case "south":
+                                if (_prevJust == 1) {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, string(_hdDialogue) + " that should put ya");
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                                } else {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, string(_hdDialogue) + " ");
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                                }
+                                break;
+                            case "east":
+                                if (_prevJust == 1) {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, string(_hdDialogue) + " that should put ya");
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                                } else {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, string(_hdDialogue) + " ");
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                                }
+                                break;
+                            case "west":
+                                if (_prevJust == 1) {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, string(_hdDialogue) + " that should put ya");
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                                } else {
+                                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, string(_hdDialogue) + " ");
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                                }
+                                break;
+                        }
+                        break;
+                    */
+                }
+                // return to choice snippet, with choice removed
+                _hikingHelpQ = 1;
+                scr_event_build_event_snippet(question_snippet);
+            }
+        }
+        //-----------------
+        // Question 3: Shop
+        //-----------------
+        if (_hikingShopQ == 0) {  
+            var shop_q = scr_event_build_add_choice(hiking_question, "Shop.");
+            with shop_q {
+                if (_hikingShopItems == 1) {
+                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                    scr_event_build_event_snippet("shop_snippet");
+                } else {
+                    scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                    //scr_event_build_event_snippet(question_snippet);
+                    scr_travelling_dwarfs_end();
+                    scr_event_build_end();
+                }
+            }
+        }
+        //-----------------
+        // Nothing (Cancel)
+        //-----------------
+        var nothing_q = scr_event_build_add_choice(hiking_question, "Nothing.");
+        with nothing_q {
+            scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+            scr_travelling_dwarfs_end();
+            scr_event_build_end();
+        }
+    }
+    
+    //-----------
+    // Main Event
+    //-----------
+    with (event) {
+        _hikingFatigue = _hikingDestinationCount + _time;
+        if (_hikingState == 0) {
+            _hikingState = 1;
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Mister. Um... Mister?");
+            scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "Hm? What's that? I was resting, what do you want? You want to buy something?");
+        }
+        else if (_hikingState == 1) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hi Mister.");
+            scr_event_build_dialogue("Hiking Dwarf", s_port_hiking, "Hm? What's that?");
+        }
+        if (_hikingShopQ == 0) || (_hikingHelpQ == 0) || (_hikingSelfQ == 0) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um...");
+            scr_event_build_event_snippet(question_snippet);
+        }
+        else {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, nothing, sorry to bother you.");
+        }
+    }
+    scr_event_advance(event);
+} 

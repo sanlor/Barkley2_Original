@@ -1,0 +1,75 @@
+// Event for Bruno, official tough guy of Brain City.
+
+/*if (argument0 == SCRIPT_STEP) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var bruno = id;
+    var event = scr_event_create_main();
+    with (event) {
+    //spoken to Bruno three times before.
+    if (scr_quest_get_state("brunoState") == 4) {
+        scr_event_build_dialogue("Bruno", NULL, "I could take one, maybe two direct hits from a bazooka before I gibbed. Who's the tough guy now, hot shot?");
+        
+    //spoken to Bruno three times before.
+    }else if (scr_quest_get_state("brunoState") == 3) {
+        scr_event_build_dialogue("Bruno", NULL, "Aww, what's the matter? Baby not tough enough? Baby want a diaper? Baby want a nappy? Guess what: I don't wear diapers because I'm tough.");
+        scr_event_build_quest_state("brunoState", 4);
+        
+    //spoken to Bruno twice before.
+    }else if (scr_quest_get_state("brunoState") == 2) {
+        scr_event_build_dialogue("Bruno", NULL, "I'm over here sweating and grunting like top hog at the county fair. Where are you, squirt?");
+        scr_event_build_quest_state("brunoState", 3);
+    
+    //spoken to Bruno once before.
+    }else if (scr_quest_get_state("brunoState") == 1) {
+        scr_event_build_dialogue("Bruno", NULL, "Nice firearms, pipsqueak, but the real gun show's right here (my arms). Not so tough now, are you, twerp?");
+        scr_event_build_quest_state("brunoState", 2);
+        
+    // Never talked to Bruno before.
+    } else if (scr_quest_get_state("brunoState") == 0) {
+        scr_event_build_quest_state("brunoState", 1);
+        scr_event_build_dialogue("Bruno", NULL, "Oh, you think you're tougher than me? Say it to my face, buddy. You tougher than me? You think you're a real tough guy, huh?");
+        var brunoChoice = scr_event_build_choice("A-am I a tough guy?", s_port_hoopz);
+        
+        //I'm tougher than you.
+        with scr_event_build_add_choice(brunoChoice, "I'm tougher than you.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Do you know who I am, chump? Heck yeah I'm tougher than you.");
+            scr_event_build_dialogue("Bruno", NULL, "Yeah? I go through a plate of ribs in 20 seconds flat. 2 plates in 40 seconds. I can keep going indefinitely, keep piling on the plates. Just add 20 seconds for each plate, that's how long it'll take me. Not so tough now, are you?");
+        }
+        
+        //I'm kinda tough.
+        with scr_event_build_add_choice(brunoChoice, "I'm kinda tough.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know if I'm as tough as you, but I guess I'm kinda tough.");
+            scr_event_build_dialogue("Bruno", NULL, "Oh yeah? I pour milk directly onto my glutes. That's why they're gargantuan. Tell me I'm not the town tough guy. Say it. Say it to my face.");
+        }
+        
+        //I'm not a tough guy, I'm a tough girl.
+        with scr_event_build_add_choice(brunoChoice, "I'm not a tough guy, I'm a tough girl.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey knucklehead, I'm a tough girl, not a tough guy.");
+            scr_event_build_dialogue("Bruno", NULL, "Yeah? You think I give a dip? I call it like I see it and you're a pipsqueak. You think you're tougher than me, buster?");
+            var brunoChoice2 = scr_event_build_choice("Am I tougher than Bruno?", s_port_hoopz);
+        
+            //Heck yeah I'm tougher.
+            with scr_event_build_add_choice(brunoChoice2, "Heck yeah I'm tougher.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Do you know who you're dealing with, chump? Heck yeah I'm tougher than you.");
+                scr_event_build_dialogue("Bruno", NULL, "Yeah? I go through a plate of ribs in 20 seconds flat. 2 plates in 40 seconds. I can keep going indefinitely, keep piling on the plates. Just add 20 seconds for each plate, that's how long it'll take me. Not so tough now, are you?");
+            }
+            
+            //N-no, mister...
+            with scr_event_build_add_choice(brunoChoice2, "N-no, mister...") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "N-no, mister... you're tougher than me.");
+                scr_event_build_dialogue("Bruno", NULL, "If you're not eating 600 grams of condensed wood pulp a day, you'll never be a tough guy. Get out of my face, twerp.");
+            }
+        }
+    
+        //I'm not that tough.
+        with scr_event_build_add_choice(brunoChoice, "I'm not that tough.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm not that tough, mister...");
+                scr_event_build_dialogue("Bruno", NULL, "If you're not eating 600 grams of condensed wood pulp a day, you'll never be a tough guy. Get out of my face, twerp.");
+        }
+         
+        }
+    }
+    scr_event_advance(event);
+}

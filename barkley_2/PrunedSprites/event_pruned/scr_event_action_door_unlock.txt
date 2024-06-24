@@ -1,0 +1,11 @@
+/// scr_event_action_door_unlock(list)
+/// An action to give to unlock a specific door //
+
+if instance_exists(o_door_parent)
+    {
+    with o_door_parent
+        {
+        if name = ds_list_find_value(argument0, 1) then event_user(1);
+        }
+    }
+scr_event_advance(id);

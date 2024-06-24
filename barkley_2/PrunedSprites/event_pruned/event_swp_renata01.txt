@@ -1,0 +1,77 @@
+// Event for Renata the treasure huntress, sells you the treasure scanner Mark I which only works in the swamps because its swamp gas powered. //
+// Is later found in a cave in mtnpass completely mutilated. Hoopz doesn't even regognize her even if spoken to before. You can get the scanner for free from her corpse //
+/*if (argument0 == SCRIPT_STEP) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var event = scr_event_create_main();
+    var curmoney = scr_money_count();
+    var purchase = scr_event_create_child(event);
+    with (event) {
+        // renata, 0 = not talked to before, 1 = talked to before didnt buy scanner, 2 = talked to before bought scanner //
+        if (scr_quest_get_state("renata") == 0) {
+        
+            // Hoopz runs into Renata for the first time //
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey lady, are you alright?");
+            scr_event_build_dialogue("Renata", NULL, "Hmm? Wha? Oh, yes, yes I'm fine. I'm just searching for treasure over here. According to my equipment there should be something around... Aha! There we are! A rusted copper coin. Look at it, isn't it magnificent?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's just a coin...");
+            scr_event_build_dialogue("Renata", NULL, "Just a coin? Oh no my friend. This is more than just a coin. It is a coin that was buried a few millimetres below the ground, meaning that it has been there for quite some time. This could have belonged to some important historical figure. I must take it to my lab for further analysis but I can tell even now that this coin holds great value. It is not just a mere coin. It's a part of history.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You can tell all that by just looking at it?");
+            scr_event_build_dialogue("Renata", NULL, "Yes. Here, let me show you some of the detail on this coin that gives away its secrets. For example, right here you can see... wait a minute. This isn't a coin. This is a button from my shirt.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh... How did you even find it in the middle of these plants?");
+            scr_event_build_dialogue("Renata", NULL, "I have my scanner with me, that's how. It can detect unorganic matter, such as this button, from afar. Well, this new one can, the old one had a much more limited scanning range. Also, unlike this new model, it was powered by the swamp gases so it limited me to working only here in the swamps but now I can move forward to other locations in search of treasure.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Treasure? Whoa, sounds exciting. Have you found any treasure yet, like pirate gold or something?");
+            scr_event_build_dialogue("Renata", NULL, "Well, I uhh... No, I... Not really, no. A lot of old nails, pennies, and other junk. Some candy here and there. Nothing substantial.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You can find candy with that thing? Where can I get one for myself?");
+            scr_event_build_dialogue("Renata", NULL, "Hey now, calm down. These things aren't available commercially. These are something I built out of a bunch of junk I gathered. Unless you know how to make one yourself then... Well actually, now that you mention it, I do still have my old scanner. The one I mentioned. Limited scanning range, works on swamp gas and so forth. I suppose I could sell it to you, if you are interested.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I sure am! How much are you asking for it?");
+            scr_event_build_dialogue("Renata", NULL, "Well, I don't really have a use for it, but on the other hand I do have some expenses that I need to cover so... I'm going to say 200 N$.");
+            scr_event_build_event_snippet(purchase);
+            }
+        
+        // Talked to before, scanner not bought //
+        if (scr_quest_get_state("renata") == 1) {
+            scr_event_build_dialogue("Renata", NULL, "Hmm? Oh, it's you. Back already, huh?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I'm back. Do you still have that scanner?");
+            scr_event_build_dialogue("Renata", NULL, "Yes, yes I do. Its 200 N$ if you want it for yourself.");
+            scr_event_build_event_snippet(purchase);
+            } 
+            
+        // Talked to before, scanner bought //
+        if (scr_quest_get_state("renata") == 2) {
+            scr_event_build_dialogue("Renata", NULL, "Bla bla bla");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yada yada yada");
+            }
+            
+            // Purchase scanner //
+            with (purchase)
+                {
+                Breakout("build", "add", "money");
+                var scanner = scr_event_build_choice("Purchase Treasure Scanner for 200 N$?", s_port_hoopz);
+                var answer1 = scr_event_build_add_choice(scanner, "Give it to me");
+                with answer1 {
+                    if (curmoney<200) 
+                        {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, eh. Looks like I don't have the money.");
+                        scr_event_build_dialogue("Renata", NULL, "Oh. Well, come back later when you do, if you are still interested. I'll be here in the swamps for a while anyways, but at some point I'm probably going to move forward to the mountain area. If you want the scanner then get the moeny and come and find me.")
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I'll see you later.")
+                        }
+                    else
+                        {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "You got yourself a deal! Here you go, 200 N$");
+                        scr_event_build_dialogue("Renata", NULL, "Okay, thanks. Now remember, this thing only works in the swamps because it uses the gasses in here to power itself. The scanning range isn't very good, but you should be fine with it. Oh, and when you want to scan, holster your weapons.")
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, got it. Thanks.")
+                        scr_event_build_quest_state("renata", 2);
+                        Item("build", "gain", "Treasure Scanner MARK I", 1);
+                        scr_event_build_money_add(-200);
+                        }
+                    }
+                var answer2 = scr_event_build_add_choice(scanner, "Not right now");
+                with answer2 {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, I'm saving up some money right now, but maybe I'll come back later.");
+                    scr_event_build_dialogue("Zoppoe", NULL, "I see. Just so you know, I'm going to be treasure hunting here in the swamps for a bit but after a while I think I'll move on to the mountain area. If you want to talk about treasure hunting, all you gotta do is find me.")
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I'll see you later.");
+                    }
+                }
+    }
+    scr_event_advance(event);
+}

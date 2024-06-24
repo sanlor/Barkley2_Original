@@ -1,0 +1,234 @@
+// scr_superRobot_location
+/*
+    Finds the current state of Super Robot, and puts it in the correct position.
+    1. If deactivated, outside, deactivated.
+    2. If breaching the Zone, in center of room, etc.
+    3. If activated, inside, standing.
+    4. If working, in a specific location.
+    
+    Eventually, this can include information about the rooms themselves. What tiles, etc.
+*/
+
+/*var location = r_bct_dilapidatedMain01;
+var srx = 100;
+var sry = 100;
+var sranim = "off";
+var improvement = "NONE";
+
+global.supergrid = scr_savedata_get("supergrid");
+global.improvemap = scr_savedata_get("improvemap");
+
+var exterior = 0;
+if (scr_quest_get_state("superFacade") == "facade1") { exterior = 1 }
+else if (scr_quest_get_state("superFacade") == "facade2") { exterior = 2 }
+else if (scr_quest_get_state("superFacade") == "facade3") { exterior = 3 }
+
+var interior = 0;
+if (global.improvemap[? "decor"] == "decor1") { interior = 1 }
+else if (global.improvemap[? "decor"] == "decor2") { interior = 2 }
+else if (global.improvemap[? "decor"] == "decor3") { interior = 3 }
+
+// pull information for improvements
+improvement = string(scr_quest_get_state("superImprove"));
+
+// robot is not at work
+if (improvement == "NONE") {
+    // super robot not yet turned on
+    if (scr_quest_get_state("superOn") == 0) {
+        location = r_bct_dilapidatedExterior01;
+        srx = 100;
+        sry = 150;
+        sranim = "off";
+    }
+    // breaching the dilapidated zone
+    else if (scr_quest_get_state("superBreach") == 1) {
+        location = r_bct_dilapidatedMain01;
+        srx = 100;
+        sry = 150;
+        sranim = "normal";
+    }
+    // done breaching the dilapidated zone
+    // this is the NORMAL DEFAULT!!!!
+    else if (scr_quest_get_state("superBreach") == 2) {
+        
+        location = r_bct_dilapidatedMain01;
+        srx = 100;
+        sry = 150;
+        sranim = "normal";
+    }
+}
+// robot at work
+else {
+    switch (improvement) {
+    // room
+        case "room":
+            location = r_bct_dilapidatedRoom03;
+            srx = 232;
+            sry = 160;
+            sranim = "working";
+            break;
+    // decor
+        case "decor1":
+            location = r_bct_dilapidatedMain01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+        case "decor2":
+            location = r_bct_dilapidatedMain01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+        case "decor3": 
+            location = r_bct_dilapidatedMain01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+    // facade
+        case "facade1":
+            location = r_bct_dilapidatedExterior01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+        case "facade2":
+            location = r_bct_dilapidatedExterior01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+        case "facade3":
+            location = r_bct_dilapidatedExterior01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+    // internet
+        case "internet1":
+            location = r_bct_dilapidatedExterior01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+        case "internet2":
+            location = r_bct_dilapidatedExterior01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+    // door
+        case "revolving":
+            location = r_bct_dilapidatedExterior01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+        case "metal":
+            location = r_bct_dilapidatedExterior01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+    // lights
+        case "neon":
+            location = r_bct_dilapidatedExterior01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+        case "flood":
+            location = r_bct_dilapidatedExterior01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+    // hvac
+        case "sound":
+            location = r_bct_dilapidatedMain01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+        case "ac":
+            location = r_bct_dilapidatedMain01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+    // plants
+        case "trees":
+            location = r_bct_dilapidatedExterior01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+        case "veg":
+            location = r_bct_dilapidatedExterior01;
+            srx = 100;
+            sry = 150;
+            sranim = "working";
+            break;
+        default:
+            show_debug_message("scr_superRobot_location : INVALID IMPROVEMENT NAME!");
+            break;
+    }
+}
+
+// apply upgrades
+if (location = r_bct_dilapidatedExterior01) {
+    switch (exterior) {
+        case 0: location = r_bct_dilapidatedExterior01; break;
+        case 1: location = r_bct_dilapidatedExteriorBetter01; break;
+        case 2: location = r_bct_dilapidatedExteriorPlus01; break;
+        case 3: location = r_bct_dilapidatedExteriorMax01; break;
+    }
+}
+if (location = r_bct_dilapidatedMain01) {
+    switch (exterior) {
+        case 0: location = r_bct_dilapidatedMain01; break;
+        case 1: location = r_bct_dilapidatedMainBetter01; break;
+        case 2: location = r_bct_dilapidatedMainPlus01; break;
+        case 3: location = r_bct_dilapidatedMainMax01; break;
+    }
+}
+if (location = r_bct_dilapidatedRoom03) {
+    switch (exterior) {
+        case 0: location = r_bct_dilapidatedRoom03; break;
+        case 1: location = r_bct_dilapidatedRoomBetter03; break;
+        case 2: location = r_bct_dilapidatedRoomPlus03; break;
+        case 3: location = r_bct_dilapidatedRoomMax03; break;
+    }
+}
+
+// set into quest variables!
+scr_quest_set_state("superRobotLocation", location);
+scr_quest_set_state("superRobotX", srx);
+scr_quest_set_state("superRobotY", sry);
+scr_quest_set_state("superRobotAnimation", sranim);
+
+// AT THIS POINT, WE RETURN TO event_bct_superRobot01...
+
+
+/*      UGLY EXTRA CODE FROM event_bct_superRobot01 START EVENT!!!
+
+    // make invisible in r_bct_dilapidatedMain01 before the room is breached
+    if (room == r_bct_dilapidatedMain01) {
+        if (scr_quest_get_state("longinusFakeDoor") == 1) || (scr_quest_get_state("longinusFakeDoor") == 1) {
+            scr_actor_unsetRigid(id);
+            instance_destroy();
+        }
+        else if (scr_quest_get_state("superRobotLocation") != "r_bct_dilapidatedMain01") {
+            scr_actor_unsetRigid(id);
+            instance_destroy();
+        }
+    }
+    // make invisible after r_bct_dilapidatedMain01 after the room is breached
+    else if (room == r_bct_dilapidatedExterior01) {
+        if (scr_quest_get_state("superRobotLocation") != "r_bct_dilapidatedExterior01") {
+            scr_actor_unsetRigid(id);
+            instance_destroy();
+        }
+    }
+*/

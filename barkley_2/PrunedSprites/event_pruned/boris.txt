@@ -1,0 +1,305 @@
+//Script for Boris, flautsman extraordinaire in The Industrial Park.
+/*
+if (argument0 == SCRIPT_START)
+{
+    scr_entity_animation_set(o_boris01, "default");
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    // Boris has been asked to participate in Wedding Quest.
+    if (scr_quest_get_state("borisWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10)
+    {
+        scr_event_interactive_deactivate();
+    }
+    // Boris has been arrested.
+    else if (scr_quest_get_state("borisArrest") == 1)
+    {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var boris = id;
+    var event = scr_event_create_main();
+    var toot_question_snippet = scr_event_create_child(event);
+    var toot_play_snippet = scr_event_create_child(event);
+    var toot_response_snippet = scr_event_create_child(event);
+    var chup_snippet = scr_event_create_child(event);
+    var weddingQuestAsk = scr_event_create_child(event);
+
+    
+        
+    //--------------------------------------------
+    //--------------- CHUP_SNIPPET ---------------
+    //--------------------------------------------  
+    with (chup_snippet)
+    {
+        // Never tried to sell Boris a Chup.
+        if (scr_quest_get_state("borisChup") == 0)
+        {
+            Breakout("build", "add", "chupCount");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, great playing, mister. I love flutes. Hey, speaking of flutes, how'd you like to toot something of a different nature?");
+            scr_event_build_dialogue("Boris", s_port_boris , "My pipe is pied and my interest is piqued, most precarious... and pubescent of pilgrims. Pray tell, speak thy piece of yon toot. Quickly! Quickly now, and with proper enunciation!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What I've got'll make you do all kinds of toots, take you to another toot level... check it out... it's a chup.");
+            scr_event_build_dialogue("Boris", s_port_boris, "Would that they could, mine eyes a comical pop t'would perform. But alas, I shall have to pantomime it for you. Yes indeed, my dear youngster, I would love to toot upon this chup! I have but 250 neuro-shekels to offer, I hope this is enough!");
+            
+            var sellchup1 = scr_event_build_choice("Sell Boris a chup?", s_port_hoopz);
+            
+            // Sell Boris a Chup
+            with scr_event_build_add_choice(sellchup1, "Sounds good.")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sounds good, you've got yourself a deal, dude. Enjoy, this chup'll take you to that plateau, get you hearing notes you didn't even know were there.");
+                scr_event_build_dialogue(NULL, NULL, "Get 250 neuro-shekels!");
+                scr_event_build_dialogue("Boris", s_port_boris, "Ah, many thanks indeed, yon beneficent bagman! I shall cherish this chup and the symphony of toots it brings me! Adieu, wunderkind... adieu... ");
+                scr_event_build_quest_state("borisChup", 2);
+                scr_event_build_quest_state_add("chupCount", -1);
+                scr_event_build_quest_state_add("chupShekel", 250);
+                scr_event_build_money_add(250);
+            }
+            // Reject price
+            with scr_event_build_add_choice(sellchup1, "Not enough.")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry man, not enough. This isn't that street grade product, this is the real deal, the kind of stuff that'll get you hearing notes that you didn't even know were there.");
+                scr_event_build_dialogue("Boris", s_port_boris, "Shucks, mon petit. I was hoping you were more generous than you appeared, but it appears I was mistaken! Still, I will be here plying my toots if you decide it is within your generosity to return!");
+                scr_event_build_quest_state("borisChup", 1);
+            }
+        }
+        // Rejected Boris before.
+        else if (scr_quest_get_state("borisChup") == 1)
+        {
+            Breakout("build", "add", "chupCount");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, great tooting, whatever. I'm back and I've got that chup you wanted earlier.");
+            scr_event_build_dialogue("Boris", s_port_boris, "Ah, the prodigal chupeteer returns! Have you reconsidered my offer of 250 neuro-shekels for your chup most delightful?");
+
+            var sellchup2 = scr_event_build_choice("Sell Boris a chup?", s_port_hoopz);
+            
+            // Sell Boris Chup
+            with scr_event_build_add_choice(sellchup2, "Sounds good.")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sounds good, you've got yourself a deal, dude. Enjoy, this chup'll take you to that plateau, get you hearing notes you didn't even know were there.");
+                scr_event_build_dialogue(NULL, NULL, "Get 250 neuro-shekels!");
+                scr_event_build_dialogue("Boris", s_port_boris, "Ah, many thanks indeed, yon beneficent bagman! I shall cherish this chup and the symphony of toots it brings me! Adieu, wunderkind... adieu... ");
+                scr_event_build_quest_state("borisChup", 2);
+                scr_event_build_quest_state_add("chupCount", -1);
+                scr_event_build_quest_state_add("chupShekel", 250);
+                scr_event_build_money_add(250);
+            }
+            // Reject price
+            with scr_event_build_add_choice(sellchup2, "Not enough.")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry man, not enough. This isn't that street grade product, this is the real deal, the kind of stuff that'll get you hearing notes that you didn't even know were there.");
+                scr_event_build_dialogue("Boris", s_port_boris, "Shucks, mon petit. I was hoping you were more generous than you appeared, but it appears I was mistaken! Still, I will be here plying my toots if you decide it is within your generosity to return!");
+                scr_event_build_quest_state("borisChup", 1);
+            }
+        }
+    }
+
+    //--------------------------------------------
+    //------------ WEDDING QUEST ASK -------------
+    //--------------------------------------------  
+    with (weddingQuestAsk)
+    {
+        scr_event_build_dialogue("Boris", s_port_boris, "The ultimate consumation of the love of two dwarfs... would I indeed be willing to ply my flautistry to the ears of those gathered for so joyous an event? Why, 'twould be my honor, dear kinder!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, great, the band definitely needs a flute master. I'm still putting it together, so I'll be a while, but if you head to the booty bass club in Brain City, I'll meet you there with the others.");
+        scr_event_build_dialogue("Boris", s_port_boris, "Abscond I shall, with woodwind in tow, to the temple of booty in the Brain Chateau...");
+        scr_event_build_fade(true, 2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_quest_state("borisWedding", 1);
+        scr_event_build_quest_state_add("musicianCount", 1);
+        scr_event_build_set_object(o_boris01, -500, -500);
+        scr_event_build_fade(false, 2);
+        scr_event_build_wait_for_actions();
+        scr_wedding_recruited();
+    }
+    
+    //--------------------------------------------
+    //------------- TOOT QUESTION ----------------
+    //--------------------------------------------
+
+    with (toot_question_snippet)
+    {
+        var tootlisten = scr_event_build_choice("Listen to Boris' flute playing?", s_port_hoopz);
+        
+        //if on Wedding Quest
+        if (scr_wedding_quest_on() == true)
+        {
+            with scr_event_build_add_choice(tootlisten, "I'm forming a band for a wedding, want to join?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Save your toots, Boris. I'm forming a wedding band, do you want to join?");
+                scr_event_build_event_snippet(weddingQuestAsk);
+            }
+        }
+        
+        //Sure.
+        with scr_event_build_add_choice(tootlisten, "Sure.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, sure, I guess I don't mind listening.");
+            scr_event_build_event_snippet(toot_play_snippet);
+        }
+        
+        //No thanks.
+        with scr_event_build_add_choice(tootlisten, "No thanks.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Save your toots, pappy. I don't have the time of day.");
+            scr_event_build_dialogue("Boris", s_port_boris, "Then I shall have to work harder to impress you, o discriminating lass or lad. My toots shall increase in both deftness and decibel. But don't mark my words... mark my toots.");
+        }
+        
+        //Spoken to Masego before.
+        if (scr_quest_get_state("masegoState") >= 1)
+        {
+            with scr_event_build_add_choice(tootlisten, "I don't think you're allowed to toot that flute here.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, have you talked to Marshal Masego yet? She says it's against the rules to toot any flutes in the Industrial Park.");
+                scr_event_build_dialogue("Boris", s_port_boris, "It is not I that toots this flute, o precocious jugend. The reed rests between lips far meatier than mine own - lips belonging to a force called F.A.T.E. Perhaps if I cannot bend your ear... F.A.T.E. can. What say you, salubrious kinder, to a tour de force of dulcet honks and bellowing wam pams.");
+                
+                var masegochoice = scr_event_build_choice("Listen to Boris' flute playing?", s_port_hoopz);
+                //Okay, I'll listen.
+                with scr_event_build_add_choice(masegochoice, "I hate rules, I'll listen.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sure, I'll listen. I hate rules.");
+                    scr_event_build_event_snippet(toot_play_snippet);
+                }
+                //Not if it breaks the rules.
+                with scr_event_build_add_choice(masegochoice, "Not if it breaks the rules.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "No way. I'm a rule abider, not a rule derider.");
+                    scr_event_build_dialogue("Boris", s_port_boris, "I suppose I'll have to ply my toots to an ear more agreeable. But if you change your tune, I am always willing to regale you with my ribald dithyrambus.");
+                }
+            }
+        }
+    }
+    
+    //--------------------------------------------
+    //------------ TOOT_PLAY_SNIPPET -------------
+    //--------------------------------------------  
+    with (toot_play_snippet)
+    {
+        scr_event_build_dialogue("Boris", s_port_boris, "Ahh, the curious cherub shall I enthral with bombastic toots and woodwind drawl. Prepare yourself for a toot cavalcade most cadent!");
+        // TODO: Boris flute song.
+        scr_event_build_dialogue_debug("TODO", NULL, "The music fades out and Boris plays his flute song.");
+        scr_event_build_animation_play_and_set(o_boris01, "tooting", "tooting");
+        scr_event_build_wait(5);
+        scr_event_build_wait_for_actions();
+        scr_event_build_animation_play_and_set(o_boris01, "untoot", "default");
+        scr_event_build_dialogue("Boris", s_port_boris, "'Twas a bawdy ballad done in the style of late dwarf romantic I like to call... Great Tooting. What say you, o delicate ephebe (or radiant... no... miraculous maiden)?");
+        scr_event_build_event_snippet(toot_response_snippet);
+    }
+    
+    //--------------------------------------------
+    //------------- TOOT RESPONSE ----------------
+    //--------------------------------------------
+    with (toot_response_snippet)
+    {
+        var tootrespond = scr_event_build_choice("What did I think of his performance?", s_port_hoopz);
+        
+        // If on Wedding Quest
+        if (scr_wedding_quest_on() == true)
+        {
+            with scr_event_build_add_choice(tootrespond, "Great! I'm forming a band for a wedding, want to join?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh man, Boris, your flute toots hit the spot! Hey, I'm putting together a band for a wedding in Brain City - would you be interested in playing for it?");
+                scr_event_build_event_snippet(weddingQuestAsk);
+            }
+        }
+        // Bombastic!
+        with scr_event_build_add_choice(tootrespond, "Bombastic toots.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Your toots were bombastic!");
+            scr_event_build_dialogue("Boris", s_port_boris, "Ah, I am thrilled by your eager adulation. Clap away, mon petit! There are none who toot more vigorously than I, for I would toot from atop the highest mountain or chimney. Do not forget my toots, meek and mild youngster. Do not forget my toots.");
+        }
+        // It was okay.
+        with scr_event_build_add_choice(tootrespond, "It was okay.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, it was okay. I mean I'm not flipping out or anything.");
+            scr_event_build_dialogue("Boris", s_port_boris, "So my Juilliardian toots did not impress. I... I see... Perhaps it would be best if you left me alone for now, yon stony-hearted tyke, to practice my fingering techniques in grief...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry...");
+        }
+        // I didn't like it.
+        with scr_event_build_add_choice(tootrespond, "I didn't like it.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "It was pretty bad.");
+            scr_event_build_dialogue("Boris", s_port_boris, "Hmm, what's that? You'll need to speak up, dear jugend. My ears are still ringing from the toots.");
+            scr_event_build_quest_state("borisTootLoop", 1);
+            scr_event_build_execute_event_script(event_dz1_boris01);
+        }  
+        // Know any jockjams?
+        with scr_event_build_add_choice(tootrespond, "Know any jock jams?")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm more into jock jams. Know anything that'll get me juiced up to shoot some hoops?");
+            scr_event_build_dialogue("Boris", s_port_boris, "Ah, you seek a passepied most potent. I must confess my pipes are not nearly pied enough, though my brainpan, once panned, recalls a pianist in the city of brains who can accompany your request.");
+            
+            var tootrespond2 = scr_event_build_choice("Uhhhhhhhhhhhh?????????", s_port_hoopz);
+            
+            //Thanks, I guess.
+            with scr_event_build_add_choice(tootrespond2, "Thanks, I guess.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, thanks... I think... I'll see you later.");
+            }
+            //That was awful.
+            with scr_event_build_add_choice(tootrespond2, "That was awful.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Stick to flutes. See you later.");
+            }
+        }
+        
+        // Chup Quest
+        if (scr_chup_available("boris") == true)
+        {
+            // SELL CHUPS
+            with scr_event_build_add_choice(tootrespond, "It'd be better if you had a chup.")
+            {
+                scr_event_build_event_snippet(chup_snippet);
+            }
+        }
+    }
+
+    //--------------------------------------------
+    //---------- MAIN EVENT - INTRO --------------
+    //--------------------------------------------
+    with (event)
+    {
+        // If you're on the Ol' "Boris Toot Loop"
+        if (scr_quest_get_state("borisTootLoop") == 1)
+        {
+            scr_event_build_quest_state("borisTootLoop", 0);
+            scr_event_build_event_snippet(toot_response_snippet);
+        }
+        // Did Wedding Quest with Boris.
+        else if (scr_quest_get_state("weddingQuest") == 3) and (scr_quest_get_state("borisWedding") == 3)
+        {
+            scr_event_build_dialogue("Boris", s_port_boris, "Ah, my fellow Jazzy Rascal returns! 'tis fantastic to see you again, dear kinder! Has the allure of my impassioned piping drawn you back, most nubile wayferer?");
+            scr_event_build_event_snippet(toot_question_snippet);
+        }
+        // Told Boris to go to church in Brain City but did not show up, spoke to him again.
+        else if (scr_quest_get_state("borisWedding") == 2)
+        {
+            scr_event_build_dialogue("Boris", s_port_boris, "Alack! Alack, I say! I refuse to play even a single toot for a fraud such as yourself! I trusted your sterling words, but alas, they were impostrous! So alack, I say! Alack!");
+        }
+        // Told Boris to go to church in Brain City but did not show up.
+        else if (scr_quest_get_state("weddingQuest") == 2) and (scr_quest_get_state("borisWedding") == 1)
+        {
+            scr_event_build_dialogue("Boris", s_port_boris, "Though your visage is that of the kinder, your deceit betrays your true colors: you are a knave! A knave, I say, for allowing me to travel to the City of Brains and never meeting me there! Where were you, youngster? Speak up!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry, Boris... I kinda forgot...");
+            scr_event_build_dialogue("Boris", s_port_boris, "Well forget about my bawdy toots, for never again shall I play them for an ear so duplicitous. You have rent my heart in twain, thou beguiling bambino... and it shall never again mend...");
+            scr_event_build_quest_state("borisWedding", 2);
+        }
+        //Spoken to Boris before.
+        else if (scr_quest_get_state("borisVar") == 1)
+        {
+            scr_event_build_dialogue("Boris", s_port_boris, "Do mine eyes reveal a wanderer most nubile, whose ear, it seems, desires a toot from my supple woodwind? For if indeed my eyes speak true, t'would be my pleasure to boon thee with a toot euphonic! Pray tell, pubescent pilgrim, is it my flute that brought you here?");
+            scr_event_build_event_snippet(toot_question_snippet);
+        }
+        //Never spoken to Boris
+        else
+        {
+            scr_event_build_quest_state("borisVar", 1);
+            scr_event_build_dialogue("Boris", s_port_boris, "Gather 'round, kinder, gather 'round, and cup your ear for my soothing... and salacious flute toots. But fret not, noble jugend, for these pipes are neither pied nor piercing, but indeed, pleasing to any palate. Ah, I beseech thee, most august of moppets, to harken to my sensual woodwind, which, when tended with a tender mouth honk, emits a coo most gilded.");
+            scr_event_build_event_snippet(toot_question_snippet);
+        }
+    }
+    scr_event_advance(event);
+}

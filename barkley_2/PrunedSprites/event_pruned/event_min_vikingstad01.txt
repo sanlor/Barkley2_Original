@@ -1,0 +1,69 @@
+/* Prison Courtyard NPC script for Vikingstad, one of the duergar guards. He is really enthusiastic about infecting the player with leprosy. 
+FUNFACT: Tore Vikingstad was the name of a Norwegian Hockey player who retired a few years ago. I don't know shit about hockey, 
+         but stumbled onto this tremendous name while playing one of the EA NHL_WHATEVER games a half dozen years back. 
+         It filled me with perverse thrill every time the announcer screamed VIKINGSTAD. This isn't noteworthy at all, I just thought this was a great name.
+COURTYARD EVENT NOTE: In this script, as well as all the other events in the courtyard, is a snippet that, once activated, will take the player back to their 
+                      cell for the day. The central idea is that the player doesn't just hang around the courtyard indefinitely. Every time someone is spoken 
+                      to a quest state is raised by one, which, when the counter reaches 3, will trigger a snippet in each npc's state that will send them 
+                      back to their cell for the day. So the player has three or four shots to find the right person to speak to before getting sent back. 
+                      This is slightly forgiving for characters they've spoken to before, or reached the end of their dialogue, as speaking to them will no 
+                      longer raise the counter. Yes, this is designed to be slightly annoying, but I think it's a neat scripting gimmick to give the feel 
+                      of a prison. ALAS, this snippet is INCOMPLETE as I write this, as the maps aren't finished yet and I don't know enough about how the 
+                      teleporting and connecting scripts between maps works yet. But getting to the snippet in question should work, so it'll just be a matter 
+                      of designing one teleportation event in the snippet and copying that in all the courtyard scripts.
+*/
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var vikingstad = id;
+    var event = scr_event_create_main();
+    var DayOver = scr_event_create_child(event);
+    with DayOver {
+        scr_event_build_dialogue("Loudspeaker", NULL, "Attention please! All inferior lifeforms not scheduled for afternoon activities, please report to the courtyard entrance.\All those scheduled for torture, please form a queue behind the silver line.\And all those scheduled for execution, please remain where you are, someone will come to pick you up.\Thanks, and have an awful day.");
+        Quest("prisondayoverState", 0);
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC NOTE: The screen should fade to black and the player is teleported to a cinematic showing them being led back to their cell.\This snippet is identical for all the NPCs in the prison courtyard. If you're seeing this now, you're on your way back to your prison cell, buster.");
+        // CINEMATIC NOTE: This is where the player is teleported back to their cell for the day. After a fade to black, this event should link to the brief cinematic of the player being led to their jail cell.
+        scr_event_build_end();
+    }
+
+    with (event) {
+        if (Quest("vikingstadState") == 2) {
+            Dialogue("Vikingstad", "I just wanted to help......\All that leprosy.......wasted......");
+            scr_event_build_end();
+        } else if (Quest("vikingstadState") == 1) {
+            QuestAdd("prisondayoverState", 1);
+            Dialogue("Vikingstad", "Pete, you're never going to believe this.......\No, not that. I've got a prisoner here that isn't immune to leprosy.\Yeah, I guess.....hey you, what did you say your name was?");
+            Dialogue(P_NAME, "Hans Alexander Friedman III.");
+            Dialogue("Vikingstad", "His name is Hans......eh......I dunno, Hans something. Look him up.\Yeah, leprosy.\No, I'm serious. I'm looking at him right now.\No! Bullshit! 64 prisoners named Hans?\Hey, pondscum, what'd you say your name was?");
+            Dialogue(P_NAME, "I have no idea. I have amnesia.");
+            Dialogue("Vikingstad", "He says he forgot.\No, I'm not screwing with you!!\Hey, what-\He hung up.");
+            Dialogue(P_NAME, "That's too bad.");
+            Quest("vikingstadState", 2);
+            if (Quest("prisondayoverState") == 3) {
+                Snippet(DayOver);
+            }
+            scr_event_build_end();
+        } else {
+            QuestAdd("prisondayoverState", 1);
+            Dialogue("Vikingstad", "Hey asshole, you had your blood test yet?");
+            Dialogue(P_NAME, "Nope. Is there some sort of disease going around?");
+            Dialogue("Vikingstad", "Nah. It's for your torture session. See, we need to know if you've got any disease or allergies. It's bad for the torture results if you die too quick.");
+            Dialogue(P_NAME, "Oh. Well, that's kinda nice I guess....\Hey, wait, what are you doing? Get that needle away from me!!!");
+            Dialogue("Vikingstad", "Heh heh, I love it when they squirm____________________.____________________.____________________.____________________. Oh no, this can't be right.....\I'll have to try this again, I think I made a mistake somewhere.");
+            Dialogue(P_NAME, "Hey, no!!\OUCH!!!\Stop that!!!");
+            Dialogue("Vikingstad", "It's true, you......\You're the one......");
+            Dialogue(P_NAME, "The one what? Just stop sticking me with that thing.");
+            Dialogue("Vikingstad", "You're susceptible to leprosy.....\No dwarf is susceptible to leprosy.......\All those leprosy cultures. It's been years since we've had a prisoner who we could use them all on.\Oh boy, this is great. Just wait here, I gotta make a call. Don't go anywhere.");
+            Quest("vikingstadState", 1);
+            if (Quest("prisondayoverState") == 3) {
+                Snippet(DayOver);
+            }
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,81 @@
+// event_gbl_beggingRug01
+/*
+if (argument0 == SCRIPT_START)
+{
+    /*
+        if lemuel hasn't been learned from
+        or lemuel hasn't been arrested or chased off
+        the rug is not interactable
+        disable outline
+    */
+/*}
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // only interactable if you have the beggar class
+    if (scr_quest_get_state("classBeggar") == 1)
+    {
+        //-------------------
+        var beggingRug = id;
+        var event = scr_event_create_main();
+        // main event
+        with (event)
+        {
+            if (room == r_wst_industrialZone01) && (scr_quest_get_state("beggingIndustrial") == 0)
+            {
+                scr_event_build_quest_state("beggingIndustrial", 1);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This is where Lemuel used to beg.. maybe I should give it a try...)");
+            }
+            else if (room == r_dz2_alakihabara01) && (scr_quest_get_state("beggingAlakihabara") == 0)
+            { 
+                scr_event_build_quest_state("beggingAlakihabara", 1); 
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(What do you know, a rug out here in the desert! Maybe I should try to get almed up...)");
+            }
+            else if (room == r_bct_commonArea01) && (scr_quest_get_state("beggingBrainCity") == 0)
+            {
+                scr_event_build_quest_state("beggingBrainCity", 1);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(A rug? More like a red carpet for an alm-taker like me... maybe I should give it a shot...)");
+            }
+            /*
+            else if (room == ______) && (scr_quest_get_state("begging______") == 0) { 
+                scr_event_build_quest_state("begging______", 1); 
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(...)");
+            }
+            */
+/*            var alm = scr_event_build_choice("Beg for alms?", s_port_hoopz);
+            var sure = scr_event_build_add_choice(alm, "Sure! Alms away!");
+            with (sure)
+            {
+                // have bowl in pocket
+                if (scr_bowl_pocket() == true)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Alms away!)");
+                    scr_event_build_quest_state("beggingGame", 1);
+                    scr_event_build_teleport(room, o_hoopz.x, o_hoopz.y);
+                }
+                else
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Alms away!... oh... wait... I'd need to have my bowl in my pocket if I wanna snag any alms...)");
+                }
+            }
+            var later = scr_event_build_add_choice(alm, "Nah. Not right now.");
+            with (later)
+            {
+                // have bowl in pocket
+                if (scr_bowl_pocket() == true)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Nah, not right now. Don't wanna overdo it... but I can always come back.)");
+                }    
+                else
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Nah, not right now. Besides, I need my bowl in my pocket if I wanna get almed up.)");
+                }
+            }
+        }
+        scr_event_advance(event);
+        //-------------------
+    }
+}

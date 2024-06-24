@@ -1,0 +1,63 @@
+if (argument0 == SCRIPT_COLLISION_HOOPZ) then
+    {
+    // Variable for only initiating this once //
+    if scr_quest_get_state("curfewCollision") == 0 then 
+        {
+        // Switch off, run through once only //
+        scr_quest_set_state("curfewCollision", 1);
+
+        // Variables //
+        var event = scr_event_create_main();
+        
+        // Main event //
+        with (event) 
+            {
+            // INITIATE CURFEW WITHOUT ANNOUNCEMENT //
+            if Quest("curfewSurprise") == 1 then
+                {
+                scr_event_build_look(o_cts_hoopz, SOUTH);
+                scr_event_build_wait(0.5);
+                Emote("build", "question", o_hoopz, 0, 0);
+                scr_event_build_wait(1.25);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? What's going on?");
+                scr_event_build_wait(0.25);
+                scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+                scr_event_build_wait(0.25);
+                scr_event_build_look(o_cts_hoopz, SOUTH);
+                scr_event_build_wait(0.25);
+                scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+                scr_event_build_wait(0.25);
+                scr_event_build_look(o_cts_hoopz, SOUTH);
+                scr_event_build_wait(0.75);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's as silent as a crypt in here... It's almost like a [CURFEW] or something. I'd better stay on my toes...");
+                scr_event_build_wait(0.25);
+                scr_quest_set_state("curfewSurprise", 3);
+                }
+                
+            // END CURFEW WITHOUT ANNOUNCEMENT //
+            if Quest("curfewSurprise") == 2 then
+                {
+                scr_event_build_look(o_cts_hoopz, SOUTH);
+                scr_event_build_wait(0.5);
+                Emote("build", "question", o_hoopz, 0, 0);
+                scr_event_build_wait(1.25);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh...");
+                scr_event_build_wait(0.25);
+                scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+                scr_event_build_wait(0.25);
+                scr_event_build_look(o_cts_hoopz, SOUTH);
+                scr_event_build_wait(0.25);
+                scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+                scr_event_build_wait(0.25);
+                scr_event_build_look(o_cts_hoopz, SOUTH);
+                scr_event_build_wait(0.75);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It looks like that curfew dealio is all done and dusted. The people are back on the streets, enjoying their lives...");
+                scr_event_build_wait(0.25);
+                scr_quest_set_state("curfewSurprise", 4);
+                }
+            }
+                    
+        // GAMEBOY ADVANCE //
+        scr_event_advance(event);
+        }    
+    }

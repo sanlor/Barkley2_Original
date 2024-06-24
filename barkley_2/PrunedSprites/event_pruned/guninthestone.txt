@@ -1,0 +1,68 @@
+// event_dz1_gunInTheStone01
+// Gun in the Stone, a stone you can destroy in the Industrial Park.
+// Taken by someone else at Time 10 if not destroyed.
+/*
+if (argument0 == SCRIPT_START)
+{
+    if (scr_quest_get_state("gunStone") == 2) {
+        scr_entity_animation_set(o_gunInTheStone01, "exploded");
+    } else if (scr_time_get() >= 10) {
+        scr_entity_animation_set(o_gunInTheStone01, "taken");
+    }
+}
+if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var gunInStone = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("gunStone") == 2) {
+        //used bomb to destroy stone.
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's just a pile of rubble now.");
+        } else if (scr_time_get() >= 10) {
+        //if Time is greater than 10.
+            if (scr_quest_get_state("gunStone") == 1){
+            //Tried pulling the gun out of the stone.
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? The gun is gone!");
+            } else {
+            //Never tried pulling the gun out of the stone.
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's just an old rock...");
+            }
+        } else {
+            // Before Time 10.
+            scr_event_build_dialogue("The Gun in the Stone", NULL, "You see a gun protruding from a solid block of stone. Do you attempt to pull the gun out?");
+            var choice = scr_event_build_choice("Pull the gun from the stone?", s_port_hoopz);
+            with scr_event_build_add_choice(choice, "Yes.") {
+                Breakout("build", "clear");
+                //Try to pull the gun from the stone.
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm gonna get that gun...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Urrrrg....... Urrrrrrrrrrrrrrrrrrrrg..... Guhhhhhhh... Ugh...............");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It won't budge...");
+                scr_event_build_quest_state("gunStone", 1);
+            }
+            with scr_event_build_add_choice(choice, "No.") {
+                //Don't pull it from stone.
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nah, not today...");
+                }
+            if (Item("have", "Bomb")) {
+                Breakout("build", "add", "Bomb");
+                with scr_event_build_add_choice(choice, "Blow it up with a bomb.")
+                {
+                    Breakout("build", "clear");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "What the cluck, I'm gonna blow it up! Here goes nothing...");
+                    Item("build", "lose", "Bomb", 1);
+                    //animation of stone blowing up.
+                    scr_event_build_quest_state("gunStone", 2);
+                    scr_event_build_dialogue(NULL, NULL, "Gain the _______ gun!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa, this thing is awesome...");
+                    //gain _______ gun
+                }
+            }
+        }
+    }
+    scr_event_advance(event);
+}

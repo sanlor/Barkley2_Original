@@ -1,0 +1,35 @@
+// Event for Kurush, a random Brain City guy that directs you to Nene.
+
+
+/*if (argument0 == SCRIPT_STEP) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var kurush = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("neneKnock") == 1) {
+        //if you've done Nene's longinus crap.
+            if(scr_quest_get_state("kurushState") <= 2) {
+            //haven't talked to Kurush after doing Nene stuff.
+                scr_event_build_dialogue("Kurush", NULL, "So you met Nene, huh? We had a throwdown last night and I got hammered. Man, that guy can really down some milk. I'm so hungover I can barely walk and it looks like Nene hasn't even left the OO Milk Bar yet.");
+                scr_event_build_quest_state("kurushState", 3);
+            } else {
+            //talked to Kurush after doing nene stuff.
+                scr_event_build_dialogue("Kurush", NULL, "Ugh, just leave me alone right now... my head is pounding with this dull throb, I feel like it's gonna explode... I'm never touching milk again...");
+            }
+        } else if (scr_quest_get_state("kurushState") == 0) {
+            // Never talked to him.
+            scr_event_build_dialogue("Kurush", NULL, "Ooooooh, my head... man, last night was crazy. I can hardly remember what happened, I went to the Milk Bar and it all goes blank. I remember Nene chugging milk my the quart, the room spinning. It's all still spinning...");
+            scr_event_build_quest_state("kurushState", 1);
+        } else if (scr_quest_get_state("kurushState") == 1) {
+            // Talked to him once.
+            scr_event_build_dialogue("Kurush", NULL, "I don't know how Nene can drink like that. One quart of milk after another, one carton after the next. I guess when you spend all day at the OO Milk Bar you build up a tolerance...");
+            scr_event_build_quest_state("kurushState", 2);
+        } else if (scr_quest_get_state("kurushState") == 2) {
+            // Talked 2 times.
+            scr_event_build_dialogue("Kurush", NULL, "Ugh, leave me alone... this is hangover's a monster...");
+        }
+    }
+    scr_event_advance(event);
+}

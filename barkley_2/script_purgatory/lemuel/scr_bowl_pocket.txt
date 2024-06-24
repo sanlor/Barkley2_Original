@@ -1,0 +1,25 @@
+// scr_bowl_pocket()
+// returns true if the player has a bowl in their pocket currently
+// if ZC_UNPOCKET == 0, it is equivalent to scr_bowl_have()
+
+/*
+if (scr_items_has(ITEMTYPE_ZAUBER, "Alms Bowl") || scr_items_has(ITEMTYPE_ZAUBER, "Purified Alms Bowl") || scr_items_has(ITEMTYPE_ZAUBER, "Harmonious Alms Bowl") || scr_items_has(ITEMTYPE_ZAUBER, "Mystic Alms Bowl"))
+{
+    return true;
+}
+else if (scr_items_has(ITEMTYPE_ZAUBER, "Ablution Bowl") || scr_items_has(ITEMTYPE_ZAUBER, "Humble Ablution Bowl") || scr_items_has(ITEMTYPE_ZAUBER, "Harmonious Ablution Bowl") || scr_items_has(ITEMTYPE_ZAUBER, "Mystic Ablution Bowl"))
+{
+    return true;
+}
+else if (scr_items_has(ITEMTYPE_ZAUBER, "Singing Bowl") || scr_items_has(ITEMTYPE_ZAUBER, "Humble Singing Bowl") || scr_items_has(ITEMTYPE_ZAUBER, "Purified Singing Bowl") || scr_items_has(ITEMTYPE_ZAUBER, "Mystic Singing Bowl"))
+{
+    return true;
+}
+else if (scr_items_has(ITEMTYPE_ZAUBER, "Mandorla"))
+{
+    return true;
+}
+else
+{
+    return false;
+}

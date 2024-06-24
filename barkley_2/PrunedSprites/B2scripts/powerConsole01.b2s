@@ -1,0 +1,297 @@
+    
+    // Build Event
+    var powerstation = id;
+    var event = scr_event_create_main();
+    var choice_snippet = scr_event_create_child(event);
+    var sent_snippet = scr_event_create_child(event);
+
+    
+    // variables
+    var who = "none";
+    if (scr_quest_get_state("sepidehVar") >= 1) 
+    {
+        if (scr_quest_get_state("pythagorasSpoken") >= 1)
+        { 
+            who = "both";
+        }
+        else 
+        {
+            who = "sepideh";
+        }
+    }
+    else if (scr_quest_get_state("pythagorasSpoken") >= 1)
+    { 
+        who = "pythagoras";
+    }
+
+    //----------------------------------------------------------------------------------------
+    // main event
+    //----------------------------------------------------------------------------------------
+    with (event)
+    {
+        
+        //----------------------
+        // POWER CONSOLE IS ON!
+        //----------------------
+        if (scr_quest_get_state("powerVar") == 1)
+        {
+            // Just restarted, sent power somewhere with choice_snippet
+            if (scr_quest_get_state("powerHandler") == 2)
+            {
+                // If first time sending power, increment time
+                if (scr_quest_get_state("powerCount") == 1) 
+                {
+                    scr_event_build_time_add(1);
+                }
+                
+                // Send back to choice_snippet
+                scr_event_build_quest_state("powerHandler", 0);
+                scr_event_build_event_snippet(choice_snippet);
+            }
+            
+            // On reset
+            else if (scr_quest_get_state("powerHandler") == 1)
+            {
+                scr_event_build_quest_state("powerHandler", 0);
+                scr_event_build_event_snippet(choice_snippet);
+            }
+            
+            //Spoken to Power Control before.
+            else if (scr_quest_get_state("powerVar") == 1)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's the power console! I can control the distribution of power in the Necron 7 from this thing. Maybe I should divert power somewhere...");
+                scr_event_build_event_snippet(choice_snippet);
+            }
+        }
+        
+        //-----------------------
+        // POWER CONSOLE IS OFF!
+        //-----------------------
+        else
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh, what's this... a super computer of some kind... no... no way. This is the power matrix for the entire Necron 7. I think I might be able to control the distribution of excess power from this station... I wonder how this works. Hacking the mainframe BIOS modulator...");
+            
+            // scr_event_build_wait(3);
+            // different text depending on if you have quests
+            if (who == "both")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "This must be the power station that Sepideh and P.Y.T.H.A.G.O.R.A.S. were both talking about.");
+            }
+            else if (who == "sepideh")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think this might be that power station Machinist Sepideh was talking about.");
+            }
+            else if (who == "pythagoras")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think this might be that power station P.Y.T.H.A.G.O.R.A.S. was talking about. ");
+            }
+            else if (who == "none")
+            {
+                scr_event_build_dialogue_debug("bort", NULL, "Correctly, no line appears here!");
+            }
+            
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Dang, I've never seen a dynamic kernel encryption algorithm like this before... I'm almost past the dual transistor protocol... just gotta overclock the mobo aaaaaaaaaaaaaaand........ I'm in! Heh, the old subnet overlay synchronization backdoor. What is this, 2053? Holy cow, I was right! I can reroute power to anywhere on the Necron 7 from this console!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh, so apparently this thing has power charges that I can send to any location on the grid that has a power deficit. Right now it's only got one power charge, but I can add more by installing batteries directly into the console. All I need to do is choose the location I want to route the power and it's there! It's that simple! So I guess the real question is... do I want to route power anywhere right now?");
+            
+            // different text depending on if you have quests
+            if (who == "both")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Machinist Sepideh did ask me to route power to the Industrial Park... and P.Y.T.H.A.G.O.R.A.S. wanted me to route power to it...");
+            }
+            else if (who == "sepideh")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Machinist Sepideh did ask me to route power to the Industrial Park...");
+            }
+            else if (who == "pythagoras")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "P.Y.T.H.A.G.O.R.A.S. wanted me to route power to it...");
+            }
+            else if (who == "none")
+            {
+                scr_event_build_dialogue_debug("bort", NULL, "Correctly, no line appears here!");
+            }
+            
+            // initialize variables and send to choice_snippet after resetting the event
+            scr_event_build_quest_state("powerUnits", 1);
+            scr_event_build_quest_state("powerHandler", 1);
+            scr_event_build_quest_state("powerVar", 1);
+            scr_event_build_execute_event_script(event_wst_powerConsole01);
+        }
+    }
+    
+    
+    //----------------------------------------------------------------------------------------
+    // choice_snippet 
+    //----------------------------------------------------------------------------------------
+    
+    with (choice_snippet)
+    {
+        //choices
+        var powerChoice1 = scr_event_build_choice("Divert power using Power Units? " + (string(scr_quest_get_state("powerUnits"))) + " left...", s_port_hoopz);
+    
+        //How does this work again?
+        with (scr_event_build_add_choice(powerChoice1, "How does this all work again?"))
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "So to recap what all I can do here, this console controls the distribution of power units throughout the Necron 7. There's x currently that I can freely move to any area that has a power deficit. I can add more power units by installing batteries into the console. I should probably check out the places I've moved power to. It's pretty simple!");
+            scr_event_build_quest_state("powerHandler", 1);
+            scr_event_build_execute_event_script(event_wst_powerConsole01);
+        }
+        
+        //Where are all these places?
+        with (scr_event_build_add_choice(powerChoice1, "What are all these places?"))
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, there are a ton of places on the Necron 7 with power deficits. I wonder what all these places are...");
+            //If Industrial Park visited.
+            if (scr_quest_get_state("visitedIndustrialPark") == 1) 
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, the Industrial Park is that run down Dwarf Zone in the junk yard area.");
+            }
+            //If Junk Yard visited.
+            if (scr_quest_get_state("visitedJunkyard") == 1) 
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "P.Y.T.H.A.G.O.R.A.S. is that giant computer out in the junkyard.");
+            }
+            
+            //If armory visited.
+            if (scr_quest_get_state("visitedArmory") == 1) 
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "The armory is that place not too far from here with the massive doors. I think it said armory on the wall.");
+            }
+            //If Brain City
+            if (scr_quest_get_state("visitedBrainCity") == 1) 
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Brain anomaly... that must refer to Brain City.");
+            }
+            
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, that's all the areas on this thing that I know.");
+            scr_event_build_quest_state("powerHandler", 1);
+            scr_event_build_execute_event_script(event_wst_powerConsole01);
+        }
+        
+        
+        if (scr_quest_get_state("batteryCount") >= 1)
+        {
+            //Install Battery.
+            with (scr_event_build_add_choice(powerChoice1, "Install battery."))
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Should I install a new battery into the console? I've got  " + (string(scr_quest_get_state("batteryCount"))) + " left.");
+                var batteryChoice = scr_event_build_choice("Install battery into console?", s_port_hoopz);
+                
+                //Install battery
+                with (scr_event_build_add_choice(batteryChoice, "Yeah."))
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Awesome, there's " + string(scr_quest_get_state("powerUnits") + 1) + " units of power now.");
+                    scr_event_build_quest_state_add("batteryCount", -1);
+                    scr_event_build_quest_state_add("powerUnits", 1);
+                    scr_event_build_quest_state("powerHandler", 1);
+                    scr_event_build_execute_event_script(event_wst_powerConsole01);
+                }
+                
+                //Keep battery
+                with (scr_event_build_add_choice(batteryChoice, "Nah, I may need it later."))
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nah, I'll hang onto it. I may need it somewhere else.");
+                    scr_event_build_quest_state("powerHandler", 1);
+                    scr_event_build_execute_event_script(event_wst_powerConsole01);
+                }
+            }
+        }
+        
+        
+        //Divert to Industrial Park.
+        if (scr_quest_get_state("industrialPower") < 1)
+        {
+            with (scr_event_build_add_choice(powerChoice1, "Send power to Industrial Park."))
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I can transfer power to the Industrial Park... should I do it?");
+                
+                //Send Power
+                var industrialChoice = scr_event_build_choice("Divert power to Industrial Park?", s_port_hoopz);
+                with (scr_event_build_add_choice(industrialChoice, "Yeah, send power."))
+                {
+                    //Have enough power.
+                    if (scr_quest_get_state("powerUnits") >= 1)
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Transferring power units to the Industrial Park...");
+                        
+                        // Have surplus
+                        if (scr_quest_get_state("powerUnits") >= 2) 
+                        {
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think that did it... looks like there's " + string(scr_quest_get_state("powerUnits") - 1) + " units of power now.");
+                        }
+                        // All out
+                        else
+                        {
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Looks like there's no more units of power left now.");
+                        }
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cool, so I guess I've transferred power to the Industrial Park! Maybe I should go check it out now!");
+                        scr_event_build_quest_state("industrialPower", 1);
+                        scr_event_build_quest_state_add("powerUnits", -1);
+                        scr_event_build_quest_state_add("powerCount", 1);
+                        scr_event_build_quest_state("powerHandler", 2);
+                        scr_event_build_execute_event_script(event_wst_powerConsole01);
+                    }
+                    //Not enough power.    
+                    else 
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Aw shucks, there aren't enough power units to do this.");
+                        scr_event_build_quest_state("powerHandler", 1);
+                        scr_event_build_execute_event_script(event_wst_powerConsole01);
+                    }
+                }
+                //Don't send power.
+                with (scr_event_build_add_choice(industrialChoice, "Nah, forget it."))
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nah, forget it.");
+                    scr_event_build_quest_state("powerHandler", 1);
+                    scr_event_build_execute_event_script(event_wst_powerConsole01);
+                }
+            }
+        }
+        
+        
+        //Junk Yard
+        with (scr_event_build_add_choice(powerChoice1, "Send power to Junk Yard."))
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Not in yet.");
+            scr_event_build_quest_state("powerHandler", 1);
+            scr_event_build_execute_event_script(event_wst_powerConsole01);
+        }
+        
+        
+        //Armory
+        with (scr_event_build_add_choice(powerChoice1, "Send power to Armory.")) 
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Not in yet.");
+            scr_event_build_quest_state("powerHandler", 1);
+            scr_event_build_execute_event_script(event_wst_powerConsole01);
+        }
+        
+        
+        //Brain Anomaly
+        with (scr_event_build_add_choice(powerChoice1, "Send power to Brain Anomaly.")) 
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Not in yet.");
+            scr_event_build_quest_state("powerHandler", 1);
+            scr_event_build_execute_event_script(event_wst_powerConsole01);
+        }
+        
+        
+        //Get Battery
+        with (scr_event_build_add_choice(powerChoice1, "DEBUG: Get battery.")) 
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "mama mia its a battery");
+            scr_event_build_quest_state_add("batteryCount", 1);
+            scr_event_build_quest_state("powerHandler", 1);
+            scr_event_build_execute_event_script(event_wst_powerConsole01);
+        }
+        
+        
+        //Nah, not now.
+        with (scr_event_build_add_choice(powerChoice1, "Nah, not now."))
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nah, not now, but I'll try to come back later.");
+        }
+    }
+
+    scr_event_advance(event);

@@ -1,0 +1,47 @@
+// NPC script for Meinhardt, at the start of the Rebel Quest finale.
+// PLACEMENT NOTE: Since I used it somewhat extensively in the duergar quest anyway, the courtyard is probably a good place to put Florian, Meinhardt, and Compson for the final infiltration quest.
+// NOTE: I've got a feeling I've set this up wrong, but the way this works is that if the player has EVER spoken to Meinhardt before, there's slight variances in the dialogue to suggest familiarity between the two characters, namely in one dialogue box that appears(with Meinhardt winking at the player) after their purchase. I think I did this wrong because I didn't put this in a snippet or anything, which is probably where an inventory will need to be. I dunno. I'm totally in the dark about how inventories will work. So this script may need to be revised slightly later on, though it shouldn't be a big deal because it isn't a very detailed or complicated script.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") <= 9) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") == 7) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var meinhardt = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("meinhardtBaseState") == 1) {
+            Dialogue(P_NAME, "Can I take another look through your supplies?");
+            scr_event_build_dialogue(NULL, NULL, "*Meinhardt nods. He hands you a small list. The handwriting is a little shakier than normal.*");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: INSERT MEINHARDT'S INVENTORY HERE.");
+            // TODO: INSERT MEINHARDT'S INVENTORY HERE
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "......");
+            scr_event_build_dialogue(NULL, NULL, "*Meinhardt winks at you and smiles.*");
+            scr_event_build_end();
+        } else if (Quest("meinhardtState") == 1) {
+            Dialogue(P_NAME, "Hi Meinhardt, can I take another look at your supplies?");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "......");
+            scr_event_build_dialogue(NULL, NULL, "*Meinhardt nods. He hands you a small list. The handwriting is a little shakier than normal.*");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: INSERT MEINHARDT'S INVENTORY HERE.");
+            // TODO: INSERT MEINHARDT'S INVENTORY HERE
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "......");
+            scr_event_build_dialogue(NULL, NULL, "*Meinhardt winks at you and smiles.*");
+            Dialogue(P_NAME, "(You know, maybe things are going to work out after all....)");
+            Quest("meinhardtBaseState", 1);
+            scr_event_build_end();
+        } else if (Quest("rebelQuest") == 6) {
+            Dialogue(P_NAME, "Hey, do you have any supplies here I can look through?");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "......");
+            scr_event_build_dialogue(NULL, NULL, "*Meinhardt nods. He hands you a small list.*");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: INSERT MEINHARDT'S INVENTORY HERE.");
+            // TODO: INSERT MEINHARDT'S INVENTORY HERE
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

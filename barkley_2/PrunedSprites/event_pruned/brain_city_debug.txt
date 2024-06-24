@@ -1,0 +1,64 @@
+///I test for bugs using this in NPC Villa
+if (argument0 == SCRIPT_START) 
+{
+    
+} 
+else if (argument0 == SCRIPT_INTERACT) 
+{
+    var event = scr_event_create_main();
+    with (event)
+    {
+        var choice = scr_event_build_choice("Which cinema to play?", s_port_hoopz);
+        with (scr_event_build_add_choice(choice, "0 = First entry into base.")) 
+        {
+            Quest("longinusDoorOpen", 3);
+            Quest("wiglafState", 0);
+            Quest("wiglafMission", 0);
+            Quest("tuberPeel", 0);
+            scr_event_build_execute_event_script(event_bct_longinusDoor01);
+        }
+        with (scr_event_build_add_choice(choice, "1 = Tuber closet.")) 
+        {
+            Quest("longinusDoorOpen", 4);
+            Quest("wiglafState", 1);
+            Quest("wiglafMission", 0);
+            Quest("tuberPeel", 1);
+            scr_event_build_teleport(r_bct_tuberCloset01, 198, 120, 1, 1);      
+        } 
+        with (scr_event_build_add_choice(choice, "2 = After tuber peeling.")) 
+        {
+            Quest("longinusDoorOpen", 4);
+            Quest("wiglafState", 1);
+            Quest("wiglafMission", 0);
+            Quest("tuberPeel", 2);
+            scr_event_build_teleport(r_bct_longinus01, 224, 240, 1, 1);    
+        }
+        with (scr_event_build_add_choice(choice, "3 = Meeting Cyberdwarf 1st time.")) 
+        {
+            // event_bct_cdwarf_cinema01 <- F12
+            Quest("longinusDoorOpen", 4);
+            Quest("wiglafState", 1);
+            Quest("tuberPeel", 4);
+            
+            Quest("cdwarfCinema", 1);
+            Quest("csQuest", 1);
+            Quest("wiglafMission", 3);
+            Quest("trigalScene", 0);
+            scr_event_build_teleport(r_bct_cyberdwarf01, 320, 624); // CANNOT USE FADE
+        }
+        with (scr_event_build_add_choice(choice, "4 = Running from CDwarf.")) 
+        {
+            // event_bct_cdwarf_cinema01 <- F12
+            Quest("longinusDoorOpen", 4);
+            Quest("wiglafState", 1);
+            Quest("tuberPeel", 4);
+            
+            Quest("cdwarfCinema", 2);
+            Quest("csQuest", 1);
+            Quest("wiglafMission", 3);
+            Quest("trigalScene", 0);
+            scr_event_build_teleport(r_bct_longinus01, 0, 0, 1, 2); // MUST USE FADE
+        }
+    }
+    scr_event_advance(event);
+}

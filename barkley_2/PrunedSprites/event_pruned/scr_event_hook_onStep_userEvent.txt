@@ -1,0 +1,2 @@
+/// scr_event_hook_onStep_userEvent(user_event)
+hook_onStep_event = argument0;

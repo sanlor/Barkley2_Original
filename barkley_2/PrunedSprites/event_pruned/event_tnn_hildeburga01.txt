@@ -1,0 +1,37 @@
+// Script for Hildeburga.
+// usage: event_tnn_hildeburga01();
+
+if (argument0 == SCRIPT_START) {
+    // Changes Hildeburga's animation to Sleeping
+    if (scr_inside() == true)
+    {
+        scr_entity_animation_set(o_hildeberga01, "hildeSleeping")
+    }
+    
+    // Activation & Deactivation for Curfew
+    if ((scr_time_db("tnnCurfew") == "during") && !scr_inside()) { scr_event_interactive_deactivate(); }
+    if (!(scr_time_db("tnnCurfew") == "during") && scr_inside()) { scr_event_interactive_deactivate(); }
+}
+
+else if (argument0 == SCRIPT_INTERACT) {
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_time_db("tnnCurfew") == "during") {
+            scr_event_build_dialogue("Hildeburga", NULL, "Zzz...cars...zzz...");
+        } else if (scr_quest_get_state("govCar") == 3) {
+        //Spoken to Hildeberga and Amalberga about garage.
+            scr_event_build_dialogue("Hildeberga", NULL, "We're gonna supercharge the engine, put in a new ignition system, put on some low profile tires, maybe even install a nitrous injector. And don't even forget the loudest stereo system this side of a Jamaican dancehall. Yeah, no question, we're gonna have the sweetest ride on the Necron 7.");
+        } else if (scr_quest_get_state("govCar") == 2) {
+        //Gave Hildeberga and Amalberga a garage to work in during Gov speech.
+            scr_event_build_dialogue("Hildeberga", NULL, "Hahaha, can you believe it? The new governor said we're getting a brand new garage with all the tools we need to soup this bad boy up. Doesn't he realize we're just gonna break out the front gate with it?");
+            scr_event_build_quest_state("govCar", 3);
+        } else if (BodySwap() == "governor") {
+        //if you're controlling the Governor.
+            scr_event_build_dialogue("Hildeburga", NULL, "I just want to cruise... don't care about Cuchulainn, don't care about Tir na Nog... I just wanna feel the wind in my hair...");
+        } else { 
+            scr_event_build_dialogue("Hildeburga", NULL, "Amy and I have big plans for this bad boy. I'd like to see the Duergars try to keep us in Tir na Nog while we're pushing this baby as hard as it goes. Look at that speedometer. It goes all the way to 200! I just don't know whether it's in miles or kilometers...");
+            scr_event_build_quest_state("govCar", 1);
+        }
+    }
+    scr_event_advance(event);
+}

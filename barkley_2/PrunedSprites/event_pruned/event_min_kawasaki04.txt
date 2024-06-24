@@ -1,0 +1,40 @@
+// Kawasaki NPC script - REBEL QUEST GOOD ENDING
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonquestgoodState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var kawasaki = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("kawasakigoodState") == 2) {
+            scr_event_build_dialogue("Kawasaki", NULL, "You know, Charlie, life ever stops making sense to you, or you get sick of how ain't nothing gonna be there for good, you could always make your way back to the prison.\Your name ain't gonna vanish from those computers, and you didn't finish up that sentence. Could pull another break if we get antsy, too.\Probably don't sound like much, but when you get up in years you may realize that it's nice having something always there waiting for you. Not everybody got something like that.");
+            scr_event_build_end();
+        } else if (Quest("kawasakigoodState") == 1) {
+            scr_event_build_dialogue("Kawasaki", NULL, "You know, these kids ain't half-bad. Couldn't organize a sock drawer, but they got heart. Nice to see.\Wonder how much longer this dwarf uprising thing is gonna last.");
+            Dialogue(P_NAME, "Beats me. Hopefully forever. I'd hate to think all of this is going to just fall apart tomorrow.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Forever's a long time, Charlie. I seen things like this before. It don't last.\Not a knock on any of 'em, it just don't last forever. Time ain't a nice thing. Kinda thing that ain't gonna flinch if you look it in the eye.\Hell, I got a leg up on all the rest, and still time scares the hell outta me.\As great a thing as this was today, a day's gonna come along where I'm the only feller alive who remembers it.\I could sit around tellin' everybody about all I seen, but history don't work like that. It comes and goes.\When something big enough happens to create a shockwave, it's the kinda shockwave you ain't gonna see with your eyes or remember with your heart.\The kinda shockwave that rattles around in your bones. The kind they ain't got no words for.");
+            Dialogue(P_NAME, "That's really sad. So all this was for nothing?");
+            scr_event_build_dialogue("Kawasaki", NULL, "I dunno. That's your call. Kept me pretty entertained.\And if you go through your life only doing things people gonna remember for all time, you gonna be sitting in a corner not doing very much.\Ain't nothing to be bothered by. Just the way things work. One day, way in the future, all this is gonna be wiped clean.\Maybe a couple things from the past will still be around, old enough where nobody much will make sense out of it. Words that ain't in the dictionary.\Prison's probably still gonna be here. Lasted this long, I'd wager what's left of my teeth somebody else is gonna get around to using it again.\It'll be a right funny grand opening. Going through the computer, finding this fading old rockpile with a life sentence still hanging around.\Happened before. I never put up much of a fight.");
+            Dialogue(P_NAME, "You know, I could go right into the prison and break all the computers for you. I'm pretty good at shooting things up.\If there's no computer, there's no record of your ever being a prisoner.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Nah, don't go and do that, Charlie.\We geode dwarfs get drawn a pretty bad lot in life. Sure, first couple hundred thousand years it's as grand as can be.\Starts to weigh on you after a while. You get pretty nice things in your life, then as soon as you realize how good you got it, somebody come and takes it all away from you.\You get used to that, but it's right hard to go through this life without anything to call your own. Something waiting for you.\Probably sounds mighty silly to you, but that's what that prison is to me. It belongs to me. And I belong to it.\I left the whole ziggurat at points, sometimes for millions of years, but I always come back. Life and death's the same no matter where you go.\All the rest of these lives just flash by my eyes, all the new paint jobs that make their way on the prison walls. But that paint never sticks. Peels off after a while, and I get to see an old friend waiting there for me underneath.");
+            Dialogue(P_NAME, "Well ok then! You've talked me out of it!");
+            scr_event_build_dialogue("Kawasaki", NULL, "Much obliged, Charlie.");
+            Quest("kawasakigoodState", 2);
+            scr_event_build_end();
+        } else if (Quest("kawasakiState") >= 2) && (Quest("prisonquestgoodState") == 1) {
+            scr_event_build_dialogue("Kawasaki", NULL, "Well that was something else, wasn't it, Charlie?");
+            Dialogue(P_NAME, "Mr. Kawasaki, I hate to tell you this, but I lied. I really don't think I'm Charlie. I'm not made of rock or anything, I'm pretty sure of that.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Hell, I know that, boy. Charlie died a long time ago. Our last escape attempt, they took out one of those laser gun's and vaporized him.\He was right behind me, we was almost there, and I heard those big clunky footsteps of his go quiet behind me. Turned around to see the last of him evaporating.\Couldn't find nobody good to chat with after that, these kids nowadays don't have much interest in talking to an old pile of rocks.\That's hard. You got your best friend, your only friend, and suddenly you got the rest of your life without him.\I guess you reminded me of him. It's in the eyes. Course yours are a lot fleshier, but you both had eyes that told me that there ain't a prison known to dwarf that could keep you locked up.\What, you didn't think I was going to lend my arm to any wiseass kid, did you?");
+            Quest("kawasakigoodState", 1);
+            scr_event_build_end();
+        } else if (Quest("prisonquestgoodState") == 1) {
+            scr_event_build_dialogue("Kawasaki", NULL, "These kids ain't half-bad. Couldn't organize a sock drawer, but they got heart. Nice to see.");
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

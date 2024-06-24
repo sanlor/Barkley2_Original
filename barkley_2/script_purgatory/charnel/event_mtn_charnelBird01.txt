@@ -1,0 +1,30 @@
+// event_mtn_charnelBird01
+/*
+if (argument0 == SCRIPT_START)
+{
+    var graphic = scr_charnel_decay("bird");
+    if (graphic == "none") { scr_actor_unsetRigid(o_charnelBird01); instance_destroy(); }
+    else { scr_entity_animation_set(o_charnelBird01, graphic); }
+}
+else if (argument0 == SCRIPT_START)
+{
+
+}
+if (argument0 == SCRIPT_INTERACT)
+{
+    if (Quest("charnelMeditate") == 1)
+    {
+        var charnelBird = id;
+        var event = scr_event_create_main();
+        
+        
+        //--------------------------------------------
+        // Main Event
+        //--------------------------------------------
+        with (event)
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "Charnel Ground Bird");
+        }
+        scr_event_advance(event);
+    }
+}

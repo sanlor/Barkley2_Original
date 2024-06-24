@@ -1,0 +1,21 @@
+// Event script for the intro dialogue of the Warden boss battle. This script is Event #11 from my Prison Break design document.
+// BATTLE NOTE: It's critically important, but killing the Warden MUST increase the prisonQuest state to 9. The ending scripts won't trigger otherwise.
+
+/*
+if (argument0 == SCRIPT_START) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var warden = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("prisonQuest") == 8) {
+            scr_event_build_dialogue("Warden", NULL, "YOU!!!\YOU!!!!!!\Everything beautiful in the universe - RUINED\All light in the universe - EXTINGUISHED\The hopes of all of duergardom - DESTROYED\NO MORE GOOD REMAINS IN THE UNIVERSE!!!!! JUST YOU___________, AN UGLY_______, WORTHLESS KID WITH DISGUSTING POSTURE THAT EVEN A BLIND, DEAF MOTHER COULDN'T LOVE!!!!\WHAT DOES SUCH A LOWLY MAGGOT HAVE TO SAY FOR ITSELF!!!!");
+            Dialogue(P_NAME, "I've decided to check out of your establishment, jerk. And my pals are coming with me.");
+            scr_event_build_dialogue("Warden", NULL, "You have used my beautiful voice against my will!!!! For that, your punishment is a duergar-style drowning in the blood of all your fucking worthless friends!!!!\PREPARE FOR MAXIMUM BLOODSHED!!!!!!!");
+            scr_event_build_dialogue_debug("Hundley", NULL, "BATTLE TODO: The Warden goes feral and begins fighting the player.");
+            // Battle ensues.
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

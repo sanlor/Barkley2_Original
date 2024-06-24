@@ -1,0 +1,76 @@
+// Ronald Reagans dirty dirty deeds // Quest: Political revolution to the USA //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+// Variables //
+    var event = scr_event_create_main();
+    var confession = scr_event_create_child(event);
+    
+    // Main event //
+    with (event) {
+            // pdt_political //
+            // 0 = Not activated//
+            // 1 = Activated //
+            // 2 = End //
+            
+            scr_event_build_music_set("mus_blankTEMP", 0);
+            scr_event_build_look(o_cts_hoopz, SOUTH);
+
+            scr_event_build_camera_move(+64, -16, MOVE_SLOW);
+            //scr_event_build_camera_frame(MOVE_FAST, o_cts_hoopz, o_pdt_unclesam01);
+            scr_event_build_wait_for_actions();
+            //camera_stick(); // with (scr_event_find_main()) _camera_reset = 0;          
+            scr_event_build_wait(1.25);
+            scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, SOUTH);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, SOUTH);
+            scr_event_build_wait(0.75);
+            scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+            scr_event_build_wait(0.1);
+            scr_event_build_look(o_cts_hoopz, WEST);
+            scr_event_build_wait(0.25);
+            
+            //scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey... That car over there... That's president Ronald Reagan!");            
+            scr_event_build_wait(0.5);
+            scr_event_build_music_set_instant("mus_political_yskolob", 1);
+            scr_event_build_wait(0.75);
+            scr_event_build_move_to_point_ext(o_pdt_reagan01, 960, o_pdt_reagan01.y, MOVE_FAST);
+            scr_event_build_wait(1.5);
+            scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+            scr_event_build_wait(0.1);
+            scr_event_build_look(o_cts_hoopz, SOUTH);
+            scr_event_build_wait(3.5);
+            scr_event_build_animation_play_and_set(o_pdt_unclesam01, "spooked", "spooked");
+            scr_event_build_wait(0.5);
+            scr_event_build_animation_play_and_set(o_pdt_unclesam01, "mud", "mud");
+            scr_event_build_wait(2.5);
+            scr_event_build_create_object(o_cts_reagan, x, y);
+            scr_event_build_quest_state("pdt_political", 1);
+        }
+    scr_event_advance(event); 
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+// Variables //
+    var event = scr_event_create_main();
+    var confession = scr_event_create_child(event);
+    
+    // Main event //
+    with (event) {
+           
+            if scr_quest_get_state("pdt_political") == 2 then scr_event_build_teleport(r_pdt_mainArea01, 608, 152, 2, 2);
+        }
+    scr_event_advance(event); 
+
+}

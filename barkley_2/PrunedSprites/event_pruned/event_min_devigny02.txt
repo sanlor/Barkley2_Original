@@ -1,0 +1,64 @@
+// Escape script for the NPC Devigny, one of the player's cellmates. This script appears when the player is ready to start their jailbreak.
+// NOTE: Devigny assists the player as a combatant in this general area, though not in this location, though this NPC does move around during this scene(controlled by other scripts). I've split the Devigny scripts into the one that just sits in the jail cell(devigny01) and another one for Devigny potentially running around helping the player(this script, devigny02). This may not have been needed, but I figure preparing for the possibility of that would be helpful. Merging this script into Devigny01 wouldn't be a challenge anyway.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("prisonQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var devigny = id;
+    var event = scr_event_create_main();
+    var DevignyRecruitCut = scr_event_create_child(event);
+    with DevignyRecruitCut {
+        scr_event_build_dialogue("Devigny", NULL, "Hmm.....I don't know......\Was really looking forward to some good digging. That was my job on the outside, you know. Grave digging.");
+        Dialogue(P_NAME, "You know, those duergars are going to be pretty pissed at us for breaking everybody out. We're probably going to have to shoot a bunch of them.....");
+        scr_event_build_dialogue("Devigny", NULL, "Hmmm. Yes sir, I reckon so.");
+        Dialogue(P_NAME, "And when people get shot they usually die.");
+        scr_event_build_dialogue("Devigny", NULL, "Right on the money there too. I'm a bit of a death expert, so I can verify these things.");
+        Dialogue(P_NAME, "So then there will be all these dead bodies around. I guess they'll need to go somewhere, right?");
+        scr_event_build_dialogue("Devigny", NULL, "You've got that right. And I don't know if you really know this, but the best place for the dead is a.......\Wait a minute. Stop. Stop right there.\Don't know how I never thought of this before. I always asked myself what I should do with myself when the grave-digging business got slow. Can't dig a grave if nobody's dead.\You're a genius, kid. You're going to go far in the grave-digging business. Just make more bodies. Brilliant.");
+        Dialogue(P_NAME, "Things are going to get pretty messy in a few minutes. Will you be all right?");
+        scr_event_build_dialogue("Devigny", NULL, "Don't pay me no mind, kid. Isn't a beast alive that can stand between me and my grave.");
+        Quest("devignyrecruitState", 1);
+        QuestAdd("cellrecruitState", 1);
+        scr_event_build_end();
+    }
+
+    with (event) {
+        if (Quest("cellrecruitState") == 2) {
+            scr_event_build_dialogue("Devigny", NULL, "Don't worry about a thing, kid. My grave-digging empire is hinged on this. We'll stick it to those duergars.");
+            scr_event_build_end();
+        } else if (Quest("devignyrecruitState") == 1) {
+            scr_event_build_dialogue("Devigny", NULL, "Better wake the old fart there. Let him know what you're planning.");
+            scr_event_build_end();
+        // Heard Devigny's plan
+        } else if (Quest("devignyState") == 3) {
+            Dialogue(P_NAME, "Hey, I've got a great escape plan. We're going to open all the cells and let everybody out at once.\A full scale jail break. You wanna help me out?");
+            scr_event_build_dialogue("Devigny", NULL, "Hey, no kidding. How's that going to work?");
+            Dialogue(P_NAME, "Well all the doors are voice-activated, so I just stole the voice box thingy from the Warden. Now I can open any door I want.");
+            scr_event_build_dialogue("Devigny", NULL, "That's a pretty cool idea. I don't know how this voice box thingy is going to help you dig, though. You can't dig with something like that.");
+            Dialogue(P_NAME, "I was kinda hoping we could do this without spending several years digging, actually.");
+            Snippet(DevignyRecruitCut);
+        // Never heard Devigny's plan
+        } else {
+            Dialogue(P_NAME, "Hey, I've got a great escape plan. We're going to open all the cells and let everybody out at once.\A full scale jail break. You wanna help me out?");
+            scr_event_build_dialogue("Devigny", NULL, "Uh, yeah, I guess. Who are you again?");
+            Dialogue(P_NAME, "I'm your cellmate.");
+            scr_event_build_dialogue("Devigny", NULL, "Huh. Well I never seen you before in my life.");
+            Dialogue(P_NAME, "I've been in here before. I thought you saw me.");
+            scr_event_build_dialogue("Devigny", NULL, "Nope. You sure you got the right cell?");
+            Dialogue(P_NAME, "Yeah, I think so. They led me back here and all.");
+            scr_event_build_dialogue("Devigny", NULL, "Well, whatever. I might help out, might not. Got my own plan to bust out of here.");
+            Dialogue(P_NAME, "What? You do?");
+            scr_event_build_dialogue("Devigny", NULL, "Yeah. Digging out. Got a hole I'm working on under my cot.\Ain't in such a hurry though. My plan may take a few years, but I'll be out of here.");
+            Dialogue(P_NAME, "Wouldn't leaving now be better than waiting a few years?\I mean, if this plan works, the prison is going to be empty. You'll just be sitting here digging alone in an empty prison. You'll probably get lonely.");
+            Snippet(DevignyRecruitCut);
+        }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,229 @@
+//Suresh
+//------------------------------------------------------------------------------
+//time < 4
+//------------------------------------------------------------------------------
+Suresh:
+Hey, guess what: I like trash. If you like it too, we can be friends.
+
+I'm the trash bigshot.
+	X114JAM9:
+	I'm the trash bigshot around here.
+	
+	Suresh:
+	Ahhh... ahhh... that's what I want to hear. Let me tell you a secret, youngster. People think trash is junk, but I know the truth. Trash is actually really great. This jerkin I'm wearing? I found it in the trash. I hope you believe me.
+	
+	//sureshState = 1;
+	//end dialogue;
+
+Give me a break.
+	X114JAM9:
+	Give me a break. Ah, ah, give me a break.
+	
+	Suresh:
+	If you don't believe me, that's okay. I'm content with myself and trash. I think about trash at all times and I think about garbage at all times. It's a mental exercise for me.
+	
+	//sureshState = 1;
+	//end dialogue;
+	
+You think you know about trash?
+	X114JAM9:
+	You think you know everything about trash?
+	
+	Suresh:
+	Anyone who tells you they know everything about trash is a liar, a huckster, a mountebank or a numps. I don't know everything there is to know about trash, but I know a fair amount, and let me tell you youngster, trash is treasure. Trash is treasure...
+	
+	//sureshState = 1;
+	//end dialogue;
+
+Spoof me once, shame on you.
+	X114JAM9:
+	Spoof me once, shame on you. Spoof me twice, shame on me.
+	
+	Suresh:
+	Not buying it, eh? Let me tell you this, youngster. This jerkin I'm wearing? Got it from the trash. If you think you can't find anything good in the trash, you're out of your gourd. That's why I say look to the trash. Try it, youngster.
+	
+	//sureshState = 1;
+	//end dialogue;
+
+Trash is not a toy.
+	X114JAM9:
+	Tut tut... trash is not a toy.
+	
+	Suresh:
+	The youngster speaks truth... the youngster speaks truth... listen up youngster, I know the ins and outs of trash. You can always find something good in the trash. That's what I always say. That's why you should look in the trash. I hope you believe me.
+	
+	//sureshState = 1;
+	//end dialogue;
+
+Speak up? Speak up? Eh?
+	X114JAM9:
+	Speak up? Eh? Speak up? Could you pipe up? Eh? Eh?
+	
+	Suresh:
+	To me, trash is important to me. You never know what you'll find in the trash. That's why I always look in the trash. You would be wise to look in the trash too. Don't forget my advice.
+	
+	//sureshState = 1;
+	//end dialogue;
+
+//------------------------------------------------------------------------------	
+//sureshState = 1
+//------------------------------------------------------------------------------
+
+Suresh:
+Listen closely, youngster. I love trash and I love garbage.
+
+//time > 3
+
+Suresh:
+I find great things in the trash every day. You should also look in the trash if you want to find great stuff. But don't look in my trash.
+
+I go where I want.
+	X114JAM9:
+	I go wherever I want. Capice?
+	
+	Suresh:
+	I understand that. So do I. Maybe if you like trash too, we could be friends. I had a trash friend a little while ago but he's gone now. I miss him.
+	
+	//sureshState = 2;
+	//end dialogue;
+
+Listen well, trashmonger.
+	X114JAM9:
+	Listen well, trashmonger: I don't give a hoot. I'm not convinced it's a good idea to touch garbage.
+	
+	Suresh:
+	I think it's a great idea to touch garbage. Like my jerkin? I found it in the garbage with my friend. My friend's gone now. I miss him. I hope I've convinced you to touch garbage.
+	
+	//sureshState = 2;
+	//end dialogue;
+
+Fie fie.
+	X114JAM9:
+	A-fie fie... For shame... for shame... a-tut tut...
+	
+	Suresh:
+	It's okay if you don't like digging through trash, but the truth is you can find great stuff there. It's what I like to do with my time. I spend my days and nights looking for good stuff. It's my job. It could be yours too. Do you believe me? Think about it.
+	
+	//sureshState = 2;
+	//end dialogue;
+	
+A penny for your thoughts. A penny for your thoughts.
+	X114JAM9:
+	A penny for your thoughts. A penny for your thoughts.
+	
+	Suresh:
+	Right now I'm thinking about trash. I think there's a lot of good stuff in the trash. Like this jerkin I'm wearing. Do you like it? You can find great stuff in trash all the time, so you should do it too. Well, let's be trash friends.
+
+	//sureshState = 2;
+	//end dialogue;
+	
+Cram it, rat pip.
+	X114JAM9:
+	Cram it, rat pip. Cram it, scrud toucher.
+	
+	Suresh:
+	If that's the way you feel, I guess I have no choice... I just wanted to tell you how I feel about trash... a.k.a. I love it... but if that's how you feel... I guess I'll cork my yapper...
+	
+	//sureshState = 2;
+	//end dialogue;
+
+//------------------------------------------------------------------------------
+//sureshState = 2;
+//------------------------------------------------------------------------------
+
+Suresh:
+I liked it when my pal Figbottom and I used to look for trash together. I haven't seen Figbottom in a while and I miss him. We used to be trash friends.
+
+//end dialogue;
+
+//figbottomQuest = 3;
+
+X114JAM9:
+Hey, you're Suresh, right? You used to be a friend of Figbottom's. I'm looking for some information about Figbottom's disappearance, is there anything you could tell me?
+
+Suresh:
+Hi. I'm Suresh and I love trash. So did Figbottom. We were best trash friends and we used to dig around in the trash together. That was our job, looking in the trash.
+
+X114JAM9:
+Yeah, I gathered that. Is there anything you could tell me about his disappearance?
+
+Suresh:
+Um, no, I don't think so. I haven't seen him in a long time. That's all.
+
+X114JAM9:
+Well is there anyone else who might know more?
+
+Suresh:
+Um, you should ask Kunigunde because she always knows everything. But you shouldn't ask me because I don't know anything.
+
+X114JAM9:
+Okay, I'll do that. But if I find out you're hiding anything from me, I'll be back.
+
+Suresh:
+Don't come back please.
+
+//figbottomQuest = 4;
+//end dialogue;
+
+//------------------------------------------------------------------------------
+//figbottomQuest > 3 and < 6
+//------------------------------------------------------------------------------
+
+Suresh:
+Hi again. I'm Suresh the trash lover. I remember you. We just spoke about Figbottom. I don't know anything about Figbottom's disappearance so I don't think we have anything to talk about. Well, see ya!
+
+//------------------------------------------------------------------------------
+//figbottomQuest = 6
+//------------------------------------------------------------------------------
+
+X114JAM9:
+Suresh, Moriarty the vagrant told me he saw you and Figbottom arguing about something a few days ago.
+
+Suresh:
+Hi. I don't know who Moriarty is. Sorry.
+
+X114JAM9:
+Cut it out, Suresh. You know you're a suspect in this case and if you're holding out on information, you could be in big trouble.
+
+Suresh:
+Umm, okay, I'm sorry. Yes, we had a big argument about some trash we found together. It's the jerkin I'm wearing. Do you like it?
+
+X114JAM9:
+Wait, what was the argument about?
+
+Suresh:
+Um, it was about who got to keep it. I said it was mine because I found it, but Figbottom said it was his because we split everything. But since he's gone now, I get to keep it.
+
+X114JAM9:
+Suresh, did you kill him in order to take the jerkin?
+
+Suresh:
+Um, no, I don't think so. I think it was Kunigunde. Figbottom and Kunigunde used to know each other a long time ago.
+
+X114JAM9:
+What? How did they know each other? Why didn't you tell me that earlier?
+
+Suresh:
+They used to know each other back in Tir na Nog. I think they were part of a tontine together. Do you know what that is? Everyone puts money into a pot and when everyone in the tontine dies, the last remaining person gets the pot.
+
+X114JAM9:
+You should have told me this earlier, Suresh.
+
+Suresh:
+I was thinking about trash.
+
+X114JAM9:
+I'm leaving, but don't forget that you're still a suspect, Suresh.
+
+Suresh:
+Bye.
+
+//figbottomQuest = 7;
+//end dialogue;
+
+//------------------------------------------------------------------------------
+//figbottomQuest = 7
+//------------------------------------------------------------------------------
+
+Suresh:
+Hi. If you think I killed Figbottom for the jerkin, you're wrong. But I like my new jerkin. That's all. I also like trash.

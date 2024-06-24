@@ -1,0 +1,23 @@
+// Check region for likely AZERTY keyboard layout
+// Can't natively open Keyboard 'Preload', Using Data Format 'Locale' as Fallback
+
+// TODO: Find replacement
+//registry_set_root(0);
+//lang_get = registry_read_string_ext("\Control Panel\International", "Locale");
+//lang_get = string_upper(lang_get);
+lang_get = "TODO"
+
+key_region[0] = "1401"; // Arabic Algeria
+key_region[1] = "1801"; // Arabic Morocco
+key_region[2] = "1C01"; // Arabic Tunisia
+key_region[3] = "813"; // Dutch Belgian 
+key_region[4] = "040C"; // French Standard
+key_region[5] = "080C"; // French Belgian
+key_region[6] = "140C"; // French Luxembourg
+key_region[7] = "180C"; // French Monaco
+
+for(i=0; i<8; i+=1;)
+    if string_pos(key_region[i],lang_get)
+        return 1;
+
+return 0;

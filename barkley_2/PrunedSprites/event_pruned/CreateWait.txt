@@ -1,0 +1,24 @@
+/// CreateWait(x, y, object_index)
+if (is_real(argument[0])) // ds_list containing actions
+{
+    var minigame_event = instance_create(0, 0, o_minigame);
+    var obj = instance_create(ds_list_find_value(argument[0], 1),
+        ds_list_find_value(argument[0], 2),
+        ds_list_find_value(argument[0], 3));
+    obj.minigame = minigame_event;
+    minigame_event._event = id;
+    minigame_event._minigame = obj;
+    _events_active++;
+    scr_event_advance(id);
+}
+else if (argument[0] == "build")
+{
+    var action = ds_list_create();
+    ds_list_add(action, CreateWait);
+    ds_list_add(action, argument[1]); // x
+    ds_list_add(action, argument[2]); // y
+    ds_list_add(action, argument[3]); // object to create and wait on
+    ds_list_add(_event_list, action); // add the action to the list
+
+    return ds_list_size(_event_list) - 1;
+}

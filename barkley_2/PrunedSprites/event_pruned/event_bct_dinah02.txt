@@ -1,0 +1,60 @@
+// Event for Dinah after she's been recruited for wedding quest. Hangs out in Brain City
+//Bar
+// usage: event_bct_dinah02();
+
+/*if (argument0 == SCRIPT_START) {
+
+//if wedding quest is currently active
+if (scr_quest_get_state("dinahWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+    scr_event_interactive_activate();
+} else{
+    scr_event_interactive_deactivate();
+}
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var dinah = id;
+    var event = scr_event_create_main();
+    with (event) {
+    //if you have zalmoxis in group.
+    if (scr_quest_get_state("zalmoxisWedding") == 1) and (scr_quest_get_state("dinahZalmoxis") == 0) {
+        scr_event_build_dialogue("Dinah", s_port_dinah, "Hey, um, you know I'm working really hard on these drum rhythms, right? I'm just kinda worried they might be drowned out by Zalmoxis' uh... cuica thing...");
+        scr_event_build_quest_state("dinahWait", 1);
+        scr_event_build_quest_state("dinahZalmoxis", 1);
+    }
+        
+    //if you have garcia
+    else if (scr_quest_get_state("garciaWedding") == 1) and (scr_quest_get_state("dinahGarcia") == 0) {
+        scr_event_build_dialogue("Dinah", s_port_dinah, "Hey, what do you think of Garcia? I think he and I make a pretty good duo, like some cool synthpop or something. Maybe smooth jazz? Adult alternative? I dunno, I think he's cool.");
+        scr_event_build_quest_state("dinahWait", 1);
+        scr_event_build_quest_state("dinahGarcia", 1);
+    }
+    
+    //if you have cap'n jane
+    else if (scr_quest_get_state("janeWedding") == 1) and (scr_quest_get_state("dinahJane") == 0) {
+        scr_event_build_dialogue("Dinah", s_port_dinah, "So, um, I don't know if you really care, but uh, you know certain sounds go together, right? How's a drum machine supposed to go with Cap'n Jane's accordion? Just wondering...");
+        scr_event_build_quest_state("dinahWait", 1);
+        scr_event_build_quest_state("dinahJane", 1);
+    }
+    
+    //if you have wayne
+    else if (scr_quest_get_state("wayneWedding") == 1) and (scr_quest_get_state("dinahWayne") == 0) {
+        scr_event_build_dialogue("Dinah", s_port_dinah, "I think there's potential for some pretty cool jams between me and Wayne but, uh... he seems kinda weird. No offense.");
+        scr_event_build_quest_state("dinahWait", 1);
+        scr_event_build_quest_state("dinahWayne", 1);
+    }
+    
+    //if you've spoken to before.
+    else if (scr_quest_get_state("dinahWait") == 1) {
+        scr_event_build_dialogue("Dinah", s_port_dinah, "You think it's gonna be much longer 'til the wedding? I'm not getting impatient or anything, just wondering...");
+    }
+    
+    //Haven't spoken to Dinah while waiting.
+    else {
+        scr_event_build_dialogue("Dinah", s_port_dinah, "Hey, what's up? Been programming some sensual rhythms for the wedding... that's what you're looking for, right?");
+        scr_event_build_quest_state("dinahWait", 1);
+        }
+    }
+    scr_event_advance(event);
+}

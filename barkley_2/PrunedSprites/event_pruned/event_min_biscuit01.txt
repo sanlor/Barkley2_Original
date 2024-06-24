@@ -1,0 +1,125 @@
+// Nose Dwarf Biscuit // Filler NPC // 
+// ***************************************************************************************** //
+// Talks about the Hoppers mostly 
+// Can also provide some insight/hints as to what the Duergars are up to in the mines 
+// ***************************************************************************************** //
+
+// Initialize //
+if (argument0 == SCRIPT_START) 
+    {
+    // ****** Biscuit exists on Alpha, Beta and Sneak ****** //
+    // Alpha camp // Exists on Alpha Camp up until Alpha Camp is abandonend //
+    if room = r_min_baseCampAlpha01 then
+        {
+        if scr_time_get() >= 6 then scr_event_interactive_deactivate(); 
+        }
+    
+    // Beta Camp // Exists on Beta Camp up until Sneak Mission begins //
+    else if room = r_min_baseCampBeta01 then
+        {
+        if scr_min_cspear() == "during" or scr_min_cspear() == "after" then scr_event_interactive_deactivate(); 
+        }
+     
+    // Sneak Mission // Exists during Sneak Mission in the detainment room //
+    else if room = r_min_sneakPassage01 then
+        {
+        if scr_min_cspear() == "before" or scr_min_cspear() == "prep" or scr_min_cspear() == "after" then scr_event_interactive_deactivate(); 
+        }
+    } 
+                      
+    // Step //
+    if (argument0 == SCRIPT_STEP) 
+        {
+        
+        }
+    
+    // Interact //
+    else if (argument0 == SCRIPT_INTERACT) 
+        {
+        // Variables //
+        var event = scr_event_create_main();
+        var reply = irandom(2);
+            
+        // Main event //
+        with (event) 
+        {
+        // Talk to Biscuit while in Alpha Camp //
+        if room = r_min_baseCampAlpha01 then
+            {
+            // Reply 01 //
+            if reply = 0 then scr_event_build_dialogue("Biscuit", NULL, "Hey, you ever hear about the Hoppers? Foul beasts lurking deep inside this mountain. Or that's what I've heard, I've never actually seen one.");
+            
+            // Reply 02 //
+            else if reply = 1 then scr_event_build_dialogue("Biscuit", NULL, "I don't know what the Duergars are looking for in these mines but they seem really determined to find it. Usually they just come down here to beat us up and collect all the rubies and bitcoins we've mined, but then all of a sudden they wanted us to start making tunnels into the heart of this mountain. Very strange, but I can't complain. We get to swing pickaxes to our hearts content and the beatings have dropped to half from what they used to be!");
+            
+            // Reply 03 //
+            else if reply = 2 then scr_event_build_dialogue("Biscuit", NULL, "I hope we don't run into any Hoppers as we dig deeper into the mountain. The stories I've heard about them... Yikes!");
+            }
+        
+        // Talk to Biscuit while in Beta Camp //
+        else if room = r_min_baseCampBeta01 then
+            {
+            // Reply 01 //
+            if reply = 0 then scr_event_build_dialogue("Biscuit", NULL, "We shouldn't have dug so deep into the mountain. The Hoppers were there, almost as if they were waiting for us to puncture the rock walls. I barely made out of there alive, but so many others weren't so lucky.");
+            
+            // Reply 02 //
+            else if reply = 1 then scr_event_build_dialogue("Biscuit", NULL, "The Duergars didn't learn anything about what happened in that other camp. They are more determined than ever to find this power source, whatever that is. Just look at that metal monstrosity they are using to shred this mountain to pieces.");
+            
+            // Reply 03 //
+            else if reply = 2 then scr_event_build_dialogue("Biscuit", NULL, "What's going to happen to us if the Hoppers invade the mountain? The recklessness of the Duergars could very well lead into that, but what do they care? They won't be here when that happens.");
+            }
+        
+        // Talk to Biscuit while in Detainemnt / during Sneak Mission //
+        else if room = r_min_sneakPassage01 then
+            {
+            // Only one reply //
+            scr_event_build_dialogue("Biscuit", NULL, "First they wanted us to dig tunnels and gather resources like the world was about to end, and now they tell us to wait here until further notice. What's going on? Did the Duergars find something in one of the tunnels?");
+            }
+        }
+    scr_event_advance(event);
+    }
+
+
+// OLD //
+// Nose Dwarf // BETA CAMP //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+    // Only exist while Beta Camp is safe //
+    if scr_min_cspear() == "during" or scr_min_cspear() == "after" scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {       
+
+    // Variables //
+    var event = scr_event_create_main();
+    var talk = irandom(2);
+    
+    // Main event //
+    with (event) {
+
+        // Hoopz talks to Hanuman //
+        if talk == 0 
+            {
+            scr_event_build_dialogue("Husputz", NULL, "Mining sure is hard work, but it's all worth it. You see these crates over here? They contain all the treasures we've found! Rare metals, diamonds and gemstones, bitcoints, goblets... This mountain has it all! But the duergars don't seem to interested in any of this. I wonder what they are really after...");
+            }
+        
+        else if talk == 1 
+            {
+            scr_event_build_dialogue("Husputz", NULL, "I've heard rumours about those hopper things. Fierce beasts that live inside this mountain. Boy, I sure hope I never run into one!");
+            }
+        
+        else if talk == 2 
+            {
+            scr_event_build_dialogue("Husputz", NULL, "Did you hear about that power outage that happened earlier today? I heard that L.O.N.G.I.N.U.S. was behind it. I wonder what that was all about...");
+            }
+        }
+    scr_event_advance(event);
+    }

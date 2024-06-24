@@ -1,0 +1,55 @@
+/* Event for when Katsu wakes up in the Clinic
+
+*/
+/*
+if (argument0 == SCRIPT_START) {
+    //Variables and Event Children
+    var gameTime = ((ClockTime("get") - 0.5)/ 3600);  
+    var sewerDrink = scr_event_create_child(event);
+      
+    var event = scr_event_create_main();
+    with event {
+        //TODO: FADE IN CONTROL
+        scr_event_build_fade_etc(false, 3, 0);
+        scr_event_build_create_object(o_uschi01, 272, 240);
+        //TODO: have uschi face the proper way
+        scr_event_build_wait_for_actions();
+        scr_event_build_wait(1);
+        Dialogue(P_NAME, "Hey you're awake!");
+        Dialogue("Katsu", "Uh... of course I am! What happened?");
+        Dialogue(P_NAME, "Well you took an ill-advised jump shot and it-");
+        Dialogue("Uschi", "It took you out. You might have the hope Katsu, but you definitely don't have the hoop. I said you could be part of the game, but unless " + P_NAME_S + " can whip you into shape, you are gonna get eaten alive on the court. It's " + ClockTime("time") + " right now, so we'll be ready to play at " + string(gameTime) + " so you best be as well.");
+        //Uschi Leaves
+        scr_event_build_move_to_point(o_uschi01, 416, 320);
+        scr_event_build_look_object(o_cts_hoopz, o_uschi01);
+        scr_event_build_wait(1);
+        scr_event_build_look_object(o_cts_hoopz, o_uschi01);
+        scr_event_build_wait_for_actions();
+        scr_event_build_disappear(o_uschi01);
+        scr_event_build_wait(1);
+        scr_event_build_look_object(o_cts_hoopz, o_katsu01);
+        scr_event_build_wait_for_actions();
+        Dialogue(P_NAME, "Hmm, what are you gonna do Katsu?");
+        Dialogue("Katsu", "What do you mean? We're gonna knock that other team out!");
+        Dialogue(P_NAME, "I dunno, Uschi seems pretty good, and we're kinda playing a man down");
+        Dialogue("Katsu", "What do you mean by that?");
+        Dialogue(P_NAME, "Ah nevermind, I wonder if there is something that can be done...");
+        
+        //If you already have the energy drink
+        if (Quest("sewerDrink") == 1) {
+            Quest("sewerDrink", 2);
+            scr_event_build_execute_event_script(event_tnn_katsuDrink01);
+        }
+        
+        //if you don't have the energy drink
+        else
+        {
+            Dialogue("Katsu", "");    
+            Dialogue(P_NAME, "");
+            Dialogue("Katsu", "");    
+            Dialogue(P_NAME, "");
+            Dialogue("Katsu", "");    
+        }
+    }
+    scr_event_advance(event);
+}

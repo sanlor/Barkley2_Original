@@ -1,0 +1,79 @@
+// Coulombe, encounter 2
+// Detective who busts your ass for killing the three duergars around the campfire. Can be avoided by just avoiding the encounter with Coulombe, or by completing the other side of this quest, which is taking the detective job yourself and covering up the murders. This script is SUPPOSED TO auto-trigger when the player comes into range of Coulombe in his various locations. It's worth noting that Coulombe doesn't immediately bust you, he talks with you on four occasions, with the fourth encounter being the one where he will arrest the player.
+// NOTE: There is slight, currently unscripted movement in this. Ideally it would be Coulombe doing the movement, but seeing as how he probably doesn't need to the sort of range of motion required that the player already has, just writing this as THE PLAYER moves, rather than Coulombe. SOME of it is Coulombe, however, since we need to move him off the screen in order to make him disappear.
+// BEHIND-THE-CURTAIN NOTE: This is where Coulombe identifies X114JAM9 as the murderer. The brand of his shoes gave it away, and his footsteps were the only ones unaccounted for at the scene of the crime. THE MORE YOU FUCKING KNOW.
+/*
+
+if (argument0 == SCRIPT_START) {
+    if (Quest("detectiveQuest") == 2) {
+        scr_event_interactive_activate();
+    }
+    else if (Quest("detectiveQuest") <= 1) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("detectiveQuest") >= 3) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var coulombe = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("detectiveQuest") == 2) {
+            scr_event_build_dialogue("Coulombe", NULL, "Good morning!!!");
+            // MOVEMENT NOTE: The player approaches Coulombe.
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player walks up to Coulombe.");
+            scr_event_build_dialogue("Coulombe", NULL, "I thought I recognized you. You were the one who didn't have any makeup.");
+            Dialogue(P_NAME, "Oh, hi detective. How's the investigation coming along?");
+            scr_event_build_dialogue("Coulombe", NULL, "Oh, don't worry yourself about it. I don't think it was a homicide, probably the duergars went off joyriding somewhere. Things like that happen from time to time.\Nothing for you to worry about, I think. I doubt there's anything to be afraid of around here.");
+            Dialogue(P_NAME, "Oh, that's good. I was a little worried.");
+            scr_event_build_dialogue("Coulombe", NULL, "Well I don't think you need to be. And you're in pretty good shape, I think you can take care of the normal dangers.\But_____._____._____._____._____._____._____you know I do have a question for you. Nothing to do with the case, just something I was thinking about.\Can I ask you this question? I guess it's a little personal, but it's been bothering me since I saw you the other day.");
+            Dialogue(P_NAME, "I guess? How personal is it?");
+            scr_event_build_dialogue("Coulombe", NULL, "It's.....probably not all that personal, but you never know with people nowadays.\Oh, here goes: ___________Do you like basketball?");
+            Dialogue(P_NAME, "Do I like basketball? I love basketball. How could you tell?");
+            scr_event_build_dialogue("Coulombe", NULL, "I thought so! Sometimes you can tell that about someone just by looking at them. The way you move, the way you hold yourself.\I was never good at basketball myself, too flat-footed. Couldn't jump high enough, ball always got loose when I was trying to dribble.\Pretty good at watching it, though. My wife doesn't let me have control of the remote so much, so I don't get to watch it as much as I'd like to.\Hey, can I ask you something I've always wondered about basketball players? One of those things that really bothers me, can't quite get it out of my mind.");
+            Dialogue(P_NAME, "Sure. I love talking about basketball.");
+            scr_event_build_dialogue("Coulombe", NULL, "The one thing I never understood is how high basketball players can jump. I mean, I can jump a little bit, enough to get something off the top shelf, but these basketball players boy, feels like they can touch the sky.\I gotta ask, is there some secret? Do you guys have something you put in your shoes? Like springs or something?");
+            Dialogue(P_NAME, "No way!!! That'd be cheating.\It's all about training, being a good athlete, giving 100%, and loving the game. I would never cheat like that.\Cheaters never win. When you cheat in basketball, you're only cheating yourself. I would rather die than be a cheater.");
+            scr_event_build_dialogue("Coulombe", NULL, "Oh, I'm sorry, sir. I didn't mean anything by it. It just impresses me so much to see people do stuff like that.\I'm a detective, you know, I always wonder things like that. I'm really sorry.");
+            Dialogue(P_NAME, "You can look at my shoes if you want. You'll see that they aren't the shoes of a cheater.");
+            scr_event_build_dialogue("Coulombe", NULL, "No, it was foolish of me to ask, I didn't mean to accuse you of that.....");
+            Dialogue(P_NAME, "No, I mean it, just look. You don't need to cheat when you care about basketball as much as I do.\Just see for yourself. These are the shoes of somebody who gives their all in basketball.");
+            scr_event_build_dialogue("Coulombe", NULL, "Well, if you insist.");
+            scr_event_build_wait(3);
+            // [IDEAL] MOVEMENT NOTE: Coulombe takes a look at the player's shoes at this point. Our Coulombe sprite might not have the range of motion for there to be anything here, but I'm noting it in case we end up with more Coulombe than I'm expecting. For now, it's just a WAIT event.
+            scr_event_build_dialogue_debug("Hundley", NULL, "In the initial design, Coulombe walks around the player, examining his shoes. At this point I don't know how much range of motion Coulombe is going to have, so it's a WAIT command instead.");
+            scr_event_build_dialogue("Coulombe", NULL, "Well I'll be.....\They look pretty regular to me. But I can see that you've got a lot of leg muscles, so that must explain it.\Well, learn something new every day!\What does that say on there.....Zeus......what's that mean?");
+            Dialogue(P_NAME, "That's the brand of the shoe. Zeus. They're great shoes, really comfortable, lets you move around really well in them.");
+            scr_event_build_dialogue("Coulombe", NULL, "Isn't that something. Hey, I can tell it says Zeus on the bottom of the shoes, too. It says Zeus all over the ground where you've been standing.\That must be kinda useful if you get lost, you can always retrace your steps. Just follow Zeus.\I should get a pair of those, I get lost all the time.\My wife got me a compass for our wedding anniversary once, just so I wouldn't get lost so much. But wouldn't you know, I lost it! I had to go out and get another one so she wouldn't get sore with me, but I lost that one too.\So how much did you pay for those shoes? I should really get a pair.");
+            var choice1 = Choice("Maybe I shouldn't tell him anything.....", s_port_hoopz);
+            with (ChoiceAdd(choice1, "I didn't know they had the mark on the bottom....")) {
+                Dialogue(P_NAME, "Oh, well I just bought these shoes. I didn't actually know they had the mark on the bottom. That's really interesting.");
+                scr_event_build_dialogue("Coulombe", NULL, "Oh, is that right? Where can I get a pair? I should go there and pick up a pair sometime.");
+                Dialogue(P_NAME, "I....uh.....I forgot actually. They're pretty common I think, you should be able to get them most anywhere.");
+                scr_event_build_dialogue("Coulombe", NULL, "Most anywhere, good. I'll keep an eye out for them.\Oh, look at the time. I've really talked your ear off. I need to report back to the station.\You know, sometimes during my lunch break I like to wander out to the basketball courts and take in a game if someone's playing. Maybe I'll see you there playing sometime.");
+                Dialogue(P_NAME, "Count on it.");
+                scr_event_build_dialogue("Coulombe", NULL, "All right! Just remember that the guy cheering extra hard for you is me.\So long, sir.");
+                // CINEMATIC NOTE: Coulombe walks off-screen. His sprite disappears when it's gotten far enough away.
+                scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Coulombe walks off-screen and disappears.");
+                Quest("detectiveQuest", 3);
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice1, "You should get a pair, they're great!")) {
+                Dialogue(P_NAME, "You should definitely get a pair, they're great. Even if you aren't playing basketball, you'll love them.");
+                scr_event_build_dialogue("Coulombe", NULL, "Oh, is that right? Where can I get a pair? I should go there and pick up a pair sometime.");
+                Dialogue(P_NAME, "Well I've got amnesia you know, so I forget stuff a lot. I just woke up with these on.");
+                scr_event_build_dialogue("Coulombe", NULL, "Oh wow.\I'm sorry, sir, I had no idea. Have you checked in with any of the clinics around here? Amnesia is serious business.");
+                Dialogue(P_NAME, "Not really. You think that'd help?");
+                scr_event_build_dialogue("Coulombe", NULL, "Couldn't hurt. It might be something serious. You should definitely get it looked at.\Most cities around here have a clinic, I think there's one around here even. You should check it out.\Oh, look at the time. I've really talked your ear off. I need to report back to the station.\You know, sometimes during my lunch break I like to wander out to the basketball courts and take in a game if someone's playing. Maybe I'll see you there playing sometime.");
+                Dialogue(P_NAME, "Count on it.");
+                scr_event_build_dialogue("Coulombe", NULL, "All right! Just remember that the guy cheering extra hard for you is me.\So long, sir.");
+                // CINEMATIC NOTE: Coulombe walks off-screen. His sprite disappears when it's gotten far enough away.
+                scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Coulombe walks off-screen and disappears.");
+                Quest("detectiveQuest", 3);
+                scr_event_build_end();
+            }
+        }
+    }
+    scr_event_advance(event);
+}

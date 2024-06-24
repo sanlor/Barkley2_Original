@@ -1,0 +1,96 @@
+// event_min_hasdrubal01
+// NPC script for Hasdrubal, the guy guarding the door to the security room(or BOILER ROOM as some call it). Just your typical duergar jerk. Reaching the second part of the dialogue with Hasdrubal unlocks a whole bunch of quests around the location.[NOTE: As of right now, dialogue with Dozier and Hasdrubal are the characters that do this. I may add more if I find that this is too hidden or unintuitive, or change the Hasdrubal dialogue to make all this appear in the FIRST dialogue activation chunk.]
+/* Central character of the PRANK CALL QUEST(prankcallQuest) wherein you manipulate the Hasdrubal/Gottler rivalry in order to get Gottler to blow Hasdrubal away. This is potentially useful as Hasdrubal is the guy guarding the door to the security room, the ultimate destination of the location.
+The prankcallQuest is pretty simple, though somewhat easy for the player to miss.
+prankcallQuest=1 - Player is informed by Hasdrubal that he just took this job "to piss off Gottler"
+prankcallQuest=2 - Gottler vents to the player about his hatred for Hasdrubal(Gottler added to the base phone directory)
+prankcallQuest=3 - The player has prank called Gottler, prompting him to approach Hasdrubal.
+prankcallQuest=4 - Gottler has killed Hasdrubal. Quest complete. Hasdrubal' corpse can be looted for a keycard.
+*/
+/* NOTE: Not adding this yet because the maps aren't designed, but if the player tries accessing the keycard-reader before they have a key, this dialogue displays:
+[first]
+P_NAME: THIS GARBAGE DEVICE IS CLEARLY BROKEN.
+
+Hasdrubal: Need a key to get in, dumbass.
+
+P_NAME: Wow, this mound of trash next to the door is talking to me!!!
+[second and onward until the player has a key]
+Hasdrubal: Still need a key before that'll work, genius.
+
+P_NAME: SHUT UP.
+*/
+// NOTE: Hasdrubal gets involved in a brief cinematic and dies at the end of the prankcallQuest. THIS SCRIPT disappears, but another sprite for Hasdrubal getting killed needs to appear in its place.
+// Dialogue in this section is hinged on the player having "Duergar Base Keycard" but I don't know if that's DEFINITELY what we're calling it. That may be temporary just so I can put the dialogue somewhere, but I thought I should mention this so it can be double-checked later.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prankcallQuest") >= 3) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("ext5State") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("dbaseNPCsState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+if (argument0 == SCRIPT_STEP) {
+    if (Quest("prankcallQuest") >= 3) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("ext5State") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var hasdrubal = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("baseescapeQuest") == 1) {
+            Dialogue("Hasdrubal", "What the fuck were you doing in there? Skinning a fucking dwarf? You fucking reek.");
+            scr_event_build_end();
+        } else if (Quest("hasdrubalState") == 3) {
+            Dialogue("Hasdrubal", "What, you just have a thing for opening doors? Go in already, you dumb shit.");
+            scr_event_build_end();
+        } else if (Item("have", "Duergar Base Keycard")) {
+            Dialogue(P_NAME, "Hey dipstick, I got a keycard.");
+            Dialogue("Hasdrubal", "So the fuck what? Just scan it and bug off.");
+            Quest("hasdrubalState", 3);
+            scr_event_build_end();
+        } else if (Quest("hasdrubalState") == 2) {
+            Dialogue(P_NAME, "I wasn't listening when you said who has these keycards. I have difficulty concentrating when it comes to people so unfathomably stupid.");
+            Dialogue("Hasdrubal", "Garth, Honus, Dozier. They got one. Ng can give you one. Just talk to them.\Hell, talk to anybody, I don't know who the fuck has one. Just stop bothering me.");
+            scr_event_build_end();
+        } else if (Quest("hasdrubalState") == 1) {
+            Dialogue(P_NAME, "Hey goofball, where do I get one of these stupid keycards.");
+            Dialogue("Hasdrubal", "Fuck you. If you're supposed to be back there, you'll end up with a damn keycard.");
+            Dialogue(P_NAME, "I bet you don't even know where I can get one of these keycards. You probably don't even know what's back there, do you?");
+            Dialogue("Hasdrubal", "Ain't my job. Just guarding the door.");
+            Dialogue(P_NAME, "Well smartguy, it might interest you to know that Cuchulainn HIMSELF told me to go back there and check the boiler room levels. I'd explain more but it's pretty clear your deformed brain could never grasp any of it.\I could call Cuchulainn right now if you don't believe me, but I don't really think you want that. He doesn't have as winning a personality as I do.");
+            Dialogue("Hasdrubal", "Yeah, whatever. I only got this job to piss off Gottler. I'll tell you whatever you want to know as long as you stop involving me in your fucking delusions.");
+            Dialogue(P_NAME, "THEN TELL ME ALREADY!!! KEYCARDS, KEYCARDS, KEYCARDS!!!!\I have so many bullets on my person. The destination of these bullets is the fool who is hiding these keycards from me.");
+            Dialogue("Hasdrubal", "Yeah, sure. Well, I've got one. You can try to get it, but then I'll need to see how far up your ass my boot will go.\I guess Mr. Ng can give you one too, but he won't because you're a fucking twerp and he's smart enough to notice that.\Couple other guys have keycards. I know Garth and Honus have one, Dozier had one before he got demoted. I'd like to see you try to go take theirs, they'll fucking gut you.\Or shit, why don't you just ask Cuchulainn if you two are so fucking tight? How the fuck is this my problem?");
+            Dialogue(P_NAME, "Will the keycard still work if there's blood on it? I may have to chop off a couple hands to get the cards, can you still read it with fingers attached to it?");
+            Dialogue("Hasdrubal", "You tell me, you're the brains here. You think that scanner is going to read a card covered in blood and fingers?");
+            Dialogue(P_NAME, "........");
+            Quest("dcardsState", 1);
+            Quest("prankcallQuest", 1);
+            Quest("hasdrubalState", 2);
+            scr_event_build_end();
+        } else {
+            Dialogue(P_NAME, "Hey you, what's back there?");
+            Dialogue("Hasdrubal", "Boiler room.");
+            Dialogue(P_NAME, "That's where I'm supposed to go. Get out of my way, beanbag.");
+            Dialogue("Hasdrubal", "Sure. Let me see your keycard.");
+            Dialogue(P_NAME, "Listen pal, I don't know what kind of malignant tumor you grew out of, but where I come from keycards are for suckers.");
+            Dialogue("Hasdrubal", "That's great, I'm so happy for you. Then why don't you go back where you fucking came from.");
+            Dialogue(P_NAME, "Yeah maybe I will, jerk.\And you better hope you don't get transferred there. This whole keycard scam you're running won't fly there.");
+            Quest("hasdrubalState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

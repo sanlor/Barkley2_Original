@@ -1,0 +1,62 @@
+ zauber_kosmik_quantumEntanglement(command, caster, aim_x, aim_y, aim_z)
+
+ ----- Zauber configurations -----
+
+ PIETY EFFECT Max teleports = PORTAL_MAX_TELEPORTS_BASE + floor(PORTAL_MAX_TELEPORTS_PIETY_MOD  piety) 
+ Max actors teleported with portals before they are destroyed
+var PORTAL_MAX_TELEPORTS_BASE = 2;
+ Piety modifier to max actors teleported 
+var PORTAL_MAX_TELEPORTS_PIETY_MOD = 0.2;
+
+ Portal life time
+var PORTAL_LIFETIME = 300;
+
+ Shot movement speed
+var MOVEMENT_SPEED = 20;
+ Shot movement max distance
+var MOVEMENT_DISTANCE_MAX = 150;
+
+
+ ----- Input arguments -----
+var command = argument0;
+var caster = argument1;
+var aim_x = argument2;
+var aim_y = argument3;
+var aim_z = argument4;
+
+ ----- Commands -----
+if (command == element) return KOSMIK;
+if (command == name) return QUANTUM ENTANGLEMENT;
+
+if (command == aim_decals) {
+     Place decals when aiming
+    scr_fx_decal_transient(s_zauberCasting_circle, 1, aim_x, aim_y, aim_z,
+                           0.25, 0.25  0.7,
+                           0, c_white, 0.5);
+    scr_fx_decal_transient(s_zauberCasting_target, 1, aim_x, aim_y + 8, aim_z, 1, 1, 0, c_white, 1)
+}
+
+if (command == cast) {
+     Cast the zauber! Do whatever you want here
+    if (isCombatActor(caster)) {
+        var cast_dir = point_direction(caster.x, caster.y, aim_x, aim_y);
+        var piety = scr_stats_getEffectiveStat(caster, STAT_BASE_PIETY);
+        
+         Create zauber
+        var cast_x = caster.x + lengthdir_x(24, cast_dir);
+        var cast_y = caster.y + lengthdir_y(24, cast_dir);
+        var cast_z = caster.z;
+        
+        var portal = instance_create(cast_x, cast_y, o_zauber_kosmik_quantumEntanglement_portal);
+        portal.z = cast_z;
+        portal.life_time = PORTAL_LIFETIME;
+        portal.life_teleports = PORTAL_MAX_TELEPORTS_BASE + floor(PORTAL_MAX_TELEPORTS_PIETY_MOD  piety);
+        
+        var shot = instance_create(cast_x, cast_y, o_zauber_kosmik_quantumEntanglement_shot);
+        shot.z = cast_z;
+        shot.other_portal = portal;
+        shot.travel_dist_max = MOVEMENT_DISTANCE_MAX;
+        shot.travel_spd = MOVEMENT_SPEED;
+        shot.travel_dir = cast_dir;
+    }
+}

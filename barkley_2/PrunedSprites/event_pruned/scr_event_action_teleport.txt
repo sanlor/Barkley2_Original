@@ -1,0 +1,13 @@
+/// scr_event_action_teleport(list)
+/// An action to teleport to a new map.
+/// The list contains the room, x, and y.
+
+//GZ NOTE: I set the event to false here because camera framing causes it to create
+//a build event that traps it in an event that can't execute when teleporting
+//However it should end, as all events are destroyed on room change
+global.event = false; //May 14 2015 edit
+var rom = ds_list_find_value(argument0, 1);
+var xxx = ds_list_find_value(argument0, 2);
+var yyy = ds_list_find_value(argument0, 3);
+scr_event_action_end();
+Teleport(rom, xxx, yyy);

@@ -1,0 +1,12 @@
+// scr_a_an()
+
+var first = string_lower(string_char_at(string(argument0), 1));
+
+if (first == "a") || (first == "e") || (first == "i") || (first == "o") || (first == "u") || (first == "y")
+{
+    return string("an " + argument0);
+}
+else
+{
+    return string("a " + argument0);
+}

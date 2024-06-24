@@ -1,0 +1,227 @@
+// Event for after wedding quest. 
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("afterWedding") == 1) {
+        Quest("afterWedding", 0);
+        script_execute(event_bct_afterWedding01, SCRIPT_INTERACT);
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var afterwedding = id;
+    var event = scr_event_create_main();
+    with (event) {
+        
+        scr_event_build_fade(true, 1);
+        scr_event_build_wait(2);
+        //TODO: MOVE STONEWALL TO BOOTY BASS BACK ROOM.
+        scr_event_build_fade(false, 1);
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Unbelievable! You guys were amazing on that stage! Did you see me shakin' my glutes out there? The Jazzy Rascals, man!");
+        
+        //Have Poly.
+        if (scr_quest_get_state("polyWedding") == 1){
+            scr_event_build_dialogue("Poly", s_port_poly, "Man, that was killer! You see those people rockin' out there? The Jazzy Rascals fuckin' rule!");
+        }
+        
+        //Have Guillaume.
+        if (scr_quest_get_state("guillaumeWedding") == 1){
+            scr_event_build_dialogue("Guillaume", s_port_guillaume, "Maaaan, the vibes I was gettin' out there... all of us in sync, cosmic harmony, y'know? I could really feel the energy, man.");
+        }
+        
+        //Have Wayne.
+        if (scr_quest_get_state("wayneWedding") == 1){
+            scr_event_build_dialogue("Wayne", s_port_wayne, "...we rocked.");
+        }
+        
+        //Have Garcia.
+        if (scr_quest_get_state("garciaWedding") == 1){
+            scr_event_build_dialogue("Garcia", s_port_garcia, "Y-yeah, that went pretty well, guys. Haven't had a gig like that since... man... you think we're gonna get a Wikipedia page?");
+        }
+        
+        //Have Cap'n Jane and Zalmoxis.
+        if (scr_quest_get_state("janeWedding") == 1) and (scr_quest_get_state("zalmoxisWedding") == 1){
+            scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Arrr... the Jazzy Rascals weren't so bad after all. Not even that weird honking thing Zalmoxis played.");
+        }
+        
+        //Have Cap'n Jane.
+        if (scr_quest_get_state("janeWedding") == 1) and (scr_quest_get_state("zalmoxisWedding") == 0){
+            scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Arrr... the Jazzy Rascals weren't so bad after all.");
+        }
+    
+        //Have Dinah.
+        if (scr_quest_get_state("dinahWedding") == 1){
+            scr_event_build_dialogue("Dinah", s_port_dinah, "I was kinda nervous at first but once we got up there and really started goin' at it, my butterflies completely went away. That was awesome!");
+        }
+        
+        //Have Zalmoxis.
+        if (scr_quest_get_state("zalmoxisWedding") == 1){
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "I am... surprised at how well that went. The Jazzy Rascals were /far/ more competent than I had presumed.");
+        }
+        
+        //Have Boris.
+        if (scr_quest_get_state("borisWedding") == 1){
+            scr_event_build_dialogue("Boris", s_port_boris, "T'was quite enjoyable to toot with fellows so genial! I hope indeed we have the opportunity to play again.");
+        }
+        
+        //Have WIZARD.
+        if (scr_quest_get_state("wizardWedding") == 1){
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "THE SON OF PERDITION IS SATISFIED.");
+        }
+        
+        
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks... (I guess...)");
+        
+        //won booty bass contest
+        if (scr_quest_get_state("bootyBassQuest") == 3) {
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", P_NAME + ", you're the total package! You can spin the vinyl, you've got an eye for talent and you've got some real singing chops. You were made for show business - you're gonna go places, kid! You really are the jazziest of rascals! That's a great name, by the way. You picked a good one!");
+        }
+        
+        //did not win booty bass contest
+        if (scr_quest_get_state("bootyBassQuest") != 3) {
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "And " + P_NAME + ", you really stole the show with those pipes of yours out there. You've got an eye for talent and you've got some real singing chops. You were made for show business - you're gonna go places, kid! You really are the jazziest of rascals! That's a great name, by the way. You picked a good one!");
+        }
+        
+        
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I hate that name... can we please stop saying it...)");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "So hey, we really hit the jackpot on this one, rascals. 30,000 neuro-shekels, can you believe it? GatDAM, that's the kinda money that makes wanna go full-time in the management biz. So that's 5,000 for me, 25,000 for the rest of you. Split five ways, that's 5k a piece.");
+        scr_event_build_dialogue_item("Get 5,000 neuro-shekels!");
+        scr_event_build_money_add(5000);
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "So I've got just one question for you all - what's next for The Jazzy Rascals?");
+        
+        //Have Poly.
+        if (scr_quest_get_state("polyWedding") == 1){
+            scr_event_build_dialogue("Poly", s_port_poly, "Me? I'm gonna rock and roll, man! I'm startin' a new band that's gonna rock even harder, even faster than The Jazzy Rascals!");
+        }
+        
+        //Have Guillaume.
+        if (scr_quest_get_state("guillaumeWedding") == 1){
+            scr_event_build_dialogue("Guillaume", s_port_guillaume, "I think I'm gonna go Walden for a while, recharge my chakras and get my crystals attuned back to nature. Maybe I'll start a hippie fest with this cash or something. Who knows, maaaan.");
+        }
+        
+        //Have Garcia.
+        if (scr_quest_get_state("garciaWedding") == 1){
+            scr_event_build_dialogue("Garcia", s_port_garcia, "A-are you serious? I'm going on tour, baby! I'm taking this as far as I can! Jazzy Rascals shirts, CDs, coffee mugs, all the merchandise!");
+        
+            //Have Poly.
+            if (scr_quest_get_state("polyWedding") == 1){
+                scr_event_build_dialogue("Poly", s_port_poly, "Yeah, you would, you fuckin' sellout.");
+            }
+        }
+        
+        //Have Cap'n Jane.
+        if (scr_quest_get_state("janeWedding") == 1){
+            scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "The Jazzy Rascals were a nice diversion, but it's back to the high seas for me! I'm gettin' meself a new ship, a new crew and I'm goin' lootin' and plunderin'!");
+        }
+    
+        //Have Dinah.
+        if (scr_quest_get_state("dinahWedding") == 1){
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Huh, I guess I'm gonna get some new gear and start working on an album or something. Maybe a Jazzy Rascals remix?");
+        }
+        
+        //Have Wayne.
+        if (scr_quest_get_state("wayneWedding") == 1){
+            scr_event_build_dialogue("Wayne", s_port_wayne, "...goin' back to my cave.");
+            
+            //Have Cap'n Jane.
+            if (scr_quest_get_state("janeWedding") == 1){
+                scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "You should join me crew, Wayne. We could always use another hand on the ship and the fresh air would do ya good!");
+                scr_event_build_dialogue("Wayne", s_port_wayne, "...no thanks.");
+            }
+        
+        }
+        
+        //Have Zalmoxis.
+        if (scr_quest_get_state("zalmoxisWedding") == 1){
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "I am... surprised at how well that went. The Jazzy Rascals were /far/ more competent than I had presumed.");
+        }
+        
+        //Have Boris.
+        if (scr_quest_get_state("borisWedding") == 1){
+            scr_event_build_dialogue("Boris", s_port_boris, "T'was quite enjoyable to toot with fellows so genial! I hope indeed we have the opportunity to play again.");
+        }
+        
+        //Have WIZARD.
+        if (scr_quest_get_state("wizardWedding") == 1){
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "THE SON OF PERDITION IS SATISFIED. I WILL REMAIN IN BRAIN CITY TO SPREAD HIS WORD.");
+        }
+        
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, I think I'm gonna take a break from show business to do some quests and stuff. I love to do quests.");
+        
+        //if you won booty bass contest
+            if (scr_quest_get_state("bootyBassQuest") == 3){
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Well rascals, it's been fun but I've got a club to run. If you're gonna be around for a while, we'll be having a Duke of Booty contest not too long from now. Baron, I know that's right up your alley. Jazzy Rascals - see ya later!");
+        }
+        
+        //if you did not win booty bass contest
+        if (scr_quest_get_state("bootyBassQuest") != 3){
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Well rascals, it's been fun but I've got a club to run. If you're gonna be around for a while, we'll be having a Duke of Booty contest not too long from now. Jazzy Rascals - see ya later!");
+        }
+        
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Please stop saying Jazzy Rascal...)");
+        scr_event_build_fade(true, 1);
+        scr_event_build_wait(2);
+        //Have Poly.
+        if (scr_quest_get_state("polyWedding") == 1){
+            scr_event_build_quest_state("polyWedding", 3);
+            scr_event_build_set_object(o_polyWedding01, -500, -500);
+            
+        }
+        
+        //Have Guillaume.
+        if (scr_quest_get_state("guillaumeWedding") == 1){
+            scr_event_build_quest_state("guillaumeWedding", 3);
+            scr_event_build_set_object(o_guillaumeWedding01, -500, -500);
+        }
+        
+        //Have Wayne.
+        if (scr_quest_get_state("wayneWedding") == 1){
+            scr_event_build_quest_state("wayneWedding", 3);
+            scr_event_build_set_object(o_wayneWedding01, -500, -500);
+        }
+        
+        //Have Garcia.
+        if (scr_quest_get_state("garciaWedding") == 1){
+            scr_event_build_quest_state("garciaWedding", 3);
+            scr_event_build_set_object(o_garciaWedding01, -500, -500);
+        }
+        
+        //Have Cap'n Jane.
+        if (scr_quest_get_state("janeWedding") == 1) {
+            scr_event_build_quest_state("janeWedding", 3);
+            scr_event_build_set_object(o_capnJaneWedding01, -500, -500);
+        }
+    
+        //Have Dinah.
+        if (scr_quest_get_state("dinahWedding") == 1){
+            scr_event_build_set_object(o_dinahWedding01, -500, -500);
+            scr_event_build_quest_state("dinahWedding", 3);
+        }
+        
+        //Have Zalmoxis.
+        if (scr_quest_get_state("zalmoxisWedding") == 1){
+            scr_event_build_set_object(o_zalmoxisWedding01, -500, -500);
+            scr_event_build_quest_state("zalmoxisWedding", 3);
+        }
+        
+        //Have Boris.
+        if (scr_quest_get_state("borisWedding") == 1){
+            scr_event_build_set_object(o_borisWedding01, -500, -500);
+            scr_event_build_quest_state("borisWedding", 3);
+        }
+        
+        //Have WIZARD.
+        if (scr_quest_get_state("wizardWedding") == 1){
+            scr_event_build_set_object(o_wizardWedding01, -500, -500);
+            scr_event_build_quest_state("wizardWedding", 3);
+        }
+        //TODO: MOVE STONEWALL TO BOOTY BASS BACK ROOM.
+        scr_event_build_quest_state("weddingQuest", 3);
+        scr_event_build_time_add(1);
+        scr_event_build_wait(1);
+        scr_event_build_fade(false, 1);
+        
+        
+    }
+    scr_event_advance(event);
+}

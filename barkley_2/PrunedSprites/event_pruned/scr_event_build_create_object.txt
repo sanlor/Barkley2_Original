@@ -1,0 +1,26 @@
+/// scr_event_build_create_object(object,x,y)
+/// This script is used to create a new object at a specific place.
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_create_object);
+ds_list_add(action, argument0); // object id
+ds_list_add(action, argument1); // x value
+ds_list_add(action, argument2); // y value
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;
+
+
+
+
+/// scr_event_action_destroy_object(list)
+/// An action to create an object.
+/// The list contains the object id, x, and y.
+
+var object = ds_list_find_value(argument0, 1);
+var object_x = ds_list_find_value(argument0, 2);
+var object_y = ds_list_find_value(argument0, 3);
+//show_debug_message(object_get_name(object));
+instance_create(object_x, object_y, object);
+
+scr_event_advance(id);

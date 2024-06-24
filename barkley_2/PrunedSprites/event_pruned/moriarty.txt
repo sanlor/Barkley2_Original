@@ -1,0 +1,112 @@
+//Moriarty
+//crazy guy in Dead Dwarf Figbottom quest.
+/*
+if (argument0 == SCRIPT_START)
+{
+    
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    // If arrested, will not be visible anymore.
+    if (visible && !scr_event_etc_instance_on_screen(id) && scr_quest_get_state("moriartyArrest") == 1)
+    {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var event = scr_event_create_main();
+    var chup_handler_snippet = scr_event_create_child(event);
+    var chup_sale_snippet = scr_event_create_child(event);
+    
+    //--------------------------------------------
+    //------------ CHUP SALE SNIPPET -------------
+    //--------------------------------------------
+    with (chup_sale_snippet)
+    {
+        Breakout("build", "clear");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey buddy, you seem a little stressed out. Maybe you should relax with a chup.");
+        scr_event_build_dialogue("Moriarty", "s_port_moriarty", "You... want to spend time with me? Yes... yes... come and sit on Moriarty's lap...");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I, uh... wow! Okay! See you later then! Thanks for your time!");
+        scr_event_build_dialogue("Moriarty", "s_port_moriarty", "Meat... meat on the bone...");
+        scr_event_build_quest_state("moriartyChup", 1);
+    }
+    
+    //--------------------------------------------
+    //------------ CHUP HANDLER ------------------
+    //--------------------------------------------
+    with (chup_handler_snippet)
+    {
+        // Chup Quest
+        if (scr_chup_available("moriarty") == true)
+        {
+            Breakout("build", "add", "chupCount");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Maybe I can sell this guy a chup...?)");
+            // CHUP CHOICE
+            var chupsell = scr_event_build_choice("Sell Moriarty a chup?", s_port_hoopz);
+            
+            // Sell Chup
+            with scr_event_build_add_choice(chupsell, "Maybe you should chill out with a chup.")
+            {
+                scr_event_build_event_snippet(chup_sale_snippet);
+            }
+            // Don't Sell Chup
+            with scr_event_build_add_choice(chupsell, "I should probably just stay away from this guy.")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(You know, I should probably just leave this guy alone.)");
+            }
+        }
+    }
+    
+    //--------------------------------------------
+    //------------ MAIN EVENT --------------------
+    //-------------------------------------------- 
+    with (event) {
+        //------------------------------------------------------------------------------
+        // *** figbottomQuest = 9 - Figbottom Quest has been completed ***
+        //------------------------------------------------------------------------------
+        if (scr_quest_get_state("figbottomQuest") == 9)
+        {
+            scr_event_build_dialogue("Moriarty", "s_port_moriarty", "Soft, pliant flesh, still warm, the cruor still wet... chewy tendons and sinews, brittle bones snapping under compaction, giving way to succulent marrow... meat on the bone... meat on the bone...");
+            scr_event_build_event_snippet(chup_sale_snippet);
+        }
+        //------------------------------------------------------------------------------
+        //*** figbottomQuest = 6 - Moriarty has been spoken to. ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("figbottomQuest") == 6) 
+        {
+            scr_event_build_dialogue("Moriarty", "s_port_moriarty", "You've got... meat... meat on the bone... why don't you spend some... time with me...");
+            // bort - not sure if this is wise... added it but also commented it out!
+            //scr_event_build_event_snippet(chup_sale_snippet);
+        }
+        //------------------------------------------------------------------------------
+        //*** figbottomQuest = 5 - Kunigunde has been spoken to. ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("figbottomQuest") == 5)
+        {
+            scr_event_build_dialogue("Moriarty", "s_port_moriarty", "Meat... meat on the bone... meat on the bone...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, are you uh... Morrison?");
+            scr_event_build_dialogue("Moriarty", "s_port_moriarty", "Moriarty... Flesh... you have... tender... delicious... flesh...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's one of the symptoms of being alive, I guess. I've got a couple questions for you about the missing junk prospector Figbottom. Think you've got the time?");
+            scr_event_build_dialogue("Moriarty", "s_port_moriarty", "Figbottom... I know that guy... I saw him digging around in the trash with his buddy a couple days ago... His friend looked too gristly but Figbottom... Figbottom looked perfect... they found this thing in the trash, a jerkin... they fought over the jerkin but in the end Figbottom took it... but today his friend is wearing it...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What the shuck... Suresh didn't mention that to me. I've got one more question for you, Moriarty. Are you uh... eating a glove?");
+            scr_event_build_dialogue("Moriarty", "s_port_moriarty", "Meat on the bone... gotta get that... meat on the bone...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I sincerely hope that's just a glove you picked up off the ground and not Figbottom's. I'll be back if I've got anymore questions.");
+            scr_event_build_dialogue("Moriarty", "s_port_moriarty", "Meat....... on the bone...");
+            scr_event_build_quest_state("figbottomQuest", 6);
+            // bort - not sure if this is wise... added it but also commented it out!
+            //scr_event_build_event_snippet(chup_sale_snippet);
+        } 
+        //------------------------------------------------------------------------------
+        //*** no conditions ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("moriartyArrest") != 1)
+        {
+            scr_event_build_dialogue("Moriarty", "s_port_moriarty", "Meat on the bone... meat on the bone... gotta get that meat on the bone...");
+            scr_event_build_event_snippet(chup_sale_snippet);
+        }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,41 @@
+// scr_bowl_have()
+// Returns true if a bowl is currently owned
+// Else returns false
+// Used by Lemuel, Sabah, and Vasilisa, mostly for alternate dialogue when giving a bowl.
+
+// Zaubers are held as Key Items
+/*if (ZC_UNPOCKET == 1)
+{
+    if (Item("have", "Alms Bowl") || Item("have", "Purified Alms Bowl") || Item("have", "Harmonious Alms Bowl") || Item("have", "Mystic Alms Bowl"))
+    {
+        return true;
+    }
+    else if (Item("have", "Ablution Bowl") || Item("have", "Humble Ablution Bowl") || Item("have", "Harmonious Ablution Bowl") || Item("have", "Mystic Ablution Bowl"))
+    {
+        return true;
+    }
+    else if (Item("have", "Singing Bowl") || Item("have", "Humble Singing Bowl") || Item("have", "Purified Singing Bowl") || Item("have", "Mystic Singing Bowl"))
+    {
+        return true;
+    }
+    else if (scr_items_has(ITEMTYPE_ZAUBER, "Mandorla"))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+// Zaubers are ONLY held in pockets
+else
+{
+    if (scr_bowl_pocket() == true)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}

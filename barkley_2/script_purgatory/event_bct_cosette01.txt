@@ -1,0 +1,86 @@
+/*
+This is Cosette!  She runs the Kiosk in the VR Room in Brain City. She's a kind old lady who gels well with Hoopz and helps him attempt to understand the complex payment schemes for Oligarchy Online.
+
+Variables:
+cosetteState = 1 - talked to Cosette
+
+vrwAccount = 0 - you don't have an account
+vrwAccount = 1 - you have an account
+
+vrwType = 0 - you do not have an account
+vrwType = 1 - you have the Pay-As-You-Go account
+vrwType = 2 - you have the Hourly account
+vrwType = 3 - you have the Year Subscription account
+
+Related Variables:
+knowOO = 1 - you've heard about OO and so you do not enquire about it.
+
+*/
+
+if (argument0 == SCRIPT_START) {
+    
+} else if (argument0 == SCRIPT_STEP) {
+    
+} else if (argument0 == SCRIPT_INTERACT) {
+
+    var event = scr_event_create_main();
+    var ooSetup = scr_event_create_child(event);
+    var ooType = scr_event_create_child(event);
+    var framptonAsksOO = scr_event_create_child(event);
+    
+    // Snippet for determining what Type of Account you'd like
+    //---------------------------------------------------------
+    with (ooType) {
+        //Breakout Builds for Choice
+        Breakout("build", "add", "money", 0, -100, 0);
+        Breakout("build", "add", "money", 0, -100, 0);
+        Breakout("build", "add", "money", 0, -100, 0);
+        
+        var accountTypeChoice = scr_event_build_choice("What type of account?", s_port_hoopz);
+        var accountPAYG = scr_event_build_add_choice(accountTypeChoice, "I'd like a Pay-As-You-Go Account please.");
+        //TODO: make this real
+        with accountPAYG {
+            
+            scr_event_build_dialogue_debug("Bhroom", NULL, "For now, whatever you choose just costs 100 ns");
+            
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'll take the Pay As You Go one.");
+            scr_event_build_money_add(-100);
+            scr_event_build_dialogue("Cosette", NULL, "Very well sweetie here you are! You can log in anytime you'd like.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Great thanks ma'am.");
+            scr_event_build_quest_state("vrwAccount", 1);
+            Breakout("build", "clear");
+        }
+        //TODO: Add in the events for these choices as well
+        scr_event_build_add_choice_with_event(accountTypeChoice, "I'll take that Hourly Rate deal!", accountPAYG);
+        scr_event_build_add_choice_with_event(accountTypeChoice, "I'm suddenly flush with cash, how about that Yearly Subscription.!", accountPAYG);
+    }
+    
+    // Snippet for starting Account Type Decision
+    //--------------------------------------------
+    with (ooSetup) {
+         
+    }
+
+    //MAIN EVENT
+    //--------------    
+    with (event) {
+        //TODO: Actually write Cosette
+        scr_event_build_dialogue_debug("Bhroom", NULL, "This is Cosette!  She runs the Kiosk in the VR Room in Brain City. She's a kind old lady who gels well with Hoopz and helps him attempt to understand the complex payment schemes for Oligarchy Online.  She's not written yet, but at the core she will ask you what type of account you want.");
+        scr_event_build_dialogue("Cosette", NULL, "Hello there dear, how can I help you?");
+        
+        var cosetteHelp = scr_event_build_choice("What do you need?", s_port_hoopz);
+        var giveMeAccount = scr_event_build_add_choice(cosetteHelp, "I'd like an Oligarchy Account please.");
+        with giveMeAccount {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'll take an Oligarchy Account, please ma'am.");
+            scr_event_build_dialogue("Cosette", NULL, "Oh such a nice young man. What type of account would you like?");
+            scr_event_build_event_snippet(ooType);
+        }
+        
+        with (scr_event_build_add_choice(cosetteHelp, "I'm good for now.")) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm good now now, ma'am.");
+            scr_event_build_dialogue("Cosette", NULL, "Okay dearie, see you soon.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thank you.");
+        }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,25 @@
+// Z sign // Quest: Mask of Zorro //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+        
+            // Hoopz finds all the signs //
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I've gone through the entire town now. No stone has remained unturned so I think I've found all the signs. Now I need a map of Ys-Kolob to analyze my findings...");
+            }
+scr_event_advance(event);
+}

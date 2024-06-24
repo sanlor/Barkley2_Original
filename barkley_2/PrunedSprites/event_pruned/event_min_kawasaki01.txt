@@ -1,0 +1,128 @@
+// NPC script for Kawasaki, one of the player's two cellmates.
+/*From my design document:
+Full name: Rube Kawasaki.
+One of the player's cellmates, a geode dwarf. The player can idly chat with him for a while while they're in prison, but Kawasaki doesn't really feel keen on escaping from prison, so the conversation doesn't amount to a ton.
+
+Design note: I remember the idea of Geode Dwarf was suggested in chat a LONG while back, essentially a dwarf who is a geode, or hatched out of one or something. I have no idea if this became A THING or not, but it is now in the form of this fantastically old dude the player stumbles onto in his prison cell. The whole thing with him is that he's essentially a rock-person who got a life sentence for some robbery that went wrong. This was too delicious of an idea to ignore, since a life sentence for a rock would probably be several hundred million years.
+*/
+// DICKHEAD GAME DESIGNER NOTE: One of Kawasaki's escape plans is that he makes a miniature version of the prison to make the player think he's escaped. I have not discounted the possibility that the rest of the game the player plays from this point onward is actually Kawasaki's miniature. Just wanted to write this somewhere.
+// CONTINUITY NOTICE: Kawasaki generally mentions that the prison used to be outdoors, with the suggestion that the prison, several million years ago, SOMEHOW survived a volcano erupting nearby. Even though this ROCKS[lol], ponder changing this if it's a total geological impossibility. Could write it off as Kawasaki getting up there in years though, fading mentally. Revising this is easy, as I'd just need to eliminate the text ot kawasakiState=4.
+// CRITICAL COMBAT NOTE: Kawasaki eventually aids the player as a follower and combat NPC later in this location, though this script doesn't handle that. kawasaki01 is replaced with kawasaki02 in the cell when the player is ready to break out. check that script for more information.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") >= 1) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var kawasaki = id;
+    var event = scr_event_create_main();
+    var escapesnippet = scr_event_create_child(event);
+    with escapesnippet {
+        var breakout = Choice("Are you thinking about escaping with this old dude?", NULL);
+        with (ChoiceAdd(breakout, "Nah, I guess it can wait.")) {
+            Dialogue(P_NAME, "Nah, I guess it can wait. We should catch up first, I guess.");
+            scr_event_build_dialogue("Kawasaki", NULL, "That's this spirit! I've got some stories for you, old man. You wouldn't believe.....");
+            Quest("kawasakiState", 3);
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(breakout, "Yeah, let's escape!")) {
+            Dialogue(P_NAME, "Yeah, let's escape! It'll be like old times, right?");
+            scr_event_build_dialogue("Kawasaki", NULL, "Ha! I knew it! I know that little tone in your voice, Charlie. You got a golem out there waiting for you, dontcha?\Come on, you gotta tell me all the details. What's it like? Lots of barnacles?!?!");
+            Dialogue(P_NAME, "Tons. Really good ones too.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Hot damn! Now you got my attention.\I figure you need me to be the brains of the outfit, so I gotta go through this here noggin and pick out the best damn escape plan.");
+            Quest("kawasakiState", 4);
+            scr_event_build_end();
+        }
+    }
+
+    with (event) {
+        if (Quest("kawasakiState") == 8) {
+            scr_event_build_dialogue("Kawasaki", NULL, "Miniatures......make him think he's escaped when he really hasn't......\Yes, that's good.......Charlie will never know.....");
+            Quest("kawasakiState", 6);
+            scr_event_build_end();
+        } else if (Quest("kawasakiState") == 7) {
+            scr_event_build_dialogue("Kawasaki", NULL, "Ha ha. A purple umbrella.....floating there.....ha ha ha ha.....\But no, it'll never take. I can't afford something like that.");
+            Quest("kawasakiState", 8);
+            scr_event_build_end();
+        } else if (Quest("kawasakiState") == 6) {
+            scr_event_build_dialogue("Kawasaki", NULL, "Hmmm........\No, that's no good. We'll never find that much TNT.......");
+            Quest("kawasakiState", 7);
+            scr_event_build_end();
+        } else if (Quest("kawasakiState") == 5) {
+            scr_event_build_dialogue("Kawasaki", NULL, "D'ya think our cellmate can walk through walls?");
+            Dialogue(P_NAME, "I kinda doubt it.");
+            scr_event_build_dialogue("Kawasaki", NULL, "How'd ya figure that? He looks like maybe he could. Did you ask him?\It's for this escape plan I'm figuring.");
+            Dialogue(P_NAME, "I guess I can ask.\Hey, can you walk through walls?");
+            scr_event_build_dialogue("Devigny", NULL, "What? Me?");
+            Dialogue(P_NAME, "Uh, we want to know if you can walk through walls.");
+            scr_event_build_dialogue("Devigny", NULL, "Not anymore.....\When I was a kid I could, though. Did it all the time. It was great. So liberating. Just walking through any wall I wanted.\But then they took me to the metal silum and hooked me up to this machine.\I don't remember much from around that time, but I lost the ability to walk through walls.....the world closed in......they took it from me......\PIECES OF SHIT!!!!!!!!!! YOU JUST TAKE EVERYTHING FROM ME!!!!!!!");
+            scr_event_build_dialogue("Kawasaki", NULL, "Coulda just said no. I don't care none about your fucked life story.");
+            Quest("kawasakiState", 6);
+            scr_event_build_end();
+        } else if (Quest("kawasakiState") == 4) {
+            scr_event_build_dialogue("Kawasaki", NULL, "Oh, I think I got one. They still bring prisoners in on them cable cars?");
+            Dialogue(P_NAME, "Nope. This prison is in a cave.");
+            scr_event_build_dialogue("Kawasaki", NULL, "It's a cave now? Well I'll be.....\When'd this happen? We was on an island last time I was out.");
+            Dialogue(P_NAME, "Beats me. It looks like it's been here a while.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Musta been that stupid volcano. I hate them damn volcanoes.");
+            Quest("kawasakiState", 5);
+            scr_event_build_end();
+        } else if (Quest("kawasakiState") == 3) {
+            scr_event_build_dialogue("Kawasaki", NULL, "I gotta tell you's about this cellmate I had a couple millennia ago.\Wildest thing. Feller could change himself into a bucket of soapy water.\Weren't the best for conversation, being a half-bucket and all that. I got myself a few cartons of smokes, used to put 'em out in him when he was sulking around in one of his moods.");
+            Dialogue(P_NAME, "Yeah, that's cool......");
+            scr_event_build_dialogue("Kawasaki", NULL, "What's with that look there? Don't tell me you still all hung up on escape now, are ya?");
+            Snippet(escapesnippet);
+        } else if (Quest("kawasakiState") == 2) {
+            Dialogue(P_NAME, "Say, have you ever thought about escaping?");
+            scr_event_build_dialogue("Kawasaki", NULL, "Thought about it? We did escape, don't you remember? We were overlords of Necron 7 for a while.\That was fun. The revolution weren't so fun, though. I know you never really thought so, but I think we deserved it.\You were so cross when they put you back in, but the revolutionaries knew you had a couple million years left on your sentence so they didn't increase it. I thought that was pretty nice of them. Guess they figured their species would probably be extinct by the time you got out.\That got escape out of my system, but I know you always thought about it. You never seemed really happy here.");
+            Dialogue(P_NAME, "Hmm....\Do you still know of a way to escape? We could do it again.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Yeah, I suppose. I doubt the security has changed much, and these Duergars ain't the smartest characters.\Oh, wait a minute....you don't mean right now do you? Don't you want to kick back for a couple hundred thousand years first? We've got a lot of catching up to do.");
+            Snippet(escapesnippet);
+        } else if (Quest("kawasakiState") == 1) {
+            scr_event_build_dialogue("Kawasaki", NULL, "What're you standin' round for, Charlie? Take a load off. You could use a break.");
+            Dialogue(P_NAME, "You know, I really don't think I'm Charlie.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Hey look, Charlie, I got nothing but spare time, maybe we can just pretend, ok? We're good old friends from the old days. Can you do that?");
+            var pretend = Choice("Are you good old friends from the old days?", NULL);
+            with (ChoiceAdd(pretend, "Sure.")) {
+                Dialogue(P_NAME, "Sure, why not? I have amnesia actually.\What did you say my name was? Charlie?");
+                scr_event_build_dialogue("Kawasaki", NULL, "That's right, Charlie. You got amnesia?");
+                Dialogue(P_NAME, "Yeah, don't remember anything.");
+                scr_event_build_dialogue("Kawasaki", NULL, "No fooling? Huh....\Hell, maybe you are Charlie. I could tell you about yourself if'n you forgot. Might ring a bell, some of this stuff.");
+                Dialogue(P_NAME, "If you want. It looks like we'll have lots of free time.");
+                scr_event_build_dialogue("Kawasaki", NULL, "You'd probably be pretty old by now. I remember they gave you a quarter of a life sentence, and it was a pretty long time ago that you got out.\You look pretty good for your age, kiddo. Wouldn't have thought you was 58,245,242 years old.");
+                Dialogue(P_NAME, "You know, maybe I'm not Charlie after all. I don't think I'm that old.");
+                scr_event_build_dialogue("Kawasaki", NULL, "Come on, Charlie, you didn't forget already did ya? We're geode dwarfs! Have some pride in what you are.\If my numbers are right, you aren't even at your half-life yet. You got plenty of life left in ya.");
+                Dialogue(P_NAME, "What's a geode dwarf?");
+                scr_event_build_dialogue("Kawasaki", NULL, "We're a kinda dwarf. Most dwarfs are made of flesh and bone, all that stuff. Not us! We're made from solid rock, the good stuff.\Not to say flesh and bone is no good, I've met a lot of good regular dwarf in my days, but it's a bit of a cruel joke, like making a dwarf out of a cheese sandwich. The stuff just goes rotten. Just ain't fair.");
+                Dialogue(P_NAME, "Wow, so how old would that make you?");
+                scr_event_build_dialogue("Kawasaki", NULL, "Awww, Charlie, you must've really hit your head hard to get that much amnesia. We're the same age, brothers of the same rockpile.\Can't believe you ever forgot all about that. We got nabbed for holding up that tonic joint. Judge came down harder on me on account of me killin' the clerk after he pulled a gun on me. You got off with a quarter life sentence. I got life.\I was so happy for you when you got out, lot of years you had to wait.\Sad you got put back in. Hope they just gave you flat years rather than life. Rough term.");
+                Dialogue(P_NAME, "Wait, you got life and you're a geode dwarf? How many years is that?");
+                scr_event_build_dialogue("Kawasaki", NULL, "Dunno exactly....depends on the half-life they came up with for us. The courts never told me mine since I don't have no chance to get out anyway. Yours was around 75,000,000, so that'd mean your lifespan's about 150 million.\Probably mine's around that, but it could be a lot higher or a lot lower. I don't know how many impurities I was born with.");
+                Dialogue(P_NAME, "How long have you been in here?");
+                scr_event_build_dialogue("Kawasaki", NULL, "We was 18 when we got put in here, so that'd make what? The better part of 58,245,224 years?\Lots changed since you left. Lost count of how many different types have run the prison. These Duergars are pretty bad, some of the worst.\Good you got out when you did, a couple hundred thousand years later the Orchid Locusts ran the place. Boy-oh-boy, they were bad. None of them could speak, they just made this horrible clicking noise. Just the worst. Even worse than the Desert Mite people, and I remember how much you hated them.\I don't like the Duergars much, but I got used to the constant screaming, got an ok rhythm. Thirty five thousand years of that damn clicking noise were the worst thirty five thousand years of my life.\Trust me Charlie, TRUST ME, avoid Orchid Locusts. The worst.");
+                Dialogue(P_NAME, "I hate clicking noises when I'm trying to sleep. Nothing's worse than that.");
+                scr_event_build_dialogue("Kawasaki", NULL, "Yeah, I know. You didn't think I'd forget, did you? I remember you'd lay me out whenever my dentures clicking would wake you up at night.\Well don't worry none about that anymore. Got them fixed a couple thousand years ago. They don't click no more.");
+                Dialogue(P_NAME, "Thanks. That's nice of you.");
+                scr_event_build_dialogue("Kawasaki", NULL, "Anything for you, Charlie.");
+                Quest("kawasakiState", 2);
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(pretend, "No.")) {
+                Dialogue(P_NAME, "I wouldn't feel right doing that. I'm me, I can't be Charlie. I don't even have an accent.");
+                scr_event_build_dialogue("Kawasaki", NULL, "No, you got an accent, it just ain't the right one.\Oh well. It was a nice thought anyway. Good of you to chat me up as long as you did. 'd say I won't forget what you did, but I can't promise that anymore.");
+                scr_event_build_end();
+            }
+        } else {
+            scr_event_build_dialogue("Kawasaki", NULL, "Hey Charlie. Been a while. I thought you got paroled.");
+            Dialogue(P_NAME, "Do you know me?");
+            scr_event_build_dialogue("Kawasaki", NULL, "Oh wait. No, you ain't Charlie. You don't got the right accent. Charlie had a different accent I think.\But it's been a while. I could forget. Do I look familiar to you?");
+            Dialogue(P_NAME, "I can't say that I've ever seen you before.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Unless'n maybe you forgot me too just like I forget if you're my Charlie.\Wouldn't that just be an awful shame, two old codgers like us forgetting old friends.");
+            Quest("kawasakiState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

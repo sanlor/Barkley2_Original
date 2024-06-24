@@ -1,0 +1,201 @@
+//-----------------------------------------------------------------------------
+// CUCHULAINN VARIABLES:
+//
+//-----------------------------------------------------------------------------
+// Area
+//-----------------------------------------------------------------------------
+cuchuLairDeath = 1 - Player has died in the Cuchulainn area, satisfying Wiglaf's request.
+
+//-----------------------------------------------------------------------------
+// Player Information
+//-----------------------------------------------------------------------------
+There are 3 constants that hold the player's name information. Each is shorthand for the "scr_quest_get_state()" function, with a different quest variable, for ease of typing in dialogue boxes. They are:
+
+P_NAME = scr_quest_get_state("playerName")
+    This is what will appear in normal references to the player, as well as what will show up in the Title field of their dialogue boxes.
+    Ex: scr_event_build_dialogue(P_NAME, s_port_hoopzSad, "No way, Jose!");
+P_NAME_S = scr_quest_get_state("playerNameShort")
+    This is specifically used when the player is referred to by a nickname. 
+    Ex: "Hey, X1!" can be rendered as "Hey, " + P_NAME_S + "!"
+P_NAME_F = scr_quest_get_state("playerNameFull")
+    This displays the player's full name, if different from their normal name.
+    Ex: "Yes, Hoopz Barkley is your name" can be rendered as "Yes, " + P_NAME_F + " is your name."
+
+The contents of the three quest variables (playerName, playerNameShort, and playerNameFull) are linked to 3 different variables for the player's identity. They are:
+    
+playerX1
+    1 = player is "X114JAM9"
+    if so, it follows that...
+        playerName = P_NAME = "X114JAM9"
+        playerNameShort = P_NAME_S = "X1"
+        playerNameFull = P_NAME_F = "X114JAM9"
+      
+playerHoopz
+    1 = player is Hoopz Barkley.
+        playerName = P_NAME = "Hoopz"
+        playerNameShort = P_NAME_S = "Hoopz"
+        playerNameFull = P_NAME_F = "Hoopz Barkley"
+
+playerCC = 
+    1 = player is Hoopz Barkley.
+        playerName = P_NAME = scr_name_short(P_NAME_F);
+        playerNameShort = P_NAME_S = scr_name_shortest(P_NAME_F);
+        playerNameFull = P_NAME_F = "characterCreationName"
+        
+    characterCreationName is an undetermined variable at this point, which must be pulled from Laz's Character Creation.
+    scr_name_short() and scr_name_shortest() are currently non-existent functions that will derive shorter versions of the player's name from their full name, if they exist. These can be omitted, but will just be simple scripts that detect periods, spaces, numbers, and other special characters and truncate the name accordingly.
+
+//-----------------------------------------------------------------------------
+// Elevator
+//-----------------------------------------------------------------------------
+elevatorRide
+    1 = Player has ridden the elevator, if we decide to put a scene here.
+    Right now it does nothing but change upon riding the elevator for the first time. The first elevator ride SHOULD be when the player is on the Wiglaf Mission, in a typical playthrough, but we may want to put it elsewhere.
+
+campfireScene
+    1 = Player has seen the camp sequence. Happens when Cyberdwarf is present ("cdwarfPresent" == 1) your team and the cyberspear is complete ("csComplete" == 1)
+
+elevatorChastise
+    1 = Player has been chastised by Cyberdwarf for riding the elevator without a complete Cyberspear.
+
+elevatorCSPieces
+    0 to 4 = How many Cyberspear pieces the player has when riding the elevator. We can make 4 different chastizing scripts if we would like. Certainly, a script will not replay if "csPiecesTotal" is not greater than "elevatorCSPieces" (that is, no new pieces have been obtained since last riding the elevator)
+
+elevatorDirection
+    0 = Going up (from Lobby to 666)
+    1 = Going down (from 666 to Lobby)
+    This changes upon entering the elevator from use of the Call Button on either floor.
+
+elevatorFloor 
+    1 = Floor L for "Lobby".
+    x = Floor x, from 2 to 665
+    666 = Floor 666.
+    This counts up on a timer as the elevator travels, and is reflected in the elevator control object's "screen" as a number.
+
+elevatorFinish
+    Currently nothing!
+    
+elevatorBork
+    1 = elevator has been borked by Variable!
+    
+
+//-----------------------------------------------------------------------------
+// Cyberdwarf
+//-----------------------------------------------------------------------------
+cdwarfJoined 
+    1 = Cyberdwarf was met and installed in the player's CPU. 
+    It follows that the player is necessarily "Hoopz" or "Created Character".
+
+cdwarfPresent
+    1 = Cyberdwarf is CURRENTLY inside the player's CPU and/or the Cyberspear.
+    
+    
+cdwarfReformat
+    1 = Player has destroyed Cyberdwarf by reformatting him.
+
+cdwarfPresent = 1 - Cyberdawrf was 
+cdwarfTime = ???????
+
+cdwarfCinema = 0 - Cyberdwarf cutscene has not yet begun.
+             = 1 - etc. etc.
+             = 2 - ...
+             = 11 - 
+//-----------------------------------------------------------------------------
+// Cyberspear
+//-----------------------------------------------------------------------------
+csComplete = 1 - Player has completed the Cyberspear.
+
+csPiecesTotal = 1 - Number of Cyberspear pieces currently owned by the player.
+    // NOTE: This should be recalculated each time the player receives a piece.
+
+csEggGot = 1 - Got Cyberspear piece from the Egg.
+
+csAIGot = 1 - Got Cyberspear piece from the AI Ruins.
+
+csNecropolisGot = 1 - Got Cyberspear piece from the Necropolis.
+
+csMinesGot = 1 - Got Cyberspear piece from the Mines.
+
+csExteriorLost = 1 - Lost Cyberspear piece in the exterior.
+
+csForgeGot = 1 - Forged Cyberspear piece.
+   
+//-----------------------------------------------------------------------------
+// CuchuCrustacea
+//-----------------------------------------------------------------------------
+crustDoorSolo = 1 - Approached Crustacea door as X114JAM9, but did not enter
+crustDoorSolo = 2 - Entered Crustacea door as X114JAM9, and fought
+
+crustDoorComplete = 1 -
+crustDoorComplete = 2 -
+
+crustDoorIncomplete = 1 - 
+crustDoorIncomplete = 2 - 
+
+crustDoorAny = 1 -
+crustDoorAny = 2 - 
+
+crustDead = 1 - Defeated CuchuCrustacea
+
+crustFightAny = 1 -
+crustFightSolo = 1 -
+crustFightComplete = 1-  
+crustFightIncomplete = 1 -
+
+//-----------------------------------------------------------------------------
+// Point of No Return
+//-----------------------------------------------------------------------------
+
+
+
+
+
+//-----------------------------------------------------------------------------
+// Final Confrontation
+//-----------------------------------------------------------------------------
+cdwarfOmni
+
+
+
+
+
+ADD IN RELEVANT THINGS TO QUEST DEBUG MENU:
+cdwarfCinema
+    11 when done
+cdwarfReformat
+    1 is on
+cdwarfJoined
+    1 is on
+
+csPiecesTotal
+    4 is all
+csComplete
+    1 is completed
+    
+playerX1
+playerCC
+playerHoopz
+    1 for all these
+cuchuFought
+    1 means you battled cuchulainn
+ 
+longinusDoorOpen
+longinusHelp
+longinusDoorState
+    2 to get Nene talking
+    
+wiglafState
+wiglafMission
+neneKnock
+    1 learned
+cuchuFought
+neneState
+    5 when done
+
+
+
+
+
+
+
+

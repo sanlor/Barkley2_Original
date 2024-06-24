@@ -1,0 +1,31 @@
+// Think(name, dialogue, portrait[optional]);
+
+var name = argument[0];
+var port = NULL;
+
+name = name;
+
+if (argument_count == 3)
+{
+    port = argument[2];
+}
+else
+{
+    port = Portrait("from name", name);
+}
+
+diaThink = ds_list_create();
+diaThink[| 0] = NULL; //x
+diaThink[| 1] = NULL; //y
+diaThink[| 2] = NULL; //textbox_width
+diaThink[| 3] = NULL; //lines
+diaThink[| 4] = NULL; //text_speed
+diaThink[| 5] = NULL; //title_color
+diaThink[| 6] = $696969; //text_color
+diaThink[| 7] = NULL_STRING; //talk_sound
+diaThink[| 8] = NULL_STRING; //confirm_sound
+diaThink[| 9] = 0; //portrait_speed
+diaThink[| 10] = false; //always_play_portrait_animation
+diaThink[| 11] = NULL; //boxless
+    
+scr_event_build_dialogue_ext(name, port, argument[1], diaThink);

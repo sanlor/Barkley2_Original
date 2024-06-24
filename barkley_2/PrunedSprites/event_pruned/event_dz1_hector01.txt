@@ -1,0 +1,25 @@
+// Event for Hector, lumberjack with in the Industrial Park at time 7.
+
+if (argument0 == SCRIPT_STEP) {
+    if (scr_time_get() == 7) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var hector = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("hectorState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Hector", NULL, "Hmm, you want something? I'm Hector the Lumberjack. Live up on the Mountain with my dog. Don't like talking, not good at it. All I like to do is chop wood.");
+            scr_event_build_quest_state("hectorState", 1);
+        } else {
+            scr_event_build_dialogue("Hector", NULL, "People come and go from the Mountain. L.O.N.G.I.N.U.S., Duergars, bug critters, pilgrims. I don't mind 'em if they don't give me trouble. I'm just here to chop logs.");
+        }
+    }
+    scr_event_advance(event);
+}

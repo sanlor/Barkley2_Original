@@ -1,0 +1,229 @@
+// Event for Grigor, adventurer with Lonnie's party who appears in the Industrial
+// Park at times 3, 4, 5, 8 and 11. Survives the expedition.
+/*
+if (argument0 == SCRIPT_START)
+{
+    
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    if (scr_time_get() == 3) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 4) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 5) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 8) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 11) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var grigor = id;
+    var event = scr_event_create_main();
+    var chup_handler_snippet = scr_event_create_child(event);
+    var chup_sale_snippet = scr_event_create_child(event);
+
+    //--------------------------------------------
+    //------------ CHUP SALE SNIPPET -------------
+    //-------------------------------------------- 
+    with (chup_sale_snippet)
+    {
+        Breakout("build", "clear");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, I've got something even better than grapes.");
+        scr_event_build_dialogue("Grigor", NULL, "Better than grapes? Y-yeah right. I don't know if there's anything better than grapes... no such thing... wh-what is it?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think you know what it is... that Stinky Pete, that Gumbo Surprise, a little Blue Platypus... ");
+        scr_event_build_dialogue("Grigor", NULL, "Y-you mean... chups? I... I shouldn't man... Oh, I shouldn't...");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "C'mon Grigor, you know you want 'em...");
+        scr_event_build_dialogue("Grigor", NULL, "Y-yeah... yeah... I want those chups. I want 'em bad... it's been so long... yeah... I'll give you 550 neuro-shekels for 'em.");
+        
+        var sellchup1 = scr_event_build_choice("Sell Grigor a chup?", s_port_hoopz);
+        
+        //Sell Chup
+        with scr_event_build_add_choice(sellchup1, "Sounds good.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You got yourself a good deal, my man. 550 neuro-shekels it is.");
+            scr_event_build_dialogue(NULL, NULL, "Get 550 neuro-shekels!");
+            scr_event_build_dialogue("Grigor", NULL, "Oh man, it's been a while... haven't had this kinda fun in a looong time. I like you kid, hope you're around when we get back. We'll all be loaded then and it'll be party time 24/7.");
+            scr_event_build_quest_state("grigorChup", 1);
+            scr_event_build_quest_state_add("chupCount", -1);
+            scr_event_build_quest_state_add("chupShekel", 550);
+            scr_event_build_money_add(550);
+        }
+        
+        // Want more money
+        with scr_event_build_add_choice(sellchup1, "No deal, not enough.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "550 neuro-shekels for premium, grade A, fresh-from-the-mines, Sombrero Galaxy quality chups, Grigor? Are you serious? You know this is the good stuff. I can't let you rip me off on this.");
+            scr_event_build_dialogue("Grigor", NULL, "Y-yeah... I know... I was just testing the waters, seeing if you'd bite... 650 neuro-shekels. That's my final offer.");
+            
+            var sellchup2 = scr_event_build_choice("Sell Grigor a chup?", s_port_hoopz);
+            
+            // Take 650 Neuro-shekels
+            with scr_event_build_add_choice(sellchup2, "Good deal, I'll take it.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You got yourself a good deal, my man. 650 neuro-shekels it is.");
+                scr_event_build_dialogue(NULL, NULL, "Get 650 neuro-shekels!");
+                scr_event_build_dialogue("Grigor", NULL, "Oh man, it's been a while... haven't had this kinda fun in a looong time. I like you kid, hope you're around when we get back. We'll all be loaded then and it'll be party time 24/7.");
+                scr_event_build_quest_state("grigorChup", 1);
+                scr_event_build_quest_state_add("chupCount", -1);
+                scr_event_build_quest_state_add("chupShekel", 650);
+                scr_event_build_money_add(650);
+            }
+            
+            // Not enough.
+            with scr_event_build_add_choice(sellchup2, "Still not enough. C'mon, Grigor.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Don't yank me around, man. That's still not enough.");
+                scr_event_build_dialogue("Grigor", NULL, "Fuck you, kid! I can get higher quality chups for cheaper. You don't think dealers come by here all the time? F-forget you... I didn't want your stupid chups anyway... leave me alone...");
+                scr_event_build_quest_state("grigorChup", 1);
+            }
+        }
+    }    
+
+    //--------------------------------------------
+    //------------ CHUP HANDLER ------------------
+    //--------------------------------------------
+    with (chup_handler_snippet)
+    {
+        // Chup Quest
+        if (scr_chup_available("grigor") == true)
+        {
+            Breakout("build", "add", "chupCount");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Maybe I can sell this guy a chup...?)");
+            
+            var chupsell = scr_event_build_choice("Sell Grigor a chup?", s_port_hoopz);
+            // Sell Chup
+            with scr_event_build_add_choice(chupsell, "I could probably sell this dude a chup.")
+            {
+                scr_event_build_event_snippet(chup_sale_snippet);
+            }
+            // Don't Sell Chup
+            with scr_event_build_add_choice(chupsell, "Forget it, this guy's a creep.")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This guy's a real weirdo, I don't want to talk to him.)");
+            }
+        }
+    }
+    
+    //--------------------------------------------
+    //------------ MAIN EVENT --------------------
+    //--------------------------------------------
+    with (event)
+    {
+        // Time = 11
+        if (scr_time_get() == 11)
+        {
+            // You've spoken to Grigor at Time 11.
+            if (scr_quest_get_state("grigorState") == 4)
+            {
+                scr_event_build_dialogue("Grigor", NULL, "We shouldn't have gone... we should've listened to that lady... I... I... I thought Bainshees were just an urban legend... we didn't know...");
+            } 
+            // Time = 11, Spoken to before
+            else if (scr_quest_get_state("grigorState") == 3) || (scr_quest_get_state("grigorState") == 2) || (scr_quest_get_state("grigorState") == 1)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What's going on, Grigor? You're not looking so well. Where'd everyone else go?");
+                scr_event_build_dialogue("Grigor", NULL, "They, uh... we... they're gone. They uh... I need to be alone. I need to be alone right now. Listen to me: don't go to Shangri-La. You can't ever go to Shangri-La. It's not Grapester's Paradise. It's a Grapester's Nightmare. Can you just... can you leave me alone right now?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, Grigor... take care of yourself.");
+                scr_event_build_quest_state("grigorState", 4);
+            } 
+            // Never spoken to before.
+            else
+            {
+                scr_event_build_dialogue("Grigor", NULL, "It's... I'm... I'm... can you... leave me alone right now...?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is something wrong? What's the matter?");
+                scr_event_build_dialogue("Grigor", NULL, "My friends all just died... I... I don't think I can talk right now. I don't think I can... can you go please?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm sorry... I'll leave you alone. Take care.");
+                scr_event_build_quest_state("grigorState", 4);
+            }
+        } 
+        // Time = 8
+        else if (scr_time_get() == 8)
+        {
+            // Spoken to during Time 8
+            if (scr_quest_get_state("grigorState") == 3)
+            {
+                scr_event_build_dialogue("Grigor", NULL, "Some of those grapes there don't even have names. I'm gonna go back and name 'em. Grigor's Grapes. How's that sound, huh? And when people see me walking down the streets, they'll point and go /'there's Grigor! That's Grigor with the grapes! He's a hero!/' Yeah, I'll be a fucking hero. I can see it now.");
+            } 
+            // Time = 8, Spoken to previously
+            else if (scr_quest_get_state("grigorState") == 2) || (scr_quest_get_state("grigorState") == 1)
+            {
+                scr_event_build_dialogue("Grigor", NULL, "We... we did it! We did it, kid! We found Shangri-La, we found the Grapester's Paradise! Grapes of every flavor, grapes of every culture... chromatic grapes. I can hardly breathe from all the grapes I ate.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You really think it's okay to indulge yourself like that? I don't want to be blunt or anything, but it sounded kind of like you had uh... a grape problem, I guess.");
+                scr_event_build_dialogue("Grigor", NULL, "Grape problem? Haha, kid, we're goin' back! We only got a taste of what's there! There's enough grapes there for every dwarf in Tir na Nog! We're gonna be millionaires - no, billionaires! You don't get it, kid. This is the motherload, the gravy train. And it's all ours. This is what they dream of, and we've got it. I haven't even started to indulge myself yet. Tell you what, when we get back, I'll treat you to a few grapes, whatever kind you want. It's on me, Grigor. Grigor the Generous. I like the sound of that.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks Grigor, but I mostly just like candy and bagel bites. But I'll think about it.");
+                scr_event_build_quest_state("grigorState", 3);
+            } 
+            // Time = 8, Never spoken to before
+            else
+            {
+                scr_event_build_dialogue("Grigor", NULL, "Concord grapes... Thompson's Seedless... Malbec...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? What are you talking about?");
+                scr_event_build_dialogue("Grigor", NULL, "You know what we've seen? You know what we just got back from? SHANGRI-LA! We did it!!! It's real, Shangri-La is real!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay...");
+                scr_event_build_dialogue("Grigor", NULL, "It's a never-ending vineyard, kid. They've got grapes of every flavor, every culture. I ate grapes you wouldn't believe, grapes that don't even have names. I had 'em all. And we're goin' back! We're gonna go back and get 'em all. We just had a taste, but the real prize is still there waiting for us. We're gonna be millionaires - no, billionaires!");
+                scr_event_build_quest_state("grigorState", 3);
+            }
+            // Go to Chup Handler Snippet
+            scr_event_build_event_snippet(chup_handler_snippet);
+        } 
+        // Time = 5
+        else if (scr_time_get() == 5) {
+            // Time = 5, Spoken to during Time 5
+            if (scr_quest_get_state("grigorState") == 2) {
+                scr_event_build_dialogue("Grigor", NULL, "We're gonna be millionaires, kid. We're gonna have enough grapes for every dwarf in Tir na Nog. I'm gonna build a mansion and have a little vineyard in the back, have my servants take care of it. You'll see. We're gonna hit it big.");
+            } 
+            // Time = 5, Spoken to during Times 3-4
+            else if (scr_quest_get_state("grigorState") == 1)
+            {
+                scr_event_build_dialogue("Grigor", NULL, "Hey, hey, kid... let's keep this on the down low, okay? You uh... you got any grapes?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nope, no grapes. Sorry.");
+                scr_event_build_dialogue("Grigor", NULL, "It's all good. Yeah, it's fine. You know where we're heading? Shangri-La. It's real, dude, a never-ending vineyard with grapes of every flavor. Every. Single. Grape. I'm not shitting you dude, grapes you couldn't even dream of - you thought Concords were off the deep end? Two words: Thompson's Seedless. We'll be gorging ourselves on these bad boys 'til we explode.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "That doesn't really sound too healthy. Maybe you should lay off the grapes, Grigor.");
+                scr_event_build_dialogue("Grigor", NULL, "I'm just havin' some fun, kid. I can quit whenever I want. Chill out, you're a real buzzkill.");
+                scr_event_build_quest_state("grigorState", 2);
+            } 
+            // Time = 5, never spoken to before.
+            else 
+            {
+                scr_event_build_dialogue("Grigor", NULL, "Concord grapes... Pinot Noir... Cabernet... Malbec...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, are you okay dude? Your eyes are grapeshot...");
+                scr_event_build_dialogue("Grigor", NULL, "Huh, grapes...? Uh, yeah, yeah, I'm okay. I'm good. Hey, do you think you could spot me a grape or something? Maybe even just a raisin. Just a grape skin.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't have any right now. But uh, do you have a grape problem?");
+                scr_event_build_dialogue("Grigor", NULL, "Me? ME? Haha, no way. Not me. No. But back in Tir na Nog I might have had a problem. Yeah, back before I met Lonnie and the gang it might have been a problem. But I'm in good shape now. Look at me - I can handle myself, see? I wouldn't be out here if I couldn't handle myself. That's why I'm comfortable having a grape from time to time. Besides, we wouldn't be going to Shangri-La if I had a problem. Grapes of every flavor, every variety there. I'm not shitting you, kid. They've got grapes off the deep end. So keep your grapes, I don't care, we'll be in Grapester's Paradise pretty soon.");
+                scr_event_build_quest_state("grigorState", 2);
+            }
+        } 
+        // Time = 3 or 4
+        else if (scr_time_get() == 3) || (scr_time_get() == 4)
+        {
+            // Time = 3 or 4, Spoken to before.
+            if (scr_quest_get_state("grigorState") == 1)
+            {
+                scr_event_build_dialogue("Grigor", NULL, "Me? Grape problems? No, no, not me. I'm good, I'm all here. But if you have any grapes you want to get rid of, I'd be down.");
+            }
+            // Time = 3 or 4, never spoken to before.
+            else 
+            {
+                scr_event_build_dialogue("Grigor", NULL, "Concords... Pinot Noir... Molinara... Cabernet... Malbec...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, are you okay dude? Your eyes are grapeshot...");
+                scr_event_build_dialogue("Grigor", NULL, "Huh, grapes...? Uh, yeah, yeah, I'm okay. I'm good. Hey, do you think you could spot me a grape or something? Maybe even just a raisin. Just a grape skin. ");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't have any right now. But uh, do you have a grape problem?");
+                scr_event_build_dialogue("Grigor", NULL, "Me? ME? Haha, no way. Not me. No. But back in Tir na Nog I might have had a problem. Yeah, back before I met Lonnie and the gang it might have been a problem. But I'm in good shape now. Look at me - I can handle myself, see? I wouldn't be out here if I couldn't handle myself. That's why I'm comfortable having a grape from time to time. So let me know if you see any, because I wouldn't mind a few.");
+                scr_event_build_quest_state("grigorState", 1);
+            }
+        }
+    }
+    scr_event_advance(event);
+}

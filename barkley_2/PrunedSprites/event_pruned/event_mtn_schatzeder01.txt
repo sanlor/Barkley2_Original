@@ -1,0 +1,43 @@
+// NPC script for Schatzeder, one of the duergars in the duergar encampment.
+// From my design document: The player needs to have picked up the monster bait. The death is NOT shown. Even if we can do this this needs to ABSOLUTELY NOT be shown(see the Coulombe dialogue for more info). UPDATE NOTE: Meinhardt sells the monster bait. Don't know if we want this to be available elsewhere in the game or not.
+// Note: I don't know how to do this, but this NPC should GO HOSTILE along with the other two NPCs if the player triggers the fight in the Typhoid Larry dialogue.
+// NOTE2: This script is hinged on there being the item "monster_bait". I have no idea if this is the appropriate naming convention for items, or even how to put items into the game, so this script may need an edit to reflect that when the item is in the game.
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("rebelQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var schatzeder = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Item("have", "monster_bait")) {
+            Dialogue("Schatzeder", "Fire's burnin' out.");
+            Dialogue(P_NAME, "Too bad.");
+            Dialogue("Schatzeder", "So do somethin' about it!!!!");
+            var choice1 = Choice("You've got the monster bait. Are you thinking what I'm thinking?", NULL);
+            with (ChoiceAdd(choice1, "Put the bait on the fire.")) {
+                Dialogue(P_NAME, "I think I might have something.....");
+                scr_event_build_dialogue("", NULL, "You throw the monster bait on the fire. It has a surprisingly sweet smell.");
+                Dialogue("Schatzeder", "Oooooh, that's good. Smells nice. Makes me kinda hungry.");
+                Item("build", "lose", "monster_bait", 1);
+                Quest("rebelQuest", 2);
+                Quest("detectiveQuest", 1);
+                Quest("detectivebaitQuest", 1);
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice1, "Don't bother")) {
+                scr_event_build_end();
+            }
+        } else {
+            Dialogue("Schatzeder", "Fire's burnin' out.");
+            Dialogue(P_NAME, "Too bad.");
+            Dialogue("Schatzeder", "So do somethin' about it!!!!");
+            Dialogue(P_NAME, "I don't have anything.");
+            Dialogue("Schatzeder", "What good are you?");
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

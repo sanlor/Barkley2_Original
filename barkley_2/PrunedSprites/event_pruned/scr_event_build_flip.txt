@@ -1,0 +1,10 @@
+/// scr_event_build_flip(object, image_xscale)
+/// Flips the image_xscale of an object
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_flip);
+ds_list_add(action, argument[0]); // object
+ds_list_add(action, argument[1]); // image_xscale
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;

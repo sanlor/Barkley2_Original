@@ -1,0 +1,66 @@
+// scr_sabah_sound
+/*  Sees if the character sabah has been left alone to work on his instruments.
+    He will do so if both Jane and (if located in Tir na Nog), Guillaume are gone.
+    He will also complain about the noise coming from the Well if the Gaming Klatch has begun.
+    This script will return...
+    "jane" if jane is there
+    "guil" if guillaume is there
+    "both" if guillaume and jane are there
+    "none" if nobody is there
+    "bzzt" if there is an error!
+*/
+
+// dialogue dependent on jane and guillaume
+/*var jane_present = 0;
+var guillaume_present = 0;
+
+
+// if jane is on the wedding quest
+if (scr_quest_get_state("janeWedding") == 1) && (scr_time_get() >= 4) && (scr_time_get() <= 10) && (scr_quest_get_state("weddingQuest") != 3) { 
+    jane_present = 0; 
+}
+// if jane is passed out drunk
+else if (scr_quest_get_state("janeDrunk") == 1) { 
+    jane_present = 0; 
+}
+// otherwise, jane is present
+else {
+    jane_present = 1;
+}
+// if guillaume was moved out of tir na nog
+if (scr_quest_get_state("govGuillaume") >= 2) {
+    // not on the wedding quest
+    if (scr_quest_get_state("guillaumeWedding") != 1) || (scr_time_get() < 3) || (scr_time_get() > 11) { 
+        guillaume_present = 1; 
+    }
+    // is on the wedding quest
+    else {
+        guillaume_present = 0;
+    }
+}
+
+// both present
+if (jane_present == 1) && (guillaume_present == 1) { 
+    show_debug_message("both");
+    return "both"
+}
+// neither present
+else if (jane_present == 0) && (guillaume_present == 0) {
+    /*if (scr_quest_get_state("sabahSound")) != "none" {
+        Quest("sabahSound", "none");
+    }*/
+/*    show_debug_message("none");
+    return "none"
+}
+else if (jane_present == 1) {
+    show_debug_message("jane");
+    return "jane"
+}
+else if (guillaume_present == 1) {
+    show_debug_message("guil");
+    return "guil"
+}
+else {
+    return "bzzt"
+    show_debug_message("bzzt");
+}

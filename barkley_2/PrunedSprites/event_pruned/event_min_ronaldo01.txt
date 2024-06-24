@@ -1,0 +1,63 @@
+// Prison Courtyard NPC script for the dwarf prisoner Ronaldo. He is a clispaeth-freak, and the player can get into a light theological discussion with him.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var ronaldo = id;
+    var event = scr_event_create_main();
+    var DayOver = scr_event_create_child(event);
+    with DayOver {
+        scr_event_build_dialogue("Loudspeaker", NULL, "Attention please! All inferior lifeforms not scheduled for afternoon activities, please report to the courtyard entrance.\All those scheduled for torture, please form a queue behind the silver line.\And all those scheduled for execution, please remain where you are, someone will come to pick you up.\Thanks, and have an awful day.");
+        Quest("prisondayoverState", 0);
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC NOTE: The screen should fade to black and the player is teleported to a cinematic showing them being led back to their cell.\This snippet is identical for all the NPCs in the prison courtyard. If you're seeing this now, you're on your way back to your prison cell, buster.");
+        // CINEMATIC NOTE: This is where the player is teleported back to their cell for the day. After a fade to black, this event should link to the brief cinematic of the player being led to their jail cell.
+        scr_event_build_end();
+    }
+
+    with (event) {
+        if (Quest("ronaldoState") == 2) {
+            scr_event_build_dialogue("Ronaldo", NULL, "I really, really, really hope Clispaeth comes soon.\I've been waiting for seven years in this prison, Clispaeth. I'm ready. I'm ready to leave now.");
+            scr_event_build_end();
+        } else if (Quest("ronaldoState") == 1) {
+            scr_event_build_dialogue("Ronaldo", NULL, "Have you seen Clispaeth yet? I want to be the first to see him. Make sure you tell me so I can be the first to see him come save us.");
+            scr_event_build_end();
+        } else {
+            QuestAdd("prisondayoverState", 1);
+            scr_event_build_dialogue("Ronaldo", NULL, "Hey, have you heard the big news yet?");
+            Dialogue(P_NAME, "I don't really think so. What is it?");
+            scr_event_build_dialogue("Ronaldo", NULL, "Clispaeth saves, that's what!\I just don't get why everyone around here is so glum. Clispaeth is going to come here and save us any minute. Why aren't they more excited?!?\I was always taught that there's no problem Clispaeth won't solve. He's not going to just sit back and let this happen, you know!\If we're destined like all the prophecies say, he's going to come rescue us, right? Clispaeth is the decider and protector of all destiny, after all. It's all written in his book of destiny.");
+            var clispaeth = Choice("Is Clispaeth the decider of destiny?", NULL);
+            with (ChoiceAdd(clispaeth, "Yes.")) {
+                Dialogue(P_NAME, "If you say so.");
+                scr_event_build_dialogue("Ronaldo", NULL, "Well it's not me saying so, it's the good book, that's what!!!");
+                Quest("ronaldoState", 1);
+                if (Quest("prisondayoverState") == 3) {
+                    Snippet(DayOver);
+                }
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(clispaeth, "No.")) {
+                Dialogue(P_NAME, "Well what if we're all destined to die here in miserable ways?");
+                scr_event_build_dialogue("Ronaldo", NULL, "Ha ha ha ha! That's a good one. Why would Clispaeth decide something like that???");
+                Dialogue(P_NAME, "I don't know. Maybe Clispaeth doesn't decide destiny, he just protects it. Have you ever seen where all of destiny is written down?");
+                scr_event_build_dialogue("Ronaldo", NULL, "Well, no.");
+                Dialogue(P_NAME, "That'd be a lot to write down. I doubt anybody could do it. Maybe it's just the big stuff written down, not the small stuff.\I hate to say it, but guys like you and me probably classify as small stuff.");
+                scr_event_build_dialogue("Ronaldo", NULL, "Well you act like YOU have seen all of this. You don't know, brother! You don't know what Clispaeth has in store for me.");
+                Dialogue(P_NAME, "That's right, I don't, but you don't know either. The only thing I do know is that just because you really want something doesn't mean you're going to get it.\I don't want to be a jerk, but maybe you shouldn't get your hopes up so high.");
+                scr_event_build_dialogue("Ronaldo", NULL, "But Clispaeth......this is a perfect time for Clispaeth to come.......\Why wouldn't he come? I don't understand it.");
+                Dialogue(P_NAME, "I don't know either. Just remember that in that big book it's just as likely to say ________/'Ronaldo,________ let out of prison for being a swell guy/', as it is likely to say ________/'Ronaldo,________ dies of dysentery in prison/'.");
+                scr_event_build_dialogue("Ronaldo", NULL, "That's.......\Clispaeth.......");
+                Quest("ronaldoState", 2);
+                if (Quest("prisondayoverState") == 3) {
+                    Snippet(DayOver);
+                }
+                scr_event_build_end();
+            }
+        }
+    }
+    scr_event_advance(event);
+}

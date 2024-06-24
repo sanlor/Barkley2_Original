@@ -1,0 +1,69 @@
+/// scr_event_advance(event)
+/// Runs the next action of the specified event.
+if (instance_exists(oCinema))
+{
+    if (argument0._type == EVENT_BACKGROUND) exit; // Fade background fix
+    if (global.cinObj != -999) //== id) 
+    {
+        global.cinObj = -999;
+        with (oCinema) 
+        {
+            if (global.cinCho != -1)
+            {
+                chx = global.cinCho;
+                global.cinCho = -1;
+                global.chtRep = 0;
+                Cinema("goto", global.dslCinRepGot[| chx]);
+            }
+            else if (global.cinAct)
+            {
+                Cinema("next");
+                Cinema("process");
+            }
+        }
+    }
+    exit;
+}
+with (argument0) {
+    // Initial advancement.
+    if (_event_cursor == 0) {
+        if (_parent_event == NULL and _type != EVENT_MAIN and _type != EVENT_BACKGROUND) {
+            show_message("This script is not using the correct event setup! " + object_get_name(_event_object));
+            exit;
+        }
+        if (_type == EVENT_MAIN) {
+            scr_event_hoopz_switch_cutscene();
+            global.event = true;
+            // Pauses any background events that occuring on the same event object.
+            var object = _event_object;
+            with (o_event) {
+                if (_type == EVENT_BACKGROUND and object == _event_object) {
+                    _paused = true;
+                }
+            }
+        }
+    }
+
+    if (_skipping) {
+        // Do nothing!
+    } else if (_event_cursor >= ds_list_size(_event_list)) {
+        if (_parent_event != NULL) {
+            // If this is a child event, call advance on the parent.
+            scr_event_advance(_parent_event);
+        } else {
+            scr_event_action_end();
+        }
+    } else {
+        var action_list = ds_list_find_value(_event_list, _event_cursor);
+        // Increase the event cursor, as these events call advance in them.
+        _event_cursor++;
+        
+        // Functionality.
+        var action = ds_list_find_value(action_list, 0);
+        if (script_exists(action)) {
+            script_execute(action, action_list);
+        } else {
+            show_debug_message("Action, " + string(action) + ", does not exist.");
+        }
+    }
+}

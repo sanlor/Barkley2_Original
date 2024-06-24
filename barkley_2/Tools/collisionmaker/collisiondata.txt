@@ -1,0 +1,4 @@
+dx = x - sprite_get_xoffset(sprite_index);
+dy = y - sprite_get_yoffset(sprite_index);
+scr_collisionSystem_add_shape_solid(sat_make_shape_rect(dx + 52, dy + 48, 50, 8));
+scr_collisionSystem_add_shape_solid(sat_make_shape_rect(dx + 55, dy + 64, 48, 8));

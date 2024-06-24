@@ -1,0 +1,35 @@
+// event_swp_frogFull01
+/*
+if (argument0 == SCRIPT_START) {
+
+}
+else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // id
+    var froglet = id;
+    
+    // portrait
+    var frogport = s_portrait;
+    
+    // main event
+    var event = scr_event_create_main();
+    
+    //---------------------------------------------------------
+    //  full frog
+    //---------------------------------------------------------
+    with (event) {
+        if (scr_quest_get_state("frogletGrowth") == 2)
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "Second time talking to Full Frog Froglet.");
+        }
+        else if (scr_quest_get_state("frogletGrowth") == 1) 
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "Froglet has transformed into a real Frog! You get a happy story here.");
+            scr_event_build_quest_state("frogletGrowth", 2);
+        }
+    }
+    
+    scr_event_advance(event);
+}

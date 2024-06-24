@@ -1,0 +1,72 @@
+// scr_event_build_lemuel_bowl_contents()
+/*
+    A "fake" build event!
+    
+    Displayed when the player looks into the
+    bowl of alms in event_dz1_lemuelBowl01
+    
+    Displays the number of alms in the bowl,
+    as well as any items that are in the bowl.
+*/
+
+// no alms
+/*if (scr_quest_get_state("lemuelAlmApparent") == 0)
+{
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(There's nary an alm in here... what a pity...)");
+    if (ds_list_size(global.listlemuel) >= 1)
+    {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(... but there is something else in here...)");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, scr_quest_get_state("lemuelContentString"));
+    }
+    else 
+    {
+        scr_event_build_execute_event_script(event_dz1_lemuelBowl01);
+    }
+}
+// more alms
+else
+{
+    // all the alms from the player
+    if (scr_quest_get_state("lemuelAlmOther") == 0)
+    {
+        // only a single alm in the bowl
+        if (scr_quest_get_state("lemuelAlmTotal") == 1)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(There's just one alm... one, solitary alm.)");
+        }
+        // multiple alms
+        else {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(There's the " + string(scr_quest_get_state("lemuelAlmTotal")) + " alms that I put in there...)");
+        }
+    }
+    // alms from others
+    else
+    {
+        // only a single alm in the bowl
+        if (scr_quest_get_state("lemuelAlmTotal") == 1)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(There's just one alm... one, solitary alm.)");
+        }
+        else if (scr_quest_get_state("lemuelAlmTotal") < 10)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Looks like there's " + string(scr_quest_get_state("lemuelAlmApparent")) + " alms in there...)");
+        }
+        else if (scr_quest_get_state("lemuelAlmTotal") < 50)
+        {
+             scr_event_build_dialogue(P_NAME, s_port_hoopz, "(There's probably about " + string(scr_quest_get_state("lemuelAlmApparent")) + " alms in there...)");
+        }
+        else if (scr_quest_get_state("lemuelAlmTotal") < 100)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Whoa... it looks like there's gotta be at least " + string(scr_quest_get_state("lemuelAlmApparent")) + " alms in there...)");
+        }
+        else if (scr_quest_get_state("lemuelAlmTotal") >= 100)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Holy smokes! This guy's got probably " + string(scr_quest_get_state("lemuelAlmApparent")) + " alms in there!)");
+        }
+    }
+    if (ds_list_size(global.listlemuel) >= 1)
+    {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(... and there's something else in here...)");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, scr_quest_get_state("lemuelContentString"));
+    }
+}

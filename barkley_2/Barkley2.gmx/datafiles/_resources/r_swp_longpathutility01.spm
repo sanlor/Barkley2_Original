@@ -1,0 +1,344 @@
+{
+    "0i90vbEQrpPsdHRy2Waxf7E3Apabel": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "0i90vbEQrpPsdHRy2Waxf7E3Apabel",
+        "x": 462,
+        "y": 141
+    },
+    "1l9PilGwgluQ0Ad9Zm3GmHDB9tipkZ": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "1l9PilGwgluQ0Ad9Zm3GmHDB9tipkZ",
+        "x": 797,
+        "y": 276
+    },
+    "4WVOywr8JGm99OWKopUDpKsjs31yRx": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "4WVOywr8JGm99OWKopUDpKsjs31yRx",
+        "x": 860,
+        "y": 238
+    },
+    "4ftPyMvBt1NXrTH1qJ9Gjc5mbbRKlR": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "4ftPyMvBt1NXrTH1qJ9Gjc5mbbRKlR",
+        "x": 897,
+        "y": 278
+    },
+    "5ydzY5DFij4C6SLTLY8NYuM7YPI1FV": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_medium",
+        "resources": 1,
+        "uuid": "5ydzY5DFij4C6SLTLY8NYuM7YPI1FV",
+        "x": 447,
+        "y": 187
+    },
+    "7AN8dMRBKGId8et69s8T3JL7XTS15W": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "7AN8dMRBKGId8et69s8T3JL7XTS15W",
+        "x": 375,
+        "y": 366
+    },
+    "8oGqgDql3FKEFZRplNQ0goNuI7qGnq": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "8oGqgDql3FKEFZRplNQ0goNuI7qGnq",
+        "x": 429,
+        "y": 250
+    },
+    "8tfd7JcNogZjimFFKsxjWwM3fjtstl": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "8tfd7JcNogZjimFFKsxjWwM3fjtstl",
+        "x": 1072,
+        "y": 87
+    },
+    "9ATNBSzhHvMEwMa9sLnjwbvyQnSPIo": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "9ATNBSzhHvMEwMa9sLnjwbvyQnSPIo",
+        "x": 763,
+        "y": 191
+    },
+    "AnjuYRbiXf6wuoUr4IswoufONCop42": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "AnjuYRbiXf6wuoUr4IswoufONCop42",
+        "x": 436,
+        "y": 362
+    },
+    "C6oXUCvV3Ygi2ReybVo0IDCrchfI4w": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "C6oXUCvV3Ygi2ReybVo0IDCrchfI4w",
+        "x": 534,
+        "y": 211
+    },
+    "EW4bMAhUTJlmsjjqUhVDsYv6nMuv9p": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "EW4bMAhUTJlmsjjqUhVDsYv6nMuv9p",
+        "x": 655,
+        "y": 335
+    },
+    "LggKoSX9TDGRUjsIPDVSQJZWITr1BS": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "LggKoSX9TDGRUjsIPDVSQJZWITr1BS",
+        "x": 331,
+        "y": 246
+    },
+    "LmLeAAd9rPITJFhb4HrNrVJAfKXQCH": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "LmLeAAd9rPITJFhb4HrNrVJAfKXQCH",
+        "x": 1067,
+        "y": 137
+    },
+    "MMxTnVFkETj386bjrPEdqxLxQ0YB2l": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "MMxTnVFkETj386bjrPEdqxLxQ0YB2l",
+        "x": 972,
+        "y": 332
+    },
+    "Pa8DZ29oIMKgKDdcnmTuz57yWDg0hV": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "Pa8DZ29oIMKgKDdcnmTuz57yWDg0hV",
+        "x": 1037,
+        "y": 288
+    },
+    "Pbl3Y1l8c1rwhZ5esupha1wVizUXJu": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "Pbl3Y1l8c1rwhZ5esupha1wVizUXJu",
+        "x": 588,
+        "y": 168
+    },
+    "Q5vz4LMfyeUb80xQtqiOOFYlSf3O71": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "Q5vz4LMfyeUb80xQtqiOOFYlSf3O71",
+        "x": 1029,
+        "y": 112
+    },
+    "R4uab6XHHYvMKmbKBn9cwIF1mCvKz2": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "R4uab6XHHYvMKmbKBn9cwIF1mCvKz2",
+        "x": 292,
+        "y": 139
+    },
+    "S4dH2JdGBeuyd80cvTVsd4TClJsXDs": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_mosquito_control",
+        "resources": 1,
+        "uuid": "S4dH2JdGBeuyd80cvTVsd4TClJsXDs",
+        "x": 1004,
+        "y": 21
+    },
+    "SRe5QPkWspWwzMW7ooQoYGKsbEirzy": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "SRe5QPkWspWwzMW7ooQoYGKsbEirzy",
+        "x": 387,
+        "y": 226
+    },
+    "SkXke2gcGqwG2VxTqF1jIGaUXMfrRJ": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "SkXke2gcGqwG2VxTqF1jIGaUXMfrRJ",
+        "x": 751,
+        "y": 251
+    },
+    "Ske8adcLBswMZMr4U4Gy8VttTgIIak": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "Ske8adcLBswMZMr4U4Gy8VttTgIIak",
+        "x": 350,
+        "y": 164
+    },
+    "TM8wrvbZ6uwQII0GpFZHN7xHRhkFRd": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_medium",
+        "resources": 1,
+        "uuid": "TM8wrvbZ6uwQII0GpFZHN7xHRhkFRd",
+        "x": 953,
+        "y": 288
+    },
+    "WHGxmWXvEnk5i5UaIDi2ilYpHvd1FF": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "WHGxmWXvEnk5i5UaIDi2ilYpHvd1FF",
+        "x": 261,
+        "y": 344
+    },
+    "X5Wcd0xeMUNTSMuxrhtcyzeFt8U6aq": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_medium",
+        "resources": 1,
+        "uuid": "X5Wcd0xeMUNTSMuxrhtcyzeFt8U6aq",
+        "x": 1009,
+        "y": 212
+    },
+    "XjkFdVYNdmYs0INRlYJJfZwx3jQNCJ": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "XjkFdVYNdmYs0INRlYJJfZwx3jQNCJ",
+        "x": 1461,
+        "y": 100
+    },
+    "cHELA80GJEoBJwJmXZjmyRCS2hmEuW": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "cHELA80GJEoBJwJmXZjmyRCS2hmEuW",
+        "x": 615,
+        "y": 225
+    },
+    "ceEd7R8BXST2k2qhfIBCZcNfK15NTd": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "ceEd7R8BXST2k2qhfIBCZcNfK15NTd",
+        "x": 323,
+        "y": 208
+    },
+    "dXilMKXHkuMbkNwhc4NQTNN0Wf7uwk": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "dXilMKXHkuMbkNwhc4NQTNN0Wf7uwk",
+        "x": 316,
+        "y": 167
+    },
+    "eWD9jLz3MT7FIab7FhAdmqEIpQzKOb": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_werecroc",
+        "resources": 1,
+        "uuid": "eWD9jLz3MT7FIab7FhAdmqEIpQzKOb",
+        "x": 911,
+        "y": 61
+    },
+    "j2C8wh7kdTl9Dl1anxPhxLTguu9Pfr": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "j2C8wh7kdTl9Dl1anxPhxLTguu9Pfr",
+        "x": 1144,
+        "y": 383
+    },
+    "kbuOI2Q4AtIsmA4Xjxsm8WIpWGYtIU": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_vineMonster",
+        "resources": 1,
+        "uuid": "kbuOI2Q4AtIsmA4Xjxsm8WIpWGYtIU",
+        "x": 1218,
+        "y": 186
+    },
+    "mZkoEjDKZJ9Xo2UpAXEMTuLNvcyvKe": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_medium",
+        "resources": 1,
+        "uuid": "mZkoEjDKZJ9Xo2UpAXEMTuLNvcyvKe",
+        "x": 501,
+        "y": 167
+    },
+    "nmb5acE7ZAxTqTOfzjfLpGPG6wLApH": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "nmb5acE7ZAxTqTOfzjfLpGPG6wLApH",
+        "x": 1063,
+        "y": 245
+    },
+    "oaT3IWiWBmoxqZnEac9WkrCyAPCAR9": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "oaT3IWiWBmoxqZnEac9WkrCyAPCAR9",
+        "x": 379,
+        "y": 187
+    },
+    "tbEcBiQEh9H8ee1yDKHLUVaiWqRZDJ": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_mosquito_control",
+        "resources": 1,
+        "uuid": "tbEcBiQEh9H8ee1yDKHLUVaiWqRZDJ",
+        "x": 802,
+        "y": 458
+    },
+    "tsPpG49QVJi2t8OvrSeQERTFcqXo9K": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_medium",
+        "resources": 1,
+        "uuid": "tsPpG49QVJi2t8OvrSeQERTFcqXo9K",
+        "x": 969,
+        "y": 246
+    }
+}

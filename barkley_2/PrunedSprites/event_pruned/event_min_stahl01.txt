@@ -1,0 +1,448 @@
+// Courtyard NPC script for Stahl. Lots of shit going on with her, so I'll copy over relevant info from my design doc.
+/*
+Stahl was a throwaway NPC I wrote for the Plantation. That location seems to have been cut(or my work was, anyway), and I wasn't really crazy about the original dialogue I wrote for Stahl, but I liked the idea of this spy working for an unnamed somebody on the outside.
+
+VISUAL NOTES: The initial idea I had with Stahl is to make her an exceptionally unassuming-looking woman. Older, pretty overweight, just visually average. She's the intellectually sharpest character I've written for this game(though the late-game stuff I wrote for Amark is close), so I naturally thought it'd be a good idea to play completely against expectation and just make her look like an average housewife. Nobody whose opinion counts ever said an average housewife can't be the smartest person in town. Still like this idea.
+
+Had a neat idea for a profile for her, where she has two expressions. One is her kinda idly looking to the side, generally passive-looking, the other is the same angle, but her eyes looking directly forward, this ferocity of expression kept hidden. You can do a lot with eyes. imo.
+*/
+// NOTE: Some big things that are still up in the air with where this character leads the player. After the player has navigated Stahl's dialogue tree, they get to sneak around the administrative area of the prison, and are required to steal the electrolarynx from the Warden. There's room for that section to be rather in-depth, or rather abridged. That's undecided on my end at the moment. All I know is that Stahl leads the player there, and I'll make a commented-out note where that is below.
+// NOTE2:  I'm using the state prisonstealthQuest to determine whether or not the player has completed the stealth section. 0 means the quest has never been tried, 1 means it's been tried before/in progress, 2 means it's been failed, 3 means it's been completed. This may not be a necessary state, as it's primarily here IN CASE the player can fail their current attempt of the stealth quest and try it again. Editing this out is rather easy, though.
+// NOTE2: It's inconsistent with some of the standards of dialogue for this game, but I think the dialogue choices should feature Stahl's face and suggest that she is the gamemaster in this little adventure game she's making the player play.
+// NOTE3: Introduced the quest variable "prisonQuest" here, which is basically for the player breaking out of the prison routine and starting to fight back. I'll document the progression of this somewhere, but, for starters, it begins at prisonQuest=1 to signify the player getting the Electrolarynx.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var stahl = id;
+    var event = scr_event_create_main();
+    var question1 = scr_event_create_child(event);
+    var answer1a = scr_event_create_child(event);
+    var answer1b = scr_event_create_child(event);
+    var answer1c = scr_event_create_child(event);
+    var question2 = scr_event_create_child(event);
+    var answer2a = scr_event_create_child(event);
+    var answer2b = scr_event_create_child(event);
+    var answer2c = scr_event_create_child(event);
+    var answer2d = scr_event_create_child(event);
+    var question3 = scr_event_create_child(event);
+    var answer3a = scr_event_create_child(event);
+    var answer3b = scr_event_create_child(event);
+    var answer3c = scr_event_create_child(event);
+    var question4 = scr_event_create_child(event);
+    var answer4a = scr_event_create_child(event);
+    var answer4b = scr_event_create_child(event);
+    var answer4c = scr_event_create_child(event);
+    var answer4d = scr_event_create_child(event);
+    var question5 = scr_event_create_child(event);
+    var answer5a = scr_event_create_child(event);
+    var answer5b = scr_event_create_child(event);
+    var answer5c = scr_event_create_child(event);
+    var answer5d = scr_event_create_child(event);
+
+
+    with question1 {
+        var choice1 = Choice("How do you want to open your cell doors?", NULL);
+        with (ChoiceAdd(choice1, "Uh, ok. They're opened.")) {
+            Snippet(answer1a);
+        }
+        with (ChoiceAdd(choice1, "I can't. They're locked.")) {
+            Snippet(answer1b);
+        }
+        with (ChoiceAdd(choice1, "I don't know how.")) {
+            Snippet(answer1c);
+        }
+    }
+
+    with answer1a {
+        // Question 1, Answer a: "Uh, ok. They're opened."[INCORRECT]
+        Dialogue(P_NAME, "Uh, ok. They're opened. That was easy.");
+        scr_event_build_dialogue("Stahl", NULL, "Wrong.\You wake up from your daydream and realize that you've wasted absolutely everybody's time. You feel bad about yourself and your face hurts from where the pissed-off lady slapped you.\Ok, you're still in the cell. Open the door for me.");
+        Snippet(question1);
+    }
+
+    with answer1b {
+        // Question 1, Answer c: "I can't. They're locked."[CORRECT]
+        Dialogue(P_NAME, "I can't. They're locked.");
+        scr_event_build_dialogue("Stahl", NULL, "Well yeah, they're cell doors, they're supposed to be. Unlock them for me.");
+        Snippet(question2);
+    }
+
+    with answer1c {
+        // Question 1, Answer c: "I don't know how."[INCORRECT]
+        Dialogue(P_NAME, "I don't know how. They won't open.");
+        scr_event_build_dialogue("Stahl", NULL, "Not good enough. You're the one trying to stage a jail break. You've got to come up with something.\We're back in the cell. You're alone. Open the door for me.");
+        Snippet(question1);
+    }
+
+    with question2 {
+        var choice2 = Choice("How do you want to unlock your cell doors?", NULL);
+        with (ChoiceAdd(choice2, "Ask your cellmates for help.")) {
+            Snippet(answer2a);
+        }
+        with (ChoiceAdd(choice2, "Try and pick the lock.")) {
+            Snippet(answer2b);
+        }
+        with (ChoiceAdd(choice2, "Forget the lock. Break the door down.")) {
+            Snippet(answer2c);
+        }
+        with (ChoiceAdd(choice2, "I don't have a key. I can't do that.")) {
+            Snippet(answer2d);
+        }
+    }
+
+    with answer2a {
+        // Question 2, Answer a: "Ask your cellmates for help."[INCORRECT]
+        Dialogue(P_NAME, "Maybe I could ask the other guys in my cell for help. They might know how to get the doors open.");
+        scr_event_build_dialogue("Stahl", NULL, "Do they look like the sort of guys that would know how to break open a cell door?");
+        Dialogue(P_NAME, "Well, no, not really.");
+        scr_event_build_dialogue("Stahl", NULL, "Probably safe to assume that anybody still in their cell doesn't know how to break out.\You're still in your cell. The door is locked and won't open. Unlock it for me.");
+        Snippet(question2);
+    }
+
+    with answer2b {
+        // Question 2, Answer b: "Try and pick the lock."[INCORRECT]
+        Dialogue(P_NAME, "Maybe I can try and pick the lock. That might work.");
+        scr_event_build_dialogue("Stahl", NULL, "Lockpicking, huh? I didn't know you could do that. It's not as easy a skill as most people make it out to be. Takes some finesse.\Where'd you learn how to do it?");
+        Dialogue(P_NAME, "Well, I didn't. It was just an idea. I've never done it before.");
+        scr_event_build_dialogue("Stahl", NULL, "Maybe you should stick to things you know how to do.\You're still in your cell. The door is locked and won't open. Unlock it for me.");
+        Snippet(question2);
+    }
+
+    with answer2c {
+        // Question 2, Answer c: "Forget the lock. Break the door down."[INCORRECT]
+        Dialogue(P_NAME, "I can't open the door. I'm just going to break it down.");
+        scr_event_build_dialogue("Stahl", NULL, "Fine. Show me.");
+        Dialogue(P_NAME, "Uh, right here?");
+        scr_event_build_dialogue("Stahl", NULL, "Well, no not here. Explain how you're going to do it.");
+        Dialogue(P_NAME, "I guess I just kick it. Or run into it really hard. Maybe the bars are loose.");
+        scr_event_build_dialogue("Stahl", NULL, "They aren't. The door doesn't budge. Now you've got a nasty bruise from trying to use your body as a battering ram.\You're still in your cell. The door is locked and won't open. Unlock it for me.");
+        Snippet(question2);
+    }
+
+    with answer2d {
+        // Question 2, Answer d: "I don't have a key. I can't do that."[CORRECT]
+        Dialogue(P_NAME, "I don't have a key. I can't do that.");
+        scr_event_build_dialogue("Stahl", NULL, "That's an easy one, then. Get a key.");
+        Snippet(question3);
+    }
+
+    with question3 {
+        var choice3 = Choice("Where will you get a key for your cell?", NULL);
+        with (ChoiceAdd(choice3, "Steal a key from a guard.")) {
+            Snippet(answer3a);
+        }
+        with (ChoiceAdd(choice3, "There aren't any keys.")) {
+            Snippet(answer3b);
+        }
+        with (ChoiceAdd(choice3, "Build a key from the springs in the matress.")) {
+            Snippet(answer3c);
+        }
+    }
+
+    with answer3a {
+        // Question 3, Answer a: "Steal a key from a guard."[INCORRECT]
+        Dialogue(P_NAME, "Maybe I could steal a key from a guard? There are a couple around the courtyard. I could probably disract them with something and steal a key.");
+        scr_event_build_dialogue("Stahl", NULL, "I don't know if you really mean that.\There's two guards here and they're facing each other. If you managed to distract one, the other one is still facing you.\You'd need to be pretty apt at sleight of hand if you think you can pull that one off unnoticed.\You're free to try, but remember that it's execution time if they catch you. Duergars seem to live by the mantra /'You don't need a reason to execute people/'.");
+        Dialogue(P_NAME, "Maybe this isn't the best idea after all.");
+        scr_event_build_dialogue("Stahl", NULL, "Up to you, but I wouldn't advise of it.\OK, we're back in the cell. You need a key. Get one.");
+        Snippet(question3);
+    }
+
+    with answer3b {
+        // Question 3, Answer b: "There aren't any keys."[CORRECT]
+        Dialogue(P_NAME, "How am I supposed to do that? There aren't any keys.");
+        scr_event_build_dialogue("Stahl", NULL, "How come?");
+        Dialogue(P_NAME, "Because everything is voice activated. The guards just say open or close or something and the doors open.");
+        scr_event_build_dialogue("Stahl", NULL, "Ah, now we're getting somewhere.\So all you need is a guard to come up and say the commands you need them to say? That's not too hard. Now how would you do that?");
+        Snippet(question4);
+    }
+
+    with answer3c {
+        // Question 3, Answer c: "Build a key from the springs in the matress."[INCORRECT]
+        Dialogue(P_NAME, "Maybe I can build a key from the springs in the matress.");
+        scr_event_build_dialogue("Stahl", NULL, "Fine. Describe the key you're going to be building.");
+        Dialogue(P_NAME, "Uh.....");
+        scr_event_build_dialogue("Stahl", NULL, "Your cellmates are looking at you funny now that you've taken apart your bunk for seemingly no reason at all.\You're still in your cell. You still need a key. Get one.");
+        Snippet(question3);
+    }
+
+    with question4 {
+        var choice4 = Choice("How do you want to bypass the voice-activated security?", NULL);
+        with (ChoiceAdd(choice4, "Bribe the duergars.")) {
+            Snippet(answer4a);
+        }
+        with (ChoiceAdd(choice4, "Steal a duergar's voice.")) {
+            Snippet(answer4b);
+        }
+        with (ChoiceAdd(choice4, "Threaten a duergar with a gun.")) {
+            Snippet(answer4c);
+        }
+        with (ChoiceAdd(choice4, "Do a duergar impression into the voice pad.")) {
+            Snippet(answer4d);
+        }
+    }
+
+    with answer4a {
+        // Question 4, Answer a: "Bribe the duergars."[INCORRECT]
+        Dialogue(P_NAME, "I guess I could bribe one of the duergars. They're all pretty selfish. They might go for something like that.");
+        scr_event_build_dialogue("Stahl", NULL, "That's a pretty good idea. How much money do you have on you?");
+        Dialogue(P_NAME, "Well, none actually. They took it when they threw me in here.");
+        scr_event_build_dialogue("Stahl", NULL, "Need money to bribe a duergar. Anything else to offer?");
+        Dialogue(P_NAME, "Not really. I could do a favor for them later or something? I don't know.");
+        scr_event_build_dialogue("Stahl", NULL, "The duergar frowns, realizing he won't be able to afford that snazzy dwarfskin vest he's had his eye on, before punching you in the face.\You wake up back in your cell slightly dizzy from being knocked unconscious. You still need to find a way to get a duergar's voice to let you out of your cell.");
+        Snippet(question4);
+    }
+
+    with answer4b {
+        // Question 4, Answer b: "Steal a duergar's voice."[CORRECT]
+        Dialogue(P_NAME, "I guess I'll need to steal a duergar's voice, then.");
+        scr_event_build_dialogue("Stahl", NULL, "Pretty abstract thing you want to do there. Steal a voice. How do you want to do that?");
+        Snippet(question5);
+    }
+
+    with answer4c {
+        // Question 4, Answer c: "Threaten a duergar with a gun."[INCORRECT]
+        Dialogue(P_NAME, "Maybe I could threaten one with a gun or something? Can I borrow your gun?");
+        scr_event_build_dialogue("Stahl", NULL, "I'm not even here. You're alone in your cell, remember? I don't even exist.\And no, you can't have my fucking gun. Remember that I don't trust you either.");
+        Dialogue(P_NAME, "Ok, then, uh.....");
+        scr_event_build_dialogue("Stahl", NULL, "Clock's ticking. Still need a voice.");
+        Snippet(question4);
+    }
+
+    with answer4d {
+        // Question 4, Answer d: "Do a duergar impression into the voice pad."[INCORRECT]
+        Dialogue(P_NAME, "Maybe I could do a duergar impression into the voice pad thing. If I do it good enough it might open.");
+        scr_event_build_dialogue("Stahl", NULL, "Interesting. Can you do a good duergar impression?");
+        Dialogue(P_NAME, "Kinda. I did impersonate a duergar once, but I.....\Well, it's a long story. But I do have some experience in this.");
+        scr_event_build_dialogue("Stahl", NULL, "Let's hear this impression, then. Maybe you've cracked the case.");
+        Dialogue(P_NAME, "Ok, here goes......\Don't laugh at me if it sounds stupid, ok? I'm kinda new at this.");
+        scr_event_build_dialogue("Stahl", NULL, "That was the worst duergar impression I've ever heard. Don't quit your day job.");
+        Dialogue(P_NAME, "Hey, I haven't started yet. Stop poking fun at me.\Ok, here it is for real this time.\Ugh___.___.____.____._____you butthead. I'm going to hit you with a heavy thing you butthead.\How was that?");
+        scr_event_build_dialogue("Stahl", NULL, "The crickets in your cell stop chirping all at once, in utter horror at the unpleasant noise pouring out of this bizarre kid screeching at the door.");
+        Dialogue(P_NAME, "You don't have to make fun of me. I'm trying really hard.");
+        scr_event_build_dialogue("Stahl", NULL, "Just don't ever make those horrible sounds ever again and those crickets will go on chirping merrily away.\You're back in your cell, upset that your career as a professional impressionist has gone south. You still need to find a way to get a duergar's voice to let you out of your cell.");
+        Snippet(question4);
+    }
+
+    with question5 {
+        var choice5 = Choice("How do you plan on stealing a duergar's voice?", NULL);
+        with (ChoiceAdd(choice5, "Steal a duergar's vocal chords.")) {
+            Snippet(answer5a);
+        }
+        with (ChoiceAdd(choice5, "Astrally possess a duergar and unlock all cell doors.")) {
+            Snippet(answer5b);
+        }
+        with (ChoiceAdd(choice5, "Kidnap a duergar and force them to open the cells.")) {
+            Snippet(answer5c);
+        }
+        with (ChoiceAdd(choice5, "Steal the Warden's voicebox.")) {
+            Snippet(answer5d);
+        }
+    }
+
+    with answer5a {
+        // Question 5, Answer b: "Steal a duergar's vocal chords."[INCORRECT]
+        Dialogue(P_NAME, "We could try to steal the thing inside a duergar's mouth that makes the voice come out. Then maybe we could make it say the things we want it to say.");
+        scr_event_build_dialogue("Stahl", NULL, "Vocal chords?");
+        Dialogue(P_NAME, "Yeah, that.");
+        scr_event_build_dialogue("Stahl", NULL, "No.");
+        Dialogue(P_NAME, "Oh.\Wait, why not?");
+        scr_event_build_dialogue("Stahl", NULL, "Up to you if you want to go trying that, but......\Look, just no. That's a bad idea. I've got some experience trying to do that. Bad experiences. You're completely on your fucking own if you want to try that.\You take your hand out of the duergar's mouth and try to come up with a cleaner way of stealing his voice.");
+        Snippet(question5);
+    }
+
+    with answer5b {
+        // Question 5, Answer b: "Astrally possess a duergar and unlock all cell doors."[INCORRECT]
+        Dialogue(P_NAME, "Maybe I could project my mind into a duergar's mind and then unlock all the cell doors.");
+        scr_event_build_dialogue("Stahl", NULL, "You what?");
+        Dialogue(P_NAME, "It's like when you're daydreaming, but your mind goes into someone else's mind and you can be them for a while.");
+        scr_event_build_dialogue("Stahl", NULL, "I'm pretty sure you made all of that up.");
+        Dialogue(P_NAME, "Hey, no! It's a real thing, I think. I can do this.");
+        scr_event_build_dialogue("Stahl", NULL, "Aren't you afraid you'll project into the wrong thing? You may misfire and end up possessing a toilet for the rest of your life.");
+        Dialogue(P_NAME, "Don't make fun of me! Here, I'll try it on you.");
+        scr_event_build_dialogue("Stahl", NULL, "Yeah, sure thing. Go ahead. Been a long time since anybody tried possessing me.");
+        Dialogue(P_NAME, "Ok. Just give me a second.\Hmmm._______________._______________._______________._______________.\_______________._______________._______________._______________. mmnng_______________._______________._______________._______________.");
+        scr_event_build_wait(5);
+        scr_event_build_dialogue("Stahl", NULL, "Have you started doing it?");
+        Dialogue(P_NAME, "Don't_______________._______________._______________. break_______________._______________._______________._______________. concentration_______________._______________._______________._______________._______________._______________.\I_______________._______________._______________. am_______________._______________._______________. you_______________._______________._______________.");
+        scr_event_build_dialogue("Stahl", NULL, "Look, stop that. All you're going to do is shit yourself if you keep straining that hard.");
+        Dialogue(P_NAME, "Ugh!\._______._______._______.yeah, I guess you're right. I can't do this....");
+        scr_event_build_dialogue("Stahl", NULL, "I guess you get points for thinking outside the box, but......well, sometimes that box is there for a reason.\You clean the shit out of your pants and try finding another way of nicking a duergar's voice.");
+        Dialogue(P_NAME, "I did not do that in my pants!!!");
+        scr_event_build_dialogue("Stahl", NULL, "You still need that voice. Whether or not your pants are filled with shit is pretty immaterial.");
+        Snippet(question5);
+    }
+
+    with answer5c {
+        // Question 5, Answer c: "Kidnap a duergar and force them to open the cells."[INCORRECT]
+        Dialogue(P_NAME, "How about I just kidnap a duergar and get them to open the cells for me.");
+        scr_event_build_dialogue("Stahl", NULL, "That takes a lot of guts, you know. Most people kinda flip out when you try kidnapping them.");
+        Dialogue(P_NAME, "Yeah, I know, but I'm getting pretty tired of just sitting around talking about this. I don't lose my patience easily, but....");
+        scr_event_build_dialogue("Stahl", NULL, "But what? Pretend I'm the duergar for a minute. Why should I come with you? You're just a stupid little kid.");
+        Dialogue(P_NAME, "I'm not stupid. I just want to open the door. I can't get out unless it's open.");
+        scr_event_build_dialogue("Stahl", NULL, "Yeah, I know, but we're pretending. Act like I'm the duergar. How will you intimidate me?");
+        Dialogue(P_NAME, "Hey you! Come with me!!! You're going to open these doors!!! Or you'll be sorry!!!");
+        scr_event_build_dialogue("Stahl", NULL, "Not impressed at all. Now I'm calling for help from the other duergars.");
+        Dialogue(P_NAME, "No! Shut your mouth! Come with me!!");
+        scr_event_build_dialogue("Stahl", NULL, "That's not very intimidating. You should swear a little bit more. That works.");
+        Dialogue(P_NAME, "Shut the hole in your head or I'll shut it for you!!! Come with me or you're cruisin' for a bruisin'!");
+        scr_event_build_dialogue("Stahl", NULL, "On what planet is /'cruisin' for a bruisin'/' profanity?!? I'm calling the Warden now. He's REALLY going to give you a beating.");
+        Dialogue(P_NAME, "Just shut your stupid face!!! I'm totally sick and tired of you!!! When I get my gun's back I'm going to blast so many holes in your stinking head!!!");
+        scr_event_build_dialogue("Stahl", NULL, "Oh, that's better. Now you want to get behind me and grab me by the neck, I'll show you how to cut off someone's air supply.");
+        Dialogue(P_NAME, "Go to hell!!! I'm not touching you!!! I hate your stupid guts!!! I want nothing to do with you!!!");
+        scr_event_build_dialogue("Stahl", NULL, "Oh.\Are we actually fighting?");
+        Dialogue(P_NAME, "I don't know anymore!!! I'm just so tired of this!!! I hope you die in a fire!!!!");
+        scr_event_build_dialogue("Stahl", NULL, "You know, I don't think your head is cool enough to pull off a kidnapping right now.\The shouting match with the duergar, as well as the subsequent round of beatings he administered, has left you all worn out. You take a month to sleep this kidnapping disaster off. You still need to steal a duergar's voice.");
+        Snippet(question5);
+    }
+
+    with answer5d {
+        // Question 5, Answer d: "Steal the Warden's voicebox."[CORRECT]
+        Dialogue(P_NAME, "All I need is a voice. I remember the Warden was using this little box to talk. It made his voice sound really weird, like a robot voice.\You think if I steal that I can unlock my cell door?");
+        scr_event_build_dialogue("Stahl", NULL, "Nope.");
+        Dialogue(P_NAME, "Oh......\Crap. I thought it was a pretty good idea.");
+        scr_event_build_dialogue("Stahl", NULL, "You should be able to unlock ALL the cell doors with it. I've spotted a couple main security hubs around. Those seem to be voice-activated too.\If these imbeciles can figure out how to use it, I'm sure you won't have too much trouble.");
+        Dialogue(P_NAME, "All right!!! That's excellent!! But how to get the voice box thing.....I doubt he'd just give it to me....");
+        scr_event_build_dialogue("Stahl", NULL, "Electrolarynx. That's what the voicebox is called. Electrolarynx.\And you see this little grate behind me? Leads to the main corridor, and I've spent the last couple days pulling the screws out.\You should be able to get to the warden's office that way. It isn't far. I can smell his cigars. He's got a really bad cough. Should take better care of himself with that condition of his.");
+        Dialogue(P_NAME, "Wow. So you had this planned all along?");
+        scr_event_build_dialogue("Stahl", NULL, "Pretty much.");
+        Dialogue(P_NAME, "Why didn't you just tell me about this? This is a great plan.");
+        scr_event_build_dialogue("Stahl", NULL, "I lost count of how many times you said you didn't trust me.\And I was curious to see if you could come up with a better plan. But you didn't, and you ended up arriving on the same conclusion I did.\One great way out of this place. It's still tricky, but it's pretty airtight.");
+        Dialogue(P_NAME, "Wait, why didn't you go in there yourself? Is it dangerous?");
+        scr_event_build_dialogue("Stahl", NULL, "You aren't really the most tactful kid I've ever met, you know.\Come on, I'm not the skinniest person in this prison. I needed someone a little thinner to go through there, and you won the door prize.\You ready to go in now or do you need some time to suck your gut in a little more?");
+        var ready1 = Choice("You ready to go steal the Warden's voice box?", NULL);
+        with (ChoiceAdd(ready1, "I'm ready now.")) {
+            Dialogue(P_NAME, "I think I'm ready now. Anything I should know before I go in there?");
+            scr_event_build_dialogue("Stahl", NULL, "All you need is the Warden's Electrolarynx. Don't get cute trying to arm yourself or anything snazzy like that. Keep it simple.\Beyond that, remember that you're a ghost. You don't exist. Nobody but me should have any idea you were in there.\Unless you've got a hidden gift for dodging shotgun shells, that is. If that's the case, just grab a couple pots from the kitchen and bang them all the way to the Warden's office.");
+            Dialogue(P_NAME, "You like teasing me, don't you?");
+            scr_event_build_dialogue("Stahl", NULL, "We're in a prison, kiddo. You're just lucky I forgot my harmonica.\Now get going. And don't be afraid to duck back here if you get a bad vibe. We got plenty of time to do this right.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Teleport to and begin the Stealth section of the quest.\GOAL: Steal the Warden's electrolarynx");
+            // *TELEPORT TO AND BEGIN STEALTH SECTION*
+            Quest("prisonstealthQuest", 1);
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(ready1, "Wait a second.")) {
+            Dialogue(P_NAME, "Wait a second. I need some time to think about this.");
+            scr_event_build_dialogue("Stahl", NULL, "Cold feet already? You've got more guts than that.\Well I'm not going anywhere, but I'd suggest against making me wait too long. I've got a backup plan, and there's no passenger seat on that one.");
+            Quest("stahlState", 2);
+            scr_event_build_end();
+        }
+    }
+
+    with (event) {
+        if (Quest("prisonstealthQuest") == 3) {
+            // *Stealth section success*
+            scr_event_build_dialogue_debug("Hundley", NULL, "NOTE: This will need to be formatted differently later, since it auto-activates upon leaving the stealth area.\Leaving it as click-based for now, just so I can test the basic functions of it all easier.");
+            scr_event_build_dialogue("Stahl", NULL, "There he is. Did you get it?");
+            Dialogue(P_NAME, "Barely. The Warden was asleep. I had to pick it up off his desk, but his hand was on it.\That was really scary. I hope I never have to do that again.");
+            scr_event_build_dialogue("Stahl", NULL, "Here, let me see it.\Oh, not this. I wanted you to get me a cigar. Why didn't you steal me one?");
+            Dialogue(P_NAME, "Hey, what? You didn't say anything about the cigar! What do you need that for?");
+            scr_event_build_dialogue("Stahl", NULL, "That's all I've been smelling for the past week. I'd kill for a cigar. Didn't I ask you to get me one?");
+            Dialogue(P_NAME, "No! You just said you wanted this stupid thing.");
+            scr_event_build_dialogue("Stahl", NULL, "Are you sure? I was going to ask you to steal me one, but I must have forgot. Damnit.\Well, you did a nice job anyway. Didn't get spotted by anybody?");
+            Dialogue(P_NAME, "I don't think so.");
+            scr_event_build_dialogue("Stahl", NULL, "Even better.\Well since you did all the hard work, I'll leave it to you to start the break.");
+            Dialogue(P_NAME, "Wait, how do I use this? I don't know how this thing works.");
+            scr_event_build_dialogue("Stahl", NULL, "You'll figure it out.\I mean, you could give it to me instead, but I'm the untrustworthy one. Your words. I might only open enough doors for me to get out. Better for the freedom fighter to hold onto something like that, yeah?");
+            Dialogue(P_NAME, "Yeah, I guess-");
+            scr_event_build_dialogue("Loudspeaker", NULL, "Attention please! All inferior lifeforms not scheduled for afternoon activities, please report to the courtyard entrance.\All those scheduled for torture, please form a queue behind the silver line.\And all those scheduled for execution, please remain where you are, someone will come to pick you up.\Thanks, and have an awful day.");
+            scr_event_build_dialogue("Stahl", NULL, "And it looks like we're done here. See you in hell, Jack.");
+            Dialogue(P_NAME, "Hey wait, I wanted to ask you one thing.");
+            scr_event_build_dialogue("Stahl", NULL, "Shoot.");
+            Dialogue(P_NAME, "Looking for a dwarf in here, need to take him with me. Named Aloysius. Seen him?");
+            scr_event_build_dialogue("Stahl", NULL, "Heh.");
+            Dialogue(P_NAME, "What?");
+            scr_event_build_dialogue("Stahl", NULL, "You'll want to look in the maximum security wing.");
+            Dialogue(P_NAME, "Oh. Is he dangerous?");
+            scr_event_build_dialogue("Stahl", NULL, "No comment.\Just don't have a big meal before you pay him a visit.");
+            Quest("prisondayoverState", 0);
+            Quest("prisonQuest", 1);
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC NOTE: The screen should fade to black and the player is teleported to a cinematic showing them being led back to their cell.\This cinematic is identical for all the NPCs in the prison courtyard. If you're seeing this now, you're on your way back to your prison cell, buster.");
+            // CINEMATIC NOTE: This is where the player is teleported back to their cell for the day. After a fade to black, this event should link to the brief cinematic of the player being led to their jail cell.
+            scr_event_build_end();
+        } else if (Quest("prisonstealthQuest") == 2) {
+            // *Stealth section failure*
+            scr_event_build_dialogue_debug("Hundley", NULL, "NOTE: This is primarily here if the player can fail the stealth section.\I'll need to format this differently, though, since this dialogue should auto-activate upon leaving the stealth area.\This is more placeholder stuff right now, I guess. Some ACTUAL dialogue for it, though.");
+            // NOTE: This may not be necessary if the player cannot fail the stealth section
+            Dialogue(P_NAME, "I screwed up. I had to get out of there.");
+            scr_event_build_dialogue("Stahl", NULL, "I didn't hear any gun'sshots, no alarms went off. Anybody spot you?");
+            Dialogue(P_NAME, "No, but I had a bad vibe. I only narrowly escaped.");
+            scr_event_build_dialogue("Loudspeaker", NULL, "Attention please! All inferior lifeforms not scheduled for afternoon activities, please report to the courtyard entrance.\All those scheduled for torture, please form a queue behind the silver line.\And all those scheduled for execution, please remain where you are, someone will come to pick you up.\Thanks, and have an awful day.");
+            scr_event_build_dialogue("Stahl", NULL, "Don't sweat it. You're only a criminal when you get caught. Just sleep on it and come back tomorrow.\Try not to dream about this, either. Go to sleep thinking about waterfalls, a mild rainstorm on a lazy day, half-empty trains stuttering by in the middle of the night.");
+            Dialogue(P_NAME, "Uh, if you say so.");
+            Quest("prisondayoverState", 0);
+            Quest("prisonstealthQuest", 1);
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC NOTE: The screen should fade to black and the player is teleported to a cinematic showing them being led back to their cell.\This cinematic is identical for all the NPCs in the prison courtyard. If you're seeing this now, you're on your way back to your prison cell, buster.");
+            // CINEMATIC NOTE: This is where the player is teleported back to their cell for the day. After a fade to black, this event should link to the brief cinematic of the player being led to their jail cell.
+            scr_event_build_end();
+        } else if (Quest("stahlState") == 2) {
+            scr_event_build_dialogue("Stahl", NULL, "I was just starting to convince myself that you wimped out on me.\You ready for this?");
+            var ready2 = Choice("You ready to go steal the Warden's voice box?", NULL);
+            with (ChoiceAdd(ready2, "Ready.")) {
+                Dialogue(P_NAME, "I think I'm ready now. Anything I should know before I go in there?");
+                scr_event_build_dialogue("Stahl", NULL, "All you need is the Warden's Electrolarynx. Don't get cute trying to arm yourself or anything snazzy like that. Keep it simple.\Beyond that, remember that you're a ghost. You don't exist. Nobody but me should have any idea you were in there.\Unless you've got a hidden gift for dodging shotgun shells, that is. If that's the case, just grab a couple pots from the kitchen and bang them all the way to the Warden's office.");
+                Dialogue(P_NAME, "You like teasing me, don't you?");
+                scr_event_build_dialogue("Stahl", NULL, "We're in a prison, you know. You're just lucky I forgot my harmonica.\Now get going. And don't be afraid to duck back here if you get a bad vibe. We've got plenty of time to do this right.");
+                scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Teleport to and begin the Stealth section of the quest.\GOAL: Steal the Warden's electrolarynx");
+                // *TELEPORT TO AND BEGIN STEALTH SECTION*
+                Quest("prisonstealthQuest", 1);
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(ready2, "Wait a second.")) {
+                Dialogue(P_NAME, "Wait a second. I need some more time to think about this.");
+                scr_event_build_dialogue("Stahl", NULL, "Just know that I went out on a limb letting you in on my escape plan.\I'm not afraid to admit that I'll put you down myself if you screw this up for me. Keep that in mind when you're off doing whatever the hell it is you do.");
+                scr_event_build_end();
+            }
+        } else if (Quest("stahlState") == 1) {
+            scr_event_build_dialogue("Stahl", NULL, "I had a feeling you'd come back.");
+            Dialogue(P_NAME, "I don't know if I should be talking to you about this. I still don't know if I can trust you.");
+            scr_event_build_dialogue("Stahl", NULL, "I didn't ask you to trust me. I believe the word I used yesterday was /'useful/'. Not quite the same thing.\So I'm going to go out on a limb and say that you probably didn't have much of a plan beyond just getting into prison. Figured you'd make things up as you go along.");
+            Dialogue(P_NAME, "I didn't say that. I don't know if I want to keep talking to you.");
+            scr_event_build_dialogue("Stahl", NULL, "A little stubborn, aren't you?\Ok, then, how do you plan on getting out of your cell?");
+            Dialogue(P_NAME, "I can't tell you that. It's none of your business anyway.");
+            scr_event_build_dialogue("Stahl", NULL, "You don't need to tell me the truth. Let's just start talking. It's an exercise. How do you plan to get past your cell doors?");
+            Dialogue(P_NAME, "I don't know. Blow them up.");
+            scr_event_build_dialogue("Stahl", NULL, "I don't think you're taking this seriously.\Let's start over. You're in the cell, right? Open the door for me.");
+            Snippet(question1);
+        } else {
+            scr_event_build_dialogue("Stahl", NULL, "You're looking at me. Why are you looking at me?");
+            Dialogue(P_NAME, "I dunno. Sorry.");
+            scr_event_build_dialogue("Stahl", NULL, "Huh____________. ____________. ____________. ____________. ____________. ____________\You're not a dwarf.__________ Who are you?");
+            Dialogue(P_NAME, "Just a kid, I guess. I don't know what you mean.");
+            scr_event_build_dialogue("Stahl", NULL, "I've seen you around on the outside, but this is my first time seeing you up close. Thought you'd be a little older. I'm surprised.");
+            Dialogue(P_NAME, "You're not a prisoner here, are you? You're working with the duergars. I don't know if I want to keep talking to you.");
+            scr_event_build_dialogue("Stahl", NULL, "No, I'm a prisoner. Same as you. Maybe exactly like you.\See, I don't think you just ran into some bad luck and got arrested. You aren't the type to get caught by someone as silly and narrow-minded as a duergar.");
+            Dialogue(P_NAME, "Maybe. Are you trying to tell me that you let yourself get arrested?");
+            scr_event_build_dialogue("Stahl", NULL, "Maybe.\Or maybe the security is so poor here I just inserted myself into the prisoner database and let myself in the back door.");
+            Dialogue(P_NAME, "Why would you want to do something like that?");
+            scr_event_build_dialogue("Stahl", NULL, "I didn't say that's what happened. I said maybe.");
+            Dialogue(P_NAME, "Ok....\Maybe you can tell me what you're up to, then? I still think you're probably working with the duergars.");
+            scr_event_build_dialogue("Stahl", NULL, "I'll make you a deal. If you can guess what I'm here for, I'll tell you if you're right or not.\Only condition is that I get to guess why you're here, and if I'm right, you have to tell me.");
+            Dialogue(P_NAME, "Ok, I guess. But we both could just be lying. We have no way of knowing if it's the truth or not.");
+            scr_event_build_dialogue("Stahl", NULL, "Of course. I'd hope so. We're not playing this game to know the truth. We're playing to see what we want each other to think.\Which is more valuable? The truth you can look up in a phonebook or the truth you can see in someone's eyes?\I'll let you go first. Tell me who I am.");
+            Dialogue(P_NAME, "Well, I think you're a spy for the duergars. Probably even a spy for Cuchulainn.\I think you're here to learn as much about the rebels as possible. You're probably even carrying a gun.");
+            scr_event_build_dialogue("Stahl", NULL, "So right and so wrong. You've got the basics pretty well nailed, but I'm not affiliated with Cuchulainn or any of his lackeys.\And I'll go ahead and put one on your tab by saying that I'm not affiliated with the rebels, or this Cyberdwarf guy, or any of the other misfits around here either.\Should probably interest you to know that there may be external parties interested in seeing what becomes of the drama on this stupid rock.\But you did get one part right: I am carrying a gun. They don't exactly run the most thorough cavity search here.\Ok, now it's my turn.\I think this whole thing was pitched to you by that sad little cripple. He needs to keep his mind busy so he came up with a plan to break all his rebel friends out of prison.\And you felt just bad enough for him that you went along with it. So you went and spit on the shoes of the first duergar you ran into, and here we are.\Judging by your expression, I'm guessing I'm not too far off.");
+            Dialogue(P_NAME, "You're wrong. Totally wrong.");
+            scr_event_build_dialogue("Stahl", NULL, "Oh? ______Hmm......________thought I was better at this game.");
+            Dialogue(P_NAME, "I didn't feel sorry for Lafayette. He's my pal, and he comes up with cool stuff to do. I don't pity him.");
+            scr_event_build_dialogue("Stahl", NULL, "Ha ha ha ha ha ha.");
+            Dialogue(P_NAME, "What's so funny?");
+            scr_event_build_dialogue("Stahl", NULL, "Oh, nothing, not what you think. I truly like that, what you said about Lafayette. In truth, I'm slightly surprised to find that you're a decent person.\That's just not the way you play the game. I've played my hand close to the chest, and you went ahead and told me virtually everything I need to know about you.\I took you for more the mercenary type, I suppose. I guess that shoe doesn't exactly fit.");
+            scr_event_build_dialogue("Loudspeaker", NULL, "Attention please! All inferior lifeforms not scheduled for afternoon activities, please report to the courtyard entrance.\All those scheduled for torture, please form a queue behind the silver line.\And all those scheduled for execution, please remain where you are, someone will come to pick you up.\Thanks, and have an awful day.");
+            scr_event_build_dialogue("Stahl", NULL, "Well that's a shame. Just as it was starting to get interesting.\Maybe you should come track me down tomorrow. We might prove useful to each other.");
+            Dialogue(P_NAME, "I'll sleep on it.");
+            scr_event_build_dialogue("Stahl", NULL, "You do that. Wish me luck beyond the silver line.");
+            Quest("stahlState", 1);
+            Quest("prisondayoverState", 0);
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC NOTE: The screen should fade to black and the player is teleported to a cinematic showing them being led back to their cell.\This cinematic is identical for all the NPCs in the prison courtyard. If you're seeing this now, you're on your way back to your prison cell, buster.");
+            // CINEMATIC NOTE: This is where the player is teleported back to their cell for the day. After a fade to black, this event should link to the brief cinematic of the player being led to their jail cell.
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

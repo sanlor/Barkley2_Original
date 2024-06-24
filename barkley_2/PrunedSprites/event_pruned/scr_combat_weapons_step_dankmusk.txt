@@ -1,0 +1,22 @@
+/// scr_combat_weapons_step_dankmusk(gun)
+var userId = argument0;
+var gun = argument1;
+
+// Hoopz exists and dankess does too //
+if instance_exists(o_hoopz) then
+    {
+    scr_statusEffect_applyFromScriptToCombatActor(statusEffect_dankmusk, o_hoopz);
+    if instance_exists(CombatActor) then
+        {
+        with CombatActor
+            {
+            if object_get_name(object_index) != "o_hoopz" then
+                {
+                scr_statusEffect_applyFromScriptToCombatActor(statusEffect_dankmusk_enemy, id);
+                }
+            }
+        }
+    }
+
+
+

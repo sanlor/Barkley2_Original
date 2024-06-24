@@ -1,0 +1,61 @@
+// Event for Garcia after he's been recruited for wedding quest. Hangs out in Brain City
+//Bar
+// usage: event_bct_garcia02();
+
+/*if (argument0 == SCRIPT_STEP) {
+
+//if wedding quest is currently active
+if (scr_quest_get_state("garciaWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+    scr_event_interactive_activate();
+} else{
+    scr_event_interactive_deactivate();
+}
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var garcia = id;
+    var event = scr_event_create_main();
+    with (event) {
+
+    //if you have zalmoxis in group.
+    if (scr_quest_get_state("zalmoxisWedding") == 1) and (scr_quest_get_state("garciaZalmoxis") == 0) {
+        scr_event_build_dialogue("Garcia", s_port_garcia, "That wizard lady keeps saying I'm the band's weak link. D-doesn't she know I wrote Billboard #53 hit Monday's Tears?");
+        scr_event_build_quest_state("garciaWait", 1);
+        scr_event_build_quest_state("garciaZalmoxis", 1);
+    }
+        
+    //if you have wizard
+    else if (scr_quest_get_state("wizardWedding") == 1) and (scr_quest_get_state("garciaWizard") == 0) {
+        scr_event_build_dialogue("Garcia", s_port_garcia, "That WIZARD guy... he seems kinda intimidating... I think his bass is out of tune but I'm afraid to say anything... never mind.");
+        scr_event_build_quest_state("garciaWait", 1);
+        scr_event_build_quest_state("garciaWizard", 1);
+    }
+    
+    //if you have poly
+    else if (scr_quest_get_state("polyWedding") == 1) and (scr_quest_get_state("garciaPoly") == 0) {
+        scr_event_build_dialogue("Garcia", s_port_garcia, "H-hey... tell Poly to stop bullying me... she says I'm a hyper-commercial /'dad rock/' fossil and my leisure suit smells like mothballs...");
+        scr_event_build_quest_state("garciaWait", 1);
+        scr_event_build_quest_state("garciaPoly", 1);
+    }
+    
+    //if you have wayne
+    else if (scr_quest_get_state("wayneWedding") == 1) and (scr_quest_get_state("garciaWayne") == 0) {
+        scr_event_build_dialogue("Garcia", s_port_garcia, "W-why'd you invite that Wayne guy to join the band? W-we only need one keyboard! You don't think I'm slowing down, do you? I've still got it, right?");
+        scr_event_build_quest_state("garciaWait", 1);
+        scr_event_build_quest_state("garciaWayne", 1);
+    }
+    
+    //if you've spoken to before.
+    else if (scr_quest_get_state("garciaWait") == 1) {
+        scr_event_build_dialogue("Garcia", s_port_garcia, "I sure could use a drink... a milk on the rocks would really loosen me up, get me tickling these ivories like it was 664X again...");
+    }
+    
+    //Haven't spoken to Garcia while waiting.
+    else {
+        scr_event_build_dialogue("Garcia", s_port_garcia, "U-used to play in this club back before the whole booty scene blew up... that was a couple bands ago. That MC guy, Stonewall somethin'? He was here back in the day too. He, uh... didn't recognize me...");
+        scr_event_build_quest_state("garciaWait", 1);
+        }
+    }
+    scr_event_advance(event);
+}

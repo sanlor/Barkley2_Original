@@ -1,0 +1,160 @@
+/* Shi is the Robot Hotel Greeter who initiates a Gift-centric Dating Sim in which Hoopz can get too invovled and then realizes he must give up as she isn't a prize solely for him.
+
+shiAdoration score board
+Heimdall = 7
+Super = 6
+Hass = 4
+NonEuclid = 3
+Jorma = 2
+Harald = 1
+P_NAME = 0.5
+
+*/
+
+/*if (argument0 == SCRIPT_START) {
+    if (scr_quest_get_state("shiHappy") == 1) {
+        x = 160;
+        y = 176;
+    }
+    else if (scr_quest_get_state("shiHappy") == 0) {
+        x = 296;
+        y = 192;
+    }
+
+}
+else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT){
+  var shi = id;
+  
+  var event = scr_event_create_main();
+  
+  /////////////////////////////////////
+  // MAIN EVENT (Shi back and forth) //
+  /////////////////////////////////////
+    
+  with (event) {
+    // If you have never spoken to Shi
+    if (scr_quest_get_state("shiSpoken") == 0) {
+        scr_event_build_dialogue("Shi", s_port_shiHappy, " Welcome to Hotel Tsurekomi.  Are you waiting for your partner … we have a full bar inside if you wish to wait with some refreshment.  We have competitive hourly rates.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "blushing, uh I'm uh … it's just me.");
+        scr_event_build_dialogue("Shi", s_port_shiHappy, " Hehe, oh silly!  It doesn't work with just one!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I umm, I need to be going…");
+        scr_event_build_dialogue("Shi", s_port_shiHappy, "Come again!");
+        scr_event_build_quest_state("shiSpoken", 1);
+    }
+    
+    // If you've spoken to Shi at least once, but time has not moved forward.
+    else if (scr_quest_get_state("shiSpoken") == 1) {
+        scr_event_build_dialogue("Shi", s_port_shiHappy, "Welcome to Hotel Tsurekomi.  Are you waiting for your partner … we have a full bar inside if you wish to wait with some refreshment.   We have competitive hourly rates.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I have to be going.");
+        // Set Shi time to Quest Time
+        scr_event_build_quest_state("shiTimer",scr_time_get());
+        
+    }
+    
+    //After time +1 from when you talk to Shi first
+    else if (scr_time_get() >= "shiTimer") {
+        scr_event_build_dialogue("Shi", s_port_shiHappy, "Welcome to Hotel Tsurekomi.  Are you waiting for your partner … we have a full bar inside if you wish to wait with some refreshment.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "umm no thanks … I'm just passing through.");
+        scr_event_build_dialogue("Shi", s_port_shiHappy, "Well when you'd like to return we have a large selection of rooms. You're in luck because the Fantasy room is available  and will allow you to explore a realm forgotten.  A The Presidente room is a taste of Benevolent Dictatorship from the Tropics. Do you have a special lady in your life?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "No miss, I'm a baller.  I'm married to the game.");
+        scr_event_build_dialogue("Shi", s_port_shiHappy, "Oh so you're … available are you?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I … um … gotta go!");
+
+    // State 2: Talked Twice
+    scr_event_build_dialogue("Shi", s_port_shiHappy, "Welcome to Hotel Tsurekomi.  Are you waiting for your partner … we have a full bar inside if you wish to wait with some refreshment.   We have competitive hourly rates.");
+
+    // After time +2
+    // Shi is no longer at the door of the Hotel, there is another, round, boring, serv-robot there that says "Welcome to Hotel Tsurekomi.  Full bar inside if you wish to wait with some refreshment.  Inquire about our hourly rates."
+    // Shi is hiding behind the Hotel, in sleep mode.
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Excuse me, are you okay?");
+    // Shi powers up.
+    scr_event_build_dialogue("Shi", s_port_shiHappy, "I'm sorry but I'm not working right now.  Management says my abjection protocols don't sell well in Brain City.");
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm not here for that, I just want to know you're okay.");
+    scr_event_build_dialogue("Shi", s_port_shiHappy, "Really?  Oh what do you care, you [boys|girls|dwarfs] are all the same.");
+
+    // Choice 1 (gives you an additional shiAdoration point if you answer correctly)
+    
+    //answer1
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "We're not all the same.");
+   scr_event_build_dialogue("Shi", s_port_shiHappy, "HARALD wasn't either.  He was different and sweet … not like all the other [FULLBOTS] … at least, not at first.  They must make sure that if you want to go [FULLBOT] you need to be a real Class-A jerk.");
+    // +1 shiAdoration
+
+   //answer2
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "What happened?");
+    //IF HUMANIST
+   scr_event_build_dialogue("Shi", s_port_shiHappy, "I don't want to get into it … You have it easy.  You [HUMANISTS] don't remember every little detail.");
+    //IF FULLBOT
+    scr_event_build_dialogue("Shi", s_port_shiHappy, "I (don't you think it is tough being able to remember everything?");
+
+    //(connect back to main conversation)
+
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Tough break chickenhead, bitches ain't shit but hoes and tricks.");
+    scr_event_build_dialogue("Shi", s_port_shiHappy, "Thanks for that … go join the other jerks.");
+    // This ends the quest, changes State to 3
+
+    // After choice
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm sure things will turn out alright.  Don’t they say … there's always other fish in the … barrel?");
+    scr_event_build_dialogue("Shi", s_port_shiHappy, "The sea.");
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh right … the sea.");
+    scr_event_build_dialogue("Shi", s_port_shiHappy, "Heehee, you're cute.");
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "[gulp]");
+
+
+    //HOOPZ NEEDS TO GIVE HER A GIFT, move shiAdoration += 1, and then have her talk about how cute he is each time you talk to her.  If you have {A GIFT} you will be prompted to give Shi the gift.
+
+    //When you give her the gift she should ask if it is from you.  Hoopz always has the same choice:
+    /*
+    YES, it's from me.
+    KINDA, I just found this in the Wasteland.
+    Either way Shi accepts the gift and is pleased by it.
+    
+
+
+    scr_event_build_dialogue("Shi", s_port_shiHappy, "I should be looking for more [genderNounPlural] like you.");
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, why don't you?");
+    scr_event_build_dialogue("Shi", s_port_shiHappy, "I guess I already have … but sometimes it's too painful to run my dating protocols.  Plus I'm waiting for the latest version of TOASTR to update.");
+    // Flavor response (determines if you are eligible to compete to date Shi)
+   //1) IF HUMANIST
+   scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Fullbot life is so odd, I should pull the chord on this little love train before we gain too much momentum).  Umm well maybe there is something I can do to help.");
+    scr_event_build_dialogue("Shi", s_port_shiHappy, "Well, are you on TOASTR?");
+   scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don' think so … looks like my firmware might still need to mature for full compatibility.");
+   scr_event_build_dialogue("Shi", s_port_shiHappy, "Well … that’s too bad I guess … Maybe you can meet my new boyfriend sometime … JORMA.");
+   scr_event_build_dialogue(P_NAME, s_port_hoopz, "What about HARALD?");
+   scr_event_build_dialogue("Shi", s_port_shiHappy, "Oh HARALD was (so) last cache … TOASTR has me paired up with JORMA, and it looks like things are really going to take off real soon.  I'll just need to get him to notice me.");
+
+   //HOOPZ CHOICE GREET JORMA
+   scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, well maybe I can talk to him?");
+   scr_event_build_dialogue("Shi", s_port_shiHappy, "Would you?  That would really save me some cycles!  In the mean time I'll assemble a UNIX based EMOcode repository and prerender some coy reactions to his interest.");
+   scr_event_build_dialogue(P_NAME, s_port_hoopz, "sounds like that could be a plan ..."); 
+   scr_event_build_dialogue("Shi", s_port_shiHappy, "See you soon, cutie.");
+
+   scr_event_build_dialogue(P_NAME, s_port_hoopz, "Good luck with that.");
+   scr_event_build_dialogue("Shi", s_port_shiHappy, "Thanks, I guess it's back to work.");
+   //when you talk to Shi back at her greeting spot you can initiate the conversation again
+   // shiDate == 
+   scr_event_build_dialogue("Shi", s_port_shiHappy, "TOASTR has me paired up with JORMA, and it looks like things are really going to take off real soon.  I'll just need to get him to notice me.");
+    //Go to: Hoopz Choice Greet Jorma
+
+    //IF 50%-90%  FULLBOT
+   scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Is this the kind of life I'm looking forward to when I go fulbot?)");
+
+    // IF TOASTR IS OWNED
+   scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah I'm on TOASTR …");
+   scr_event_build_dialogue("Shi", s_port_shiHappy, "Well I'll add you to my relationship queue … maybe we'll be seeing each other in the DateSpace sometime!");
+
+    // IF 90%+ FULLBOT
+   scr_event_build_dialogue(P_NAME, s_port_hoopz, "(She sounds like the girl for me … just gotta get AppSavvy)");
+
+
+    // State 3
+    scr_event_build_dialogue("Shi", s_port_shiHappy, "Just leave me alone.");
+    // From now on, Shi delivers the same Hotel Greeting during "happy time units" and this message during sad.
+    // She ends the game happy.  Quest failed.
+    */
+/*    }
+    }
+    scr_event_advance(event);
+}

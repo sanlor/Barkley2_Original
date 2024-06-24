@@ -1,0 +1,167 @@
+//Pvt. Madison - AmmostashLady
+
+//------------------------------------------------------------------------------
+// *** govQuest = 6 && govBomb = 2 ***
+//------------------------------------------------------------------------------
+
+Pvt. Madison:
+Well, you did it. You managed to pull off Dr. Liu's stupid little parlor trick and it looks like it went unnoticed. For now at least. We've got a screaming Duergar Governor on our hands and we don't know what we're going to do from here. But your stupid charade worked. Thanks for lying to me about the bomb, by the way. Get out of my face, X1.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 6 = Governor quest complete. ***
+//------------------------------------------------------------------------------
+
+Pvt. Madison:
+Well it looks like Dr. Liu's stupid little parlor trick went off without a hitch, except that we've got a screaming Duergar governor in the hideout that we don't know what to do with. Guess we overlooked that part. We should've just blown the mansion sky high. 
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 5 ***
+//------------------------------------------------------------------------------
+
+Pvt. Madison:
+Get out of my face.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 4 && govBomb = 2 ***
+//------------------------------------------------------------------------------
+
+Pvt. Madison:
+Thought you were going to plant the bomb at the base of the Governor's mansion like we talked about. Can't say I'm not a little disappointed. You know, I don't really feel like looking at you right now. Get out of my sight.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 4 ***
+//------------------------------------------------------------------------------
+
+Pvt. Madison:
+Well, you've gone and done a pretty stupid thing. Can't say I'm not surprised. That seems to be how L.O.N.G.I.N.U.S. operates these days.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest >= 2 && govQuest < 4 && govBomb = 2 ***
+//------------------------------------------------------------------------------
+
+Pvt. Madison:
+All you have to do is plant the dynamite on the red X at the base of the mansion. When Governor Elagabalus comes out to give his speech, trigger it and get outta there. L.O.N.G.I.N.U.S. can take over from there. You escape, we take Tir na Nog - everyone wins. Got it?
+
+X114JAM9:
+Yeah, I've got it.
+
+Pvt. Madison:
+Good. Good luck then. You'll need it.
+
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest >= 2 && govQuest < 4 && govBomb = 1 ***
+//------------------------------------------------------------------------------
+
+Pvt. Madison:
+Look. There's not much time left. I know you turned me down before, but if you plant the dynamite at the base of the Governor's mansion you'll be able to escape in the chaos. L.O.N.G.I.N.U.S. takes over Tir na Nog and we don't have to deal with Duergars anymore. Everyone wins. What do you say?
+
+Okay, I'll do it.
+
+	X114JAM9:
+	Well, Dr. Liu's idea is pretty crazy... I mean, I'm not even sure her body transference chair even works. Okay, I'll do it. Give me the dynamite, what do I have to do?
+	
+	Pvt. Madison:
+	Heh, I knew I wasn't the only one here who wasn't a complete nutcase. I like you, kid. Like I said before, I placed a red X at the base of the Governor's mansion. Place the dynamite there and set it to explode during his speech. Don't worry about the crowd, there'll be collateral damage but the important thing is that we wipe out the Governor and his lackeys. When the people see their opportunity, they'll take it. I can take over from there and you can slip out. We all win.
+	
+	Get 1 Dynamite!
+	
+	X114JAM9:
+	If this is the only thing that's really gonna help the dwarfs of Tir na Nog, then I guess I'll take it...
+	
+	Pvt. Madison:
+	Good luck, X1. See you in the chaos.
+	
+	//get Dynamite
+	//govBomb = 2
+	//end dialogue;
+
+I won't do it.
+
+	X114JAM9:
+	Sorry but this doesn't sound like a good idea to me. I already told Dr. Liu I'd help her out, I don't want to break my promise.
+	
+	Pvt. Madison:
+	Her stupid plan isn't going to do a damn bit of good. I mean, luring the Governor to our hideout with Duergar piss? Are you insane? Clispaeth Christ, kid, am I the only person in L.O.N.G.I.N.U.S. with a lick of sense? But whatever. Get yourself killed, I don't even care.
+	
+	//govBomb = 1
+	//end dialogue;
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest >= 2 && govQuest < 4 && govBomb = 0 ***
+//------------------------------------------------------------------------------
+
+Pvt. Madison:
+Listen, I've got a proposition for you... forget this body transference bullpuck. It's not gonna do a damn thing. I mean what the heck are we doing? Sitting around playing poker? No. No way. We're wasting our time. We either take the fight to Cuchulainn or roll over and die, and I'm sure as hell not rolling over. I've been sitting on some dynamite for a while now - the good stuff, not that firecracker black powder crap - and I think the Governor's speech is the right time to use it. Think about it - if it goes off during the speech, the Governor and half the Duergars in Tir na Nog are history. There'll be riots in the streets, dwarfs fighting against Duergars, the oppressed killing the oppressor. This is the opportunity we've been waiting for and I don't want to let it slip. I've set a red X at the base of the Governor's mansion. All you have to do is set this dynamite there and trigger it to explode when the speech starts. What do you say, X1? Are you gonna help L.O.N.G.I.N.U.S. or are you gonna play along with Dr. Liu's buffoonery until it gets us all killed?
+
+Okay, I'll do it.
+
+	X114JAM9:
+	Well, Dr. Liu's idea is pretty crazy... I mean, I'm not even sure her body transference chair even works. Okay, I'll do it. Give me the dynamite, what do I have to do?
+	
+	Pvt. Madison:
+	Heh, I knew I wasn't the only one here who wasn't a complete nutcase. I like you, kid. Like I said before, I placed a red X at the base of the Governor's mansion. Place the dynamite there and set it to explode during his speech. Don't worry about the crowd, there'll be collateral damage but the important thing is that we wipe out the Governor and his lackeys. When the people see their opportunity, they'll take it. I can take over from there and you can slip out. We all win.
+	
+	Get 1 Dynamite!
+	
+	X114JAM9:
+	If this is the only thing that's really gonna help the dwarfs of Tir na Nog, then I guess I'll take it...
+	
+	Pvt. Madison:
+	Good luck, X1. See you in the chaos.
+	
+	//get Dynamite
+	//govBomb = 2
+	//end dialogue;
+
+I won't do it.
+
+	X114JAM9:
+	Sorry but this doesn't sound like a good idea to me. I already told Dr. Liu I'd help her out, I don't want to break my promise.
+	
+	Pvt. Madison:
+	Her stupid plan isn't going to do a damn bit of good. I mean, luring the Governor to our hideout with Duergar piss? Are you insane? Clispaeth Christ, kid, am I the only person in L.O.N.G.I.N.U.S. with a lick of sense? But whatever. Get yourself killed, I don't even care.
+	
+	//govBomb = 1
+	//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 1 = Governor quest rejected ***
+//------------------------------------------------------------------------------
+
+Pvt. Madison:
+Can't say I disagree with your decision not to help Dr. Liu. I respect her, she's a smart lady but this idea just seems too ridiculous, too risky. If it were up to me, we'd blow the Governor's mansion to smithereens and take the fight to Cuchulainn. Too bad I'm just the quartermaster.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** no conditions ***
+//------------------------------------------------------------------------------
+
+Pvt. Madison:
+Private First Class Bridget Madison, class V L.O.N.G.I.N.U.S. quartermaster, service number LON 544 8853. Did two tours in the Hive, served in the elite Necropolis task force, proud L.O.N.G.I.N.U.S. fighter for 12 years. I've been all over the Necron 7 and compared to some of the places out there, like the Duergar Mines, Tir na Nog seems pretty tame. A word of advice - don't end up in the Mines.
+
+//end dialogue;

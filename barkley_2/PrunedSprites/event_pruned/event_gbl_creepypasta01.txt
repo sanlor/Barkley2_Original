@@ -1,0 +1,116 @@
+// A computer or something that is displaying teh creepypasta story // Hoopz wanders nearby and checks it out //
+/*
+creepypastaStory1
+    0 = Not interacted with before
+    1 = Interacted once before
+    2 = Story read
+    3 = Spook over
+*/
+if (argument0 == SCRIPT_START) then
+    {
+    
+    }
+
+if (argument0 == SCRIPT_INTERACT) then
+    {
+    var event = scr_event_create_main();
+    with (event) 
+        {
+        // creepypasta 
+        // 0 = Not interacted before
+        // 1 = ignored before, 
+        // 2 = Story read, Hoopz gets spooked and runs off
+        
+        // Interact with computer for the first time // 
+        if (scr_quest_get_state("creepypastaStory1") == 0) then 
+            {
+            // Move below the computer //
+            scr_event_build_move_to_point(o_cts_hoopz, o_mg_creepypasta_computer.x, o_mg_creepypasta_computer.y + 32);
+            scr_event_build_wait_for_actions();
+            scr_event_build_look(o_cts_hoopz, NORTH);
+            
+            // Hoopz finds the computer for the first time //
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What the heck is this computer doing here? There is something running on it... I don't know if it's right to look at other peoples computers but I'm really curious...");
+            
+                // Temptation... //
+                var temptation = scr_event_build_choice("Should I take a peek?", s_port_hoopz); 
+                
+                // Can't resist //
+                var yes = scr_event_build_add_choice(temptation, "I can't resist it!");
+                with yes 
+                    {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I can't resist. Let's see what's on here...");
+                    scr_event_build_create_object(o_mg_creepypasta_story2, 0, 0);
+                    scr_event_build_quest_state("creepypastaStory1", 2);
+                    }
+                    
+                // My strong will resisted it //
+                var no = scr_event_build_add_choice(temptation, "It's none of my business");
+                with no 
+                    {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, it's not my computer, and it's none of my business.");
+                    scr_event_build_quest_state("creepypastaStory1", 1);
+                    }
+                }
+            
+        // Ignored it before, but now back for more //
+        else if (scr_quest_get_state("creepypastaStory1") == 1) then
+            {    
+            // Move below the computer //
+            scr_event_build_move_to_point(o_cts_hoopz, o_mg_creepypasta_computer.x, o_mg_creepypasta_computer.y + 32);
+            scr_event_build_wait_for_actions();
+            scr_event_build_look(o_cts_hoopz, NORTH);
+            
+            // Hoopz is scared to read it again //
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know what it is but... this computer gives me the heebie-jeebies. Maybe if I take a closer look I'll understand what is going on."); 
+        
+                // Temptation... //
+                var temptation2 = scr_event_build_choice("Should I investigate this computer?", s_port_hoopz); 
+            
+                // Can't resist //
+                var yes = scr_event_build_add_choice(temptation2, "Yeah, let's have a look...");
+                with yes 
+                    {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Alright, here goes nothing...");
+                    scr_event_build_create_object(o_mg_creepypasta_story2, 0, 0);
+                    scr_event_build_quest_state("creepypastaStory1", 2);
+                    }
+                    
+                // My strong will resisted it //
+                var no = scr_event_build_add_choice(temptation2, "It's too spooky for me...");
+                with no 
+                    {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "No way. I'm getting some really bad vibes from this computer. I'd better leave it alone.");
+                    }
+                } 
+                
+        // Get spooked //
+        else if (scr_quest_get_state("creepypastaStory1") == 2) then
+            {
+            // Hoopz is scared to read it again //
+            scr_event_build_dialogue(P_NAME, s_port_hoopzShock, "That... was the scariest story I've ever read. I... I'm shaking. I should get out of here... "); 
+            scr_event_build_wait(0.75);
+            scr_event_build_look(o_cts_hoopz, NORTHWEST);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, NORTH);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, NORTHEAST);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, NORTH);
+            scr_event_build_wait(0.5);
+            scr_event_emote("exclamation", o_cts_hoopz, 0, 0);
+            scr_event_build_dialogue(P_NAME, s_port_hoopzShock, "W-what the...! This computer isn't plugged in! What the heck is going on here?!"); 
+            // TODO // Spooky sounds. "Muahaha... over here youngster... come to me... come to me... to the front yard... we can mow the lawn together! Mauahahahaha!! "
+            scr_event_build_wait(1);
+            scr_event_build_animation_play_and_set(o_mg_creepypasta_computer, "blood", "dead");
+            scr_event_build_wait(1);
+            scr_event_build_dialogue(P_NAME, s_port_hoopzShock, "No... No! Noooooooo!");
+            scr_event_build_wait(0.25);
+            scr_event_build_quest_state("creepypastaStory1", 3);
+            scr_event_build_teleport(r_tnn_warehouseDistrict01, 1048, 808, 3, 1);            
+            }
+        }
+        
+    // Gameboy advance //
+    scr_event_advance(event);
+    }

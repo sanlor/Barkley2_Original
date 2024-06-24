@@ -1,0 +1,59 @@
+- There are a few new scripts which control many aspects of gun changing, they are scr_pouch(), scr_gunbag(), and scr_player_equip(). Be sure to check these scripts out to see what they do. These scripts were made to centralize the gun equipping since you can now equip items in your gun reserve and all current scripts only supported guns from the gun pouch. I recommend using these scripts for all equip related activities as they reduce code and place the code in a central area.
+
+- There is a good chance the fusing stuff Frankie is working on might break because of these changes. All of the old lists are still used, but because lists can be toggled the o_hoopz.gun index value is not accurate. o_hoopz.gun still points to the right index, but it will always be 0 when in the gunReserve list. So instead I rely on o_hoopz.gunObj (contains object ID of current equipped gun) which can also be indirectly returned by doing scr_player_equip("object").
+
+- The debug key G (add 6 guns) has been changed to L and a new debug key I has been added which gives the player a "Wyrthyr's Neue".
+
+- Everything to do with the quickmenu is found in the Quickmenu folder (o_qmenu, o_qmenu_button, o_qmenu_item, o_qmenu_perst), and all things directly related to the quickmenu are in the script quickmenu().
+
+- Because the quickmenu draws parts of the HUD, if you ever update the hud you must also edit the image s_bartemp for the quickmenu and any changed code (doomface, periodic, red health bar) should be put in o_qmenu_button event user 10.
+
+- o_qmenu_perst is a persistent object created on game_init() and is the object which summons and destroys the quickmenu (in conjuction with the quickmenu() script). Beyond that, the quickmenu uses the controls specified in scr_keys_defineDefaultKeys and you can change the controls through that script.
+
+- In order to implement item / ability use, a series of scripts were created to simulate what a database would look like and what the player would need to use these functions. Here is a run down of what these scripts do:
+
+scr_player_equip - Has everything to do with which gun hoopz has equipped, inculding getting and setting values.
+
+scr_pouch - Everything related to the gunPouch list resides here.
+
+scr_gunbag - Everything related to gunReserve and emptyGuns is in here.
+
+scr_ability - Handles almost everything to do with abilities. Here you can make new abilities and get ability info.
+
+scr_ability_use - The script scr_ability passes the name of the ability used and you can specify the code to run here. An example with Cosmos has been provided.
+
+scr_button - Relays joypad controls. Intermediate script made to test the QM when it was being developed outside the game. 
+
+scr_character - Everything to do with the player class. Change class, get current abilities, add abilities, and so on.
+
+scr_class - Create and get information on classes.
+
+scr_collision_tri - See if certain coordinates are inside a triangle. Helper script for o_qmenu_button, but works stand alone as well.
+
+scr_console - For error reporting, can be made blank or disabled in the full game.
+
+scr_destroy - scr_destroy(object) is the same as doing with (object) instance_destroy() . Can easily be removed by finding and replacing all instances, was used for another purpose when testing outside the game.
+
+scr_draw_rect - A shortcut for drawing a 1x1 pixel graphic stretched into a rectangle with a specified color and alpha.
+
+scr_font - A shortcut for assigning font, font color, halign, and valign.
+
+scr_gun - Intermediate script for getting Barkley 2 gun data. This script is fairly sloppy but works.
+
+scr_inventory - The players inventory. Add, remove, get item info, and use items here.
+
+scr_item_db - Specify what items are in the game here.
+
+scr_item_swap - Helper script to save on duplicate code.
+
+scr_item_use - Same as scr_ability_use in function, this is executed when the player uses an item, so you can easily specify effects here.
+
+scr_math_smooth - For tweening.
+
+scr_mouse - Intermediate script for getting mouse inputs.
+
+scr_msg - Error message script, can be disabled but will provide important error info in some cases when these new scripts are used incorrectly.
+
+scr_quickmenu_draw_gun_name - Calling this will draw the fancy gun name text; check script for arguments needed.
+
+scr_zauber_db - Add and remove zaubers here (in between an item and an ability). ALL zaubers must be linked to an item of the same name.

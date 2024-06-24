@@ -1,0 +1,67 @@
+// Duergar from Squad 6: Jean-Marc Pierre // Is guarding some of the nose dwarfs at Alpha Camp //
+// Initialize //
+if (argument0 == SCRIPT_START) {
+
+    // Only exist while Alpha Camp is safe //
+    if Duergar("checkpulse", "jeanmarc") == false or scr_quest_get_state("stateJeanmarc") == 2 or scr_min_cspear() == "prep" or scr_min_cspear() == "during" or scr_min_cspear() == "after" then scr_event_interactive_deactivate();
+} 
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {       
+
+    // Variables //
+    var event = scr_event_create_main();
+    var jeanname = Duergar("getname", "jeanmarc")
+    
+    // Main event //
+    with (event) {
+
+        // Hoopz talks to Jean-Marc down at the Alpha Camp //
+        if scr_quest_get_state("stateJeanmarc") == 0 then
+            {
+            scr_event_build_dialogue(jeanname, s_port_jeanmarc, "*Yawn* Another lousy dwarf, huh? Alright, you fuck. What's your assingment?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "My assignment? I'm not sure what you mean... I gues you could say that I'm a gamer.");
+            scr_event_build_dialogue(jeanname, s_port_jeanmarc, "What? What the hell are you going on about? What is your assignment? Why are you here?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh...");
+            scr_event_build_dialogue(jeanname, s_port_jeanmarc, "Okay, forget it. You're obviously too stupid to comprehend even the simplest of things. I swear, you dwarfs are as worthwhile as the hairs on my tumor. If we didn't have to use you for labour I would kill you where you stand.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, take it easy! I'm not trying to cause any trouble.");
+            scr_event_build_dialogue(jeanname, s_port_jeanmarc, "Clispaeth christ... Okay, go and report to Jeltsje. She's somewhere near the bridge. Hopefully she'll beat the shit out of you before she puts you to work. You know what, I'm too tired to even give a shit about that. Just get the hell out of my sight.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I'll go and see this Jeltsje... (Hah, not a chance. I don't want to get beat up or chained up down here.)");
+            scr_event_build_quest_state("stateJeanmarc", 1);
+            scr_event_build_quest_state("knowJeanmarc", 1);
+            }
+            
+        // Hoopz talks to Jean-Marc again //
+        else if scr_quest_get_state("stateJeanmarc") == 1 then 
+            {        
+            scr_event_build_dialogue(jeanname, s_port_jeanmarc, "For fucks sake you dwarfs are dense. I told you to go and see Jeltsje. Why the hell are you still here?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uhh... I forgot where she is.");
+            scr_event_build_dialogue(jeanname, s_port_jeanmarc, "She is somewhere near the bridge, you demented asshole!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, thanks.");
+            scr_event_build_dialogue(jeanname, s_port_jeanmarc, "I'm so fucking tired of this shithole and all these stupid dwarfs who can't do anything on their own.");
+            scr_event_build_wait(0.4);
+            scr_event_build_look(o_jeanmarc01, EAST);
+            scr_event_build_wait(0.4);
+            scr_event_build_dialogue(jeanname, s_port_jeanmarc, "Constantine!"); 
+            scr_event_build_look(o_cts_hoopz, EAST);
+            //scr_event_build_look(o_constantine01, WEST);
+            scr_event_build_camera_frame(MOVE_NORMAL, o_jeanmarc01, o_constantine01);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue("Constantine", s_port_constantine, "What's up?");
+            scr_event_build_dialogue(jeanname, s_port_jeanmarc, "Cover for me for a bit, I need to take a small break.");
+            scr_event_build_wait(0.8);
+            scr_event_build_dialogue("Constantine", s_port_constantine, "...");
+            scr_event_build_wait(0.8);
+            scr_event_build_dialogue(jeanname, s_port_jeanmarc, "Well? You gonna help me out or not?");
+            scr_event_build_dialogue("Constantine", s_port_constantine, "I'll cover for you, but don't think for a second I'm doing it to help your sorry ass. You are going to pay me back, with interest.");
+            scr_event_build_camera_move_to_point(o_hoopz.x, o_hoopz.y, MOVE_NORMAL);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue(jeanname, s_port_jeanmarc, "Whatever.");            
+            scr_event_build_move_to_point(o_jeanmarc01, 240, 320);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("stateJeanmarc", 2);
+            scr_event_build_destroy_object(o_jeanmarc01);
+            }
+        }
+    scr_event_advance(event);
+    }

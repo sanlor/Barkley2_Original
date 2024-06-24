@@ -1,0 +1,34 @@
+// Event script for encountering Devigny after the control room sequences. This is Event 8, part 3 of my Prison Break design document.
+// PLACEMENT NOTE: Devigny and this script should be progression blocking the player from reaching the maximum security wing(their next destination). They should be gone after the player leaves this map, since the two of them are off murdering at that point.
+
+/*
+if (argument0 == SCRIPT_START) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var devigny = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("prisonQuest") == 4) {
+            scr_event_build_dialogue("Devigny", NULL, "Shhhh. I'm in the zone.");
+            scr_event_build_dialogue("Kawasaki", NULL, "You seen any of them guards yet?");
+            scr_event_build_dialogue("Devigny", NULL, "Don't know. I'm in the zone.");
+            Dialogue(P_NAME, "Yeah, ok. So we got you gun's. Kawasaki picked it out for you.");
+            scr_event_build_dialogue("Devigny", NULL, "Excellent. You're doing just fine.\While I'm killing I don't want you calling me Devigny. I want you to call me Brainslayer.");
+            Dialogue(P_NAME, "Brainslayer.");
+            scr_event_build_dialogue("Kawasaki", NULL, "You ain't a real Brainslayer. I ain't calling you that.");
+            scr_event_build_dialogue("Devigny", NULL, "I promise to still dig you a quality grave when you are dead, even though you have insulted Brainslayer.");
+            scr_event_build_dialogue("Kawasaki", NULL, "You looking awfully blue right now, boy, and I needs to start my killing spree somewhere.");
+            Dialogue(P_NAME, "Hey, cut that out you two!\I need to jet right now, there's a dwarf I need to pick up. Kawasaki, do you know where the maximum security wing is?");
+            scr_event_build_dialogue("Kawasaki", NULL, "Keep going down this hall a spell. Should see it.");
+            Dialogue(P_NAME, "Great. Can you two go and start getting the prisoners to leave? I don't think they know what's going on yet.");
+            scr_event_build_dialogue("Devigny", NULL, "Brainslayer knows only murder.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Same. But I reckon I can try.");
+            Dialogue(P_NAME, "Thanks, good luck!!!\(I love these guys. I really hope they don't just end up dead....)");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Kawasaki stops following the player, stays behind with Devigny.");
+            // FOLLOWER NOTE: Kawasaki stops following the player, remains with Devigny
+            Quest("prisonQuest", 5);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

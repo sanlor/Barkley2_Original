@@ -1,0 +1,106 @@
+// Nose Dwarf Penny // Filler NPC // 
+// ***************************************************************************************** //
+// Delirious gossip
+// ***************************************************************************************** //
+
+// Initialize //
+if (argument0 == SCRIPT_START) 
+    {
+    // ****** Penny exists on Beta camp and Sneak Mission ****** //
+    // Beta Camp // Beat up //
+    if room = r_min_baseCampBeta01 then
+        {
+        if scr_min_cspear() == "during" or scr_min_cspear() == "after" then scr_event_interactive_deactivate(); 
+        }
+    
+    // Sneak Mission // Exists during Sneak Mission as a chained up dwarf //
+    else if room = r_min_sneakPassage01 then
+        {
+        if scr_min_cspear() == "before" or scr_min_cspear() == "prep" or scr_min_cspear() == "after" then scr_event_interactive_deactivate(); 
+        }
+    } 
+                  
+// Step //
+if (argument0 == SCRIPT_STEP) 
+    {
+    
+    }
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) 
+    {
+    // Variables //
+    var event = scr_event_create_main();
+    var reply = irandom(2);
+        
+    // Main event //
+    with (event) 
+        {
+        // Reply 01 //
+        if reply = 0 then scr_event_build_dialogue("Penny", NULL, "... Unhh... Listen... There is a... piece of the... spear... Don't let the Duergars...");
+        
+        // Reply 02 //
+        else if reply = 1 then scr_event_build_dialogue("Penny", NULL, "... *Cough*... Ungh... The Duergars they... power source... for Necron 7...");
+        
+        // Reply 03 //
+        else if reply = 2 then scr_event_build_dialogue("Penny", NULL, "The top of the... A hatch to... outer space...");
+        }
+    scr_event_advance(event);
+    }
+
+// OLD 
+/*
+// Nose Dwarf // Hanuman Borf // One armed Nose Dwarf excavating a wall // ALPHA CAMP //
+// Initialize //
+if (argument0 == SCRIPT_START) {
+
+    // Only exist while Alpha Camp is safe //
+    if scr_min_cspear() == "prep" or scr_min_cspear() == "during" or scr_min_cspear() == "after" then scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {       
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+
+        // alpha_hanuman //
+        // 0 = First interaction //
+        // 1 = Second ((
+        // 2 = Third //
+        
+        // Hoopz talks to Hanuman //
+        if scr_quest_get_state("alpha_hanuman") == 0 
+            {
+            scr_event_build_dialogue("Hanuman Borf", NULL, "Ugh, I miss my arm. It was so much more fun when I had two arms. I could do all sorts of stuff. Like... Tie my shoes.");
+            scr_event_build_quest_state("alpha_hanuman", 1);
+            }
+        
+        else if scr_quest_get_state("alpha_hanuman") == 1 
+            {
+            scr_event_build_dialogue("Hanuman Borf", NULL, "If only I hadn't wiped off sweat from my forehead, I would still have both of my arms. I was careless. But how else would I have gotten the sweat of my forehead? Hmm... Perhaps I should've used my tongue. Then they would have only cut off my tongue. But then I couldn't sing songs about mining and swinging a pickaxe. Ugh... I don't feel so good.");        
+            scr_event_build_quest_state("alpha_hanuman", 2);
+            }
+        
+        else if scr_quest_get_state("alpha_hanuman") == 2 
+            {
+            scr_event_build_dialogue("Hanuman Borf", NULL, "I... I miss being free. I miss my arm. I miss my brother. I miss the times when I wasn't in constant pain and agony... Why did the Duergars bring us here? Why do they hate us so much? I just... I just wanna go home... Oh Clispaeth... Help me...");        
+            scr_event_build_quest_state("alpha_hanuman", 3);
+            }
+            
+        else if scr_quest_get_state("alpha_hanuman") == 3 
+            {
+            scr_event_build_dialogue("Hanuman Borf", NULL, "... *Sniff* ...");        
+            }
+        }
+    scr_event_advance(event);
+    }

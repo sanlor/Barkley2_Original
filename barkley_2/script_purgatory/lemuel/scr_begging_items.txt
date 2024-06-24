@@ -1,0 +1,50 @@
+// scr_begging_items()
+// called by scr_lemuel_init()
+/* 
+Generates the list of items allowed as potential rewards
+during the begging game. Designers should add the items to appear here.
+The map index is the name of the item.
+The map value is the time at which the item becomes possible to receive.
+(A value of 1 means the item is available from game start, 24 at the end).
+
+The functionality can continue to be expanded, if we desire!
+Putting in a maximum time of availablity, general "rarity", etc.
+If so, we'll probably have to turn it into a grid or "gridded list" ala
+the apartment complex.
+
+In addition, this stuff can be loaded case-by-case into
+scr_begging() where the items are actually chosen.
+
+http://www.talesofgames.com/trac/ticket/1334
+*/
+
+/*global.mapbegging[? "Item1"] = 1;
+global.mapbegging[? "Item2"] = 1;
+global.mapbegging[? "Item3"] = 1;
+global.mapbegging[? "Item4"] = irandom_range(1, 4);
+global.mapbegging[? "Item5"] = irandom_range(1, 4);
+global.mapbegging[? "Item6"] = irandom_range(1, 4);
+global.mapbegging[? "Item7"] = irandom_range(1, 4);
+global.mapbegging[? "Item8"] = irandom_range(1, 4);
+global.mapbegging[? "Item9"] = irandom_range(1, 4);
+global.mapbegging[? "ItemA"] = irandom_range(5, 9);
+global.mapbegging[? "ItemB"] = irandom_range(5, 9);
+global.mapbegging[? "ItemC"] = irandom_range(5, 9);
+global.mapbegging[? "ItemD"] = irandom_range(5, 9);
+global.mapbegging[? "ItemE"] = irandom_range(5, 9);
+global.mapbegging[? "ItemF"] = irandom_range(10, 15);
+global.mapbegging[? "ItemG"] = irandom_range(10, 15);
+global.mapbegging[? "ItemH"] = irandom_range(10, 15);
+global.mapbegging[? "ItemI"] = irandom_range(10, 15);
+global.mapbegging[? "ItemJ"] = irandom_range(10, 15);
+global.mapbegging[? "ItemK"] = irandom_range(10, 15);
+global.mapbegging[? "ItemL"] = irandom_range(15, 20);
+global.mapbegging[? "ItemM"] = irandom_range(15, 20);
+global.mapbegging[? "ItemN"] = irandom_range(15, 20);
+global.mapbegging[? "ItemO"] = irandom_range(15, 20);
+global.mapbegging[? "ItemP"] = irandom_range(21, 24);
+global.mapbegging[? "ItemQ"] = irandom_range(21, 24);
+global.mapbegging[? "ItemR"] = irandom_range(21, 24);
+global.mapbegging[? "ItemS"] = irandom_range(21, 24);
+global.mapbegging[? "ItemT"] = irandom_range(21, 24);
+global.mapbegging[? "Cyberspear Fragment"] = 24;

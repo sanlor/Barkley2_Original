@@ -1,0 +1,2 @@
+/// scr_event_hook_onStart_userEvent(user_event)
+hook_onStart_event = argument0;

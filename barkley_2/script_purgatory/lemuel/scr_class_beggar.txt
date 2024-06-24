@@ -1,0 +1,11 @@
+// scr_class_beggar()
+// returns true if player is a beggar
+/*
+if (scr_quest_get_state("classBeggar") >= 1)
+{
+    return true;
+}
+else 
+{
+    return false;
+}

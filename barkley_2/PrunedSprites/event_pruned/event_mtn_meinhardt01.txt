@@ -1,0 +1,71 @@
+// NPC script for Meinhardt, the quartermaster for the rebel outpost
+// From my design document: The shopkeeper/quartermaster Meinhardt. He's mute, which somehow hasn't stopped me from writing a really long initial dialogue for him involving absolutely everybody else within an earshot chiming into a group conversation. Of note is the fact that at the end of the quest the player can pick up an electrolarynx for him after the rebel questline, at which point he'll show you his secret stock of items and ramble at incredible length without shutting up.
+// Note: A bunch of things will need to be revised with this later on, namely his shop. I could probably figure out how to set one up, but I'll need to have a long, earnest talk with somebody about what should go in there, or someone will need to come up with an inventory to insert there. For the purposes of the first quest of the rebel questline, however, Meinhardt does need to have candy(specifically an advent calendar), and some sort of animal bait. Beyond that, literally anything can go in here.
+// NOTE2: One of the noteworthy things here is that, when selecting the advent calendar when rebelQuest=1, a small dialogue will trigger between the player and Meinhardt. It's in the snippet "adventsnippet"
+/*
+
+if (argument0 == SCRIPT_START) {
+    if (Quest("rebelQuest") >= 6) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var meinhardt = id;
+    var event = scr_event_create_main();
+    var adventsnippet = scr_event_create_child(event);
+    with adventsnippet {
+        // text that displays if the player tries to buy an advent calendar at rebelQuest=1. This item can be taken to the duergars at the camp to kill them.
+        Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "*Meinhardt eyes you curiously before casting his glare suspiciously around the room. From beneath the table he produces a small landmine. He gestures towards the calendar.*");
+        var adventchoice = Choice("Care for some explosives with your chocolate?", NULL);
+        with (ChoiceAdd(adventchoice, "Uh, no thanks.")) {
+            Dialogue(P_NAME, "Uh, no thanks. That will make it hard for me to eat it.");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "*Meinhardt looks disappointed. He hands you the calendar.*");
+            Item("build", "gain", "advent_calendar", 1);
+            // player gets a regular advent calendar. they still have to pay for it.
+        }
+        with (ChoiceAdd(adventchoice, "Do it.")) {
+            Dialogue(P_NAME, "Do it.");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "*Meinhardt smiles as broadly as his half-paralyzed face allows. He opens the door for the 25th, and carefully arms and inserts the explosive.*");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "*As he hands over the calendar, you think you see him mouthing the words /'Merry Clispaethmas/' but you can't be sure.*");
+            Item("build", "gain", "rigged_advent_calendar", 1);
+            // player gets the rigged advent calendar. they still have to pay for it.
+        }
+    }
+
+
+
+    with (event) {
+        if (Quest("meinhardtState") == 1) {
+            Dialogue(P_NAME, "Hey, can I see your supplies?");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "*Meinhardt nods. He passes a small list your way. He has very neat handwriting.*");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: An inventory for Meinhardt needs to be designed and inserted here. Additionally, purchasing the advent_calendar when rebelQuest=1 needs to lead to the snippet adventsnippet");
+            // THIS IS WHERE MEINHARDT'S INVENTORY GOES!!!! ALSO TEMPORARILY THIS WILL GIVE THE PLAYERS THE REBEL QUEST1 ITEMS, JUST SO I CAN TEST IT!!! THEY SHOULD NOT BE THERE!!!!
+            Item("build", "gain", "advent_calendar", 1);
+            Item("build", "gain", "rigged_advent_calendar", 1);
+        } else if (Quest("meinhardtState") == 0) {
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", ".......");
+            Dialogue(P_NAME, "Hi.....");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Oh, Meinhardt can't talk so good anymore. He had.....\........He had an accident.......");
+            Dialogue(P_NAME, "What happened?");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", ".........");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "A duergar stabbed him in the throat and cut out most of his tongue.");
+            Dialogue(P_NAME, "Oh......");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "........");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "But don't worry, he's a real badass. I was crying a lot more than he was when I patched him back up.");
+            Dialogue(P_NAME, "Well, that's......that's good I guess.....");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Yeah, he still works really hard even though his wounds are still healing. He's our Quartermaster! That's the guy who gets our supplies and stuff.\He can sell you some stuff if you want. He finds some pretty neat stuff.\Just ask us if you want anything from him. We can help get you what you need.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Hey idiot, the guy's fucking mute, not deaf. Meinhardt can do this himself, he doesn't need you treating him like a fucking invalid.");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Oh yeah......sorry Meinhardt.......");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "........");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Like you got that much spare pity to go around anyway.");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", ".......");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Uh.....so!\Uhm, you can just tell him if there's anything you need.");
+            Dialogue(P_NAME, "Ok!\Um.....hi.....um......Meinhardt......can I......");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "*Meinhardt passes a small list your way. He has very neat handwriting.*");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: An inventory for Meinhardt needs to be designed and inserted here. Additionally, purchasing the advent_calendar when rebelQuest=1 needs to lead to the snippet adventsnippet");
+            // THIS IS WHERE MEINHARDT'S INVENTORY GOES!!!!
+            Quest("meinhardtState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

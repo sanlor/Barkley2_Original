@@ -1,0 +1,230 @@
+// Event for Lonnie, leader of Lonnie's party who appears in the Industrial
+// Park at times 3, 4, 5, 8. Dies.
+/*
+if (argument0 == SCRIPT_STEP) {
+
+    if (scr_time_get() == 3) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 4) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 5) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 8) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+    
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var lonnie = id;
+    var event = scr_event_create_main();
+    var chup_handler_snippet = scr_event_create_child(event);
+    var chup_sale_snippet = scr_event_create_child(event);
+
+    
+    //--------------------------------------------
+    //------------ CHUP HANDLER ------------------
+    //--------------------------------------------
+    with (chup_handler_snippet)
+    {
+        // Chup Quest
+        if (scr_chup_available("lonnie") == true)
+        {
+            Breakout("build", "add", "chupCount");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Maybe I can sell this guy a chup...?)");
+            // CHUP CHOICE
+            var chupsell = scr_event_build_choice("Sell Lonnie a chup?", s_port_hoopz);
+            
+            // Sell Chup
+            with scr_event_build_add_choice(chupsell, "I bet a chup would be nice around now.")
+            {
+                scr_event_build_event_snippet(chup_sale_snippet);
+            }
+            // Don't Sell Chup
+            with scr_event_build_add_choice(chupsell, "Forget it, he looks cheap..")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Lonnie seems like a real cheapskate. I'll find someone else.)");
+            }
+        }
+    }
+    
+
+    //--------------------------------------------
+    //------------ CHUP SALE SNIPPET -------------
+    //-------------------------------------------- 
+    with (chup_sale_snippet)
+    {
+        Breakout("build", "clear");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I bet you're feeling like a real champ, huh?");
+        scr_event_build_dialogue("Lonnie", NULL, "You know it! The Ultimate Hellbanes are number 1! We're gonna be millionaires, legends! We're going down in history as the greatest adventurers ever. I'm not just Lonnie... I'm THE Lonnie!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow... THE Lonnie... so cool... I bet the only thing that could make you feel even more like a champ is chups, huh?");
+        scr_event_build_dialogue("Lonnie", NULL, "Chups? Oh man, now you're speakin' my language! Hell yeah, it's party time! I wanna get boogalooed as hell tonight! You sellin'? Whattaya have?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Only the best, my man, designer quality Bongo Blasters fresh from the Necron 7 chup mines. These are the juiciest, most natural chups this side of Tir na Nog, the kind of stuff you can only get back in the Sombrero Galaxy.");
+        //TODO: neuro-shekels balance
+        scr_event_build_dialogue("Lonnie", NULL, "Ooh man, I'm sold. I'll give you 900 neuro-shekels for two of 'em.");
+        
+        //Have 2 or more chups
+        if (scr_quest_get_state("chupCount") >= 2)
+        {
+            //2 CHUP CHOICE
+            var havetwochups = scr_event_build_choice("Sell Lonnie a chup?", s_port_hoopz);
+            //Sell 2 Chups
+            with scr_event_build_add_choice(havetwochups, "Sounds good.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You got yourself a deal, Lonnie. Here...");
+                scr_event_build_dialogue(NULL, NULL, "Get 900 neuro-shekels!");
+                scr_event_build_dialogue("Lonnie", NULL, "Awww shit, thanks for the hookup. I like you, kid. You ever get any more, you know where to come. Keep it real.");
+                scr_event_build_quest_state("lonnieChup", 1);
+                scr_event_build_quest_state_add("chupCount", -2);
+                scr_event_build_quest_state_add("chupShekel", 900);
+                scr_event_build_money_add(900);
+            }
+            //Don't sell 2 chups.
+            with scr_event_build_add_choice(havetwochups, "Sorry, not enough.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You serious? This is the real thing, that Neo New York flavor - these don't go cheap. And you just got back from Shangri-La, you should be loaded.");
+                scr_event_build_dialogue("Lonnie", NULL, "Man, I thought you were cool but you're just another punk. Get outta my face.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Oops, I think I blew it...)");
+                scr_event_build_quest_state("lonnieChup", 1);
+            }
+        } 
+
+        //Have 1 chup
+        else if (scr_quest_get_state("chupCount") = 1)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh man, I only have one, is that okay?");
+            scr_event_build_dialogue("Lonnie", NULL, "What is this, amateur hour? Don't yank me around, punk. I thought you were the real deal, not some two-bit chump. Whatever, I'll give you 400 neuro-shekels for what you got.")
+            //1 CHUP CHOICE
+            var haveonechup = scr_event_build_choice("Sell Lonnie a chup?", s_port_hoopz);
+            
+            //Sell 1 Chup
+            with scr_event_build_add_choice(haveonechup, "Sounds good.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You got yourself a deal, Lonnie. Here...");
+                scr_event_build_dialogue(NULL, NULL, "Get 400 neuro-shekels!");
+                scr_event_build_dialogue("Lonnie", NULL, "Awww shit, thanks for the hookup. I like you, kid. You ever get any more, you know where to come. Keep it real.");
+                scr_event_build_quest_state("lonnieChup", 1);
+                scr_event_build_quest_state_add("chupCount", -1);
+                scr_event_build_quest_state_add("chupShekel", 400);
+                scr_event_build_money_add(400);
+            }
+            //Don't sell 1 chup.
+            with scr_event_build_add_choice(haveonechup, "Sorry, not enough.")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You serious? This is the real thing, that Neo New York flavor - these don't go cheap. And you just got back from Shangri-La, you should be loaded.");
+                scr_event_build_dialogue("Lonnie", NULL, "Man, I thought you were cool but you're just another punk. Get outta my face.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Oops, I think I blew it...)");
+                scr_event_build_quest_state("lonnieChup", 1);
+            }
+        }
+    }
+
+    //--------------------------------------------
+    //------------ MAIN EVENT --------------------
+    //--------------------------------------------      
+    with (event)
+    {
+        //Time = 8
+        if (scr_time_get() == 8)
+        {
+            //Spoken to during Time 8, spoke to during times 4 or 5
+            if (scr_quest_get_state("lonnieState") == 4)
+            {
+                scr_event_build_dialogue("Lonnie", NULL, "Next time we meet, we're gonna be so flubbin' rich you won't believe. The Ultimate Hellbanes are going down as the Necron 7's greatest bad boys.");
+                scr_event_build_event_snippet(chup_handler_snippet);
+            } 
+            //Spoken to during Time 8 for the first time
+            else if (scr_quest_get_state("lonnieState") == 3)
+            {
+                scr_event_build_dialogue("Lonnie", NULL, "Buzz off, kid. I'm not tellin' you how to get to Shangri-La. Those grapes are ours.");
+                scr_event_build_event_snippet(chup_handler_snippet);
+            } 
+            //Time = 8, Spoken to in Times 4 or 5
+            else if (scr_quest_get_state("lonnieState") == 2) || (scr_quest_get_state("lonnieState") == 1)
+            {
+                scr_event_build_dialogue("Lonnie", NULL, "Hey, it's you again! I bet you want an autograph, huh?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? No, that's okay...");
+                scr_event_build_dialogue("Lonnie", NULL, "Well fuck off, 'cuz you're not getting one! Hey, guess where we just got back from... Shangri-La! You heard me right, the Grapester's Paradise! You haven't lived 'til you've gorged on Concords, supped on Skuppernongs and gomped Gamays one after the other...");
+                //TODO: maybe a roundmound response (ROUNDMOUND, RM)
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm more into candy to be honest... but that's pretty cool that you made it to Shangri-La.");
+                scr_event_build_dialogue("Lonnie", NULL, "You better believe, kid. We're the only ones who have ever made it there and back in one piece. And guess what - we're going back! We're gonna go back, nab those grapes and be millionaires! I already know what I'm gonna do with my share of the dough - I'm building a palace outta grapes!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know how structurally sound grapes are as a building material, but good luck with that.");
+                scr_event_build_dialogue("Lonnie", NULL, "We don't need luck. We're the Ultimate Hellbanes - we can kick anyone's ass!");
+                scr_event_build_quest_state("lonnieState", 4);
+                scr_event_build_event_snippet(chup_handler_snippet);
+            } 
+            //Time = 8, Never spoken to before
+            else
+            {
+                scr_event_build_dialogue("Lonnie", NULL, "What the hell are you lookin' at, kid? You know who I am? I'm Lonnie - THE Lonnie - wasteland warlord and leader of the Ultimate Hellbanes. I'll kick your fuckin' ass.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I-I don't want any trouble Lonnie! I'm just a nice kid who wants to be friends with everyone!");
+                scr_event_build_dialogue("Lonnie", NULL, "Hah! Hahahaha! I was just playin', I wasn't gonna kick your ass.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Phew...)");
+                scr_event_build_dialogue("Lonnie", NULL, "But I could if I wanted. This is my crew, Lagertha, Nico, Malmfrid and Grigor. We just got back from Shangri-La, Grapester's Paradise, The Land of One Thousand Grapes. They said nobody who's ever gone there has come back, but the Ultimate Hellbanes can handle anything. And we're goin' back, too! Now leave me alone, it's party time.");
+                scr_event_build_quest_state("lonnieState", 3);
+                scr_event_build_event_snippet(chup_handler_snippet);
+            }
+        } 
+        
+        //Time = 5
+        else if (scr_time_get() == 5)
+        {
+            //Time = 5, Spoken to during Time 5
+            if (scr_quest_get_state("lonnieState") == 2)
+            {
+                scr_event_build_dialogue("Lonnie", NULL, "Sweet Clispaeth, I can't wait to get my hands on those juicy grapes. I don't care how dangerous it is, we can take anything.");
+            } 
+            //Time = 5, Spoken to during Times 3-4
+            else if (scr_quest_get_state("lonnieState") == 1)
+            {
+                scr_event_build_dialogue("Lonnie", NULL, "Hey, it's you again. You stick around here a lot.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You do too.");
+                scr_event_build_dialogue("Lonnie", NULL, "Yeah, well not for long. Guess what, kid? We got a good lead on something huge... Shangri-La, the land of a thousand grapes.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? What's that?");
+                scr_event_build_dialogue("Lonnie", NULL, "You been living under a rock, kid? Every dwarf grows up hearing about Shangri-La, a never-ending vineyard with grapes of every flavor, every size, every color. Sounds ridiculous, right? But it ain't. It's real and we're gonna find it. Nobody who's ever looked for it has come back, but you know what? Fuck 'em. They weren't the Ultimate Hellbanes. And when we find it, we'll be the richest, most famous dwarfs this side of the Sombrero Galaxy, maybe ever.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Shangri-La, huh...");
+                scr_event_build_quest_state("lonnieState", 2);
+            } 
+            //Time = 5, never spoken to before.
+            else
+            {
+                scr_event_build_dialogue("Lonnie", NULL, "What do you want? You know who you're lookin' at, kid? I'm Lonnie - THE Lonnie - wasteland warlord and leader of the Ultimate Hellbanes! You got a problem?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "N-no sir! I'm just a nice kid who tries to be friends with everyone!");
+                scr_event_build_dialogue("Lonnie", NULL, "Hah! Hahahaha! Well fine, I'll be your friend. This is my crew, Lagertha, Nico, Malmfrid and Grigor and we're the baddest mothercluckers out there. You heard of Shangri-La? Land of a thousand grapes?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Umm, I don't think so.");
+                scr_event_build_dialogue("Lonnie", NULL, "What, have you been living under a rock? It's every dwarf's dream, a Grapester's Paradise. It's an endless vineyard, grapes of every type, every flavor, every SIZE. They say the grapes there put grapefruit to shame. And we're gonna get 'em. Nobody who's ever looked for Shangri-La has come back, but we're gonna be the first. Remember the name - Lonnie and the Ultimate Hellbanes.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wh-whoa... sounds dangerous... good luck Lonnie. Bring me back a grape if you find one.");
+                scr_event_build_quest_state("lonnieState", 2);
+            }
+        } 
+        
+        //Time = 3 or 4
+        else if (scr_time_get() == 3) || (scr_time_get() == 4)
+        {
+            //Time = 3 or 4, Spoken to before.
+            if (scr_quest_get_state("lonnieState") == 1)
+            {
+                scr_event_build_dialogue("Lonnie", NULL, "If you wanna live good, take what you want. You can do your Robin Hood thing if you want, but the Ultimate Hellbanes? We fuck 'em all up.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(G-gulp... this guy sounds dangerous...)");
+            } 
+            //Time = 3 or 4, never spoken to before.
+            else
+            {
+                scr_event_build_dialogue("Lonnie", NULL, "What the hell are you lookin' at, kid? You know who I am? I'm Lonnie - THE Lonnie - wasteland warlord and leader of the Ultimate Hellbanes. I'll kick your fuckin' ass.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I-I don't want any trouble Lonnie! I'm just a nice kid who wants to be friends with everyone!");
+                scr_event_build_dialogue("Lonnie", NULL, "Hah! Hahahaha! I was just playin', I wasn't gonna kick your ass.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Phew...)");
+                scr_event_build_dialogue("Lonnie", NULL, "But I could if I wanted. This is my crew, Lagertha, Nico, Malmfrid and Grigor. We just got back from the Mines where we stole a bunch of chups from the Duergars! Hahaha! Fuck Cuchulainn! Fuck L.O.N.G.I.N.U.S. too! Fuck 'em all! I'm only out for number 1, and my crew of course. Now leave me alone, it's party time.");
+                scr_event_build_quest_state("lonnieState", 1);
+            }
+        }
+    }
+    scr_event_advance(event);
+}

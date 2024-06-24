@@ -1,0 +1,11 @@
+/// scr_event_interactive_collision_hoopz()
+/// Called automatically when the interactive actor collides with hoopz.
+
+// == EVENT HOOK: COLLIDE WITH HOOPZ ==
+global.eventObject = id;
+global.eventInteract = false;
+global.eventFacing = o_hoopz.facing;
+
+if (hook_onCollision_hoopz_script != -1) {
+    script_execute(hook_onCollision_hoopz_script, SCRIPT_COLLISION_HOOPZ);
+}

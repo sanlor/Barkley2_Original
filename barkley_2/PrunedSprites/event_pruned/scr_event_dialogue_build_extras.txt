@@ -1,0 +1,23 @@
+/// scr_event_dialogue_build_extras(x, y, textbox_width, lines, text_speed, title_color, text_color, talk_sound, confirm_sound,portrait_speed, always_play_portrait_animation, boxless)
+/// Creates and returns a list of extras used for a dialogue.
+/// If you don't want to set some of these, put NULL.
+
+var list = ds_list_create();
+ds_list_add(list, argument0);
+ds_list_add(list, argument1);
+ds_list_add(list, argument2);
+ds_list_add(list, argument3);
+ds_list_add(list, argument4);
+ds_list_add(list, argument5);
+ds_list_add(list, argument6);
+ds_list_add(list, argument7);
+ds_list_add(list, argument8);
+ds_list_add(list, argument9);
+ds_list_add(list, argument10);
+ds_list_add(list, argument11);
+
+// Log the list to delete at the end.
+var root = scr_event_find_root(id);
+ds_list_add(root._lists, list);
+
+return list;

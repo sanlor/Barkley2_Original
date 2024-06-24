@@ -1,0 +1,36 @@
+// Emilio, a rock dwarf who loves b-ball.
+
+if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var event = scr_event_create_main();
+    with (event) {
+        
+        //if you're controlling Matthias/Dead Son.
+        if (BodySwap() == "matthias") {
+            scr_event_build_dialogue("Emilio", NULL, "G'day Matt! Real surprise seeing you here! I thought you left to find the rebels! You still down for a pickup game later?");
+            scr_event_build_dialogue("Matthias", s_port_matthias, "Hello, it's me, the real Matthias! I sure do love basketball! I hope that's the sport you're talking about, because that's the one I like the most!! Goodbye!");
+        
+        //if you're controlling the Governor.
+        } else if (BodySwap() == "governor") {
+            scr_event_build_dialogue("Emilio", NULL, "Hey, you're the new governor, right? What's the deal with the b-ball court? Think we'll get it fixed up anytime soon?");
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Hello, citizen! Ah, I love basketball! Three in the key, alley-oop, slam dunk! I know about all those things. Well, goodbye!");
+            
+        //spoken to Emilio before.
+        } else if (scr_quest_get_state("emilioState") == 1) {
+            scr_event_build_dialogue("Emilio", NULL, "Holy Dunks and Vampslams are one thing, but a Chaos Dunk? There's no way to ever get that kinda power.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(P-power...)");
+                
+        } else {
+            scr_event_build_dialogue("Emilio", NULL, "Hey, you look like a baller. You ever hear about the Chaos Dunk?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "It sounds kinda familiar... what is it?");
+            scr_event_build_dialogue("Emilio", NULL, "Well, it's just a rumor, but apparently it's a dunk that has the power of a 150 megaton nuclear blast. Only the oldest and wisest of ballers could ever pull it off. Sounds pretty crazy, huh? But supposedly someone pulled it off a long time ago and destroyed some Earth city called Neo New York.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, that does sound crazy. I don't know if I believe that.");
+            scr_event_build_dialogue("Emilio", NULL, "I've seen ballers do some pretty crazy things, but a jam as verboten as that? It's gotta be a fairy tale.");
+            scr_event_build_quest_state("emilioState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

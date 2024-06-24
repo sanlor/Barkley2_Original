@@ -1,0 +1,27 @@
+// Event for Bothild, a bandit who shows up in the Industrial Park at time 9.
+
+if (argument0 == SCRIPT_STEP) {
+if (scr_time_get() == 9) {
+        scr_event_interactive_activate();
+    }
+
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var bothild = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("bothildState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Bothild", NULL, "What the hell are you lookin' at, shrimp? You think I couldn't take you? I'd drop you like a sack of dirt in one punch, chump. Go ahead and gimme a reason.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Someone's got a chip on their shoulder...)");
+            scr_event_build_quest_state("bothildState", 1);
+        } else {
+            scr_event_build_dialogue("Bothild", NULL, "If I see you out there in the wasteland, I'll gut you.");
+        }
+    }
+    scr_event_advance(event);
+}

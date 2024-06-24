@@ -1,0 +1,36 @@
+// REBEL QUEST GOOD ENDING NPC script for Lafayette. Auto-triggers shortly after the player leaves the computer room after killing Aloysius. Displays once, and the nearby Lafayette sprite can be activated for more dialogue if the player cares.
+// NOTE: NO REWARDS are scripted in here yet. Though I can add them to either lafayette05 or lafayette04.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("lafayettegoodState") >= 1) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("prisonquestgoodState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var lafayette = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("lafayettegoodState") == 0) {
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "There you are!!! " + P_NAME + "!!!\My gosh. I was so worried about you. I saw you just run into the building like that.....\So many of the others they had to drag out. So many. I was afraid to look at any of their faces. I was afraid I'd see yours.\I didn't look away though. I looked at each of them. I remembered each face. Unfortunately I have a really good memory. I wish I had a terrible memory.");
+            Dialogue(P_NAME, "That's the sort of memory you shouldn't try to get rid of. It's good to remember why this needed to happen.");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Yeah, you're right. I should remember that. I'll try hard to remember it....\Oh.....\What happened to Aloysius??");
+            Dialogue(P_NAME, "He uh.....he didn't make it. Duergars got him.");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "No.........\He wasn't very polite, but he gave his life for the cause....\So many good dwarfs died today, just like Aloysius. I wish we could give all of them their own dwarf holiday, but there aren't enough days in the year for that.\I'm going to make sure you get your own dwarf holiday, though!! You're the hero of the revolution!!");
+            Dialogue(P_NAME, "Come on, don't talk like that. I wouldn't have thought of sneaking into the base, or getting arrested.\This revolution was yours. I just helped out.");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "But everybody knows you did all the work. I just sat behind in this wheelchair.\I'm not really useful anymore, you know. A scout who can't walk just isn't useful. Compson said so.");
+            Dialogue(P_NAME, "Well, it's pretty obvious Compson is a huge idiot.\You were the one who saw all this in your head. You knew it would work. That's not useless.");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Th-thanks.....\People stopped listening to me when I got put in this wheelchair. I tried to tell everybody that I could still be useful even without my legs, but.......\.....but......you were the only one who listened.\I'm really glad you listened. Now everyone can go to sleep smiling tonight. Maybe they even won't wake up scared too.\I just hope everyone has a good day today. Tomorrow may be shit, but I'm glad that we helped all these guys have one good day.");
+            Dialogue(P_NAME, "Hey, you cursed!");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Oh, no!!\I didn't mean to, honest! Please don't tell anybody on me. I earned this star for not swearing. It's the first star I ever earned. It means a lot to me.");
+            Dialogue(P_NAME, "Your secret is safe with me, kiddo.");
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Thanks.....\Thanks for everything, actually, not just for keeping my secret. I'm really glad that I'm not useless anymore.\I know this is kinda silly, but right now I feel like my arm and my legs grew back.\I know they didn't, and they aren't really there, and they aren't ever coming back, but it doesn't matter anymore, I think.");
+            Quest("lafayettegoodState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

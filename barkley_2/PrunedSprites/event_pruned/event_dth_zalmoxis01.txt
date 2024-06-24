@@ -1,0 +1,109 @@
+// Event for Zalmoxis, a soloing ascetic in the Death Tower.
+//Participant in Wedding Quest
+// usage: event_dth_zalmoxis01();
+
+/*if (argument0 == SCRIPT_STEP) {
+    //if Zalmoxis is currently away on wedding quest.
+ if (scr_quest_get_state("zalmoxisWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+        scr_event_interactive_deactivate();
+    }
+} else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var zalmoxis = id;
+    var event = scr_event_create_main();
+    var weddingQuestAsk = scr_event_create_child(event);
+
+//--------------------------------------------
+//------------ WEDDING QUEST ASK _------------
+//--------------------------------------------  
+    with (weddingQuestAsk) { 
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "So Zalmoxis, I'm actually here because I'm putting together a rock band for a wedding and I... I need the power of your cuica zauber.");
+        scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Hmph. Yes, of course you do. And of course I already knew. I have no choice but to accept and enlighten the ignorant masses to the splendor of the cuica zauber. Tell me where I must travel.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, great! I kinda wasn't expecting that. So the wedding is going to be at the chapel in Brain City but we're all meeting at the booty bass club. I'm still putting the band together, so I'll get there a little later.");
+        scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Yes, I will be there. Do not be late.");
+        scr_event_build_fade(true, 2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_quest_state("zalmoxisWedding", 1);
+        scr_event_build_quest_state_add("musicianCount", 1);
+        scr_event_build_set_object(o_zalmoxis01, -500, -500);
+        scr_event_build_fade(false, 2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "One more musician for the band down. I need " + string(3 - (scr_quest_get_state("musicianCount"))) + " more...");
+}   
+    
+    with (event) {
+          
+        //Did Wedding Quest with Zalmoxis.
+        if (scr_quest_get_state("weddingQuest") == 3) and (scr_quest_get_state("zalmoxisWedding") == 3) {
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Ah, you've returned, perhaps to hear more of the gentle barking of my cuica zauber? I must say, it complimented the otherwise plebian character of the Jazzy Rascals quite well.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(The Jazzy Rascals...)");
+        
+        //Told Zalmoxis to go to church in Brain City but did not show up, spoke to him again.
+        } else if (scr_quest_get_state("zalmoxisWedding") == 2) {
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "I believe I told you to leave me to my practice! Away! The cuica zauber does not master itself!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Geez... I'm sorry Zalmoxis...");
+            
+            
+        //Told Zalmoxis to go to church in Brain City but did not show up.
+        } else if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("zalmoxisWedding") == 1) and (scr_time_get() >= 11) {
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "...you return, cultureless philistine, though for what reason I cannot fathom. Nor can I fathom the incredibly juvenile prank you played on me - there was a wedding alright, but certainly no band!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "D-dad shuckit... I, uh, I was gonna go, I swear! But I kinda got held up with other things.");
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Yes, of course you did. You were obviously held up by things of decidedly far less cultural and intellectual value than the cuica zauber, which you clearly do not possess the brain power to appreciate. So away! Away, I say, and leave me to my studies...");
+            scr_event_build_quest_state("zalmoxisWedding", 2);
+        
+    
+       //met Zalmoxis before.
+       }else if (scr_quest_get_state("zalmoxisVar") == 1) {
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "The cultureless philistine returns! Why have you dared to interrupt my practice, which is of utmost important to both the study of zaubers and the progress of music!? Speak! Speak now!");
+            //If you're on the wedding quest and time >= 4 and <= 10
+            if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("musicianCount") <= 3) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Maybe this guy might wanna join my wedding band? He's pretty sick with those doo sounds...");
+                var weddingQuestion2 = scr_event_build_choice("Should I ask Zalmoxis to join my group?", s_port_hoopz);
+                
+                //Ask Zalmoxis.
+                with scr_event_build_add_choice(weddingQuestion2, "Hey, I'm forming a band. Want to play the cuica zauber for it?") {
+                    scr_event_build_event_snippet(weddingQuestAsk);
+                    }
+                    
+                //Don't ask Zalmoxis.
+                with scr_event_build_add_choice(weddingQuestion2, "I don't think I'll ask her...") {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, just couldn't get enough of those honks. See ya.");
+                    }
+                
+                //Not on wedding quest
+                } else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, just couldn't get enough of those honks. See ya.");
+                }
+    
+       //Never met Zalmoxis in Al-Akihabara before.
+       } else if (scr_quest_get_state("zalmoxisVar") == 0) {
+            scr_event_build_quest_state("zalmoxisVar", 1);
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Silence, cretinous villein! Can you not see that I am deep in my meditations?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh... I was kinda wondering what you were doing. That's a weird sound you're making. What's that floating thing?");
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "/'Weird sound?/' You fool! This is the cuica zauber - THE cuica zauber - and I am its master, its wielder, the only one with the knowledge, the artistry, THE MASTERY to wield it! One of such lowly birth and scholarship as yourself could NEVER handle, let alone APPRECIATE a zauber as potent... beautiful as this! So stay back - stay back, I say - and let the artist work her craft!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, that's quite a mouthful. Sorry for stepping on your toes. So what exactly is a cuica zauber and why is it making that sound?");
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Only a fool would not know that the cuica is the most decadent instrument, fit only for the ears of the artistic and cultural elite. You're fortunate that I'm even allowing you to hear it. The cuica zauber takes its beauty... its power... to an entirely new level. In addition to cuica noises, it can also make clown nose honks.");
+            
+            //If you're on the wedding quest and time >= 4 and <= 10
+            if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("musicianCount") <= 3) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Maybe this lady might wanna join my wedding band? Those cuica sounds are kinda interesting...");
+                var weddingQuestion1 = scr_event_build_choice("Should I ask Zalmoxis to join my group?", s_port_hoopz);
+                
+                //Ask Zalmoxis.
+                with scr_event_build_add_choice(weddingQuestion1, "Hey, I'm forming a band. Want to play the cuica zauber for it?") {
+                    scr_event_build_event_snippet(weddingQuestAsk);
+                    }
+                    
+                //Don't ask Zalmoxis.
+                with scr_event_build_add_choice(weddingQuestion1, "I don't think I'll ask her...") {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, it's a little too opulent for me. See ya.");
+                    }
+                
+                //Not on wedding quest
+                } else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, it's a little too opulent for me. See ya.");
+                }
+            }
+    }
+    scr_event_advance(event);
+}

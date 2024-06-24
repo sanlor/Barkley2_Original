@@ -1,0 +1,302 @@
+// scr_tnn_paper()
+// 1. Intializes and saves tnnpapermap in savedata
+// 2. Adds and removes to only store current paper.
+// 3. Returns number of owned papers.
+/*
+if (argument_count == 0)
+{
+*/
+    if (Quest("paperInit") == 0)
+    {
+        Quest("paperInit", 1);
+    
+        if (is_real(Quest("timelordPaper")) == true) { Quest("timelordPaper", ""); }
+        if (is_real(Quest("characterPaper")) == true) { Quest("characterPaper", ""); }
+        if (is_real(Quest("laffertyPaper")) == true) { Quest("laffertyPaper", ""); }
+        if (is_real(Quest("milagrosPaper")) == true) { Quest("milagrosPaper", ""); }
+        if (is_real(Quest("gelasioPaper")) == true) { Quest("gelasioPaper", ""); }
+        if (is_real(Quest("birgitPaper")) == true) { Quest("birgitPaper", ""); }
+        if (is_real(Quest("absalomPaper")) == true) { Quest("absalomPaper", ""); }
+        if (is_real(Quest("cuthbertPaper")) == true) { Quest("cuthbertPaper", ""); }
+    
+        // Create map if this is the first time running script.
+        if (!scr_savedata_contains("tnnpapermap"))
+        {
+            global.tnnpapermap = ds_map_create();
+            scr_savedata_put_map("tnnpapermap", global.tnnpapermap);
+        }
+        
+        // Create page list if this is the first time running script.
+        if (!scr_savedata_contains("tnnpagelist"))
+        {
+            global.tnnpagelist = ds_list_create();
+            scr_savedata_put_list("tnnpagelist", global.tnnpagelist);
+        }
+        
+        // Create total paper list if this is the first time running script.
+        if (!scr_savedata_contains("tnnpaperlist"))
+        {
+            global.tnnpaperlist = ds_list_create();
+        
+            // Baldomero
+            ds_list_add(global.tnnpaperlist, "Blank Paper");
+            ds_list_add(global.tnnpaperlist, "Suicide Note");
+            ds_list_add(global.tnnpaperlist, "Augustine's Note");
+            ds_list_add(global.tnnpaperlist, "Carlton's Note");
+        
+            // Joad
+            ds_list_add(global.tnnpaperlist, "Tattered Paper");  // Req. Baldomero
+            ds_list_add(global.tnnpaperlist, "Ancient Scroll"); // Req. Baldomero
+            ds_list_add(global.tnnpaperlist, "Dead Soldier's Note");
+            ds_list_add(global.tnnpaperlist, "Joad's Note");
+            ds_list_add(global.tnnpaperlist, "Bloody Paper");
+        
+            // Anxo
+            ds_list_add(global.tnnpaperlist, "Sealed Letter");
+            ds_list_add(global.tnnpaperlist, "Unsealed Letter");
+        
+            // VR Chair
+            ds_list_add(global.tnnpaperlist, "Gamesmasterjasper's Vidcon Almanac");
+        
+            // Fede
+            ds_list_add(global.tnnpaperlist, "Printed Invitation");
+        
+            // Cornrow's Note
+            ds_list_add(global.tnnpaperlist, "Cornrow's Note");
+        
+            // Baller Zine
+            ds_list_add(global.tnnpaperlist, "Clandestine Courts Baller Zine");
+        
+            // Eric
+            ds_list_add(global.tnnpaperlist, "Pet Shop Application");
+            ds_list_add(global.tnnpaperlist, "Completed Application");
+            ds_list_add(global.tnnpaperlist, "Pet Manifesto");
+            ds_list_add(global.tnnpaperlist, "Pet Apocrypha");
+            
+            // Wilmer
+            ds_list_add(global.tnnpaperlist, "Wilmer's Amortization Schedule");
+            
+            
+            scr_savedata_put_list("tnnpaperlist", global.tnnpaperlist);
+        }
+    }
+    
+    // Load Paper Map
+    global.tnnpapermap = scr_savedata_get("tnnpapermap");
+    global.tnnpagelist = scr_savedata_get("tnnpagelist");
+    global.tnnpaperlist = scr_savedata_get("tnnpaperlist");
+    
+    // Maintain Page List if currently out of a loop,
+    // Reset otherwise
+    if (Quest("milagrosPaper") == "")
+    || (Quest("gelasioPaper") == "")
+    || (Quest("birgitPaper") == "")
+    || (Quest("absalomPaper") == "")
+    || (Quest("cuthbertPaper") == "")
+    {
+        ds_list_clear(global.tnnpagelist);
+    }
+
+    // Temporary List to hold Map Names
+    var tempName = ds_list_create();
+    
+    // Loop through and...
+    var i = 0;
+    var poss = 0;
+    var posa = 0;
+
+    for (i = 0; i < ds_list_size(global.tnnpaperlist); i++)
+    {
+        /*
+        // Set pos variable to the first apostrophe's position
+        posa = string_pos("'", global.tnnpaperlist[| i]);
+        // If there's an apostrophe...
+        if (posa != 0)
+        {
+            // Truncate remainder, set as tempName string
+            tempName[| i] = string_delete(global.tnnpaperlist[| i], posa, string_length(global.tnnpaperlist[| i]) - posa + 1);
+        }
+        // Set pos variable to first space's position
+        poss = string_pos(" ", global.tnnpaperlist[| i]);
+        // If there's a space...
+        if (poss != 0)
+        {
+            // Truncate remainder, set as tempName string
+            tempName[| i] = string_delete(global.tnnpaperlist[| i], poss, string_length(global.tnnpaperlist[| i]) - poss + 1);
+        }
+
+        // ADD HYPHENS AND OTHER CHARACTERS HERE AS NECESSARY!
+
+        // Otherwise (no spaces or apostrophes)
+        if (poss == 0) && (posa == 0)
+        {
+            tempName[| i] = global.tnnpaperlist[| i];
+        }
+        */
+
+        switch (global.tnnpaperlist[| i])
+        {
+            case "Blank Paper": tempName[| i] = "Blank"; break;
+            case "Suicide Note": tempName[| i] = "Suicide"; break;
+            case "Augustine's Note": tempName[| i] = "Augustine"; break;
+            case "Carlton's Note": tempName[| i] = "Carlton"; break;
+
+            // Joad
+            case "Tattered Paper": tempName[| i] = "Tattered"; break;  // Req. Baldomero
+            case "Ancient Scroll": tempName[| i] = "Ancient"; break; // Req. Baldomero
+            case "Dead Soldier's Note": tempName[| i] = "Dead"; break;
+            case "Joad's Note": tempName[| i] = "Joad"; break;
+            case "Bloody Paper": tempName[| i] = "Bloody"; break;
+
+            // Anxo
+            case "Sealed Letter": tempName[| i] = "Sealed"; break;
+            case "Unsealed Letter": tempName[| i] = "Unsealed"; break;
+
+            // VR Chair
+            case "Gamesmasterjasper's Vidcon Almanac": tempName[| i] = "Almanac"; break;
+
+            // Fede
+            case "Printed Invitation": tempName[| i] = "Printed"; break;
+
+            // Cornrow's Note
+            case "Cornrow's Note": tempName[| i] = "Cornrow"; break;
+
+            // Baller Zine
+            case "Clandestine Courts Baller Zine": tempName[| i] = "Clandestine"; break;
+
+            // Eric
+            case "Pet Shop Application": tempName[| i] = "Application"; break;
+            case "Completed Application": tempName[| i] = "Completed"; break;
+            case "Pet Manifesto": tempName[| i] = "Manifesto"; break;
+            case "Pet Apocrypha": tempName[| i] = "Apocrypha"; break;
+            
+            // Wilmer
+            case "Wilmer's Amortization Schedule": tempName[| i] = "Wilmer"; break;
+        }
+
+        // If map does not exist with item name, add if item owned
+        if is_undefined(global.tnnpapermap[? global.tnnpaperlist[| i]])
+        {
+            if (Item("have", global.tnnpaperlist[| i]) == true)
+            {
+                global.tnnpapermap[? global.tnnpaperlist[| i]] = tempName[| i];
+            }
+        }
+        // If map does exist, delete if not owned
+        else
+        {
+            if (Item("have", global.tnnpaperlist[| i]) == false)
+            {
+                ds_map_delete(global.tnnpapermap, global.tnnpaperlist[| i]);
+            }
+        }
+    }
+
+
+    // Save
+    scr_savedata_put_map("tnnpapermap", global.tnnpapermap);
+    scr_savedata_put_list("tnnpagelist", global.tnnpagelist);
+    scr_savedata_put_list("tnnpaperlist", global.tnnpaperlist);
+    
+    if (argument_count == 1)
+    {
+        if (argument[0] == "amount")
+        {
+            return (ds_map_size(global.tnnpapermap))
+        }
+        else if (ds_list_find_index(global.tnnpaperlist, argument[0]) != 1)
+        {
+            var item = "";
+            switch (argument[0])
+            {
+                // Baldomero
+                case "Blank": item = "Blank Paper"; break;
+                case "Suicide": item = "Suicide Note"; break;
+                case "Augustine": item = "Augustine's Note"; break;
+                case "Carlton": item = "Carlton's Note"; break;
+                
+                // Joad
+                case "Tattered": item = "Tattered Paper"; break;
+                case "Ancient": item = "Ancient Scroll"; break;
+                case "Dead": item = "Dead Soldier's Note"; break;
+                case "Joad": item = "Joad's Note"; break;
+                case "Bloody": item = "Bloody Paper"; break;
+                
+                // Anxo
+                case "Sealed": item = "Sealed Letter"; break;
+                case "Unsealed": item = "Unsealed Letter"; break;
+                
+                // VR Chair
+                case "Almanac": item = "Gamesmasterjasper's Vidcon Almanac"; break;
+                
+                // Fede
+                case "Printed": item = "Printed Invitation"; break;
+                
+                // Cornrow's Note
+                case "Cornrow": item = "Cornrow's Note"; break;
+                
+                // Baller Zine
+                case "Clandestine": item = "Clandestine Courts Baller Zine"; break;
+                
+                // Eric
+                case "Application": item = "Pet Shop Application"; break;
+                case "Completed": item = "Completed Application"; break;
+                case "Manifesto": item = "Pet Manifesto"; break;
+                case "Apocrypha": item = "Pet Apocrypha"; break;
+            }
+            return item;
+        }
+        /*
+        else if (ds_list_find_index(tempName, argument[0]) == -1)
+        {
+            Quest("selectedPaper", string(tempName[| irandom(ds_list_size(tempName) - 1)]));
+        }
+        else
+        {
+            Quest("selectedPaper", string(argument[0]));
+        }
+        */
+    }
+
+    // Return size if desired
+    // return ds_map_size(global.tnnpapermap);
+//}
+/*
+else
+{
+    var _name = string_lower(argument[0]);
+    var _choice = argument[1];
+    var _script = 0;
+
+    switch (_name)
+    {
+        case "absalom": script = event_tnn_absalom01;
+        case "birgit": script = event_tnn_birgit01;
+        case "gelasio": script = event_tnn_gelasio01;
+        case "milagros": script = event_tnn_gelasio01;
+    }
+
+    // var paper_choice = Choice("Give Absalom which report?", s_port_hoopz);
+
+    size = ds_map_size(global.tnnpapermap) - 1;
+
+    var i = 0;
+
+    var item = ds_map_find_first(global.tnnpapermap);
+    var qvar = "";
+    for (i = 0; i < ds_map_size(global.tnnpapermap) - 1; i++)
+    {
+        qvar = global.tnnpapermap[? item];
+        if (Item("have", item)) && (Quest(_name + qvar) == 0)
+        {
+            with (ChoiceAdd(_choice, string(item) + "."))
+            {
+                Quest(_name + "Paper", qvar);
+                Quest(_name + qvar , 1);
+                Execute(_script);
+            }
+        }
+        item = ds_map_find_next(global.tnnpapermap, item);
+    }
+}
+*/

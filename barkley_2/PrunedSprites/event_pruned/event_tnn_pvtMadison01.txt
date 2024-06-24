@@ -1,0 +1,149 @@
+// event_tnn_pvtMadison01
+// Pvt. Madison - AmmostashLady
+// Bomb Lady, involved in bomb sub-plot of Governor's Quest
+
+if (argument0 == SCRIPT_START) {}
+if (argument0 == SCRIPT_STEP) {}
+if (argument0 == SCRIPT_INTERACT)
+{
+    var full_madison = scr_longinus_get_rank("madison", "full");
+    var rank_madison = scr_longinus_get_rank("madison") + " Madison";
+
+    // Build Event
+    var pvtMadison = id;
+    var event = scr_event_create_main();
+    var bomb_snippet = scr_event_create_child(event);
+    
+    
+    //------------------------------------------------------------------------------
+    //-------------------------- bomb_snippet --------------------------------------
+    //------------------------------------------------------------------------------
+    with (bomb_snippet)
+    {
+        var bombChoice = scr_event_build_choice("Bomb the Governor's speech?", s_port_hoopz);
+        var bombNo = scr_event_build_add_choice(bombChoice, "I won't do it.");
+        with (bombNo)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry but this doesn't sound like a good idea to me. I already told Dr. Liu I'd help her out, I don't want to break my promise.");
+            scr_event_build_dialogue(rank_madison, s_port_madison, "Her stupid plan isn't going to do a damn bit of good. I mean, luring the Governor to our hideout with Duergar piss? Are you insane? Clispaeth Christ, kid, am I the only person in L.O.N.G.I.N.U.S. with a lick of sense? But whatever. Get yourself killed, I don't even care.");
+            scr_event_build_quest_state("govBomb", 1);
+        }
+        var bombYes = scr_event_build_add_choice(bombChoice, "Okay, I'll do it.");
+        with (bombYes)
+        { 
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, Dr. Liu's idea is pretty crazy... I mean, I'm not even sure her body transference chair even works. Okay, I'll do it. Give me the bomb. What do I have to do?");
+            scr_event_build_dialogue(rank_madison, s_port_madison, "Heh, I knew I wasn't the only one here who wasn't a complete nutcase. I like you, kid. Get this... right in front of the Governor's mansion is a statue of Cuchulainn. There's a brass plaque on the front, and for weeks now, every night at midnight I've given each screw a quarter turn, under the cover of darkness. I finally got it loose, and nobody's the wiser. What you need to do is enter the square, place the bomb behind the plaque, and set it to explode during the new Governor's speech. I can see it already... Cuchulainn's statue rupturing in fire, shrapnel and dead Duergars everywhere! Don't worry about the crowd. There'll be collateral damage, but the important thing is that we wipe out the Governor and his lackeys. When the people see their opportunity, they'll take it. I can take over from there and you can slip out. We all win.");
+            Item("build", "gain", "Bomb", 1);
+            scr_event_build_dialogue_item("Got a bomb!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "If this is the only thing that's really gonna help the dwarfs of Tir na Nog, then I guess I'll take it...");
+            scr_event_build_dialogue(rank_madison, s_port_madison, "Good luck, " + P_NAME_S + ". See you in the chaos.");
+            scr_event_build_quest_state("govBomb", 2);
+        }
+    }
+    
+    
+    //------------------------------------------------------------------------------
+    //--------------------------- Main Event ---------------------------------------
+    //------------------------------------------------------------------------------
+    with (event)
+    {
+        //------------------------------------------------------------------------------
+        // *** govQuest = 6 ***
+        //------------------------------------------------------------------------------
+        if (scr_quest_get_state("govQuest") == 6)
+        {
+            if (scr_quest_get_state("govBomb") == 2)
+            {
+                if (scr_quest_get_state("longinusGov") >= 1)
+                {
+                    scr_event_build_dialogue(rank_madison, s_port_madison, "Well, you did it. You managed to pull off Dr. Liu's stupid little parlor trick and it looks like it went unnoticed. For now at least. We've got a screaming Duergar Governor on our hands and we don't know what we're going to do from here. But your stupid charade worked. Thanks for lying to me about the bomb, by the way. Get out of my face, " + P_NAME_S + ".");
+                }
+                else
+                {
+                    scr_event_build_dialogue(rank_madison, s_port_madison, "Pretty funny that it went exactly as I thought it would. Well, I actually thought you and the Governor's heads would have exploded, or that you'd get both your bodies melted together into some horrible abomination... but it still didn't do any good. First you lied to me about planting the bomb, and then you went and screwed that up too. Good going, " + P_NAME_S + ".");
+                }
+            }
+            else
+            {
+                if (scr_quest_get_state("longinusGov") >= 1)
+                {
+                    scr_event_build_dialogue(rank_madison, s_port_madison, "Well it looks like Dr. Liu's stupid little parlor trick went off without a hitch, except that we've got a screaming Duergar governor in the hideout that we don't know what to do with. Guess we overlooked that part. We should've just blown the mansion sky high. ");
+                }
+                else
+                {
+                    scr_event_build_dialogue(rank_madison, s_port_madison, "So, you went through all that trouble to swap places with the Governor, and all you did was secure a way out for yourself. I'm kind of impressed you got that done using Dr. Liu's stupid little parlor trick. Thanks for leaving us with a screaming Duergar governor, asshole. We should've just blown the mansion like I said...");
+                }
+            }
+        }
+        //------------------------------------------------------------------------------
+        // *** govQuest = 5 ***
+        //------------------------------------------------------------------------------
+        else if (BodySwap() == "governor")
+        {
+            scr_event_build_dialogue(rank_madison, s_port_madison, "Get out of my face.");
+        }
+        //------------------------------------------------------------------------------
+        // *** govQuest = 4 - ready to become governor. ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("govQuest") == 4)
+        {
+            if (scr_quest_get_state("govBomb") == 2)
+            {
+                scr_event_build_dialogue(rank_madison, s_port_madison, "Thought you were going to plant the bomb at the base of the Governor's mansion like we talked about. Can't say I'm not a little disappointed. You know, I don't really feel like looking at you right now. Get out of my sight.");
+            }
+            else
+            {
+                scr_event_build_dialogue(rank_madison, s_port_madison, "Well, you've gone and done a pretty stupid thing. Can't say I'm not surprised. That seems to be how L.O.N.G.I.N.U.S. operates these days.");
+            }
+        }
+        //------------------------------------------------------------------------------
+        // *** govQuest == 2 ***
+        // *** OR ***
+        // *** govQuest == 3 ***
+        //------------------------------------------------------------------------------
+        if (scr_quest_get_state("govQuest") == 2) || (scr_quest_get_state("govQuest") == 3)
+        {
+            //------------------------------------------------------------------------------
+            // *** govBomb = 2 ***
+            //------------------------------------------------------------------------------
+            if (scr_quest_get_state("govBomb") == 2)
+            {
+                scr_event_build_dialogue(rank_madison, s_port_madison, "Remember, all you have to do is plant the bomb behind the plaque of the Cuchulainn statue in front of the Governor's mansion. Make sure that it triggers when Governor Elagabalus comes out to give his speech, and get outta there. L.O.N.G.I.N.U.S. can take over after that. You escape, we take Tir na Nog - everyone wins. Got it?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I've got it.");
+                scr_event_build_dialogue(rank_madison, s_port_madison, "Good. Good luck then. You'll need it.");
+            }
+            //------------------------------------------------------------------------------
+            // *** govBomb = 1 ***
+            //------------------------------------------------------------------------------
+            else if (scr_quest_get_state("govBomb") == 1)
+            {
+                scr_event_build_dialogue(rank_madison, s_port_madison, "Look. There's not much time left. I know you turned me down before, but if you plant the bomb in the Cuchulainn statue outside the Governor's mansion, you'll be able to escape in the chaos. L.O.N.G.I.N.U.S. takes over Tir na Nog and we don't have to deal with Duergars anymore. Everyone wins. What do you say?");
+                scr_event_build_event_snippet(bomb_snippet);
+            }
+            //------------------------------------------------------------------------------
+            // *** govBomb = 0 ***
+            //------------------------------------------------------------------------------
+            else
+            {
+                scr_event_build_dialogue(rank_madison, s_port_madison, "Listen, I've got a proposition for you... forget this body transference bullpuck. It's not gonna do a damn thing. I mean what the heck are we doing? Sitting around playing poker? No. No way. We're wasting our time. We either take the fight to Cuchulainn or roll over and die, and I'm sure as hell not rolling over. I've been sitting on some explosives for a while now - the good stuff, not that firecracker black powder crap - and I think the Governor's speech is the right time to use it. Think about it - if it goes off during the speech, the Governor and half the Duergars in Tir na Nog are history. There'll be riots in the streets, dwarfs fighting against Duergars, the oppressed killing the oppressor. This is the opportunity we've been waiting for and I don't want to let it slip. All you have to do is set this bomb near there and trigger it to explode when the speech starts. I've got the perfect spot too. What do you say, " + P_NAME_S + "? Are you gonna help L.O.N.G.I.N.U.S. or are you gonna play along with Dr. Liu's buffoonery until it gets us all killed?");
+                scr_event_build_event_snippet(bomb_snippet);
+            }
+        }
+        //------------------------------------------------------------------------------
+        // *** govQuest = 1 = Governor quest rejected ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("govQuest") == 1)
+        {
+            scr_event_build_dialogue(rank_madison, s_port_madison, "Can't say I disagree with your decision not to help Dr. Liu. I respect her, she's a smart lady but this idea just seems too ridiculous, too risky. If it were up to me, we'd blow the Governor's mansion to smithereens and take the fight to Cuchulainn. Too bad I'm just the quartermaster.");  
+        } 
+        //------------------------------------------------------------------------------
+        // *** govQuest = 0 = Governor quest not yet heard ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("govQuest") == 0)
+        {
+            //TODO: edit to make this make sense with the game eventually
+            scr_event_build_dialogue(rank_madison, s_port_madison, full_madison + " Bridget Madison, class V L.O.N.G.I.N.U.S. quartermaster, service number LON 544 8853. Did two tours in the Hive, served in the elite Necropolis task force, proud L.O.N.G.I.N.U.S. fighter for 12 years. I've been all over the Necron 7 and compared to some of the places out there, like the Duergar Mines, Tir na Nog seems pretty tame. A word of advice - don't end up in the Mines.");
+        }
+    }
+    scr_event_advance(event);
+}

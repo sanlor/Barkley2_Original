@@ -1,0 +1,38 @@
+//
+// Simple passthrough vertex shader
+//
+attribute vec3 in_Position;                  // (x,y,z)
+//attribute vec3 in_Normal;                  // (x,y,z)     unused in this shader.	
+attribute vec4 in_Colour;                    // (r,g,b,a)
+attribute vec2 in_TextureCoord;              // (u,v)
+
+varying vec2 v_vTexcoord;
+varying vec4 v_vColour;
+
+void main()
+{
+    vec4 object_space_pos = vec4( in_Position.x, in_Position.y, in_Position.z, 1.0);
+    gl_Position = gm_Matrices[MATRIX_WORLD_VIEW_PROJECTION] * object_space_pos;
+    
+    v_vColour = in_Colour;
+    v_vTexcoord = in_TextureCoord;
+}
+
+//######################_==_YOYO_SHADER_MARKER_==_######################@~//
+// Simple passthrough fragment shader
+//
+varying vec2 v_vTexcoord;
+varying vec4 v_vColour;
+
+uniform vec3 col;
+uniform float str;
+
+void main()
+{
+    vec4 col_in = v_vColour * texture2D( gm_BaseTexture, v_vTexcoord );
+    gl_FragColor.r = col_in.r + ((col.r - col_in.r) * str);
+    gl_FragColor.g = col_in.g + ((col.g - col_in.g) * str);
+    gl_FragColor.b = col_in.b + ((col.b - col_in.b) * str);
+    gl_FragColor.a = col_in.a;
+}
+

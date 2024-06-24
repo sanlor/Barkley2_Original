@@ -1,0 +1,22 @@
+/// This action pauses the event until the minigame is destroyed.
+
+var minigame_event = instance_create(0, 0, o_minigame);
+
+var _val = ds_list_find_value(argument0, 1);
+var _obj = ds_list_find_value(argument0, 2); //-1 is self
+//show_message("OBJ: " + object_get_name(_obj.object_index));
+if (_val == 0)
+{
+    minigame_event._event = id;
+    minigame_event._minigame = instance_create(_obj.x, _obj.y, o_TreasureCinema);
+}
+else
+{
+    minigame_event._event = id;
+    minigame_event._minigame = instance_create(_obj.x, _obj.y, o_TreasureCinemaEnd);
+    //with (_obj) instance_destroy();
+    _obj.x = -999;
+}
+
+_events_active++;
+scr_event_advance(id);

@@ -1,0 +1,79 @@
+// event_dz1_lemuelAfter01
+/* 
+-------------
+    This script plays just after you finish Lemuel's Begging Game
+-------------
+*/
+/*if (argument0 == SCRIPT_START)
+{
+    // Done Alming
+    if (scr_quest_get_state("lemuelAlmDone") == 1)
+    {
+        scr_event_set_object(o_lemuel01, o_beggingRug01.x + 32, o_beggingRug01.y - 16);
+        scr_event_set_object(o_hoopz, o_beggingRug01.x, o_beggingRug01.y + 48);
+    }
+    // Not Done Alming
+    else
+    {
+        scr_event_set_object(o_lemuel01, o_beggingRug01.x, o_beggingRug01.y - 8);
+        scr_event_set_object(o_hoopz, o_beggingRug01.x, o_beggingRug01.y + 48);
+    }
+
+    var lemuelAfter = id;
+    var event = scr_event_create_main();
+    
+    //-------------------------------------------------
+    // Main Event
+    //-------------------------------------------------
+    with (event)
+    {
+        scr_event_build_fade(true, 0);
+        scr_event_build_wait_for_actions();
+        scr_event_build_fade(false, 3);
+        scr_event_build_wait_for_actions();
+        scr_event_build_wait(1);
+        scr_event_build_wait_for_actions();
+        
+        scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Well, that's it. How does it feel, " + P_NAME + "? You're a beggar now! We're Clispaeth's chosen folks, you know! You're all ready to go out on your alming way... you just need an alms bowl of your own! I've got an extra one right here!");
+        
+        // if player does have bowl
+        if (scr_bowl_have() == true)
+        {
+            // in pocket
+            if (scr_bowl_pocket() == true)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "A bowl? Don't worry, Lemuel. I've already got one! I'm all over it!");
+            }
+            // not in pocket
+            else
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, don't worry. I've already got one!... it's um, right here in my rucksack...");
+            }
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Would you look at that? Clispaeth's bounty never ends! Would you allow me to take a look?");
+            scr_event_build_dialogue_debug("SOUND", NULL, "A little sound plays here.");
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Hmm... here, it should work a little better now.");
+        }
+        
+        // upgrade and/or receive bowl
+        scr_event_build_upgrade_bowl("beggar");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, thanks! So I can get to alming with this, huh?");
+        scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Just keep it with you in your pocket, and sure... you can put your bowl down and collect alms anywhere you see a begging rug like this. I've left them all over the place in my travels. You'll think of them as your home soon enough. Remember, only obtain that which Clispaeth wants for you. Don't ask for alms when your bowl isn't empty... but don't starve either. I'm sure you'll figure out some best practices.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks... that was sort of a doozy, but I'll try to be a good beggar. I hope I don't mess up. What are you gonna do?");
+        if (scr_quest_get_state("lemuelAlmDone") == 1)
+        {
+            if (scr_quest_get_state("lemuelAlmBig") == 2) { scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Thanks to your generosity, I'm pretty much loaded! I can do anything I want! Ugh... I'm sorry Lord Clispaeth. I hath spoken with the very voice of vice! My begging days are behind me, but there is much meditation still to be done... I suppose I'll be leaving the Industrial Park very soon."); }
+            else if (scr_quest_get_state("lemuelAlmBig") == 1) { scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Thanks to your generosity, I can go wherever I want, do anything I want... to tell you the truth, I have no idea! But I guess I'm going to head out of the Industrial Park soon, anyway."); }
+            else { scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Thanks to your generosity, I have a little bit of cushion. Maybe I'll settle down for a little while... I don't really know! But I guess I'm going to head out of the Industrial Park soon anyway."); }
+        }
+        else
+        {
+            scr_event_build_dialogue("Lemuel", s_port_lemuelOpen, "Well, I'll probably hang around the Industrial Park for a bit of time, until I have enough alms to survive a travel. But don't worry, you can definitely use my rug when I move on! It might be awhile though... hopefully the alming is good!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh... you mean you're not moving? Okay...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Dang... where am I gonna alm if this guy's hogging the rug?)")
+        }
+        
+        // update quest state
+        scr_event_build_quest_state("lemuelBeggingGame", 4);
+    }
+    scr_event_advance(event);
+}

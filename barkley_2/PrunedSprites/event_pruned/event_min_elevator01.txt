@@ -1,0 +1,36 @@
+/*
+Event for the Mines Elevator (or bottom of the elevator, the Landing)
+
+Normally just prompts for you to go up, but this could require more variables at some point so making it an Interactive Actor
+
+Right now I have just an empty cage, but we might want to have a totally enclosed, new room for you to get in.
+
+*/
+/*
+if (argument0 == SCRIPT_START) {
+}
+else if (argument0 == SCRIPT_STEP) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var minesElevator = id;
+    var event = scr_event_create_main();
+    
+    with (event) {
+        // CHOICE: Ride the elevator?        
+        var choice = Choice("Take the elevator up?", s_port_hoopz);
+        //Ride up
+        var elevatorUp = ChoiceAdd(choice, "Ride up.");
+        with elevatorUp {
+            //TODO: Hoopz getting in elevator and riding up.
+            scr_event_build_dialogue_debug("Bhroom", NULL, "Hoopz walks into the elevator and the door closes for him to ascend.");
+            scr_event_build_teleport(r_mtn_caves_elevator01, 672, 232);
+        }
+        
+        var stay = ChoiceAdd(choice, "Continue to spelunk.");
+        with (stay) {
+                scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

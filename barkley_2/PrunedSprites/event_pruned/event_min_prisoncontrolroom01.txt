@@ -1,0 +1,35 @@
+// Event script for the control room. This is Event#8 in my Prison Break design document.
+// PLACEMENT NOTICE: This script should be placed at the entrance, so this script triggers when the player enters the control room. ALSO, since the player needs to equip themselves, this script also prevents the player from leaving the room until they've armed themselves in script "prisoncontrolroom02". So the player doesn't get TRAPPED, the security device the cinematic leads them to should be across the room, well out of the trigger circle of this event. You'll thank me in the end.
+/*
+if (argument0 == SCRIPT_START) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var prisoncontrolroom = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("prisonQuest") == 3) {
+            scr_event_build_dialogue("Kawasaki", NULL, "Wait just a minute, Charlie......\They got some nice stuff in this here room. Might want to see if anything's worth nicking.");
+        } else if (Quest("prisonQuest") == 2) {
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player and Kawasaki walk up to a nearby security device. They both look at it.");
+            // CINEMATIC: The player and Kawasaki walk up to a nearby security device. They both look at it.
+            Dialogue(P_NAME, "Is this the thing you meant?");
+            scr_event_build_dialogue("Kawasaki", NULL, "Looks good, sure. Guess it won't hurt none to try talking to it. Worst it can do is ignore you.");
+            Dialogue(P_NAME, "That's good point. Worth a shot.\HEY JERKOFF, I AM GOING TO SMASH YOU INTO A MILLION PIECES.\To heck with this piece of crap. What's wrong with this thing? It keeps putting words into my mouth.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Got it on duergar mode.\I can see the little switch on the side, lemme see that thing.\Hmm......\If this thing don't smell like the devil hisself......where you find this thing.....\There. Try that out.");
+            Dialogue(P_NAME, "Ok.\Ooooh!! I am haunted!!! I am a ghost!!!");
+            scr_event_build_dialogue("Kawasaki", NULL, "Ack!!!!! Whatcha doing?!? Put that damn thing down!!! It's filled with ghosts!!!! You's gonna get possessed!!!!!");
+            Dialogue(P_NAME, "No, I was just playing. Trying to lighten up the mood.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Nothing I hate more than a damn ghost. Don't play around with no damn ghosts. That ain't funny.");
+            Dialogue(P_NAME, "Ok, I'm sorry. Let's try this thing now.\Hello. Can you open up all the cell doors for everybody imprisoned here, please?");
+            scr_event_build_dialogue("Computer", NULL, "Identity verified: Warden Nigel Thatcher\Operation desired: Full evacuation\Is this correct?");
+            Dialogue(P_NAME, "Sure.");
+            scr_event_build_dialogue("Computer", NULL, "Operation completed.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Well......\That weren't so hard. Don't you gotta do nothing else?");
+            Dialogue(P_NAME, "I dunno. It sounded pretty official.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Sounds good enough, I guess.\Huh. Now to get some of them gun's you was talking about. Looks like we found a good place for that. Keeping some toys here.");
+            Quest("prisonQuest", 3);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

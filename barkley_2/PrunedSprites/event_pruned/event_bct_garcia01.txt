@@ -1,0 +1,162 @@
+// Event for Garcia, a keyboard player located in TODO land.
+// Garcia plays music if the player asks. Participates in Wedding quest.
+// usage: event_dz2_garcia01();
+
+/*if (argument0 == SCRIPT_STEP) {
+    //if garcia is currently away on wedding quest.
+    //TODO: this needs to be cleaned up to the correct time (including the rest of this ticket!)
+    if (scr_quest_get_state("garciaWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+        scr_event_interactive_deactivate();
+    }
+} else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var garcia = id;
+    var curmoney = scr_money_count();
+    
+    // MoneyDB for change given to Garcia
+    var looseChange = scr_money_db("garciaChange");
+    
+    var event = scr_event_create_main();
+    var weddingQuestAsk = scr_event_create_child(event);
+
+//--------------------------------------------
+//------------ WEDDING QUEST ASK _------------
+//--------------------------------------------  
+    with (weddingQuestAsk) { 
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "You know, I actually do have some work for you. I'm putting together a group for a wedding party - think you'd be able to play some keyboards for us?");
+        scr_event_build_dialogue("Garcia", s_port_garcia, "A-a gig? You... you really want me? I mean- yeah! Yeah, I'll do it! Where do I have to go?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm still putting the band together, but I'll be ready soon. If you want to go to the booty bass club in Brain City, I'll meet you there when everything's set.");
+        scr_event_build_dialogue("Garcia", s_port_garcia, "O-oh man... I haven't played a gig this big in years. I'll be there soon! Th-thanks pal!");
+        scr_event_build_fade(true, 2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_quest_state("garciaWedding", 1);
+        scr_event_build_quest_state_add("musicianCount", 1);
+        scr_event_build_set_object(o_garcia01, -500, -500);
+        scr_event_build_fade(false, 2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "One more musician for the band down. I need " + string(3 - (scr_quest_get_state("musicianCount"))) + " more...");
+}   
+    
+    with (event) {
+          
+        //Did Wedding Quest with Garcia.
+        if (scr_quest_get_state("weddingQuest") == 3) and (scr_quest_get_state("garciaWedding") == 3) {
+            scr_event_build_dialogue("Garcia", s_port_garcia, "He-hey! How's it going, pal! Hey, things have been looking up for me since we played! I've been getting gig offers like no tomorrow. I don't know if I'm gonna have time to play with the Jazzy Rascals much anymore...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(The Jazzy Rascals...)");
+        
+        //Told Garcia to go to church in Brain City but did not show up, spoke to him again.
+        } else if (scr_quest_get_state("garciaWedding") == 2) {
+            scr_event_build_dialogue("Garcia", s_port_garcia, "H-hey, man... just leave me alone... ");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "G-geez... sorry...");
+            
+            
+        //Told Garcia to go to church in Brain City but did not show up.
+        } else if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("garciaWedding") == 1) and (scr_time_get() >= 11) {
+            scr_event_build_dialogue("Garcia", s_port_garcia, "H-hey man, you think I'm some washed-up has-been? You can't yank me around like that, telling me to show up for a gig that doesn't exist. I was waiting for you to show up and you never came! What's the deal, man?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "O-oops... I think I forgot...");
+            scr_event_build_dialogue("Garcia", s_port_garcia, "You know who I am? I'm Garcia, the keyboardist from Lemon Squeeze. I'm a VIP, man! A music VIP! You can't just... you can't just... just... leave me alone, okay? Leave me alone...");
+            scr_event_build_quest_state("garciaWedding", 2);
+        
+    
+       //met garcia before.
+       }else if (scr_quest_get_state("garciaVar") == 1) {
+            scr_event_build_dialogue("Garcia", s_port_garcia, "H-hey man, spare a dime? A nickel? Wanna buy a CD? Hey, hey, you want an autograph, don't you? Y-you know me, right? Garcia from Lemon Squeeze? We were really big 30 years ago, my solo stuff is still fresh. Need a keyboardist? Anything?");
+            Breakout("build", "add", "money");
+            var garciaMoney2 = scr_event_build_choice("Give Garcia " + string(looseChange) + " neuro-shekels?", s_port_hoopz);
+            
+            //If you're on the wedding quest and time >= 4 and <= 10
+            if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("musicianCount") <= 3) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+                var wedding2 = scr_event_build_add_choice(garciaMoney2, "Actually I think I've got wedding a gig for you...");
+                with wedding2 {
+                    Breakout("build", "clear");
+                    scr_event_build_event_snippet(weddingQuestAsk);
+                    }
+                }
+                
+                
+                //give the neuro-shekels
+                var yes2 = scr_event_build_add_choice(garciaMoney2, "I can spare " + string(looseChange) + " neuro-shekels...");
+                with yes2 {
+                if(curmoney>= looseChange){
+                //You have the neuro-shekels
+                    Breakout("build", "clear");
+                    scr_event_build_money_add(looseChange);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Maybe you need this more than I do... just don't spend it on chups.");
+                    scr_event_build_dialogue("Garcia", s_port_garcia, "H-hey man, I kicked my habit a long time ago. Th-thanks anyway. Hey, I'm always willing to play if you ever need a keyboardist if you've ever got a band going or anything.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't really have anything going on at the moment... I'm kind of on a really important quest...");
+                    scr_event_build_dialogue("Garcia", s_port_garcia, "O-okay... don't forget me if you need a keyboardist though - I work cheap!!");
+                }
+                else {
+                //don't have the neuro-shekels
+                    Breakout("build", "clear");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Here, maybe you need this more than I do - oh, huh, looks like I don't have any money either. Sorry man.");
+                    scr_event_build_dialogue("Garcia", s_port_garcia, "I-it's okay... hey - don't forget, I'll play any event you want, parties, weddings, I'll write you jingles, play all my old hits, whatever! I work for cheap, just tell me where you want me!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, sure, I won't forget... (Geez, this guy seems pretty desperate...)");
+                }
+            }
+            
+       var no2 = scr_event_build_add_choice(garciaMoney2, "I'm all out of money.");
+            with no2 {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, sorry pal but I don't really have any money. I'd give you some if I had any.");
+                scr_event_build_dialogue("Garcia", s_port_garcia, "I-it's okay... hey - don't forget, I'll play any event you want, parties, weddings, I'll write you jingles, play all my old hits, whatever! I work for cheap, just tell me where you want me!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, sure, I won't forget... (Geez, this guy seems pretty desperate...)");
+            }
+            
+            
+            
+    
+       //Never met Garcia in Al-Akihabara before.
+       } else if (scr_quest_get_state("garciaVar") == 0) {
+            scr_event_build_quest_state("garciaVar", 1);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, this is a pretty cool song. What's it called?");
+            scr_event_build_dialogue("Garcia", s_port_garcia, "Y-you don't recognize it? It's Sorry Tuesday, my biggest hit! It was #1 on the charts back in 663X...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh... I've kinda been out of it for a while. I guess I missed it.");
+            scr_event_build_dialogue("Garcia", s_port_garcia, "Oh yeah, Lemon Squeeze - that was my band back then - we were real big in the chill ghosthouse neopopwave scene. Always on tour, always on the charts... Yeah, things were good for us back then. O-oh, they're still good! Y-yeah, things are great! Hey, you want an autograph or something? A CD? My new stuff is still fresh. You want me to play for you? Want a studio musician? Someone to play for a party? Whatever, I'll do it, I'll play any gig. Just 5 neuro-shekels.");
+            
+            Breakout("build", "add", "money");
+            var garciaMoney1 = scr_event_build_choice("Give Garcia " + string(looseChange) + " neuro-shekels?", s_port_hoopz);
+            
+            //If you're on the wedding quest and time >= 4 and <= 10
+            if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("musicianCount") <= 3) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+                var wedding1 = scr_event_build_add_choice(garciaMoney1, "Actually I think I've got wedding a gig for you...");
+                with wedding1 {
+                    Breakout("build", "clear");
+                    scr_event_build_event_snippet(weddingQuestAsk);
+                    }
+                }
+                
+                
+                //give the neuro-shekels
+                var yes1 = scr_event_build_add_choice(garciaMoney1, "I can spare " + string(scr_money_db("garciaChange")) + " neuro-shekels...");
+                with yes1 {
+                if(curmoney >= looseChange) {
+                //You have the neuro-shekels
+                    Breakout("build", "clear");
+                    scr_event_build_money_add(-looseChange);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Maybe you need this more than I do... just don't spend it on chups.");
+                    scr_event_build_dialogue("Garcia", s_port_garcia, "H-hey man, I kicked my habit a long time ago. Th-thanks anyway. Hey, I'm always willing to play if you ever need a keyboardist if you've ever got a band going or anything.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't really have anything going on at the moment... I'm kind of on a really important quest...");
+                    scr_event_build_dialogue("Garcia", s_port_garcia, "O-okay... don't forget me if you need a keyboardist though - I work cheap!!");
+                }
+                else {
+                //don't have the neuro-shekels
+                    Breakout("build", "clear");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Here, maybe you need this more than I do - oh, huh, looks like I don't have any money either. Sorry man.");
+                    scr_event_build_dialogue("Garcia", s_port_garcia, "I-it's okay... hey - don't forget, I'll play any event you want, parties, weddings, I'll write you jingles, play all my old hits, whatever! I work for cheap, just tell me where you want me!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, sure, I won't forget... (Geez, this guy seems pretty desperate...)");
+                }
+            }
+            
+       var no1 = scr_event_build_add_choice(garciaMoney1, "I'm all out of money.");
+            with no1 {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, sorry pal but I don't really have any money. I'd give you some if I had any.");
+                scr_event_build_dialogue("Garcia", s_port_garcia, "I-it's okay... hey - don't forget, I'll play any event you want, parties, weddings, I'll write you jingles, play all my old hits, whatever! I work for cheap, just tell me where you want me!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, sure, I won't forget... (Geez, this guy seems pretty desperate...)");
+                }
+            
+            }
+    }
+    scr_event_advance(event);
+}

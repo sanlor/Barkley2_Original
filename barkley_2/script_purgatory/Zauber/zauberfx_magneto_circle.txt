@@ -1,0 +1,49 @@
+/// zauberfx_magneto_circle(x, y, width, height, color, linew, alpha)
+
+var dx = argument0;
+var dy = argument1;
+var width = argument2;
+var height = argument3;
+var color = argument4;
+var linew = argument5;
+var alpha = argument6;
+
+var dxcenter = dx + width*.5;
+width = abs(width);
+
+draw_primitive_begin(pr_trianglelist);
+for (var i = 0; i < 32; i++) {
+    point1dir = i * (360/32);
+    point2dir = (i+1) * (360/32);
+    
+    p1ax = lengthdir_x(width*.5 -linew, point1dir) + dxcenter;
+    p1ay = lengthdir_y(height*.5-linew, point1dir) + dy;
+    p1bx = lengthdir_x(width*.5,        point1dir) + dxcenter;
+    p1by = lengthdir_y(height*.5,       point1dir) + dy;
+    p1cx = lengthdir_x(width*.5 +linew, point1dir) + dxcenter;
+    p1cy = lengthdir_y(height*.5+linew, point1dir) + dy;
+    
+    p2ax = lengthdir_x(width*.5 -linew, point2dir) + dxcenter;
+    p2ay = lengthdir_y(height*.5-linew, point2dir) + dy;
+    p2bx = lengthdir_x(width*.5,        point2dir) + dxcenter;
+    p2by = lengthdir_y(height*.5,       point2dir) + dy;
+    p2cx = lengthdir_x(width*.5 +linew, point2dir) + dxcenter;
+    p2cy = lengthdir_y(height*.5+linew, point2dir) + dy;
+    
+    draw_vertex_colour(p1ax, p1ay, color, 0);
+    draw_vertex_colour(p1bx, p1by, color, alpha);
+    draw_vertex_colour(p2ax, p2ay, color, 0);
+    
+    draw_vertex_colour(p1bx, p1by, color, alpha);
+    draw_vertex_colour(p2ax, p2ay, color, 0);
+    draw_vertex_colour(p2bx, p2by, color, alpha);
+    
+    draw_vertex_colour(p1bx, p1by, color, alpha);
+    draw_vertex_colour(p1cx, p1cy, color, 0);
+    draw_vertex_colour(p2bx, p2by, color, alpha);
+    
+    draw_vertex_colour(p1cx, p1cy, color, 0);
+    draw_vertex_colour(p2bx, p2by, color, alpha);
+    draw_vertex_colour(p2cx, p2cy, color, 0);
+}
+draw_primitive_end();

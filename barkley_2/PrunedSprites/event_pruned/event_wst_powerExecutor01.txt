@@ -1,0 +1,55 @@
+// event_wst_powerExecutor01
+
+/*if (argument0 == SCRIPT_START)
+{
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Variables
+    var event = scr_event_create_main();
+    var r = choose(0, 1);
+    
+    // Main event
+    with (event)
+    {
+        if (scr_quest_get_state("powerHack") == 0)
+        {
+            scr_event_build_dialogue_debug("HACKING", NULL, "This attempts to execute the script written in the hacking Interface.");
+            scr_event_build_camera_frame(CAMERA_SLOW, o_hackScreen01);
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(1.5);
+            scr_event_build_wait_for_actions();
+            // run powerScript
+            scr_event_build_dialogue_debug("HACKING", NULL, "bort hypothesis... the game should save here and be ready to load the game data if the hack is 'incorrect'.");
+            scr_event_build_dialogue_debug("HACKING", NULL, "Alternately, b2parser itself understands the rules for each hacking site and will be ready to revoke the changes. At any rate...");
+            scr_event_build_quest_state("powerHack", 1);
+            scr_event_build_quest_state("hackSite", "power");
+            scr_event_build_dialogue_debug("HACKING", NULL, "Executing script: powerScript.b2s");
+            scr_event_build_execute_event_script(event_wst_powerScript01);
+        }
+        else
+        {
+            scr_event_build_quest_state("powerHack", 0);
+            scr_event_build_dialogue_debug("HACKING", NULL, "Now, we will determine if the script is /'valid/'. Right now, scr_hack_validity just chooses true or false.");
+            if (scr_hack_validity() == false)
+            {
+                scr_event_build_animation_set(o_hackScreen01, "phail");
+            }
+            else
+            {
+                scr_event_build_animation_set(o_hackScreen01, "ok");
+            }
+            scr_event_build_camera_frame(CAMERA_SLOW, o_cts_hoopz);
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(1);
+            scr_event_build_animation_set(o_hackScreen01, "standby");
+        }
+        
+    }
+    scr_event_advance(event);
+}

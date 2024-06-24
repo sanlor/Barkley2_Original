@@ -1,0 +1,60 @@
+// Event script for the hallway shootout right before the player reaches Aloysius. This is Event#9 in my Prison Break design document.
+// PLACEMENT NOTE: This should take place in a branching hallway right near Aloysius' jail cell.
+// RESOURCE NOTE: The duergars in question here are TOTALLY INCONSEQUENTIAL DUERGARS(T.I.D.) and can just use the game's default duergar graphics. One is only visible for this point in the game, and the other two are immediately killed by Stahl, so there's no reason we should go the extra mile on this.
+// CONTINUITY NOTE: I think someone mentioned a problem with the way I reference the revival features in this dialogue. I can make edits there if there's a problem with the way I'm framing that.
+/*
+if (argument0 == SCRIPT_START) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var hallwayshootout = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("prisonQuest") == 5) {
+            Dialogue("Jean-Marc Pierre", "FREEZE PUNK!!!!");
+            scr_event_build_dialogue("Ox", NULL, "Turn yourself around nice and slow-like.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player turns around and faces the way they came.\Break.\The screen pans down slightly, three duergars appear from the bottom of the screen.");
+            // CINEMATIC: The player faces the way they came. The camera pans down slightly to reveal three duergars.
+            scr_event_build_dialogue("Ox", NULL, "Easy, easy, easy, oh boy.");
+            Dialogue("Jean-Marc Pierre", "I DO NOT DETECT THE DEVICE ON HIS PERSON, I DO NOT THINK THIS FUCKING PUNK HAS IT. WE MUST KILL HIM INSTEAD.");
+            Dialogue("R.F. Archambeau", "He's fucking holding it, you putz.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The lead duergar(R.F. Archambeau) walks up to the player.");
+            // CINEMATIC: The lead duergar(R.F. Archambeau) walks up to the player.
+            scr_event_build_dialogue_debug("Hundley", NULL, "ITEM TODO: The player loses the Electrolarynx.");
+            scr_event_build_dialogue("", NULL, "*You lost the Electrolarynx.*");
+            Dialogue("R.F. Archambeau", "You've had your fun with this.\Did you really think we'd just roll over and let you have it?");
+            Dialogue("Jean-Marc Pierre", "WHEN IS THE TIME PERIOD WHEN I MAY CRUSH HIM.");
+            Dialogue("R.F. Archambeau", "You clowns can do whatever the fuck you want.\Thanks for keeping this here voicebox safe for the Warden, kid.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The lead duergar(R.F. Archambeau) walks off-screen and disappears.");
+            // CINEMATIC: Lead duergar walks off-screen and disappears.
+            Dialogue(P_NAME, "Hey guys, it wasn't anything personal, I'm really sorry.\I just had to use the bathroom, but one of my cellmates was using it. I really couldn't hold it anymore. I had to use that thing to get out.");
+            Dialogue("Jean-Marc Pierre", "WHO SAID YOU COULD EVEN USE THE BATHROOM!!! THE BATHROOM IS ILLEGAL!!!!");
+            Dialogue(P_NAME, "Hey, I said I was sorry. I'll go back to my cell now if you want.");
+            Dialogue("Jean-Marc Pierre", "WRONG. WE'LL TAKE YOUR PERFECTLY CRUSHED CORPSE BACK TO THE CELL WHEN WE'RE GOOD AND READY.");
+            scr_event_build_dialogue("Ox", NULL, "Hold the phone there, this one is registered with the revival station.");
+            Dialogue("Jean-Marc Pierre", "WHO THE FUCK ARE YOU, BLOW OFF!!! I DON'T GIVE A SHIT ABOUT YOU.");
+            scr_event_build_dialogue("Ox", NULL, "If you go ahead and just kill him quick, he'll just wake up in the revival station.");
+            Dialogue("Jean-Marc Pierre", "YOUR TALK OF KILLING IS CONSISTENT WITH MY INTERESTS, YOU MAY CONTINUE.");
+            scr_event_build_dialogue("Ox", NULL, "The trick to beating the revival station is to take your time killing them. Killing them fast is just no good.\Won't be much fun waking up in the revival station with every bone in your body broken.");
+            Dialogue("Jean-Marc Pierre", ".....OR WITHOUT A HEAD!!!! HA HA HA HA HA!!!\BEAUTIFUL THOUGHTS COME THROUGH THIS SKULL OF YOURS. I AM ATTRACTED TO THIS SKULL OF YOURS.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Ox death animation(duergar default death animation). Stahl appears from off-screen, a pistol drawn and aimed.");
+            // CINEMATIC: Ox death animation(duergar default death animation). Stahl appears from off-screen, a pistol drawn and aimed.
+            Dialogue("Jean-Marc Pierre", "HA HA HA HA HA!!! YOU CLUMSY IDIOT!!! HOW ARE YOU GOING TO-");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Stahl fires, immediately followed by Jean-Marc Pierre death animation(duergar default death animation).\Stahl approaches the player, still clutching her pistol.");
+            // CINEMATIC: Jean-Marc Pierre death animation(duergar default death animation). Stahl approaches the player, pistol drawn.
+            scr_event_build_dialogue("Stahl", NULL, "You're getting better at pissing people off, should watch your back more. They're starting to queue up to shiv you in the ribs.");
+            Dialogue(P_NAME, "They were going to kill me.");
+            scr_event_build_dialogue("Stahl", NULL, "Yeah, probably. You ok?");
+            Dialogue(P_NAME, "Yeah. Thanks. That was really nice of you to do that.");
+            scr_event_build_dialogue("Stahl", NULL, "Seems like the party starts whenever you're around. Who am I to let some rent-a-guard stop the party?");
+            Dialogue(P_NAME, "You may not be so bad after all.");
+            scr_event_build_dialogue("Stahl", NULL, "I'm probably worse, but I'll take the compliment.\So they've called in damn near every fucking duergar in this sector to the prison. You go get the package, I'll see if I can thin out the crowd a little bit. You can thank me later.");
+            Dialogue(P_NAME, "Are you sure you want to get involved? I got the feeling you didn't really want to do that.");
+            scr_event_build_dialogue("Stahl", NULL, "I don't. But there are some days you just gotta boogie.\Just don't let me down. You're the MC, you know. You won't make Celebrity Jerkoff Digest if this party doesn't rock.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Stahl walks off-screen the way she came. She disappears.");
+            // CINEMATIC: Stahl walks off-screen and disappears.
+            Quest("prisonQuest", 6);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

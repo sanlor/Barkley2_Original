@@ -1,0 +1,112 @@
+// event_tnn_govTransfer01
+// Cutscene that occurs when swapping bodies with the Duergar Governor.
+
+if (argument0 == SCRIPT_START || argument0 == SCRIPT_INTERACT)
+{
+    var rank_ritkonen = scr_longinus_get_rank("ritkonen") + " R. Itkonen";
+
+    // intro complete, do not run again
+    if (scr_quest_get_state("govTransfer") == 2)
+    {
+        BodySwap("governor");
+        scr_event_hoopz_switch_cutscene();
+        scr_entity_look(o_cts_hoopz, SOUTHEAST);
+    }
+    if (scr_quest_get_state("govTransfer") == 1)
+    {
+        ////scr_event_hoopz_switch_cutscene();
+        ////with (o_cts_hoopz) visible = 0;
+        //global.eventFacing = 6;
+    }
+    var rank_ritkonen = scr_longinus_get_rank("ritkonen") + " R. Itkonen";
+    var rank_madison = scr_longinus_get_rank("madison") + " Madison";
+    var rank_naoko = scr_longinus_get_rank("naoko") + " Naoko";
+    var full_naoko = scr_longinus_get_rank("naoko", "full") + " Naoko";
+    var rank_gormlaith = scr_longinus_get_rank("gormlaith") + " Gormlaith";
+    var full_gormlaith = scr_longinus_get_rank("gormlaith", "full") + " Gormlaith";
+    
+    //if (scr_quest_get_state("govTransfer") == 1) scr_event_set_object(o_hoopz, 382, 136);
+    //else scr_event_set_object(o_hoopz, 382 - 48, 136 + 16);
+    
+
+    // Build Event
+    var govIntro = id;
+    var event;
+    if (scr_quest_get_state("govTransfer") == 1) { event = scr_event_create_main(); }
+    else { event = scr_event_find_main(); }
+    with (event)
+    {
+        scr_event_build_quest_state_add("govTransfer", 1);
+        scr_event_build_camera_frame(CAMERA_FAST, o_rightChair01, o_leftChair01, o_dr_liu01);
+        scr_event_build_sound_play("sn_headlock01");
+        scr_event_build_sound_play("sn_headlock02");
+        if (scr_quest_get_state("govTransfer") == 1)
+        {
+            //scr_event_build_visible(o_cts_hoopz, 0);
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "Ready, " + P_NAME + "? When I pull the lever, an electrical pulse will either fry your brains or transfer your consciousness into the Governor's body.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "So... what's gonna happen to my body when I'm inside the Governor?");
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "The Governor will be inside your body. Don't worry! We'll keep him fed and watered, clean up if he makes a mess of himself.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's reassuring. Well... I guess it's time to see if this thing works...");
+            
+            //X114JAM9 gets in chair, Dr. Liu gets by the lever
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "Ready, " + P_NAME_S + "? 3...");
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Get me the hell out of here! Who are you damned dwarfs!? I'll smash your brains in! I'm the gatdam governor!");
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "... 2...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Here goes...");
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "... 1!");
+            //Kill the music!
+            scr_event_build_music_set("mus_tnn_shadowrun2", 0);
+            scr_event_build_wait(1);
+            scr_event_build_visible(o_lever01, 0);
+            scr_event_build_animation_play_and_set(o_dr_liu01, "lever", "idle");
+            scr_event_build_sound_play("sn_doorclosed07");
+            scr_event_build_wait_for_actions();
+            scr_event_build_visible(o_lever01, 1);
+            scr_event_build_wait(1);
+            
+            //electric animation, switch bodies with Duergars
+            scr_event_build_set_object(o_governor01, o_leftChair01.x - 14, o_leftChair01.y - 9);
+            scr_event_build_entity_settings(o_governor01, 0, 0, 0);
+            scr_event_build_visible(o_governor01, 1);
+            scr_event_build_visible(o_leftChair01, 0);
+            scr_event_build_visible(o_rightChair01, 0);
+            scr_event_build_sound_play("sn_chairtransfer01");
+            scr_event_build_animation_play_and_set(o_governor01, "transfer", "transferDone");
+            //scr_event_build_wait(1);
+            scr_event_build_wait_for_actions();
+           
+            scr_event_build_wait(2);
+            scr_event_build_teleport(room, o_cinema7.x, o_cinema7.y, 2, 2);
+        }
+        else
+        {
+            //screen blanks out. From this point on, X114JAM9 is going to be Governor Elagabalus and vice versa. Governor Elagabalus is out of the chair, X1 is still in it. You control Governor Elagabalus now.
+            //scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+            //scr_event_build_dialogue_debug("bort", NULL, "screen blanks out. From this point on, X114JAM9 is going to be Governor Elagabalus and vice versa. Governor Elagabalus is out of the chair, X1 is still in it. You control Governor Elagabalus now.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Let me the hell out of this chair you cretinous turd hounds! When I escape, Cuchulainn will crush every single one of you! He'll enslave the dwarfs forever, throw you in the Mines! You've made the worst mistake of your lives!");
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "It sounds like it definitely worked. How's it feel, " + P_NAME_S + "?");
+            scr_event_build_wait(0.5);
+            scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, NORTHWEST);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, NORTHEAST);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+            scr_event_build_wait(0.5);
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Kinda disorienting. It's really weird looking at my body from the outside. Or being someone else... I uh, kind of want to go back.");
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "You can go back as soon as you've given the speech. You know what you need to do, right?");
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Yeah, I think so. I'm gonna be giving the Governor's inaugural speech at the Governor's mansion at the center of Tir na Nog. The first thing I do is give X114J- I mean myself - a free pass to leave Tir na Nog. After that, I lay out some policies that will help the dwarfs of Tir na Nog, right?"); //TODO CAN'T P_NAME
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "That's right. Try to lay out plans that will have long-term benefits and consequences. Talk to dwarfs around Tir na Nog and see what they want, but anything that offers relief from Cuchulainn's oppression will help. After you're done, get back and we'll switch you back to your old body.");
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "I almost can't wait... I already hate this body.");
+            scr_event_build_dialogue("Dr. Liu", s_port_drliu, "Good luck, " + P_NAME_S + "! Do the community some good out there. I know you can do it!");
+            //Bring the music back up
+            scr_event_build_music_set("mus_tnn_shadowrun2", 1);
+            scr_event_build_quest_state("govQuest", 5);
+            scr_event_build_end();
+        }
+    }
+    if (scr_quest_get_state("govTransfer") == 1) scr_event_advance(event); //Not needed on teleport in
+}
+else if (argument0 == SCRIPT_STEP) {}
+else if (argument0 == SCRIPT_INTERACT) {}

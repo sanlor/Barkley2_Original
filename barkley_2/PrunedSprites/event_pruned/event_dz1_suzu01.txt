@@ -1,0 +1,38 @@
+// Event for Suzu, a woman searching for zaubers at the Industrial Park
+//at times 1 and 6.
+
+if (argument0 == SCRIPT_STEP)
+{
+    if (scr_time_get() == 1)
+    {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 6)
+    {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var suzu = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("suzuState") == 0)
+        {
+        //Never spoken to before.
+            scr_event_build_dialogue("Suzu", NULL, "Zaubers are all around us. Can you feel them? Can you feel the zaubers?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? Zaubers?");
+            scr_event_build_quest_state("suzuState", 1);
+        }
+        else
+        {
+            // TODO: suzu dialogue
+            scr_event_build_dialogue("/'The Dark Draker/'", NULL, "Hmph. You test my patience, whelp. Know this: I've killed a man 7 times before he hit the ground. My wrath is legion; dare not awaken it.");
+        }
+    }
+    scr_event_advance(event);
+}

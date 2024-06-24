@@ -1,0 +1,22 @@
+/// scr_event_build_visible(object, visibility)
+/// This script is used to build a make object visible action.
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_visible);
+ds_list_add(action, argument0); // object id
+ds_list_add(action, argument1); // true if the object should be visible, false otherwise
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;
+
+
+
+
+/// scr_event_action_visible(list)
+/// An action to make an object visible.
+/// List contains object id and a boolean for visibility.
+
+var object = ds_list_find_value(argument0, 1);
+var is_visible = ds_list_find_value(argument0, 2);
+object.visible = is_visible;
+scr_event_advance(id);

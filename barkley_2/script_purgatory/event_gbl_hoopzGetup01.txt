@@ -1,0 +1,28 @@
+// Hoopz gets up //
+if (argument0 == SCRIPT_START) then
+    {
+    // Check if this should even happen //
+    if (scr_quest_get_state("hoopzGetup") == 1) then
+        {
+        // deactivate the Get Up Scene        
+        scr_quest_set_state("HoopzGetup", 0);
+        
+        //Pick up the room transistion
+        var event = scr_event_find_main();
+        with (event) 
+            {
+            // Carry over the fade and set Hoopz on the ground
+            //scr_event_build_fade(true, 0);
+            scr_event_build_animation_set(o_cts_hoopz, "death");
+            scr_event_build_wait(1.5);
+            //scr_event_build_fade(false, 2);
+            scr_event_build_wait_for_actions();
+            scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+            scr_event_build_animation_play_and_set(o_cts_hoopz, "get_up", "default");
+            scr_event_build_wait_for_actions();
+            }
+            
+    // Gameboy advance //
+    scr_event_advance(event);    
+    }
+}   

@@ -1,0 +1,214 @@
+// Event for Rumi, 
+/*
+if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var rumi = id;
+    var event = scr_event_create_main();
+    var moviechoice = scr_event_create_child(event);
+    var questchoice = scr_event_create_child(event);
+    var yesresponse = scr_event_create_child(event);
+    
+//-------------------------------
+//---------QUEST SNIPPET---------
+//-------------------------------  
+
+    with (yesresponse) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sure, I don't mind, I can scout locations for you.");
+        scr_event_build_dialogue("Rumi", s_port_rumi, "I, ahh... yes, I understand, you don't have the ti- what? You'll help? I, uh... I wasn't expecting that! Th-thank you! Thank you very much!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, it's no problem. What are you looking for?");
+        scr_event_build_dialogue("Rumi", s_port_rumi, "Y-yes! I'm looking for three locations in particular. Write these down, okay? I'm looking for a dumpster filled with trash, an old, withered tree and the entrance to a cave. I'm not willing to go any further than the general area of the junkyard, okay, so all of these places should be fairly close. I-it's not that I'm afraid! I just... want the film to be closer to home, you know?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, so a dumpster, a dying tree and the entrance to a cave. Okay, I think I've got it.");
+        scr_event_build_dialogue("Rumi", s_port_rumi, "Take my camera. When you see places that meet the description, take pictures and bring them back to me. I'll let you know if they're what I'm looking for. Oh, you're kind of a... gun's warrior, right? I guess shooting the camera's kind of like shooting gun's... maybe a little more artistic...");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "There's an art in gun'sbrasting, Rumi, but I know what you're saying. I'll look for these places and come back when I've got 'em, okay?");
+        scr_event_build_dialogue("Rumi", s_port_rumi, "Th-thank you! Thank you very much! I'll be waiting here... but please don't take too long! I need to have this done by the Brain City film fest, Vid Cannes!");
+        //get camera
+        Item("build", "gain", "Camera", 1);
+        scr_event_build_quest_state("rumiCamera", 2);
+        scr_event_build_dialogue(NULL, NULL, "Get Camera!");
+    }
+    
+//-------------------------------
+//---------QUEST SNIPPET---------
+//-------------------------------  
+
+    with (questchoice) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh... I guess so. Why?");
+        scr_event_build_dialogue("Rumi", s_port_rumi, "I, um... well... okay, I'm just going to start over. My name is Rumi and you might have noticed, but the other Cybergremlins like to fight and steal and cause trouble. They also like to bully anyone smaller than them. Or anyone who doesn't like to go on raids or get into fist fights. Um... I guess I get bullied a lot.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sounds rough. I can teach you to stand up for yourself if you want.");
+        scr_event_build_dialogue("Rumi", s_port_rumi, "N-no! I don't want that! I-I mean... well, what I'm trying to say is that I guess I'm a little more sensitive than the other Cybergremlins. I... I really like art. Especially film. Or I mean, what I've heard about it. That's something Cybergremlins don't really do, watch films... or make them...");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I love movies, especially movie adaptations of vidcons.");
+        scr_event_build_dialogue("Rumi", s_port_rumi, "I've had this idea for a film for so long. I don't know how to explain it, but it's about... about me on the inside, not society's expectations and not what people look at me and see, but who I really am. I found this camera in the garbage and the script's all written... I think I'm finally ready to start filming it. I just... uh, well, I need some help.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah?");
+        scr_event_build_dialogue("Rumi", s_port_rumi, "I... I... excuse me for hyperventilating... deep breaths... I need someone to scout locations for me. The film won't... the film won't work unless the locations are perfect. I'm not strong, I can't defend myself out there. I'm only good for... for making art. I know it will take some time and it needs to be done fairly soon... before the Brain City film fest, Vid Cannes... but... will you help me?");
+        var acceptquest1 = scr_event_build_choice("Help Rumi with his film?", s_port_hoopz);
+        
+        //Help Rumi.
+        with scr_event_build_add_choice(acceptquest1, "Yes.") {
+            scr_event_build_event_snippet(yesresponse);
+        }
+        
+        //Sorry, I don't have the time.
+        with scr_event_build_add_choice(acceptquest1, "Sorry, I don't have the time.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry, I don't think I'm gonna have the time to help.");
+            scr_event_build_dialogue("Rumi", s_port_rumi, "Ah... I, uh... yes. I see. I don't know why I thought you would, or why you'd care. I see.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry...");
+            scr_event_build_quest_state("rumiCamera", 1);
+        }
+        
+        //I crush nerds.
+        with scr_event_build_add_choice(acceptquest1, "I crush wimps.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Listen up, dorkus malorkus. I better not catch you running around with that camera, 'cuz if I do? BOOM - sport tackle from the shadows. BOOM - tibia busted. BOOM - every vertebrae in your spine compacted. BOOM - you're in glute hell for the rest of your life. Capice?");
+            scr_event_build_dialogue("Rumi", s_port_rumi, "C-C-C-Clispaeth Christ... yeah, yeah, I get it. I-I-I-I... I'll take up pottery.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You better...");
+            scr_event_build_quest_state("rumiSpoken", 1);
+        }
+    }
+
+//-------------------------------
+//---------CHUP SNIPPET----------
+//-------------------------------  
+
+    with (moviechoice) {
+        
+        //Have I seen any movies?
+        var seenmovie = scr_event_build_choice("Have I seen any movies...?", s_port_hoopz);
+        
+        //Yes.
+        with scr_event_build_add_choice(seenmovie, "Yes.") {
+            scr_event_build_event_snippet(questchoice);
+            }
+            
+        //No.
+        with scr_event_build_add_choice(seenmovie, "No.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nope, never seen a movie before.");
+            scr_event_build_dialogue("Rumi", s_port_rumi, "Um, I mean like... a cinema movie... um... or even a YouTube movie... or like... anything that moves... right? You've seen one?");
+            var seenmovie2 = scr_event_build_choice("A moving picture? A talkie?", s_port_hoopz);
+            
+            //Yes.
+            with scr_event_build_add_choice(seenmovie2, "Oh yeaaaaah, MOVIES.") {
+                scr_event_build_event_snippet(questchoice);
+                }
+                
+            //No.
+            with scr_event_build_add_choice(seenmovie2, "Nope. No idea what you're talking about.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nope. Movies? I have no idea what you're talking about.");
+                scr_event_build_dialogue("Rumi", s_port_rumi, "O-oh. Never mind. Sorry for bothering you...");
+                scr_event_build_quest_state("rumiSpoken", 1);
+                }
+            }
+    }
+        
+//--------------------------------------------
+//------------ MAIN EVENT --------------------
+//--------------------------------------------  
+        
+    with (event) {
+        //Blew off Rumi.
+        if (scr_quest_get_state("rumiSpoken") == 1) {
+            scr_event_build_dialogue("Rumi", s_port_rumi, "Hello... to you... on this day... today...");
+        }
+        
+        //Finished Camera quest.
+        else if (scr_quest_get_state("rumiCamera") == 3) {
+            scr_event_build_dialogue("Rumi", s_port_rumi, "Hey " + P_NAME + "! Still working on the film. Things are going really well. For the first time in my life, I feel confident. I think I'm really onto something here and I owe it all to you. Why don't you come back in a little while when I'm done and we can watch the film together?");
+        }
+        
+        //Finished Camera quest.
+        else if (scr_quest_get_state("rumiCamera") == 2) && (scr_quest_get_state("rumiCave") == 1) && (scr_quest_get_state("rumiDumpster") == 1) && (scr_quest_get_state("rumiTree") == 1) {
+            scr_event_build_dialogue("Rumi", s_port_rumi, "You're back! Do you have them? Do you have the pictures? Did you find the locations?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think so, why don't you take a look at these?");
+            scr_event_build_dialogue("Rumi", s_port_rumi, ".................................they're perfect! This is perfect! You've done it, " + P_NAME + "! You've done it! I-I-I... need to slow down and catch my breath... I can't believe it! I can't believe you did it... and that you'd do it for me! Oh, you're the best human I've ever met!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "It wasn't really a problem...");
+            scr_event_build_dialogue("Rumi", s_port_rumi, P_NAME + ", I can't thank you enough. I know it's not much but... well, I want you to have this. It's uh... a wad of cash. I guess you'll have to unwrap it... Um, and I'll need my camera back... but thank you... look, I've got to work on the film, but if you come back in a while, maybe we could watch it together. I have really high hopes for this and I think I can sweep the Vid Cannes... if you want to come back then and take it down to Brain City for me, I'd appreciate it more than anything. But you've already helped me so much so I can't ask much more of you.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I'll come back in a little while when it's ready and check it out, okay?");
+            scr_event_build_dialogue("Rumi", s_port_rumi, "Oh, thank you " + P_NAME + "! I've got a really good feeling about this... a really good feeling!");
+            scr_event_build_dialogue(NULL, NULL, "Get 3,000 neuro-shekels and give back Rumi's Camera!");
+            Item("build", "lose", "Camera", 1);
+            scr_event_build_money_add(3000);
+            scr_event_build_quest_state("rumiCamera", 3);
+            scr_event_build_time_add(1);
+        }
+        
+        //On Camera quest.
+        else if (scr_quest_get_state("rumiCamera") == 2) {
+            scr_event_build_dialogue("Rumi", s_port_rumi, "Ah, you're back! Sorry if I'm a little excited, how is the location scouting going?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Can you remind me again what you need me to take pictures of?");
+            scr_event_build_dialogue("Rumi", s_port_rumi, "Yes, of course...");
+            
+            //cave
+            {if (scr_quest_get_state("rumiCave") == 1) {
+                scr_event_build_dialogue("Rumi", s_port_rumi, "You've already got the picture of the cave I need, so don't worry about that...");
+                }
+            
+            else {
+                scr_event_build_dialogue("Rumi", s_port_rumi, "I need a picture of a cave entrance. I don't really know how to explain it, just... the mouth of a cave, I guess. Kind of ominous-looking, maybe?");
+                }
+            }
+            
+            //cave
+            {if (scr_quest_get_state("rumiDumpster") == 1) {
+                scr_event_build_dialogue("Rumi", s_port_rumi, "The dumpster picture you've got seems pretty good. I don't think I'll need another...");
+                }
+            
+            else {
+                scr_event_build_dialogue("Rumi", s_port_rumi, "I'll need a picture of a dumpster. Maybe an old, worn-out dumpster, the kind with graffiti all over and paint chips hanging off.");
+                }
+            }
+            
+            //cave
+            {if (scr_quest_get_state("rumiTree") == 1) {
+                scr_event_build_dialogue("Rumi", s_port_rumi, "And you've got the dying tree picture I need, so you can check that off the list.");
+                }
+            
+            else {
+                scr_event_build_dialogue("Rumi", s_port_rumi, "And I'll need a picture of a dying tree. It shouldn't have any leaves on it and it should be old and withered. I... I don't want to give too much away, but the tree... represents me.");
+                }
+            }
+            
+            scr_event_build_dialogue("Rumi", s_port_rumi, "And just to make it clear, all these things should be in this area. Also, you use the camera like a gun. Just aim and shoot. Got it? But, huh, I didn't need to tell you that...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I got it. Thanks Rumi.");
+        }
+        
+        //Rejected Camera quest.
+        else if (scr_quest_get_state("rumiCamera") == 1) {
+            scr_event_build_dialogue("Rumi", s_port_rumi, "Y-you're back! I wasn't expecting this! Um, I know you're busy and you don't have a lot of time, but have you given any thought to helping me scout locations for my film? I-it would mean a lot to me...");
+            var acceptquest2 = scr_event_build_choice("Help Rumi with his film?", s_port_hoopz);
+            
+            //Sure I can help
+            with scr_event_build_add_choice(acceptquest2, "Sure, I'll help.") {
+                scr_event_build_event_snippet(yesresponse);
+            }
+            
+            //No, I don't have the time.
+            with scr_event_build_add_choice(acceptquest2, "No, I don't have the time.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I'd like to help but I'm still busy. Sorry, man.");
+                 scr_event_build_dialogue("Rumi", s_port_rumi, "Oh... oh. Oh, yeah. Yeah... I knew you were busy. Just... uh... never mind.");
+            }
+        }
+        
+        //Never spoken to before - asked to do quest.
+        else {
+            scr_event_build_dialogue("Rumi", s_port_rumi, "Umm... I hate to bother you... but you're a human, right?");
+            var humanchoice = scr_event_build_choice("I'm a human, right?", s_port_hoopz);
+            
+            //Yes.
+            with scr_event_build_add_choice(humanchoice, "Yeah.") {
+                 scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yes, I'm a human. Why?");
+                 scr_event_build_dialogue("Rumi", s_port_rumi, "Okay, I thought so... I mean, I'm not judging or anything... by your exterior, I mean. You could be anything. I mean... what I'm saying is... you've seen a movie before, right? Like a... film movie?");
+                 scr_event_build_event_snippet(moviechoice);
+            }
+            
+            //Nope.
+            with scr_event_build_add_choice(humanchoice, "Nope.") {
+                 scr_event_build_dialogue(P_NAME, s_port_hoopz, "Human? Heh, only on the outside.");
+                 scr_event_build_dialogue("Rumi", s_port_rumi, "O-okay... but you've seen films before, right? Like... movie films?");
+                 scr_event_build_event_snippet(moviechoice);
+            }
+        }
+        
+    }
+    scr_event_advance(event);
+}

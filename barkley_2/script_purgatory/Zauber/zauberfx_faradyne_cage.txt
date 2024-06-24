@@ -1,0 +1,66 @@
+/// zauberfx_faradyne_cage(dx, dy, radius, height, diroffset, color, linew, alpha)
+
+var dx = argument0;
+var dy = argument1;
+var radius = argument2;
+var height = argument3;
+var diroff = argument4;
+var color = argument5;
+var linew = argument6;
+var alpha = argument7;
+
+var pi2 = pi/2;
+var pi32 = pi/32;
+
+draw_set_blend_mode(bm_add);
+for (var dir = diroff; dir < 360+diroff; dir += 360/16) {
+    var xoff = lengthdir_x(linew, dir+90);
+    var yoff = lengthdir_y(linew, dir+90);
+    draw_primitive_begin(pr_trianglelist);
+    for (var sine = 0; sine < pi2; sine += pi32) {
+        var sineNext = sine+pi32;
+        var s = sin(sine);
+        var c = cos(sine);
+        var sn = sin(sineNext);
+        var cn = cos(sineNext);
+        
+        
+        var p1bx = dx + lengthdir_x(s*radius, dir);
+        var p1by = dy + lengthdir_y(s*radius*.8, dir) - c*height;
+        var p1ax = p1bx - xoff;
+        var p1ay = p1by - yoff;
+        var p1cx = p1bx + xoff;
+        var p1cy = p1by + yoff;
+        
+        var p2bx = dx + lengthdir_x(sn*radius, dir);
+        var p2by = dy + lengthdir_y(sn*radius*.8, dir) - cn*height;
+        var p2ax = p2bx - xoff;
+        var p2ay = p2by - yoff;
+        var p2cx = p2bx + xoff;
+        var p2cy = p2by + yoff;
+        
+        draw_vertex_colour(p1ax, p1ay, color, 0);
+        draw_vertex_colour(p1bx, p1by, color, alpha);
+        draw_vertex_colour(p2ax, p2ay, color, 0);
+        
+        draw_vertex_colour(p1bx, p1by, color, alpha);
+        draw_vertex_colour(p2ax, p2ay, color, 0);
+        draw_vertex_colour(p2bx, p2by, color, alpha);
+        
+        draw_vertex_colour(p1bx, p1by, color, alpha);
+        draw_vertex_colour(p1cx, p1cy, color, 0);
+        draw_vertex_colour(p2bx, p2by, color, alpha);
+        
+        draw_vertex_colour(p1cx, p1cy, color, 0);
+        draw_vertex_colour(p2bx, p2by, color, alpha);
+        draw_vertex_colour(p2cx, p2cy, color, 0);
+    }
+    draw_primitive_end();
+    
+    var circlex = dx + lengthdir_x(radius, dir)-1;
+    var circley = dy + lengthdir_y(radius*.8, dir)-1;
+    draw_set_alpha(alpha);
+    draw_circle_colour(circlex, circley, linew, color, c_black, false);
+    draw_set_alpha(1);
+}
+draw_set_blend_mode(bm_normal);

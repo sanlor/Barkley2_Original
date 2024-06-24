@@ -1,0 +1,354 @@
+// Oliver Twist Twist // Quest: Organ Harvest // An awful guy who wants the player to go and gets Babby Huberts organs for him so that he doesn't have to risk his neck //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+    
+    // Fantomas killed me, Oliver is gone now //
+    if (scr_quest_get_state("pdt_oliver_dumpsite") == 2) scr_event_interactive_deactivate();
+
+    // Can occur only once //
+    if (scr_quest_get_state("pdt_oliver") == 4) or scr_time_get() >= 6 scr_event_interactive_deactivate();
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+    
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    var task_sequence = scr_event_create_child(event);
+    var question1 = scr_event_create_child(event);
+    var question2 = scr_event_create_child(event);
+    var question3 = scr_event_create_child(event);
+    var organs = Item("count", "Duck Organs");
+    
+    // Main event //
+    with (event) {
+            // pdt_oliver //
+            // 0 = First interaction //
+            // 1 = Claimed to be not trustworthy, quest declined //
+            // 2 = Quest accepted //
+            // 3 = Quest declined //
+            // 4 = Quest completed //
+            
+            // Covered in blood //
+            if (scr_quest_get_state("pdt_covered_in_blood") == 1) {
+
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "I thought we had this all settled, Dracula. You stay on your turf, and I'll stay on mine. Or did your ancient mind forget already?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uhh.. turfs. Right. Umm... bye.");
+                }
+            
+            // Dumpsite //
+            /*else if scr_quest_get_state("pdt_oliver_dumpsite") == 1 {
+
+                scr_event_build_look(o_cts_hoopz, NORTHEAST);
+                scr_event_build_look(o_pdt_oliver01, EAST);
+                scr_event_build_fade_cts(1.5);
+                scr_event_build_wait(1.5);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, what's this? Did you do this to him?\Hmmm. No, I'm sure he's just sleeping. He has to be sleeping. No way this is a dead body.");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Ha ha ha! Perfect!");
+                scr_event_build_look(o_cts_hoopz, NORTHWEST);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? What's perfect?");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "You'll continue to get your monthy stipend, fifteen thousand ducats, wired across your accounts.\I'll call ahead and ensure your detoxification package is located at the usual dropzone. Briefcase code: 1963.\And, as usual, I'll make sure to contact the usual outlets and have all record of ownership and identity wiped from this current iteration.\Other than that, it's been a pleasure knowing you " + P_NAME_F + ". God save the Kaiseress.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, ok? I don't really know what any of that meant.");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Of course not. Don't trouble yourself. Grownup problems, you know. Anyways, we'd better split before someone sees us here. Good luck with your new life.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, thanks?");
+                scr_event_build_look(o_cts_hoopz, WEST);
+                
+                scr_event_build_move_to_point_ext(o_pdt_oliver01, 128, 256, MOVE_NORMAL);
+                scr_event_build_wait(1.5);
+                scr_event_build_wait_for_actions();
+                scr_event_build_destroy_object(o_pdt_oliver01);
+                scr_event_build_wait(1);
+                    
+                scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I can't wait until I'm a grownup. I'm going to be a great grownup.)");
+                scr_event_build_quest_state("pdt_oliver_dumpsite", 2);
+                }*/
+            
+            // Hoopz talks to Oliver Twist for the first time, he asks Hoopz to take part in his dirty dirty deeds //
+            /*else if (scr_quest_get_state("pdt_oliver") == 0) {
+
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Good day to you, buddy. Haven't seen you around Ys-Kolob before. You a newcomer?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess you could say that. I'm really not from around here at all, just passing by.");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "I see, I see... Well then, you wouldn't be looking for some work by any chance, would you?");
+                
+                // Choices: Intersted in a job or not //
+                var choice_job = scr_event_build_choice("Am I looking for work?", s_port_hoopz); 
+                
+                    // Yes, tell me more about this job //
+                    var yes = scr_event_build_add_choice(choice_job, "Yes");
+                    with yes {
+
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I suppose more money wouldn't hurt...");
+                    scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Great! I got the perfect deal for you. Okay so here's how it goes. I'm a trustworthy guy, people around here know that. When they have some problems that are... delicate in nature, they turn to me. I'm no squeel, as long as the pay is good, and let me tell you something, buddy. The pay on this one is REAL nice."); 
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, go on, I'm listening.");
+                    scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Now, understand that this is indeed a delicate job. Absolute confideliality is a necessity. Are you okay with that?"); 
+                    
+                    // Choices: Listen to Oliver Twist or Leave //
+                    var choice_go_on = scr_event_build_choice("Am I trustworthy?", s_port_hoopz); 
+                    
+                        // Listen more, claim to be trustworthy //
+                        var yes = scr_event_build_add_choice(choice_go_on, "Yes");
+                        with yes {
+                        
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm trustworthy... You can count on me.");
+                            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Alright, good. Just make sure you remember that. So anyways, here's the deal. There's this guy. Calls himself Ninja Bur-Hem. Some foreign goofball or something, I don't know. I've never actually met him in person. Anyway, he is loaded with cash, and he wants me to go and pay a little visit to one of the locals, Babby Hubert, and... well... lighten his load, if you know what I'm saying.");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, I don't.");
+                            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "You know... trimming the fat with broad strokes. Liquidating his assets. Conducting an internal firesale. Carving a duck risotto. You know?");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't get it.");
+                            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Clispaeth Christ... Organ harvesting! The client wants his organs!");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What!? No way! No way in heck!");
+                            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Relax! He is a special case, that Babby Hubert. He doesn't NEED organs. We can take them and no harm will be done. Trust me.");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Are you kidding me? You can't live without organs, I think.");
+                            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Sure you can. If you are Babby Hubert that is. Like I said, he is a special case. He isn't a normal dwarf. In fact I don't know what sorta dwarf he is. The people at Big Bad Wolf & Benjamin Biotek probably don't know what he is. But what we do know is that he doesn't need his organs.");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Are you sure?");
+                            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Yes, absolutely. Would I lie to you? No, I wouldn't. Why would I? I need your help after all. So what do you say?");
+                            scr_event_build_quest_state("pdt_hear_about_biotek", 1);
+                            scr_event_build_event_snippet(task_sequence);
+                            }
+                    
+                    // Leave, claim that you can't be trusted //
+                    var no = scr_event_build_add_choice(choice_go_on, "No");
+                    with no {
+                    
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know mister... I've been known to have slipped things from my mouth on occasion.");
+                        scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "I see... What a pity. If that is the case then I'm afraid I can't let you partake in this job. Sorry, buddy.");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's alright. I'll survive.");
+                        scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "I'm sure you will. See you around, buddy.");
+                        scr_event_build_quest_state("pdt_oliver", 1);
+                        }
+                    }
+                    
+                // No, I don't need job //
+                var no = scr_event_build_add_choice(choice_job, "No");
+                with no {
+                
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't have the time right now, sorry.");
+                    scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "No deal? Hmm. I guess you don't have what it takes...");
+                    scr_event_build_quest_state("pdt_oliver", 5);
+                    }
+                }
+                
+            // Hoopz talks to Oliver Twist after declining to hear him out // Oliver isn't willing to offer to Hoopz anymore since he can't be trusted //
+            else if (scr_quest_get_state("pdt_oliver") == 1) {
+            
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Sorry, but I can't help you. The jobs I take require absolute confideliality, and if you want to be part of that then that goes for you as well.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's not that I wouldn't want the job but... I guess I'm just doubting myself.");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "That would be part of the problem. There is no room for doubt in my line of work. None.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What exactly is it that you do?");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "That is strictly confidential.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh...");
+                }
+                
+            // Hoopz talks to Oliver Twist after accepting the quest //
+            else if (scr_quest_get_state("pdt_oliver") == 2) {
+
+                // Organs, organs, organs... //
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Hey bud. Did you get the organs?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know.");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "You don't know? Look, chief, this isn't a difficult question. Either your bucket is full of organs or it isn't. Which is it?");
+                scr_event_build_event_snippet(question1);
+                }
+
+            // Hoopz talks to Oliver Twist after having declined the quest //
+            else if (scr_quest_get_state("pdt_oliver") == 5) {
+
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Hey buddy. We got nothing more to discuss. Business is done.");
+                }
+    }
+    
+    //------------------------------------- 
+    //------------ TASK SNIPPET -----------
+    //-------------------------------------
+    with (task_sequence) {
+    
+    // Choices: Accept or Decline organ harvest quest //
+    var choice_task = scr_event_build_choice("Up for some Organ Harvesting?", s_port_hoopz); 
+    
+        // Agree to help Oliver Twist //
+        var yes = scr_event_build_add_choice(choice_task, "I will help you");
+        with yes {
+
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I guess I'll help you.");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Great! So let me help you get started. Here is a bucket for the organs. Babby Hubert is somewhere in Ys-Kolob. A large and disgusting diaper wearing duck or whatever the heck he is supposed to be. You can't miss him. Good luck!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Alright, I'm on the case.")
+            scr_event_build_quest_state("pdt_oliver", 2);
+            }
+        // Decline help to Oliver Twist //
+        var no = scr_event_build_add_choice(choice_task, "I won't help");
+        with no {
+
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No way man, this is way too shady for me.");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "No deal? Hmm. I guess you don't have what it takes. I'll just have to take care of this myself.");
+            scr_event_build_quest_state("pdt_oliver", 3);
+            }
+         }
+             
+    // Did you get the organs, Oliver Twist asks //
+    with (question1) {
+        var fantomas1 = scr_event_build_choice("Don't say anything else. Just walk away.", s_port_hoopz);
+        with (scr_event_build_add_choice(fantomas1, "Nah, still working on it.")) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nah, still working on it. Getting duck organs is tough work.");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "I hear ya, kid. Just don't forget about your old pals here. We're big fans of organs, ain't we Fantomas?");
+            scr_event_build_dialogue("Fantomas", "s_port_fantomas", "......");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "He's nuts about 'em. Wait'll you see his face when you come back. Organs light him up like a Clispaethmas tree.");
+            scr_event_build_end();
+        }
+        with (scr_event_build_add_choice(fantomas1, "Yeah, I got the organs.")) {
+        
+            // Organs I have //
+            if Item("have", "Duck Organs") {
+            
+                // Give organs to Oliver and Fantomas, who then leave //
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I got the organs.");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Excellent. That is music to my ears. Lets have a look at those organs then. Hand over the bucket.");
+                scr_event_build_wait(1);
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "... Nice work, kid. A total of " + (string(organs)) + " nice, juicy organ(s). I have to say, I'm impressed. Now as I promised here is your money. 12 shekkies for each organ.");
+                scr_event_build_money_add(organs * 12);
+                // TODO Proper shekel output text //
+                scr_event_build_dialogue_item("You received " + string(organs * 12) + " shekels.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh wow, thanks a lot!");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Alright Fantomas, lets get moving while the product is still fresh."); 
+                scr_event_build_dialogue("Fantomas", "s_port_fantomas", "...");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "See you later kid. Now, if you'll excuse me..."); 
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 392, 312, MOVE_NORMAL);
+                scr_event_build_wait_for_actions();
+                scr_event_build_look(o_cts_hoopz, NORTH);
+                scr_event_build_wait(0.25);
+                scr_event_build_camera_follow_frame(CAMERA_NORMAL, o_pdt_oliver01, o_cts_hoopz);
+                scr_event_build_move_to_point_ext(o_pdt_fantomas01, 166, 362, MOVE_NORMAL);
+                scr_event_build_move_to_point_ext(o_pdt_oliver01, 176, 392, MOVE_NORMAL);
+                scr_event_build_wait_for_actions();
+                scr_event_build_camera_frame(CAMERA_FAST, o_pdt_fantomas01)
+                scr_event_build_destroy_object(o_pdt_oliver01);
+                scr_event_build_move_to_point_ext(o_pdt_fantomas01, 176, 392, MOVE_NORMAL)
+                scr_event_build_wait_for_actions();
+                scr_event_build_destroy_object(o_pdt_fantomas01);
+                scr_event_build_camera_frame(CAMERA_FAST, o_cts_hoopz);
+                scr_event_build_wait_for_actions();
+                scr_event_build_quest_state("pdt_oliver", 4);
+                scr_event_build_quest_state("pdt_oliversreward", organs * 12);
+                }   
+        
+            // I dont actually have the organs, but I tell Oliver that I do, I'm a real joker //
+            else {
+            
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I got the organs.");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Oh yeah, music to my ears.\You uh.......you leave 'em outside or something? Kinda heavy for you?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No.");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Ah, yeah. So you.......ah......\Don't really see any organs, you know. And that fucker was a little bit fucking huge. Kinda hard to miss a little fucking kid carrying organs that fucking big.\You mind telling us where my fucking organs might be right now?");
+            scr_event_build_dialogue("Fantomas", "s_port_fantomas", ".......");
+            scr_event_build_event_snippet(question2);
+            }
+        }
+    }
+
+    // Don't have the organs yet OR I destroyed them //
+    with (question2) {
+        var fantomas2 = scr_event_build_choice("Just walk away. Don't do this. Please...", s_port_hoopz);
+        with (scr_event_build_add_choice(fantomas2, "No, I meant I haven't gotten the organs yet.")) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, I meant I haven't gotten the organs yet. But I will! I swear!");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Hey, hey, hey. Don't need to swear, kid. I know you'll get me my organs.\We can count on this kid, right?");
+            scr_event_build_dialogue("Fantomas", "s_port_fantomas", ".......");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Awww, don't be so gloomy. We got a good, reliable kid right here, don't we?\Good and reliable......\I wouldn't hire a bad boy. Bad boys don't get supper. Bad boys live out in the street. Bad boys don't wake up when you put a knife in their ribs.\Fortunate for you, chief, because you're good and reliable. You're good and reliable because I said so. Try not to forget that. Good words to live by.");
+            scr_event_build_end();
+        }
+        with (scr_event_build_add_choice(fantomas2, "The organs are gone.")) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "The organs are gone.");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Gone, huh?\Well maybe I'm not exactly skilled in duck science. Maybe I don't know if duck organs have the ability to just get up and wander away.\You think duck organs can get up and walk away, Fantomas?");
+            scr_event_build_dialogue("Fantomas", "s_port_fantomas", "......");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Yeah......me neither.\Looks like we're going to hear a science lesson, aren't we Fantomas? How about that?\Unless maybe you'd rather be out fucking finding my fucking organs instead of standing here with that smug fucking look on your face.");
+            scr_event_build_event_snippet(question3);
+        }
+    }
+
+    // Choose life or death //
+    with (question3) {
+        var fantomas3 = scr_event_build_choice("He WILL kill you. Are you ok with this?", s_port_hoopz);
+        with (scr_event_build_add_choice(fantomas3, "Just kidding. I haven't gotten the organs yet.")) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Just kidding. I haven't gotten the organs yet. Babby Hubert is greasing himself up right now. He's really particular about this.\I just wanted to let you know what the hold up was. Sorry for the prank. Gotcha, though.");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Ha ha. Funny kid, isn't he? A fucking riot.");
+            scr_event_build_dialogue("Fantomas", "s_port_fantomas", "........");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Just a bucket of laughs, this kid.\Just do me a solid and dump out some of those giggles, try filling the bucket up with some organs next time.");
+            scr_event_build_end();
+        }
+        
+        // The Fantomas murder option only appears after dumping organs into the well //
+        if scr_quest_get_state("fantomas_will_kill_you") = 1 {
+        
+            with (scr_event_build_add_choice(fantomas3, "[SUICIDE] I threw the organs down the well. They're ruined.")) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I threw the organs down the well. They're ruined.");
+                
+                scr_event_build_quest_state("pdt_oliver_dumpsite", 1);
+                scr_event_build_quest_state("player_is_fantomas", 1);
+
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "The well.....");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yep. They're destroyed, and you're screwed.");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Huh. Down the well. Who'd have thought it?\You ever wonder what it's like to just put that gun to your head? Pull the trigger. What that one moment feels like?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, ".......");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Of course you do. You're here, at the end of your life, staring into that final abyss. You walked here yourself. Could have walked away.\What's it look like? I don't buy that life flashing before your eyes shit. What's it really look like? What do you see?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Infinite basketballs being slammed into infinite hoops across infinite courts, all repeating for eternity.");
+                scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "*Sigh*\One day, Fantomas. One day I'll get a good answer to that question.\Until that happens, dispose of this trash for me.");
+                scr_event_build_dialogue("Fantomas", "s_port_fantomas", "......");
+                scr_event_build_music_set("mus_pdt_heartbeat", 1);
+                
+                scr_event_build_move_to_point_ext(o_pdt_fantomas01, PlayerCombatActor.x - 32, PlayerCombatActor.y + 15, MOVE_NORMAL);
+                scr_event_build_wait(0.25);
+                scr_event_build_look(o_cts_hoopz, WEST);
+                scr_event_build_wait(1);
+                scr_event_build_fade(true, 3);
+                //scr_event_build_fade(
+                //scr_event_build_fade_cts(1.5);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "W-what? Hey, wait a minute!");
+                scr_event_build_wait(0.75);
+                
+                scr_event_build_sound_play("sn_pdt_cartoonfight01");
+                
+                scr_event_build_wait(9.25);
+                scr_event_build_dialogue_boxless("Voice of a sinister man", NULL, "Power on the device.");
+                scr_event_build_dialogue_boxless("Voice of a good boy", NULL, "For this stupid kid? You sure?");
+                scr_event_build_dialogue_boxless("Voice of a familiar boy", NULL, "Hah...");
+                scr_event_build_wait(1.25);
+                // TODO: power up machine sounds //
+                scr_event_build_dialogue_boxless("", NULL, ".......");
+                scr_event_build_wait(1.25);
+                scr_event_build_dialogue_boxless("Voice of a good boy", NULL, "It's on. But I think you can do a lot better. Someone higher up.");
+                scr_event_build_dialogue_boxless("Voice of a sinister man", NULL, "Chaos means nothing if you aren't prepared to dance that absurd dance of the cosmos.");
+                // TODO: Machine sounds //
+                scr_event_build_wait(2.5);
+                scr_event_build_dialogue_boxless("Voice of a sinister boy", NULL, "Wow, is he really dead?");
+                scr_event_build_dialogue_boxless("Voice of a good boy", NULL, "No, no, no, no, no. Higher pitch. Much higher.");
+                scr_event_build_dialogue_boxless("Higher pitched voice of a sinister boy", NULL, "Wow!! Is he really dead!?! Did you do this to him?");
+                scr_event_build_dialogue_boxless("Voice of a good boy", NULL, "Hmm... No, it's not quite right. It still needs some work.");
+                scr_event_build_dialogue_boxless("Voice of a familiar boy", NULL, "It sounded genuine to me. You guys are really good at this. I'd like to stick around to watch you work your magic but it's about time for me to disappear. Are you sure this'll work?");
+                scr_event_build_dialogue_boxless("Voice of a good boy", NULL, "Don't sweat it. He can handle it. You just go on and get outta here.");
+                scr_event_build_dialogue_boxless("Voice of a familiar boy", NULL, "Okay... We'll meet again.");
+                scr_event_build_dialogue_boxless("Voice of a good boy", NULL, "Right.");
+                scr_event_build_wait(1.25);
+                scr_event_build_dialogue_boxless("Voice of a good boy", NULL, "Where were we? Ah, yes. Your voice. Try it with the mask on, maybe. I'm just not feeling it.");
+                scr_event_build_teleport(r_pdt_dumpsite01, 200, 216, 0, -2); // -2 is solution to make fade work
+                
+                //scr_event_build_create_object(o_cts_fantomas, x, y);
+                //scr_event_build_end();
+                }
+            }
+    }
+    scr_event_advance(event);
+}
+
+// This is the super-secret Oliver Twist02 script, which is where Oliver Twist Twist and Fantomas kill the protagonist FOR REAL and Fantomas(impersonating the protagonist) becomes the game's main character. I could have just blended this in with Laz' Oliver Twist01 script, but seeing as how Laz made that script, it concerns completely different quest events, and this one is going to need vaguely involved cinematics long-term, I made the call to just have that script go inactive when the player has dumped the organs
+// CRITICAL NOTE: AT THE PRESENT TIME I did not edit Laz' Oliver Twist01 script myself, so it will need to be interactive_deactivate when fantomasdeathState=1, just so this script is the ONLY OPTION if the player gets that far into the Fantomas secret-quest.
+// Continuity notice: Because this should be slightly hard to find, simply the player selling the organs elsewhere, droping them, fusing them with gun's, or any other methods of disposing items WILL ABSOLUTELY NOT trigger this quest event. The player will need to go TO THE WELL(or whatever dumping spot we decide on) and VERY DELIBERATELY throw them away, amidst my severe warnings about how pissed off Oliver Twist is going to be. This will cause the state fantomasdeathState, which is the REQUIRED FIRST STEP in this sequence of events.
+/* FANTOMAS QUEST STATES
+As of right now, the states for the Fantomas event are extremely simple. At the early stages of the game it is rather simple.
+fantomasdeathState=0 - Player has not dumped the organs down the well
+fantomasdeathState=1 - Player has defied Oliver Twist and Fantomas by dumping the organs down the well. The option to talk to Oliver Twist and get killed is available.
+fantomasState=0 - X114JAM9 and its natural variants are the protagonist of the game.
+fantomasState=1 - X114JAM9(et al.) is dead. Fantomas is the protagonist of the game.
+
+I don't exactly include the Babby Hubert stuff as part of that, since it simply piggy-backs on it rather than being the natural progression. Check the babyhuey01 script for the organ quest states. Basically how it works is that when the player has the item "Duck Organs" in their possession they are able to dump the organs down the well rather than giving them to Oliver Twist(which puts fantomasdeathState to 1) and subsequently has the option of talking to Oliver Twist(the oliver02 script instead of the standard oliver01 script), being belligerent, and getting killed and impersonated by Fantomas(fantomasState=1) 
+*/

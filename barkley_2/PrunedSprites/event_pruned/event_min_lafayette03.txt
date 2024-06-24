@@ -1,0 +1,102 @@
+// Event script for Lafayette, right as the player leaves the prison at the end of the prison phase of the rebel quest. This is the non-collision script if the player has aborted the finale of the rebel quest once.
+// PLACEMENT NOTE: Kinda stumped on this one, but Lafayette is supposed to basically END the quest for the player, as well as take Aloysius off their hands if they don't feel like continuing on with the quest at this point. The problem is where this is placed, I guess, as this is something that ABSOLUTELY MUST activate for the player when they leave the prison, but be close enough to the duergar base to make contextual sense. I think it would fuck things up if the player was allowed to continue walking around with Aloysius for a while
+// NOTE: This is kinda/sorta a copy of the lafayette02 script, but not really. What happens is that lafayette02 collision triggers when the player leaves the prison, giving the player the option of either continuing with the questline or taking a break. If they take a break, the lafayette03 script is available in the form of activating the lafayette sprite rather than an auto-trigger. This is probably essential to let the player quit this quest event after they've started, and a place where they can pick things back up.
+// CONTINUITY NOTE: It's probably relevant for the player to NOT be allowed to take Aloysius into the rest of the gameworld at this point, which they'd otherwise be able to do if this script is followed to the letter. There's room for a quest state to be added at the end of this script that prevents the player from leaving the area.
+// REWARD NOTICE: I feel like there needs to be a quest reward for this. I haven't written it, and there isn't really a place for it, but I can find one if we come up with a suitable reward for this quest. I think getting fucking arrested to help this guy's cause is worthy of a reward of some description.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") <= 9) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") == 7) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var lafayette = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("lafayetteBaseState") == 3) {
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Hey, are you ready to start?? We could really use your help!!");
+            var assault2 = Choice("You ready to stick it to the duergars?", NULL);
+            with (ChoiceAdd(assault2, "I'm ready for this.")) {
+                Dialogue(P_NAME, "I'm ready. Let's do this.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Great!! Excellent!!! Hear that Aloysius?? He's ready for you now!!! Time for you to shine!!!");
+                scr_event_build_dialogue("Aloysius", NULL, "WURRRRP.");
+                Quest("lafayetteBaseState", 2);
+                scr_event_build_dialogue_debug("Hundley", NULL, "FOLLOWER NOTICE: Aloysius will begin following the player again at this point.");
+                // FOLLOWER NOTICE: Aloysius will begin following the player again at this point.
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(assault2, "Not yet.")) {
+                Dialogue(P_NAME, "There's something I still need to take care of. I'll be back later.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Uh, ok.......\Just.....uh.....\We could really use your help is all. Please come back soon.");
+                scr_event_build_end();
+            }
+        } else if (Quest("lafayetteBaseState") == 2) {
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Did you forget something?");
+            var quitters = Choice("Do you need to leave?", NULL);
+            with (ChoiceAdd(quitters, "I need to go take care of something.")) {
+                Dialogue(P_NAME, "Yeah, there's something I need to take care of. I'll be back later.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Uh, ok.......\Just.....uh.....\We could really use your help is all. Please come back soon.");
+                scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Aloysius stops following the player, and stands beside Lafayette. He will remain there until the player talks to Lafayette and starts the quest up again.");
+                // This halts the quest, Lafayette and Aloysius wait here and the player can go off and do whatever. They can even just never come back and leave these poor fucks for dead. Whoops!!
+                Quest("lafayetteBaseState", 3);
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(quitters, "No, I'm ready for this.")) {
+                Dialogue(P_NAME, "No. I'm ready for this. Wish me luck.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Just stay safe, ok? I've lost so many of my friends. I don't want to lose another one.");
+                scr_event_build_end();
+            }
+        } else if (Quest("lafayetteBaseState") == 1) {
+            Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Hey, are you ready to start?? We could really use your help!!");
+            var assault = Choice("You ready to stick it to the duergars?", NULL);
+            with (ChoiceAdd(assault, "I need a break.")) {
+                Dialogue(P_NAME, "No dice, pal. I gotta take a breather.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Oh......well.....\Everybody's kinda already in there, but......\I guess I can tell them to pull out and wait for you to get back.....");
+                Dialogue(P_NAME, "Thanks. I'll try to be quick.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Ok.....");
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(assault, "Lets do this.")) {
+                Dialogue(P_NAME, "I've probably put too much into this to just walk away. Let's do this.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "All right!!! So you should know the inside of that place better than anybody else! Can you please take Aloysius to that place you found before?");
+                Dialogue(P_NAME, "Yeah. And you want him to turn all the weapons on the duergars, right?");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "That would be great!! Then we can get rid of them all and take their base!!");
+                Dialogue(P_NAME, "You're absolutely sure about this, right? A lot of people are going to die if I do this, you know.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Yeah.....\Do you think they'll be sore at us?");
+                Dialogue(P_NAME, "Probably.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Yeah, I guess they would.\But I haven't just been sitting around all this time. I tried to think of ways I could get the duergars to stop doing these bad things.\But I didn't come up with anything....");
+                Dialogue(P_NAME, "I just wanted to make sure you were ok with this before we went and pushed that button.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", ".........\I'm not ok with this. I'm good at finding things, exploring. I shouldn't be stuck in this wheelchair. I shouldn't have to think about things this way.\I didn't become the bad guy, did I?");
+                Dialogue(P_NAME, "Of course not. Don't talk crazy.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "No, I'm serious. Don't just say that because you're my friend.\When do you stop being a good guy and become the bad guy? When I had my legs I was just exploring all the time. Finding things and places.\Now I've just had to think about ways to kill people. There isn't anything else. But that's what bad guys do. When do you stop being a good guy and become a bad guy?");
+                Dialogue(P_NAME, "Hopefully we're doing all this for the right reasons. There's another Lafayette out there that maybe won't lose his legs because of this.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Yeah, I know. But.....\I don't know. All the others just hate the duergars. They hate them an awful lot. That's what they all talk about.\I've never sat down and talked with a duergar. Maybe some of them like the same things I do. Maybe I'd like them if I got a chance to talk to them.\Maybe they'd even like me.\I don't hate anybody, not even the duergars, but I have to act like I hate them. I didn't get a chance to know any of them. I didn't get a chance to hate them.");
+                Dialogue(P_NAME, "Maybe they didn't really get a chance, either.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "You know what? Can you keep a secret?");
+                Dialogue(P_NAME, "Sure.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "This stinks. Why do things have to stink so bad?");
+                Dialogue(P_NAME, "Life stinks most of the time, I guess. The whole fucking thing is just a guessing game, trying to figure out when it's safe to stop holding your nose.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Hey, you cursed!!");
+                Dialogue(P_NAME, "Heh. Yeah, I guess I did.\You won't tell on me, will you?");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Your secret is safe with me, buddy.");
+                Dialogue(P_NAME, "Thanks.\I better get going, I guess.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Yeah. Uh.....just......");
+                Dialogue(P_NAME, "What?");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Try to go easy on any of them that seem nice. Maybe if there are any others in a wheelchair like me that aren't hurting anybody.\Maybe you can just......I dunno.....");
+                Dialogue(P_NAME, "I'll see what I can do.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Thanks. Good luck!! Oh, and remember to check with Compson before doing anything! He's still the boss, you know!!");
+                Quest("lafayetteBaseState", 2);
+                scr_event_build_dialogue_debug("Hundley", NULL, "FOLLOWER NOTICE: Aloysius will begin following the player again at this point.");
+                // FOLLOWER NOTICE: Aloysius will begin following the player again at this point.
+                scr_event_build_dialogue_debug("Hundley", NULL, "CONTINUITY NOTICE: A quest state may need to be place here to prevent the player from wandering out of this quest area with Aloysius still following him.\There isn't one now, but that may need to be added right here later.");
+                // CONTINUITY NOTICE: A quest state may need to be place here to prevent the player from wandering out of this quest area with Aloysius still following him. There isn't one now, but that may need to be added right here later.
+                scr_event_build_end();
+            }
+        }
+    }
+    scr_event_advance(event);
+}

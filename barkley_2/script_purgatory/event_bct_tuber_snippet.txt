@@ -1,0 +1,9 @@
+scr_event_build_animation_play_and_set(o_cts_hoopz, "peeling1", "peeling2");
+scr_event_build_wait_for_actions();
+scr_event_build_user(o_tuberPeels, 0);
+scr_event_build_animation_play_and_set(o_cts_hoopz, "peeling3", "peeling4");
+scr_event_build_wait_for_actions();
+scr_event_build_user(o_tuberPile, 10);
+scr_event_build_user(o_peeledTubers, 0);
+scr_event_build_animation_play_and_set(o_cts_hoopz, "peeling5", "peeling0");
+scr_event_build_wait_for_actions();

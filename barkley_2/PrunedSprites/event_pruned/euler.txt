@@ -1,0 +1,141 @@
+// Event for Euler, a regular guy in the Industrial Park who is always there. Generic Wasteland
+// graphics. His main purpose is for the Chup Dealer quest. Tells you to get stronger.
+/*
+if (argument0 == SCRIPT_INTERACT) then
+    {
+    // Build Event
+    var euler = id;
+    var event = scr_event_create_main();
+    var chup_handler_snippet = scr_event_create_child(event);
+    var chup_sale_snippet = scr_event_create_child(event);
+    
+    //--------------------------------------------
+    //------------ CHUP SALE SNIPPET -------------
+    //-------------------------------------------- 
+    with (chup_sale_snippet)
+        {
+        Breakout("build", "clear");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, you wanna get juiced up? You wanna get swole, brah? Forget about oats, I've got exactly what you need.");
+        scr_event_build_dialogue("Euler", NULL, "Yeah... yeah, I wanna get swole. I wanna get humongous! Check these guns... a.k.a. my arms... see 'em? You like what you see? Been pumpin' these bad boys since I was old enough to pump. Now I pump 'em all day. 100% oats. All natty, baby.")
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Not bad, not bad... but what if they were 100% chups instead?");
+        scr_event_build_dialogue("Euler", NULL, "Chups, huh? I've heard about 'em... You think they'll get me pumped up? I wanna get juiced to the limit, I want to blimp up like a beach ball, I want to become a perfect spheroid. Sure, I'll take what you got. How's 400 neuro-shekels sound?")
+        
+        var sellchup1 = scr_event_build_choice("Sell Euler a chup?", s_port_hoopz);
+        
+        // Sell Chup
+        with scr_event_build_add_choice(sellchup1, "You've got yourself a deal.")
+            {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sounds good, pal. Yeah, these'll turn you into a living, breathing muscle orb. You just got yourself the best deal this side of Brain City.");
+            scr_event_build_dialogue(NULL, NULL, "Get 400 neuro-shekels!");
+            scr_event_build_dialogue("Euler", NULL, "Awww buddy, I can already feel myself swelling up. I can't wait to topically apply these to my delts and glutes. Take care, pal. I won't forget this!");
+            scr_event_build_quest_state("eulerChup", 1);
+            scr_event_build_quest_state_add("chupCount", -1);
+            scr_event_build_quest_state_add("chupShekel", 400);
+            scr_event_build_money_add(400);
+            }
+            
+        // Bargain
+        with scr_event_build_add_choice(sellchup1, "Not enough, chump.")
+            {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You think that's enough for my Grade A chups? These ain't your every day street chups cut with gumpers and ecto cooler, these are 100% pure, mined by professionals in the Sombrero Galaxy.");
+            scr_event_build_dialogue("Euler", NULL, "Oh... I read on DwarfNET chups usually go for around 400... How's 600 neuro-shekels sound?")
+            
+            var sellchup2 = scr_event_build_choice("Sell Euler a chup?", s_port_hoopz);
+            
+            // Confirm Deal
+            with scr_event_build_add_choice(sellchup2, "You've got yourself a deal.")
+                {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sounds good, pal. Yeah, these'll turn you into a living, breathing muscle orb. You just got yourself the best deal this side of Brain City.");
+                scr_event_build_dialogue(NULL, NULL, "Get 600 neuro-shekels!");
+                scr_event_build_dialogue("Euler", NULL, "Awww buddy, I can already feel myself swelling up. I can't wait to topically apply these to my delts and glutes. Take care, pal. I won't forget this!");
+                scr_event_build_quest_state("eulerChup", 1);
+                scr_event_build_quest_state_add("chupCount", -1);
+                scr_event_build_quest_state_add("chupShekel", 600);
+                scr_event_build_money_add(600);
+                }
+                
+            // Still Not Enough
+            with scr_event_build_add_choice(sellchup2, "Still not enough.")
+                {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You're kidding, right? You think 600 neuro-shekels are gonna cut it for these? C'mon, man. Don't yank me around, make a real offer or get out of my face.");
+                scr_event_build_dialogue("Euler", NULL, "Uhhh... 800 neuro-shekels? Does that sound right? That's all I've got. I just want to be a pulsating rhombus of muscles, man.")
+                
+                var sellchup3 = scr_event_build_choice("Sell Euler a chup?", s_port_hoopz);
+                
+                // Confirm Deal
+                with scr_event_build_add_choice(sellchup3, "You've got yourself a deal.")
+                    {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess it'll have to do. Yeah, these'll turn you into a living, breathing muscle orb. You just got yourself the best deal this side of Brain City.");
+                    scr_event_build_dialogue(NULL, NULL, "Get 800 neuro-shekels!");
+                    scr_event_build_dialogue("Euler", NULL, "Awww buddy, I can already feel myself swelling up. I can't wait to topically apply these to my delts and glutes. Take care, pal. I won't forget this!");
+                    scr_event_build_quest_state("eulerChup", 1);
+                    scr_event_build_quest_state_add("chupCount", -1);
+                    scr_event_build_quest_state_add("chupShekel", 800);
+                    scr_event_build_money_add(800);
+                    }
+                    
+                // Still Not Enough
+                with scr_event_build_add_choice(sellchup3, "Still not enough.")
+                    {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "You're pushing it, chump. You know how much these cost me? If I was charging you what they're really worth, you wouldn't eat for a month, pal. Now make a real offer or go home.");
+                    scr_event_build_dialogue("Euler", NULL, "Whatever, pal, forget it. I didn't even want chups anyway. I've got my oats and that's all I need. Piss off.")
+                    scr_event_build_quest_state("eulerChup", 1);
+                    }
+                }
+            }
+        }
+        
+    //--------------------------------------------
+    //------------ CHUP HANDLER ------------------
+    //--------------------------------------------
+    with (chup_handler_snippet)
+        {
+        // Chup Quest
+        if (scr_chup_available("euler") == true) then
+            {
+            Breakout("build", "add", "chupCount");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Maybe I can sell this guy a chup...?)");
+            
+            // CHUP CHOICE
+            var chupsell = scr_event_build_choice("Sell Euler a chup?", s_port_hoopz);
+            
+            // Sell Chup
+            with scr_event_build_add_choice(chupsell, "Hey bud, I've got something better than oats.")
+                {
+                scr_event_build_event_snippet(chup_sale_snippet);
+                }
+                
+            // Don't Sell Chup
+            with scr_event_build_add_choice(chupsell, "He's a pushover... he can't handle chups.")
+                {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This guy thinks oats are a big deal? Heh, he couldn't handle chups. Forget it.)");
+                }
+            }
+        }
+   
+    //--------------------------------------------
+    //------------ MAIN EVENT --------------------
+    //--------------------------------------------      
+    with (event)
+        {
+        // Never spoken to before.
+        if (scr_quest_get_state("eulerState") == 0)
+            {
+            scr_event_build_dialogue("Euler", NULL, "Maybe instead of moping around all day, you should eat some oats to increase your vigor.")
+            scr_event_build_quest_state("eulerState", 1);
+            }
+            
+        //Spoken to before. 
+        else if (scr_quest_get_state("eulerState") == 1)
+            {
+            scr_event_build_dialogue("Euler", NULL, "Don't say I didn't warn you.");
+            }
+            
+        // Go to Chup Handler
+        scr_event_build_event_snippet(chup_handler_snippet);
+        }
+        
+    // Gameboy advance //
+    scr_event_advance(event);
+    }

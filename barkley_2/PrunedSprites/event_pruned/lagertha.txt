@@ -1,0 +1,167 @@
+// Event for Lagertha, adventurer with Lonnie's party who appears in the Industrial
+// Park at times 3, 4, 5, 8. Dies.
+/*if (argument0 == SCRIPT_START)
+{
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    if (scr_time_get() == 3) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 4) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 5) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 8) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var lagertha = id;
+    var event = scr_event_create_main();
+    var chup_handler_snippet = scr_event_create_child(event);
+    var chup_sale_snippet = scr_event_create_child(event);
+
+    //--------------------------------------------
+    //------------ CHUP SALE SNIPPET -------------
+    //-------------------------------------------- 
+    with (chup_sale_snippet)
+    {
+        Breakout("build", "clear");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey... I think I've got something you might like...");
+        scr_event_build_dialogue("Lagertha", NULL, "What? What are you talking about?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Goopenthalers... Monkey funnels... Chubby guidos... y'know, chups, the good stuff. This isn't amateur stuff, this is that designer product, the real deal, the stuff you have to wear a lab coat to make-");
+        scr_event_build_dialogue("Lagertha", NULL, "Let me cut you off. I don't want any and if you're serious about becoming strong, you shouldn't either. Throw them out.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "O-oh... sorry. I thought you might want some... um... see you later... (I think I really blew it with her...)");
+        scr_event_build_quest_state("lagerthaChup", 1);
+    }
+
+    //--------------------------------------------
+    //------------ CHUP HANDLER ------------------
+    //--------------------------------------------
+    with (chup_handler_snippet)
+    {
+        // Chup Quest
+        if (scr_chup_available("lagertha") == true)
+        {
+            Breakout("build", "add", "chupCount");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Maybe I can sell this lady a chup...?)");
+            // CHUP CHOICE
+            var chupsell = scr_event_build_choice("Sell her a chup?", s_port_hoopz);
+                        
+            // Sell Chup
+            with scr_event_build_add_choice(chupsell, "Hey... so I've got something I think you might like...")
+            {
+                scr_event_build_event_snippet(chup_sale_snippet);
+            }
+            // Don't Sell Chup
+            with scr_event_build_add_choice(chupsell, "Something tells me she doesn't want chups...")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Nah... something tells me Lagertha wouldn't be interested.)");
+            }
+        }
+    }
+
+    //--------------------------------------------
+    //------------ MAIN EVENT --------------------
+    //--------------------------------------------      
+    with (event)
+    {
+        //Time = 8
+        if (scr_time_get() == 8)
+        {
+            //Spoken to during Time 8, spoke to during times 4 or 5
+            if (scr_quest_get_state("lagerthaState") == 4)
+            {
+                scr_event_build_dialogue("Lagertha", NULL, "You've gotten strong. You'll be strong enough to join us when we get back. Maybe you can replace Grigor. He's an idiot.");
+            } 
+            //Spoken to during Time 8 for the first time
+            else if (scr_quest_get_state("lagerthaState") == 3)
+            {
+                scr_event_build_dialogue("Lagertha", NULL, "Lonnie and the others can keep their spoils and glory. I'm looking for something else. Maybe if you keep fighting you'll understand someday.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I don't know what she's talking about but it sounds cool.)");
+            } 
+            //Time = 8, Spoken to in Times 4 or 5
+            else if (scr_quest_get_state("lagerthaState") == 2) || (scr_quest_get_state("lagerthaState") == 1)
+            {
+                scr_event_build_dialogue("Lagertha", NULL, "You look much stronger since the last time we spoke. I am too.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "G-geez... thanks Lagertha...");
+                scr_event_build_dialogue("Lagertha", NULL, "We travelled to Shangri-La and confronted its dangers. But we didn't conquer them, so we must return.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What are you looking for there?");
+                scr_event_build_dialogue("Lagertha", NULL, "Hmmm... myself.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Whoa... so cool... that's what I've gotta say if someone ever asks me that.)");
+                scr_event_build_quest_state("lagerthaState", 4);
+            } 
+            //Time = 8, Never spoken to before
+            else
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa, you look pretty strong, lady. Are you a fighter?");
+                scr_event_build_dialogue("Lagertha", NULL, "Yes, I am a fighter. And I'm strong. Maybe the strongest.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm a fighter too, but I'm not strong yet.");
+                scr_event_build_dialogue("Lagertha", NULL, "Then keep fighting.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Whoa, she's so cool. I can't wait until I'm strong enough to be terse and mysterious...)");
+                scr_event_build_quest_state("lagerthaState", 3);
+            }
+            // Go to Chup Handler Snippet
+            scr_event_build_event_snippet(chup_handler_snippet);
+        } 
+        //Time = 5
+        else if (scr_time_get() == 5)
+        {
+            //Time = 5, Spoken to during Time 5
+            if (scr_quest_get_state("lagerthaState") == 2)
+            {
+                scr_event_build_dialogue("Lagertha", NULL, "I expect you to be stronger when we get back.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I-I'll try!");
+            } 
+            //Time = 5, Spoken to during Times 3-4
+            else if (scr_quest_get_state("lagerthaState") == 1)
+            {
+                scr_event_build_dialogue("Lagertha", NULL, "You look stronger. You've been training.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Y-yeah! (She noticed...)");
+                scr_event_build_dialogue("Lagertha", NULL, "The only way to get stronger is to challenge yourself. Face danger you've never faced before, go places you've never been. That's why we're setting off for Shangri-La soon, to push ourselves beyond what we think we're capable of.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa... it sounds kind of dangerous. Good luck!, Lagertha");
+                scr_event_build_quest_state("lagerthaState", 2);
+            } 
+            //Time = 5, never spoken to before.
+            else
+            {
+                scr_event_build_dialogue("Lagertha", NULL, "You look like a fighter, kid. Are you strong?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, not yet...");
+                scr_event_build_dialogue("Lagertha", NULL, "Train hard. You can only run with Lonnie's gang if you're strong. Out here, that's all that matters.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Whoa... she's so cool... I can't wait until I'm strong enough to be terse and mysterious like her...)");
+                scr_event_build_quest_state("lagerthaState", 2);
+            }
+        } 
+        //Time = 3 or 4
+        else if (scr_time_get() == 3)  || (scr_time_get() == 4)
+        {
+            //Time = 3 or 4, Spoken to before.
+            if (scr_quest_get_state("lagerthaState") == 1)
+            {
+                scr_event_build_dialogue("Lagertha", NULL, "Lonnie and the others can keep their spoils and glory. I'm looking for something else. Maybe if you keep fighting you'll understand someday.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I don't know what she's talking about but it sounds cool.)");
+            } 
+            //Time = 3 or 4, never spoken to before.
+            else
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa, you look pretty strong, lady. Are you a fighter?");
+                scr_event_build_dialogue("Lagertha", NULL, "Yeah, I'm a fighter. And I am strong. Maybe the strongest.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm a fighter too, but I'm not that strong yet.");
+                scr_event_build_dialogue("Lagertha", NULL, "Then keep fighting.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Whoa, she's so cool. I can't wait until I'm strong enough to be terse and mysterious...)");
+                scr_event_build_quest_state("lagerthaState", 1);
+            }
+        }
+    }
+    scr_event_advance(event);
+}

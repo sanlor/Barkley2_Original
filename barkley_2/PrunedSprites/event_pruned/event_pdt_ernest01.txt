@@ -1,0 +1,27 @@
+// Crazy Robinsons // Ernest //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+   
+    // Can occur only once //
+    if (scr_quest_get_state("pdt_zorro") == 1) or (scr_quest_get_state("pdt_zorro_fritz") >= 2) or (scr_time_get() <= 1) or (scr_time_get() >= 10) scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+        // Variables //
+        var event = scr_event_create_main();
+        scr_entity_look(id, EAST);
+        // Main event //
+        with (event) {
+                
+                scr_event_build_dialogue("Ernest Swiss Robinson", "s_port_sfr_ernest", "William, also known as the father. He is the narrator of the story and the leader of the Swiss Family Robinson. He often showcases bravery and self-reliance, and he also knows a lot about roots.");
+                }
+        scr_event_advance(event);
+}

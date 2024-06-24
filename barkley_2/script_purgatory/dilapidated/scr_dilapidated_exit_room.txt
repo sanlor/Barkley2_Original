@@ -1,0 +1,42 @@
+/*
+// scr_dilapidated_exit_room
+// when you exit a room, where do you end up?
+
+/*if (string(scr_quest_get_state("superFacade")) == "0") {
+    scr_quest_set_state("superFacade", "NONE");
+}
+if (string(scr_quest_get_state("superDecor")) == "0") {
+    scr_quest_set_state("superDecor", "NONE");
+}
+
+if (_room == r_bct_dilapidatedExterior01) {
+    if (scr_quest_get_state("superFacade") != "NONE") {
+        if (scr_quest_get_state("superFacade")  == "decor1") { _room = r_bct_dilapidatedExteriorBetter01; }
+        else if (scr_quest_get_state("superFacade") == "decor2") { interior = r_bct_dilapidatedExteriorPlus01; }
+        else if (scr_quest_get_state("superFacade") == "decor3") { interior = r_bct_dilapidatedExteriorMax01; }
+    }
+}
+else {
+    if (scr_quest_get_state("superDecor") != "NONE") {
+        if (_room == r_bct_dilapidatedMain01) {
+            if (scr_quest_get_state("superDecor") == "decor1") { _room = r_bct_dilapidatedMainBetter01; }
+            else if (scr_quest_get_state("superDecor") == "decor2") { interior = r_bct_dilapidatedMainPlus01; }
+            else if (scr_quest_get_state("superDecor") == "decor3") { interior = r_bct_dilapidatedMainMax01; }
+        }
+        else if (_room == r_bct_dilapidatedRoom01) {
+            if (scr_quest_get_state("superDecor") == "decor1") { _room = r_bct_dilapidatedRoomBetter02; }
+            else if (scr_quest_get_state("superDecor") == "decor2") { interior = r_bct_dilapidatedRoomPlus02; }
+            else if (scr_quest_get_state("superDecor") == "decor3") { interior = r_bct_dilapidatedRoomMax02; }
+        }
+        else if (_room == r_bct_dilapidatedRoom02) {
+            if (scr_quest_get_state("superDecor") == "decor1") { _room = r_bct_dilapidatedRoomBetter02; }
+            else if (scr_quest_get_state("superDecor") == "decor2") { interior = r_bct_dilapidatedRoomPlus02; }
+            else if (scr_quest_get_state("superDecor") == "decor3") { interior = r_bct_dilapidatedRoomMax02; }
+        }
+        else if (_room == r_bct_dilapidatedRoom03) {
+            if (scr_quest_get_state("superDecor") == "decor1") { _room = r_bct_dilapidatedRoomBetter03; }
+            else if (scr_quest_get_state("superDecor") == "decor2") { interior = r_bct_dilapidatedRoomPlus03; }
+            else if (scr_quest_get_state("superDecor") == "decor3") { interior = r_bct_dilapidatedRoomMax03; }
+        }
+    }
+}

@@ -1,0 +1,155 @@
+/*
+var kill = false;
+
+var name = string(argument0);
+var rent = 0;
+var rent_total = 0;
+var occupation = "TENANT";
+var time = scr_time_get();
+var happiness = 100;
+var happiness_minimum = 0;
+var value_unhappy = 0;
+var value_minimum = 0;
+var complaint = 0;
+var happiness_maximum = 5;
+
+switch (string(argument0)) {
+    //---------------------------------------------------------
+    // Shops & Utilities
+    //---------------------------------------------------------
+    // Chip Store
+    case "Fievel":
+        rent = scr_quest_get_state("fievelRent");
+        occupation = "STORE"
+        break;
+    // Misc. Store
+    case "Andromeda": 
+        occupation = "STORE"
+        break;
+    // Luxury Store
+    case "Cuong": 
+        occupation = "STORE"
+        break;
+    // Restaurant
+    case "Safiatou":
+        occupation = "STORE"
+        break;
+    // Probably just Qutlugh!
+    //case "Hotelier":
+    //    instance_create(216, 160, o_hotelier02);
+    //    break; 
+    // Gym
+    case "Durudee":
+        occupation = "STORE"
+        break;
+    // Alternate Dojo Master
+    case "Ugra":
+        occupation = "STORE"
+        break;
+    // Crypto Gang
+    case "Jadwiga":
+        occupation = "STORE"
+        break;
+    //---------------------------------------------------------
+    // Tenants
+    //---------------------------------------------------------
+    // Possibly the Hotelier
+    case "Qutlugh":
+        
+        break;
+    case "WIZARD":
+        
+        break;
+    case "Sabah":
+        
+        break;
+    case "Prisoner":
+        
+        break;
+    case "DwarfnetCrim":
+        
+        break;
+    // Politician
+    case "Daliborka":
+        
+        break;
+    // Who knows about this one...
+    //case "Deathtower":
+    //    instance_create(216, 160, o_Tenant01);
+    //    break; 
+    // Theoretician
+    case "Ozanne":
+        
+        break;
+    // Dancer
+    case "Gleb":
+        
+        break;
+    // Luggage / Storage
+    case "Hippies":
+        
+        break;
+    //---------------------------------------------------------
+    // Industrial Park
+    //---------------------------------------------------------
+    case "Kunigunde":
+        
+        break;
+    case "Moriarty":
+        
+        break;
+    case "Suresh":
+        
+        break;
+    //---------------------------------------------------------
+    // Squatters
+    //---------------------------------------------------------
+    
+        //Not sure if the squatters will use this system at all, but here's the spot for them if so!
+    
+    //---------------------------------------------------------
+    case "Wendy":
+        occupation = "SQUATTER";
+        time = -30;
+        happiness = 100;
+        happiness_minimum = 0;
+        value_unhappy = 0;
+        value_minimum = 0;
+        complaint = 1;
+        break;
+    case "Kirshnik":
+        occupation = "SQUATTER";
+        time = -30;
+        happiness = 100;
+        happiness_minimum = 0;
+        value_unhappy = 0;
+        value_minimum = 0;
+        complaint = 1;
+        break;
+    case "DISREPAIR":
+        occupation = "NONE";
+    case "default":
+        break;
+}
+
+
+var kill = false;
+for (var r = 0; r < ROOMS_TOTAL && kill = false; r++) {
+//for (var r = 0; r < ROOMS_TOTAL; r += 1) {
+    if (global.supergrid[| (RP * r) + 0] == "EMPTY") {
+        global.supergrid[| (RP * r) + 0] = name;
+        global.supergrid[| (RP * r) + 1] = rent;
+        global.supergrid[| (RP * r) + 2] = rent_total;
+        global.supergrid[| (RP * r) + 3] = occupation;
+        global.supergrid[| (RP * r) + 4] = time;
+        global.supergrid[| (RP * r) + 5] = happiness;
+        global.supergrid[| (RP * r) + 6] = happiness_minimum;
+        global.supergrid[| (RP * r) + 7] = value_unhappy;
+        global.supergrid[| (RP * r) + 8] = value_minimum;
+        global.supergrid[| (RP * r) + 9] = complaint;
+        global.supergrid[| (RP * r) + 10] = happiness_maximum;
+        kill = true;
+    }
+}
+scr_quest_set_state("superEmpty", scr_quest_get_state("superEmpty") - 1);
+scr_savedata_save();

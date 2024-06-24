@@ -1,0 +1,359 @@
+// Script for CRUCE, the male Hippie Dwarf in the Wasteland
+// usage: event_wst_cruce01
+/*
+-------------
+    Cruce is a travelling hippie kind of guy. He'll appear with Hiking Dwarf 
+    at the beginning of the game, and he'll ask you to open different doors 
+    for him and stuff like that, in order to allow him to get around Necron 7.
+    
+    He can also be into a variety of crafts.
+    Check it. A dreamcatcher.
+-------------
+    QUESTS:
+    
+    VARIABLES:
+        
+    STATES:
+        
+    ALSO EFFECTS:
+
+    NEEDS/TODO:
+        Right now...
+        1. First-time intro, with question lead-in.
+            1a. First-time intro, when about to leave.
+        2. Second-time dialogue, with question lead-in if questions remain.
+            2a. Second-time dialogue with quest refusal
+            3a. Second-time dialogue with quest accepted
+            4a. Second-time dialogue with quest missed
+        3. Compare states to remove choices, and/or restarting the choice event each time.
+        4. "Ask about him."
+        5. Quest completed chain
+            5a. Is it impossible?
+            5b. If you went to Armory but didn't help him?
+            5c. If you went to power room but didn't help him?
+    
+-------------
+*/
+/*if (argument0 == SCRIPT_START) {
+    // Init!
+    
+} 
+else if (argument0 == SCRIPT_STEP) {
+    // Step logic.
+    if (!visible and !scr_event_etc_instance_on_screen(id) and scr_time_get() == 4) {
+        // TIME = 4, reappear
+        scr_event_interactive_activate();
+    }
+    else if (visible and !scr_event_etc_instance_on_screen(id) and scr_time_get() == 3) {
+        // TIME = 3, disappear
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    scr_travelling_dwarfs_start();
+    var cruce = id;
+    var event = scr_event_create_main();
+    var question_snippet = scr_event_create_child(event);
+    var door_snippet = scr_event_create_child(event);
+    //-----------------
+    // question_snippet
+    //-----------------
+    // ASK ABOUT:
+    // 1. Him (Cruce)
+    // 2. Serene Dwarf (Delphine)
+    // 3. Hiking Dwarf
+    // 4. Area
+    // 5. Plans
+    //      Quest Prompt - Open Door
+    // Each of these questions disappear once asked.
+    with (question_snippet) {
+        var question = scr_event_build_choice(s_port_hoopz, "Ask about:");
+        
+        //------------------
+        // Question 1: Cruce
+        //------------------
+        if (_cruceAskCruce == 0) {  
+            var cruce_q = scr_event_build_add_choice(question, "Him.");
+            with cruce_q {
+                scr_event_build_dialogue("Cruce", "s_port_cruce", "");
+                _cruceAskCruce = 0;
+            }
+        } 
+        //---------------------
+        // Question 2: Delphine
+        //---------------------
+        if (_cruceAskDelphine == 0) {    
+            // Determine Delphine Name
+            if (_knowDelphine >= 1) { _delphineName = "Delphine."; } 
+            else { _delphineName = "Serene Dwarf"; } 
+            // Display Delphine Choice
+            if (_knowDelphine == 1) || (_delphinePresent == 1) {
+                var delphine_q = scr_event_build_add_choice(question, string(_delphineName));
+                with delphine_q {
+                    // Determine Cruce Dialogue
+                    if ( _delphinePresent == 1 ) {
+                        if (_knowDelphine == 1) { 
+                            scr_event_build_dialogue("Cruce", "s_port_cruce", "You mean Delphine? She's a really cool girl. We've been travelling more or less together for awhile now... I mean we aren't tied to each other, we go our own way sometimes. But kindred spirits are too rare to pass up for good. We just click, like._._._ -that- you know?"); 
+                        } else { 
+                            scr_event_build_dialogue("Cruce", "s_port_cruce", ""); 
+                        }
+                    }
+                    else { 
+                        if (_knowDelphine == 1) {
+                            scr_event_build_dialogue("Cruce", "s_port_cruce", "Hmm, what about her? I mean, she's a really cool girl. We've been travelling more or less together for awhile now... I mean we aren't tied to each other, we go our own way sometimes. But kindred spirits are too rare to pass up for good. We just click, like._._._ -that- you know?"); 
+                        }
+                    }
+                    _knowDelphine = 1;
+                    _cruceAskDelphine = 0;
+                }
+            }
+        } 
+        //-------------------------
+        // Question 3: Hiking Dwarf
+        //-------------------------
+        if (_cruceAskHiking == 1) {
+            // Display Hiking Dwarf Question
+            if (_knowHiking == 1) || (_hikingPresent == 1) {
+                var hiking_q = scr_event_build_add_choice(question, "Hiking Dwarf");
+                with hiking_q {
+                    // Determine Cruce Dialogue
+                    if (_hikingPresent == 1) {
+                        if (_knowHiking == 1) {
+                            // Varied Dialogue if you've talked to Hiking Dwarf
+                            if (_hikingTalk == 1) { scr_event_build_dialogue("Cruce", "s_port_cruce", "You tried talking to him? Pretty quiet, huh? He doesn't talk to us much either. But I know he loves to hike! He knows the hidden trails and byways of this ziggurat like nobody's business. I'm sure Delphine and I'd have been dead a dozen times over if he didn't let us tag along. He's a really good guy."); }
+                            else { scr_event_build_dialogue("Cruce", "s_port_cruce", "Oh, him? Dude is reticent, for sure. But from what I can tell, he just loves to hike. He knows the hidden trails and byways of this ziggurat like nobody's business. I'm sure Delphine and I'd have been dead a dozen times over if he didn't let us tag along. He's a really good guy."); } 
+                        } else {
+                            if (_hikingTalk == 1) {
+                            
+                            }
+                            else {
+                            
+                            }
+                        }
+                    }
+                    else {
+                        if (_knowHiking == 1) {
+                            
+                            
+                        } 
+                    }
+                    _knowHiking = 1;
+                    _knowDelphine = 1;
+                    _cruceAskHiking = 0;
+                }
+            }
+        }
+        //-----------------
+        // Question 4: Area
+        //-----------------
+        if (_cruceAskArea == 0) {
+            var area_q = scr_event_build_add_choice(question, "The area.");
+            with area_q {
+                scr_event_build_dialogue("Cruce", "s_port_cruce", "You should take a look around and see for yourself! It's good you're outdoors... it's straight up boggling that dwarfs are willing to stay put in one place when all this splendor awaits us! Sure it's dangerous, but what good in life isn't? Check out that junk pile over there... when the light hits it just right, you can see how it's made up of different strata. There's a foundation of base heavy metals built up at the bottom probably millennia ago. Now look, moving up you've got a thick strata of scrap metal with rare earth ores sprinkled throughout, on top of that a loose build-up of discarded appliances with a thin sediment of metal shavings sandwiched between it all. And on the very top we've tufts of household trash, waiting to be compacted into it's own layer by the inexorable march of time, man! There's so much history, everywhere you look... and to think, some dwarfs are happy being cooped up in Tir na Nog... blows my mind!");
+                // TODO :: test, possibly break this up!
+                _cruceAskArea = 1; 
+            }
+        }
+        //------------------
+        // Question 5: Plans
+        //------------------
+        if (_cruceAskPlans == 0) {
+            var plans_q = scr_event_build_add_choice(question, "His plans.");
+            with plans_q {
+                
+                // Varied Dialogue based on Departure Time
+                _cruceDepart = scr_dwarf_tracker_depart_time(cruce);
+                if (_cruceDepart >= 3) { // TIMEFIX
+                    var time_remaining = "here for awhile";
+                } else if (_cruceDepart == 2) { // TIMEFIX
+                    var time_remaining = "probably headed off pretty soon";
+                } else { // TIMEFIX
+                    var time_remaining = "gonna head out in a minute";
+                }
+                scr_event_build_dialogue("Cruce", "s_port_cruce", "Well, we're " + string(time_remaining) + ". I think, but where to exactly? Not sure. I know Hiking Dwarf is trying to head to the pass north of here, and so we'll probably go with him. Delphine and I are up for adventure!... so we'll go wherever. But what I really want to see is the Sombrero Galaxy.");
+                
+                // Varied Dialogue based on Sombrero Galaxy, Known or Not?
+                if (scr_quest_get_state("knowSombrero") == 0) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "The Sombrero Galaxy?");
+                    var galaxy_string = "Yeah, it's where all of us dwarfs come from originally.";
+                    scr_event_build_quest_state("knowSombrero", 1);
+                } else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "The ancient home-sector of the dwarfs...");
+                    var galaxy_string = "Yeah, you got it!";
+                } 
+                scr_event_build_dialogue("Cruce", "s_port_cruce", string(galaxy_string) + " Pretty far out, huh? To think our ancestral home is just out there in space somewhere, waiting. I don't think we'll ever make it off Necron 7, but a long time ago I heard that if things line up juuuuust right, the ship and the constellations I mean, you can see the Sombrero Galaxy out of a porthole somewhere. I don't know if that's true, but there's only one way I can find out, and that's to see it myself!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Good luck Cruce, I think that's really cool! I'm looking for my home too.");
+                
+                // If Departure Time is 1, the quest has been given away already
+                if (_cruceDepart == 1) { // TIMEFIX
+                    scr_event_build_dialogue("Cruce", "s_port_cruce", "Really? That's wild. Good luck to you too! You know what really sucks? I just gave someone else a job for me to do, but I shoulda waited for you. You seem like a good person and they seemed like a jerk. Oh well. Anyway, good luck, kid!");
+                    _cruceQuestDoor = 9; //TODO - does 9 mean "missed entirely?" adjust if necessary
+                } else {
+                    scr_event_build_dialogue("Cruce", "s_port_cruce", "Really? That's wild. Well, I wish you luck too. Say, you seem like a good person, and pretty tough too. Think you could help me out with something?");
+                    
+                    //------------------------
+                    // QUEST_PROMPT: Open Door
+                    //------------------------
+                    // Question 1: Hear him out?
+                    var help_question = scr_event_build_choice(s_port_hoopz, "Reply:");
+                    var sure = scr_event_build_add_choice(help_question, "What's your problem?"); // TODO
+                    with sure {
+                        // Q1: Inquire
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sure, I'll help. What can I do?"); // TODO
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "Really? You're the best, kid. Listen, we're probably headed up north to the mountains with Hiking Dwarf here, but honestly... I'm pretty beat. Delphine and I, our dogs are barking! There's a big door we could go through to cut a lot of distance, but it's sealed shut. We gotta go the long way instead.");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "So what can I do?");
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "Well, if you go West from here you'll get into all kinds of kooky technological stuff. We saw computers and terminals and all kinds of junk, but we could only poke our head inside. It's crawling with uh... aliens, man. I think they're aliens! So yeah bud, the way to unlock that door is probably in there somewhere, but I wouldn't last a minute out there, and Hiking Dwarf won't wait. If you can help me out, I've got this for you."); //GENDER
+                        scr_event_build_dialogue_item("Got a keycard: /'Armory B./'");
+                        Item("build", "gain", "Armory B Key", 1);
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "I came across that little fella a while ago... I bet there's some cool stuff hidden away in whatever it unlocks!");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sweet... so I'll go back and unlock the door and you'll give me this card?");
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "Nah pal, you don't have to come back. That's a lot of running! I'm not gonna make you do that, jeez. Besides, we might head out already before you got back. Just take it with you, I think the door it unlocks is over that way anyway. I mean, that is, if you're gonna do it! That sound like a deal?");
+                        //---------------------------
+                        // QUEST_ACCEPTANCE: Yes / No
+                        //---------------------------
+                        // Question 2: Accept Quest
+                        var confirm_question = scr_event_build_choice(s_port_hoopz, "Reply:");
+                        var deal = scr_event_build_add_choice(confirm_question, "Yep, deal!");
+                        with deal {
+                            // Yes
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yep, it's a deal!");
+                            scr_event_build_dialogue("Cruce", "s_port_cruce", "Alright! Good luck out there! Just uh... try to do it quickly, if it's not too big of a deal. Okay?");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Right on!");
+                            //scr_event_build_dialogue("Cruce", "s_port_cruce", "You're really killing it with that gusto."); // REALLYBAD
+                            _cruceQuestDoor = 3;
+                        }
+                        var no_deal = scr_event_build_add_choice(confirm_question, "Nope, no deal.");
+                        with no_deal {
+                            // No
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, I changed my mind, sorry. No deal.");
+                            scr_event_build_dialogue("Cruce", "s_port_cruce", "That's cool, it was kind of a long shot anyway. Come back if you change your mind though!");
+                            _cruceQuestDoor = 2;
+                        }
+                    }
+                    // Q1: Refuse
+                    var nope = scr_event_build_add_choice(help_question, "Nope, I can't.");
+                    with sure {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry, I can't right now.");
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "Hey, don't sweat it! But come back if you ever get some time.");
+                        _cruceQuestDoor = 1;
+                    }
+                }
+                _cruceAskPlans = 1;
+            }
+        }
+    }
+    //-------------
+    // door_snippet
+    //-------------
+    // This will handle the variety of prompts and things that handle the door quest.
+    // Not sure how it will be structured, maybe a switch case?
+    // I don't know... I don't know... we'll figure it out!
+    //
+    //
+    with (door_snippet) {
+
+    }
+    
+    //-----------
+    // Main Event
+    //-----------
+    with (event) {
+        // first dialogue
+        if (_cruceState == 0) {
+            // Varying dialogue for different times
+            if (scr_time_get() >= 5 ) { // TIMEFIX
+                var time_text = "Not for long I bet, you look like you're bubbling over with pep! But t";
+            } else {
+                var time_text = "You look a little beat up... the trail has a way of draining the pep for your bones, huh? T"
+            } scr_event_build_dialogue("Cruce", "s_port_cruce", "Hey bud, how long have you been on the trail? " + string(time_text) + "ake it from me, sometimes ya gotta stop and look around, man!"); // GENDER
+            // TODO: TNN EXIT SWITCH
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "The trail? I just came from Tir na Nog.");
+            scr_event_build_dialogue("Cruce", "s_port_cruce", "Oh, so not long... well, we've been hiking for awhile now, so lemme know if you need any tips. There's a lot to see out there, but there's a smart way to go about it. The name's Cruce, by the way!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks Cruce. My name's " + P_NAME + ". Tell me...");
+            // GOTO QUESTION_SNIPPET
+            _cruceState = 1;
+            scr_event_build_event_snippet(question_snippet);           
+        }
+        
+        else if (_cruceState == 1) {
+            // SECOND TALK            
+            switch (_cruceQuestDoor) {
+                case 0: // QUEST NOT YET HEARD
+                    scr_event_build_dialogue("Cruce", "s_port_cruce", "Hey " + P_NAME_S + ", what's going on?");
+                    //scr_event_build_dialogue("Cruce", "s_port_cruce" "Hey " + P_NAME_S + ", you're back! What's new buddy?");
+                    if (_cruceAskCruce == 0) || (_cruceAskDelphine == 0) || (_cruceAskHiking == 0) || (_cruceAskArea == 0) || (_cruceAskPlans == 0) {
+                        scr_event_build_event_snippet(question_snippet);
+                    }
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hangin' in there!"); //REALLYBAD
+                    scr_event_build_dialogue("Cruce", "s_port_cruce", "Good, good!"); //REALLYBAD
+                    break;
+                case 1: // HEARD PROMPT, NOT QUEST
+                    scr_event_build_dialogue("Cruce", "s_port_cruce", "Hey " + P_NAME_S + ", you're back! What's new buddy? No way you've come back to give me a hand, is there?");
+                    //scr_event_build_dialogue("Cruce", "s_port_cruce" "Hey " + P_NAME_S + ", you didn't change your mind did ya? Wanna help me out?");
+                    var early_choice = scr_event_build_choice(s_port_hoopz, "Reply:");
+                    with (scr_event_build_add_choice(early_choice, "Maybe later.")) { scr_event_build_dialogue("Cruce", "s_port_cruce", "Heck yeah!"); } 
+                    with (scr_event_build_add_choice(early_choice, "Maybe later.")) { scr_event_build_dialogue("Cruce", "s_port_cruce", "Aw, bummer. Well, what's up?"); } 
+                    if (_cruceAskCruce == 0) || (_cruceAskDelphine == 0) || (_cruceAskHiking == 0) || (_cruceAskArea == 0) || (_cruceAskPlans == 0) {
+                        scr_event_build_event_snippet(question_snippet);
+                    }
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hangin' in there!"); //REALLYBAD
+                    scr_event_build_dialogue("Cruce", "s_port_cruce", "Good, good!"); //REALLYBAD
+                    break;
+                case 2: // HEARD, REJECTED
+                    scr_event_build_dialogue("Cruce", "s_port_cruce", "Hey pal, what's up?");
+                    if (_cruceAskCruce == 0) || (_cruceAskDelphine == 0) || (_cruceAskHiking == 0) || (_cruceAskArea == 0) || (_cruceAskPlans == 0) {
+                        scr_event_build_event_snippet(question_snippet);
+                    }
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hangin' in there!"); //REALLYBAD
+                    scr_event_build_dialogue("Cruce", "s_port_cruce", "Good, good!"); //REALLYBAD
+                    break;
+                case 3: // ACCEPTED
+                    if (scr_quest_get_state("wstDoorOpen") == 1) {
+                        scr_event_build_event_snippet(door_snippet);
+                    }
+                    if (_cruceDepartTime == 1) {
+                    // CLOSE ON TIME
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, ""); 
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                    }
+                    else if (_cruceQuestDoorLeft == 0) {
+                    // HAVEN'T LEFT
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "Hey, my hero! No, no, no, I don't wanna put that pressure on you. Just kidding, buddy. What's up?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                    } 
+                    else if (_cruceQuestDoorLeft == 1) {
+                    // HAVE LEFT
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                    }
+                    break;
+                case 4:
+                    // COMPLETED
+                    if (_cruceDepartTime == 1) {
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, ""); 
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                    }
+                    // COMPLETED, NOT CLOSE ON TIME
+                    else {
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "Hey, my hero! No, no, no, I don't wanna put that pressure on you. Just kidding, buddy. What's up?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                        scr_event_build_dialogue("Cruce", "s_port_cruce", "");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+                    }
+                    break;
+            }
+        }
+        else if (_cruceState == 2) {
+        
+        }
+    }
+    scr_event_advance(event);
+} 

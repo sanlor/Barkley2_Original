@@ -1,0 +1,60 @@
+/// scr_event_destroy() 
+/// Before calling destroy, check for lingering events.
+
+if (!_skipping) {
+    // If any events still have events that are active, add a wait for action 
+    // to ensure everything is neatly tidied up.
+    if (_type == EVENT_MAIN or _type == EVENT_BACKGROUND) {
+        var events = ds_list_create();
+        ds_list_copy(events, _events);
+        ds_list_add(events, id);
+        var events_size = ds_list_size(events);
+        for (var i = 0; i < events_size; i++) {
+            with (ds_list_find_value(events, i)) {
+                if (_events_active != 0 and !_skipping) {
+                    var wait_cursor = scr_event_build_wait_for_actions();
+                    _event_cursor = wait_cursor;
+                    scr_event_build_end();
+                    scr_event_advance(id);
+                    exit;
+                }
+            }
+        }
+    }
+    
+    // Ensures that the camera always heads back to hoopz.
+    if (_type == EVENT_MAIN) {
+        //show_debug_message("scr_event_destroy() - Auto pan back to Hoopz");
+        with (InteractiveActor)
+        {
+            if (idleAuto != "") 
+            {
+                if (_current_animation != idleAuto) scr_entity_animation_set(id, idleAuto);
+            }
+        }
+        if (_camera_reset)
+        {
+            //show_debug_message("scr_event_destroy() - Going back to hoopz");
+            var current_camera = Camera();
+            if (current_camera.object_index != o_camera_hoopz) {
+                show_debug_message("scr_event_destroy() - Camera reset...");
+                var wait_cursor = scr_event_build_camera_reset();
+                _event_cursor = wait_cursor;
+                scr_event_build_wait_for_actions();
+                scr_event_build_end();
+                scr_event_advance(id);
+                exit;
+            }
+        }
+    }
+}
+
+show_debug_message("scr_event_destroy() - Sender: " + object_get_name(id.object_index) + " - Destroy...");
+instance_destroy();
+if (_next_object != NULL and _next_script != NULL) 
+{
+    with (_next_object) {
+        show_debug_message("scr_event_destroy() - Executing script...");
+        script_execute(other._next_script, SCRIPT_INTERACT);
+    }
+}

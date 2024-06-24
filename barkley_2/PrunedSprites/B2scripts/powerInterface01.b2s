@@ -1,0 +1,89 @@
+//powerInterface01.b2s
+
+var pythport = "s_portrait";
+var hoopzport = "s_port_hoopz";
+
+if (scr_quest_get_state("hackInterfaceLoop") == 0)
+{
+    scr_event_build_dialogue_debug("HACKING", NULL, "This is the hacking interface. This function of this script should actually be stored in a minigame object, o-mg-hacker01.");
+    scr_event_build_dialogue_debug("HACKING", NULL, "/'scr-event-build-object(o-mg-hacker01, 0, 0);/' is performed.");
+}
+// cancel loop
+scr_event_build_quest_state("hackInterfaceLoop", 0);
+
+// d:GLAZEr breakout
+scr_event_build_breakout("add", "d:GLAZEr");
+scr_event_build_breakout("add", "powerGlaze");
+
+// main menu
+var hack = scr_event_build_choice("DO:", hoopzport);
+
+// edit
+var edit = scr_event_build_add_choice(hack, "Edit script.");
+with (edit)
+{
+    if (scr_quest_get_state("powerGlaze") >= 1)
+    {
+        scr_event_build_breakout("clear");
+        scr_event_build_dialogue_debug("HACKING", NULL, "There is GLAZE on the computer! The player is rejected with cool sounds and animations probably.");
+        scr_event_build_quest_state("hackInterfaceLoop", 1);
+        scr_event_build_execute_event_script(event_wst_powerInterface01);
+    }
+    else
+    {
+        scr_event_build_breakout("clear");
+        scr_event_build_dialogue_debug("HACKING", NULL, "There is either no GLAZE on the computer, or it has all been bypassed. The player is allowed to edit the script.");
+        scr_event_build_dialogue_debug("HACKING", NULL, "Running Editor For: powerScript.b2s");
+        scr_event_build_dialogue_debug("HACKING", NULL, "For our purposes, the player should now open up powerScript.b2s and play with it and run copyAppData. Then talk to the Executor.");
+    }
+}
+
+// d:glaze
+var dglaze = scr_event_build_add_choice(hack, "Use d:GLAZEr.");
+with (dglaze)
+{
+    if (scr_item_count("d:GLAZEr") == 0)
+    {
+        scr_event_build_dialogue_debug("HACKING", NULL, "No d:GLAZErs. Return to main choice. In the real object it could be grayed out.");
+        scr_event_build_quest_state("hackInterfaceLoop", 1);
+        scr_event_build_execute_event_script(event_wst_powerInterface01);
+    }
+    else
+    {
+        if (scr_quest_get_state("powerGlaze") >= 1)
+        {
+            scr_event_build_item_loss("d:GLAZEr", 1);
+            scr_event_build_dialogue_debug("HACKING", NULL, "There is GLAZE on the computer! The bypasses it now, with cool sounds and animations probably.");
+            scr_event_build_quest_state_add("powerGlaze", -1);
+            scr_event_build_breakout("clear");
+            scr_event_build_quest_state("hackInterfaceLoop", 1);
+            scr_event_build_execute_event_script(event_wst_powerInterface01);
+        }
+        else
+        {
+            scr_event_build_dialogue_debug("HACKING", NULL, "There is either no GLAZE on the computer, or it has all been bypassed.");
+            scr_event_build_dialogue_debug("HACKING", NULL, "We can have all sorts of cool stuff occur, like exploring new levels of the computer guts.");
+            scr_event_build_dialogue_debug("HACKING", NULL, "There can also be an /'are you sure?/' with another confirmation. For now, we're just gonna put you back in the main choice and say you can't do it.");
+            scr_event_build_quest_state("hackInterfaceLoop", 1);
+            scr_event_build_execute_event_script(event_wst_powerInterface01);
+        }
+    }
+}
+
+// dpart
+var dpart = scr_event_build_add_choice(hack, "Jack out.");
+with (dpart)
+{
+    scr_event_build_breakout("clear");
+    scr_event_build_end();
+}
+
+// getglaze
+var getglaze = scr_event_build_add_choice(hack, "DEBUG: Get d:GLAZEr.");
+with (getglaze)
+{
+    scr_event_build_item_gain("d:GLAZEr", 1);
+    scr_event_build_dialogue_debug(NULL_STRING, NULL, "Got 1 d:GLAZEr.");
+    scr_event_build_breakout("clear");
+    scr_event_build_execute_event_script(event_wst_powerInterface01);
+}

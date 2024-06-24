@@ -1,0 +1,118 @@
+// Rebel Quest Final Battle Cutscene. Initiated by activating the computer at the end of the duergar base at the very end of the questline.
+// NOTE: This is probably totally unfinished, and it may even make more sense to merge this with computer02, since it's the same object. But that felt like too much stuff going on across two completely different scenarios.
+// NOTE2: This is where the player fights Aloysius in a timed fight. They need to kill Aloysius and get to the computer terminal before the security measures kick in and kill everybody in the base. I have no idea how to code any of this, and I don't even know if a timing system like this is even in the game. So this is TECHNICALLY UNPLAYABLE right now, because the only way to get to trigger those states is the quest investigator. I figure this is better than deliberately breaking the script function.
+// NOTE3: I have NO IDEA how long this battle should be. 90 seconds sounds too short, but I kinda went with it anyway. Anyway, whatever is decided upon after testing it needs to be reflected in dialogue at the end of this, since the computer says how long the player has until it activates the turrets.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("rebelQuest") <= 5) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var computer = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("rebelQuest") == 7) {
+            scr_event_build_dialogue(NULL, NULL, "*The screensaver is on. It's a scrolling marquee. Two words are displayed:*#*DWARF'S SUCK*");
+            scr_event_build_end();
+        } else if (Quest("prisonquestgoodState") == 1) {
+            scr_event_build_dialogue_debug("Hundley", NULL, "STATE NOTICE: The if quest state for this line of dialogue is kinda fucked. It'll need to be something that reflects the battle results.\It's this way for testing purposes.");
+            // STATE NOTICE: The if quest state for this line of dialogue is kinda fucked. It'll need to be something that reflects the battle results. It's this way for testing purposes.
+            scr_event_build_dialogue_debug("Hundley", NULL, "SOUND TODO: Sound of furious typing starts and continues through the next dialogue box.");
+            // SOUND TODO: Sound of furious typing starts and continues through the next dialogue box.
+            Dialogue(P_NAME, "OVERRIDE!!!");
+            scr_event_build_wait(2);
+            scr_event_build_dialogue_debug("Hundley", NULL, "SOUND TODO: Sound of furious typing stops.");
+            // SOUND TODO: Sound of typing stops.
+            scr_event_build_wait(3);
+            scr_event_build_dialogue("Computer", NULL, "Action cancelled.");
+            Dialogue(P_NAME, "*Exhales*\Being a rebel is tough work. I don't know how these guys do it. I'd rather just be a dentist or something.");
+            Quest("prisonquestgoodState", 1);
+            Quest("rebelQuest", 7);
+            scr_event_build_end();
+        } else if (Quest("prisonquestbadState") == 1) {
+            scr_event_build_dialogue_debug("Hundley", NULL, "STATE NOTICE: The if quest state for this line of dialogue is kinda fucked. It'll need to be something that reflects the battle results.\It's this way for testing purposes.");
+            // STATE NOTICE: The if quest state for this line of dialogue is kinda fucked. It'll need to be something that reflects the battle results. It's this way for testing purposes.
+            scr_event_build_dialogue("Computer", NULL, "Targeting....");
+            scr_event_build_dialogue_debug("Hundley", NULL, "SOUND TODO: Sound of furious typing starts and continues through the next dialogue box.");
+            // SOUND TODO: Sound of furious typing starts and continues through the next dialogue box.
+            Dialogue(P_NAME, "NO!!! OVERRIDE!!!\OVERRIDE, OVERRIDE, OVERRIDE, OVERRIDE!!!!!!");
+            scr_event_build_dialogue_debug("Hundley", NULL, "SOUND TODO: Sound of furious typing stops.");
+            // SOUND TODO: Sound of typing stops.
+            scr_event_build_wait(4);
+            Dialogue(P_NAME, "Override_________________________. _________________________. _________________________. _________________________.");
+            scr_event_build_wait(6);
+            scr_event_build_dialogue("Computer", NULL, "All lifeforms eliminated. Lockdown secure.");
+            Dialogue(P_NAME, "No......\This........\This can't........");
+            scr_event_build_dialogue("Computer", NULL, "Warning: All turret ammunition depleted. Entering standby mode.");
+            Dialogue(P_NAME, "Maybe there's......there's somebody......");
+            Quest("prisonquestbadState", 1);
+            Quest("rebelQuest", 7);
+            scr_event_build_end();
+        } else if (Quest("rebelQuest") == 6) {
+            Dialogue(P_NAME, "Ok, Aloysius. I, uh, I need you to hack this and......");
+            scr_event_build_dialogue("Aloysius", NULL, "............pffft.");
+            Dialogue(P_NAME, "Look, everyone is depending on us. We can really make a difference here.\The duergars do so much bad. You and me, we're the only ones who can really stand up to them.\I don't know who did this to you. I don't even know if you know anymore, but that's why we're here. We're going to stop this sort of thing from happening ever again.");
+            scr_event_build_dialogue("Aloysius", NULL, "GGGGGGGGLLLLLLLLRRRRRRRRRRRKKKKKKK\*Gurgling sounds*");
+            Dialogue(P_NAME, "It's probably not going to work. I'm actually standing here talking to a guy with no head. I am actually doing this.\This is just stupid. It's like I'm sitting here dying of thirst in front of a soda machine, begging it to give me a soda. The soda machine can't hear. The soda machine doesn't care.\The soda machine doesn't care about you, the soda machine doesn't care about me. The soda machine just wants your money.\And I'm here begging in front of it anyway.");
+            scr_event_build_dialogue("Aloysius", NULL, "Guuuuunng?? PPPPPPBBBBT.");
+            Dialogue(P_NAME, "For just another soda machine, you are an ok guy, Aloysius. Maybe in another life we would have been best pals.\But right now, I guess I'm begging you. Just hack the machine, have the turrets kill all the duergars.\Maybe that will make a difference. I don't really know. I don't know anything.\I wonder if I'm at least having a good time doing all of this. If this doesn't work, I don't really know why else I was doing this.");
+            scr_event_build_dialogue("Aloysius", NULL, "PPPPNNNGGGG");
+            Dialogue(P_NAME, "I feel like there was probably a time in my life when things actually made sense. Way before I can actually remember.\I'd probably get up in the morning, I'd go do something, I'd do it, then I'd just come home. Not anymore.\Right now I'm just a stupid puppet, life is just a puppet show and that giant emptiness in space is just the audience out there laughing at me.\You know, Aloysius, I don't know how I really feel about all of this. Maybe I'm having a good time. Maybe I'm enjoying this. Maybe I'm laughing with them.\I don't know right now, though. All that is buried under so much pain that I can't tell the difference.\Who cares. Go hack that machine and send those stupid duergars straight to hell.\We pull this off and I'm taking you for a drink. On me.\Or......or a foot massage. I don't know. Something. I'll owe you one.\Those stupid jerks'll think twice before ever again letting their pissed-off puppets find where they hide their gun's.");
+            scr_event_build_dialogue("Aloysius", NULL, "nnnnnnnNNNNNNNNNNGGGGGGGGG");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Aloysius walks up to the computer, starts tying on it.");
+            // CINEMATIC TODO: Aloysius walks up to the computer, starts tying on it.
+            scr_event_build_dialogue("Computer", NULL, "Please login with appropriate credentials.");
+            scr_event_build_dialogue("Aloysius", NULL, "PFFFTTT");
+            scr_event_build_dialogue_debug("Hundley", NULL, "SOUND TODO: Sound of furious typing starts and continues through the next few dialogue boxes.");
+            // SOUND TODO: Sound of furious typing starts and continues through the next few dialogue boxes.
+            scr_event_build_dialogue("Computer", NULL, "Username and Password./Username and Passwor-\UUUUUUUUUUUUUUUUUUUUU\P____________A_________S_________S__________28347235 82374982375 9283472983584375 81394875384 78641 2834 13 8\Password accepted. Welcome back, Cuchulainn.");
+            Dialogue(P_NAME, "Ha ha ha! Awesome!!");
+            scr_event_build_dialogue("Computer", NULL, "Main m\Appl\Securi\Automated Defenses. Please choose a\Target set. All Duergars targeted. Are you s\Targeting _________________________. _________________________. _________________________. _________________________.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "SOUND TODO: Typing and music stops.");
+            // SOUND TODO: Typing and music stops.
+            Dialogue(P_NAME, "Wow.....");
+            scr_event_build_dialogue("Computer", NULL, "All duergars eliminated. Lockdown secure.");
+            scr_event_build_dialogue("Aloysius", NULL, "BBBBBBBBBBFFFFFFFFFFFF");
+            Dialogue(P_NAME, "Wow.....we did it........we really did it.........\Great job, Aloysius. You saved all the dwarfs. Man, you are the best.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "SOUND TODO: Sound of furious typing starts and [again] continues through the next few dialogue boxes.");
+            // SOUND TODO: Sound of furious typing starts and [again] continues through the next few dialogue boxes.
+            scr_event_build_dialogue("Aloysius", NULL, "GGGGGGGGGGGGGGGGG");
+            Dialogue(P_NAME, "Hey, what are you doing now?");
+            scr_event_build_dialogue("Computer", NULL, "Automated Defenses. Please choose a target.");
+            Dialogue(P_NAME, "Wait, why are you back on this screen?");
+            scr_event_build_dialogue("Computer", NULL, "Target set. All lifeforms targeted. Are you sure?");
+            Dialogue(P_NAME, "W-wait a minute, what are you doing?");
+            scr_event_build_dialogue_debug("Hundley", NULL, "MUSIC TODO: Boss battle music starts.");
+            // MUSIC TODO: Boss battle music starts.
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Aloysius turns around and punches X114JAM9. He flies across the screen into a pile.");
+            // CINEMATIC TODO: Aloysius turns around and punches X114JAM9. He flies across the screen into a pile.
+            scr_event_build_dialogue("Aloysius", NULL, "FFFFFFFFFFFFFFFFFFFFFFFFFFF");
+            Dialogue(P_NAME, "No.....you can't do this. You'll kill them all!!! They're my friends!!");
+            scr_event_build_dialogue("Computer", NULL, "Are you sure?");
+            scr_event_build_dialogue("Aloysius", NULL, "grllrkkkk-\PPPPPPPPPFFFF\VVVVVVVVVPPPPPPPPPPP\BBBBBBBBBNNNNNNNNNNGGBBBBB");
+            scr_event_build_dialogue("Computer", NULL, "Are you sure?");
+            Dialogue(P_NAME, "I won't let you do this.");
+            scr_event_build_dialogue("Computer", NULL, "Are you sure?");
+            Dialogue(P_NAME, "Something is going to go right for me in this stupid life.");
+            scr_event_build_dialogue("Computer", NULL, "Current action - All Lifeform Elimination - will proceed in 90 seconds. Please press the override key if this is in error.");
+            Dialogue(P_NAME, "I don't care how many bullets it takes. SOMETHING WILL GO RIGHT.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "BOSS BATTLE: The player fights Aloysius. The player will not be able to stop the computer if Aloysius is still alive. This is a timed battle.\The bad ending occurs if the player does not stop the computer before the time limit is reached. The good ending occurs if the player kills Aloysius and activates this script before the time limit ends.");
+            // BOSS BATTLE: The player fights Aloysius. The player will not be able to stop the computer if Aloysius is still alive. This is a timed battle. The bad ending occurs if the player does not stop the computer before the time limit is reached. The good ending occurs if the player kills Aloysius and activates this script before the time limit ends.
+            scr_event_build_dialogue_debug("Hundley", NULL, "Hi. The following choices is NOT CANON. It's merely for testing purposes.\DELETE THE FOLLOWING CHOICE ONCE THIS BATTLE OUTCOME CAN BE DETERMINED BY FIGHTING.");
+            // CRITICAL NOTICE: DELETE THE FOLLOWING CHOICE ONCE THE SCENARIO OUTCOME CAN BE DETERMINED BY COMBAT.
+            var temp = Choice("TESTING: Good ending or bad ending?", NULL);
+            with (ChoiceAdd(temp, "Good ending(everybody lives).")) {
+                Quest("prisonquestgoodState", 1);
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(temp, "Bad ending(everybody dies).")) {
+                Quest("prisonquestbadState", 1);
+                scr_event_build_end();
+            }
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

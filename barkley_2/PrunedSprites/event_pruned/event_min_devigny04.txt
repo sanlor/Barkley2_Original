@@ -1,0 +1,84 @@
+// Devigny NPC script - REBEL QUEST GOOD ENDING
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonquestgoodState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var devigny = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("devignygoodState") == 9) {
+            scr_event_build_dialogue("Devigny", NULL, "I got a lot to think over while I'm burying all these duergars.\This important life decision nonsense is really taxing stuff.");
+            scr_event_build_end();
+        } else if (Quest("devignygoodState") == 8) {
+            scr_event_build_dialogue("Devigny", NULL, "Yes sir, I would like to file an injunction. An injunction with my SHOTGUN you lousy zombie plaintiff.\DO YOU REALLY WANT TO MESS WITH HIS HONORABLE BRAINSLAYER, ESQ.!?! HUH?!? DO YOU, PUNK!!!??!?!");
+            Quest("devignygoodState", 9);
+            scr_event_build_end();
+        } else if (Quest("devignygoodState") == 7) {
+            scr_event_build_dialogue("Devigny", NULL, "Unless.....\You know, I could become a lawyer instead. Or a zombie hunter.\Or maybe a zombie hunting lawyer.......");
+            Quest("devignygoodState", 8);
+            scr_event_build_end();
+        } else if (Quest("devignyState") == 3) && (Quest("devignygoodState") == 1) {
+            scr_event_build_dialogue("Devigny", NULL, "This whole life, man. Don't know if it's for me. Something just feels wrong about this.");
+            Dialogue(P_NAME, "Are you sure? You did a pretty good job making dead bodies today. It might be something you want to stick with.");
+            scr_event_build_dialogue("Devigny", NULL, "Maybe I'm through with being a grave digger. Maybe I should worry about life for a change. Maybe that's what Clispaeth has in store for me.");
+            Dialogue(P_NAME, "I dunno. I don't think so. You're pretty good at this death thing.");
+            scr_event_build_dialogue("Devigny", NULL, "No? But there's money in life too, isn't there? I could make a good living doing that.\I could be a doctor. Or a surgeon. You just give them a shot and they're all better. Or you cut something out of them. That's kinda like grave-digging, so I'm practically there already.");
+            Dialogue(P_NAME, "Yeah, sure you could. It's a lot of work though.");
+            scr_event_build_dialogue("Devigny", NULL, "Hmmm.\Well, what do you mean a lot of work? I've had shots before. They're easy to do.");
+            Dialogue(P_NAME, "Well I'd never want to be a doctor. Too much work. All kinds of things can go wrong. Doctors see patients all the time.");
+            scr_event_build_dialogue("Devigny", NULL, "Oh.\Well, I hadn't thought about it that way. They do seem kinda busy.");
+            Dialogue(P_NAME, "And what if you make a mistake or something? Like someone comes in to have fluid from their ears drained and you get their charts mixed up and cut off their legs instead.");
+            scr_event_build_dialogue("Devigny", NULL, "No way! I wouldn't do that!!! I'm a stand up guy, you know that! I'm not that kind of guy.");
+            Dialogue(P_NAME, "Well I don't think most doctors want to, but it could happen you know. It's a pretty honest mistake.");
+            scr_event_build_dialogue("Devigny", NULL, "Yeah, I guess that could happen.");
+            Dialogue(P_NAME, "What would you do if a patient came to you and asked why you left your bone drill in after you sealed up their stomach after an operation?");
+            scr_event_build_dialogue("Devigny", NULL, "Yikes!!! I don't know!!!");
+            Dialogue(P_NAME, "It really hurts though! And I don't want another operation!!! Why did you leave this bone drill in me!!!!! I'll sue you!!!!");
+            scr_event_build_dialogue("Devigny", NULL, "I don't know, I don't know, I don't know!!! I don't want to be a doctor anymore.\Life stinks, man. I'm going to just stay with death. It's more reliable that way.\It's not too often my ex-clients come back to my office complaining after I'm done with them. And fortunately they've got zombie hunters for when they do, so I don't need to worry about it.\Hey, do you think I could use the zombie hunters whenever I get a patient upset with me? Just send the zombie hunter off to take care of them? Always works in the grave-digging business.");
+            Dialogue(P_NAME, "I don't think you'd last very long as a doctor doing that. Kinda defeats the purpose of dealing in life if you just end it when it gets inconvenient.\You have lawyers for kind of thing, but most of them do not carry as many assault rifles as zombie hunters. Whenever possible, go with the zombie hunter instead of a lawyer. Zombie hunters get the job done right.");
+            scr_event_build_dialogue("Devigny", NULL, "Yeah they do. You get it, bucko.\Well, that settles it. A gravedigger's life for me.");
+            Dialogue(P_NAME, "That's the spirit! Go get 'em, tiger!\(Wow! I always wanted to say that to somebody!! /'Go get'em, tiger!!/' Hell yeah!)\(I wonder if this makes me a grown-up now...)");
+            Quest("devignygoodState", 7);
+            scr_event_build_end();
+        } else if (Quest("devignygoodState") == 6) {
+            scr_event_build_dialogue("Devigny", NULL, "Hmmm.....you know.....\I could just buy a really big bomb with one of those millions. Think of how many bodies I could make with that.....");
+            scr_event_build_end();
+        } else if (Quest("devignygoodState") == 5) {
+            scr_event_build_dialogue("Devigny", NULL, "So with my fourth million I'm going to hire really skilled diggers to carve BRAINSLAYER in my planet.\Yeah!!! Hell yeah!!! I don't need to dig anymore with that many millions!!! I can hire a grave digger army!!!");
+            Quest("devignygoodState", 6);
+            scr_event_build_end();
+        } else if (Quest("devignygoodState") == 4) {
+            scr_event_build_dialogue("Devigny", NULL, "With my third million I'm going to just buy a whole planet......\......or a moon if the planet market is too booming.\Then I'm going to just carve BRAINSLAYER in the moon. So everyone will know whose crib it is......\Oh wait, that's a lot of work......");
+            Quest("devignygoodState", 5);
+            scr_event_build_end();
+        } else if (Quest("devignygoodState") == 3) {
+            scr_event_build_dialogue("Devigny", NULL, "With my second million I'm going to buy a boat full of really nice shoes. Really, really good shoes. Self-cleaning shoes.");
+            Quest("devignygoodState", 4);
+            scr_event_build_end();
+        } else if (Quest("devignygoodState") == 2) {
+            scr_event_build_dialogue("Devigny", NULL, "With my first million I'm going to buy a diamond shovel for digging graves. Pure diamonds. No imperfections.");
+            Quest("devignygoodState", 3);
+            scr_event_build_end();
+        } else if (Quest("devignygoodState") == 1) {
+            scr_event_build_dialogue("Devigny", NULL, "So many dead bodies.....so many......");
+            Dialogue(P_NAME, "Yeah, I know. It's terrible.......");
+            scr_event_build_dialogue("Devigny", NULL, "Terrible? Try terribly profitable. Do you know how many graves are needed for this many dead bodies? Have you counted?");
+            Dialogue(P_NAME, "No, but I'm guessing it's a lot.");
+            scr_event_build_dialogue("Devigny", NULL, "Damn right, it's a lot.\Yeah, sure, tragedy, blah blah blah. That's the wrong angle.\For us grave diggers......this is a gold mine.......and I saw it first.......\Consider this claim staked, right here and now. You're my witness, these corpses are mine!!!");
+            Dialogue(P_NAME, "Right on.");
+            Quest("devignygoodState", 2);
+            scr_event_build_end();
+        } else if (Quest("prisonquestgoodState") == 1) {
+            Dialogue(P_NAME, "How are you holding up, Brainslayer?");
+            scr_event_build_dialogue("Devigny", NULL, "Brainslayer? Huh? Never heard of him.\(Listen, mac, when you've got a friend with a secret identity, you don't just go around blabbering it loud enough for everyone to hear......)\Oh yeah, big and strong and tough and handsome Brainslayer is probably miles away by now on his expensive yacht. If you hurry you can go catch him.");
+            Dialogue(P_NAME, "Thanks for the tip.");
+            Quest("devignygoodState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

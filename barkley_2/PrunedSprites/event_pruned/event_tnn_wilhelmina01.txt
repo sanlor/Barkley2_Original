@@ -1,0 +1,269 @@
+// event_tnn_wilhelmina01();
+/*
+    Wilhelmina hangs out outside Egidius' Jerkin Store.
+    She'll give you a different comment on every jerkin you happen to wear.
+*/
+
+if (argument0 == SCRIPT_START)
+{
+    // move wilhelmina to different positions
+    if (scr_inside() == false)
+    {
+        scr_npc_mover(1, r_tnn_residentialDistrict01, o_wilhelmina01, 288, 1136);
+        scr_npc_mover(2, r_tnn_residentialDistrict01, o_wilhelmina01, 408, 1136);
+        //scr_npc_mover(3, r_tnn_businessDistrict01, o_wilhelmina01, 520, 848);
+        scr_npc_mover(4, r_tnn_residentialDistrict01, o_wilhelmina01, 336, 1136);
+        scr_npc_mover(5, r_tnn_residentialDistrict01, o_wilhelmina01, 472, 1136);
+    }
+    
+    // flip graphic depnding on jerkins she is looking at
+    if (ClockTime("get") < 1) { image_xscale = 1; }
+    else if (ClockTime("get") < 2) { image_xscale = -1; }
+    else if (ClockTime("get") < 4) { image_xscale = 1; }
+    else if (ClockTime("get") < 5) { image_xscale = -1; }
+    
+    // Activation & Deactivation for Curfew
+    if ((scr_time_db("tnnCurfew") == "during") && !scr_inside()) { scr_event_interactive_deactivate(); }
+    if (!(scr_time_db("tnnCurfew") == "during") && scr_inside()) { scr_event_interactive_deactivate(); }
+}
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var wilhelmina = id;
+    
+    var event = scr_event_create_main();
+    var jerkin_snippet = scr_event_create_child(event);
+    
+    // Create Jerkin List
+    if (is_real(Quest("wilhelminaJerkin")))
+    {
+        scr_quest_set_state("wilhelminaJerkin", "");
+        wilhelist = ds_list_create();
+        wilhelist[| 0] = "Cornhusk Jerkin";
+        wilhelist[| 1] = "Booty Jerkin";
+        wilhelist[| 2] = "Bottlecap Jerkin";
+        wilhelist[| 3] = "Eggcrate Jerkin";
+        wilhelist[| 4] = "Monofilament Jerkin";
+        wilhelist[| 5] = "Vestal Jerkin";
+        //wilhelist[| 5] = "Cornhusk Jerkin";
+        //wilhelist[| 6] = "Cornhusk Jerkin";
+        //wilhelist[| 7] = "Cornhusk Jerkin";
+        scr_savedata_put_list("wilhelist", wilhelist);
+    }
+    else
+    {
+        wilhelist = scr_savedata_get("wilhelist");
+    }
+    
+    var wearing = scr_equipment_jerkins_getCurrent();
+    var pos = ds_list_find_index("wilhelist", wearing);
+    var state = Quest("wilhelminaState");
+    
+    //----------------------------------------------------------------------------------
+    // jerkin_snippet
+    //----------------------------------------------------------------------------------
+    with (jerkin_snippet)
+    {
+        if (pos != -1)
+        {
+            // Different dialogue for each worn jerkin
+            switch(wearing)
+            {
+                case "Cornhusk Jerkin":
+                    if (state == 0)
+                    {
+                        Dialogue("Wilhelmina", "Lookin good in that jerkin, hon. What's that made out of?");
+                        Dialogue(P_NAME, "C-cornhusk.");
+                        Dialogue("Wilhelmina", "Cornhusk, huh... haven't seen anyone wearing that in ages, but you're pulling it off.");
+                    }
+                    else
+                    {
+                        Dialogue(P_NAME, "");
+                        Dialogue("Wilhelmina", "");
+                    }
+                    break;
+                    
+                case "Booty Jerkin":
+                    if (state == 0)
+                    {
+                        Dialogue("Wilhelmina", "Whoa, whoa, whoa! Hold on now! Where did you get that jerkin? It's so... so...");
+                        Dialogue(P_NAME, "This? It's a Booty Jerkin. They gave it to me in that garage for being the Baron of Booty.");
+                        Dialogue("Wilhelmina", "... so... globular! A Booty Jerkin, you say? That's seriously cutting edge. I've just gotta cop one myself. Guess it's barony for me...");
+                    }
+                    else
+                    {
+                        Dialogue(P_NAME, "");
+                        Dialogue("Wilhelmina", "");
+                    }
+                    break;
+                    
+                case "Bottlecap Jerkin":
+                    if (state == 0)
+                    {
+                        Dialogue(P_NAME, "");
+                        Dialogue("Wilhelmina", "");
+                    }
+                    else
+                    {
+                        Dialogue(P_NAME, "");
+                        Dialogue("Wilhelmina", "");
+                    }
+                    break;
+                    
+                case "Eggcrate Jerkin":
+                    if (state == 0)
+                    {
+                        Dialogue(P_NAME, "");
+                        Dialogue("Wilhelmina", "");
+                    }
+                    else
+                    {
+                        Dialogue(P_NAME, "");
+                        Dialogue("Wilhelmina", "");
+                    }
+                    break;
+                    
+                case "Monofilament Jerkin":
+                    if (state == 0)
+                    {
+                        Dialogue(P_NAME, "");
+                        Dialogue("Wilhelmina", "");
+                    }
+                    else
+                    {
+                        Dialogue(P_NAME, "");
+                        Dialogue("Wilhelmina", "");
+                    }
+                    break;
+                                    
+                case "Vestal Jerkin":
+                    if (state == 0)
+                    {
+                        Dialogue(P_NAME, "");
+                        Dialogue("Wilhelmina", "");
+                    }
+                    else
+                    {
+                        Dialogue(P_NAME, "");
+                        Dialogue("Wilhelmina", "");
+                    }
+                    break;
+            }
+        }
+    }
+    
+    
+    //----------------------------------------------------------------------------------
+    // main event
+    //----------------------------------------------------------------------------------
+    with (event)
+    {
+        //-----------------------------------------
+        // Body Swap States
+        //-----------------------------------------
+        // If you're controlling the Governor.
+        if (BodySwap() == "governor")
+        {
+            Dialogue("Wilhelmina", "Evening, Mr. Governor...");
+        }
+        
+        //-----------------------------------------
+        // Indoors, during curfew
+        //-----------------------------------------
+        else if (scr_time_db("tnnCurfew") == "during")
+        {
+            // Talked indoors
+            if (scr_quest_get_state("wilhelminaState") == 2)
+            {
+                Dialogue("Wilhelmina", "Sewer jerkins, varsity jerkins, faberge jerkins... it's a world of jerkins!");
+            }
+            // Haven't talked indoors
+            else 
+            {
+                Dialogue("Wilhelmina", "I'm not super upset about the curfew or anything. It gives me some downtime to work on making my jerkins. One day I'm gonna be a legendary jerkswoman making jerkins out of materials that few dare to name... and even fewer dare to jerk. But for now, I guess I've gotta practice with these ratty leather jerkins.");
+                Quest("wilhelminaState", 2);
+            }
+        }
+        
+        //-----------------------------------------
+        // Normal dialogue, before and after curfew
+        //-----------------------------------------
+        else
+        {
+            Dialogue("Wilhelmina", "Sewer jerkins, varsity jerkins, faberge jerkins... it's a world of jerkins!");
+            /*
+            //-----------------------
+            // Multiple Conversations
+            //-----------------------
+            if (scr_quest_get_state("wilhelminaState") >= 1)
+            {
+                // Different starting line by ClockTime
+                if (ClockTime("get") < 1) { Dialogue("Wilhelmina", ""); }
+                else if (ClockTime("get") < 2) { Dialogue("Wilhelmina", ""); }
+                else if (ClockTime("get") < 4) { Dialogue("Wilhelmina", ""); }
+                else if (ClockTime("get") < 5) { Dialogue("Wilhelmina", ""); }
+            
+                //scr_event_build_dialogue("Wilhelmina", NULL, "Some say Damascus Steel Jerkins exist... just imagine being clad with the same legendary material that makes up Necron 7's impenetrable bulkheads. No... there's no way they exist.");
+                Dialogue("Wilhelmina", "Sewer jerkins, varsity jerkins, faberge jerkins... it's a world of jerkins!");
+                
+                if (wearing != Quest("wilhelminaJerkin"))
+                {
+                    // Different dialogue for each worn jerkin
+                    switch(wearing)
+                    {
+                        case "Cornhusk Jerkin":
+                            Dialogue("Wilhelmina", "Lookin good in that jerkin, hon. What's that made out of?");
+                            Dialogue(P_NAME, "C-cornhusk.");
+                            Dialogue("Wilhelmina", "That's hella old-fashioned... like something from another time! I don't even think my great-great-great-great-granddwarfs wore cornhusk! But what can I say? You're pulling it off.");
+                            break;
+                        case "Booty Jerkin":
+                            Dialogue(P_NAME, "");
+                            Dialogue("Wilhelmina", "");
+                            break;
+                        case "Bottlecap Jerkin":
+                            Dialogue(P_NAME, "");
+                            Dialogue("Wilhelmina", "");
+                            break;
+                        case "Eggcrate Jerkin":
+                            Dialogue(P_NAME, "");
+                            Dialogue("Wilhelmina", "");
+                            break;
+                        case "Monofilament Jerkin":
+                            Dialogue(P_NAME, "");
+                            Dialogue("Wilhelmina", "");
+                            break;
+                        case "Vestal Jerkin":
+                            Dialogue(P_NAME, "");
+                            Dialogue("Wilhelmina", "");
+                            break;
+                    }
+                }
+            }
+            
+            //-----------------------
+            // First Conversation
+            //-----------------------
+            else
+            {
+                // Different starting line by ClockTime
+                if (ClockTime("get") < 1) { Dialogue("Wilhelmina", ""); }
+                else if (ClockTime("get") < 2) { Dialogue("Wilhelmina", ""); }
+                else if (ClockTime("get") < 4) { Dialogue("Wilhelmina", ""); }
+                else if (ClockTime("get") < 5) { Dialogue("Wilhelmina", ""); }
+                
+                scr_event_build_event_snippet(jerkin_snippet);
+                
+                //Dialogue("Wilhelmina", NULL, "Not bad, not bad. I'd look into Studded Leather if you want more protection in a run-in with Cuchulainn's Bainshees, or maybe a Sod Jerkin if you want the versatility and candy-storage its extra pockets provide. A Faberge Jerkin exchanges durability for a lightweight, elegant fit. I think you'd look cutest in a Letterman's Jerkin though.");
+                Dialogue(P_NAME, "Gee, thanks for the advice. I'll take your word for it.");
+                Quest("wilhelminaJerkin", wearing);
+                Quest("wilhelminaState", 1);
+            }
+            */
+        }            
+    }
+    scr_event_advance(event);
+}

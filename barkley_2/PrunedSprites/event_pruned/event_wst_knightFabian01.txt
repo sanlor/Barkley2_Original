@@ -1,0 +1,69 @@
+// Event for Knight Fabian, knight of the round table in the cybergremlin village.
+
+if (argument0 == SCRIPT_STEP) {
+    if (visible and scr_event_etc_instance_on_screen(id)) then {
+       if (scr_quest_get_state("fabianKnight") == 1) {
+        scr_event_interactive_deactivate();
+        }
+    }
+    else if (!visible and !scr_event_etc_instance_on_screen(id)) {
+        scr_event_interactive_activate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Build Event
+    var knightFabian = id;
+    var event = scr_event_create_main();
+    with (event) {
+    
+    //if on Knights of the Round Table quest.
+    if (scr_quest_get_state("fabianPleased") == 1) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, you're one of the Knights of the Round Table, right?");
+        scr_event_build_dialogue("Knight Fabian", NULL, "Untold fortnights have passed since I last called myself a Knight of the Round Table. But indeed, I witnessed their glory days...");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "The glory days aren't over yet. The Round Table is reconvening at the Necropolis. There's a new Round Table and a spot's open for you. I'm tracking down all the knights and spreading the word.");
+        scr_event_build_dialogue("Knight Fabian", NULL, "By Rittbomm's barbellate beard! That's the best news this old knight has heard in a long time! I'm glad the knights have gathered up the gumption to get back together. If you're looking for more knights, harken to my words, for perhaps I have a clue. It's been said that Sewer Knight is fond of sewers. Now, I must be off! A new era of quests and goblets is upon us!");
+        scr_event_build_fade(true, 2); 
+        scr_event_build_quest_state("fabianKnight", 1);
+        scr_event_build_wait(1);
+        scr_event_build_quest_state_add("knightCount", 1);
+        scr_event_build_fade(false, 2); 
+    
+    //if fabian is pleased.
+    }else if (scr_quest_get_state("fabianPleased") == 1) {
+        scr_event_build_dialogue("Knight Fabian", NULL, "Had the Round Table not been dissolved and the Knights not scattered, I would induct you as a squire so you could tend to my sore calves when I take off my greaves.");
+    
+    //cybergremlin village moved.
+    }else if (scr_quest_get_state("villageMoved") == 1) {
+        scr_event_build_dialogue("Knight Fabian", NULL, "What ho, noble jugend! 'Twas you that tricked these goblins a-swart into leaving, was it not?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "It wasn't really a trick...");
+        scr_event_build_dialogue("Knight Fabian", NULL, "Ahhh, my good and merry youngster. My good and merry youngster! You have displayed a chivalry far beyond your years. I believe you are deserving of a reward! Take your pick, my fair kinder: a hauberk tried and true, a gambeson for your pleasure or an aketon most splendid.");
+        var stupidchoice = scr_event_build_choice("A reward, huh?", s_port_hoopz);
+            
+            //A Hauberk tried and true.
+            with scr_event_build_add_choice(stupidchoice, "A hauberk tried and true.") { 
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess I'll go with the hauberk.");
+            }
+            
+            //A gambeson for my pleasure.
+            with scr_event_build_add_choice(stupidchoice, "A gambeson for my pleasure.") { 
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'll take a gambeson for my pleasure.");
+            }
+            
+            //An aketon most splendid.
+            with scr_event_build_add_choice(stupidchoice, "An aketon most splendid.") { 
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "The aketon sounds good to me.");
+            }
+            
+        scr_event_build_dialogue("Knight Fabian", NULL, "But alas! I have none of those things. You, my knight errant, shall have to make do with the good will you have generated with me. And believe you me, I think quite highly of you now.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Gee, thanks...");
+        scr_event_build_quest_state("fabianPleased", 1);
+        
+    //default text
+    } else {
+        scr_event_build_dialogue("Knight Fabian", NULL, "This village was built upon an ancient tumulus, the resting place of many a doughty knight and squire. I have returned from beyond the grave to haunt these swarthy hobs into leaving, but alack and alay! Young people these days scare me...");
+        }
+    
+    }
+    scr_event_advance(event);
+}

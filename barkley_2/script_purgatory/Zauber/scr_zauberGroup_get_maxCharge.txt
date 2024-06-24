@@ -1,0 +1,4 @@
+/// scr_zauberGroup_get_maxCharge(zauberGroup)
+/// Returns the maximum charge level of the zauberGroup
+
+return argument0[? "level"];

@@ -1,0 +1,107 @@
+/// draw_resistance_graph(x, y, bio, cyber, mental, zauber, cosmic, octoroon, drawWhite, drawHeader)
+
+
+var dx = argument0;
+var dy = argument1;
+var resBio = argument2;
+var resCyber = argument3;
+var resMental = argument4;
+var resZauber = argument5;
+var resCosmic = argument6;
+var resOctoroon = argument7;
+var drawWhite = argument8;
+var drawHeader = argument9;
+
+var dir1, dir2, cx, cy, len, len1, len2;
+
+draw_set_alpha(1);
+draw_sprite(s_ustation_resistance, 0, dx, dy);
+if (drawWhite) draw_sprite(s_ustation_resistance, 1, dx, dy);
+if (drawHeader) draw_sprite(s_ustation_resistance, 2, dx, dy);
+draw_sprite(s_ustation_resistance, 4, dx, dy);
+
+// Bio
+cx = dx+37;
+cy = dy+37;
+dir1 = 27;
+dir2 = 333;
+len = 24 * abs(resBio);
+if (resBio >= 0) {
+    draw_set_colour(c_bio);
+} else {
+    draw_set_colour(c_red);
+}
+draw_triangle(cx, cy, cx+lengthdir_x(len, dir1), cy+lengthdir_y(len, dir1), cx+lengthdir_x(len, dir2), cy+lengthdir_y(len, dir2), false);
+
+// Cyber
+cx = dx+37;
+cy = dy+37;
+dir1 = 333;
+dir2 = 270;
+len = 23 * abs(resCyber);
+if (resCyber >= 0) {
+    draw_set_colour(c_cyber);
+} else {
+    draw_set_colour(c_red);
+}
+draw_triangle(cx, cy, cx+lengthdir_x(len, dir1), cy+lengthdir_y(len, dir1), cx+lengthdir_x(len, dir2), cy+lengthdir_y(len, dir2), false);
+
+// Zauber
+cx = dx+38;
+cy = dy+37;
+dir1 = 153;
+dir2 = 207;
+len = 24 * abs(resZauber);
+if (resZauber >= 0) {
+    draw_set_colour(c_zauber);
+} else {
+    draw_set_colour(c_red);
+}
+draw_triangle(cx, cy, cx+lengthdir_x(len, dir1), cy+lengthdir_y(len, dir1), cx+lengthdir_x(len, dir2), cy+lengthdir_y(len, dir2), false);
+
+
+// Mental
+cx = dx+37;
+cy = dy+36.5;
+dir1 = 270;
+dir2 = 207;
+len1 = 24 * abs(resMental);
+len2 = 22 * abs(resMental);
+if (resMental >= 0) {
+    draw_set_colour(c_mental);
+} else {
+    draw_set_colour(c_red);
+}
+draw_triangle(cx, cy, cx+lengthdir_x(len1, dir1), cy+lengthdir_y(len1, dir1), cx+lengthdir_x(len2, dir2), cy+lengthdir_y(len2, dir2), false);
+
+// Cosmic
+cx = dx+38;
+cy = dy+37;
+dir1 = 90;
+dir2 = 153;
+len1 = 24 * abs(resCosmic);
+len2 = 22 * abs(resCosmic);
+if (resCosmic >= 0) {
+    draw_set_colour(c_cosmic);
+} else {
+    draw_set_colour(c_red);
+}
+draw_triangle(cx, cy, cx+lengthdir_x(len1, dir1), cy+lengthdir_y(len1, dir1), cx+lengthdir_x(len2, dir2), cy+lengthdir_y(len2, dir2), false);
+
+// Octoroon
+cx = dx+38;
+cy = dy+37.5;
+dir1 = 90;
+dir2 = 27;
+len1 = 24 * abs(resOctoroon);
+len2 = 22 * abs(resOctoroon);
+if (resOctoroon >= 0) {
+    draw_set_colour(c_octoroon);
+} else {
+    draw_set_colour(c_red);
+}
+draw_triangle(cx, cy, cx+lengthdir_x(len1, dir1), cy+lengthdir_y(len1, dir1), cx+lengthdir_x(len2, dir2), cy+lengthdir_y(len2, dir2), false);
+
+draw_set_colour(c_white);
+draw_sprite(s_ustation_resistance, 3, dx, dy);
+draw_sprite_ext(s_ustation_resistance, 4, dx, dy, 1, 1, 0, c_white, 0.5);

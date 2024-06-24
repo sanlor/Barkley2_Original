@@ -1,0 +1,59 @@
+// Old Man Sam, a kindly old man in Brain City that grows vegetables in his garden.
+// Involved in Suspect Identification quest. If the quest is completed, Old Man Sam disappears.
+// suspectIdentification = 1 - rejected quest.
+// suspectIdentification = 2 - Accepted quest, Sam is arrested.
+// suspectIdentification = 3 - Saw Sam getting beaten, quest is complete.
+
+/*if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var event = scr_event_create_main();
+    with (event) {
+        
+        //Time 21-24, unspoken.
+        if (scr_time_get() > 21) and (scr_time_get() <= 24) and (scr_quest_get_state("oldManSamState") <= 1) {
+            scr_event_build_dialogue("Old Man Sam", NULL, "");
+        
+        //Time 17-20, unspoken.
+        }else if (scr_time_get() > 16) and (scr_time_get() <= 20) and (scr_quest_get_state("oldManSamState") <= 1) {
+            scr_event_build_dialogue("Old Man Sam", NULL, "");
+    
+        //Time 13-16, unspoken.
+        }else if (scr_time_get() > 12) and (scr_time_get() <= 16) and (scr_quest_get_state("oldManSamState") <= 1) {
+            scr_event_build_dialogue("Old Man Sam", NULL, "");
+    
+        //Time 10-12, unspoken.
+        }else if (scr_time_get() > 10) and (scr_time_get() <= 12) and (scr_quest_get_state("oldManSamState") <= 1) {
+            scr_event_build_dialogue("Old Man Sam", NULL, "Carrots look nice and plump this season. You know what they say about carrots, right? They're good for the peepers! I guess it's just a saying, though. This old man can't see worth a lick.");
+                
+        //Time 9-10, unspoken.
+        }else if (scr_time_get() > 8) and (scr_time_get() <= 10) and (scr_quest_get_state("oldManSamState") <= 1) {
+            scr_event_build_dialogue("Old Man Sam", NULL, "Watering the plants every day isn't hard. Anyone could do it. But for me, it's relaxing and enjoyable to see the fruits (or vegetables - some garden humor for you, ho ho!) of my labor. I suppose all it requires is patience.");    
+        
+        //Time 7-8, spoken.
+        }else if (scr_time_get() > 6) and (scr_time_get() <= 8) and (scr_quest_get_state("oldManSamState") <= 1) {
+            scr_event_build_dialogue("Old Man Sam", NULL, "It's been a long time since somebody was much interested in this little garden. Nobody pays me any mind here. It's like my own little world within a world, a place where only my plants and I exist. It's nice, sometimes. It can get lonely though. Thank you for spending the time to humor an old man.");
+        
+        //Time 5-6, unspoken.
+        }else if (scr_time_get() > 4) and (scr_time_get() <= 6) and (scr_quest_get_state("oldManSamState") <= 1) {
+            scr_event_build_dialogue("Old Man Sam", NULL, "Ah, hello there youngster! You caught me as I was admiring the spinach - it's coming in quite well this year. Spinach requires a much more humid climate than Brain City so it's been a real challenge getting this crop off the ground. You need to be real careful when handling spinach leaves... see...? You need to handle them gently because they're so fragile. But the work is worth it, I say.");
+        
+        //Time 3-4, unspoken.
+        }else if (scr_time_get() > 2) and (scr_time_get() <= 4) and (scr_quest_get_state("oldManSamState") <= 1) {
+            scr_event_build_dialogue("Old Man Sam", NULL, "Turnips, cabbages, carrots, potatoes... my garden's not just for show! It's pleasant to look at, but it's even more pleasant to taste! Ho ho ho, just a little gardening humor. But really, it's hard to find fresh produce in Brain City so my garden is more than just an old man's quiet little corner.");
+            
+        //Time = 1-2, spoken.
+        } else if (scr_time_get() <= 2) and (scr_quest_get_state("oldManSamState") == 1) {
+            scr_event_build_dialogue("Old Man Sam", NULL, "I mostly just keep to my garden these days, all my friends are long gone. I suppose I'd go crazy if I didn't have something to occupy my time, and if it brightens up a little corner of this city then it must be worth something. It's not much, but I think of my garden as my gift to the next generation.");
+        
+             
+        //Never spoken to Old Man Sam before.
+        } else {
+            scr_event_build_dialogue("Old Man Sam", NULL, "Oh, hello there, youngster! I hardly noticed you there! Me? Oh, I'm just an old man whittling away his twilight years in his garden. You can call me Sam. I suppose I'm Brain City's self-appointed gardener if you couldn't tell. This place can be so dismal and nobody was using the space, so I thought I'd work my green thumb and liven it up a little. It's very nice to meet you! Please stop by if you ever want to talk about gardening or just want to admire it.");
+            scr_event_build_quest_state("oldManSamState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

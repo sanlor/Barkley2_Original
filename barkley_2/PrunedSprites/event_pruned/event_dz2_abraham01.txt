@@ -1,0 +1,55 @@
+// Abraham, Zalatar's guard
+/*
+if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var abraham = id;
+    var event = scr_event_create_main();
+    with (event) {
+        
+        // If you're hoopz
+        if (scr_quest_get_state("playerHoopz") == 1) {
+            if (scr_quest_get_state("abrahamState") != 2) {
+                scr_event_build_dialogue("Abraham", NULL, "Y-you there! With the blue mohawk and baller energy!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "M-me?");
+                scr_event_build_dialogue("Abraham", NULL, "Come here, let me see your face... yes... yes... your name - what is your name?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, Hoopz. Hoopz Barkley.");
+                scr_event_build_dialogue("Abraham", NULL, "It... it is you! My master has been waiting for you! Please, you must see him!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Your master? Who's that? And why was he waiting for me?");
+                scr_event_build_dialogue("Abraham", NULL, "There is no time! Quickly, enter the manor and speak with him!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I guess.");
+                 scr_event_build_quest_state("abrahamState", 2);
+                 scr_event_build_execute_event_script(event_dz2_zalatar01); 
+                //teleport to Zalatar's house
+            
+            }
+            
+    
+        }else if (scr_quest_get_state("abrahamState") == 2) {
+        //Talked to Zalatar
+            scr_event_build_dialogue("Abraham", NULL, "My... my master bequeathed upon you his greatest treasure: his final feather. Know that his feather symbolizes the hopes and dreams of countless multitudes, the power to bridge the divisions between peoples so disparate. Do not ever forget the faith he placed in you in his final moments. Now... now leave me to my sorrows. I have only my tears to keep me company now...");
+        
+        }else if (scr_quest_get_state("abrahamState") == 1) {
+        //Spoken to Abraham before.
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Maybe I can help you find the person your master is looking for. I love running errands for people.");
+            scr_event_build_dialogue("Abraham", NULL, "Though they met only in passing long ago, my master saw within the jugend for whom he awaits a spark unrivalled, a caliber so lordly that any would recognize it upon first sight. Noble and true, innocent and compassionate, as willful as a rushing river and as brave as a pride of lions. Within the heart of this jugend, my master saw the wherewithal to save the world, to save all of existence. My master has waited for the return of this jugend for many thousands of years so as to bequeath them his greatest treasure, but he grows old and I fear that soon he can wait no longer. But you are not this jugend, so begone! Begone, knave! Begone!");
+        
+        } else if (scr_quest_get_state("abrahamState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Abraham", NULL, "Begone, knave! Begone! My master has no truck with ill-bred rascals of such low repute! Begone!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh, your master? Who's that??");
+            scr_event_build_dialogue("Abraham", NULL, "You need not know my master's name, only that he is old and wise, the last of his kind, and that the treasure he guards is among the most precious artifacts in this galaxy. There is only one to whom I may grant entrance - a jugend of exceptionally lordly caliber - and that jugend is not you! So begone, I say! Begone!");
+            //if you haven't met the Cyberdwarf
+            if (scr_quest_get_state("mainQuest") == 0) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(What if it's the Cyberdwarf...)");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I need to see your master. It's really important. I was trapped in the Necron 7 engine room when I was rescued by some L.O.N.G.I.N.U.S. dwarfs who told me I needed to find the Cyberdwarf. See, I'm an amnesiac. I don't remember who I am and I think the Cyberdwarf might know. I just need to talk to him. I won't be long.");
+                scr_event_build_dialogue("Abraham", NULL, "Spare me your laments - I have no use for the tears of a knave! You are not the jugend my master seeks... so begone!");
+            }
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Dad shuckit...");
+            scr_event_build_quest_state("abrahamState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

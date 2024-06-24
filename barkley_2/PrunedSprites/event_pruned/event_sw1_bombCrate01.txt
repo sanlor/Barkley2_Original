@@ -1,0 +1,32 @@
+// event_sw1_bombCrate01
+
+if (argument0 == SCRIPT_START)
+{
+    //
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+
+    var bombCrate = id;
+    
+    var event = scr_event_create_main();
+    
+    // number of bombs player gets
+    var number = 3;
+    
+    with (event)
+    {
+        if (scr_quest_get_state("sewerBombs") == 0)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Oh, neat... some bombs! I wonder what kind of fun stuff I can do with these...)");
+            scr_event_build_dialogue_item("Got " + string(number) + " Bombs!");
+            Item("build", "gain", "Bomb", number);
+            scr_event_build_quest_state("sewerBombs", 1);
+        }
+        else
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(No more bombs...)");
+        }
+    }
+    scr_event_advance(event);
+}

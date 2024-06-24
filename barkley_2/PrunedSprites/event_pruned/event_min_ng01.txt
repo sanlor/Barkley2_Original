@@ -1,0 +1,77 @@
+// Bio: He is the BIG BOSS[of the duergar base]. He probably ran some sort of financial firm in another life, which would make him fully qualified to be a commanding officer in a dwarf genocide.
+/* REQUIRED PART of "ngQuest", which is the quest where the player gets all kinds of keycards and certifications which do NOTHING but let the player access the hidden area of the duergar base. Maybe this does other stuff around the game world too BUT WHO KNOWS?!?!? IT IS A MYSTERY!!!!
+Here is the quest breakdown
+ngQuest=0 - The player has done NOTHING and is essentially worthless in the eyes of all quest participants.
+ngQuest=1 - Player has spoken with Perry and given audience with Mr. Ng
+ngQuest=2 - Player has spoken with Ng and has been [narratively] tasked with FILLING OUT IMPORTANT PAPERWORK
+ngQuest=3 - Player has gotten the paperwork from Perry.(NOTE: Player can LOSE the paperwork and then ask for it from Perry again.)
+ngQuest=4 - Player got the FORGED DOCUMENTS from Oolon
+ngQuest=5 - Player spoke with Perry again and is again granted audience with Mr. Ng
+ngQuest=6 - Quest complete
+*/
+// GRAPHICAL NOTE: In my mind the sprite for this guy is this tiny body with this ENORMOUS HEAD with a very tight necktie that looks as though it is cutting off the circulation to his head. He is sitting behind a desk and probably does not need anything but the upper half of a torso. He probably doesn't need a portrait, though.
+// NOTE: This script should probably be auto-trigger based on the player entering Ng's office, with a brief cinematic of the player walking up to Ng's desk, MAYBE even sitting down if we have seventy five minutes to do something totally wild and crazy. For testing purposes I'm just writing this as INTERACTION for now, I'll change that later.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("dbaseNPCsState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var ng = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("baseescapeQuest") == 1) {
+            Dialogue("Ng", "Sally, I've told you many times: You can't walk around smelling so strongly of dwarf. It's impractical. You're liable to have every bone in your body broken by me.");
+            scr_event_build_end();
+        } else if (Quest("ngState") == 2) {
+            Dialogue("Ng", "Good luck with your murder campaign. Keep up the good work. You are an asset to all of duergarity.");
+            scr_event_build_end();
+        } else if (Quest("ngQuest") == 5) {
+            scr_event_build_dialogue_debug("Hundley", NULL, "POSSIBLE TODO: Change the trigger on this to auto-activate and have the player come and sit down.");
+            Dialogue("Ng", "Hmmm, you're not Dozier.");
+            Dialogue(P_NAME, "I just told your stupid secretary that so he'd let me in.\I'm here to give you this document. This is really important stuff I'm doing here, you should close the door.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "POSSIBLE TODO: IF we go with cinematics here, the player moves closer to Ng's desk as this point.");
+            // The player gets closer to Ng. Ng does not close the door.
+            Dialogue("Ng", "Ah, yes, a reinstatement form. I see you have done a rather good job catching up on your dwarf maiming.....");
+            Dialogue(P_NAME, "I did way better than what it says on that sheet. Most of them were way too dead to sign any papers when I got around to giving it to them.");
+            Dialogue("Ng", "Hmmmm.___.____.____.____yes.___.____.____.____everything seems to be in order.....\Hey, wait a minute. Who is Dangerous Reggie?");
+            Dialogue(P_NAME, "Well that WAS my code name until you said it out loud and blew my cover. Nice going, moron. Now the whole stinking ziggurat knows my true identity.");
+            Dialogue("Ng", "Oh....I didn't....");
+            Dialogue(P_NAME, "How do you expect me to gain the trust of those pea-brained rebels with you going around blurting out my code name?\I'm not even supposed to be talking about this with YOU, but I figured maybe you wouldn't totally ruin my murder campaign.");
+            Dialogue("Ng", "Ah, yes, I believe I got a memo about this not too long ago. Everything else appears to be in order. Perry can handle the rest.\And it'd be most beneficial if you elect against mentioning my little transgression to Cuchulainn. I could requisition you some explosives, perhaps.....");
+            Dialogue(P_NAME, "Yeah, if I feel like it. I wouldn't get too attached to all the fingers on your left hand, this is probably going to cost you a few of them.");
+            Dialogue("Ng", "Y-yes, uh, well, good day. Good luck with your murder campaign.");
+            Quest("ngState", 2);
+            Quest("ngQuest", 6);
+            scr_event_build_end();
+        } else if (Quest("ngState") == 1) {
+            Dialogue("Ng", "Now please leave, I'm very busy.");
+            scr_event_build_end();
+        } else if (Quest("ngQuest") == 1) {
+            scr_event_build_dialogue_debug("Hundley", NULL, "POSSIBLE TODO: Change the trigger on this to auto-activate and have the player come and sit down.");
+            Dialogue("Ng", "Good of you to show up, Sally. Please, have a seat.\I see your crushed dwarf quota is down this quarter. Tell me, did you think we wouldn't notice this disappointing lack of productivity?");
+            Dialogue(P_NAME, "Nah.");
+            Dialogue("Ng", "Understand that this firm thrives on productivity. Without productivity there would be no firm. And without the firm, there is no productivity. Am I making myself clear?");
+            Dialogue(P_NAME, "I'm so hungry.");
+            Dialogue("Ng", "Do you think I got to this position of high regard by coasting by, or do you think I got here through hard work and determination?");
+            Dialogue(P_NAME, "I'm pretty sure nobody regards you very high. You don't even have a cool secretary. You have the lamest secretary.");
+            Dialogue("Ng", "I have crushed many skulls of dwarfs and I will crush many more skulls of dwarfs. You know what I'm talking about. Sacrifices must be made, and this is where I must reside.\This is the price of success. Stuck behind a desk all day, no dwarfs to crush. It's up to you to crush them for me, but you have failed and don't even have any interesting dwarf crushing stories to tell me.");
+            Dialogue(P_NAME, "Here's an idea: Why don't you get out from behind the desk and go suck an egg? I can teach you.");
+            Dialogue("Ng", "Sally, enough games. I am docking your pay until the numbers go back up. When the numbers go back up your eating privileges will be reinstated. You can eat whatever you find in the radiation cabinet, nothing more.");
+            Dialogue(P_NAME, "Sorry about this but I hate everything about you.");
+            Dialogue("Ng", "You don't have to like it Sally, but it's what must be done. You had so much hope, had such a bright future, but now you've lost your way.\You can never hope to reach optimum dwarf execution ratios at this pace. Very disappointing.\Please see my secretary on your way out. He will fill you in on the procedure for reinstatement.");
+            Dialogue(P_NAME, "What is the best place to put a bomb so I can blow this place up?\No offense but you are a stupid dork and I want to blow you and your silly organization up. It's not personal.");
+            Dialogue("Ng", "You will need to talk that over with the DR department. Now please leave, I'm very busy.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Ng's door needs to close behind the player after they leave his room.");
+            Quest("ngState", 1);
+            Quest("ngQuest", 2);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

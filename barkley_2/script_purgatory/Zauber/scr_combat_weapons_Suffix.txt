@@ -1,0 +1,771 @@
+/// scr_combat_weapons_Suffix(affix,action, bulletOrNoone, gunOrNull)
+
+// NOTE: of the Circus is in scr_player_stance_roll
+// of the Circus
+
+var affix = argument0;
+var _action = argument1;
+var _bullet = argument2;
+var gun = argument3;
+
+switch(affix)
+{
+    case "of Leper's Digest":
+        return scr_combat_weapons_suffix_of_lepers_digest(_action, _bullet, gun);
+    case "of the Healthy Youth":
+        return scr_combat_weapons_suffix_of_healthy(_action, _bullet, gun);
+    case "of Flicker":
+        return scr_combat_weapons_suffix_of_flicker(_action, _bullet, gun);
+    case "of Surfing":
+        return scr_combat_weapons_suffix_of_surfing(_action, _bullet, gun);
+    case "of the Dying Youth":
+        return scr_combat_weapons_suffix_of_dying(_action, _bullet, gun);
+    case "of the Today's Youth":
+        return scr_combat_weapons_suffix_of_today(_action, _bullet, gun);
+    case "of the Clock":
+        return scr_combat_weapons_suffix_of_clock(_action, _bullet, gun);
+    case "with Nanomachines":
+        return scr_combat_weapons_suffix_with_nanomachines(_action, _bullet, gun);
+    case "of the Lich":
+        return scr_combat_weapons_suffix_of_lich(_action, _bullet, gun);
+    case "of Muramasa":
+        return scr_combat_weapons_suffix_of_muramasa(_action, _bullet, gun);
+    case "of Masamune":
+        return scr_combat_weapons_suffix_of_masamune(_action, _bullet, gun);
+    case "of Murasame":
+        return scr_combat_weapons_suffix_of_murasame(_action, _bullet, gun);
+    case "from Heck":
+        return scr_combat_weapons_suffix_from_heck(_action, _bullet, gun);
+    case "of Reaper's Digest":
+        return scr_combat_weapons_suffix_of_reapers_digest(_action, _bullet, gun);
+    case "of the Elements":
+        return scr_combat_weapons_suffix_of_elements(_action, _bullet, gun);
+    case "of Jeeper's Digest":
+        return scr_combat_weapons_suffix_of_jeepers_digest(_action, _bullet, gun);
+    case "of the Pacifist":
+        return scr_combat_weapons_suffix_of_pacifist(_action, _bullet, gun);
+    case "of Triskelion":
+        return scr_combat_weapons_suffix_of_triskelion(_action, _bullet, gun);        
+    case "with a Battery Charger":
+        return scr_combat_weapons_suffix_with_battery_charger(_action, _bullet, gun);
+    case "of the Paintball":
+        return scr_combat_weapons_suffix_of_paintball(_action, _bullet, gun);    
+    // STRANGE - COSMIC - PASSIVE //
+    // Rifle heart
+    
+    // STRANGE - COSMIC - REACTIVE //
+    // Power //
+        
+    case "of the Bad Aim":
+        return scr_combat_weapons_suffix_of_badaim(_action, _bullet, gun);
+        
+    case "of Magicing":
+        return scr_combat_weapons_suffix_of_magicing(_action, _bullet, gun);
+     
+    case "of the Becker":
+        return scr_combat_weapons_suffix_of_becker(_action, _bullet, gun);       
+    // STRANGE - CYBER - PASSIVE //
+    // Minigun //
+    
+    // STRANGE - CYBER - REACTIVE //
+    // Lets plays //
+    
+    // STRANGE - MENTAL - AGGRESSIVE //
+    // Circus //
+    
+    // STRANGE - MENTAL - PASSIVE //
+    // Machine gun //
+    
+    // STRANGE - MENTAL - REACTIVE //
+    // Bailin out //
+        
+    case "cursed by a Gypsy Hex":
+        return scr_combat_weapons_suffix_cursed_by_gypsy_hex(_action, _bullet, gun);
+        
+    // STRANGE - ZAUBER - PASSIVE //
+    // Shotgun //
+    
+    // STRANGE - ZAUBER - REACTIVE //     
+    case "of Lets Play":
+        return scr_combat_weapons_suffix_of_letsplay(_action, _bullet, gun);
+    case "of the Entlord":
+        return scr_combat_weapons_suffix_of_entlord(_action, _bullet, gun);
+    case "of the Iceman":
+        return scr_combat_weapons_suffix_of_iceman(_action, _bullet, gun);
+        
+    // UP - BIO - REACTIVE //
+    // Familiars //
+        
+    case "of the Quasar":
+        return scr_combat_weapons_suffix_of_quasar(_action, _bullet, gun);
+    case "of the Perfectionist":
+        return scr_combat_weapons_suffix_of_perfectionist(_action, _bullet, gun);
+    case "of Eternity":
+        return scr_combat_weapons_suffix_of_eternity(_action, _bullet, gun);
+    case "of the Doxxer":
+        return scr_combat_weapons_suffix_of_doxxer(_action, _bullet, gun);
+    case "of the Bazinga":
+        return scr_combat_weapons_suffix_of_bazinga(_action, _bullet, gun);
+    case "of the Encephalon":
+        return scr_combat_weapons_suffix_of_encephalon(_action, _bullet, gun);
+    case "of the Metallic Muscle":
+        return scr_combat_weapons_suffix_of_muscle(_action, _bullet, gun);
+    case "with a hole in the Pocket":
+        return scr_combat_weapons_suffix_with_hole_in_pocket(_action, _bullet, gun);
+    case "of Ghosting":
+        return scr_combat_weapons_suffix_of_ghosting(_action, _bullet, gun);
+    case "of the Ps. Pocus":
+        return scr_combat_weapons_suffix_of_pseudohocus(_action, _bullet, gun);
+    case "of Chaining":
+        return scr_combat_weapons_suffix_of_chaining(_action, _bullet, gun);    
+    case "of the Dracula":
+        return scr_combat_weapons_suffix_of_dracula(_action, _bullet, gun);  
+    case "of Deep Welling":
+        return scr_combat_weapons_suffix_of_welling(_action, _bullet, gun);  
+    case "of Pensioning":
+        return scr_combat_weapons_suffix_of_pensioning(_action, _bullet, gun);  
+    case "of Dotlining":
+        return scr_combat_weapons_suffix_of_dotlining(_action, _bullet, gun);  
+    case "of Sacrifice":
+        return scr_combat_weapons_suffix_of_sacrifice(_action, _bullet, gun);
+    case "of the Forever Man":
+        return scr_combat_weapons_suffix_of_forever_man(_action, _bullet, gun);
+}
+        
+// ABYSSSS ///
+
+/*  
+
+    //case "of Caltropix":
+    //    return scr_combat_weapons_suffix_of_caltropix(_action, _bullet, gun);
+
+case "of G.L.A.M.P.'s Revenge":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+            
+                if(gun[? "pChargeRatio"]==1)
+                {
+                scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 
+                    scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) +
+                    scr_stats_getCurrentStat(o_hoopz, STAT_BASE_GUTS) * 0.1 +
+                    scr_stats_getCurrentStat(o_hoopz, STAT_BASE_LUCK) * 0.1 +
+                    scr_stats_getCurrentStat(o_hoopz, STAT_BASE_AGILE) * 0.1 +
+                    scr_stats_getCurrentStat(o_hoopz, STAT_BASE_MIGHT) * 0.1 +
+                    scr_stats_getCurrentStat(o_hoopz, STAT_BASE_PIETY) * 0.1);
+                }
+                
+                break;
+            case "getDesc":
+                _retvar = "Super shots deal extra damage equal to 10% of your G.L.A.M.P. stats";
+                break;
+        }
+        break;
+
+case "of Gilbert's Gambit":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+            
+                    if(gun[? "pChargeRatio"]==1)
+                    {
+                    var diceroll = irandom(99)
+                    if scr_stats_getBaseStat(o_hoopz, STAT_BASE_LUCK) <= diceroll
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) * 5);
+                    }
+                    
+                break;
+            case "getDesc":
+                _retvar = "Super shots have LUCK-% chance to deal 5x their usual damage";
+                break;
+        }
+        break;
+
+/*case "of Ninja's Scroll":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+            
+                    if(gun[? "pChargeRatio"]==1)
+                    {
+                    var conf;
+                    scr_statusEffect_applyFromScriptToCombatActor(statusEffect_ninjascroll, o_hoopz);
+                    }
+                    
+                break;
+            case "getDesc":
+                _retvar = "Super shots increase movement speed by 20% for 0.5 + ACROBATICS * 0.05 seconds";
+                break;
+        }
+        break;
+
+case "of the Spectrum":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+
+                var dmg_amount = scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL);
+                var type = irandom(5);
+                switch (type)
+                    {
+                    case 0:
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_BIO, dmg_amount);
+                    gun[? "pBulletSprite"] = sprite_get_name(s_bull_bioshot);
+                    break;
+                    }
+                switch (type)
+                    {
+                    case 1:
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_CYBER, dmg_amount);
+                    gun[? "pBulletSprite"] = sprite_get_name(s_bull_cybershot);
+                    break;
+                    }
+                switch (type)
+                    {
+                    case 2:
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_MENTAL, dmg_amount);
+                    gun[? "pBulletSprite"] = sprite_get_name(s_bull_mentalshot);
+                    break;
+                    }
+                switch (type)
+                    {
+                    case 3:
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_COSMIC, dmg_amount);
+                    gun[? "pBulletSprite"] = sprite_get_name(s_bull_cosmicshot);
+                    break;
+                    }
+                switch (type)
+                    {
+                    case 4:
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_ZAUBER, dmg_amount);
+                    gun[? "pBulletSprite"] = sprite_get_name(s_bull_zaubershot);
+                    break;
+                    }
+                break;
+            case "getDesc":
+                _retvar = "Bullets have a randomized elemental affinity";
+                break;
+        }
+        break;
+
+
+case "of Altruism":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+            
+                    var total_money = scr_money_count();
+                    var spending_money = floor(total_money * 0.02);
+                    if spending_money > 0 then
+                        {
+                        gun[? "pBulletSprite"] = sprite_get_name(s_bull_coin);
+                        scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, spending_money); 
+                        scr_money_change(-spending_money);
+                        }
+                    
+                break;
+            case "getDesc":
+                _retvar = "Shoot out your money instead of bullets.";
+                break;
+        }
+        break;
+
+    ///bullet
+    ///////SUPER SHOT EFFECT:
+    case "of bullet's lust":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    gun[? "pCurAmmo"] += max(1,gun[? "pMaxAmmo"]/50 + (gun[? "pMaxAmmo"]/25)*gun[? "pAffix"]/100);
+                    if(gun[? "pCurAmmo"]>gun[? "pMaxAmmo"]){gun[? "pCurAmmo"] = gun[? "pMaxAmmo"];}
+                }
+                break;
+            case "getDesc":
+                _retvar = "Firing a super shot grants you extra bullets.";
+                break;
+        }
+        break;
+    
+    ///damage
+    case "of the muscle":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL,
+                    scr_stats_getAttackStat(_bullet,STAT_ATTACK_DMG_NORMAL) + scr_stats_getEffectiveStat(o_hoopz,STAT_BASE_MIGHT)*2*gun[? "pAffix"]/100);
+                }
+                break;
+            case "getDesc":
+                _retvar = "Super shots are strengthened by the shooters' MIGHT.";
+                break;
+        }
+        break;
+        
+    case "of the digestion":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL,
+                    scr_stats_getAttackStat(_bullet,STAT_ATTACK_DMG_NORMAL) + scr_stats_getEffectiveStat(o_hoopz,STAT_BASE_GUTS)*2*gun[? "pAffix"]/100);
+                }
+                break;
+            case "getDesc":
+                _retvar = "Super shots are strengthened by the shooters' GUTS.";
+                break;
+        }
+        break;
+        
+    case "of the religion":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL,
+                    scr_stats_getAttackStat(_bullet,STAT_ATTACK_DMG_NORMAL) + scr_stats_getEffectiveStat(o_hoopz,STAT_BASE_PIETY)*2*gun[? "pAffix"]/100);
+                }
+                break;
+            case "getDesc":
+                _retvar = "Super shots are strengthened by the shooters' PIETY.";
+                break;
+        }
+        break;
+        
+    case "of the circus":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL,
+                    scr_stats_getAttackStat(_bullet,STAT_ATTACK_DMG_NORMAL) + scr_stats_getEffectiveStat(o_hoopz,STAT_BASE_AGILE)*2*gun[? "pAffix"]/100);
+                }
+                break;
+            case "getDesc":
+                _retvar = "Super shots are strengthened by the shooters' ACROBATICS.";
+                break;
+        }
+        break;
+        
+    case "of the dice":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL,
+                    scr_stats_getAttackStat(_bullet,STAT_ATTACK_DMG_NORMAL) + scr_stats_getEffectiveStat(o_hoopz,STAT_BASE_LUCK)*2*gun[? "pAffix"]/100);
+                }
+                break;
+            case "getDesc":
+                _retvar = "Super shots are strengthened by the shooters' LUCK.";
+                break;
+        }
+        break;
+        
+    //////no enemy categories yet. Would probably use a status effect of some kind.
+    case "of the duergar":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Deals extra damage to anything that is not a duergar.";
+                break;
+        }
+        break;
+        
+    //////Could make it stun, but making a radius octarune damage will take a bit more work
+    case "of the slam":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Super shots stun the target, and inflicts octaroon damage to all nearby enemies.";
+                break;
+        }
+        break;
+        
+    //////
+    case "of the jam":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    
+                }
+                break;
+            case "getDesc":
+                _retvar = "Super shot may instantly kill an enemy.";
+                break;
+        }
+        break;
+        
+    case "of marriage":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Drains health over time from the previous enemy attacked.";
+                break;
+        }
+        break;
+    
+    ///defense
+    case "of the immortal":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "While weapon is in hand, increases recovery time after shooter receives damage.";
+                break;
+        }
+        break;
+        
+    case "of cop respecting":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Reduces damage taken from bullets while gun is in hand.";
+                break;
+        }
+        break;
+    
+    ///element. Super shot effects.
+    case "of the gun'sbraster":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Super shot deals extra neurotypical damage.";
+                break;
+        }
+        break;
+        
+    case "of the Uranusian":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Super shot deals extra cosmic damage.";
+                break;
+        }
+        break;
+        
+    case "of the sludge-elf culture":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Super shot deals extra B.I.O. damage.";
+                break;
+        }
+        break;
+        
+    case "of the Sigmund":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Super shot deals extra mental damage.";
+                break;
+        }
+        break;
+        
+    case "of the Robotz":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Super shot deals extra cyber damage.";
+                break;
+        }
+        break;
+        
+    case "of the Library":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Super shot deals extra zauber damage.";
+                break;
+        }
+        break;
+        
+    case "of the James Clan":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Super shot deals extra octaroon damage.";
+                break;
+        }
+        break;
+        
+    case "of the Spectrum":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Each super shot changes the weapon's elemental affinity.";
+                break;
+        }
+        break;
+    
+    ///joke
+    case "of the Nostalgia-Vlogger":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "";
+                break;
+        }
+        break;
+        
+    case "of the Anime":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "";
+                break;
+        }
+        break;
+        
+    case "of E-Sports":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "";
+                break;
+        }
+        break;
+        
+    case "of Let's Play's":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Start your very first Let's Play today!";
+                break;
+        }
+        break;
+        
+    case "of the Pacifist":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                    }
+                break;
+            case "getDesc":
+                _retvar = "Bullets knock target back but deal no damage";
+                break;
+        }
+        break;
+    
+    ///kill
+    case "of the Beekeeper":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_beehive, _bullet);
+                    ds_map_replace(conf,"beeforce",gun[? "pAffix"]);
+                    
+                    ////total base damage 26 hits x 1 - 10 damage (scaled to affix power) over 20 seconds. total damage 26 to 260
+                }
+                break;
+            case "getDesc":
+                _retvar = "Turns enemies into beehives.";
+                break;
+        }
+        break;
+        
+case "of the Beggars Float":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+            
+                    var total_money = scr_money_count();
+                    if total_money <= 0 then
+                        {
+                        if gun[? "pChargeRatio"] < 1 then 
+                             {
+                             gun[? "pChargeRatio"] += 1;
+                             gun[? "pChargeCur"] += 1;
+                             }
+                        else 
+                            {
+                            gun[? "pChargeRatio"] = 1;
+                            gun[? "pChargeCur"] = 1;
+                            }
+                        }
+                    
+                break;
+            case "getDesc":
+                _retvar = "Every shot is a supershot when you are out of money";
+                break;
+        }
+        break;
+        

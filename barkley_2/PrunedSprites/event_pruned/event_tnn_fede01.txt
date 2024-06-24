@@ -1,0 +1,349 @@
+// event_tnn_fede01
+// the script for fede, a dude in the doctor's office
+
+if (argument0 == SCRIPT_START)
+{
+    if (is_real(Quest("fedeGame"))) { scr_quest_set_state("fedeGame", ""); }
+        
+    // logs if you've left the room
+    if (Quest("fedeState") == 2)
+    {
+        scr_quest_set_state("fedeState", 3);
+    }
+} 
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var fede = id;
+    
+    var event = scr_event_create_main();
+    
+    // snippets
+    var post_snippet = scr_event_create_child(event);
+    var accept_snippet = scr_event_create_child(event);
+    var drugged_snippet = scr_event_create_child(event);
+    
+    
+    //--------------------------------------------------------------------
+    // accept_snippet
+    //--------------------------------------------------------------------
+    with (accept_snippet)
+    {  
+        Dialogue(P_NAME, "Sure, I can do that.");
+        Dialogue("Fede", "Thank you! You're a life-saver. I'll print out a message... can you believe it even came with an on-board printer? Wrist-CONP does everything!");
+        
+        scr_event_build_wait(2);
+        scr_event_build_dialogue_debug("bort", NULL, "Wrist-CONP prints out a message.");
+        
+        // "Bolly Mixtures"
+        if (scr_quest_get_state("fedeBolly") == 1)
+        {
+            Dialogue("Fede", "Here you go. Now remember, I'm putting my trust in you. Call me crazy, but I have faith. I'm forgiving that /'Bolly Mixtures/' thing, so please, don't let me down...");
+        }
+        // All other answers
+        else
+        {
+            Dialogue("Fede", "Here you go. I know you of all people can get it done. Thank you, pal. I'm depending on you.");
+        }
+        
+        scr_event_build_dialogue_item("Got Printed Invitation.");
+        Item("build", "gain", "Printed Invitation", 1);
+        
+        Dialogue("Fede", "It just says I'm going to be late. Just ask around at a bar, a stoop, a park, somewhere. Really easy! Thanks again.");
+        
+        // State = 2, accepted.
+        Quest("fedeState", 2);
+        // Quest "fedeQuest" accepted.
+        Quest("fedeQuest", 2);
+    }
+    
+    //--------------------------------------------------------------------
+    // post_snippet
+    //--------------------------------------------------------------------
+    with (post_snippet)
+    {  
+        Dialogue("Fede", "Anyway, I'm playing '/Marblette's Impasse II./' You wouldn't think it, but it's pretty cerebral for a marbles game... but anyway, I wouldn't be playing it if I wasn't STUCK HERE!");
+        
+        // pan to Tatijana, wait, pan back
+        scr_event_build_camera_frame(CAMERA_NORMAL, o_tatijana01);
+        scr_event_build_wait_for_actions();
+        scr_event_build_wait(1);
+        scr_event_build_wait_for_actions();
+        scr_event_build_camera_frame(CAMERA_NORMAL, o_fede01, o_hoopz);
+        
+        Dialogue("Fede", "See, she's even ignoring me now! She says I need to stick around until this ointment sets in... and if it doesn't, I'm going to need surgery... /'sarcoptic mange/'? Have you ever even heard of that? I am late for a meeting but she won't let me leave until she says - and these are her words - I'm /'no longer a threat of contagion./' Get real!");
+        
+        // pan to Tatijana / fede, pan back
+        scr_event_build_camera_frame(CAMERA_NORMAL, o_tatijana01, o_fede01);
+        scr_event_build_wait_for_actions();
+        Dialogue("Fede", "Hey! Hey Doc! I want out!");
+        scr_event_build_wait(2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_camera_frame(CAMERA_NORMAL, o_fede01, o_hoopz);
+        
+        Dialogue(P_NAME, "I have zero medical expertise but I think you should probably do what she says... /'sarcoptic mange,/' right? Just the name sounds scary!");
+        Dialogue("Fede", "Oh come on, now you're siding with her? What a joke! Don't get me wrong, I cherish every chance I get to squeeze in some gaming time, but I've got important stuff to do in Tir na Nog! You see, I'm closing in on some rare ga-");
+        Dialogue(P_NAME, "(Rare games...?)");
+        Dialogue("Fede", "Er, I mean... listen, can you at least help me out? I've got a really important meeting and Dr. Tatijana literally won't let me out the door. I've tried... and she stopped me. Like, physically stopped me. She's really tough, and to be honest this dang thing on my wrist is hard to lug around. The framerates are worth it though... But oh yeah, can you deliver a message for me? To uh... someone? I know it's strange, but I can't tell you who, or what it's about. But I'm supposed to meet someone out there, and I need to make sure they come here instead... especially if that maniac is going to put me under.");
+        Dialogue(P_NAME, "What do you mean, /'someone?/' How am I supposed to find them if you won't tell me who it is?");
+        
+        // Dialogue + meet_option
+        if (scr_quest_get_state("fedeBolly") == 0) 
+        {
+            Dialogue("Fede", "I can't really tell you. I just can't... it's confidential! It'll be easy enough, they'll be looking for me too... probably in a public place. I wouldn't trust this to just anyone, but you're really sharp. I mean, /'" + string(Quest("fedeGame")) + "!/' You've got great taste. I think we can learn a lot from each other. I know you can do it.");
+        }
+        else
+        {
+            Dialogue("Fede", "Listen, I'm giving you a shot at redemption here. After that /'Bolly Mixtures/' debacle you need it. I can't tell you who it is for... it's confidential! But if you ask around a little bit, you'll figure it out. Stick with me and you'll learn something. This is your only chance. Remember, I'm helping you.");
+        }
+        
+        // Choice = take note.
+        var post_take = scr_event_build_choice("Deliver the note?", s_port_hoopz);
+        
+        // Yes
+        var yes_post = scr_event_build_add_choice(post_take, "Yes.");
+        with (yes_post)
+        {
+            scr_event_build_event_snippet(accept_snippet);
+        }
+        
+        // No
+        var no_post = scr_event_build_add_choice(post_take, "No.");
+        with (no_post)
+        {
+            Dialogue(P_NAME, "That's a lot of responsibility. I think you should find someone else to do that.");
+            
+            // Answered "Bolly Mixtures"
+            if (scr_quest_get_state("fedeBolly") == 1)
+            {
+                Dialogue("Fede", "I said I was taking you under my wing... honestly, I don't think you're ever gonna get anywhere. Keep playing /'Bolly Mixtures./' Keep spending your time on that swill. See where it gets you! And see if I care!");
+                // State = 1, banned from quest.
+                Quest("fedeQuest", 1);
+            }
+            else
+            {
+                Dialogue("Fede", "That's disappointing... I sensed a kindred spirit with you. I thought our struggles would align. Well, if you decide you've changed your mind...");
+                // State = 1, talked.
+                Quest("fedeState", 1);
+            }
+        }
+    }
+
+    
+    //--------------------------------------------------------------------
+    // main event
+    //--------------------------------------------------------------------
+    with (event)
+    {
+        //----------------------------------------
+        // Conversation Handler
+        //----------------------------------------
+        if (scr_quest_get_state("fedeLoop") == 1)
+        {
+            Quest("fedeLoop", 0);
+            scr_event_build_event_snippet(post_snippet);
+        }
+        
+        //----------------------------------------
+        // In Recovery
+        //----------------------------------------
+        if (ClockTime("get") >= scr_time_db("fedeRecovery"))
+        {
+            //if you're controlling the Governor.
+            if (BodySwap() == "governor")
+            {
+                Dialogue("Governor Elagabalus", "");
+            } 
+            else
+            {
+                Dialogue(P_NAME, "");
+            }
+        }
+        
+        //----------------------------------------
+        // Pre-Surgery
+        //----------------------------------------
+        else
+        {
+            //----------------------------------------
+            // Body Swap States
+            //----------------------------------------
+            //if you're controlling the Governor.
+            if (BodySwap() == "governor")
+            {
+                Dialogue("Fede", "Grrr.... nnnnng... nnNNNNNNnnnng... slug fruggit! I lost again!");
+                Dialogue("Governor Elagabalus", "(Is... is that a vidcon on his wrist...?)"); // TODO: change if already talked
+            } 
+
+            //----------------------------------------
+            // Normal States
+            //----------------------------------------
+            else
+            {
+                // ---------------------------------
+                // fedeQuest == 3
+                // QUEST COMPLETE
+                // ---------------------------------
+                if (scr_quest_get_state("fedeQuest") == 3)
+                {
+                    Dialogue("Fede", "Meet me out in Tir na Nog later!");
+                }
+                
+                // ---------------------------------
+                // fedeQuest == 2
+                // Accepted note quest.
+                // ---------------------------------
+                else if (scr_quest_get_state("fedeQuest") == 2)
+                {
+                    // HAVEN'T LEFT ROOM
+                    if (scr_quest_get_state("fedeState") = 2)
+                    {
+                        Dialogue("Fede", "Good luck finding them, kid! Just ask around, and make sure you give 'em the Printed Invitation when you find 'em. I wish I could tell you more!");
+                    }
+                    // LEFT AND RETURNED
+                    else
+                    {
+                        Dialogue("Fede", "Hey, you're back! Deliver that note yet?");
+                        
+                        // Note undelivered... to anyone.
+                        if (Item("have", "Printed Invitation") == true)
+                        {
+                            Dialogue(P_NAME, "Not yet, Fede. I'll keep looking.");
+                            Dialogue("Fede", "Okay, well please get to it soon! I'm counting on you.");
+                        }
+                        
+                        // Note delivered... to someone.
+                        else 
+                        {
+                            Dialogue(P_NAME, "Yep, just got it off my hands.");
+                            
+                            // if Bolly
+                            if (scr_quest_get_state("fedeBolly") == 1)
+                            {
+                                Dialogue("Fede", "Heh heh, you've gone really far, kid. I think you can safely put the days of /'Bolly Mixtures/' behind you and move on up to the big leagues.  Bad news though... I think the doctor is prepping me for surgery after all. It was nice meeting you, kid. Wish me luck.");
+                            }
+                            // No Bolly
+                            else
+                            {
+                                Dialogue("Fede", "Excellent! I knew I could count on you! Bad news though... I think the doctor is prepping me for surgery after all. It was nice meeting you, kid. Wish me luck.");
+                            }
+                            Dialogue(P_NAME, "Alright! Awesome...");
+                            // Quest complete
+                            Quest("fedeQuest", 3);
+                        }
+                    }
+                }
+                
+                // ---------------------------------
+                // fedeQuest == 1
+                // BOLLY FAILURE
+                // ---------------------------------
+                else if (scr_quest_get_state("fedeQuest") == 1)
+                {
+                    Dialogue("Fede", "I meant what I said, we're done here.");
+                }
+                
+                // ---------------------------------
+                // STATE = 1
+                // Talked but refused the note.
+                // ---------------------------------
+                else if (scr_quest_get_state("fedeState") == 1)
+                {
+                    Dialogue("Fede", "So, can you help me out?");
+                    
+                    // Choice = take note.
+                    var choice = scr_event_build_choice("Take the note?", s_port_hoopz);
+                    
+                    // Yes
+                    var yes = scr_event_build_add_choice(choice, "Yes.");
+                    with (yes)
+                    {
+                        scr_event_build_event_snippet(accept_snippet);
+                    }
+                    
+                    // No
+                    var no = scr_event_build_add_choice(choice, "No.");
+                    with (no)
+                    {
+                        Dialogue("Fede", "Not now either, huh? Well, if you change your mind...");
+                    }    
+                }
+                
+                // ---------------------------------
+                // STATE = 0
+                // First time talking to Fede
+                // ---------------------------------
+                else if (scr_quest_get_state("fedeState") == 0)
+                {
+                    Dialogue("Fede", "Ooooohh... oooh.... mmmmmm.... nnnng...");
+                    Dialogue(P_NAME, "Hey there, are you alright? Should I get the doctor?");
+                    Dialogue("Fede", "Hnnnng.... hnnng.... get..... back........ marble.... NO! Rats... I lost. I was at level 48 too.");
+                    Dialogue(P_NAME, "Aw, sorry, hope I didn't bother you. That's a wrist-mounted video game console, huh?... now I've seen it all.");
+                    Dialogue("Fede", "Heh, no sweat kid. Being able to tune out distractions is half the game. Didn't even know you were here. And yeah, it's a Wrist-CONP 2054, really ancient tech, but it plays pretty much everything you can think of if you've got the right emulators installed. And look, it's on my wrist!");
+                    Dialogue(P_NAME, "I see that... it looks kind of red.");
+                    Dialogue("Fede", "Yeah yeah, that's what the doc said. It's fine, and like I told her, of course it's gotta mount to the skin. Only 0.12 picoseconds of latency, is that wild or what?");
+                    Dialogue(P_NAME, "Yeah, really wild... I think. So what game is that you were playing?");
+                    Dialogue("Fede", "Well, it's a unique vidcon take on the traditional dwarf game of marbles. No offense, but I've doubt you've ever heard of it. It's a bit of a rarity.");
+                    Dialogue(P_NAME, "Marbles, huh? Lemme take a look._._._ oh, that's...");
+                    
+                    // Game choice
+                    var marbles = scr_event_build_choice("What game is it?", s_port_hoopz);
+                    
+                    // Castle Cats-Eye: Solace of the Marble
+                    var solace = scr_event_build_add_choice(marbles, "Castle Cats-Eye: Solace of the Marble.");
+                    with (solace)
+                    {
+                        Dialogue(P_NAME, "I may be wrong, but that's /'Castle Cats-Eye: Solace of the Marble./'");
+                        Dialogue("Fede", "Of course it's not you imb-... wait, /'Solace of the Marble?/' That's an all-time classic! I wish I was playing that... unfortunately the publisher got a court order to digitally evaporate all copies. Another great work, lost in cyberspace. Sigh... when will they learn? Great taste though, kid! A classic pick.");
+                        Dialogue(P_NAME, "Thanks... you probably know more than me though."); // REALLYBAD
+                        Quest("fedeGame", "Castle Cats-Eye");
+                    }
+                    
+                    // Rabbit Hole 4D
+                    var rabbit = scr_event_build_add_choice(marbles, "Rabbit Hole 4D.");
+                    with (rabbit)
+                    {
+                        Dialogue(P_NAME, "I may be wrong, but that's /'Rabbit Hole 4D./'");
+                        Dialogue("Fede", "Of course it's not you imb-... wait, Rabbit Hole 4D huh? Tell me, you like that game?");
+                        Dialogue(P_NAME, "Oh yeah, I only played it a couple of times though.");
+                        Dialogue("Fede", "Hmm... well, it's not like I haven't played it! It's just been awhile. It uh, got lost in a move. Quite a pick though... a surprise pick and a rare pick.");
+                        Dialogue(P_NAME, "Thanks... you probably know more than me though."); // REALLYBAD
+                        Quest("fedeGame", "Rabbit Hole 4D");
+                    }
+                    
+                    // G.R.I.D.S. 0 - A Marbling Game
+                    var grids = scr_event_build_add_choice(marbles, "G.R.I.D.S. Z3RO - A Marbling Game.");
+                    with (grids)
+                    {
+                        Dialogue(P_NAME, "I may be wrong, but that's /'G.R.I.D.S. Z3RO - A Marbling Game./'");
+                        Dialogue("Fede", "Of course it's not you imb-... heh, did you say /'G.R.I.D.S. Z3RO?/' I never liked the original, but the prequel had some pretty interesting stuff going on. Not a masterpiece, but it had some really tasteful mechanics. Yeah, tasteful! I'll use that when I rate it. Anyway, that's an interesting vintage pick, kid. I wonder what else you've got up your sleeve.");
+                        Dialogue(P_NAME, "Thanks... you probably know more than me though."); // REALLYBAD
+                        Quest("fedeGame", "G.R.I.D.S. Z3RO");
+                    }
+                    
+                    // Bolly Mixtures
+                    var bolly_mix = scr_event_build_add_choice(marbles, "Bolly Mixtures.");
+                    with (bolly_mix)
+                    {
+                        Dialogue(P_NAME, "I may be wrong, but that's /'Bolly Mixtures./'");
+                        Dialogue("Fede", "/'Bolly Mixtures?/' For real, /'Bolly Mixtures!?/' Honestly... that game's no good. Wow. I would never, ever play /'Bolly Mixtures./' For the love of Clisp, /'Bolly Mixtures/' of all things. Bad pick, kid. Bad pick. I tell you what... you clearly need some help. Think of this as me taking you under my wing.");
+                        Dialogue(P_NAME, "Uh, thanks I guess.\(I kind of liked it...)");
+                        // Bolly variable up
+                        Quest("fedeGame", "Bolly Mixtures");
+                        Quest("fedeBolly", 1);
+                    }
+                        
+                    // Return to other point of the event //
+                    Quest("fedeLoop", 1);
+                    scr_event_build_execute_event_script(event_tnn_fede01);
+                }
+            }
+        }
+    }
+    
+    // Gameboy Advance //
+    scr_event_advance(event);
+    }

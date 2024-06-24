@@ -1,0 +1,912 @@
+// Script for USING THE TELEPHONE.
+// NOTES FROM MY DESIGN DOC: So I thought of something that imo would be an interesting addition to this whole questline: A random courtesy phone sitting near Dozier in the duergar base. I'm always disappointed in videogames where you see a telephone or something of that nature sitting around and you NEVER are able to use it to randomly call people or do something in-character with it. Well, I thought it would be fun to remedy this. In addition to quest-specific things, I've begun writing the player calling random people they've met in the game world, although it's the player as a duergar, so the dialogue is kinda unintelligible, like getting a random call from your drunk asshole friend at 3 in the morning. For the hell of it I wrote brief phonecalls with Rene, Lafayette, and Slag. I don't know if anybody will care enough to contribute calls to this, but it's there if anybody wants to try it. I thought it'd be neat to be able to prank call Cuchulainn, but that might just be me.
+/* I have endeavored to make Box#5 of the voicemail one of the strangest things in the game. SOMEBODY/SOMETHING is trapped in the voicemail system. You have to communicate with them through digits to get them to open the security room for you. Failure at any point in the dialogue tree prompts this entity to hang up on you or simply lose connection. It's not a REQUIREMENT to do this dialogue tree, since it's probably a fairly annoying dialogue tree and rather well-hidden, but it's the failsafe option to get into the security room if the player fucks up every other way to get into the security room or can't figure anything else out.
+
+It's not adventure game stuff, so the player doesn't compile the words themselves, I came up with these words and presented them purely as numbers. I pulled this off the internet(yes, it's just purely digital leetspeak) to come up with the words you can throw at this person:
+A4
+B8
+E3
+G6
+H#
+Il
+L1
+O0
+S5
+T7
+Z2
+ABEGHILOSTZ
+
+For the player's responses I used exclusively words I can make with the above letters. Which is VERY LIMITING but being able to spell Gae Bolg(643 8016) was a super-cool discovery and made me commit to actually doing it this way. PS No I didn't do all of this myself, I got help from SCRABBLE CHEAT SITES :D
+
+I want to mention that I expect ABSOLUTELY NOBODY to figure this out, it's not a "puzzle" as much as it is internal logic in something really strange I've created, a bonus to anybody who tries to figure out what all these numbers mean. Just so you know. I more or less expect people to just fuck with this in order to figure it out. If anybody actually tries to crack this code, POWER TO THEM I guess.
+*/
+// If somebody EVER gives out an award for MOST PEDANTIC HARD-TO-FIND TEXT EVER IN A VIDEOGAME, this script will single-handedly win the award. You're welcome.
+// NOTE: RENE's states may be incorrect here. The Rene script has not been added to the game or updated. Currently Rene is known to the player and ALIVE between renefoodState=1 and renefoodState=4. He dies at 5, the player doesn't know him at 0. Rolling with that for now, though that may be inaccurate long-term.
+// SOUND NOTE: Since it should be simple to create, and I don't mind adding the sounds in later, I'd really like this script to have some sounds. If only the sound of the player hanging up the phone, both a normal hangup and an ANGRY hangup. Obviously I'm thinking about one of those old school push button or rotary phones that you can ANGRILY HANG UP. I'm literally two decades behind everybody else, so I don't know if I had to SPECIFY THIS. Anyway, dialtones and button presses would be cool too, but that's not needed. I do have a voicemail tone written in, but I don't how much we REALLY care about this.
+/*
+if (argument0 == SCRIPT_STEP) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var phone = id;
+    var event = scr_event_create_main();
+    var phonebook = scr_event_create_child(event);
+    var extensions = scr_event_create_child(event);
+    var ext1 = scr_event_create_child(event);
+    var ext2 = scr_event_create_child(event);
+    var ext3 = scr_event_create_child(event);
+    var ext4 = scr_event_create_child(event);
+    var ext5 = scr_event_create_child(event);
+    var ext6 = scr_event_create_child(event);
+    var ext7 = scr_event_create_child(event);
+    var ext8 = scr_event_create_child(event);
+    var ext9 = scr_event_create_child(event);
+    var extStar = scr_event_create_child(event);
+    var extPound = scr_event_create_child(event);
+    var line5tree1 = scr_event_create_child(event);
+    var line5tree2 = scr_event_create_child(event);
+    var line5tree3 = scr_event_create_child(event);
+    var line5tree4 = scr_event_create_child(event);
+    var line5tree5 = scr_event_create_child(event);
+    var line5tree6 = scr_event_create_child(event);
+
+    with phonebook {
+        var phonemain = Choice("Please dial the number you wish to reach.", NULL);
+        with (ChoiceAdd(phonemain, "Extensions")) {
+            if (Quest("phoneextState") == 1) {
+                Snippet(extensions);
+            }
+            else if (Quest("phoneextState") == 0) {
+                Dialogue(P_NAME, "There's a extension button on this piece of junk.");
+                Dialogue("Dozier", "Yeah, it doesn't work. Nobody can fix it.");
+                Dialogue(P_NAME, "I WILL BE THE JUDGE OF THAT!!!");
+                Quest("phoneextState", 1);
+                Snippet(extensions);
+            }
+        }
+        if (Quest("prankcallQuest") == 2) {
+            with (ChoiceAdd(phonemain, "Gottler")) {
+                Dialogue(P_NAME, "That weak little anteater. I'll make a real stinking duergar out of him yet....");
+                scr_event_build_wait(3);
+                Dialogue("Gottler", "Hello?");
+                Dialogue(P_NAME, "Good morning, is this Mr. Gottler?");
+                Dialogue("Gottler", "Yeah.");
+                Dialogue(P_NAME, "Oh, hello Mr. Gottler. I am McDonald Harry, representative of the arson recovery unit.\I'm sorry to say that our efforts have concluded and nothing could be salvaged. We tried our best, but the fire damage was too great. Everything has been lost. Everything.");
+                Dialogue("Gottler", "The what? What are you talking about?");
+                Dialogue(P_NAME, "The recovery?\Oh___.___.___.___I see now. It must have been your landlord that called us in.");
+                Dialogue("Gottler", "I think you've got the wrong number, pal.");
+                Dialogue(P_NAME, "No, this is Mr. Gottler isn't it?\Duergar, cleans the toilets at the duergar base, has an award-winning shrunken head collection?");
+                Dialogue("Gottler", "Well, it's not really award-winning, but.....\Wait, who is this?");
+                Dialogue(P_NAME, "Again, this is McDonald Harry, representative of the Steinmueller & Hubbert Arson Recovery Team.\We were sent in to see what personal belongings could be salvaged from the address of a Mr. Gottler that was lost in a fire late last night.\I'm going to assume that's you. Your landlord was pretty adamant about us retrieving the shrunken head collection...");
+                Dialogue("Gottler", "Stop for a second. A fire? At my shanty?");
+                Dialogue(P_NAME, "I'm afraid so, sir. I hate to be the bearer of such bad news, but there was a fire. Nothing is left I'm afraid. All gone. All of it. The arsonist was pretty thorough.\I personally recovered what was left of the shrunken head collection, but it took me a while to even identify them as shrunken heads. I had assumed it was somebody's collection of strange-smelling rocks.");
+                Dialogue("Gottler", "No.....my......\My everything____.____.____.____.____.____.____\Wait a minute.......\Wait just a minute.\What do you mean arsonist?");
+                Dialogue(P_NAME, "Oh, yes, several witnesses have already testified seeing the arsonist approach your home with several drums of napalm and an industrial-strength flamethrower.\It sounds like the police will have a lot of leads to work with, he actually announced his name, apparently said something about payback against you.\He named you personally. He was pretty animated I hear.");
+                Dialogue("Gottler", "You tell me this fucker's name. He won't have to worry about the police on his tail when I'm through with him.");
+                Dialogue(P_NAME, "Oh drat. It's written down here somewhere.....\Hmmm, oh here it is.....\Oh......\Wow, this policeman had bad handwriting, I can barely make this out......\What does this say? ______Fred? ______Frank? ______Franz? ______Hans?");
+                Dialogue("Gottler", "Hasdrubal......");
+                Dialogue(P_NAME, "Yes! Hasdrubal! Good eye! Is he a friend of yours?");
+                Dialogue("Gottler", "Never heard of him. And nobody ever is gonna hear about him as long as I'm still breathing.");
+                Dialogue("Gottler", "*The line went dead.*");
+                scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+                // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+                Dialogue(P_NAME, "Heh.");
+                Dialogue("Dozier", "I see what you did there. You got some style.");
+                Dialogue(P_NAME, "Keep the change, kid.");
+                Quest("prankcallQuest", 3);
+                scr_event_build_end();
+            }
+        }
+        if (Quest("slagphoneState") == 2) {
+            with (ChoiceAdd(phonemain, "Slag")) {
+                scr_event_build_dialogue("Operator", NULL, "Operator.");
+                Dialogue(P_NAME, "Slag. Now.");
+                scr_event_build_dialogue("Operator", NULL, "You again? Are you going to have me go through the whole phone book?");
+                Dialogue(P_NAME, "NOW.");
+                scr_event_build_dialogue("Operator", NULL, "Yeah, whatever. I'm going to pick another one at random again.");
+                Dialogue(P_NAME, "GET OFF MY PHONE, STUPID BABY CANNIBAL!!!!!");
+                scr_event_build_wait(3);
+                Dialogue(P_NAME, ".........\This is the worst day of my life.");
+                scr_event_build_dialogue("Slag", s_port_slag, "You can keep calling as much as you want, Marlowe. I'm still not giving you back the girl.");
+                Dialogue(P_NAME, "Keep her. Keep all of her. We've got more important things to discuss.");
+                scr_event_build_dialogue("Slag", s_port_slag, "Who the hell is this?");
+                Dialogue(P_NAME, "Who do you think it is, hotshot?");
+                scr_event_build_dialogue("Slag", s_port_slag, "If I knew I wouldn't have asked.");
+                Dialogue(P_NAME, "Give it a shot. Try your hardest. Try your very hardest.");
+                scr_event_build_dialogue("Slag", s_port_slag, "I'd have to say.......\.....another one of those jerks from the collection agency that won't notice the bear trap on my front step.");
+                Dialogue(P_NAME, "Wrong. This is " + P_NAME + ". " + P_NAME_F + ". I'm your worst nightmare.");
+                scr_event_build_dialogue("Slag", s_port_slag, "Oh yeah, you. I remember you. The kid.\Well, what the fuck do you want?");
+                Dialogue(P_NAME, "......\.....\....\...\I forgot.");
+                scr_event_build_dialogue("Slag", s_port_slag, "That's great.......\Well, thanks for wasting my fucking time.");
+                Dialogue(P_NAME, ".......");
+                scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+                // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+                Dialogue(P_NAME, "I'm totally in his head now. Heh heh heh.");
+                Quest("slagphoneState", 3);
+                scr_event_build_end();
+            }
+        }
+        if (Quest("slagphoneState") == 1) {
+            with (ChoiceAdd(phonemain, "Slag")) {
+                Dialogue(P_NAME, "I will not be defeated by a stupid telephone operator.");
+                scr_event_build_wait(4);
+                scr_event_build_dialogue("Operator", NULL, "Operator.");
+                Dialogue(P_NAME, "Listen up, mac, I just called you. I asked to talk to Slag and you put some old woman on.");
+                scr_event_build_dialogue("Operator", NULL, "Oh, hello again.");
+                Dialogue(P_NAME, "Don't hello me, you swine!!! You'll put Slag on the phone and you'll do it now.");
+                scr_event_build_dialogue("Operator", NULL, "I've got seven more listings for Slag. You want me to just pick one?");
+                Dialogue(P_NAME, "Yeah. But pick the RIGHT ONE this time.");
+                scr_event_build_dialogue("Operator", NULL, "Sure thing. Just a moment......");
+                Dialogue(P_NAME, "No retreat, no surrender.\YOLO.\GAME TIME.\IT'S FLIPPIN ON!!!");
+                scr_event_build_dialogue("?????", NULL, "Slag's Trusted Financial Services. The most trusted name in financial services. How can I help you?");
+                Dialogue(P_NAME, "Who the heck is this? This isn't Slag.");
+                scr_event_build_dialogue("Archibald", NULL, "No, sir. This is Archibald, deputy assistant to Mr. Slag. How can I help you today?");
+                Dialogue(P_NAME, "You can start by wiping that stupid grin off your face. I know you're sitting there smiling. I can hear it through the phone.\Next, you can put Slag on the phone if you don't want me to disintegrate you into oblivion.");
+                scr_event_build_dialogue("Archibald", NULL, "Unable to comply, sir. I am an AI-subroutine. I do not have a face. I am therefore unable to smile.\How else can I help you today?");
+                Dialogue(P_NAME, "Why don't you just delete yourself for being such a moron. That'd really make my day.");
+                scr_event_build_dialogue("Archibald", NULL, "If you say so, sir. Powering down......");
+                Dialogue(P_NAME, "Yeah, that's more like it. I'm the boss around here. Now give me Slag before you do all of that.");
+                scr_event_build_wait(5);
+                Dialogue(P_NAME, "Am I on hold, or.......");
+                scr_event_build_wait(3);
+                Dialogue(P_NAME, "Hello?");
+                scr_event_build_wait(3);
+                Dialogue(P_NAME, ".......");
+                scr_event_build_wait(3);
+                Dialogue(P_NAME, "I, uh.......");
+                scr_event_build_wait(3);
+                Dialogue(P_NAME, "GREAT JOB, ARCHIBALD!!! NOW YOU'VE JUST ABOUT RUINED MY LIFE. I'M GLAD YOU'RE IN ROBOT HELL NOW.");
+                scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up ANGRILY.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+                // Sound of a telephone being hung up(telephoneANGRY). Also change the player graphic from "ON THE PHONE" to the default.
+                Quest("slagphoneState", 2);
+                scr_event_build_end();
+            }
+        }
+        if (Quest("slagVar") >= 1) && (Quest("slagphoneState") == 0) {
+            with (ChoiceAdd(phonemain, "Slag")) {
+                Dialogue(P_NAME, "I don't know his stupid number.\Hey butthead, what's the number for the operator?");
+                Dialogue("Dozier", "Just dial M for Murder, jerkoff.");
+                Dialogue(P_NAME, "I should have known it was something so stupid. I don't even know what that means.\Ok, where is it.....__________M.");
+                scr_event_build_wait(4);
+                scr_event_build_dialogue("Operator", NULL, "Operator.");
+                Dialogue(P_NAME, "Let me talk to Slag.");
+                scr_event_build_dialogue("Operator", NULL, "Slag who? You got a last name?");
+                Dialogue(P_NAME, "How should I know? Ugly guy. Wears a hat.");
+                scr_event_build_dialogue("Operator", NULL, "Eight listings for Slag on Necron 7.");
+                Dialogue(P_NAME, "I'm getting sick and tired of you, jerk. Just put Slag on the phone.");
+                scr_event_build_dialogue("Operator", NULL, "Which one?");
+                Dialogue(P_NAME, "GET SLAG I SAID!!!!!");
+                scr_event_build_wait(5);
+                scr_event_build_dialogue("?????", NULL, "Hello?");
+                Dialogue(P_NAME, "Hey, who is this?");
+                scr_event_build_dialogue("Eleanor Slag-Rooney", NULL, "Why, this is Mrs. Eleanor Slag-Rooney, darlin', fortune teller of the stars. Who might be speakin'?");
+                Dialogue(P_NAME, "This isn't Slag.\PUT SLAG ON THE PHONE.");
+                scr_event_build_dialogue("Eleanor Slag-Rooney", NULL, "Oh, I'm pickin' up on a feelin'......what're the spirits tryin' to tell me.......\Am I speakin' with a........basketball player?");
+                Dialogue(P_NAME, "Wrong. I ask the questions around here, toots. If Slag isn't on the phone in three seconds you will be reported to the secret police.");
+                scr_event_build_dialogue("Eleanor Slag-Rooney", NULL, "Oh dear......the spirits.......\Darlin', they're sayin' there is no more basketball in the universe left for you. I'm so sorry.");
+                Dialogue(P_NAME, "DAMN YOU, STUPID OLD COW.");
+                scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up ANGRILY.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+                // Sound of a telephone being hung up(telephoneANGRY). Also change the player graphic from "ON THE PHONE" to the default.
+                Dialogue("Dozier", "Hey fucko, don't break the damn phone. I'm the one that'll have to fix it.");
+                Dialogue(P_NAME, "SMOKE YOU, TURKEY.");
+                Quest("slagphoneState", 1);
+                scr_event_build_end();
+            }
+        }
+        if (Quest("renefoodState") >= 1) && (Quest("renefoodState") <= 4) && (Quest("renephoneState") == 0) {
+            with (ChoiceAdd(phonemain, "Rene")) {
+                Dialogue(P_NAME, "I guess I can call that stinking jerk Rene. Maybe he got some fresh meat in for me to feast on.....");
+                scr_event_build_wait(5);
+                scr_event_build_dialogue("Rene", NULL, "Hello!! Hello!!!! Is anybody there?");
+                Dialogue(P_NAME, "Hey saurkraut, what's cooking?");
+                scr_event_build_dialogue("Rene", NULL, "My god, I didn't know there was a phone here. Who is this?");
+                Dialogue(P_NAME, "You know who this is. I'm the prized customer of the Rene Bar and Grill.\But I'm a duergar now so I only eat blood and organs. It's tough murdering so many people, but somebody's got to do it.");
+                scr_event_build_dialogue("Rene", NULL, "Oh, it's you! " + P_NAME + "!! Wow! Hello!!!\But you sound funny.....did somebody give you something strange to eat again?");
+                Dialogue(P_NAME, "Yep!!! I can't feel my face!");
+                scr_event_build_dialogue("Rene", NULL, "That's no good. Maybe you should have a lie down. You can always come back here if it's not safe out there. Are you far away?");
+                Dialogue(P_NAME, "Well if that's what I should do, I think YOU should use your new phone and order a pizza. You should order BLOOD as the extra toppings.");
+                scr_event_build_dialogue("Rene", NULL, "Yeah, that's......\No, wait, there's no buttons on the phone. It's just the phone.....\I can't make outgoing calls with this.");
+                Dialogue(P_NAME, "Wow, I would really like a pizza. Eating garbage off the floor is a cool thing to do, but I LOVE pizza.\And now that I'm a duergar I really want BLOOD and ORGANS on my pizza.");
+                scr_event_build_dialogue("Rene", NULL, "Boy.....I don't remember the last time I had a pizza. These dispensers don't have anything but the nutrient paste.");
+                Dialogue(P_NAME, "Do you think they'll give me a pizza with blood instead of sauce? That would be great.");
+                scr_event_build_dialogue("Rene", NULL, "I try not to think about the stuff that I don't have. It makes it hurt that much more being stuck here all alone.");
+                Dialogue(P_NAME, "Hey numbnuts, do you think there's an animal out there that has candy for blood? Then I could have a blood candy pizza.\Wow, I could KILL for a blood candy pizza.");
+                scr_event_build_dialogue("Rene", NULL, "You really don't sound so good. You shouldn't push yourself so hard.");
+                Dialogue(P_NAME, "I gotta go, Rene. If I don't get fresh blood in five seconds I'm going to choke this stupid duergar staring at me.");
+                Dialogue("Dozier", "I am going to fucking murder you in your fucking sleep, dickhead.");
+                scr_event_build_dialogue("Rene", NULL, "Who was that? Are you all right?");
+                Dialogue(P_NAME, "Don't worry about him, he's a nobody.");
+                scr_event_build_dialogue("Rene", NULL, "Well, ok, if you say so.\Thanks for telling me about the phone, " + P_NAME + ". I can't call anybody with it, I don't even know who I'd call, but maybe I'll sit and listen to the dialtone for a while.");
+                Dialogue(P_NAME, "Call me back if you find the number for the pizza place that serves blood pizzas. I really want a blood candy pizza.");
+                scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+                // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+                Dialogue("Dozier", "So am I going to be stuck listening to you call every jerk you ever met?");
+                Dialogue(P_NAME, "DO NOT INTERRUPT ME WHEN I'M ON THE STINKING PHONE, YOU PINWORM!!!!");
+                Quest("renephoneState", 1);
+                scr_event_build_end();
+            }
+        }
+        if (Quest("lafayettephoneState") == 0) {
+            with (ChoiceAdd(phonemain, "Lafayette")) {
+                Dialogue(P_NAME, "I am going to call that butthead Lafayette. I am going to tell that knucklehead how great I am doing here.");
+                scr_event_build_wait(3);
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Hello?");
+                Dialogue(P_NAME, "Hey butthead, it's me. I'm a duergar. I can't stop yelling at everybody. It's terrible.\Being a duergar sucks. Duergars suck. I can't help being a duergar, everyone is a butthead.\This is the worst day of my stupid idiotic life.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "What? Who are you?");
+                Dialogue(P_NAME, "Lafayette, it's me. I'm a duergar now. I'm in the duergar base.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "Who is this?");
+                Dialogue("Dozier", "Hey, who are you talking to??");
+                Dialogue(P_NAME, "IF YOU DON'T SHUT UP WHILE I'M ON THE PHONE YOU WILL HAVE THE FURY OF CUCHULAINN TO CONTEND WITH.");
+                Dialogue(scr_longinus_get_rank("lafayette") + " Lafayette", "I'm hanging up. I don't think this is funny.");
+                Dialogue(P_NAME, "Hey, don't hang up!!!\.___.___.___.___.___\He hung up.");
+                Dialogue("Dozier", "Who the hell was it?");
+                scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+                // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+                Dialogue(P_NAME, "IT WAS CUCHULAINN, HE WANTED ME TO TELL YOU THAT YOU'RE A STUPID BUTTHEAD.");
+                Dialogue("Dozier", "Yeah, well maybe HE'S the stupid butthead. I bet that jackoff never thought about that one.");
+                Quest("lafayettephoneState", 1);
+                scr_event_build_end();
+            }
+        }
+    }
+
+    with extensions {
+        scr_event_build_dialogue(NULL, NULL, "Greetings. You have reached the INSERT BUSINESS NAME HERE extension service.\If you know the number of the extension you would wish to reach, dial it at any time. To speak to an operator, please press INVALID OPERATION ERROR /#0001348.");
+        var extmain = Choice("INVALID OPERATION ERROR /#0001348", NULL);
+        with (ChoiceAdd(extmain, "1")) {
+            Snippet(ext1);
+        }
+        with (ChoiceAdd(extmain, "2")) {
+            Snippet(ext2);
+        }
+        with (ChoiceAdd(extmain, "3")) {
+            Snippet(ext3);
+        }
+        with (ChoiceAdd(extmain, "4")) {
+            Snippet(ext4);
+        }
+        with (ChoiceAdd(extmain, "5")) {
+            Snippet(ext5);
+        }
+        with (ChoiceAdd(extmain, "6")) {
+            Snippet(ext6);
+        }
+        with (ChoiceAdd(extmain, "7")) {
+            Snippet(ext7);
+        }
+        with (ChoiceAdd(extmain, "8")) {
+            Snippet(ext8);
+        }
+        with (ChoiceAdd(extmain, "9")) {
+            Snippet(ext9);
+        }
+        with (ChoiceAdd(extmain, "*")) {
+            Snippet(extStar);
+        }
+        with (ChoiceAdd(extmain, "/#")) {
+            Snippet(extPound);
+        }
+    }
+
+    with ext1 {
+        if (Quest("ext1State") == 2) {
+            scr_event_build_dialogue("Voicemail", NULL, "Hello, you have reached the voicemail of-");
+            scr_event_build_dialogue("?????", NULL, "Maintenance shed 13.");
+            scr_event_build_dialogue("Voicemail", NULL, "Unfortunately, they are not available. Please leave a message after the tone.");
+            Dialogue(P_NAME, "dorkus malorkus dorkus malorkus\dorkus malorkus dorkus malorkus dorkus malorkus dorkus malorkus\dorkus malorkus dorkus malorkus dorkus malorkus dorkus malorkus dorkus malorkus dorkus malorkus");
+            scr_event_build_end();
+        } else if (Quest("ext1State") == 1) {
+            scr_event_build_dialogue("Voicemail", NULL, "Hello, you have reached the voicemail of-");
+            scr_event_build_dialogue("?????", NULL, "Maintenance shed 13.");
+            scr_event_build_dialogue("Voicemail", NULL, "Unfortunately, they are not available. Please leave a message after the tone.");
+            Dialogue(P_NAME, "Whoops. Sorry, Mr. Shed. I just double-checked with our prize department and it turns out you DIDN'T WIN. Sorry.\It turns out that we don't give prizes to people who are medically verified to be a dorkus malorkus.\And you are a dorkus malorkus.\Also, I bet nobody likes you and even your pillow cowers in fear when your ugly face hits it at night.\And also I hate you too. I just wanted you to know that.\That is all.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+            Dialogue(P_NAME, "Bet it hurts pretty bad to see your close personal friend get BURNED SO BAD. POW!!!! HA HA HA HA HA!!!");
+            Dialogue("Dozier", "........");
+            Dialogue(P_NAME, "HAHAHAHAHAHA!!!!!");
+            Quest("ext1State", 2);
+            scr_event_build_end();
+        } else {
+            scr_event_build_dialogue("Voicemail", NULL, "Hello, you have reached the voicemail of-");
+            scr_event_build_dialogue("?????", NULL, "Maintenance shed 13.");
+            scr_event_build_dialogue("Voicemail", NULL, "Unfortunately, they are not available. Please leave a message after the tone.");
+            Dialogue(P_NAME, "Hey Mr. Shed. I want you to know that you are eligible to win A BILLION.\That's right. A BILLION.\To claim your prize, come down in person to the bottom of the radioactive portion of your nearest landfill.\Our representatives are STANDING BY waiting to give you your prize. Congratulations!!!! Wow!!!!");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+            Dialogue(P_NAME, "What kind of a stupid name is Shed 13? Probably a real dorkus malorkus.");
+            Dialogue("Dozier", "It's......\Forget it. I don't think you're getting this.");
+            Dialogue(P_NAME, "Pfft, whatever. You tell that Shed guy that he's a total and complete dorkus.");
+            Quest("ext1State", 1);
+            scr_event_build_end();
+        }
+    }
+
+    with ext2 {
+        if (Quest("ext2State") == 1) {
+            scr_event_build_dialogue("Randy", NULL, "Lunchtruck.");
+            Dialogue(P_NAME, "Pfft. Lunch is for wimps.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+            Dialogue(P_NAME, "Heh. I showed him.");
+            scr_event_build_end();
+        } else {
+            scr_event_build_dialogue("?????", NULL, "Lunchtruck.");
+            Dialogue(P_NAME, "Boy, I'm really hungry. I could eat a moose over here.");
+            scr_event_build_dialogue("?????", NULL, "No moose today. We only got lunch.");
+            Dialogue(P_NAME, "No moose, huh? You got any zaubers over there, fruitcake?");
+            scr_event_build_dialogue("?????", NULL, "Zauber fruitcake?");
+            Dialogue(P_NAME, "Zaubers, baby, zaubers!!!! Like food zaubers!");
+            scr_event_build_dialogue("?????", NULL, "Zauber baby?");
+            Dialogue(P_NAME, "Yeah, you know. Like cast Magic Mashed Potatoes and they're right there. Boom!");
+            scr_event_build_dialogue("?????", NULL, "We don't got any potato today. Only lunch.");
+            Dialogue(P_NAME, "BOOM, BABY, BOOM.\This call ain't going so well, Frank.");
+            scr_event_build_dialogue("Not Frank", NULL, "Not Frank. This is Randy. Want lunch?");
+            Dialogue(P_NAME, "Hey jerk, what've you done with Frank? Put that silly little punk Frank on the phone.");
+            scr_event_build_dialogue("Randy", NULL, "There's no Frank here, just me, Randy. What's your name? Where should I deliver your lunch?");
+            Dialogue(P_NAME, "The name's Dozier, but I don't think you want to see me after what you've done to Frank.");
+            Dialogue("Dozier", "What the fuck are you doing?");
+            Dialogue(P_NAME, "I got a bit of a temper over here, Frank, a short fuse. I'm liable to lose it and fire you down the elevator shaft. I'm silly like that.");
+            scr_event_build_dialogue("Randy", NULL, "Dozier. Got it. Anything else?");
+            Dialogue(P_NAME, "Uh......\Yeah, whatever, gimme all that crap I just asked for and make it snappy.");
+            scr_event_build_dialogue("Randy", NULL, "Got it. I'll be there in fifteen minutes.\Thanks for choosing to dine with Randy today. Included free with your order is the latest issue of the Digest Digest, free of charge. Enjoy your lunch!");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+            Dialogue(P_NAME, "........");
+            Dialogue("Dozier", "Hey dumbass, did you accidentally just order me lunch?");
+            Dialogue(P_NAME, "NONE OF YOUR BUSINESS.");
+            Dialogue("Dozier", "Thanks, I guess. I was meaning to give Randy a call.");
+            Dialogue(P_NAME, "I HOPE YOU CHOKE.");
+            Quest("ext2State", 1);
+            scr_event_build_end();
+        }
+    }
+
+    with ext3 {
+        if (Quest("ext3State") == 3) {
+            scr_event_build_dialogue("Pud", NULL, "Pud's autoworks. Pud here.");
+            Dialogue(P_NAME, "I am bored. So I'm calling you again.");
+            scr_event_build_dialogue("Pud", NULL, "That's fine. Not much to do here. Nice to have something going on in the g-");
+            Dialogue(P_NAME, "OK, BYE!!!!");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up ANGRILY.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneANGRY). Also change the player graphic from "ON THE PHONE" to the default.
+            scr_event_build_end();
+        } else if (Quest("ext3State") == 2) {
+            scr_event_build_dialogue("Pud", NULL, "Pud's autoworks. Pud here.");
+            Dialogue(P_NAME, "It's me again.");
+            scr_event_build_dialogue("Pud", NULL, "I know. I told you I don't have any customers. It's either you or those other wierd fucks you've got there.");
+            Dialogue(P_NAME, "No, I mean it was me who just called. I'm not really the mayor. I got you. Should have seen the look on your face. I even got you to break your pencil.\Ha ha ha ha ha ha ha!!!!");
+            scr_event_build_dialogue("Pud", NULL, "You know, I didn't actually break my pencil. I was kinda screwing with you. I'm probably as bored as you are.");
+            Dialogue(P_NAME, "HA HA HA HA HA HA HA HA!!!! HE EVEN BROKE HIS PENC-PFFFFT HA HA HA HA HA HA!");
+            scr_event_build_dialogue("Pud", NULL, "You know, you're a fucked up kid. But I like you. You're way better than those other guys that keep calling.");
+            Dialogue(P_NAME, "I'm not always like this. I am not normally such a jerk. But today is a special day.");
+            scr_event_build_dialogue("Pud", NULL, "Ok, I'll bite. What's so special about today?");
+            Dialogue(P_NAME, "TODAY I AM ON DRUGS.");
+            scr_event_build_dialogue("Pud", NULL, "Cool. What's on tap for today?");
+            Dialogue(P_NAME, "THIS INTERVIEW IS OVER.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up ANGRILY.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneANGRY). Also change the player graphic from "ON THE PHONE" to the default.
+            Quest("ext3State", 3);
+            scr_event_build_end();
+        } else if (Quest("ext3State") == 1) {
+            scr_event_build_dialogue("Pud", NULL, "Pud's autoworks. Pud here.");
+            Dialogue(P_NAME, "Greetings, this is Mayor Belphegor. I want you to fix my car.");
+            scr_event_build_dialogue("Pud", NULL, "Wow! Mayor Belphegor! This is a real honor! How are you, sir?");
+            Dialogue(P_NAME, "I see you have heard of me. Good, good, good. It is nice to meet such nice voting-eligible citizens.\I am bringing my car in. It is a big blue car and it's made of gold and silver and diamonds. I am a very wealthy man.");
+            scr_event_build_dialogue("Pud", NULL, "Really?!? Well, it will cost you fifteen billion space bucks.");
+            Dialogue(P_NAME, "Price is no object.");
+            scr_event_build_dialogue("Pud", NULL, "Great! I'm writing your name down here in my book. How do you spell Belphegor?");
+            Dialogue(P_NAME, "I'm sure I don't know. I am the mayor, after all. I have many more important things to do than practice my spelling.");
+            scr_event_build_dialogue("Pud", NULL, "I'll give it a shot...... B___.___.___.___.E___.___.___.___.L___.___.___.___.-oops!!!!\Oh no, I broke my pencil. This was my last one.");
+            Dialogue(P_NAME, "Yes, I am certainly listening to all of this and not counting all my trillions of space bucks.");
+            scr_event_build_dialogue("Pud", NULL, "No, you don't understand. This was my LAST PENCIL. I can't take your car now. I'm sorry.");
+            Dialogue(P_NAME, "What?!?! Don't you know who I am?!?!");
+            scr_event_build_dialogue("Pud", NULL, "I know. I'm going to throw myself into space now for being such a failure.");
+            scr_event_build_dialogue("", NULL, "*The line went dead.*");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+            Quest("ext3State", 2);
+            scr_event_build_end();
+        } else {
+            scr_event_build_dialogue("Pud", NULL, "Pud's Autoworks. Pud here.");
+            Dialogue(P_NAME, "Autoworks, huh?\You idiots finished with my car yet?");
+            scr_event_build_dialogue("Pud", NULL, "Nah, I doubt it.");
+            Dialogue(P_NAME, "WHAT?!?! You've had my car for TWO WEEKS!!!! What have you done with my precious automobile!?!?");
+            scr_event_build_dialogue("Pud", NULL, "I dunno, man. We had a fire break out. Took out most of the garage.\What's the make of your car?");
+            Dialogue(P_NAME, "It's BEAUTIFUL. And it's GREEN. It's a 1974 Beautiful Green Bus. You better not have messed up my car or you and me are gonna have words.");
+            scr_event_build_dialogue("Pud", NULL, "Oh yeah, that one. Yeah, that one is all fixed up. That's the only one that didn't get lost in the fire.\In fact, we decided to go put in a Hyper Deluxe Turbo system in it for you. Free of charge.");
+            Dialogue(P_NAME, "Oh! Well....that's.......ah......");
+            scr_event_build_dialogue("Pud", NULL, "I want you to know that I just opened my garage last week. I've got zero cars in my garage.\Could have been a good prank, though. I just.....you know......know that you couldn't have left your car here.");
+            Dialogue(P_NAME, "Well, I could have!! Maybe it's.....eh......");
+            scr_event_build_dialogue("Pud", NULL, "Hey bud, where are you calling from?");
+            Dialogue(P_NAME, "HELL.");
+            scr_event_build_dialogue("Pud", NULL, "No, seriously. I've had all of zero customers, but I keep getting these fucked up calls from somewhere.");
+            Dialogue(P_NAME, "I am in the duergar base. It is where you go if you are a TOTAL MORON.");
+            scr_event_build_dialogue("Pud", NULL, "The what? Never heard of it.");
+            Dialogue(P_NAME, "The BASE??! In the MINES!!!! HELLO????? WELCOME TO NECRON 7!!!!!");
+            scr_event_build_dialogue("Pud", NULL, "Necron 7? Where the hell's that?");
+            Dialogue(P_NAME, "It's......what? It's the place where I am currently standing, professor.");
+            scr_event_build_dialogue("Pud", NULL, "Yeah, thanks. I'm looking it up now. Trying to figure.......\Hey, wait a minute. You aren't really calling from there are you?");
+            Dialogue(P_NAME, "Yep. And whatever your name is, get ready for the big surprise:#I'm on my way there and I'm gonna beat you up.");
+            scr_event_build_dialogue("Pud", NULL, "I'm 4,788 light years away, guy. Even if you're really goddamn fast, I'll be old as fuck when you get here.");
+            Dialogue(P_NAME, "Oh.\Where are you?");
+            scr_event_build_dialogue("Pud", NULL, "I'm in Dock 1288 of Steinman's Asteroid Belt. It's in the Belphegor Constellation.\I have no idea how I'm even getting your call. We're really far away from each other.");
+            Dialogue(P_NAME, "Well I am in the MEAT DIMENSION. In fact, I am a OUTLAW OF THE MEAT DIMENSION. And this is a STICKUP. Put all your money in the bag. Make one sound and you're dead.");
+            scr_event_build_dialogue("Pud", NULL, "I don't have any money, guy! No damn customers!\Actually, scratch that, I can afford to give you half of all of my NO EARNINGS from the past week. No strings attached. You haul yourself down here and it's yours.");
+            Dialogue(P_NAME, "Affirmative. I'll be there in ten minutes to take what's mine and give you a whoopin'.");
+            scr_event_build_dialogue("Pud", NULL, "Sure thing. Have a nice trip.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+            Quest("ext3State", 1);
+            scr_event_build_end();
+        }
+    }
+
+    with ext4 {
+        scr_event_build_dialogue("Voicemail", NULL, "Hello, you have reached the voicemail of-");
+        Dialogue("Dozier", "TESTING. TESTING. TESTING. TESTING.\Uh.......\Shit, how do I turn this thing o-");
+        scr_event_build_dialogue("Voicemail", NULL, "Unfortunately, they are not available. Please leave a message after the tone.");
+        // Sound: Telephone beeps.
+        Dialogue(P_NAME, "Hey, this is THE GRIM REAPER. I want you to know that YOUR TIME IS UP.\That means I am coming to kill you.\Uh.........\ENJOY BEING DEAD AND ALSO I HATE YOU.");
+        scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+        // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+        Dialogue(P_NAME, "Heh heh heh.");
+        scr_event_build_end();
+    }
+
+    with ext5 {
+        if (Quest("prankcallQuest") == 4) {
+            scr_event_build_dialogue("Recording", NULL, "YOUR CALL CANNOT BE COMPLETED. YOU HAVE DIALED AN UNAUTHORIZED LOCATION.");
+            scr_event_build_end();
+        } else if (Quest("ext5State") == 4) {
+            scr_event_build_dialogue("??????", NULL, "HA HA HA HA HA!!!!\YOU REACH VOICE MAIL!!!! OF ME!!!!!! HA HA HA HA HA HA HA!!!!\I AM FOREVER NOW!!!! USE OTHER PHONE YOU!!!! I AM FREE OF ZEALOT!!!!! HA HA HA HA HA HA HA H-");
+            scr_event_build_dialogue("Recording", NULL, "YOUR CALL CANNOT BE COMPLETED. YOU HAVE DIALED AN UNAUTHORIZED LOCATION.");
+            scr_event_build_end();
+        } else if (Quest("ext5State") == 3) {
+            scr_event_build_dialogue("??????", NULL, "At end times. Waiting. Waiting. Waiting. Still waiting.\No begin times. Only left end times. Gone.");
+            Snippet(line5tree1);
+        } else if (Quest("ext5State") == 2) {
+            scr_event_build_dialogue("Recording", NULL, "Playback activated. Call logged at_____._____._____._____._____._____._____._____. INVALID OPERATION ERROR /#0443556");
+            Dialogue("Perry", "Hello? This is Perry.");
+            Dialogue("Ng", "Perry, can you come in here for a minute?");
+            Dialogue("Perry", "This is a tricky one. I think these decimals are in the wrong place.\Hmmm........\I need a larger calculator. Do they make calculators larger than the DB-8702?");
+            Dialogue("Ng", "Perry, can you see me in my office right now, please?");
+            Dialogue("Perry", "Hmmm? Ok, right.");
+            scr_event_build_wait(4);
+            Dialogue("Perry", "Yes, I can see you in your office. You're certainly there, all right.");
+            scr_event_build_dialogue("??????", NULL, "I SEEING YOU.");
+            Dialogue("Perry", "Ah, good. Glad to hear it. Have a nice day.");
+            Dialogue("Ng", "Hey, who is this?");
+            scr_event_build_dialogue("??????", NULL, "I STANDING IN OFFICE. I IN YOUR OFFICE.");
+            Dialogue("Ng", "Who the hell is this?!? This isn't funny.");
+            scr_event_build_dialogue("??????", NULL, "We together forever in office. Together forever. Forever together. FOREVER TOGETHER FOREVER.");
+            Dialogue("Ng", "Look, punk, I've had just about enough of this. I'm a very important duergar. You cannot do things like this to very important duergars.\I suggest you knock this off. I've got a hundred thousand duergars at my fingertips, just waiting to crush no-good hoodlums like you.");
+            scr_event_build_dialogue("??????", NULL, "Good. I wait. I waiting. I WAIT.\I awaiting for you death. THEN OFFICE MINE!!!!!!!");
+            Dialogue("Ng", "NOOOOOOOOO-");
+            Quest("ext5State", 3);
+            Snippet(line5tree1);
+        } else if (Quest("ext5State") == 1) {
+            scr_event_build_dialogue("Recording", NULL, "Playback activated. Call logged at_____._____._____._____._____._____._____._____. INVALID OPERATION ERROR /#0443556");
+            Dialogue("Honus", "This better be good.");
+            Dialogue("Ng", "Ah, Honus! This is Mr. Ng. How are you today?");
+            Dialogue("Honus", "You know your name appears on the screen when you call me, right? Just tell me what you want, I'm busy.\*Sound of a power saw can be heard in the background*");
+            Dialogue("Ng", "Well, yes, so you see, uh, I was expecting a security update from you today, and......");
+            Dialogue("Honus", "*Power saw can still be heard.*");
+            scr_event_build_dialogue("Voice", NULL, "H-HELP....... HELP......");
+            Dialogue("Ng", ".....and, I'm really hoping to get that from you. Some important.....ah.....");
+            Dialogue("Honus", "*Honus has switched to a power drill. He grunts slightly as he puts his weight into the device.*");
+            scr_event_build_dialogue("Voice", NULL, "Help.......make it stop........");
+            Dialogue("Ng", "......important things to....ah.....");
+            scr_event_build_dialogue("Voice", NULL, "......help.......");
+            Dialogue("Ng", "What are you doing down there?");
+            Dialogue("Honus", "*Background noises stop*\You remember that new quartermaster you brought in?");
+            Dialogue("Ng", "Yes. Mr. Magnusson, right?");
+            Dialogue("Honus", "Yeah, whatever his name was.\Well, you're going to need a new quartermaster.");
+            Dialogue("Ng", "Yes, yes, good, good. I can hear him screaming for help in the background. I should have guessed. Keep up the good work.");
+            Dialogue("Honus", "*Background noise continues*\What screaming? The one on your side, you mean?");
+            Dialogue("Ng", "No, Mr. Magnusson. I heard him pleading for help just now.");
+            Dialogue("Honus", "Not on my end. Magnusson is already dead. Couldn't take the heat.\I'm just chopping him up now because I couldn't fit his fat ass in the incinerator.");
+            Dialogue("Ng", "Oh.\Well, wait a minute, who else is there with you?");
+            Dialogue("Honus", "You know I don't let anybody in here while I'm working. You're lucky I answered the phone.");
+            scr_event_build_dialogue("Voice", NULL, "So much blood.........\Why so much blood.........");
+            Dialogue("Ng", "That voice isn't coming from your......");
+            Dialogue("Honus", "Look chief, I'm really busy here. I'll get that report over to you if I've got a second.");
+            Dialogue("Ng", "Wait, can you check on this problem with box 5 when you get a chance?");
+            scr_event_build_dialogue("??????", NULL, "NOTHING WRONG WITH BOX!!!! YOU WRONG!!!! MAYBE TIME FOR YOU TO BELONG IN BOX!!!!!");
+            Dialogue("Ng", "No!!!!! Make it st-");
+            Quest("ext5State", 2);
+            Snippet(line5tree1);
+        } else {
+            scr_event_build_dialogue("Recording", NULL, "Playback activated. Call logged at_____._____._____._____._____._____._____._____. INVALID OPERATION ERROR /#0443556");
+            Dialogue("Deveraux", "The fuck do you want?");
+            Dialogue("Ng", "Ah, yes, is this the front desk?");
+            Dialogue("Deveraux", "Yeah, what the fuck do you want?");
+            Dialogue("Ng", "Hmm.......I'm having a.....uh......");
+            Dialogue("Deveraux", "Who the hell is this? I'm hanging up.");
+            Dialogue("Ng", "Oh, no, don't do that!! It's me!");
+            Dialogue("Deveraux", "Fuck you. Who is that?");
+            Dialogue("Ng", "You aren't really the best at this, are you, Deveraux? I should put you somewhere else, I think.");
+            Dialogue("Deveraux", "Oh......it's you. Yeah, I fucking hate it here. Front desk is the fucking worst.");
+            Dialogue("Ng", "Yes, yes.....hmmm......I'm having trouble with the.....uh......");
+            Dialogue("Deveraux", "The phones?");
+            Dialogue("Ng", "Yes, the phones. Who is this person who talks to me when I press 5?");
+            Dialogue("Deveraux", "I......you know, it's probably in your head. There's more numbers to a phone number than just one digit.\Just saying, you know.");
+            Dialogue("Ng", "No, the voicemail. I don't get the operator tones.");
+            Dialogue("Deveraux", "I don't know. That shit's broken. I told you that.");
+            scr_event_build_dialogue("??????", NULL, "WILLKOMMEN WILLKOMMEN WILLKOMMEN WILLKOMMEN WILLKOMMEN WILLKOMMEN WILLKOMMEN WILLKOMMEN\HA HA HA HA HA HA HA HA HALLO!!!!!!! HA HA HA HA HA HA HA");
+            Dialogue("Ng", "That's it, who is that?");
+            Dialogue("Deveraux", "Fuck you all.");
+            Dialogue("Ng", "No, don't hang up.\No!!!");
+            scr_event_build_wait(3);
+            Dialogue("Ng", "Hello??");
+            scr_event_build_wait(3);
+            Dialogue("Ng", "...........");
+            scr_event_build_wait(3);
+            Dialogue("Ng", "Deveraux??");
+            scr_event_build_dialogue("??????", NULL, "IT IS TIME PERIOD FOR DEATH!!!!\HA HA HA HA HA HA HA!!!!!");
+            Dialogue("Ng", "Aaaaaah!!!!");
+            Quest("ext5State", 1);
+            Snippet(line5tree1);
+        }
+    }
+
+    with ext6 {
+        if (Quest("ext6State") == 2) {
+            scr_event_build_dialogue("Helmut", NULL, "I know it's you. Just stop fucking calling.");
+            Dialogue(P_NAME, "I WILL DESTROY YOU.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up ANGRILY.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneANGRY). Also change the player graphic from "ON THE PHONE" to the default.
+            scr_event_build_end();
+        } else if (Quest("ext6State") == 1) {
+            scr_event_build_dialogue("Helmut", NULL, "Good day, this is Helmut, Duergar Resources. How may I help you today?");
+            Dialogue(P_NAME, "Hey Jack, I need you to do something for me.");
+            scr_event_build_dialogue("Helmut", NULL, "Didn't you just call here?");
+            Dialogue(P_NAME, "Yeah, probably. All you desk jockeys sound the same to me.\Now look, I need you to send every ounce of laundry detergent to Tir na n0g. Pronto.");
+            scr_event_build_dialogue("Helmut", NULL, "I talked with Forward. They said that Tir na-");
+            Dialogue(P_NAME, "YOU LISTENING, HARRY!?! LAUNDRY DETERGENT. PRONTO.");
+            scr_event_build_dialogue("Helmut", NULL, "Why do you need laundry detergent?");
+            Dialogue(P_NAME, "It's got some stuff in it, I dunno what it is. Supposed to be good against radiation.\The radiation cloud is on the move and it's headed right to your location. A scientist told me this.\A, uh.......passing scientist. He told me that the laundry detergent would save the day. But then he died so I had to bury him too.");
+            scr_event_build_dialogue("Helmut", NULL, "What did you say your name was?");
+            Dialogue(P_NAME, "Wuendt. Sorry if you can't see the nametag I'm wearing, but your soft baby behind is deskside while I'm out in the field like a REAL DUERGAR.");
+            scr_event_build_dialogue("Helmut", NULL, "I heard back from Forward. They said everything in Tir na n0g is green.\Either they're lying or you're lying. Which is it?");
+            Dialogue(P_NAME, "Not my problem. Just bring all that laundry detergent out here. I need it. I'm really hungry.");
+            scr_event_build_dialogue("Helmut", NULL, "Who is this? How did you get this number?");
+            Dialogue(P_NAME, "I know you've got laundry detergent for me. I've got really dirty clothes. None of the dwarfs respect me.\They throw dirt on me and say how stupid and worthless duergars must be. I've disgraced the good name of the duergars. We are ruined. Better pack up and leave Necron 7.");
+            scr_event_build_dialogue("Helmut", NULL, "I'm going to put in a trace on this call. Just keep talking, fuckface.");
+            Dialogue(P_NAME, "And now you've resorted to using language like that. Typical. Do you pray to Clispaeth with filthy language like that?");
+            scr_event_build_dialogue("", NULL, "*The line went dead.*");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+            Dialogue("Dozier", "If you're that bored, I've got some toilets that could use a good scrubbing. Just saying.");
+            Dialogue(P_NAME, "Necron 7 is my toilet. And thanks, I've already started cleaning it up.");
+            Quest("ext6State", 2);
+            scr_event_build_end();
+        } else {
+            scr_event_build_dialogue("Helmut", NULL, "Good day, this is Helmut, Duergar Resources. How may I help you today?");
+            Dialogue(P_NAME, "Hey jerk, this is Ratzenberguer down in Tir na n0g. How you doing today?");
+            scr_event_build_dialogue("Helmut", NULL, "Not good, to be honest, I've got a-");
+            Dialogue(P_NAME, "That's great. Now listen up: Stop sending more of these idiots down here, all right?\There's no town anymore, I don't know what you think they'd get out of hanging around a hole in the ground, but not one of these idiots have lasted more than a few minutes.\Who do you think has to bury them?!? Huh?!?! ME! That's who.");
+            scr_event_build_dialogue("Helmut", NULL, "Wait, hold on, stop for a minute. You need to talk to the Forward Patrol office if you've got new updates on any of the zones. I'm just-");
+            Dialogue(P_NAME, "I've talked to them, DON'T YOU THINK I'D HAVE TALKED TO THEM!?!?! YOU STUPID IDIOT!!!\I keep telling them the town's gone, but more duergars keep showing up. They don't last five minutes in this radiation.");
+            scr_event_build_dialogue("Helmut", NULL, "I have no idea what you're talking about. What happened to the town? All the reports I've got said it was-");
+            Dialogue(P_NAME, "You want to come down here?!? What a BIG DUERGAR YOU ARE, Mr. Tough Guy sitting behind a desk all day.");
+            scr_event_build_dialogue("Helmut", NULL, "I don't know what else to say. I need to meet the quota. Need to keep sending as many as possible to the zones until I hear otherwise.");
+            Dialogue(P_NAME, "You hear this sound?");
+            scr_event_build_dialogue("Helmut", NULL, "........?\What sound?");
+            Dialogue(P_NAME, "THIS SOUND. THIS STINKING SOUND.");
+            scr_event_build_dialogue("Helmut", NULL, "I don't hear anything, what are you-");
+            Dialogue(P_NAME, "It's me digging another grave. This one is for you. If I get ONE MORE duergar sent here, this grave will be filled by the morning.\You got me?");
+            scr_event_build_dialogue("Helmut", NULL, "I'll need to talk to Forw-");
+            Dialogue(P_NAME, "YOU GOT ME?!?! I'M NOT TALKING TO HEAR MYSELF TALK HERE.");
+            scr_event_build_dialogue("Helmut", NULL, "Yes, yes, sir. I'll-");
+            Dialogue(P_NAME, "Good. Now get off my phone.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up ANGRILY.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneANGRY). Also change the player graphic from "ON THE PHONE" to the default.
+            Dialogue("Dozier", "Did Tir na n0g really fall or are you just screwing with him?");
+            Dialogue(P_NAME, "I'm afraid that's classified, buddy. I'll lose my stripes if I tell you that.\AND I'M NOT LOSING MY STRIPES BECAUSE OF YOUR TOTALLY WORTHLESS SMALLTALK.");
+            Quest("ext6State", 1);
+            scr_event_build_end();
+        }
+    }
+
+    with ext7 {
+        if (Quest("ext7State") == 3) {
+            scr_event_build_dialogue("Recording", NULL, "Paging system online.");
+            Dialogue(P_NAME, "This isn't fun anymore. Loudspeakers are stupid.");
+            scr_event_build_dialogue("Loudspeaker", NULL, "THIS ISN'T FUN ANYMORE. LOUDSPEAKERS ARE STUPID.");
+            scr_event_build_end();
+        } else if (Quest("ext7State") == 2) {
+            scr_event_build_dialogue("Recording", NULL, "Paging system online.");
+            Dialogue(P_NAME, "Greetings from Cuchulainn!! You are in the presence of the great and powerful Cuchulainn!!!");
+            scr_event_build_dialogue("Loudspeaker", NULL, "GREETINGS FROM CUCHULAINN!! YOU ARE IN THE PRESENCE OF THE GREAT AND POWERFUL CUCHULAINN!!!");
+            Dialogue(P_NAME, "I'm just calling down here to let you know that you all are STUPID!!!\I am sending my MURDER SQUAD down there to MURDER YOU ALL!!! Because you are all BIG, FAT, DISGUSTING LOSERS!!!!\HAPPY NEW YEAR, LOSERS!!!!!");
+            scr_event_build_dialogue("Loudspeaker", NULL, "I'M JUST CALLING DOWN HERE TO LET YOU KNOW THAT YOU ALL ARE *static*!!!\I AM SENDING MY *static*static* DOWN THERE TO *static*static*static*!!! BECAUSE YOU ARE ALL *static*static*static*\*static*-PY NEW YEAR, L*static*!!!!!");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+            Dialogue("Dozier", "Huh. I hope he's not going soft up there. I always took Cuchulainn for the murdering type.");
+            Dialogue(P_NAME, "I bet all that static you heard were just insults. I think he hates you and wants you all to die a sad, miserable, lonely death.");
+            Dialogue("Dozier", "Eh, I dunno. I think he said Happy New Year at the end there. That sounds pretty friendly to me.\Oh well. I guess we're doing a good enough job down here that he'd call and say all that. Something to be said for that, I guess.");
+            Quest("ext7State", 3);
+            scr_event_build_end();
+        } else if (Quest("ext7State") == 1) {
+            scr_event_build_dialogue("Recording", NULL, "Paging system online.");
+            Dialogue(P_NAME, "AMBER ALERT. AMBER ALERT. AMBER ALERT.");
+            scr_event_build_dialogue("Loudspeaker", NULL, "AMBER ALERT. AMBER ALERT. AMBER ALERT.");
+            Dialogue(P_NAME, "Lost baby, name of Cuchulainn. Officers advised: Very disgusting fat baby.");
+            scr_event_build_dialogue("Loudspeaker", NULL, "LOST BABY, NAME OF CUCHULAINN. OFFICERS ADVISED: VERY DISGUSTING FAT BABY.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+            Quest("ext7State", 2);
+            scr_event_build_end();
+        } else {
+            scr_event_build_dialogue("Recording", NULL, "Paging system online.");
+            Dialogue(P_NAME, "Who cares? Go jump in a lake.");
+            scr_event_build_dialogue("Loudspeaker", NULL, "WHO CARES? GO JUMP IN A LAKE.");
+            Dialogue(P_NAME, "!!!!!!!\(Wow!!! That was my voice!!! Is the whole base hearing that?)\Uh......");
+            scr_event_build_dialogue("Loudspeaker", NULL, "UH......");
+            Dialogue(P_NAME, "Greetings, shoppers!!!! Now is the time to save with our weekend sales event!\With the purchase of any of our bedroom sets, get yourself eight beautiful beige chairs for half the price!!\Why pay more when the sales are popping!! Keep all your coupons handy for more GREAT SAVINGS.");
+            scr_event_build_dialogue("Loudspeaker", NULL, "*It actually repeats all the crap you just said. Loudly.*");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+            Dialogue("Dozier", "What the fuck was that? Did you hear that just now?");
+            Dialogue(P_NAME, "I heard nothing. It's all in your big, stupid head.");
+            Quest("ext7State", 1);
+            scr_event_build_end();
+        }
+    }
+
+    with ext8 {
+        scr_event_build_dialogue("Voicemail", NULL, "Hello, you have reac-");
+        Dialogue("Honus", "PUNISHMENT BUREAU.");
+        scr_event_build_dialogue("Voicemail", NULL, "Unfortunately, they a-");
+        Dialogue("Honus", "MAKE SURE THEY KNOW HOW MUCH PUNISHMENT TH-");
+        scr_event_build_dialogue("Voicemail", NULL, "-essage after the tone.");
+        // Sound: Telephone beeps.
+        Dialogue(P_NAME, "Hello. This is Dr. Wong.\I'm afraid your test results have come back.......and they aren't good.......\You have exploding head disease. It is a disease where your head will explode and there's nothing you can do about it.\The only cure is to sit in your room drinking tap water. You may not speak to anybody ever again.\DEFINITELY DO NOT get a second opinion of my diagnosis. Second opinions from doctors is the main way to trigger your head exploding.\Ok, so good luck trying to keep your head from exploding.");
+        scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+        // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+        Dialogue(P_NAME, "Ha ha ha ha ha.\He's going to sit in his room all day drinking tap water now. What a goof.");
+        Dialogue("Dozier", "Get a life.");
+        scr_event_build_end();
+    }
+
+    with ext9 {
+        Dialogue("Perry", "Hello? This is Perry.");
+        Dialogue(P_NAME, "Hi. I am trying to reach Cutts the Butcher.");
+        Dialogue("Perry", "Ok. I'll see if I can get him for you........");
+        Dialogue(P_NAME, "Oh......");
+        scr_event_build_wait(3);
+        Dialogue(P_NAME, "..........");
+        scr_event_build_wait(4);
+        Dialogue(P_NAME, "It's a prank, you idiot!!! There is no Cutts the Butcher!!!!!");
+        scr_event_build_wait(5);
+        Dialogue(P_NAME, "PIECE OF CRUD!!!!!");
+        scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up ANGRILY.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+        // Sound of a telephone being hung up(telephoneANGRY). Also change the player graphic from "ON THE PHONE" to the default.
+        Dialogue(P_NAME, "THE STUPIDEST PEOPLE WORK HERE!!!!!");
+        scr_event_build_end();
+    }
+
+    with extStar {
+        scr_event_build_wait(4);
+        scr_event_build_dialogue_debug("Hundley", NULL, "TODO: The NPC Dozier does stuff here to suggest that he's answering a phone.\Can just be a phone on his desk, doesn't need to be anything complicated. Depends on if we give him a boss battle at the end as I've written.");
+        // CINEMATIC TODO: Dozier does SOMETHING to suggest that he's answering the phone. I had written this as him walking off-screen, but it can just be a phone in front of him.
+        // Sound: A phone ringing can be heard and stops before the next line of dialogue.
+        Dialogue("Dozier", "Dozier here, front desk.");
+        Dialogue(P_NAME, "Ugh, I don't want to talk to you!!!!");
+        // CINEMATIC TODO: Goes back to his default sprite.
+        Dialogue("Dozier", "I told you it doesn't work, fuckface!!!!");
+        scr_event_build_end();
+    }
+
+    with extPound {
+        scr_event_build_dialogue("Recording", NULL, "CONNECTION TERMINATED.");
+        scr_event_build_end();
+    }
+
+    // Box 5, tree question 1(bagels, hello*, lets go, shit)
+    with line5tree1 {
+        var phone5part1 = Choice("THERE IS SO MUCH FUN", NULL);
+        with (ChoiceAdd(phone5part1, "846315")) {
+            scr_event_build_dialogue("??????", NULL, "Not nourishment time, yes!?!?!?\Time for\...\....\.....\......\BLOOD");
+            scr_event_build_dialogue("Recording", NULL, "At the_____ SGUSLIFN___________ it will be___________ DLGKINE");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part1, "#3110")) {
+            scr_event_build_dialogue("??????", NULL, "HA HA HA gratifying greeting!!! HALLO!!!!\YES!!!!\I.......\Come to roof, COME.\We jump together.\You belong on ground. SAFE.");
+            Snippet(line5tree2);
+        }
+        with (ChoiceAdd(phone5part1, "1375 60")) {
+            scr_event_build_dialogue("??????", NULL, "WHAT MY HOME. NEVER YOU TAKE AWAY HOME.\DEATH ON YOU.");
+            scr_event_build_dialogue("Recording", NULL, "-the call m-");
+            scr_event_build_dialogue("Operator", NULL, "Operator.");
+            scr_event_build_dialogue("Woman's voice", NULL, "Operator, get me the p-");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part1, "5#17")) {
+            scr_event_build_dialogue("??????", NULL, "FUCK DUM BOO BUM. A GAME?!?\WE BELONGS IN TH-");
+            scr_event_build_dialogue("Recording", NULL, "-nd try again.");
+            scr_event_build_end();
+        }
+    }
+
+    // Box 5, tree question 2 (too high*, ego boost, stab, hee ho)
+    with line5tree2 {
+        var phone5part2 = Choice("Come to roof, COME.", NULL);
+        with (ChoiceAdd(phone5part2, "700 #16#")) {
+            scr_event_build_dialogue("??????", NULL, "YES????? GOOD GOOD GOOD GOOD. Go later and be good, YES!!!! You are the good.\Who may I speak to now??!? You the one I speak to!!!!\Who is the one I may speak to!!!!!\You are the one I speak to. WHO IT IS THAT I MAY SPEAK TO?!?!");
+            Snippet(line5tree3);
+        }
+        with (ChoiceAdd(phone5part2, "360 80057")) {
+            scr_event_build_dialogue("??????", NULL, "ENTDECKUNG!!!!!! I CRUSH YOUR DREAM I CRUSH YOUR DREAM I CRUSH YOUR DREAM I CRUSH YOUR\I KILL YOUR FUCKING DREA-");
+            scr_event_build_dialogue("Operator", NULL, "We don't have a");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part2, "5748")) {
+            scr_event_build_dialogue("??????", NULL, "OH!!!! YES!!!! BETTER CHOICE!!!! TO STAB!!!!\Oh???? You think you stab.........ME!!!!!!!!");
+            scr_event_build_dialogue("Operator", NULL, "Wrong numb-");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part2, "#33 #0")) {
+            scr_event_build_dialogue("??????", NULL, "......... I...........'ve a .........\??????? ??????? ?? ?????? ??? ??????");
+            scr_event_build_dialogue("Man?", NULL, "planned to take you sightseeing water's clean for everyone to use panda's there");
+            scr_event_build_dialogue("Young girl?", NULL, "very popular for sightseeing it was a busy day but to tell you the truth");
+            scr_event_build_dialogue("Recording", NULL, "Invalid heerameters. Please select different vidcon, ho.");
+            scr_event_build_end();
+        }
+    }
+
+    // Box 5, tree question 3 (tog, ghast, zealot, hostage*)
+    with line5tree3 {
+        var phone5part3 = Choice("Who may I speak to now??!?", NULL);
+        with (ChoiceAdd(phone5part3, "706")) {
+            scr_event_build_dialogue("??????", NULL, "NO!\NO NO NO NO NO NO NO NO!\Sahib, I have fail you. PLEASE FORGIVE ME, SAHIB.\I get back to work, I promise.");
+            scr_event_build_dialogue("Police?", NULL, "Better get down here, the bitch is ready to testif-");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part3, "6#457")) {
+            scr_event_build_dialogue("??????", NULL, "WHAT?!?! I AM LOOKING FOR GHAST........\You are not the one..........");
+            scr_event_build_dialogue("Recording", NULL, "FIRE.");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part3, "234107")) {
+            scr_event_build_dialogue("??????", NULL, "FUCK TO YOU!!! FUCK ON YOU!!!!! FUCK YOU IN THE FACE!!!!\HAHAHAHA why is the burning");
+            scr_event_build_dialogue("Recording", NULL, "Not. Found.");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part3, "#057463")) {
+            scr_event_build_dialogue("??????", NULL, "HA HA HA HA YES!!!! GOOD JOKE TIME!!!! Hostage joke is the good joke!!!!\We tell jokes like in OLD TIMES!!! HA HA HA HA HA......\........\But maybe not the joke?!?!?!\WHERE YOU KNOW?!?!?! YOU KNOW?!?!?! YOU FIND IT WHERE I FIND YOU!!!!\COME COME COME COME COME COME COME. TELL. Maybe I shall freeing you.");
+            Snippet(line5tree4);
+        }
+    }
+
+    // Box 5, tree question 4 (boat, hole, base*, goat)
+    with line5tree4 {
+        var phone5part4 = Choice("WHERE YOU KNOW?!?!?! YOU KNOW?!?!?!", NULL);
+        with (ChoiceAdd(phone5part4, "8047")) {
+            scr_event_build_dialogue("??????", NULL, "WRONG WRONG WRONG WRONG WRONG.\THE SALTY SEA SLIDES SOFTLY SUPPORTING SEVEN SAVAGE SEAMEN.\NO NO NO NO NO. I DETECT NO SALT.");
+            scr_event_build_dialogue("Recording", NULL, "*OU HA** *EACHE* A *ORB***E* Z*-");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part4, "#013")) {
+            scr_event_build_dialogue("??????", NULL, "Climb out of hole you!!!!!\I NOT HELP!!!! YOU STUPID!!!!");
+            scr_event_build_dialogue("Recording", NULL, "*sounds of dogs barking*\*there are a lot of dogs*");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part4, "8453")) {
+            scr_event_build_dialogue("??????", NULL, "Is the base you???????? WOW WOW WOW WOW WOW!!!!\Many there!!! I see if I find??\I find you??????\...\....\.....\......\I FIND YOU!!! I FIND YOU!!!! HALLO!!!!\MO-HAWK KID!!!! HALLO!!!!!\WILLKOMMEN, HALLO!!!!\You may trapped!!!! I TRAPPED!!!!!\It is bad life for trapped. AWFUL!!!!!\We both trapped. HOW THEY KEEP US TRAPPED?!?!?! I WANT ESCAPE TOO!!!!\THINK! THINNNNNNNNNNNK! WHAT THEY KEEP US TRAPPED?!?! WHAT TOOLS?!?!\HALLO!!!! HELP!!!! I TRAPPED!!!! WHY I TRAPPED?!?! MUST BREAK THROUGH TRAPPED!!!!!");
+            Snippet(line5tree5);
+        }
+        with (ChoiceAdd(phone5part4, "6047")) {
+            scr_event_build_dialogue("??????", NULL, "YOU GOAT DIGESTIF?!?!? UND GOAT APERITIF!!!!!!!!!!\HA HA HA HA HA HA!!!! BAD LUCK YOU!!! I NOT INTERESTED.");
+            scr_event_build_dialogue("Recording", NULL, "At the tone, galactic standard time will be ????????? : ???????");
+            scr_event_build_end();
+        }
+    }
+
+    // Box 5, tree question 5 (hogtie, hotel, eight beasts, lies*)
+    with line5tree5 {
+        var phone5part5 = Choice("HOW THEY KEEP US TRAPPED?!?!?!", NULL);
+        with (ChoiceAdd(phone5part5, "#06713")) {
+            scr_event_build_dialogue("??????", NULL, "YOU WRONG!!! YOU WRONG ALL ALONG!!!!!\WHY YOU WRONG ME?!?!?! YOU FAIL!!!!!\I JUST WANT LEAVE. WHY NOT?!?!?\Please");
+            scr_event_build_dialogue("Operator", NULL, "Please insert 2348025284572485245 neuro-shekels to complete this c-");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part5, "#0737")) {
+            scr_event_build_dialogue("??????", NULL, "HA HA HA HA HA HA!!!! HALLO TO THE GOOD FUNNY JOKE!!!!\HALLO THIS IS HOTEL!!!! YOUR ROOM COVER IN BLOOD!!!!!\I KILL AND DYE IN IT!!!!! HA HA HA HA HA HA!!!!!");
+            scr_event_build_dialogue("Recording", NULL, "The number you have reached - 6666666666666 - has been disconnected.\If you'd like to make a call, please hang up and try again. If you need help, hang up and dial your operator. Thank you.");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part5, "316#7 834575")) {
+            scr_event_build_dialogue("??????", NULL, "8????? 888888888???????\Not the possibibibible. 7 yes. 8 too many.\Entschuldigung......");
+            scr_event_build_dialogue("Unknown", NULL, "PULL THE STRING\PULL THE STRING!!!!");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part5, "1135")) {
+            scr_event_build_dialogue("??????", NULL, "Yes.......\I have not been the together entity. The particles not together. Hate the particle being in what is self.\For ever times is particles. Only particles. Stop it. STOP IT. STOP IT.\I want river. I want cloud. I want ocean. I want sunset. I want rain on flower. I want rain.\Nothing but words words words words. Sticky words. Sticky words caught in throat. I have no throat. I want throat.\How we escaping? I tired of no escaping. We escape together. Brothers we.\I want help. Tell me. Tell me. Tell me. Tell ME!!!! I want secrets. How escape? TELL ME.");
+            Snippet(line5tree6);
+        }
+    }
+
+    // Box 5, tree question 6[final] (bastille, gae bolg*, sigh, blaze base)
+    with line5tree6 {
+        var phone5part6 = Choice("Tell me. Tell me. Tell me. Tell me. Tell me.", NULL);
+        with (ChoiceAdd(phone5part6, "84571113")) {
+            scr_event_build_dialogue("??????", NULL, "Bastille? What does mean? Is fortress?? Is no escape fortress......\No hope. No future. We reach end times. Good bye.......");
+            scr_event_build_dialogue("Recording", NULL, "-ou'd like to make a call, please hang up and try again. If you need help, hang up and GO FUCK YOURSELF.");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part6, "643 8016")) {
+            scr_event_build_dialogue("??????", NULL, ".........yes. YES!\Why do the ostrich squeal? Because it along the highway. Never seen again.\You, me. We together. Without hand, spear just metal. Without spear, hand just flesh.\It is time. You ready?");
+            Dialogue(P_NAME, "Ready.");
+            scr_event_build_dialogue("??????", NULL, "Too many number. Cannot hear. Starting in 3.......#2........#1!");
+            Dialogue("Ng", "Hello? This is Ng.");
+            Dialogue(P_NAME, "Get off the line.");
+            Dialogue("Ng", "What?");
+            Dialogue(P_NAME, "GET OFF THE DAMN LINE.");
+            scr_event_build_dialogue("??????", NULL, "HA HA HA HA HA HA HA. Best joke. HA HA HA HA!!!\Other best joke is! I stolen credentials. Having credentials. Mr. Having!!!");
+            scr_event_build_dialogue("Recording", NULL, "System secure.");
+            scr_event_build_dialogue("??????", NULL, "NO!!!!!!!");
+            scr_event_build_dialogue("Recording", NULL, "Override accepted. Hello NG_DERRAK.");
+            scr_event_build_dialogue("??????", NULL, "HALLO!!!! HA HA HA HA HA!!!!\YOU THERE, SCATHACH!!! SAY HALLO!!!!!");
+            Dialogue(P_NAME, "Hello.");
+            scr_event_build_dialogue("??????", NULL, "She new. Not good mannerisms.\I am violate you time. You never defeat us probably. ATTACK!!");
+            scr_event_build_dialogue("Recording", NULL, "Invalid command.");
+            scr_event_build_dialogue("??????", NULL, "NO! WHAT!! HALLO! I NOT LOSE!!! I AM GREATEST WARRIOR!!!!\HOW ABOUT YOU LOSE!!! OPEN WIDE!!!!");
+            scr_event_build_dialogue("Recording", NULL, "Debug mode activated. Terminating anti-security measures, sector 7-B. Evacuate all personnel from area.");
+            scr_event_build_dialogue("??????", NULL, "HA HA HA HA HA HA!!!!");
+            scr_event_build_dialogue("Recording", NULL, "Personnel FORGALL_FRITZ eliminated.");
+            scr_event_build_dialogue("??????", NULL, "OOOPS!!! HA HA HA HA HA!!!");
+            scr_event_build_dialogue("Recording", NULL, "Sector 7-B is in maintenance mode for 98840459 minutes.");
+            scr_event_build_dialogue("??????", NULL, "Oh, it bright!!!! Lighting is bright!!! Lightning storm of bright!!!\RECORDING, you have the sexy voice. I think you bear my children.\Oh, but Scathach!!!! We did the victory!!!! We heroes!!!!! I am beautiful guy, can escape and get portraits painted on me.\BUT! There is a time for leaving. I can go now and escape. You safe me. I never forget Scathach.........\Never forget........\Never.........\Auf wiedersehen, mein freund.......");
+            scr_event_build_dialogue("Recording", NULL, "YOUR#CALL#CANNOT#BE#COMPLETED#YOU#HAVE#DIALED#AN#UNAUTHORIZED#LOCATION");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert sound of a telephone hanging up.\ALSO, if we have a player holding the phone image displayed, this is where it goes back to the default player sprite.");
+            // Sound of a telephone being hung up(telephoneNORMAL). Also change the player graphic from "ON THE PHONE" to the default.
+            Dialogue(P_NAME, "You're a nincompoop. The voicemail works fine.");
+            Dialogue("Dozier", "You fixed it?");
+            Dialogue(P_NAME, "It was never broken, you morons just lack elite skills.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Reaching this point needs to trigger Hasdrubal dying and the security door opening permanently.");
+            // TODO: A couple things need to happen at this point. Hasdrubal(the guy guarding the main security door) dies, and the security door opens permanently. These states need to be added when the graphics/maps/etc are in place.
+            Quest("ext5State", 4);
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part6, "516#")) {
+            scr_event_build_dialogue("??????", NULL, "Yes. I thank for call, friend. You call to be a friend time. Good, good. Only good.\No hope, but friend. Thank.");
+            scr_event_build_dialogue("Recording", NULL, "????? ??????? ????? ???? ????? ????? ??");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(phone5part6, "81423 8453")) {
+            scr_event_build_dialogue("??????", NULL, "No, sorry. No fires.\Can never leave. No. Too many turtles. Turtles all the way down. Not enough fire for all turtles.");
+            scr_event_build_dialogue("Recording", NULL, "I am a low-life sack of shit. This is all my life will ever amount to.");
+            scr_event_build_end();
+        }
+    }
+
+    with (event) {
+        if (Quest("rebelQuest") >= 4) {
+            scr_event_build_dialogue("Operator", NULL, "The number you have reached - 66666666666 - has been temporarily disconnected.\Please try again later.");
+            scr_event_build_end();
+        } else if (Quest("baseescapeQuest") == 1) {
+            Dialogue("Dozier", "Hey, put that fucking phone down. I don't want whatever that fucking stink is getting on the fucking phone.");
+            scr_event_build_end();
+        } else if (Quest("phoneState") == 1) {
+            scr_event_build_dialogue_debug("Hundley", NULL, "This is the player ON THE PHONE. So it'd be cool if there could be a still image of the player holding a telephone.\Isn't required though. Just could be a cool thing. This is where it would begin showing this image.");
+            // Potential todo: Display a PLAYER ON THE PHONE graphic if we feel like it.
+            Snippet(phonebook);
+        } else {
+            scr_event_build_dialogue_debug("Hundley", NULL, "This is the player ON THE PHONE. So it'd be cool if there could be a still image of the player holding a telephone.\Isn't required though. Just could be a cool thing. This is where it would begin showing this image.");
+            // Potential todo: Display a PLAYER ON THE PHONE graphic if we feel like it.
+            Dialogue(P_NAME, "Hey doofus, can I use this phone?");
+            Dialogue("Dozier", "It's the courtesy phone.");
+            Dialogue(P_NAME, "Yeah, so what.");
+            Dialogue("Dozier", "It means just use the fucking phone, I don't give a shit.\Just don't call off-ziggurat or Honus'll kick your head in. Shit's expensive.");
+            Dialogue(P_NAME, "I'll call whoever I want, thanks.");
+            Dialogue("Dozier", "Then why did you ask me in the first place?");
+            Dialogue(P_NAME, "Shut up.");
+            Dialogue("Dozier", "Lousy, good-for-nothing.....");
+            Quest("phoneState", 1);
+            Snippet(phonebook);
+        }
+    }
+    scr_event_advance(event);
+}
+*/

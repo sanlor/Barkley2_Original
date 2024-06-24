@@ -1,0 +1,29 @@
+if (argument0 == SCRIPT_START) {
+    if (Item("have", "Tribune-Wrapped Item") == true) 
+    {
+        script_execute(event_sw1_tribune01, SCRIPT_INTERACT);
+    }
+    else if (scr_quest_get_state("abdulGafurQuest") >= 8)
+    {
+        instance_destroy();
+    }
+}
+else if (argument0 == SCRIPT_STEP) {
+    
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var tribune = id;
+    
+    var event = scr_event_create_main();
+    with (event)
+    {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, let's see what that blasted item is! Better have been worth the trouble. Let's see...");
+        scr_event_build_dialogue_item("You unwrapped the item... it's a __________!");
+        Item("build", "gain", "Mystery Item TBD", 1);
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "And now, for this newspaper...");
+        scr_event_build_dialogue_item("You annihiliated the Tribune!");
+        Item("build", "lose", "Tribune-Wrapped Item", 1);
+        scr_event_build_quest_state("abdulGafurQuest", 8);
+    }
+    scr_event_advance(event);
+}

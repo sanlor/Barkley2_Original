@@ -1,0 +1,73 @@
+// Meinhardt NPC script - REBEL QUEST GOOD ENDING
+// Parts of this are LONG AS FUCK. And I'm not editing it or breaking it up or anything. Tough beans. Dude hasn't spoken for years, it shouldn't surprise anybody that he'd talk their heads off once they got him started.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonquestgoodState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var meinhardt = id;
+    var event = scr_event_create_main();
+    var shopsnippet = scr_event_create_child(event);
+    with shopsnippet {
+        scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Here is where Meinhart's shop will go. Given the circumstances, he probably offers a tremendous discount at this point.");
+        // TODO: Here is where Meinhart's shop will go. Given the circumstances, he probably offers a tremendous discount at this point.
+        scr_event_build_end();
+    }
+
+    with (event) {
+        if (Quest("meinhardtgoodState") == 3) {
+            Dialogue(P_NAME, "Hey, how's it going?");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "Perfect. Wonderful. I can see in color again.\Actually no. My throat hurts from all this talking, I've got a bad flareup of arthritis, and I think I've got a broken foot.\But there's still stains of duergar blood on the walls, the kids are actually laughing again, and I'm able to join in.\I'm a fucking billionaire.\Oh yeah, you probably want to take a look at what I've got in stock right now.\Here you go.");
+            scr_event_build_dialogue(NULL, NULL, "*Meinhardt passes a small list your way. He has very neat handwriting.*");
+            Snippet(shopsnippet);
+        } else if (Quest("meinhardtgoodState") == 2) {
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "I used to dream about having an electrolarynx, you know.\Well, it wasn't actually having one. In the dream somebody would come up to me with something that looked much like this and say:\/'Hey pal, you're working so hard, you deserve an electrolarynx!! Have tons of fun!!!/'\Then I'd put the thing to my throat and it'd turn out to be a taser instead. The pain in my throat would usually wake me up after that.");
+            Dialogue(P_NAME, "Ha ha ha ha! Did you actually dream this?");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "Yes I did, and I assure you it was not at all fucking funny before you gave me this thing.");
+            Dialogue(P_NAME, "Oh, I'm sorry.");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "Nah, it's ok. It is kinda funny now.\Maybe I should put a taser aside in case a duergar comes around looking for the Warden's voice box......pay it forward, you know......\Oh yeah, you probably want to take a look at what I've got in stock right now.\Here you go.");
+            scr_event_build_dialogue(NULL, NULL, "*Meinhardt passes a small list your way. He has very neat handwriting.*");
+            Quest("meinhardtgoodState", 3);
+            Snippet(shopsnippet);
+        } else if (Quest("meinhardtgoodState") == 1) {
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "You know, it feels funny even thinking it, but maybe I'm better off having lost my voice for so long.\I had just as much anger inside me as Compson. Maybe more. Not having the luxury of talking about it made it less real, left most of those emotions vague and nameless.\I didn't have a chance for my hate to snowball into something that took the rest of me over.\You know, I wish I didn't say all that out loud. That's kinda fucked up.");
+            Dialogue(P_NAME, "No, I'm glad you said it.\To tell you the truth, your robot voice sounds really cool. Everything you say sounds cool.\If I ever lose my voice, I hope it sounds that cool.");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "Ha ha ha ha!!\Hey, all right!! I can even laugh with this thing. It must be a good model.\Oh yeah, you probably want to take a look at what I've got in stock right now.\Here you go.");
+            scr_event_build_dialogue(NULL, NULL, "*Meinhardt passes a small list your way. He has very neat handwriting.*");
+            Dialogue(P_NAME, "You don't need to use the list anymore, you know. You can just tell me what you've got.");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "Yeah, I know. But my calligraphy was pretty much the only thing getting me out of my sleeping bag most days. Writing these dumb little lists were all I had to look forward to.\It's kinda funny now. You were just about the only damn customer I ever got that could read, so I guess I was writing them for myself most of the time. Probably still am.\Worse habits to get stuck in, I think.");
+            Quest("meinhardtgoodState", 2);
+            Snippet(shopsnippet);
+        } else if (Quest("prisonquestgoodState") == 1) {
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "*Meinhardt smiles as you approaches.*\*It's not the sort of smile you saw before. His eyes seem warmer now, less anxious.*");
+            Dialogue(P_NAME, "Some fight, huh?");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "*He nods, sighing deeply.*");
+            Dialogue(P_NAME, "Say, Meinhardt, I found this thing in the prison. It's called a......uh.....\Actually, I forget what it's called. It's got some long name. It's an electric voice box thingy. I want you to have it.");
+            scr_event_build_dialogue(NULL, NULL, "You lost the Electrolarynx.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "ITEM TODO: Remove the Electrolarynx from the player's inventory.");
+            // ITEM TODO: Remove the Electrolarynx from the player's inventory.
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "*Meinhardt's expression goes dead serious as you hand him the Electrolarynx. He looks you hard in the eyes.*");
+            Dialogue(P_NAME, "The Warden there was using it to talk, but I took it away from him. He was a jerk. I figured somebody nicer should have it.\I don't know if it'll work for you, but I thought it was worth a try.");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "*He puts the electrolarynx to his throat.*\H_____________________________________________ E_____________________________________________ L_____________________________________________ L_____________________________________________ O?_____________________________________________\Hello!!!!\HELLO HELLO HELLO HELLO HELLO!!!!!\I'LL FUCKING KILL ANYTHING THAT MOVES!!!!!\*Meinhardt takes the electrolarynx away from his throat, staring at it.*");
+            Dialogue(P_NAME, "Yeah, it sometimes does that.");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "*He removes a small screwdriver from his pocket, and fiddles briefly with the device. He puts it back to his throat.*\G___o___o___d___ a___f___t___e___r___n___o___o___n___, M___r___s___. J___o___h___n___s___o___n___. W___o___u___l___d___ y___o___u___ l___i___k___e___ t___o___ u___s___e___ c___a___s___h___ o___r___ c___r___e___d___i___t___??\Hey, I'm talking!!! This is my voice and I'm talking!!!! Hello!!!! HELLOOOOOOOOOOOOOOO!");
+            Dialogue(P_NAME, "Hi! Nice to meet you. I'm " + P_NAME_F + ".");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "Hey now, I was mute, not deaf.\Oh, but yeah, I guess we didn't properly exchange names before, did we? At least I didn't get to say it.\I'm Meinhardt. Great to meet you.\This is absolutely wonderful. I didn't think they had any of these left on Necron 7. I gave up looking for them after a while. You said you got this from the Warden?");
+            Dialogue(P_NAME, "That's right. But he's dead now. I don't think he'll be needing it anymore.");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "Yeah, I guess not. I could tell he smoked a lot. This thing really smells.\But I don't give a damn. I'm just glad to get my voice back.\So how do I sound?? I feel like a damn computer.");
+            Dialogue(P_NAME, "It sounds really cool with you using it. The Warden just sounded stupid and lame. You're much better.");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "Thanks, pal.\This is just terrific. It was a couple years ago now that I lost my voice. Having it back now.....\I had just given up the thought of ever talking again. Most of the people here don't know how to read, so I didn't have much of a way to communicate with anybody, couldn't write them notes or anything, and sign language was out of the question.\It's so hard getting shut off from everybody. I was always a big talker too, I'd talk damn near everybody's ear off.\Couple of the old buddies would joke that they're happier with me this way, but it hurt too damn much to find that funny.\Wow, I hadn't thought about those guys since......then.......\I was there when Showalter got it. Bastards threw everything they had at him.\Shrapnel blinded him, tore most of his guts apart. I was the only guy there, and I couldn't help him. He just kept talking as he bled out.\He talked about everything. How proud he was of me, how proud he was of all the guys that served under him. We talked about the good times we had.\Talked about the time the two of us got drunk and set fire to the fuel depot. Of course we weren't supposed to be drinking on base, so we had to blame it all on a midnight sabotage attack by the duergars.\He got a nasty burn on his shoulder and part of his neck, had to wear a turtleneck under the uniform for a week or two......\I was such a rascal then. I'd always really roughly pat him on the shoulder whenever our superiors were around, and he had to act like it wasn't anything.\He didn't find that so funny back when it happened, but......he smiled when he told that story then.\That much pain and he could still smile about the good days...... Fuck.......\All I wanted to do was look him in the eye and say how much he meant to me. He saved our asses so many fucking times. That salty old fool made a real soldier out of me.....\But all I could do is hold his fucking hand......\BASTARDS!!!!!!");
+            Dialogue(P_NAME, "Whoa....");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "Oh, sorry.....\I realized I never got to say that. Waited two years to say that.\That felt so fucking good.\Heh heh. But I guess now I don't even need to be pissed off anymore. You kids got payback for me.\Got payback for a lot of guys around here, come to think of it.\I can't tell you how great this timing was. We were at the end, too.\Well, you saw it. Just four worn out guys huddled in a cave. And we were supposed to be the frontal assault against the base.\It was so bad these past couple months, man. Just the fucking worst.\Compson is a really rotten guy, always putting Lafayette and Florian down.\With me out of the picture and Compson the only one talking to them, they really let his bullshit get under their skin.\They're such good kids, the both of them. Lafayette's a lot sharper than you'd think, but you should know that by now. You two put down an army. And Florian....\That kid, man. Duergar slit my throat and he managed to stop the bleeding and patch me up. And Lafayette got blown totally up, kept him alive too. I can't get my mind around the shit he pulls off. He don't even know he's a genius.\You should have seen the day when Lafayette got it. Compson wanted to put him out, but Florian finally stood up to him, punched him square in the face.\That was just a hard day, but I don't think I was ever prouder of another person my whole life.\It all just hurt, you know? I just wanted to write them a note, tell them both that they're special, that they matter. Neither can read, though, I had no way of communicating with them, and both were kinda scared of this old monster in the corner.\I wrote them notes anyway but Compson tore them all up. Miserable pile of shit.\Once I dug that grave for him he's always yapping about, but he chickened out like fucking always.\It made me so happy to see you come by, start taking the two of them seriously. Yeah, you gave me my voice back, duergars and all that, but I'm just glad for those kids. They deserved so much better than that.\I joined this outfit, got my throat slit for kids like that. Then I watched them lose everything.");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "I'm really going, aren't I? I'm sorry, I should shut up.");
+            Dialogue(P_NAME, "It's ok.\I don't think I ever really realized how beautiful words can be until right now.");
+            Dialogue(scr_longinus_get_rank("meinhardt") + " Meinhardt", "I'm glad.\I really missed this. Being able to share something like this with somebody. Even being able to say thank you. Something simple like that.\Thank you. It's really nice being something more than a ghost again.");
+            Quest("meinhardtgoodState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

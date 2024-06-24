@@ -1,0 +1,24 @@
+/// scr_event_build_teleport(room,x,y,fadeout,fadein)
+/// Builds an action to teleport to a new map.
+// NOTE: This will end the event.
+
+// If argument count exceeds three, make an auto fader - must go before
+if (argument_count > 3)
+{
+    if (argument[3] > 0)
+    {
+        scr_event_build_fade(true, argument[3]);
+        scr_event_build_wait_for_actions();
+        //scr_event_build_fade(false, 0);
+    }
+    if (argument_count > 4) global.fadeBlack = argument[4];
+}
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_teleport);
+ds_list_add(action, argument[0]); // room
+ds_list_add(action, argument[1]); // x
+ds_list_add(action, argument[2]); // y
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;

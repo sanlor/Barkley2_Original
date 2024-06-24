@@ -1,0 +1,34 @@
+// Event script for the control room. This is Event#8, part2 in my Prison Break design document. This handles the player getting back their items and potentially leaving the location.
+// CRITICAL NOTE: There's been some talk that the way this section of the game works should be changed, NOT giving the player back their items, and NOT allowing them the opportunity to escape at this point. I'm simply scripting what I have right now, just in case we go with it, and so the basic version of this quest can be played through. This entire script will probably be rewritten later.
+// NOTE: No matter how I rewrite this script, this part NEEDS to be where the player is equipped with new weapons. There's been talk that all the prior equipments will be taken from the player permanently, which I'm cool with, but they need to be armed with SOMETHING for the remainder of this quest, and this is the place where this NEEDS to happen.
+// PLACEMENT NOTICE: As of right now, this script should be for a stockpile of gun's sitting in the control room, maybe a CRATE. Regardless how this is revised, this may still be the way to do it.
+// TIME TO CRATE COUNTER: I'm pretty sure this is my first crate. This is late enough in the game where if this is the first crate in the game, I think we've done reasonably well.
+/*
+if (argument0 == SCRIPT_START) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var prisoncontrolroom = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("prisonQuest") == 3) {
+            Dialogue(P_NAME, "Hey, this is all my stuff!!!");
+            scr_event_build_dialogue("Kawasaki", NULL, "Stuff needs a good scrubbin'. Gotta keep them gun's of yourn more clean, Charlie.");
+            Dialogue(P_NAME, "There's a couple extra gun's here too. I don't know who they belong to, but I guess it's ok if we borrow them. You still want one, right?");
+            scr_event_build_dialogue("Kawasaki", NULL, "Boy......\Been a while since I fired one of these things.");
+            Dialogue(P_NAME, "You just aim and pull the trigger.");
+            scr_event_build_dialogue("Kawasaki", NULL, "I ain't lost that much sense. Just been a real long while.\Am I fighting for something or is this one of them macho gigs?");
+            Dialogue(P_NAME, "Yeah, we're fighting for something.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Well that's good. I probably sent too many pale-skinned folk down the shaft in my time.\Right good thing too. Lots of prisoners in this here jail. I don't think I got the bullets for 'em all.");
+            Dialogue(P_NAME, "What about this gun? You think Devigny would look good with this?");
+            scr_event_build_dialogue("Kawasaki", NULL, "He ain't the sniping type, Charlie. I'd go with one of them automatic types.\I'd just as soon give him a shovel, since diggin's about the only thing he ever talk about, but they don't got one here.");
+            Dialogue(P_NAME, "Ok, then. You pick.");
+            scr_event_build_dialogue("Kawasaki", NULL, "This here assault rifle looks like him. Hope he got the brains to use it.");
+            Dialogue(P_NAME, "Let's go track him down and find out.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CRITICAL DECISION TODO: The player's gun's should not longer be disabled at this point.\It's still up in the air which gun's they are now armed with, however.");
+            // The player's gun's should no longer be locked at this point. What gun's they now have is up in the air.
+            Quest("prisonQuest", 4);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

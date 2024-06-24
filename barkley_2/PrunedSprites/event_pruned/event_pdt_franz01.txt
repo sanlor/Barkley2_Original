@@ -1,0 +1,27 @@
+// Crazy Robinsons // Franz //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+   
+    // Can occur only once //
+    if (scr_quest_get_state("pdt_zorro") == 1) or (scr_quest_get_state("pdt_zorro_fritz") >= 2) or (scr_time_get() <= 1) or (scr_time_get() >= 10) scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+        // Variables //
+        var event = scr_event_create_main();
+        scr_entity_look(id, EAST);
+        // Main event //
+        with (event) {
+                
+                scr_event_build_dialogue("Franz Swiss Robinson", "s_port_sfr_franz", "Fritz is 15 years old and is the oldest of the children. He is intelligent but also impetous. He and his father have many quests.");
+                }
+        scr_event_advance(event);
+}

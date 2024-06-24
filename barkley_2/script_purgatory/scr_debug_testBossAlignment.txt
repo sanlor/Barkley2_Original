@@ -1,0 +1,52 @@
+var player, boss, ethical, moral;
+
+player = argument0;
+boss = argument1;
+
+//      player                  boss                      expected value
+//----------------------------------------------------------------------
+ethical[ALIGN_ETHICAL_LAWFUL,   ALIGN_ETHICAL_LAWFUL]           = 0.97;
+ethical[ALIGN_ETHICAL_LAWFUL,   ALIGN_ETHICAL_NEUTRAL]          = 1.03;
+ethical[ALIGN_ETHICAL_LAWFUL,   ALIGN_ETHICAL_CHAOTIC]          = 1.06;
+ethical[ALIGN_ETHICAL_NEUTRAL,  ALIGN_ETHICAL_LAWFUL]           = 1.03;
+ethical[ALIGN_ETHICAL_NEUTRAL,  ALIGN_ETHICAL_NEUTRAL]          = 0.97;
+ethical[ALIGN_ETHICAL_NEUTRAL,  ALIGN_ETHICAL_CHAOTIC]          = 1.03;
+ethical[ALIGN_ETHICAL_CHAOTIC,  ALIGN_ETHICAL_LAWFUL]           = 1.06;
+ethical[ALIGN_ETHICAL_CHAOTIC,  ALIGN_ETHICAL_NEUTRAL]          = 1.03;
+ethical[ALIGN_ETHICAL_CHAOTIC,  ALIGN_ETHICAL_CHAOTIC]          = 0.97;
+
+moral  [ALIGN_MORAL_GOOD,       ALIGN_MORAL_GOOD]               = 1.03;
+moral  [ALIGN_MORAL_GOOD,       ALIGN_MORAL_NEUTRAL]            = 0.97;
+moral  [ALIGN_MORAL_GOOD,       ALIGN_MORAL_EVIL]               = 0.94;
+moral  [ALIGN_MORAL_NEUTRAL,    ALIGN_MORAL_GOOD]               = 0.97;
+moral  [ALIGN_MORAL_NEUTRAL,    ALIGN_MORAL_NEUTRAL]            = 1.03;
+moral  [ALIGN_MORAL_NEUTRAL,    ALIGN_MORAL_EVIL]               = 0.97;
+moral  [ALIGN_MORAL_EVIL,       ALIGN_MORAL_GOOD]               = 0.94;
+moral  [ALIGN_MORAL_EVIL,       ALIGN_MORAL_NEUTRAL]            = 0.97;
+moral  [ALIGN_MORAL_EVIL,       ALIGN_MORAL_EVIL]               = 1.03;
+
+// test: changing ethical alignments
+for(var j = 0; j <= 2; j++)
+{
+    player.alignment_ethical = j;
+    
+    for(var i = 0; i <= 2; i++)
+    {
+        boss.alignment_ethical = i;
+        scr_stats_alignment_setGlobalModifiers(o_hoopz, boss);
+        assertEqual(global.alignmentDamageTaken, ethical[j, i]);
+    }
+} 
+
+// test: changing moral alignments
+for(var j = 0; j <= 2; j++)
+{
+    player.alignment_moral = j;
+    
+    for(var i = 0; i <= 2; i++)
+    {
+        boss.alignment_moral = i;
+        scr_stats_alignment_setGlobalModifiers(o_hoopz, boss);
+        assertEqual(global.alignmentDamageDealt, moral[j, i]);
+    }
+} 

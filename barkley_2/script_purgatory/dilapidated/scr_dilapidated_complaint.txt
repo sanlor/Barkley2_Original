@@ -1,0 +1,9 @@
+/*
+// scr_dilapidated_complaint(tenant)
+
+// returns the number of the tenant's complaints, 0 if the tenant has none
+
+global.supergrid = scr_savedata_get("supergrid");
+var rnum = scr_dilapidated_get_room(argument0);
+var complaint = global.supergrid[| (RP * rnum) + 9];
+return complaint;

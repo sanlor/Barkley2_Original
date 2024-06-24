@@ -1,0 +1,60 @@
+// Event for Boris after she's been recruited for wedding quest. Hangs out in Brain City
+//Bar
+// usage: event_bct_boris02();
+
+/*if (argument0 == SCRIPT_STEP) {
+
+//if wedding quest is currently active
+if (scr_quest_get_state("borisWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+    scr_event_interactive_activate();
+} else{
+    scr_event_interactive_deactivate();
+}
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var boris = id;
+    var event = scr_event_create_main();
+    with (event) {
+        //if you have jane in group.
+    if (scr_quest_get_state("janeWedding") == 1) and (scr_quest_get_state("borisJane") == 0) {
+        scr_event_build_dialogue("Boris", s_port_boris, "It seems as though there is a certain synergy between myself and the salty seadog Jane. Perhaps this is the beginning of a relationship most harmonious!");
+        scr_event_build_quest_state("borisWait", 1);
+        scr_event_build_quest_state("borisJane", 1);
+    }
+        
+    //if you have dinah
+    else if (scr_quest_get_state("dinahWedding") == 1) and (scr_quest_get_state("borisDinah") == 0) {
+        scr_event_build_dialogue("Boris", s_port_boris, "I can't quite figure out the contraption that the drumstress Dinah over there seems to be using. Technology seems to be moving faster than old Boris these days!");
+        scr_event_build_quest_state("borisWait", 1);
+        scr_event_build_quest_state("borisDinah", 1);
+    }
+    
+    //if you have guillaume
+    else if (scr_quest_get_state("guillaumeWedding") == 1) and (scr_quest_get_state("borisGuillaume") == 0) {
+        scr_event_build_dialogue("Boris", s_port_boris, "The gentle guitarist Guillaume is a strumsman after my own heart! I wouldn't mind holding a hoedown with him after our current bridal shindig!");
+        scr_event_build_quest_state("borisWait", 1);
+        scr_event_build_quest_state("borisGuillaume", 1);
+    }
+    
+    //if you have poly
+    else if (scr_quest_get_state("polyWedding") == 1) and (scr_quest_get_state("borisPoly") == 0) {
+        scr_event_build_dialogue("Boris", s_port_boris, "I cannot quite fathom why our cantankerous drumstress Poly seems to take such offense at my benign and benevolent tooting! It saddens me... it truly does.");
+        scr_event_build_quest_state("borisWait", 1);
+        scr_event_build_quest_state("borisPoly", 1);
+    }
+    
+    //if you've spoken to before.
+    else if (scr_quest_get_state("borisWait") == 1) {
+        scr_event_build_dialogue("Boris", s_port_boris, "As time passes, my plump, moist lips grow more parched, and as these labra wither, so too does my flautistry. Make haste, dear kinder... make haste...");
+    }
+    
+    //Haven't spoken to Boris while waiting.
+    else {
+        scr_event_build_dialogue("Boris", s_port_boris, "Ahah! The august jugend returns, perhaps to hear more of my transfixing woodwindry? Fear not, for when this wedding begins, I shall give both bride and groom a canorous earful!");
+        scr_event_build_quest_state("borisWait", 1);
+        }
+    }
+    scr_event_advance(event);
+}

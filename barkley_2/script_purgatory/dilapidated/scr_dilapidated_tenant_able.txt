@@ -1,0 +1,28 @@
+/*
+// scr_dilapidated_tenant_able
+// returns true if the tenant is able to be asked to move in
+// returns false if the tenant is not able to be asked to move in
+
+// super robot still off
+if (scr_quest_get_state("superOn") == 0) {
+    return false;
+}
+// individual tenant false conditions
+switch (argument0) {
+    case "Sabah":
+        if (scr_quest_get_state("sabahOffer") >= 3) {
+            return false;
+        }
+        break;
+    case "Safiatou":
+        
+        
+        break;
+    case "WIZARD":
+    
+        
+        break;
+}
+
+// otherwise...
+return true;

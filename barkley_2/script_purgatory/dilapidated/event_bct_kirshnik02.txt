@@ -1,0 +1,98 @@
+// -- Squatter Kirshnik --
+// event_bct_kirshnik02
+// Event script for Kirshnik, a squatter in the Dilapidated Zone.
+//    This event script "kirshnik02" contains all his scripts 
+//    when the house is NOT owned by the Anarchists/Commune/Squatters.
+//    for his other scripts, see event_bct_kirshnik01
+// o_kirshnik02
+// s_kirshnik01
+/*
+
+
+*/
+/*
+if (argument0 == SCRIPT_START) {
+    if (scr_quest_get_state("kirshnikEvictTime") >= scr_time_get() + 5) {
+        scr_quest_set_state("kirshnikEvict", 3);
+    }
+} 
+else if (argument0 == SCRIPT_STEP) {} 
+else if (argument0 == SCRIPT_INTERACT) {
+    var kirshnik = id;
+    var event = scr_event_create_main();
+    
+    with (event) {
+        
+        //---------------
+        // commune is on!
+        //---------------
+        if (scr_quest_get_state("dilapEmancipated") >= 1) {
+            scr_event_build_execute_event_script(event_bct_kirshnik01);
+        }
+        
+        //--------------
+        // fake longinus
+        //--------------
+        else if (scr_quest_get_state("longinusFakeDoor") == 1) {
+            if (scr_quest_get_state("kirshnikState") == 2) {
+                scr_event_build_dialogue("Capt. Kirshnik", NULL, "... zzz... zzz...");
+            }
+            else if (scr_quest_get_state("kirshnikState") == 1) {
+                scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "Excuse me, Captain Kirshnik. Just one more question.");
+                scr_event_build_dialogue("Capt. Kirshnik", NULL, "...");
+                scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "Captain Kirshnik?");
+                scr_event_build_dialogue("Capt. Kirshnik", NULL, "... zzz... zzz...");
+                scr_event_build_quest_state("kirshnikState", 2);
+            }
+            else if (scr_quest_get_state("kirshnikState") == 0) {
+                scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "Captain Kirshnik?");
+                scr_event_build_dialogue("Capt. Kirshnik", NULL, "Yeah?");
+                scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "I'm really new here, so I'm just trying to get an idea. What's it like fighting for L.O.N.G.I.N.U.S.?");
+                scr_event_build_dialogue("Capt. Kirshnik", NULL, "The best part is the solo missions. You get some time alone by yourself. Other folks leave you alone.");
+                scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "Uh huh, sounds cool... so what's the worst part.");
+                scr_event_build_dialogue("Capt. Kirshnik", NULL, "Worst part? Gotta be training new people. They don't understand anything without a million questions. You know what I'm saying?");
+                scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "Oh, ok... yeah... I think I get it.");
+                scr_event_build_quest_state("kirshnikState", 1);
+            }
+        }
+        //------------------
+        // guilderberg quest
+        //------------------
+        else if (scr_quest_get_state("guilderZoneQuest") == 2) {
+            if (scr_quest_get_state("longinusFakeDoor") == 3) {
+                scr_event_build_dialogue("Kirshnik", NULL, "How the hell did you get in? Scram!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+            }
+            else if (scr_quest_get_state("longinusFakeDoor") == 2) {
+                //k:""
+                //h:""
+            }
+            else if (scr_quest_get_state("longinusFakeDoor") == 1) {
+                //k:""
+                //h:""
+            }
+            else {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I've got an order for you to leave the premises.");
+                scr_event_build_dialogue("Kirshnik", NULL, "This is my home, and you're trespassing! Get lost!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I've got the deed right here!");
+                scr_event_build_dialogue("Kirshnik", NULL, "Fuck a deed! You've got a piece of paper? So what? This is where I live! I'm staying put!");
+            }
+        }
+        //---------------
+        // after eviction
+        //---------------
+        else {
+            if (scr_quest_get_state("kirshnikEvict") == 3) {
+                //scr_event_build_dialogue(P_NAME, s_port_hoopz, "(He's gone... must have been hypothermia...)");
+            }
+            else if (scr_quest_get_state("kirshnikEvict") == 2) {
+                scr_event_build_dialogue("Kirshnik", NULL, "Go away, please. Just leave me alone.");
+            }
+            else if (scr_quest_get_state("kirshnikEvict") == 1) {
+                scr_event_build_dialogue("Kirshnik", NULL, "You... haven't you done enough?");
+                scr_event_build_quest_state("kirshnikEvict", 2);
+            }
+        }
+    }
+    scr_event_advance(event);
+}

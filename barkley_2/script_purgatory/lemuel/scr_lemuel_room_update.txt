@@ -1,0 +1,11 @@
+// scr_lemuel_room_update()
+/*
+if (scr_quest_get_state("lemuelStole") >= 1)
+{
+    scr_quest_set_state("lemuelRoom", r_dz2_alakihabara01);
+}
+else if (scr_quest_get_state("classBeggar") >= 1)
+{
+    scr_quest_set_state("lemuelRoom", r_dz2_alakihabara01);
+}
+else { scr_quest_set_state("lemuelRoom", r_wst_industrialZone01) };

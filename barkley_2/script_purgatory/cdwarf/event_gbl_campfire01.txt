@@ -1,0 +1,253 @@
+// event_gbl_campfire01();
+// campfire event in cuchulainn's elevator
+// only occurs if the player has cyberdwarf AND all 4 cyberspears
+// the logic for initiating the event is in event_chu_elevatorControl01()
+/*
+    QUEST VARIABLE:
+        campfireState
+            0 == not yet run
+            1 == ongoing, fire is burning
+            2 == concluded, fire is put out
+*/
+/*if (argument0 == SCRIPT_START)
+{
+    camp = Quest("campfireScene");
+
+    //------------------------
+    // Control Graphic
+    //------------------------
+    //I'm not sure what this is, commenting out while we work on scr_time_db integration
+    /*if (room == r_wst_industrialZone01)
+    {
+        if (ClockTime("get") < scr_time_db("industrialFire")) { scr_entity_animation_set(o_campfire01, "burning"); }
+        else { scr_entity_animation_set(o_campfire01, "out"); }
+    }
+    
+    else
+    */
+/*    if (room == r_chu_elevator01)
+    {
+        if (camp == 0) { scr_event_interactive_deactivate(); }
+        else if (camp == 1) { scr_entity_animation_set(o_campfire01, "burning"); }
+        else if (camp >= 2) { scr_entity_animation_set(o_campfire01, "out"); }
+    }
+    
+    //------------------------
+    // Elevator Campfire Scene
+    //------------------------
+    if (camp == 1) && (room == r_chu_elevator01)
+    {
+        var hoopz_x = 224;
+        var hoopz_y = 400;
+        
+        var campfire = id;
+        
+        var event = scr_event_create_main();
+        with (event)
+        {
+            // fade out and move camera up top
+            scr_event_build_fade(true, 2);
+            scr_event_build_wait_for_actions();
+            scr_event_build_camera_move_to_point(192, 128, 500);
+            scr_event_build_wait_for_actions();
+            
+            // make campfire visible, move hoopz, etc.
+            Quest("campfireScene", 2);
+            scr_event_build_visible(o_campfire01, true);
+            scr_event_build_animation_set(o_campfire01, "burning");
+            scr_event_build_set_object(o_cts_hoopz, hoopz_x, hoopz_y);
+            scr_event_build_visible(o_csGround01, true);
+            
+            scr_event_build_animation_set(o_cts_hoopz, "camp");
+            // select special hoopz graphic!
+            switch string((scr_quest_get_state("motiveName")))
+            {
+                case "0":
+                    break;
+                case "alignBballLaw":
+                    break;
+                case "alignBballChaos":
+                    break;
+                case "alignCandyRarity":
+                    break;
+                case "alignCandyVariety":
+                    break;
+                case "alignClispaethWorship":
+                    break;
+                case "alignClispaethHeresy":
+                    break;
+                case "alignCyberdwarfOne":
+                    break;
+                case "alignDwarfsLiberate":
+                    break;
+                case "alignDwarfsTrouble":
+                    break;
+                case "alignDwarfsSavior":
+                    break;
+                case "alignHomeOne":
+                    break;
+                case "alignPowerLow":
+                    break;
+                case "alignPowerHigh":
+                    break;
+                case "alignTruthNormal":
+                    break;
+                case "alignTruthReal":
+                    break;
+                case "alignVengeanceOne":
+                    break;
+                case "alignVidconsPlay":
+                    break;
+                case "alignVidconsConquer":
+                    break;
+                case "alignVidconsHoard":
+                    break;
+                case "alignVidconsPreserve":
+                    break;
+            }
+            
+            Debug("Select a slightly changed graphic for anything that reflects RoundMound points. Does Hoopz have a B-ball? Roasting marshmallows? What?");
+            Debug("A vignette filter/mode/etc is applied to the scene.");
+            Debug("Embers should be flying up into the top screen, from some kind of ember emitter.");
+            Debug("Crackling noise.");
+            Debug("Fade in and pan camera downwards.");
+            scr_event_build_wait_for_actions();
+            scr_event_build_fade(false, 3);
+            scr_event_build_camera_move_to_point(192, 404, 5);
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(2);
+            Debug("Portraits should be made to flicker light and dark during the dialogue, at least for Hoopz.");
+            Debug("Cyberdwarf projects himself from the spear ... as he has already been installed into it from the previous scene.");
+            Wait(2);
+            Dialogue(P_NAME, "I-I can't believe we've come this far...");
+            Dialogue("The Cyberdwarf", "But why not, youngster? DO you not see the prophecy fullfilling itself before our eyes? ");
+            Dialogue(P_NAME, "Hello");
+            Dialogue("Cyberdwarf", "Yo");
+            Dialogue(P_NAME, "Hello");
+            Dialogue("Cyberdwarf", "Yo");
+            Dialogue(P_NAME, "Hello");
+            Dialogue("Cyberdwarf", "Yo");
+            Debug("Play out the special dialogue based on RoundMound, if any.");
+            
+            //switch
+            switch string((scr_quest_get_state("motiveName")))
+            {
+                case "0":
+                    break;
+                case "alignBballLaw":
+                    break;
+                case "alignBballChaos":
+                    break;
+                case "alignCandyRarity":
+                    break;
+                case "alignCandyVariety":
+                    break;
+                case "alignClispaethWorship":
+                    break;
+                case "alignClispaethHeresy":
+                    break;
+                case "alignCyberdwarfOne":
+                    break;
+                case "alignDwarfsLiberate":
+                    break;
+                case "alignDwarfsTrouble":
+                    break;
+                case "alignDwarfsSavior":
+                    break;
+                case "alignHomeOne":
+                    break;
+                case "alignPowerLow":
+                    break;
+                case "alignPowerHigh":
+                    break;
+                case "alignTruthNormal":
+                    break;
+                case "alignTruthReal":
+                    break;
+                case "alignVengeanceOne":
+                    break;
+                case "alignVidconsPlay":
+                    break;
+                case "alignVidconsConquer":
+                    break;
+                case "alignVidconsHoard":
+                    break;
+                case "alignVidconsPreserve":
+                    break;
+            }
+            scr_event_build_fade(true, 3);
+            scr_event_build_wait_for_actions();
+            scr_event_build_animation_set(o_campfire01, "out");
+            scr_event_build_quest_state("campfireScene", 2);
+            scr_event_build_fade(false, 3);
+        /*
+            alignBballLaw
+                you told me i'm the bball messiah... this must be what i have to do...
+            alignBballChaos
+                i've gotten so devastatingly powerful.
+                this malevolent ai cuchulainn may be strong, but i know he doesn't have my skills. i'll dash his brains upon the court...
+            alignCandyRarity
+                i wish i had a piece of candy
+            alignCandyVariety
+                you've never roasted a marshmallow, cyberdwarf? we'll have to do it again sometime.
+                "you think it will prepare you in the coming fight?"
+                when we get out of this, i'll have to roast one with you...
+                there's enough mallows to go around for everybody, cyberdwarf.
+            alignClispaethWorship
+                there's a lot i don't know out there....
+            alignClispaethHeresy
+                there's a lot i don't know out there... i want to know the truth
+            alignCyberdwarfOne
+                i'm really just doing it for you cyberdwarf. i don't know what else to do... i trust you.
+            alignDwarfsLiberate
+                the dwarfs can't end here...
+            alignDwarfsTrouble
+                i just wish the dwarfs didn't get me into this mess...
+            alignDwarfsSavior
+                i want to lead my people home.
+            alignHomeOne
+                i wish we were home already...
+            alignHomeSombrero
+                i want to go home...
+            alignPowerLow
+                i don't want to have to fight... but i believe in myself...
+            alignPowerHigh
+                i'm just warming my hands... cuchulainn doesn't know what's coming!
+            alignTruthNormal
+                i want to know the truth...
+            alignTruthReal
+                i want to know... /'the truth/'...
+            alignVengeanceOne
+                i need to destroy cuchulainn... i must... i must destroy whoever wronged me...
+            alignVidconsPlay
+                i want to just kick back and play a vidcon. do you ever game cyberdwarf?
+                well...
+                yeah? come on, tell me!
+                the story goes something like this...
+                you must live life without regrets, just like the heros and heroines of your vidcons...
+                dang... you may be right
+            alignVidconsConquer
+                i want to crush cuchulainn... so then i can get back to crushing more vidcons!
+            alignVidconsHoard
+                you said cuchulainn had a throne room, right?
+                yes...
+                i bet he's got the best game of them all
+                game displays: "of course..."
+            alignVidconsPreserve
+                i wonder what secrets necron 7 is hiding
+                i think i have every game known to exist... i don't know how it could happen... but it did.
+                cuchulainn has a game you may desire?
+            * end barkley 2 with a lost game
+            */
+/*        }
+        scr_event_advance(event);
+    }
+} 
+else if (argument0 == SCRIPT_STEP)
+{
+
+} 
+else if (argument0 == SCRIPT_INTERACT)
+{
+
+}

@@ -1,0 +1,40 @@
+// event_dz2_hemalathaScene01
+
+/*if (argument0 == SCRIPT_START) {
+    //scr_actor_unsetRigid(id);
+    if (scr_time_get() > 3) {
+        scr_event_interactive_deactivate();
+        instance_destroy();
+    }
+}
+else if (argument0 == SCRIPT_STEP) {
+    if (scr_quest_get_state("hemalathaScene") == 1) {
+        scr_event_interactive_deactivate();
+        instance_destroy();
+    }
+}
+else if (argument0 == SCRIPT_COLLISION_HOOPZ) {
+    // id
+    var hemalathaScene = id;
+    
+    var hemaport = s_portrait;
+    var safiaport = "s_port_safiatou";
+    
+    // events & snippets
+    var event = scr_event_create_main();
+    
+    //------------------------------------------------
+    // main event
+    //------------------------------------------------
+    with (event) {
+        if (scr_quest_get_state("hemalathaScene") == 0) {
+            scr_event_build_dialogue("Hemalatha", hemaport, "Now go! I told you to stop dawdling and get a move on!");
+            scr_event_build_dialogue("Safiatou", safiaport, "Are you sure, boss? I mean... it's just desert out there...");
+            scr_event_build_dialogue("Hemalatha", hemaport, "...and that is where our customers are! Meaning that is where the money is! Didn't you say you wanted to be helpful, Safiatou?");
+            scr_event_build_dialogue("Safiatou", safiaport, "Of... of course, master.");
+            scr_event_build_dialogue("Hemalatha", hemaport, "Good, good! Now hurry up! Hoist up that sack of 'tack and get moving... wait, never mind that, we have a customer! Be on your best behavior, Safiatou!");
+            scr_event_build_quest_state("hemalathaScene", 1);
+        }
+    }
+    scr_event_advance(event);
+}

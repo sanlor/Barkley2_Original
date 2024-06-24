@@ -1,0 +1,133 @@
+// Event for Dinah, a drummer in (SOMEWHERE????) who is rivals with a second drummer, Dinah.
+// Dinah plays a drum song on loop. The closer the player gets to Dinah, the louder it gets. 10 or 11 paces away and you can't hear it.
+//Participant in Wedding Quest
+// usage: event_dz2_dinah01();
+
+/*if (argument0 == SCRIPT_STEP) {
+    //if dinah is currently away on wedding quest.
+ if (scr_quest_get_state("dinahWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+        scr_event_interactive_deactivate();
+    }
+} else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var dinah = id;
+    var event = scr_event_create_main();
+    var weddingQuestAsk = scr_event_create_child(event);
+
+//--------------------------------------------
+//------------ WEDDING QUEST ASK -------------
+//--------------------------------------------  
+    with (weddingQuestAsk) { 
+        //If you've already recruited Dinah
+        if (scr_quest_get_state("polyWedding") == 1) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Dinah, I'm actually putting a band together for a wedding gig I'm gonna be doing. Maybe you'd want to program some drums for it?");
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Uh, yeah, Poly was bragging about it earlier. To be honest, I really don't want anything to do with her, so forget about it.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "O-oh... never mind then.");
+        }
+        //Haven't recruited Dinah
+        else{
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Dinah, I'm actually putting a band together for a wedding gig I'm gonna be doing. Maybe you'd want to program some drums for it?");
+            scr_event_build_dialogue("Dinah", s_port_dinah, "You're cool with my programmed drums? I'm still kinda new at it, but sure! I'll definitely be there!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Very cool, it's at the chapel in Brain City. We're all meeting at the booty bass club. I'm still putting the band together so I might be a little while, but I'll try to be there as soon as I can.");
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Awesome! I'm kinda nervous... it's gonna be my first gig... but I'll do my best!");
+            scr_event_build_fade(true, 2);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("dinahWedding", 1);
+            scr_event_build_quest_state_add("musicianCount", 1);
+            scr_event_build_set_object(o_dinah01, -500, -500);
+            scr_event_build_fade(false, 2);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "One more musician for the band down. I need " + string(3 - (scr_quest_get_state("musicianCount"))) + " more...");
+        }
+        
+        
+}   
+    
+    with (event) {
+          
+        //Did Wedding Quest with Dinah.
+        if (scr_quest_get_state("weddingQuest") == 3) and (scr_quest_get_state("dinahWedding") == 3) {
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Hey, what's going on! I'm glad you stopped by, I had such a good time playing at the wedding with you! We really gotta put together a Jazzy Rascals reunion, I'd really love to program some killer drums for you guys...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I hate the Jazzy Rascals...)");
+        
+        //Told Dinah to go to church in Brain City but did not show up, spoke to him again.
+        } else if (scr_quest_get_state("dinahWedding") == 2) {
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Man, you're just like Poly, stabbing me in the back when I thought you were my friend. Just leave me alone, okay? I don't wanna hang out with you.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "S-Sorry Dinah...");
+            
+            
+        //Told Dinah to go to church in Brain City but did not show up.
+        } else if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("dinahWedding") == 1) and (scr_time_get() >= 11) {
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Hey man, what's the big idea? I thought we had a gig? You were supposed to meet me at that church in Brain City but you never showed up!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh snap... I, uh... I kinda forgot...");
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Forgot? I spent HOURS programming drums for the gig and you didn't even bother to show up! You're just like Poly, stabbing me in the back when I thought you were my friend. Leave me alone.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "G-geez... I'm sorry, Dinah...");
+            scr_event_build_quest_state("dinahWedding", 2);
+        
+    
+       //met dinah before.
+       }else if (scr_quest_get_state("dinahVar") == 1) {
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Hey, you're back! I guess I really am getting good with this drum machine! I just wish I could find a band to play with... that would be killer...");
+            //If you're on the wedding quest and time >= 4 and <= 10
+            if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("musicianCount") <= 3) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Actually, I am looking for people for that wedding band... maybe I could ask her to join?");
+                var weddingQuestion2 = scr_event_build_choice("Should I ask Dinah to join my group?", s_port_hoopz);
+                
+                //Ask Dinah.
+                with scr_event_build_add_choice(weddingQuestion2, "I'm putting together a band for a wedding, want to join?") {
+                    scr_event_build_event_snippet(weddingQuestAsk);
+                    }
+                    
+                //Don't ask Dinah.
+                with scr_event_build_add_choice(weddingQuestion2, "Nah, forget it.") {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's cool, Dinah. Hope things go well for you... good luck!");
+                    }
+                
+                //Not currently on wedding quest.
+                } else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's cool, Dinah. Hope things go well for you... good luck!");
+                }
+    
+       //Never met Dinah.
+       } else if (scr_quest_get_state("dinahVar") == 0) {
+            scr_event_build_quest_state("dinahVar", 1);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa, that's a machine you've got there. Are you a DJ or something?");
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Hey, what's up? I guess I'm an aspiring DJ... I'm just getting started to be honest. It's just a drum machine, nothing that special. Hey, do you know Poly at all? We used to be really good friends back in high school but she's been treating me kinda weird ever since I got it.");
+            
+            //If you've spoken to Poly
+            if (scr_quest_get_state("polyVar") == 1){
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I did meet her... she didn't have a lot of good things to say about you. Maybe that's more a reflection on her than you though.");
+                scr_event_build_dialogue("Dinah", s_port_dinah, "Haha, thanks. You into booty bass at all? That's kinda what I want to do. I'm getting pretty good at programming these drums, I'm trying to find a group to play with but I kinda think Poly's been spreading rumors about me... but anyway, things are looking up! I'm getting better with these drums and someday soon I'll be making my own booty bass!");
+                
+            
+            //never spoken to Poly
+            }else{
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'll keep an eye out for her. What's she been saying?");
+                scr_event_build_dialogue("Dinah", s_port_dinah, "Mostly that real drummers use real drums, that I'm a hack, that kinda stuff... it really hurts my feelings, we used to be best friends... /'besties/' even. Whatever. I'm getting pretty good at programming these drums and I'm trying to find a group to play with but I kinda think Poly's been spreading rumors about me... but I'm getting better and pretty soon I'm gonna be doing my own booty bass stuff!");
+            }
+            
+            
+            
+            //If you're on the wedding quest and time >= 4 and <= 10
+            if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("musicianCount") <= 3) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Actually, I am looking for people for that wedding band... maybe I could ask her to join?");
+                var weddingQuestion1 = scr_event_build_choice("Should I ask Dinah to join my group?", s_port_hoopz);
+                
+                //Ask Dinah.
+                with scr_event_build_add_choice(weddingQuestion1, "I'm putting together a band for a wedding, want to join?") {
+                    scr_event_build_event_snippet(weddingQuestAsk);
+                    }
+                    
+                //Don't ask Dinah.
+                with scr_event_build_add_choice(weddingQuestion1, "Nah, forget it.") {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's cool, Dinah. Hope things go well for you... good luck!");
+                    }
+                
+                //Not currently on wedding quest.
+                } else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's cool, Dinah. Hope things go well for you... good luck!");
+                }
+            }
+    }
+    scr_event_advance(event);
+}

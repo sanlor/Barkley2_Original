@@ -1,0 +1,51 @@
+/// scr_draw_health(x,y,size,heath,dhealth)
+
+ax = argument0;
+ay = argument1;
+asize = argument2;
+ahealth = argument3;
+adhealth = argument4;
+dnum = argument5;
+
+if adhealth > 0 {
+
+    if asize = 3
+        w = 27;
+    else if asize = 2
+        w = 19;
+    else
+        w = 11;
+        
+    tdx = ax-round(w/2)+1;
+        
+    draw_sprite(s_health,asize-1,tdx,ay);
+        
+    //bars
+    
+    dframes = 7*asize*adhealth;
+    frames = 7*asize*ahealth;
+    
+    for(i=0;i<dframes;i+=1;){
+        if i<7
+            draw_sprite_ext(s_health_bar,i,tdx+1,ay+1,1,1,0,c_gray,1);
+        if i<15 and i>6
+            draw_sprite_ext(s_health_bar,i-7,tdx+9,ay+1,1,1,0,c_gray,1);
+        if i>14
+            draw_sprite_ext(s_health_bar,i-14,tdx+17,ay+1,1,1,0,c_gray,1);
+    }
+    
+    for(i=0;i<frames;i+=1;){
+        if i<7
+            draw_sprite_ext(s_health_bar,i,tdx+1,ay+1,1,1,0,c_white,1);
+        if i<15 and i>6
+            draw_sprite_ext(s_health_bar,i-7,tdx+9,ay+1,1,1,0,c_white,1);
+        if i>14
+            draw_sprite_ext(s_health_bar,i-14,tdx+17,ay+1,1,1,0,c_white,1);
+    }
+    
+    draw_set_font(o_hud.fn);
+    if dnum > 0
+        draw_text(tdx+2,ay-5,string(dnum));
+    draw_set_font(global.fn_2);  
+        
+}

@@ -1,0 +1,47 @@
+// event_bct_officeExtDoor01
+
+/*if (argument0 == SCRIPT_START) {  
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var extDoor = id;
+    
+    var event = scr_event_create_main();
+    
+    //----------------------------------------------------------
+    // main event
+    //----------------------------------------------------------
+    with (event)
+    {
+        //if (Item("have", "Guilderberg Keycard") == true) || (Item("have", "Tower Keycard") == true) {
+            scr_event_build_teleport(r_bct_officeFirst01, 320, 176);
+        //}
+        //else {
+        //    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(It won't budge...)");
+        //}
+    }
+    scr_event_advance(event);
+}
+
+/*
+from old guilderDoor:
+
+if (Item("have", "Guilderberg Keycard") == true) {
+    scr_guilderberg_prompt();
+    scr_event_build_teleport(r_bct_guilderBoard01, 208, 176);
+}
+else if (scr_quest_get_state("guilderVictory") >= 1) {
+    scr_event_build_teleport(r_bct_guilderBoard01, 208, 176);
+}
+else if (scr_quest_get_state("guilderFail") == 1) {
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Dang... they keycard doesn't work anymore.)");
+}
+else {
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(It won't budge...)");
+}
+*/

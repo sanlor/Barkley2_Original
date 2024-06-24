@@ -1,0 +1,4 @@
+// scr_event_action_lemuel_bowl_add
+
+/*scr_lemuel_bowl_add(argument0[| 1]);
+scr_event_advance(id);

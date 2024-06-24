@@ -1,0 +1,479 @@
+/*
+	scr_sw1_baldomerofake.txt
+	this script is for the
+	fake corpse, left by baldomero as a decoy in the sewers
+	
+----------
+REQUIRED RESOURCES
+	
+	Sitting dwarf, time < 3
+	(also Standing Dwarf, true Baldomero)
+----------
+NOTES
+	none?
+----------
+OVERVIEW
+	
+TIME 1
+	* paper has no effect
+		first examination:
+			puzzled response 0
+		repeat examination:
+			shorter puzzled response 1
+		
+TIME 2
+	have not talked to baldomero:
+		first examination:
+			puzzled response 0
+		repeat examination:
+			shorter puzzled response 1
+	
+	have talked to baldomero
+		first examination:
+			conversation-derived response 2
+		repeat examination:
+			shorter conversation-derived response 3
+			
+TIME 3+
+	seen body before && have read death note
+		first examination:
+			OHHH... it looks different, i don't think it's real 4
+		second examination:
+			OHHH... yeah, this is freaky. 5
+			
+	seen body before && have not read death note
+		first examination:
+			what's up with this thing? it looks different 6
+		second examination:
+			i really don't get it... 7
+	
+	have read death note:
+		first examination:
+			sad response 8
+		repeat examination:
+			shorter sad response 9
+	
+	haven't read death note:
+		first examination:
+			puzzled response 1
+		second examination:
+			shorter puzzled response 2
+----------
+THE OUTCOMES
+	
+	none
+		or
+	recognition of baldomero's body for later undersewers adventures		
+----------
+VARIABLES AND KEYWORDS
+	
+	shorthand
+		tFakeBaldo1 = title_text = "Weird Body"
+		tFakeBaldoID = title_text = "Fake Body"
+		tFakeBaldoNote = title_text = "Dwarf Body"
+		
+		pFakeBaldo = portrait = s_port_fakebaldo
+		
+		tNone = title_text = "";
+		pNone = portrait = -1;
+		
+		d= dialogue_text = 
+		c= choice_text = 
+		
+		.dact
+		.cact
+		.anim
+		.wait
+	
+	quest
+		set_qFakeBaldo( = scr_quest_set_state("qFakeBaldo",x
+		get_qFakeBaldo( = scr_quest_get_state("qFakeBaldo")
+		
+			0 = first interaction
+			1 = repeat interaction
+			2 = touched
+			3 = baldomero talk, first interaction
+			4 = baldomero talk, repeat interaction
+			5 = time > 2, already seen, read note, first interaction
+			6 = time > 2, already seen, read note, repeat interaction
+			7 = time > 2, already seen, no note, first interaction
+			8 = time > 2, already seen, no note, repeat interaction
+			9 = time > 2, haven't seen, read note, first interaction
+			10 = time > 2, haven't seen, read note, repeat interaction 
+		
+		qPlainPaper // seen paper
+			0 or 1
+		qBaldoFakeBody // interacted with fake body
+			0 or 1
+		qBaldoDeadBody // interacted with dead fake body
+			0 or 1
+		qBaldoLetter // interacted with letter
+			0 or 1 or 2
+				1 = interacted wth
+				2 = owned
+----------
+
+		
+*/
+
+if scr_event_obj_init() { // Object initiation
+
+	// initiate any local Object variables here
+	scr_quest_set_state("qFakeBaldo,"0);
+}
+
+else {	// all Event behaviour
+
+if scr_event_init() {	// on Event activation (note: local variables will be discarded when event ends)
+
+	// initiate any local Event variables here
+	scr_init_param(); // reset dialogue parameters
+	
+}
+
+if scr_state_update() { // check conditions, update event State
+
+	// set object State conditions (like 'priority' tabs)
+	state = 0;		// 0 state (inactive)
+	
+	// first state (highest priority)
+	// 'else if' for additional state conditions
+
+	scr_event_activate();	// activate Event
+}
+
+if scr_advance() and scr_state_execute() {	// perform the next Action on execution
+
+	// switch case for defined States (like 'priority' tabs)
+	switch state {
+	
+/* 
+	time = 1
+	
+	not yet spoken to
+			AND
+	already spoken to
+	
+	0 = first interaction
+	1 = repeat interaction
+*/
+		case 1:
+			switch action {
+				case 0:
+					tHoopz
+					pHoopz
+					if get_qFakeBaldo = 1 { // REALLYBAD
+						d= "(This guy is really weird. I can't see his face but his skin looks like the material [stuff] they use to make ______)."
+					} else {
+						d= "Hey, what are you doing all the way down here?"
+					}
+					.dact
+					break;
+				case 1:
+					tFakeBaldo1
+					pFakeBaldo
+					d= "...";
+					.dact
+					break;
+				case 2:
+					tHoopz
+					pHoopz
+					d= "Are you awake?";
+					if get_qFakeBaldo = 1 {
+						scr_event_end();
+					} else {
+					.dact
+					}
+					break;
+				case 3:
+					tFakeBaldo1
+					pFakeBaldo
+					d= "...";
+					.dact
+					break;
+				case 4:
+					tHoopz
+					pHoopz
+					d= "Are you alive?";
+					.dact
+					break;
+				case 5:
+					tFakeBaldo1
+					pFakeBaldo
+					d= "...";
+					.dact
+					break;
+				case 6:
+					tHoopz
+					pHoopz
+					d= "Ok, well I don't feel comfortable here so I'm going to go. I'm leaving now, okay?";
+					.dact
+					break;
+				case 7:
+					tFakeBaldo1
+					pFakeBaldo
+					d= "...";
+					.dact
+					break;
+				case 8: // REALLYBAD
+					tHoopz
+					pHoopz
+					d= "(I don't know what but something's wrong with this guy and he gives me the creeps.";
+					.dact
+					break;
+				case 9:
+					set_qFakeBaldo(1);
+					scr_event_end();
+					break;
+			}
+			break;	
+			
+/* 	
+	time = 2
+	baldoTalk = 0
+	
+	not yet spoken to
+		AND
+	already spoken to
+			
+	2 = baldomero talk
+	3 = baldomero talk, repeat interaction
+*/
+		case 2: // LOOKAGAIN
+			switch action {
+				case 0:
+				tHoopz
+					tHoopz
+					pHoopz
+					if get_qFakeBaldo = 0 {
+						d= "(Something really weird about this guy... and that guy over there looks just like him)."
+						set_qFakeBaldo = 2;
+					} else {
+						if get_qFakeBaldo < 3 { // REALLYBAD
+						d= "(This weird guy again)."
+						} else {
+						d= "(A fake... pretty darn crafty. But I knew there was something up with this thing)."
+						}
+					}
+					.dact
+					break;
+				case 1:
+				tFakeBaldo1
+					pFakeBaldo
+					d= "...";
+					if get_qFakeBaldo = 3 {
+						scr_event_end();
+					} else {
+					.dact
+					}
+				case 2:
+					scr_event_end();
+					break;
+
+			}
+			break;	
+			
+/* 
+	time = 2
+	baldoTalk = 1
+	
+	not yet spoken to
+		AND
+	already spoken to
+	
+	4 = time > 2, already seen, read note, first interaction
+	5 = time > 2, already seen, read note, repeat interaction
+*/
+		case 3:
+			case 1:
+			switch action {
+				case 0:
+					tHoopz
+					pHoopz
+					if get_qFakeBaldo = 1 { // REALLYBAD
+						d= 
+					} else {
+						d= 
+					}
+					.dact
+					break;
+				case 1:
+					tFakeBaldo1
+					pFakeBaldo
+					d= "...";
+					.dact
+					break;
+				case 2:
+					tHoopz
+					pHoopz
+					d= "Are you awake?";
+					if get_qFakeBaldo = 1 {
+						scr_event_end();
+					} else {
+					.dact
+					}
+					break;
+				case 3:
+					tFakeBaldo1
+					pFakeBaldo
+					d= "...";
+					.dact
+					break;
+				case 4:
+					tHoopz
+					pHoopz
+					d= "Are you alive?";
+					.dact
+					break;
+				case 5:
+					tFakeBaldo1
+					pFakeBaldo
+					d= "...";
+					.dact
+					break;
+				case 6:
+					tHoopz
+					pHoopz
+					d= "Ok, well I don't feel comfortable here so I'm going to go. I'm leaving now, okay?";
+					.dact
+					break;
+				case 7:
+					tFakeBaldo1
+					pFakeBaldo
+					d= "...";
+					.dact
+					break;
+				case 8: // REALLYBAD
+					tHoopz
+					pHoopz
+					d= "(I don't know what but something's wrong with this guy and he gives me the creeps.";
+					.dact
+					break;
+				case 9:
+					set_qFakeBaldo(1);
+					scr_event_end();
+					break;
+			}
+			break;
+			
+/* 
+	time > 2
+	spoke at time 1
+
+	not yet spoken to
+		AND
+	already spoken to
+
+	6 = time > 2, already seen, no note, first interaction
+	7 = time > 2, already seen, no note, repeat interaction
+*/
+		case 4:
+			switch action {
+				case 0:
+					
+					break;
+				case 1:
+					
+					break;
+				case 2:
+					
+					break;
+				case 3:
+					
+					break;
+				case 4:
+					
+					break;
+				case 5:
+					
+					break;
+
+			}
+			break;
+			
+/* 
+	time > 2
+	spoke at time 1
+	
+	not yet spoken to
+		AND
+	already spoken to
+
+	8 = time > 2, haven't seen, read note, first interaction
+	9 = time > 2, haven't seen, read note, repeat interaction
+*/
+		case 5:
+			switch action {
+				case 0:
+					
+					break;
+				case 1:
+					
+					break;
+				case 2:
+					
+					break;
+				case 3:
+					
+					break;
+				case 4:
+					
+					break;
+				case 5:
+					
+					break;
+
+			}
+			break;	
+     
+}
+}}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

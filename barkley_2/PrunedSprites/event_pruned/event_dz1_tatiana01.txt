@@ -1,0 +1,35 @@
+// Event for Tatiana, a gypsy in the Wasteland who shows up in the Industrial Park
+//at time 3, 9 and 10.
+
+
+// TODO Check this out, commented it off to save one millionth of a second on compiles //
+/*
+if (argument0 == SCRIPT_STEP) {
+    if (scr_time_get() == 3) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 9) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 10) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var tatiana = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("tatianaState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Tatiana", NULL, "Tatiana placeholder.");
+            scr_event_build_quest_state("tatianaState", 1);
+        } else {
+            scr_event_build_dialogue("Tatiana", NULL, "Tatiana placeholder 2.");
+        }
+    }
+    scr_event_advance(event);
+}

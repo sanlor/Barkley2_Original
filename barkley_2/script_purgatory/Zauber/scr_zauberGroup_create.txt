@@ -1,0 +1,20 @@
+/// scr_zauberGroup_create(name, desc, sprite_index, image, max_lvl, lvl1_zauber, lvl2_zauber, lvl3_zauber)
+/// Creates a Zauber Group. (I.E. A Zauber.... welcome to naming confusion!)
+/// A zauber group is a group of 1-3 zaubers with all related configurations such as max charge level and stuff.
+
+var zaub = ds_map_create();
+zaub[? "name"] = argument0;
+zaub[? "type"] = ITEMTYPE_ZAUBER;
+zaub[? "desc"] = argument1;
+if (is_string(argument2)) {
+    zaub[? "sprite"] = argument2;
+}
+else {
+    zaub[? "sprite"] = sprite_get_name(argument2);
+}
+zaub[? "image"] = argument3;
+zaub[? "level"] = argument4;
+zaub[? "zauber1"] = argument5;
+zaub[? "zauber2"] = argument6;
+zaub[? "zauber3"] = argument7;
+return zaub;

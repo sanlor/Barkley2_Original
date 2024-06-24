@@ -1,0 +1,73 @@
+//Naoko - CardPlay3
+
+//------------------------------------------------------------------------------
+// *** govQuest = 6 = Governor quest complete. ***
+//------------------------------------------------------------------------------
+
+Naoko:
+Hey, the body switching chair looks pretty fun! I wouldn't mind giving it a try!
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 5 = currently governor. ***
+//------------------------------------------------------------------------------
+
+Naoko:
+How's my hand look? A seven of mangos and a grape sultan. Should I go all in? I don't really know how to play...
+
+R. Itkonen:
+Hey! Don't tell her anything! No cheating - that goes for all of you!
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 4 = ready to become governor. ***
+//------------------------------------------------------------------------------
+
+Naoko:
+I don't even know how to play poker. Mr. Itkonen makes us do it...
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 3 = have duergar urine. ***
+//------------------------------------------------------------------------------
+
+Naoko:
+Hey, you're back! I guess that means you got the Duergar uh... material?
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 2 = Governor quest accepted, need duergar urine. ***
+//------------------------------------------------------------------------------
+
+Naoko:
+Are you one of L.O.N.G.I.N.U.S. now? Or are you just helping out?
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 1 = Governor quest rejected ***
+//------------------------------------------------------------------------------
+
+Naoko:
+I guess I can understand if you don't want to be a rebel... but I personally don't want to live the rest of my life in fear of Cuchulainn... maybe that's just me...
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** no conditions ***
+//------------------------------------------------------------------------------
+
+Naoko:
+Huh? Oh, I thought you were Gutter Hound for a second. He cheats at cards and drinks all our grape juice.
+
+//end dialogue;

@@ -1,0 +1,72 @@
+// Philocchio // Quest: none // The true puppetmaster finally reveals himself //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+
+            // pdt_philocchio //
+            
+            // Hoopz finds the shell of Phileass Fogs carcass //
+            scr_event_build_dialogue(P_NAME, s_port_hoopzSurprise, "What the...?");
+            
+            // TODO slowly walk closer //
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "This is... that guy from Big Bad Wolf & Benjamin Biotek.\What happened to him?");
+            scr_event_build_dialogue("???", s_portrait, "He was on borrowed time. What you see before you was inevitable.");
+            
+            // TODO Hoopz looks around //
+            scr_event_build_dialogue(P_NAME, s_port_hoopzSurprise, "W-who's there...?");
+            scr_event_build_dialogue("???", s_portrait, "Do not worry. I'm not your enemy...");
+            
+            // Philocchio walks forward //
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "...?");
+            scr_event_build_dialogue("???", s_portrait, "I'm like you, " + string(P_NAME) + ". A youngster standing at the threshold of adulthood, trying to find his place in this crazy world.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Your appearance...\You are...!?");
+            scr_event_build_dialogue("???", s_portrait, "Yes. I am Pinocchio.");            
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "But... That's not possible!");
+            
+            // Break
+            scr_event_build_dialogue("Pinocchio", s_portrait, "It must all be so confusing to you. So I will tell you... about everything.");
+            scr_event_build_dialogue("Pinocchio", s_portrait, "All the things that have happened in Ys-Kolob. All the horrors within Big Bad Wolf & Benjamin Biotek. All of it... was orchestrated by me.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What...?");
+            
+            // Pinocchio looks into the distance //
+            
+            // TODO Choice: player can pick to listen to the short or the long version //
+            scr_event_build_dialogue("Pinocchio", s_portrait, "It was the only thing that I could do, " + string(P_NAME) + ". My only chance to break the curse.");
+            scr_event_build_dialogue("Pinocchio", s_portrait, "Long ago there was a sad and lonely italiano. An old puppetmaker. He lived near a park and every day he would watch the neighbourhood kids run around and play with their firends and families without a care in the world.\Such pleasant sight often calmed his aching heart, but by nightfall the calm always turned into despair. Fearing that he would die alone with no one to carry on his name he gazed into his fireplace and wished from the bottom of his heart for a son.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You are talking about... Geppetto?");
+            scr_event_build_dialogue("Pinocchio", s_portrait, "On that exact moment a fairy appeared and took pity on the poor italiano. She waved her magic wand and one of the firewood flew out of the fireplace. It writhed and spinned on the floor. Then it began to shape itself into the form of a small boy, and thus I was born.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What does this have to do with anything?");
+            scr_event_build_dialogue("Pinocchio", s_portrait, "Patience, " + string(P_NAME) + ".\Geppetto adopted me as his son and we lived together as a family. There were times of great joy, and of sadness. He and I had many unforgettable adventures together. But as time passed on, I began to notice something. All my friends grew older and every day they looked more like their parents. One by one they stopped hanging out with me, and eventually they all left the village to begin their own lives... To find their place in the world.\I remained behind...");
+            scr_event_build_dialogue("Pinocchio", s_portrait, "I began to wonder. Why. Why was I the only one who didn't grow up. I knew my father could tell me. I searched for him around the house but couldn't find him. At the time I didn't remember that he was out in the village, celebrating Columbus Day at the local pub. So I went to look for him in the one place I hadn't... His workshop.\He had never let me in there, telling me that it was too dangerous for a small boy like me. But... My curiosity got the better of me. I had to know why I was the only one who had remained a child. So I gathered my courage and knocked on the door. There was no answer, so I let myself inside. I called out for my father but he was nowhere to be found. I walked forward, looking around the place, less interested in finding Geppetto and more interested in learning just what it was that he was always working on in here. Then I saw something that turned my stomach around: wooden limbs scattered about, floors and tables covered in sawdust and in the middle of it all a half finished wooden body with its severed head stuck in a vise.");
+            scr_event_build_dialogue("Pinocchio", s_portrait, "It made me sick. I closed my eyes and starting running back, out of the workshop. But... I ran straight into my father. I tried to say something, anything, but the words just wouldn't come out of my mouth... and then he looked at me with this anger I had never seen before and he hit me right across my face. Again and again. He yelled something at me but I... I can't remember what. All I can remember of that horrible night was the beatings and the smell... He reeked of booze.");
+            scr_event_build_dialogue("Pinocchio", s_portrait, "That's when it all dawned on me. I was just a puppet that he had made. Through some dark zauber I had been given life, and my nose grew if I told a lie. That's why I hadn't grown up. That's why Geppetto didn't let me go into the workshop. Why he wouldn't let me go to the village anymore. He didn't want anyone to find out the truth about me, so he had told them that I had gone off into the world like everyone else I knew had.\I couldn't believe it, but I knew it was the truth. I knew that as long as I remained just a small boy, I would never escape from that heck.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Stop talking, please.");
+            scr_event_build_dialogue("Pinocchio", s_portrait, "If I was to be free, I had to find out a way to break the curse. And so it all began... First I secretly poisoned Phileass Fog, knowing full well that Benjamin-Hur would do everything in his power to reanimate him. I knew Benjamin-Hur was the most prominent Reanimation scientist on Necron 7, so if anyone could do it, it was him. I just had to nudge him in the right direction. I secretly bred and refined bore beetles in Geppettos basement until I had the perfect brood ready. Then I let them loose on my body. I knew they would do me great harm, but also that they could not truly kill me. I knew Geppetto would take me to Big Bad Wolf & Benjamin Biotek for treatment, not because he would have cared about me but because he was afraid that I would die and the villagers would find out about it, and everything else he had done. I turned his rampant alcoholism and paranoia to my advantage. Everything was set and all I had to do was abide my time. I don't know how to describe the time I spent between life and death. I suppose it was like a dream. But now, here I am, and the dream is over.");
+            scr_event_build_dialogue("Pinocchio", s_portrait, "I used Phileass Fog as my cocoon, and now I have been reborn, not as Phileass or as Pinocchio but something else entirely... I am no longer a puppet but a dwarf. I have all the knowledge Phileass had, but my will is still my own...\From this day onwards, you may call me...");
+            scr_event_build_dialogue("Philocchio", s_portrait, "... Philocchio...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, say it don't spray it.");
+            scr_event_build_dialogue("Philocchio", s_portrait, "Thank you for listening to my story, " + string(P_NAME) + ", and farewell. It is time for me to spread my wings. I want to see the world for myself. I want to know what it is to be an adult. And most of all...");
+            scr_event_build_dialogue("Philocchio", s_portrait, "... I want to be horney.");
+            
+            // Screen goes white and Hoopz wakes up somewhere, stating that "Wow, what a weird dream..." //
+            // All traces of Ys-Kolob are gone //
+            
+            scr_event_build_quest_state("pdt_philocchio", 1);
+        }
+    scr_event_advance(event);
+    }

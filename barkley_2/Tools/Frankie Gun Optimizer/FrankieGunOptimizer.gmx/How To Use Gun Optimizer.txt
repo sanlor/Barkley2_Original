@@ -1,0 +1,17 @@
+How the new gun optimizer works:
+
+All guns are broken up into sheets of guns (9 sheets of 9 gun materials with 26 types per material). When the game starts up, no gun sheets are loaded up.
+
+When the game tries to draw a gun sprite, it runs through scr_hud_gun_draw or scr_hud_gun_draw_ext. This script then fetches the right sheet, that sheet is loaded into memory, and the sprite is drawn.
+
+How to generate new gun sheets:
+
+1. Open up FrankieGunOptimizer.
+
+2. Replace the Included File with your latest GUNSGUNSGUNS file, but make sure it's a PNG.
+
+3. Run the game, once it loads the files have been generated.
+
+4. Go to AppData and get the files generated.
+
+5. Replace the current gun sheets in Barkley 2 with the new ones you just made.

@@ -1,0 +1,9 @@
+/// scr_event_action_flip(list)
+/// The list contains the object, image_xscale
+
+with (ds_list_find_value(argument0, 1))
+{
+    image_xscale = ds_list_find_value(argument0, 2);
+}
+
+scr_event_advance(id);

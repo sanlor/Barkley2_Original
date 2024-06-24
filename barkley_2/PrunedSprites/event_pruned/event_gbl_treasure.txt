@@ -1,0 +1,29 @@
+// Treasure dwarfs //
+if (argument0 == SCRIPT_INTERACT) 
+{
+    //show_message("OBJ: " + object_get_name(object_index));
+    //var _int = real(string_replace(object_get_name(object_index), "o_Treasure", "")); //parent create
+    
+    // Hand out a vidcon //
+    Vidcon("give", ind);
+    var event = scr_event_create_main();
+    var __obj = id;
+    with (event) 
+    {
+        scr_event_build_treasure(0, __obj);
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue_item("You've" + ' obtained the vidcon "' + Vidcon("name", __obj.ind) + '."');
+        scr_event_build_treasure(1, __obj);
+        scr_event_build_wait_for_actions();
+    }
+    scr_event_advance(event);
+}
+
+/*
+script = "
+
+WAIT   | 0
+NOTIFY | You've" + ' obtained the vidcon "' + Vidcon("name", __obj.ind) + '."'
+
+WAIT   | 0
+"

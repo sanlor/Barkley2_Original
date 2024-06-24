@@ -1,0 +1,222 @@
+// Coulombe, encounter 4
+// Detective who busts your ass for killing the three duergars around the campfire. Can be avoided by just avoiding the encounter with Coulombe, or by completing the other side of this quest, which is taking the detective job yourself and covering up the murders. This script is SUPPOSED TO auto-trigger when the player comes into range of Coulombe in his various locations. It's worth noting that Coulombe doesn't immediately bust you, he talks with you on four occasions, with the fourth encounter being the one where he will arrest the player.
+// CONTINUITY NOTE: Coulombe will arrest the player in this script. This will either teleport the player to a currently-unwritten IN PRISON section, OR, if the player has completed the pre-requisites, to the jailbreak part of the rebel quest. Neither are scripted as of my writing this, so I will just note where this goes.
+// NOTE: There is slight, currently unscripted movement in this. Ideally it would be Coulombe doing the movement, but seeing as how he probably doesn't need to the sort of range of motion required that the player already has, just writing this as THE PLAYER moves, rather than Coulombe. SOME of it is Coulombe, however, since we need to move him off the screen in order to make him disappear.
+// TERMINOLOGY NOTE: Jumping the gun a bit, but I needed to assign one of our monsters as the monster that ate the duergars in the monster bait route. Laz suggested using a Yeti. I know nothing about this beyond the name, but I liked it enough to go with it. Someone let me know if it shouldn't be Yetis for whatever reason.
+// ITEM NOTE: In the bait route, I have Coulombe give the player some Kobold Giblets. The EDIBLE KIND that his wife made, not the sort that you use to bait monsters. I'm guessing this is a consumable, but idk, this just felt like the right thing to do, where this guy gives you thanksgiving dinner leftovers after arresting you. Maybe this boosts one of the player's skills or something. I have no idea!!!
+// HP NOTE: The player gets his HP restored at the end of the mine route. The wiki's instructions for doing this are unclear, stuff about string stats or whatever that make zero sense to me, so I'm skipping that until I can make sense of it.
+// ANIMATION/SOUND NOTE: The player has the option of pulling their gun on Coulombe and attempting to shoot him in the gun route. Need to figure out the animation for this, the correct sound effects, and how the engine is going to treat this(will it just be the equipped weapon or first in gun bag????)
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("detectiveQuest") == 4) {
+        scr_event_interactive_activate();
+    }
+    else if (Quest("detectiveQuest") == 5) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("detectiveQuest") <= 3) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var coulombe = id;
+    var event = scr_event_create_main();
+    var baitroute4 = scr_event_create_child(event);
+    var mineroute4 = scr_event_create_child(event);
+    var gunroute4 = scr_event_create_child(event);
+    var gunsarrestedsnippet = scr_event_create_child(event);
+
+    with baitroute4 {
+    //baitroute4
+        Dialogue(P_NAME, "Oh, did you figure out what that smell was? Someone was cooking kobold around here?");
+        scr_event_build_dialogue("Coulombe", NULL, "As it turns out, nobody was really cooking kobold. They make little bait sacks out of kobold giblets. It's not really the same as a roast, but it's the same idea. Smells similar.\Lots of wild animals respond to the smell of cooked kobold, so something hunters do is light the sack on fire to bring the game out. It's pretty simple stuff. An old trick. They've been doing it for hundreds of years.\Problem with these duergars is that they didn't seem to know that the animals were coming. Got a big one on them. A Yeti. Caught them completely by surprise. They didn't stand a chance.");
+        Dialogue(P_NAME, "That's pretty rough.");
+        scr_event_build_dialogue("Coulombe", NULL, "You could say that.\Thing is, duergars don't handle unprocessed kobold. They have a bit of a reaction to the tar in them. Any duergar out camping would know this.\So going by the crime scene, someone snuck one of these bait sacks right into their campfire. The Yeti came, and cleaned them right off. Barely a scrap left behind.\The.....uh.....the Yeti was pretty hungry that day.");
+        Dialogue(P_NAME, "So it just ate them?");
+        scr_event_build_dialogue("Coulombe", NULL, "That's right, sir.");
+        Dialogue(P_NAME, "Whole?");
+        scr_event_build_dialogue("Coulombe", NULL, "You'll have to ask the autopsy guys about that one. I just skimmed the report, I didn't want to see the photographs for myself.");
+        Dialogue(P_NAME, "Wow.....");
+        scr_event_build_dialogue("Coulombe", NULL, "That pretty much closes the case, as it turns out. It doesn't matter who put the bait in the fire. That doesn't constitute murder, you know, just baiting a monster.\Which is fortunate for you, sir, because I was pretty certain you were the one who put the bait there.");
+        Dialogue(P_NAME, "Me? What made you think I put that there? I'm not a hunter.");
+        scr_event_build_dialogue("Coulombe", NULL, "Couldn't have been anybody else. I got that nice kid, that Lafayette, to talk to me about a conversation he had with you about the duergars.\Lafayette is a nice kid, but he probably talks too much. I mean, I talk too much, so I'm a bit of an authority on talking too much.\Oh, and then there's that other guy, Compson. He said you bought some bait. Now that guy's just not a very nice guy. Maybe he should keep his mouth shut a little more too.");
+        Dialogue(P_NAME, "But if it wasn't murder, it doesn't matter who put it there, right?");
+        scr_event_build_dialogue("Coulombe", NULL, "Yeah, that's right. I just figured I'd tell you what I know, seeing as how the case is over and everything.\I didn't know what happened to the duergars at first, I was just tying up loose ends, making sure everything made sense. It's my job, you know.\I already handed in my report today, I'm just telling you what I know. I thought you'd be interested.");
+        Dialogue(P_NAME, "In that case, yeah, I was the one who put it there. Those guys were up to no good.");
+        scr_event_build_dialogue("Coulombe", NULL, "Yeah, I thought so. Wanted those duergars out of the way, so you just got the Yeti to do it for you.");
+        Dialogue(P_NAME, "I....yeah, I guess. I wanted to get rid of them. Simple as that.");
+        scr_event_build_dialogue("Coulombe", NULL, "Unfortunately that's not how our duergars died. The Yeti didn't kill them.");
+        Dialogue(P_NAME, "Oh......wait, but you said-");
+        scr_event_build_dialogue("Coulombe", NULL, "Did you know that Yetis have slow digestive systems?? Really slow. Folk like you and me take care of what we've eaten in a day. Not so with a Yeti. Stuff stays in there for a while.\I told you that we managed to catch the one you lured out to the camp. I didn't do it, though. Had one of the young officers do it. Great shot. Me, I can't shoot for nothing. Don't even carry a gun. But that officer was great.\Sad to see the Yeti get taken down, though, but we had some other reports of it stalking around. Sometimes.....you know....\Anyway, the first two duergars it ate were pretty well digested but the third one was still pretty fresh in its system. There weren't many bite marks or scratches on it, looks like it just ate him whole.\That alone doesn't prove anything beyond the fact that he didn't put up much of a fight, but the autopsy showed that his heart and respiratory system stopped completely before the attack.\Kobold does that to duergars, you know, they're extremely allergic to their tar. Chokes 'em right up.\So in fact the Yeti didn't kill those Duergars after all, it just hid the bodies. You killed them.");
+        Dialogue(P_NAME, "What? But wait, you just said that the Yeti killed the duergars before.");
+        scr_event_build_dialogue("Coulombe", NULL, "Sir, I never said that. I told you that the Yeti ate the bodies. I didn't say what killed them.");
+        Dialogue(P_NAME, "Wow.......\You're a pretty sharp guy, you know that?");
+        scr_event_build_dialogue("Coulombe", NULL, "Thank you, sir. I do try my best.");
+        Dialogue(P_NAME, "So.....does......does this mean I have to go to jail now?");
+        scr_event_build_dialogue("Coulombe", NULL, "I'm afraid so.");
+        Dialogue(P_NAME, "Yeah.....\I was just doing it to help the dwarfs. I don't like hurting anybody.");
+        scr_event_build_dialogue("Coulombe", NULL, "I know.\I never said I always liked my job. Days like this I just hate it.\Fortunately I'm on pretty good terms with some people in the prison. I can pull some strings for you. I don't usually get involved like this, but I'll make an exception for you.");
+        Dialogue(P_NAME, "Thanks.");
+        scr_event_build_dialogue("Coulombe", NULL, "Oh, I almost forgot. Last time we talked I promised you some kobold giblets for Thanksgiving.\First thing I did after I left this crime scene was run home and have my wife make some up. Wanted to compare the smell.\Here, I want you to have some. They're really good!\And don't worry about that whole being in jail problem. They'll hold. This stuff lasts for years.");
+        scr_event_build_dialogue("", NULL, "You acquired some homemade Kobold Giblets!");
+        // Player acquires KOBOLD GIBLETS
+        scr_event_build_dialogue_debug("Hundley", NULL, "The player acquires the item kobold_giblets at this point. Not entirely sure what the item does, but if nothing else it should be an HP restorative.");
+        Item("build", "gain", "kobold_giblets", 1);
+        Dialogue(P_NAME, "Thanks......\Wow, this actually smells really good.");
+        scr_event_build_dialogue("Coulombe", NULL, "Thank you, sir. I'll tell my wife you said so.");
+        Dialogue(P_NAME, "Thanks for being so nice to me in all of this, I guess. You could have just punched me out like all the others probably would have.\I'm glad you didn't.");
+        scr_event_build_dialogue("Coulombe", NULL, "You're welcome.\You know, I love my job, but that doesn't mean I have to hate all the people I arrest. Sometimes good people just get on the wrong side of the law.\Doesn't make them right, but it doesn't mean that I'm supposed to hate them.\Well, let's head on over to the prison now, get that sentence of yours over with.");
+        Quest("detectiveQuest", 5);
+        Quest("detectivebaitQuest", 3);
+        // CINEMATIC NOTE: Coulombe leads the player away in some stock ARRESTED sequence that repeats every time they are arrested.
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: A sequence showing the player getting arrested.");
+        // CONTINUITY NOTE: This will transition to either the stock ARRESTED sequence, or the start of the prison quest if the player is currently at rebelQuest=5
+        scr_event_build_dialogue_debug("Hundley", NULL, "TODO: This should transition to either the stock ARRESTED sequence, or the start of the prison quest if the player is currently at rebelQuest=5");
+        scr_event_build_end();
+    }
+
+    with mineroute4 {
+    //mineroute4
+        Dialogue(P_NAME, "Really? It didn't sound like you had much to work with last time we talked. It was just an old mine, wasn't it?");
+        scr_event_build_dialogue("Coulombe", NULL, "That's right, sir. Didn't find much more about it than that, though. It was just the scraps of paper. We think we have a possible lead on what it came from.\But, you know, it's just paper. Could have been sitting there before the bomb was placed. I couldn't get any prints off it, so that was out.\Looks like the case is probably closed, I think. Probably can just forget the whole thing and watch where you're going from now on.");
+        Dialogue(P_NAME, "I guess that's a relief. It still doesn't sound too encouraging that there could be mines around here.");
+        scr_event_build_dialogue("Coulombe", NULL, "You're right. You're right, sir. Can't ever be too careful when you find something like that around.\Could be a lot more of them. You feel like you aren't safe to go anywhere.\Oh yeah, that reminds me, I went to that place you suggested to me, Meinhardt's place. Nice bunch of fellas there. Little guy there told me to say hi if I saw you. Can't for the life of me remember his name....");
+        Dialogue(P_NAME, "Oh....yeah, that's Lafayette.");
+        scr_event_build_dialogue("Coulombe", NULL, "That's right. I'm terrible with names. In one ear, out the other.\Oh, I picked up a little something there I wanted to share with you. Hmm_____._____._____.______._____._____.where did I put that_____._____._____.______._____._____.oh, here it is....\Lafayette told me you picked up some candy the last time you were there. I didn't know you had a sweet tooth.");
+        Dialogue(P_NAME, "Yeah, I love candy. I eat it practically all the time.");
+        scr_event_build_dialogue("Coulombe", NULL, "Yeah? So do I, can't get enough of the stuff. My wife is always hounding me over how much candy I eat.\I bring a box of candy into the house, I'm probably going to finish it in one sitting. It can be a little hard to say no.\So I picked up this box of candy. I told the guy there, just give me exactly what you gave " + P_NAME_F + ". If it's good enough for him, it's good enough for me.\And here it is. It's an advent calendar. The guy there was fiddling with it before he handed it over, I was afraid he was pulling the chocolates out, but they're all there.\I gotta admit though, I went a little crazy with them. I went through nearly the whole calendar. And it's not even Clispaethmas.\But I saved the last one for you. These were so good, I figured you'd like to finish them off.");
+        Dialogue(P_NAME, "Oh.......");
+        scr_event_build_dialogue("Coulombe", NULL, "You don't want it? I thought you liked candy?");
+        Dialogue(P_NAME, "I do, it's just_____._____._____.______._____._____.I'm not really in the mood......");
+        scr_event_build_dialogue("Coulombe", NULL, "Not in the mood? Really? Awww, now that's a shame.\I've been tempted to eat this thing all day. This last one feels a little heavier than the rest. Must be something really special.\You sure you don't want it?");
+        Dialogue(P_NAME, "Uhm......");
+        scr_event_build_dialogue("Coulombe", NULL, "Ok, I'll have the honors, then....");
+        Dialogue(P_NAME, "NO!!! DON'T OPEN IT!!!!!");
+        scr_event_build_dialogue("Coulombe", NULL, "What? Is something wrong?");
+        Dialogue(P_NAME, "Uh, it's.....it's probably gone rotten.....really hot today.....and.......");
+        scr_event_build_dialogue("Coulombe", NULL, "Oh, this isn't the same one I bought from Meinhardt. This is another calendar. One just like it.\I already took the explosives out of the other one, the ones Meinhardt put in. And you know what I found?");
+        Dialogue(P_NAME, "......");
+        scr_event_build_dialogue("Coulombe", NULL, "Exact match. Exact same model of explosive used to kill those duergars.\And the paper from the bottom of the box of the advent calendar matches the scraps of paper I found at the crime scene.\But I think you know this already. I can't think of a good reason why you wouldn't have wanted me to open up that last chocolate.");
+        Dialogue(P_NAME, "........\You're a pretty good detective.");
+        scr_event_build_dialogue("Coulombe", NULL, "Thank you, sir. I try my best.");
+        Dialogue(P_NAME, "Do I have to go to jail now?");
+        scr_event_build_dialogue("Coulombe", NULL, "I'm afraid so.");
+        Dialogue(P_NAME, "Yeah.....\I was just doing it to help the dwarfs. I don't like hurting anybody.");
+        scr_event_build_dialogue("Coulombe", NULL, "I know.\I never said I always liked my job. Days like this I just hate it.\Fortunately I'm on pretty good terms with some people in the prison. I can pull some strings for you. I don't usually get involved like this, but I'll make an exception for you.");
+        Dialogue(P_NAME, "Thanks.");
+        scr_event_build_dialogue("Coulombe", NULL, "You're welcome.\I wasn't lying, you know. This is really good chocolate. And I was saving it for you. I was really hoping you'd just open it and we could go our separate ways.");
+        Dialogue(P_NAME, "Would you have let me go if I had just eaten the chocolate?");
+        scr_event_build_dialogue("Coulombe", NULL, "Yeah. I just couldn't get anything else to stick.\Now go on, have a chocolate.");
+        Dialogue(P_NAME, "Ok. Thanks, I guess.");
+        scr_event_build_dialogue("", NULL, "You regain all your health!");
+        // Player recovers health fully!!!! Hooray!!!
+        scr_event_build_dialogue("Coulombe", NULL, "We better get going.");
+        Dialogue(P_NAME, "Ok.....");
+        Quest("detectiveQuest", 5);
+        Quest("detectivemineQuest", 3);
+        // CINEMATIC NOTE: Coulombe leads the player away in some stock ARRESTED sequence that repeats every time they are arrested.
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: A sequence showing the player getting arrested.");
+        // CONTINUITY NOTE: This will transition to either the stock ARRESTED sequence, or the start of the prison quest if the player is currently at rebelQuest=5
+        scr_event_build_dialogue_debug("Hundley", NULL, "TODO: This should transition to either the stock ARRESTED sequence, or the start of the prison quest if the player is currently at rebelQuest=5");
+        scr_event_build_end();
+    }
+
+    with gunroute4 {
+    //gunroute4
+        Dialogue(P_NAME, "Are you still on that case? It sounded like it was pretty much over the last time we talked. All the duergars just shot each other, right?");
+        scr_event_build_dialogue("Coulombe", NULL, "Maybe. That's what everybody thought at first when I brought the bullets back. Sometimes it's something as easy as that, isn't always homicide.");
+        Dialogue(P_NAME, "That's probably what it was, then.");
+        scr_event_build_dialogue("Coulombe", NULL, "Well, the thing is the crime scene we put together. When you've got people shooting at each other you find the bodies fall in opposite directions.\You know what I mean? Like two guys are shooting at each other, pow-pow! Then they fall away from each other from the force of the bullets, right?");
+        Dialogue(P_NAME, "Makes sense.");
+        scr_event_build_dialogue("Coulombe", NULL, "But that didn't happen here. All the bodies fell in the same direction. That wouldn't have happened if they were in a gunfight with each other. There's just no way! We can cross that one out entirely, unfortunately.\So that leaves one of two things: One, the Duergars all shot themselves. I've seen that before, really sad business when it happens, but Duergars have the lowest suicide rate of any species we've got record on.\The census says that 5,323 Cybergremlins kill themselves for every one Duergar that kills themself. So we can put that possibility aside, it's just not likely.\The other possibility is that there was fourth person there, and he shot all the Duergars himself.");
+        Dialogue(P_NAME, "Wow. That sounds pretty hard to believe. Do you really think one guy could kill three duergars? They're tough guys.");
+        scr_event_build_dialogue("Coulombe", NULL, "Well sir, we've been able to put together a pretty comprehensive crime scene. There's no other logical explanation for what happened.\Then there's the bullet casings we recovered from the crime scene.\You see, all the gun's that get processed at the utility station gets assigned a unique little serial number that the gun stamps onto every bullet fired. Every single one. I could go to the other side of Necron 7, fire a bullet at the ground, and somebody who came along could tell that it was me who fired that bullet.\It's one of those extra features not too many people even know about these utility stations. Even I didn't know. Spent most of a day trying to figure out what those little numbers were on all the bullets.");
+        Dialogue(P_NAME, "Well....gun's change hands a lot around here don't they? How can it keep track of that?");
+        scr_event_build_dialogue("Coulombe", NULL, "It's really interesting stuff. These stations actually analyze the gun to determine how long the user has been holding it.\So if you fired a bullet right now, gave me the gun, and I fired a bullet, and then gave it to somebody else, it'd be able to analyze the characteristics of the gun and determine three separate holders, and then determine which of us fired the bullets in question.\I think this is just really fun stuff. I didn't even know something like this existed.");
+        Dialogue(P_NAME, "Yeah, neither did I.....");
+        scr_event_build_dialogue("Coulombe", NULL, "Yeah....\So, we ran the check on the bullets, and the utility station determined that you were the one who fired the bullets.");
+        Dialogue(P_NAME, ".......");
+        scr_event_build_dialogue("Coulombe", NULL, "Do you have any memory of shooting those three duergars?");
+        var gun4choice1 = Choice("Did you shoot those three duergars?", NULL);
+        with (ChoiceAdd(gun4choice1, "You got me. I did it.")) {
+            Dialogue(P_NAME, "You got me. I did it.");
+            scr_event_build_dialogue("Coulombe", NULL, "I know. It's better that you confessed. You'll get a shorter sentence this way.");
+            Dialogue(P_NAME, "Yeah.....\Do I have to go to prison now?");
+            Snippet(gunsarrestedsnippet);
+        }
+        with (ChoiceAdd(gun4choice1, "Wasn't me.")) {
+            Dialogue(P_NAME, "Wasn't me. I think you should double-check those utility stations. I don't have any memory of doing this.");
+            scr_event_build_dialogue("Coulombe", NULL, "Well, I did double-check. And triple-checked, and quadruple-checked. The results have always been the same.\But I did find another interesting feature of those utility stations. Apparently they have the ability to disable all the firearms of any user in its system. That person can pull the trigger on their gun's all day and nothing's ever going to happen.\I had to get a court order for this. They thought I was crazy, none of them ever heard of the utility stations even having this feature. So they let me disable your gun's. They shouldn't be able to fire right now.");
+            Dialogue(P_NAME, "Well you're already wrong, then. I was firing this just a few minutes ago. Can I go now?");
+            scr_event_build_dialogue("Coulombe", NULL, "I sent the word to have your gun's disabled just before we started talking. They shouldn't be able to fire now.\If you're really that sure of your gun's I want you to try shooting me.");
+            Dialogue(P_NAME, "What, you want me to shoot you?");
+            scr_event_build_dialogue("Coulombe", NULL, "If those gun's didn't belong to you, then the safety mechanism shouldn't be engaged and you should be able to shoot me.\If you can't fire, then that means the murder weapons belong to you.");
+            Dialogue(P_NAME, "This is a pretty stupid idea, you know. I could kill you. Is it really worth doing this?");
+            scr_event_build_dialogue("Coulombe", NULL, "I'm willing to bet my life on this, sir. It's your choice.");
+            var gun4choice2 = Choice("I'm willing to bet my life on this, sir.", NULL);
+            with (ChoiceAdd(gun4choice2, "You got me. I did it.")) {
+                Dialogue(P_NAME, "You got me. I did it.");
+                scr_event_build_dialogue("Coulombe", NULL, "I know. It's better that you confessed. You'll get a shorter sentence this way.");
+                Dialogue(P_NAME, "Yeah.....\Do I have to go to prison now?");
+                Snippet(gunsarrestedsnippet);
+            }
+            with (ChoiceAdd(gun4choice2, "Shoot him.")) {
+                Dialogue(P_NAME, "Ok. I'm sorry for doing this.");
+                scr_event_build_dialogue("Coulombe", NULL, "......");
+                scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player aims their gun at Coulombe. A long pause. We hear a click. Then a few more clicks.");
+                // CINEMATIC NOTE: The player aims their gun at Coulombe. A long pause. We hear a click. Then a few more clicks.
+                scr_event_build_dialogue("Coulombe", NULL, "......");
+                Dialogue(P_NAME, "Huh. I guess those utility stations do really work. You're really brave.");
+                scr_event_build_dialogue("Coulombe", NULL, "You don't know how relieved I am. I experimented with everyone I could find down at the station first and it only locked the gun's about fifty percent of the time.\Even then, the locks only last a day or two, sometimes a lot less. I had one lock that only lasted two minutes. The lock could have kicked out while we were talking.");
+                Dialogue(P_NAME, "I guess it's just not my day, is it?\Is this the part when you take me off to jail?");
+                Snippet(gunsarrestedsnippet);
+            }
+        }
+    }
+
+    with gunsarrestedsnippet {
+    //gunsarrestedsnippet
+        scr_event_build_dialogue("Coulombe", NULL, "I'm afraid so.");
+        Dialogue(P_NAME, "Yeah.....\I was just doing it to help the dwarfs. I don't like hurting anybody.");
+        scr_event_build_dialogue("Coulombe", NULL, "I know.\I never said I always liked my job. Days like this I just hate it.\Fortunately I'm on pretty good terms with some people in the prison. I can pull some strings for you. I don't usually get involved like this, but I'll make an exception for you.");
+        Dialogue(P_NAME, "Thanks.");
+        scr_event_build_dialogue("Coulombe", NULL, "We better get going, sir. Someone leaked the news that there's a pending arrest in the case, we should really try beating the mobs....");
+        Quest("detectiveQuest", 5);
+        Quest("detectivegunQuest", 3);
+        // CINEMATIC NOTE: Coulombe leads the player away in some stock ARRESTED sequence that repeats every time they are arrested.
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: A sequence showing the player getting arrested.");
+        // CONTINUITY NOTE: This will transition to either the stock ARRESTED sequence, or the start of the prison quest if the player is currently at rebelQuest=5
+        scr_event_build_dialogue_debug("Hundley", NULL, "TODO: This should transition to either the stock ARRESTED sequence, or the start of the prison quest if the player is currently at rebelQuest=5");
+        scr_event_build_end();
+    }
+
+
+
+    with (event) {
+        if (Quest("detectiveQuest") == 4) {
+            scr_event_build_dialogue("Coulombe", NULL, "Good morning, sir! How are you?");
+            // MOVEMENT NOTE: The player approaches Coulombe.
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player walks up to Coulombe.");
+            Dialogue(P_NAME, "Hey there, detective. I'm not doing so great. My ear hurts for some reason. It's ringing all day.\I dunno. It's probably nothing.");
+            scr_event_build_dialogue("Coulombe", NULL, "Ears ringing, huh? Son of a gun. You know, my wife said the same thing today. Maybe there's something going around.");
+            Dialogue(P_NAME, "I hope she feels better. How are you doing today?");
+            scr_event_build_dialogue("Coulombe", NULL, "Oh, not so bad. I can't complain.\Well......now that you mention it, I've got this really terrible pain in my foot. It starts near the toes and just shoots all the way up my leg. It's whenever I take a step.\This all started when I was fixing something on my deck. One of the boards was rotted out and my foot went right through it. Hurt ever since.\Do you know anything about that? Anything that would help?");
+            Dialogue(P_NAME, "I'm not a doctor, detective. You should probably talk to someone with a diploma.");
+            scr_event_build_dialogue("Coulombe", NULL, "Oh well yeah, yeah. It's just, you know, you play basketball and all. You probably know a thing or two about injuries.");
+            Dialogue(P_NAME, "Not really. I just try to stay in good shape.");
+            scr_event_build_dialogue("Coulombe", NULL, "Yeah, I can see that. You're pretty well-built for your age, I figure.\I guess I just thought: Here's a kid that plays a lot of basketball, carries a lot of gun's around with him, travels to pretty dangerous areas, he probably knows a thing or two about injuries.");
+            Dialogue(P_NAME, "I don't know about that. Is there something you wanted from me, detective?");
+            scr_event_build_dialogue("Coulombe", NULL, "Yeah, we found a little bit more in that duergar case I told you about. A couple more leads.");
+            if (Quest("detectivemineQuest") == 2) {
+                Snippet(mineroute4);
+            }
+            if (Quest("detectivegunQuest") == 2) {
+                Snippet(gunroute4);
+            }
+            if (Quest("detectivebaitQuest") == 2) {
+                Snippet(baitroute4);
+            }
+        }
+    }
+    scr_event_advance(event);
+}

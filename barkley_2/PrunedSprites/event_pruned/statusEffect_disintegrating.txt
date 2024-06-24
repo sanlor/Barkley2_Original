@@ -1,0 +1,161 @@
+/* Template for status effects.
+
+arg0 - Configuration map
+arg1 - Actor to target
+arg2 - Command to execute ("generate", "apply", "step", "draw", "finish")
+arg3 - Other data (e.g. changestat, damaging CombatAttackEntity...)
+
+
+var conf = argument0;
+var actor = argument1;
+var command = argument2;
+var changestat = argument3; // Used only when command = "changestat"
+
+if (command == "generate") {
+    // Copy attack stats into Conf so it can be used as an attack object
+    var atk = scr_stats_newAttackStats();
+    ds_map_copy(conf, atk);
+    ds_map_destroy(atk);
+    // Append basic information
+    scr_statusEffect_generateBasicInfo(conf, statusEffect_disintegrating, 80);
+    conf[? "drainGuts"] = -1;
+    conf[? "drainMight"] = -1;
+    conf[? "drainAcro"] = -1;
+    conf[? "drainLuck"] = -1;
+    conf[? "drainPiety"] = -1;
+    conf[? "drainWeight"] = -1;
+    
+    conf[? STAT_BASE_GUTS] = -5;
+    conf[? STAT_BASE_MIGHT] = -5;
+    conf[? STAT_BASE_AGILE] = -5;
+    conf[? STAT_BASE_LUCK] = -5;
+    conf[? STAT_BASE_PIETY] = -5;
+    conf[? STAT_BASE_WEIGHT] = -5;
+    
+    conf[? STAT_BASE_VULN_BIO] = -5;
+    conf[? STAT_BASE_VULN_COSMIC] = -5;
+    conf[? STAT_BASE_VULN_CYBER] = -5;
+    conf[? STAT_BASE_VULN_MENTAL] = -5;
+    conf[? STAT_BASE_VULN_NORMAL] = -5;
+    conf[? STAT_BASE_VULN_ZAUBER] = -5; 
+
+    conf[? "drainTimes"] = 5;
+    conf[? "hitInterval"] = 5;
+    conf[? "hitTimer"] = 5;
+    
+    conf[? "timerTotal"] = conf[? "timer"];
+    conf[? "effectImage"] = 0;
+    conf[? "effectImageMin"] = 0;
+    conf[? "effectImageMax"] = 4;
+    conf[? "effectY"] = 0;
+
+    conf[? "effectFlickerTimer"] = 0;
+    conf[? "effectFlickerTimerReset"] = 5;
+    conf[? "effectFlickerToggle"] = 1;
+
+    return conf;
+}
+
+else if (!instance_exists(actor)) {
+    return 0;
+}
+
+else if (command == "apply") {
+    // -- On-hit effects --
+    /* In this part, we can take into consideration resistances,
+       the current state of the CombatActor (such as if he already
+       has the status effect on him), etc. 
+            var currentDisintegrating = scr_statusEffect_getFromCombatActor(actor, statusEffect_disintegrating);
+            if (currentDisintegrating == -1)
+                {
+                // Apply //
+                scr_statusEffect_applyNewToCombatActor(actor, conf);
+                
+                // Visuals //
+                //audio_play_sound_on_actor(actor,scr_soundbank_pickSound("affix_disintegrating"),false,70);
+                }
+                else {
+                    // Refresh time on existing
+                    var timer = conf[? "timer"];
+                    timer = max(timer, currentDisintegrating[? "timer"]);
+                    currentDisintegrating[? "timer"] = timer;
+                }
+    return 0;
+} 
+
+else if (command == "step") {
+    // -- Effect to perform each step --
+    scr_fx_statusFlicker(conf, 4, 1);
+    /*
+    var hitTimer = conf[? "hitTimer"];
+    hitTimer -= dt();
+    var drainTimes = conf[? "drainTimes"];
+
+    if (hitTimer <= 0 && drainTimes>0)
+    {
+        conf[? STAT_BASE_GUTS] = conf[? STAT_BASE_GUTS] + conf[? "drainGuts"];
+        conf[? STAT_BASE_MIGHT] = conf[? STAT_BASE_MIGHT] + conf[? "drainMight"];
+        conf[? STAT_BASE_AGILE] = conf[? STAT_BASE_AGILE] + conf[? "drainAcro"];
+        conf[? STAT_BASE_LUCK] = conf[? STAT_BASE_LUCK] + conf[? "drainLuck"];
+        conf[? STAT_BASE_PIETY] = conf[? STAT_BASE_PIETY] + conf[? "drainPiety"];
+        //conf[? STAT_BASE_WEIGHT] = conf[? STAT_BASE_WEIGHT] + conf[? "drainWeight"];
+
+        hitTimer = conf[? "hitInterval"];
+        drainTimes--;
+        conf[? "drainTimes"] = drainTimes;        
+    }
+    
+    conf[? "hitTimer"] = hitTimer;
+    return false;
+}
+
+else if (command == "changestat") {
+    // -- Change RPG stats --
+    /* This is called when a stat should be changed, with the stat (or statgroup)
+       to change in the 'changestat' argument. See scr_stats_genEffectiveStats
+       for reference on when this is called and with which arguments. 
+    if(changestat== STATGROUP_BASICS)
+    {
+        scr_stats_setEffectiveStat(actor, STAT_BASE_GUTS, scr_stats_getEffectiveStat(actor, STAT_BASE_GUTS)     +conf[? STAT_BASE_GUTS]);
+        scr_stats_setEffectiveStat(actor, STAT_BASE_MIGHT, scr_stats_getEffectiveStat(actor, STAT_BASE_MIGHT)   +conf[? STAT_BASE_MIGHT]);
+        scr_stats_setEffectiveStat(actor, STAT_BASE_AGILE, scr_stats_getEffectiveStat(actor, STAT_BASE_AGILE)   +conf[? STAT_BASE_AGILE]);
+        scr_stats_setEffectiveStat(actor, STAT_BASE_LUCK, scr_stats_getEffectiveStat(actor, STAT_BASE_LUCK)     +conf[? STAT_BASE_LUCK]);
+        scr_stats_setEffectiveStat(actor, STAT_BASE_PIETY, scr_stats_getEffectiveStat(actor, STAT_BASE_PIETY)   +conf[? STAT_BASE_PIETY]);
+    }
+    if(changestat== STAT_BASE_VULN_BIO) scr_stats_setEffectiveStat(actor, STAT_BASE_VULN_BIO, scr_stats_getEffectiveStat(actor, STAT_BASE_VULN_BIO)     +conf[? STAT_BASE_VULN_BIO]);
+    if(changestat== STAT_BASE_VULN_COSMIC) scr_stats_setEffectiveStat(actor, STAT_BASE_VULN_COSMIC, scr_stats_getEffectiveStat(actor, STAT_BASE_VULN_COSMIC)     +conf[? STAT_BASE_VULN_COSMIC]);
+    if(changestat== STAT_BASE_VULN_CYBER) scr_stats_setEffectiveStat(actor, STAT_BASE_VULN_CYBER, scr_stats_getEffectiveStat(actor, STAT_BASE_VULN_CYBER)     +conf[? STAT_BASE_VULN_CYBER]);
+    if(changestat== STAT_BASE_VULN_MENTAL) scr_stats_setEffectiveStat(actor, STAT_BASE_VULN_MENTAL, scr_stats_getEffectiveStat(actor, STAT_BASE_VULN_MENTAL)     +conf[? STAT_BASE_VULN_MENTAL]);
+    if(changestat== STAT_BASE_VULN_NORMAL) scr_stats_setEffectiveStat(actor, STAT_BASE_VULN_NORMAL, scr_stats_getEffectiveStat(actor, STAT_BASE_VULN_NORMAL)     +conf[? STAT_BASE_VULN_NORMAL]);
+    if(changestat== STAT_BASE_VULN_ZAUBER) scr_stats_setEffectiveStat(actor, STAT_BASE_VULN_ZAUBER, scr_stats_getEffectiveStat(actor, STAT_BASE_VULN_ZAUBER)     +conf[? STAT_BASE_VULN_ZAUBER]);
+    return 0;
+}
+
+else if (command == "damage") {
+    // -- Actor takes damage --
+    /* This is called when the actor takes damage. The ID of the damaging
+       CombatAttackEntity is provided as arg3. Here you can do things like
+       return damage to attacker or other cool on-hit effects. 
+    // Return 'true' to remove this status effect from the combatactor.
+    return 0;
+}
+
+else if (command == "draw") {
+    // -- Draw effect to perform before CombatActor is drawn --
+    /* This can apply draw effects to the actor, such as change
+       rendering colors, configure a shader, particle effects, etc. 
+       return 0;
+}
+
+else if (command == "draw_post") {
+    // -- Draw effect to perform after CombatActor is drawn --
+    /* This can apply draw effects to the actor, such as change
+       rendering colors, configure a shader, particle effects, etc. 
+       scr_fx_statusDrawEffect(conf, actor, s_effect_affix_TEMP);
+    return 0;
+}
+
+else if (command == "finish") {
+    // -- Action to perform when status effect ends --
+    return 0;
+}

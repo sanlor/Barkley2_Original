@@ -1,0 +1,101 @@
+// Event for Dark Draker, random traveller in the Industrial Park at times 4 and 8.
+
+/*if (argument0 == SCRIPT_START)
+{
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    if (scr_time_get() == 4)
+    {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 8)
+    {
+        scr_event_interactive_activate();
+    }
+    else
+    {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var darkDraker = id;
+    var event = scr_event_create_main();
+    var chup_snippet = scr_event_create_child(event);
+    
+    //-------------------------------
+    //---------CHUP SNIPPET----------
+    //-------------------------------  
+    with (chup_snippet)
+    {
+        Breakout("build", "add", "chupCount");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Maybe I can sell this guy a chup...?)");
+        
+        var chupsell = scr_event_build_choice("Sell Dark Draker a chup?", s_port_hoopz);
+        
+        // Sell Chup
+        with scr_event_build_add_choice(chupsell, "You look like you need a chup.")
+        {
+            Breakout("build", "clear");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa, you sound pretty dangerous. I'm impressed. Sounds like the only thing that could make you tougher is... a hearty chup.");
+            scr_event_build_dialogue("/'The Dark Draker/'", NULL, "Stay thy tongue, churl. I have no truck with chups, nor they with I. Know this: if you attempt to sell your precious... /'chups/'... any further, you'll have to deal with my twin blades Dante and Shardfire. The authorities WILL be informed of this transgression, knave. Begone!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Sh-shucks... looks like I tried to push on the wrong guy...)");
+            scr_event_build_quest_state("darkDrakerChup", 1);
+            scr_event_build_quest_state_add("chupSuspicion", 1);
+            scr_event_build_quest_state_add("drakerChupHandler", 1);
+            scr_event_build_execute_event_script(event_dz1_darkDraker01);
+        }
+        // Don't Sell Chup
+        with scr_event_build_add_choice(chupsell, "Nah, this guy's a weirdo.")
+        {
+            Breakout("build", "clear");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This guy seems pretty strange. I'll try selling to someone else.)");
+        }
+    }
+
+    //-------------------------------
+    //---------MAIN EVENT------------
+    //-------------------------------  
+    with (event)
+    {
+        // Mid-Chup Sale                 
+        if (scr_quest_get_state("drakerChupHandler") == 1)
+        {
+            scr_event_build_quest_state("drakerChupHandler", 0);
+            // Check Suspicion, Arrest if 3
+            if (scr_quest_get_state("chupSuspicion") == 3)
+            {
+                scr_event_build_execute_event_script(event_dz1_chupArrest01); 
+            }
+        }
+        // Already tried to sell Dark Draker a chup.
+        else if (scr_quest_get_state("darkDrakerChup") == 1)
+        {
+            scr_event_build_dialogue("/'The Dark Draker/'", NULL, "So the craven fool returns. Peddle your swill elsewhere, scofflaw. Know this: you have arisen my ire. If indeed we meet beyond these hallowed halls, 'twill be more than just our blades that cross.");
+        }
+        else
+        {
+            // Already spoken.
+            if (scr_quest_get_state("darkDrakerState") == 1)
+            {
+                scr_event_build_dialogue("/'The Dark Draker/'", NULL, "Hmph. You test my patience, whelp. Know this: I've killed a man 7 times before he hit the ground. My wrath is legion; dare not awaken it.");
+                
+            }
+            // Never spoken to before.
+            else
+            {
+                scr_event_build_dialogue("/'The Dark Draker/'", NULL, "They call me... /'the Dark Draker/'. Why? Let's just say... my swoop attacks have the force of a drake's snapping maw. Other names they call me? Heh. Too many to count, but I vlog about repro katanas under the nom de guerre /'Bloodfang X/'. Weapon of choice? Dual-wielded wakizashis. Age? Unknown. Race? Classified. Special move? Zeitgeist of Swords - last thing you'll ever see. If I see you out there in the Necron 7 wilds, I won't hesitate to cut you down if I even SUSPECT you endanger my person or ideals.");
+                scr_event_build_quest_state("darkDrakerState", 1);
+            }
+            // Chup Quest
+            if (scr_chup_available("darkdraker") == true)
+            {
+                scr_event_build_event_snippet(chup_snippet);
+            }
+        }
+    }
+    scr_event_advance(event);
+}

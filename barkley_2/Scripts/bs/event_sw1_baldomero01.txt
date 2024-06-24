@@ -1,0 +1,453 @@
+// Event for Baldomero.
+// usage: event_sw1_baldomero01();
+
+/*
+
+*/
+
+if (scr_event_check_create()) {
+    // Init
+	
+	// identity of Baldomero: Dwarf, Baldomero, Augustine, Carlton
+	scr_event_add_variable(baldomero, baldomero_identity, "Dwarf"); 
+	// for replacing instances of "Dwarf"
+	scr_event_add_variable(baldomero, caught, 0); 
+	
+	// question variables
+	scr_event_add_variable(baldomero, who_are_you, 0);
+	scr_event_add_variable(baldomero, why_you_dressed, 0);
+	scr_event_add_variable(baldomero, what_about_body, 0);
+	scr_event_add_variable(baldomero, what_you_doing, 0);
+	scr_event_add_variable(baldomero, where_you_going, 0);
+	scr_event_add_variable(baldomero, someone_looking, 0);
+	
+	scr_event_add_variable(baldomero, points, 0);
+
+	
+	scr_event_add_variable(baldomero, who_are_you, 0);
+	scr_event_add_variable(baldomero, who_are_you, 0);
+	
+} else {
+    // Build Event
+    var baldomero = id;
+    var event = instance_create(0, 0, o_event);
+	
+    with (event) {
+        if (scr_time_get() == 2) {
+		
+			// INTRO
+			scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "Hey, stop right there! Who are you?"); // DWARF, REALLYBAD
+			scr_event_build_dialogue("X114JAM9", s_port_hoopz, "My name's X114JAM9. And let me ask you something..."); // REALLYBAD
+			
+			// MAIN QUESTION
+			var main_question = scr_event_build_choice("Ask...", s_port_hoopz);
+			if (scr_event_get_variable(baldomero, baldomero_identity) == 0) && (scr_event_get_variable(baldomero, who_are_you == 0)) {  // main_choice_who
+				var main_choice_who = scr_event_build_add_choice(main_question, "Who are you?"); // REALLYBAD
+				with main_choice_who {
+					scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Who are you?"); // REALLYBAD
+					scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "I'm... oh, you don't know who I am?"); // DWARF, REALLYBAD
+					
+					// WHO ARE YOU QUESTION
+					var who_question = scr_event_build_choice("Who is the dwarf?", s_port_hoopz); // REALLYBAD
+					if (scr_event_get_variable(aelfleda, aelfleda_talk) == 1 || scr_event_get_variable(gelasio, gelasio_talk)) == 1 { // who_choice_augustine
+						var who_choice_augustine = scr_event_build_add_choice(who_question, "Augustine.");
+						with who_choice_augustine {
+							scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I know who you are. You're Augustine. Some people in Tir na Nog are really upset with you..."); // REALLYBAD
+							scr_event_build_variable(baldomero, baldomero_identity, "Augustine");
+							scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "Yes, that's exactly right, it's me, Augustine."); // REALLYBAD
+							scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Well, I hope you know there's people looking for you."); // REALLYBAD
+							scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+
+							// AUGUSTINE QUESTION
+							var augustine_question = scr_event_build_choice("Also...", s_port_hoopz); // AUGUSTINE_QUESTION
+							var augustine_choice_explain = scr_event_build_add_choice(augustine_question, ",") // augustine_choice_explain
+							with augustine_choice_explain {
+								scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Well, can you explain yourself?"); // REALLYBAD
+								scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+								scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 1); // increase points and check!!!!!!!!
+								
+								// EXPLAIN QUESTION
+								var explain_question = scr_event_build_choice("Reply...", s_port_hoopz); // EXPLAIN_QUESTION , REALLYBAD
+								var explain_choice_owe = scr_event_build_add_choice(explain_question, "You owe them one.");
+								with explain_choice_owe {
+									scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Well, you definitely owe them one!") // REALLYBAD
+									scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+									scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 1); // increase points and check!!!!!!!!
+									// TELEPORT TO TOP
+								} 
+								if (scr_event_get_variable(gelasio, gelasio_talk) == 1) {
+									var explain_choice_gelasio = scr_event_build_add_choice(explain_question, "Gelasio won't like that.");
+									with explain_choice_gelasio {
+										scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Gelasio won't like hearing that.") // REALLYBAD
+										scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+										scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) - 1); // decrease points and check!!!!!!!!
+										// TELEPORT TO TOP
+									}
+								}
+								var explain_choice_okay = scr_event_build_add_choice(explain_question, "Well, that's okay."); // REALLYBAD
+								with explain_choice_okay {
+									scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Well, that's okay. I understand.") // REALLYBAD
+									scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+									scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.5); // increase points and check!!!!!!!!
+									// TELEPORT TO TOP
+								}		
+							}
+							var augustine_choice_act = scr_event_build_add_choice(augustine_question, "Get your act together.") // augustine_choice_act // REALLYBAD
+							with augustine_choice_act {
+								scr_event_build_dialogue("X114JAM9", s_port_hoopz, "You really need to get your act together."); // REALLYBAD
+								scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "Yes, the shameful Augustine understands this!"); // REALLYBAD
+								
+								// ACT QUESTION
+								var act_question = scr_event_build_choice("Well...", s_port_hoopz); // REALLYBAD
+								var act_choice_okay = scr_event_build_add_choice(act_question, "Okay, just do well.");
+								with act_choice_okay {
+									scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Well, that's okay. I understand.") // REALLYBAD
+									scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+									scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+									// TELEPORT TO TOP
+								}
+								if (scr_event_get_variable(aelfleda, aelfleda_talk) == 1) {
+									var act_choice_money = scr_event_build_add_choice(act_question, "Well, Aelfleda wanted some money..."); // REALLYBAD
+									with act_choice_money {
+										scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Well, Aelfleda wanted some money...") // REALLYBAD
+										scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "Well, what can I do about it?"); // REALLYBAD
+										scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) - 0.0); // decrease points and check!!!!!!!!
+										
+										// AUGUSTINE MONEY QUESTION
+										var augustine_money_question = scr_event_build_choice("Well...", s_port_hoopz); // REALLYBAD
+										var augustine_money_choice_20 = scr_event_build_add_choice(augustine_money_question, "She wants 20 neo shekels."); // REALLYBAD
+										with augustine_money_choice_20 {
+											scr_event_build_dialogue("X114JAM9", s_port_hoopz, "She wants 20 neo-shekels.") // REALLYBAD
+											scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+											scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+											// GET 20 NEO-SHEKELS
+											// TELEPORT TO TOP
+										}
+										var augustine_money_choice_40 = scr_event_build_add_choice(augustine_money_question, "She wants 40 neo-shekels.");
+										with augustine_money_choice_40 {
+											scr_event_build_dialogue("X114JAM9", s_port_hoopz, "She wants 40 neo-shekels.") // REALLYBAD
+											scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+											scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+											// GET 40 NEO-SHEKELS
+											// TELEPORT TO TOP
+										}
+										var_augustine_money_choice_1000 = scr_event_build_add_choice(augustine_money_question, "She wants 1000 neo-shekels.");
+										with augustine_money_choice_1000 {
+											scr_event_build_dialogue("X114JAM9", s_port_hoopz, "She wants 1000 neo-shekels.") // REALLYBAD
+											scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+											scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+											
+											// 1000 SHEKELS QUESTION
+											var k_shekels_question = scr_event_build_choice("Hmm...", s_port_hoopz); // REALLYBAD
+											var k_shekels_choice_take = scr_event_build_add_choice(k_shekels_question, "I'll take what you've got.");
+											with k_shekels_choice_take {
+												scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I'll take what you've got.") // REALLYBAD
+												scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+												scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+												// GET 67 NEO-SHEKELS
+												// TELEPORT TO TOP
+											}
+											var k_shekels_choice_joke = scr_event_build_add_choice(k_shekels_question, "It was just a joke.");//REALLYBAD
+											with k_shekels_choice_joke {
+												scr_event_build_dialogue("X114JAM9", s_port_hoopz, "That was just a joke!") // REALLYBAD
+												scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+												scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+												// GET 0 NEO-SHEKELS
+												// TELEPORT TO TOP
+											}
+											var k_shekels_choice_joke20 = scr_event_build_add_choice(k_shekels_question, "Just joking, only 20.");//REALLYBAD
+											with k_shekels_choice_joke {
+												scr_event_build_dialogue("X114JAM9", s_port_hoopz, "That was just a joke! Only 20!") // REALLYBAD
+												scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+												scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+												// GET 20 NEO-SHEKELS
+												// TELEPORT TO TOP
+											}
+										}
+									}
+								}
+								var act_choice_help = scr_event_build_add_choice(act_question, "How can I help?");
+								with act_choice_help {
+									scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Is there any way I can help?") // REALLYBAD
+									scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+									scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+									
+									// HELP QUESTION
+									var help_question = scr_event_build_choice("Let's see...", s_port_hoopz);
+									var help_choice_money = scr_event_build_add_choice(help_question, "I have some money to spare.")
+									with help_choice_money {
+										scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I have some money to spare.")
+										scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+										scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+										
+										// HELP MONEY QUESTION
+										var help_money_question = scr_event_build_choice("(Neo-shekels: " + string(scr_money_count()) + ") - Give...", s_port_hoopz);		
+										if scr_money_count() < 15 {
+											var help_money_choice_afford = scr_event_build_add_choice(help_money_question, "All I have is " + string(scr_money_count()) + ". But here it is.");
+											with help_money_choice_afford {
+												scr_event_build_dialogue("X114JAM9", s_port_hoopz, "This is all I have, but you can have it.");
+													scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "It's the thought that counts, I appreciate it."); // REALLYBAD
+												scr_event_build_dialogue(NULL_STRING, NULL, "Gave Augustine " + string(scr_money_count()) + " neo-shekels.");
+												scr_event_build_money(-scr_money_count());	
+											}										
+										}
+										else if scr_money_count() >= 15 {
+											var help_money_choice_15 = scr_event_build_add_choice(help_money_question, "I can give you 15 neo-shekels.")
+											with help_money_choice_15 {
+											// dialogue
+											// dialogue											
+											}
+										}
+										if scr_money_count() >= 30 {
+											var help_money_choice_30 = scr_event_build_add_choice(help_money_question, "I can give you 30 neo-shekels.");
+											with help_money_choice_30 {
+											// dialogue
+											// dialogue											
+											}
+										}
+										if scr_money_count() >= 50 {
+											var help_money_choice_50 = scr_event_build_add_choice(help_money_question, "I can give you 50 neo-shekels.");
+											with help_money_choice_50 {
+											// dialogue
+											// dialogue											
+											}
+										}
+										if scr_money_count() > 50 {
+											var help_money_choice_all = scr_event_build_add_choice(help_money_question, "You can have all of my money, " + string(scr_money_count()) + "neo-shekels.");
+											with help_money_choice_all {
+												scr_event_build_dialogue("X114JAM9", s_port_hoopz, "This is all I have, and you can have it.");
+													scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+												scr_event_build_dialogue(NULL_STRING, NULL, "Gave Augustine " + string(scr_money_count()) + " neo-shekels.");
+												scr_event_build_money(-scr_money_count());	
+											}
+										}	
+										var help_money_choice_candy = scr_event_build_add_choice(help_money_question, "I lied. It's my candy money.");
+										with help_money_choice_candy {
+										// dialogue
+										// dialogue									
+										}
+										var help_money_choice_none = scr_event_build_add_choice(help_money_question, "On second thought, there's nothing I can do.");
+										with help_money_choice_none {
+										// dialogue
+										// dialogue
+										}
+									// RETURN TO TOP
+									}
+									var help_choice_candy = scr_event_build_add_choice(help_question, "No way, this is my candy money.")
+									with help_choice_candy {
+										// dialogue
+										// dialogue
+									
+									}
+									var help_choice_no = scr_event_build_add_choice(help_question, "I'd rather not.") // REALLYBAD
+									with help_choice_no {
+										// dialogue
+										// dialogue
+									}
+								}									
+							}
+						}
+	
+					}
+					
+					// CREDITORS
+					if (scr_event_get_variable(aelfleda, aelfleda_talk) || scr_event_get_variable(gelasio, gelasio_talk)) == 1 { // creditor
+						var who_choice_creditors = scr_event_build_add_choice(who_question, "Creditors.");
+						with who_choice_creditors {
+							// dialogue
+							// dialogue
+							// ASKED CREDITOR
+							scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 2); // increase points and check!!!!!!!!
+
+							// CREDITOR QUESTION
+							var creditor_question = scr_event_build_choice("Yes...", s_port_hoopz);
+							var creditor_choice_aelfleda = scr_event_build_add_choice(creditor_question, "Yes, Aelfleda wants her money.")
+							with creditor_choice_aelfleda {
+								scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) - 1); // decrease points and check!!!!!!!!
+								// dialogue
+								// dialogue
+								
+								// AELFLEDA MONEY QUESTION
+								scr_event_build_reset_choice(augustine_money_question);
+								// CAN I STOP THIS HERE ? ? ? ? ? ? ? ? ? ? ?
+							}
+							var creditor_choice_anon = scr_event_build_add_choice(creditor_question, "Yeah, they want their money. You know what I'm talking about.")
+							with creditor_choice_anon {
+								// dialogue
+								// dialogue
+								
+								// ANON MONEY QUESTION
+								var anon_money_question = scr_event_build_choice("They want...", s_port_hoopz);
+								var anon_money_choice_20 = scr_event_build_choice(anon_money_question, "20 neo-shekels."); // REALLYBAD
+								with anon_money_choice_20 {
+									// dialogue
+									// dialogue
+									scr_event_build_money(20);
+								}
+								var anon_money_choice_40 = scr_event_build_choice(anon_money_question, "20 neo-shekels."); // REALLYBAD
+								with anon_money_choice_40 {
+									// dialogue
+									// dialogue
+									scr_event_build_money(40);
+								}
+								var anon_money_choice_1000 = scr_event_build_choice(anon_money_question, "20 neo-shekels."); // REALLYBAD
+								with anon_money_choice_1000 {
+									// dialogue
+									// dialogue
+									scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 1); // increase points and check!!!!!!!!
+									
+									// 1000 SHEKELS QUESTION
+									var k_anon_shekels_question = scr_event_build_choice("Hmm...", s_port_hoopz); // REALLYBAD
+									var k_anon_shekels_choice_take = scr_event_build_add_choice(k_anon_shekels_question, "I'll take what you've got.");
+									with k_anon_shekels_choice_take {
+										scr_event_build_dialogue("X114JAM9", s_port_hoopz, "I'll take what you've got.") // REALLYBAD
+										scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+										scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+										// GET 67 NEO-SHEKELS
+										scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 1); // increase points and check!!!!!!!!
+										// TELEPORT TO TOP
+										scr_event_build_money(67);
+									}
+									var k_anon_shekels_choice_joke = scr_event_build_add_choice(k_anon_shekelsquestion, "It was just a joke.");//REALLYBAD
+									with k_anon_shekels_choice_joke {
+										scr_event_build_dialogue("X114JAM9", s_port_hoopz, "That was just a joke!") // REALLYBAD
+										scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+										scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+										// GET 0 NEO-SHEKELS
+										// TELEPORT TO TOP
+									}
+									var k_anon_shekels_choice_joke20 = scr_event_build_add_choice(k_anon_shekels_question, "Just joking, only 20."); // REALLYBAD
+									with k_anon_shekels_choice_joke {
+										scr_event_build_dialogue("X114JAM9", s_port_hoopz, "That was just a joke! Only 20!") // REALLYBAD
+										scr_event_build_dialogue(scr_event_get_variable(baldomero, baldomero_identity), NULL, "."); // REALLYBAD
+										scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+										scr_event_build_money(20);
+										// TELEPORT TO TOP
+									}
+									
+								}
+								var anon_money_choice_none = scr_event_build_choice(anon_money_question, "None, it's okay."); // REALLYBAD
+								with anon_money_choice {
+									// dialogue
+									// dialogue
+									
+								}
+								
+							}
+						}
+					}
+
+					// CARLTON
+					if (scr_event_get_variable(absalom, carlton_known = 1) || scr_event_get_variable(otherrebelperson, carlton_known = 1)) {
+						var who_choice_carlton = scr_event_build_add_choice(who_question, "Carlton.");
+						with who_choice_carlton {
+							// dialogue
+							// dialogue
+							
+							// CARLTON QUESTION
+							var carlton_question = scr_event_build_choice("So...", s_port_hoopz);
+							var carlton_choice_tell = scr_event_build_add_choice(carlton_question, "Would you like me to tell them anything?");
+							with carlton_choice_tell {
+								//dialogue
+								//dialogue
+							}
+							var carlton_choice_note = scr_event_build_add_choice(carlton_question, "They said you'd have a message.");
+							with carlton_choice_note {
+								//dialogue
+								//dialogue					
+								if (scr_event_get_variable(plain_paper, activated)) == 1 {
+								
+									// NOTE QUESTION
+									var note_question = scr_event_build_choice("Sure...", s_port_hoopz);
+									var note_choice_okay = scr_event_build_add_choice(note_question, "That's fine.")
+									with note_choice_okay {
+										// dialogue
+									}
+									var note_choice_paper = scr_event_build_add_choice(note_question, "But I saw some paper earlier.")
+									with note_choice_paper {
+										// dialogue
+										// dialogue
+										scr_event_build_variable(baldomero, points, scr_event_get_variable(baldomero, points) + 0.0); // increase points and check!!!!!!!!
+										// dialogue
+										// dialogue
+										scr_event_build_item_gain(carltons_note, 1);
+									}
+								}
+								else {
+									// dialogue
+									
+								}
+							}
+						}
+					}
+					// NO
+					var who_choice_no = scr_event_build_add_choice(who_question, "No.");
+					with who_choice_no {
+						// if number of questions < 2 then. . . . . . .
+					} // RETURN TO MAIN CHOICE
+				} // END "WHO ARE YOU" OPTION
+			} // END "WHO ARE YOU" IF/THEN CHECK
+			
+			
+			// WHAT'S THAT BODY?
+			var main_choice_body = scr_event_build_add_choice(main_question, "What's that body?"); // REALLYBAD
+			with main_choice_body {
+				// hoopz dialogue
+				// baldo dialogue
+				if (scr_event_get_variable(baldomero, baldomero_identity)) == "Dwarf" {
+					//dialogue
+					
+				}
+				else if (scr_event_get_variable(baldomero, baldomero_identity)) == "Carlton" {
+					//dialogue
+					
+				}
+				else if (scr_event_get_variable(baldomero, baldomero_identity)) == "Augustine" {
+					//dialogue
+					
+				}
+				else if (scr_event_get_variable(baldomero, baldomero_identity)) == "Baldomero" {
+					if (scr_event_get_variable(baldomero, caught)) == 1 {
+					//dialogue	
+					
+					}				
+				}
+				else (scr_event_get_variable(baldomero, baldomero_identity)) == "" {
+					//dialogue	
+					
+				}
+			}
+			
+			// DRESSED, MAKE THIS DEPENDENT!
+			var main_choice_dressed = scr_event_build_add_choice(main_question, "Why are you dressed the same?"); // REALLYBAD
+			with main_choice_dressed {
+				
+			}
+			
+			// WHAT ARE YOU DOING?
+			var main_choice_doing = scr_event_build_add_choice(main_question, "What's that body?"); // REALLYBAD
+			with main_choice_doing {
+			
+			}
+			
+			// WHERE ARE YOU GOING? 
+			var main_choice_going = scr_event_build_add_choice(main_question, "Where are you going?"); // REALLYBAD
+			with main_choice_going {
+				// generator choice
+			
+			}
+			
+			// SOMEONE'S LOOKING FOR YOU
+			var main_choice_looking = scr_event_build_add_choice(main_question, "You know someone's looking for you?"); // REALLYBAD
+			with main_choice_looking {
+			
+			}
+			
+			
+		}
+		else {}
+		
+	
+	}
+    scr_event_advance(event);
+}

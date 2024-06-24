@@ -1,0 +1,28 @@
+// Event for Bernice, a wasteland lady who saw a Bainshee who shows up in the Industrial Park at time 8.
+
+if (argument0 == SCRIPT_STEP) {
+if (scr_time_get() == 11) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var bernice = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("berniceState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, are you okay? You look kind of shaken up.");
+            scr_event_build_dialogue("Bernice", NULL, "We... I-I-... it... it got them... w-w-we...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, slow down, you're okay. It's safe here, nothing can happen. Now take a deep breath and tell me what happened.");
+            scr_event_build_dialogue("Bernice", NULL, "Okay... okay... I'm okay... we were looking for grapes in the Junk Yard. Five of us, me and my friends from Tir na Nog. We were");
+            scr_event_build_quest_state("berniceState", 1);
+        } else {
+            scr_event_build_dialogue("Bernice", NULL, "We just wanted more grapes... we didn't want any trouble... just grapes...");
+        }
+    }
+    scr_event_advance(event);
+}

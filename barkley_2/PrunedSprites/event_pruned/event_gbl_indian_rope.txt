@@ -1,0 +1,69 @@
+/// event_gbl_indian_rope()
+if (argument0 == SCRIPT_INTERACT) 
+{
+    var event = scr_event_create_main();
+    var __obj = id;
+    var ropInd = ropeIndex;
+    var ldx = objLad.x + (objLad.sprite_width / 2);
+    var ldy = objLad.y + (objLad.sprite_height / 2);
+    with (event) 
+    {
+    if Quest("indianRopeTrick") == 1 then
+        {
+            if (Quest("indianRope" + string(ropInd)) == 0)
+            {
+                with (__obj) event_user(1);
+                Quest("indianRope" + string(ropInd), 1);
+                Dialogue(P_NAME, "Indian Rope, huh? Hmm, let's try that old Fakir trick on this rope.");
+                scr_event_build_music_set(global.bgm_current_music, 0);
+                scr_event_build_wait(0.75);
+                Dialogue(P_NAME, "Rassi... Seedha... Rucko...!");
+                scr_event_build_wait(0.5);
+                scr_event_build_camera_move_to_point(ldx, ldy, CAMERA_NORMAL);
+                scr_event_build_wait_for_actions();
+                scr_event_build_sound_play("sn_indianropetrick01");
+                CreateWait("build", __obj.x, __obj.y, o_ropetrick);
+                scr_event_build_wait_for_actions();
+                scr_event_build_camera_frame(CAMERA_NORMAL, o_cts_hoopz);
+                scr_event_build_wait_for_actions();
+                scr_event_build_music_set(global.bgm_current_music, 1);
+                scr_event_build_dialogue(P_NAME, s_port_hoopzShock, "Jeepers...!");
+            }
+            else
+            {
+                Dialogue(P_NAME, "This rope is hoisted.");
+            }
+        }
+    else
+        {
+        Dialogue(P_NAME, "Hmm, a box full of Indian Rope.");
+        }
+    }
+    scr_event_advance(event);
+}
+
+/*
+script = "
+IF indianRopeTrick == 1 | GOTO | ROPE_TRICK
+
+ROPE_TRICK
+IF indianRope " + string(ropInd) + "== 0 | GOTO | PERFORM_TRICK
+
+PERFORM_TRICK
+with (__obj) event_user(1);
+QUEST | indianRope" + string(ropInd) + " = 1
+DIALOG | P_NAME | Indian Rope, huh? Hmm, let's try that old Fakir trick on this rope.");
+scr_event_build_music_set(global.bgm_current_music, 0);
+WAIT   | 0.75
+DIALOG | P_NAME | Rassi... Seedha... Rucko...!");
+WAIT   | 0.5
+scr_event_build_camera_move_to_point(ldx, ldy, CAMERA_NORMAL);
+WAIT   | 0
+scr_event_build_sound_play("sn_indianropetrick01");
+CreateWait("build", __obj.x, __obj.y, o_ropetrick);
+WAIT   | 0
+scr_event_build_camera_frame(CAMERA_NORMAL, o_cts_hoopz);
+WAIT   | 0
+scr_event_build_music_set(global.bgm_current_music, 1);
+scr_event_build_dialogue(P_NAME, s_port_hoopzShock, "Jeepers...!");
+";

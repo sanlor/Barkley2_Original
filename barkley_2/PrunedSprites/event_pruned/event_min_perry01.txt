@@ -1,0 +1,143 @@
+/* event_min_perry01
+BIO: Mr. Ng's secretary. A bland, milquetoast kind of guy interested mainly in crunching numbers. 
+Doesn't know that crunching numbers isn't an intrinsically violent action. 
+ESSENTIAL PART OF THE BIG BOSS ROUTE.
+
+UPDATE: I can't actually tell if Perry is just that unphased by the player constantly insulting/threatening him here, 
+or if he is that oblivious to his surroundings. It must be OPEN_TO_INTERPRETATION.bat
+
+REQUIRED PART of "ngQuest", which is the quest where the player gets all kinds of keycards and certifications 
+which do NOTHING but let the player access the hidden area of the duergar base. 
+Maybe this does other stuff around the game world too BUT WHO KNOWS?!?!? IT IS A MYSTERY!!!!
+
+Here is the quest breakdown:
+    ngQuest=0 - The player has done NOTHING and is essentially worthless in the eyes of all quest participants.
+    ngQuest=1 - Player has spoken with Perry and given audience with Mr. Ng
+    ngQuest=2 - Player has spoken with Ng and has been [narratively] tasked with FILLING OUT IMPORTANT PAPERWORK
+    ngQuest=3 - Player has gotten the paperwork from Perry.(NOTE: Player can LOSE the paperwork and then ask for it from Perry again.)
+    ngQuest=4 - Player got the FORGED DOCUMENTS from Oolon
+    ngQuest=5 - Player spoke with Perry again and is again granted audience with Mr. Ng
+    ngQuest=6 - Quest complete, just need to talk to Perry again to get the rewards.
+
+I'm probably also going to edit this document later to compensate for Perry physically giving the player this paperwork.
+Only remembered to do this after finishing the script.
+Here is dialogue for if/when the player THROWS ALL THE DOCUMENTS AWAY and needs to ask for more from Perry.
+I'll add it in later so the player can ask Perry for all the paperwork again.
+No reason why he wouldn't have duplicates, Perry is a very dedicated secretary.
+
+P_NAME: Hey, bucko. All that paperwork you gave me was eaten by Wildebeests.\Better give me all that garbage again.
+
+Perry: Sure. Here you go.
+
+P_NAME: Yeah, better keep more copies of this trash on the top of your desk. I'm probably going to lose these too.
+
+PS, VERY IMPORTANT INFO: THIS ITEM ACTUALLY *DOES NOTHING* AS THE ITEM YOU NEED IS THE FILLED OUT VERSION YOU GET FROM OOLON.
+MAYBE WE SHOULD MAKE IT SO IF THE PLAYER FUSES A GUN WITH THIS TOTALLY WORTHLESS ITEM SOMETHING CRAZY/RIDICULOUS HAPPENS?!?!?!?
+*/
+
+/*if (argument0 == SCRIPT_START) {
+    if (Quest("dbaseNPCsState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var perry = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("baseescapeQuest") == 1) {
+            Dialogue("Perry", "Can you please stand a little further away from me? Your odor is interfering with my collating.");
+            scr_event_build_end();
+        } else if (Quest("perryState") == 2) {
+            Dialogue("Perry", "No, no, no. This can't be a real number.\This has to be a fake number.");
+            scr_event_build_end();
+        } else if (Quest("ngQuest") == 6) {
+            Dialogue(P_NAME, "I am gonna report all you knuckleheads to Cuchulainn. He's going to come down here personally and murder you all.");
+            Dialogue("Perry", "Well that's nice. Mr. Ng says for you to have this keycard and badge with all his compliments. You are hereby restored to full duergarhood.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Insert quest rewards, most notably the keycard.");
+            // NOTE: Insert quest rewards in the dialogue here. The keycard MUST be one of the items.
+            Dialogue(P_NAME, "Well done, Perry. I'll make sure he smashes your skull the quickest.");
+            Quest("perryState", 2);
+            scr_event_build_end();
+        } else if (Quest("ngQuest") == 5) {
+            Dialogue("Perry", "Mr. Ng is ready to see you now.");
+            Dialogue(P_NAME, "YOU AREN'T THE BOSS OF ME, PUNK!!!!");
+            scr_event_build_end();
+        } else if (Quest("ngQuest") == 4) {
+            Dialogue("Perry", "Good morning. Do you want to make an appointment to see Mr. Ng?");
+            Dialogue(P_NAME, "Just let me in, fool.");
+            Dialogue("Perry", "Mr. Ng is booked for the entire day. It looks like you're out of luck.");
+            Dialogue(P_NAME, "What time is it?");
+            Dialogue("Perry", "Hmm? Oh, it's 83240:65 galactic space time.");
+            Dialogue(P_NAME, "Yeah whatever that number is you just said, that's what time my appointment is. Just let me in.");
+            Dialogue("Perry", "Oh, you're Mr. Dozier?");
+            Dialogue(P_NAME, "That's exactly who I am, Mr. Dognzer is exactly who I am. Which you'd know if you knew anything at all.\Now get busy buzzing me in unless you want to see Mr. Dogenenzer's signature can of whoop-ass.\Yeah, I did it, I swore. And there's more of that on the way if you think that's where my dislike of you ends.");
+            Dialogue("Perry", "Yes, sir. Right away, sir.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: At this point, the door to Mr. Ng's office opens.");
+            // NOTE: This is the part when the door to Mr. Ng's office opens and the player can enter.
+            Quest("ngQuest", 5);
+            scr_event_build_end();
+        } else if (Quest("ngQuest") == 3) {
+            Dialogue("Perry", "Please let me be. These numbers need crunching.....");
+            scr_event_build_end();
+        } else if (Quest("ngQuest") == 2) {
+            Dialogue(P_NAME, "What a butthole.");
+            Dialogue("Perry", "Mr. Ng has faxed over the appropriate paperwork for your reinstatement.\You must complete the petition for reinstatement within eight (8) business days by accumulating no less than fifty (50) dwarf signatures certifying that you have accomplished the task of murdering them admirably.");
+            Dialogue(P_NAME, "Well! _______________That's not going to happen.\I'll be back if I can find some way to forge this stupid document.");
+            Dialogue("Perry", "Spoken like a true duergar. Good day.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "ITEMS: Perry gives the player the reinstatement form.");
+            // Perry gives the player the 'reinstatement form'
+            Quest("ngQuest", 3);
+            scr_event_build_end();
+        } else if (Quest("ngQuest") == 1) {
+            Dialogue("Perry", "Mr. Ng is ready to see you now.");
+            Dialogue(P_NAME, "YOU AREN'T THE BOSS OF ME, PUNK!!!!");
+            scr_event_build_end();
+        } else if (Quest("perryState") == 1) {
+            Dialogue(P_NAME, "I stole all the candy off your desk when you weren't looking.\I ate them all already. You can't have them back.");
+            Dialogue("Perry", "Oh, yes, this is quite interesting. Carry the three.....\Did you want something? Mr. Ng is free if you'd like.");
+            Dialogue(P_NAME, "Who the heck are you all of a sudden? Why should I care about this guy?");
+            var choice2 = Choice("He's the big boss. He's in charge of everything.", s_port_hoopz);
+            with (ChoiceAdd(choice2, "Don't care.")) {
+                Dialogue(P_NAME, "Don't care.");
+                Dialogue("Perry", "Well if there's anything else you need, just come b-");
+                Dialogue(P_NAME, "DON'T CARE DON'T CARE DON'T CARE DON'T CARE");
+            }
+            with (ChoiceAdd(choice2, "Let me talk to this jerk.")) {
+                Dialogue(P_NAME, "Let me talk to this jerk then. I bet I could straighten his tukkis out.");
+                Dialogue("Perry", "Ok. He's free right now so I can buzz you in. What did you say your name is?");
+                Dialogue(P_NAME, "My name is Mr. 11, for all the eleven dents I'm going to put in your stupid head if you don't let me in to see the boss.");
+                Dialogue("Perry", "That's a great number. You can go in Mr. 11.");
+                Quest("ngQuest", 1);
+            }
+        } else {
+            Dialogue(P_NAME, "Hey wiseguy, what do you think you're doing?");
+            Dialogue("Perry", "Numbers. I love crunching numbers. I can crunch numbers all day. I will crunch the numbers until they beg for mercy.");
+            Dialogue(P_NAME, "Is that all you do here? Just sit here with numbers? You should file a complaint with Clispaeth for dealing you the worst possible hand in life.");
+            Dialogue("Perry", "I'm also Mr. Ng's secretary, but this is just my day job. No numbers are safe from my crunching. I will crunch all the numbers before I die.");
+            Dialogue(P_NAME, "Who is this Mr. Ng? At worst I bet he's a million times more interesting than you are.");
+            Dialogue("Perry", "Oh, he's the big boss. He's in charge of everything. Except crunching numbers, I'm the guy for that.");
+            var choice1 = Choice("He's the big boss. He's in charge of everything.", s_port_hoopz);
+            with (ChoiceAdd(choice1, "Don't care.")) {
+                Dialogue(P_NAME, "Don't care.");
+                Dialogue("Perry", "Well if there's anything else you need, just come b-");
+                Dialogue(P_NAME, "DON'T CARE DON'T CARE DON'T CARE DON'T CARE");
+                Quest("perryState", 1);
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice1, "Let me talk to this jerk.")) {
+                Dialogue(P_NAME, "Let me talk to this jerk then. I bet I could straighten his tukkis out.");
+                Dialogue("Perry", "Ok. He's free right now so I can buzz you in. What did you say your name is?");
+                Dialogue(P_NAME, "My name is Mr. 11, for all the eleven dents I'm going to put in your stupid head if you don't let me in to see the boss.");
+                Dialogue("Perry", "That's a great number. You can go in Mr. 11.");
+                scr_event_build_dialogue_debug("Hundley", NULL, "TODO: At this point, the door to Mr. Ng's office opens.");
+                // NOTE: This is the part when the door to Mr. Ng's office opens and the player can enter.
+                Quest("ngQuest", 1);
+                scr_event_build_end();
+            }
+        }
+    }
+    scr_event_advance(event);
+}

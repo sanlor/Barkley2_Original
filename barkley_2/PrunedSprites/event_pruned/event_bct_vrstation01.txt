@@ -1,0 +1,72 @@
+/*/ Event for the VR Terminal
+You will first need to talk to the VR Station Manager (the person in the walls of the Brain City VR Farm that hands you the items you buy in Brain City) and he will set up up with an password.
+
+VR Station Variables
+vrwStationState == 0 - Hoopz is seeing the Station for the first time
+vrwStationState == 1 - Hoopz knows what the VRW station is.
+
+vrwAccount == 0 - no account
+vrwAccount == 1 - created an account
+
+vrwInside == 0 - You are outside VRW
+vrwInside == 1 - You are inside VRW
+
+*/
+if (argument0 == SCRIPT_START) {
+}
+else if (argument0 == SCRIPT_STEP) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var vrstation = id;
+    var event = scr_event_create_main();
+   
+    with (event) {
+        //If Hoopz has signed up for an account with VRW.  This also check to see if you are in Brain City, then it sends you to VRW
+        if (scr_quest_get_state("vrwAccount") == 1) && (room == r_bct_vrStations01) {
+            var vrwLogin = scr_event_build_choice("Jack in to VRW?", s_port_hoopz); 
+            var vrwConfirm = scr_event_build_add_choice(vrwLogin, "Yes");
+            
+            with vrwConfirm {
+                //TODO: add in VR Jack In Animation and transision
+                scr_event_build_dialogue_debug("Bhroom", NULL, "Hoopz hops into the intimidating VRW Chair and Jacks in!  The animation plays and then you are teleported to the VRW!");
+                scr_event_build_teleport(r_bct_vrw_town01, 472, 168 + 8);
+            }
+            with (scr_event_build_add_choice(vrwLogin, "No")) {
+                    scr_event_build_end();
+            }
+        }
+        
+        //If Hoopz has not signed up for VRW (He'll have a first reaction to the chair, and then a second one once he knows what it is.)
+        else if (scr_quest_get_state("vrwAccount") != 1) {
+            // If Hoopz knows about the machine, but does not have an account
+            if (scr_quest_get_state("vrwStationState") == 1) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'll need to get an account before I use this machine.");
+            }
+            // If Hoopz doesn't know about the VRW Station
+            else if (scr_quest_get_state("vrwStationState") == 0) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's the scariest dentist chair I've ever seen.  Good thing Choco-Mallows are so good for my teeth I never have to go to one.");
+            }            
+            else if ((room == r_bct_vrw_town01)) {
+                scr_event_build_teleport(r_bct_vrStations01, 128, 192);
+            }
+        }
+        // If you are already in VRW, then you get sent back to Brain City
+        else if (scr_quest_get_state("vrwAccount") == 1) && (room == r_bct_vrw_town01) {
+            var vrwLogout = scr_event_build_choice("Log out of VRW?", NULL); //was s_port_hoopz; 
+            var vrwConfirm = scr_event_build_add_choice(vrwLogout, "Yes");
+            
+            with vrwConfirm {
+                //TODO: add in VR Jack In Animation and transision
+                scr_event_build_dialogue_debug("Bhroom", NULL, "Hoopz' Untamo fades away and he gets teleported back to Brain City.");
+                scr_event_build_quest_state("vrwInside", 0);
+                scr_event_build_user(o_vrw_town, 10);
+                scr_event_build_teleport(r_bct_vrStations01, 144, 168);
+            }
+            with (scr_event_build_add_choice(vrwLogout, "No")) {
+                    scr_event_build_end();
+            }
+        }
+    }
+    scr_event_advance(event);
+}

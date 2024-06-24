@@ -1,0 +1,989 @@
+// event_bct_superRobot01
+// s_superRobot01
+// o_superRobot01
+
+/*
+if (argument0 == SCRIPT_START) {
+
+    // run scr_superRobot_init() ... 
+    // this builds supergrid and improvemap if they are not yet built
+    scr_superRobot_init();
+    
+    // load supergrid and improvemap
+    global.supergrid = scr_savedata_get("supergrid");
+    global.improvemap = scr_savedata_get("improvemap");
+    
+    // correctly set "superEmpty"
+    scr_quest_set_state("superEmpty", 0);
+    for (var e = 0; e < ROOMS_TOTAL; e += 1) {
+        if (global.supergrid[| (RP * e) + 0] == "EMPTY") {
+            scr_quest_set_state("superEmpty", scr_quest_get_state("superEmpty") + 1);
+        }
+    }
+
+    // get locations!
+    scr_superRobot_location();
+    
+    // if room is correct, place superRobot at coordinates & proper animation
+    if (scr_quest_get_state("superRobotLocation") == room) {
+        scr_event_set_object(o_superRobot01, scr_quest_get_state("superRobotX"), scr_quest_get_state("superRobotY"));
+        
+        /* needs to be fixed!
+        with o_superRobot01 {
+            scr_entity_animation_setFrame(scr_quest_get_state("superRobotAnim"), 0);
+        }
+        */
+        /*
+    }
+    // else, delete object and its solid
+    else {
+        scr_actor_unsetRigid(id);
+        instance_destroy();
+    }
+}
+else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var superRobot = id;
+    var event = scr_event_create_main();
+    
+    var super_snippet = scr_event_create_child(event);
+    var room_snippet = scr_event_create_child(event);
+    var evict_snippet = scr_event_create_child(event);
+    var manage_snippet = scr_event_create_child(event);
+    var manage_confirm_snippet = scr_event_create_child(event)
+    
+    var supername = "SUPER";
+    var superport = s_portrait;
+    
+    var improvements = 1;
+    var avg = scr_quest_get_state("superRentAverage")
+    var value = scr_quest_get_state("superApparent");
+    if value == 0 { value = 1; }
+    var util = avg / value;
+    //var value = string(value); 
+    
+    var rID = 1 //scr_quest_get_state("superRoomLoop");
+    
+    
+    //-------------------------------------------------------------------------------------------------------
+    // main event
+    //-------------------------------------------------------------------------------------------------------
+    with (event) {
+        
+        // if mid-Management, confirm management selection
+        if (scr_quest_get_state("superManageLoop") == 2) {
+            scr_event_build_event_snippet(manage_confirm_snippet);
+        }
+        // send to room_snippet if Room Info was selected
+        if (scr_quest_get_state("superRoomLoop") >= 1) {
+            scr_event_build_event_snippet(room_snippet);
+        }
+        // send to evict_snippet if Evict Tenant was selected
+        else if (scr_quest_get_state("superEvictLoop") == 1) {
+            scr_event_build_event_snippet(evict_snippet);
+        }
+        // send to action_snippet if Manage Property was selected
+        else if (scr_quest_get_state("superManageLoop") == 1) {
+            scr_event_build_event_snippet(manage_snippet);
+        }
+        // canceled out of a menu - send back to super_snippet
+        else if (scr_quest_get_state("superGoBack") == 1) {
+            scr_event_build_quest_state("superGoBack", 0);
+            scr_event_build_event_snippet(super_snippet);
+        }
+        // send to super_snippet if the Super has been turned on
+        else if (scr_quest_get_state("superOn") == 2) {
+            // normal dialogue
+            if (scr_quest_get_state("superImprove") == "NONE") {
+                // was JUST angry
+                if (scr_quest_get_state("superMean") == 1) {
+                    scr_event_build_dialogue("SUPER", superport, string_upper("My liege! I deeply apologize for my behavior while I was working earlier. Something comes over me when I get to renovating."));
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I understand. I get a little bit like that when I "); //RM //TODO
+                    scr_event_build_dialogue("SUPER", superport, string_upper("Thank you for not holding it against me. Now, what can I do for you?"));
+                    scr_event_build_quest_state("superMean", 2);
+                }
+                // pre-anger, or already WAS angry
+                else {
+                    scr_event_build_dialogue("SUPER", superport, string_upper("Welcome back, my liege. How may I assist you?"));
+                }
+            }
+            // busy working dialogue
+            else {
+                // 2+ times
+                if (scr_quest_get_state("superMean") >= 1) {
+                    scr_event_build_dialogue("SUPER", superport, string_upper("Just can't leave me alone to work, can you? Okay, let's hear it."));
+                }
+                // first time
+                else {
+                    scr_event_build_dialogue("SUPER", superport, string_upper("Hey, can't you see I'm trying to work here!?"));
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Wow, he's like a different robot when he's working...)");
+                    scr_event_build_dialogue("SUPER", superport, string_upper("Spit it out, what do you want?"));
+                    // update quest state
+                    scr_event_build_quest_state("superMean", 1);
+                }
+            }
+            scr_event_build_event_snippet(super_snippet);
+        }
+        // the very first time you get to use the super robot menu
+        else if (scr_quest_get_state("superOn") == 1) {
+            scr_event_build_quest_state("superOn", 1);
+            scr_event_build_event_snippet(super_snippet);
+        }
+        // turn on the Super if the Guilderberg Deed is ON
+        else if (scr_quest_get_state("guilderDeed") >= 1) {
+            if (scr_quest_get_state("guilderDeed") == 1) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey! Hey! The Guilderbergs told me about you. You're the super?");
+                scr_event_build_dialogue("Machine", superport, "...");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hm, this slot here says /'SCAN/'.");
+                scr_event_build_quest_state("guilderDeed", 2);
+            }
+            var scan = scr_event_build_choice("Scan the deed?", s_port_hoopz);
+            var scan_yes = scr_event_build_add_choice(scan, "Yes, scan the deed.");
+            with (scan_yes) {
+                // TODO: printing/scanning/paper sfx
+                scr_event_build_dialogue_debug("bort", NULL, "Hoopz /'interact/' animation here.");
+                scr_event_build_dialogue_debug("bort", NULL, "Scan sfx.");
+                scr_event_build_dialogue_item("Inserted the deed.");
+                Item("build", "lose", "Guilderberg Deed", 1);
+                scr_event_build_dialogue_debug("bort", NULL, "A bunch of lights flicker and flash, grinding noise!");
+                // "Inserted the deed."
+                // TODO: a bunch of lights flicker and flash, grinding noise
+                scr_event_build_dialogue("SUPER", superport, "... I KNOW, I KNOW, I TOLD YOU I'LL GET TO IT. I JUST NEED SOME TIME FOR THE PAR-");
+                scr_event_build_wait(1.5);
+                scr_event_build_dialogue_debug("bort", NULL, "The Robot should have some lights blink or move a bit to indicate it is processing stuff still.");
+                // waits
+                scr_event_build_wait_for_actions();
+                scr_event_build_dialogue("SUPER", superport, "EXCUSE ME, I FEEL LIKE I WAS IN THE MIDDLE OF ANOTHER CONVERSATION. I MUST HAVE BEEN POWERED DOWN FOR SOME TIME.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, you were definitely sitting there awhile. My bosses had me bring the deed to you, it seems like it turned you on.");
+                scr_event_build_dialogue("SUPER", superport, "YES, THE DEED. READING IT NOW... THE YEAR 666X? IT HAS BEEN QUITE SOME TIME SINCE I WAS LAST ACTIVE. SO MANY REPAIRS NEGLECTED... IS IT TRUE? ARE THE OWNERS INTERESTED IN DEVELOPING THE PROPERTY AGAIN?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yep, and they've got me working as the property manager. They aren't very public people.");
+                scr_event_build_dialogue("SUPER", superport, "SO IT IS YOU? YOU ARE TO BE MY LIEGE?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What do you mean /'liege/'? I'm just the landlord.");
+                scr_event_build_dialogue("SUPER", superport, "LESSOR AND SUPER, LIEGE AND VASSAL! SHALL YOU TAKE THIS OATH WITH ME?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, I don't know what you're talking about. What oath?");
+                scr_event_build_dialogue("SUPER", superport, "YOU SUPPLY TENANTS, AND THE MEANS TO PROVIDE UPKEEP. I WILL PROVIDE LABOR, AND MY CEASELESS DILIGENCE. WE SHALL TURN THIS DEVELOPMENT INTO THE GLITTERING JEWEL OF BRAIN CITY!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well on that subject, I was told to get things moving again but right now, the door's boarded up.");
+                scr_event_build_dialogue("SUPER", superport, "AS YOU COMMAND, MY LIEGE!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh!? I didn't-");
+                scr_event_build_dialogue_debug("bort", NULL, "super robot up and destroys the door!!!");
+                // TODO: super robot up and destroys the door!!!
+                // TODO: destruction sfx
+                scr_event_build_dialogue_debug("bort", NULL, "super robot disappears through the door!");
+                // TODO: super robot up and destroys the door!!!
+                scr_event_build_dialogue_debug("bort", NULL, "The other way to handle this scene is for us to teleport right after /'As you command/' and have the super robot destroy it from the inside! I think that may be cooler!");
+                scr_event_build_wait_for_actions();
+                scr_event_build_quest_state("superBreach", 1);
+                //scr_event_build_quest_state("superRobotLocation", "r_bct_dilapidatedMain01");
+                //scr_event_build_quest_state("superRobotLocation", r_bct_dilapidatedMain01);
+                //scr_event_build_teleport(r_bct_dilapidatedMain01, 240, 168);
+            
+            }
+            var scan_no = scr_event_build_add_choice(scan, "No, don't.");
+            with (scan_no) {
+                // end event
+                scr_event_build_end();
+            }
+        }
+        // DEFAULT: provide the basic examination of the OFF Super, with no action
+        else {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Man... this robot is rusty but it sure looks cool. I wonder what it does when it's turned on!");
+        }
+    }
+       
+    
+    
+    
+    //-------------------------------------------------------------------------------------------------------
+    // room_snippet
+    //-------------------------------------------------------------------------------------------------------
+    with (room_snippet) {
+        // if something has been stored in rID...
+        if (scr_quest_get_state("superRoomLoop") >= 1) {
+            rID = scr_quest_get_state("superRoomLoop") - 1;
+        }
+        // default rID value, for getting through the first pass without an error
+        else {
+            rID = 1; // temporarily only
+        }
+        //------------------
+        // UNREPAIRED ONLY:
+        //------------------
+        if (scr_quest_get_state("superRepair") == 0) && (rID == 2) {
+            scr_event_build_dialogue(supername, superport, "THE CURRENT ROOM IS UNOCCUPIED, AND IN NEED OF REPAIR BEFORE IT CAN BE PUT TO USE.");
+            scr_event_build_quest_state("superRoomLoop", 0);
+            scr_event_build_quest_state("superGoBack", 1);
+            scr_event_build_execute_event_script(event_bct_superRobot01);
+        }
+        //------------------
+        // EMPTY ONLY:
+        //------------------
+        else if (string(global.supergrid[| (RP * rID) + 0]) == "EMPTY") {
+            scr_event_build_dialogue(supername, superport, "THE ROOM IS CURRENTLY UNOCCUPIED.");
+        }
+        //------------------
+        // OCCUPIED ONLY:
+        //------------------
+        else {
+            // name
+            scr_event_build_dialogue(supername, superport, "THE ROOM IS CURRENTLY OCCUPIED BY " + string_upper(global.supergrid[| (RP * rID) + 0]) + ".");
+            // occupation
+            switch (global.supergrid[| (RP * rID) + 3]) {
+                case "NONE":
+                    scr_event_build_dialogue(supername, superport, string_upper("Nothing is happening in the space."));
+                    break;
+                case "STORE":
+                    scr_event_build_dialogue(supername, superport, string_upper("The space is being used for commercial purposes."));
+                    break;
+                case "SQUATTER":
+                    scr_event_build_dialogue(supername, superport, string_upper("The space is being occupied unlawfully."));
+                    break;
+                case "TENANT":
+                    scr_event_build_dialogue(supername, superport, string_upper("The space is being used for residential purposes."));
+                    break;
+            }
+            // time of tenancy
+            if ((scr_time_get() - global.supergrid[| (RP * rID) + 4]) >= 24) { scr_event_build_dialogue(supername, superport, string_upper("It is unknown how long they have occupied the room.")); }
+            else if ((scr_time_get() - global.supergrid[| (RP * rID) + 4]) >= 8) { scr_event_build_dialogue(supername, superport, string_upper("They are a longstanding tenant.")); }
+            else if ((scr_time_get() - global.supergrid[| (RP * rID) + 4]) >= 5) { scr_event_build_dialogue(supername, superport, string_upper("They have been with us for quite some time.")); }
+            else if ((scr_time_get() - global.supergrid[| (RP * rID) + 4]) >= 2) { scr_event_build_dialogue(supername, superport, string_upper("They have been staying with us for a little while now.")); }
+            else { scr_event_build_dialogue(supername, superport, string_upper("They just moved in very recently.")); }
+            // rent and total rent collected
+            scr_event_build_dialogue(supername, superport, string_upper("Their rent is " + string(global.supergrid[| (RP * rID) + 1]) + " neuro-shekels, and thus I have collected " + string(global.supergrid[| (RP * rID) + 2]) + " neuro-shekels from them over the length of their stay."));
+            // complaints
+            if (global.supergrid[| (RP * rID) + 9] > 0) {
+                scr_event_build_dialogue(supername, superport, string_upper("It appears they have filed a complaint. You should visit them and see if you can address their problem."));
+            }
+            /*
+            if (scr_quest_get_state("frontierTenant1Problem") != false) {
+                scr_event_build_dialogue(supername, superport, string_upper("They have lodged a complaint about noise."));
+
+                "They think their rent is too high."
+                "They are upset their toilet is malfunctioning."
+                "They think the facade of the building needs repair. They claim it is hurting business."
+                "They are complaining about the misuse of resources."
+                "They are complaining about their bills."
+            }
+            */
+            // display no complaint
+            /*
+            else {
+                scr_event_build_dialogue(supername, superport, string_upper("They seem to be satisfied with their current living arrangements."));
+            }
+        }
+        // angry sign-off
+        if (scr_quest_get_state("superImprove") != "NONE") {
+            scr_event_build_dialogue(supername, superport, string_upper("Ok, so there you go, I told you, now let me get back to work!"));
+        }
+        // reset "superRoomLoop" to zero
+        scr_event_build_quest_state("superRoomLoop", 0);
+        scr_event_build_quest_state("superGoBack", 1);
+        // return to super_snippet
+        scr_event_build_execute_event_script(event_bct_superRobot01);
+    }
+    
+    
+    
+    
+    //-------------------------------------------------------------------------------------------------------
+    // evict_snippet
+    //-------------------------------------------------------------------------------------------------------
+    with (evict_snippet) {
+        // normal
+        if (scr_quest_get_state("superImprove") == "NONE") { scr_event_build_dialogue(supername, superport, string_upper("So, you'd like to evict " + string(scr_quest_get_state("superEvictee")) + "? Are you sure?")); }
+        // angry
+        else { scr_event_build_dialogue(supername, superport, string_upper("You want to evict " + string(scr_quest_get_state("superEvictee")) + "? Alright already, let's send them packing")); }
+        var evict_confirm = scr_event_build_choice("Evict " + string(scr_quest_get_state("superEvictee")) + "?", s_port_hoopz);
+        var evict_no = scr_event_build_add_choice(evict_confirm, "Nevermind, they can stay.");
+        // NOT EVICTING
+        with (evict_no) {
+            // normal
+            if (scr_quest_get_state("superImprove") == "NONE") { scr_event_build_dialogue(supername, superport, string_upper("Understood. Halting eviction procedures.")); }
+            // angry
+            else { scr_event_build_dialogue(supername, superport, string_upper("They've been nothing but trouble anyway!")); }
+        }
+        // EVICTING
+        var evict_yes = scr_event_build_add_choice(evict_confirm, "Yes, get rid of them!");
+        with (evict_yes) {
+            // REMOVAL
+            // normal
+            if (scr_quest_get_state("superImprove") == "NONE") { scr_event_build_dialogue(supername, superport, string_upper("Understood. I'll remove them at once.")); }
+            // angry
+            else { scr_event_build_dialogue(supername, superport, string_upper("I'll get rid of them right now!")); }
+            scr_event_build_fade(true, 2);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue_debug("bort", NULL, "A string of horrible noises!!! Go for it EricW!");
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue_debug("bort", NULL, "Now, a textbox depending on the tenant being evicted!");
+            // SPECIFIC DIALOGUE
+            switch (string(scr_quest_get_state("superEvictee"))) {
+                case "Fievel":
+                    scr_event_build_dialogue("Fievel", NULL, "This is bullshit!");
+                    break;
+                case "Elise":
+                    scr_event_build_dialogue("Elise", NULL, "Get out of here!");
+                    break;
+                case "Squatter":
+                    scr_event_build_dialogue("Squatter", NULL, "What the hell, man! I thought you were cool!");
+                    break;
+                case "Qutlugh":
+                    scr_event_build_dialogue("Qutlugh", NULL, "But I just got here...");
+                    break;
+                case "Kunigunde":
+                    scr_event_build_dialogue("Kunigunde", NULL, "Me? On the streets? Whatever will I do?");
+                default:
+                    scr_event_build_dialogue_debug(string(scr_quest_get_state("superEvictee")), NULL, "Bwaaaah!!! This is the default!!!");
+                    break;
+            }
+            scr_event_build_dialogue_debug("bort", NULL, "More horrible noises!!!");
+            scr_event_build_wait_for_actions();
+            scr_event_build_fade(false, 2);
+            scr_event_build_wait_for_actions();
+            // RESET ROOM AND NAME
+            scr_event_build_dilapidated_evict(scr_quest_get_state("superEvictee"));
+            scr_event_build_dialogue_debug("bort", NULL, "Name has been reset... remember to reset all the rest with a script!");
+            // normal
+            if (scr_quest_get_state("superImprove") == "NONE") { scr_event_build_dialogue("SUPER", NULL, string_upper("There, I'm all done. Even made the bed for you. Anything else?")); }
+            // angry
+            else { scr_event_build_dialogue("SUPER", superport, string_upper("They're gone! Finished! Toast! I threw 'em out and even made the bed... uh... now let me get back to business!")); }
+        }
+        // SHARED BY BOTH: TURN OFF LOOP, CLEAR NAME
+        scr_event_build_quest_state("superEvictee", 0);
+        scr_event_build_quest_state("superEvictLoop", 0);
+        scr_event_build_quest_state("superGoBack", 1);
+        scr_event_build_execute_event_script(event_bct_superRobot01);
+    }
+    
+
+
+    
+    //-------------------------------------------------------------------------------------------------------
+    // manage_confirm_snippet
+    //-------------------------------------------------------------------------------------------------------
+    with (manage_confirm_snippet) {
+        
+        // temp. shorthand variables
+        var fund = string(scr_quest_get_state("superFund"));
+        var price = string(scr_quest_get_state("superPrice"));
+        var improvement = string(scr_quest_get_state("superImprove"));
+        var goal = ""
+        
+        // option prices
+        var doorMetal = 100;
+        var doorRevolving = 100;
+        var lightsNeon = 100;
+        var lightsFlood = 100;
+        var hvacSound = 100;
+        var hvacAc = 100;
+        var plantsTrees = 100;
+        var plantsGarden = 100;    
+        
+        // if an "optional" improvement
+        if (improvement = "door") || (improvement == "lights") || (improvement == "hvac") || (improvement == "plants") {
+            // get dialogues
+            switch (improvement) {
+                case "door": { scr_event_build_dialogue("SUPER", superport, string_upper("You have two options.")); break; }
+                case "lights": { scr_event_build_dialogue("SUPER", superport, string_upper("You have two options.")); break; }
+                case "hvac": { scr_event_build_dialogue("SUPER", superport, string_upper("You have two options.")); break; }
+                case "plants": { scr_event_build_dialogue("SUPER", superport, string_upper("You have two options.")); break; }
+            }
+            // sub choice
+            var sub_choice = scr_event_build_choice("What to work on?", s_port_hoopz);
+            switch (improvement) {
+                // door
+                case "door":
+                    // metal
+                    var door_metal = scr_event_build_add_choice(sub_choice, "Install a secure metal door (" + string(doorMetal) + " N.S.)");
+                    with (door_metal) {
+                        scr_event_build_quest_state("superImprove", "metal");
+                        scr_event_build_quest_state("superPrice", doorMetal);
+                    }
+                    // revolving
+                    var door_revolving = scr_event_build_add_choice(sub_choice, "Install a revolving door (" + string(doorRevolving) + " N.S.)");
+                    with (door_revolving) {
+                        scr_event_build_quest_state("superImprove", "revolving");
+                        scr_event_build_quest_state("superPrice", doorRevolving);
+                    }
+                    break;
+                case "lights":
+                    // neon
+                    var lights_neon = scr_event_build_add_choice(sub_choice, "Install attractive neon lighting (" + string(doorMetal) + " N.S.)");
+                    with (lights_neon) {
+                        scr_event_build_quest_state("superImprove", "neon");
+                        scr_event_build_quest_state("superPrice", lightsNeon);
+                    }
+                    // flood
+                    var lights_flood = scr_event_build_add_choice(sub_choice, "Install flood lights for building security (" + string(doorRevolving) + " N.S.)");
+                    with (lights_flood) {
+                        scr_event_build_quest_state("superImprove", "flood");
+                        scr_event_build_quest_state("superPrice", lightsFlood);
+                    }
+                    break;
+                case "hvac":
+                    // sound
+                    var hvac_sound = scr_event_build_add_choice(sub_choice, "Install soundproofing in every room (" + string(doorMetal) + " N.S.)");
+                    with (hvac_sound) {
+                        scr_event_build_quest_state("superImprove", "sound");
+                        scr_event_build_quest_state("superPrice", hvacSound);
+                    }
+                    // ac
+                    var hvac_ac = scr_event_build_add_choice(sub_choice, "Install central air-conditioning (" + string(doorRevolving) + " N.S.)");
+                    with (hvac_ac) {
+                        scr_event_build_quest_state("superImprove", "ac");
+                        scr_event_build_quest_state("superPrice", hvacAc);
+                    }
+                    break;
+                case "plants":
+                    // trees
+                    var plants_trees = scr_event_build_add_choice(sub_choice, "Plant two stately trees (" + string(doorMetal) + " N.S.)");
+                    with (plants_trees) {
+                        scr_event_build_quest_state("superImprove", "trees");
+                        scr_event_build_quest_state("superPrice", plantsTrees);
+                    }
+                    // garden
+                    var plants_garden = scr_event_build_add_choice(sub_choice, "Plant a vegetable garden (" + string(doorRevolving) + " N.S.)");
+                    with (plants_garden) {
+                        scr_event_build_quest_state("superImprove", "garden");
+                        scr_event_build_quest_state("superPrice", plantsGarden);
+                    }
+                    break;
+            }
+            // nevermind
+            var sub_nvm = scr_event_build_add_choice(sub_choice, "Nevermind.");
+            with (sub_nvm) {
+                Breakout("build", "clear");
+                scr_event_build_quest_state("superPrice", 0);
+                scr_event_build_quest_state("superImprove", "NONE");
+                scr_event_build_quest_state("superManageLoop", 1);
+            }
+            scr_event_build_execute_event_script(event_bct_superRobot01);
+        }
+        
+        
+        // not enough money (fund < price)
+        else if (scr_quest_get_state("superFund") < scr_quest_get_state("superPrice")) {
+            scr_event_build_dialogue("SUPER", superport, string_upper("I'd need to use " + price + " to do that kind of work. We're a little short. We need to collect more rent! Got something else in mind?")); 
+            Breakout("build", "clear");
+            scr_event_build_quest_state("superPrice", 0);
+            scr_event_build_quest_state("superImprove", "NONE");
+            scr_event_build_quest_state("superManageLoop", 1);
+            scr_event_build_execute_event_script(event_bct_superRobot01);
+        }
+        
+        // enough money (fund > price)
+        else  {
+            switch (improvement) {
+                // static
+                case "room": 
+                    goal = "You want to repair the room? Wise choice. We'll be able to rent to another tenant if so."; 
+                    break;
+                case "decor1":
+                    goal = "You're right, the inside looks dreadful, The property value should certainly increase if we improve the interior.";
+                    break;
+                case "decor2":
+                    goal = "My last work on the interior was a quick fix, but you desire something further?";
+                    break;
+                case "decor3":
+                    goal = "Further work on the interior decoration will enable us to please even the most discriminating of future tenants.";
+                    break;
+                case "facade1":
+                    goal = "You're right, the exterior of the building looks like a war-zone. This should let us attract more tenants.";
+                    break;
+                case "facade2":
+                    goal = "I think most things were fixed last time, but it could still look nicer. It will definitely raise our curb appeal.";
+                    break;
+                case "facade3":
+                    goal = "Any further attention to the outside and we'll be the envy of everyone in Brain City!";
+                    break;
+                case "internet1":
+                    goal = "Our internet capabilities are sadly lacking. 56.6 microbauds is pathetic for a proper development.";
+                    break;
+                case "internet2":
+                    goal = "Our internet is pretty good... should we pump up our bandgirth even further?";
+                    break;
+                // changing
+                case "metal":
+                    if (global.improvemap[? "door"] == "NONE") {
+                        goal = "Installing a metal door should make all our residents feel safer.";
+                    }
+                    else { 
+                        goal = "Installing a metal door will make those on the property feel safer, but we'll have to remove our revolving door to do so.";
+                    }
+                    break;
+                case "revolving":
+                    if (global.improvemap[? "door"] == "NONE") {
+                        goal = "Installing a revolving door will add a touch of class to our establishment.";
+                    }
+                    else { 
+                        goal = "Installing a revolving door will add a touch of class, but we'll have to remove the metal door to to do so.";
+                    }
+                    break;
+                case "neon":
+                    if (global.improvemap[? "lights"] == "NONE") {
+                        goal = "Neon signs will greatly increase foot traffic. Dwarfs love neon. They simply must know what's inside!";
+                    }
+                    else { 
+                        goal = "Putting up neon signs will greatly increase our foot traffic, but we'll have to remove the flood lights to do so.";
+                    }
+                    break;
+                case "flood":
+                    if (global.improvemap[? "lights"] == "NONE") {
+                        goal = "Flood lights will make the zone feel like a compound... in a good way! We'll really slash crime with those installed.";
+                    }
+                    else { 
+                        goal = "Installing flood lights will increase security, but we'll have to take down all the shiny neon to do so.";
+                    }
+                    break;
+                case "sound":
+                    if (global.improvemap[? "hvac"] == "NONE") {
+                        goal = "Soundproofing is a great way to give our tenants the privacy they desire.";
+                    }
+                    else { 
+                        goal = "Soundproofing is a great way to give our tenants privacy, but we'll need to remove the air-conditioning in order to install it.";
+                    }
+                    break;
+                case "ac":
+                    if (global.improvemap[? "hvac"] == "NONE") {
+                        goal = "Central air... the ultimate luxury for a discerning dwarf!";
+                    }
+                    else { 
+                        goal = "Central air is the ultimate luxury, but we'll have to gut the soundproofing in order to install it.";
+                    }
+                    break;
+                case "trees":
+                    if (global.improvemap[? "plants"] == "NONE") {
+                        goal = "A few trees out front will really boost our visual appeal. The property values will get a nice bump from it.";
+                    }
+                    else { 
+                        goal = "A few trees out front will really boost our property value, but we'll have to uproot the vegetable garden in order to do it.";
+                    }
+                    break;
+                case "garden":
+                    if (global.improvemap[? "plants"] == "NONE") {
+                        goal = "A vegetable garden's always nice... if someone takes care of it.";
+                    }
+                    else { 
+                        goal = "A vegetable garden would be nice... but we'll have to uproot the trees in order to make space for it.";
+                    }
+                    break;
+            }
+            
+            scr_event_build_dialogue("SUPER", superport, string_upper(goal + " It shouldn't take too long to do it, but I'll need to use " + price + " neuro-shekels from the maintenance fund. Is this acceptable, my liege?")); 
+            // Breakout("build", "add", "superFund");
+            var mgmt_confirm = scr_event_build_choice("Begin construction (" + price + " N.S.)?", s_port_hoopz);
+            // confirm
+            var mgmt_yes = scr_event_build_add_choice(mgmt_confirm, "Get to work!");
+            with (mgmt_yes) {
+                scr_event_build_quest_state("superManageLoop", 0);
+                // subtract money from superFund
+                scr_event_build_quest_state_add("superFund", -real(price));
+                scr_event_build_dialogue("SUPER", superport, string_upper("All right! Everybody out of my way!"));
+                Breakout("build", "clear");
+                scr_event_build_fade(true, 2.0);
+                scr_event_build_wait_for_actions();
+                scr_event_build_wait(1);
+                // restart room, now with superRobot working
+                scr_event_build_teleport(room, o_hoopz.x, o_hoopz.y);
+            }
+            // cancel
+            var mgmt_no = scr_event_build_add_choice(mgmt_confirm, "Hold on...");
+            with (mgmt_no) {
+                Breakout("build", "clear");
+                scr_event_build_quest_state("superPrice", 0);
+                scr_event_build_quest_state("superImprove", "NONE");
+                scr_event_build_quest_state("superManageLoop", 1);
+                // return to manage_snippet
+                scr_event_build_execute_event_script(event_bct_superRobot01);
+            }
+        }
+    }
+    
+    
+    
+    //-------------------------------------------------------------------------------------------------------
+    // manage_snippet
+    //-------------------------------------------------------------------------------------------------------
+    with (manage_snippet) {
+        
+        // price variables
+        var price = 0;
+        var decor_price = 0;
+        var facade_price = 0;
+        var internet_price = 0;
+        var door_price = 0;
+        var lights_price = 0;
+        var hvac_price = 0;
+        var plants_price = 0;
+        
+        // improvement names
+        var decor_name = "";
+        var facade_name = "";
+        var internet_name = "";
+        var door_name = "";
+        var lights_name = "";
+        var hvac_name = "";
+        var plants_name = "";
+        
+        // quality string
+        var quality = "";
+        
+        // price list
+        var room_price = 100;
+        var decor1 = 100;
+        var decor2 = 200;
+        var decor3 = 300;
+        var facade1 = 100;
+        var facade2 = 200;
+        var facade3 = 300;
+        var internet1 = 100;
+        var internet2 = 200;
+        var doorMetal = 100;
+        var doorRevolving = 100;
+        var lightsNeon = 100;
+        var lightsFlood = 100;
+        var hvacSound = 100;
+        var hvacAc = 100;
+        var plantsTrees = 100;
+        var plantsGarden = 100;
+        
+        // choices
+        var door_imp;
+        var lights_imp;
+        var hvac_imp;
+        var plants_imp;
+        
+        // haven't seen tutorial yet
+        if (scr_quest_get_state("superManageTutorial") == 0) {
+            scr_event_build_dialogue("SUPER", superport, string_upper("You mean it? You wish to manage the property with me, my liege?"));
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, the Guilderbergs sent me here to see what I can do to spruce the place up."); 
+            scr_event_build_dialogue("SUPER", superport, string_upper("I am elated! It seems they have turned a new leaf as owners. Some sudden windfall must be underwriting this change of heart. Perhaps a loyal new employee?"));
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heh... I don't wanna give myself ALL the credit...");
+            // no rent collected yet
+            if (scr_quest_get_state("superFund") <= 0) {
+                scr_event_build_dialogue("SUPER", superport, string_upper("Currently there is no money set aside for improvement. 20% of the rent collected from each tenant will go to the zone's maintenance fund. We'll need to get paying tenants in first, for that to occur."));
+            }
+            // rent has been collected
+            else {
+                scr_event_build_dialogue("SUPER", superport, string_upper("Currently there is " + string(scr_quest_get_state("superFund")) + "allotted for improvement. 25% of each tenant's rent is allocated the zone's maintenance fund. At the moment, that's " + string(scr_quest_get_state("superFund")) + ", and the more rent we collect, the higher it will climb."));
+            }
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ok, so I gotta collect a lot of rent and then you'll have a lot to work with, right?");
+            scr_event_build_dialogue("SUPER", superport, string_upper("Precisely. Right now, the third room in the zone is unihabitable, and in need of serious repairs. That seems to be the wisest improvement, but I shall follow your commands."));
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Right on. Well, show me what we can get into!");
+            scr_event_build_quest_state("superManageTutorial", 1);
+        }
+        
+        // normal
+        scr_event_build_quest_state("superManageLoop", 2);
+        Breakout("build", "add", "superFund");
+        var improve_choice = scr_event_build_choice("Which improvement?", s_port_hoopz);
+    
+    //------------
+    // upgrades
+    //------------
+    
+        // room 3 --------------------------------------
+        if (global.improvemap[? "room"] == "NONE") {
+            var room_imp = scr_event_build_add_choice(improve_choice, "Repair Room 3 (" + string(room_price) + " N.S.)");
+            with (room_imp) {
+                scr_event_build_quest_state("superPrice", room_price);
+                scr_event_build_quest_state("superImprove", "room");
+                //scr_event_build_quest_state("superImprove", "room");
+            }
+        }
+        
+        // decor --------------------------------------
+        if (global.improvemap[? "decor"] != "decor3") {
+            if (global.improvemap[? "decor"] == "NONE") { decor_name = "decor1"; decor_price = decor1; quality = "Improve"; }
+            else if (global.improvemap[? "decor"] == "decor1") { decor_name = "decor2"; decor_price = decor2; quality = "Further improve"; }
+            else if (global.improvemap[? "decor"] == "decor2") { decor_name = "decor3"; decor_price = decor3; quality = "Maximize"; }
+            var decor_imp = scr_event_build_add_choice(improve_choice, string(quality) + " the interior decor (" + string(decor_price) + " N.S.)");
+            with (decor_imp) {
+                scr_event_build_quest_state("superPrice", decor_price);
+                scr_event_build_quest_state("superImprove", decor_name);
+            }
+        }
+        // decor, maximum reached
+        else if (global.improvemap[? "decor"] == "decor3") { 
+            var decor_max = scr_event_build_add_choice(improve_choice, "Interior decor (RANK S PERFECT).");
+            with (decor_max) {
+            
+            }
+        }
+        
+        // facade --------------------------------------
+        if (global.improvemap[? "facade"] != "facade3") {
+            if (global.improvemap[? "facade"] == "NONE") { facade_name = "facade1"; facade_price = facade1; quality = "Improve"; }
+            else if (global.improvemap[? "decor"] == "facade1") { facade_name = "facade2"; facade_price = facade2; quality = "Further improve"; }
+            else if (global.improvemap[? "decor"] == "facade2") { facade_name = "facade3"; facade_price = facade3; quality = "Maximize"; }
+            var facade_imp = scr_event_build_add_choice(improve_choice, string(quality) + " the exterior facade (" + string(facade_price) + " N.S.)");
+            with (facade_imp) {
+                scr_event_build_quest_state("superPrice", facade_price);
+                scr_event_build_quest_state("superImprove", facade_name);
+            }
+        }
+        
+        // facade, maximum reached
+        else if (global.improvemap[? "decor"] == "facade3") { 
+            var facade_max = scr_event_build_add_choice(improve_choice, "Exterior facade (RANK S PERFECT).");
+            with (facade_max) {
+            
+            }
+        }
+        // internet --------------------------------------
+        if (global.improvemap[? "internet"] != "internet2") {
+            if (global.improvemap[? "internet"] == "NONE") { internet_name = "internet1"; internet_price = internet1; quality = "Improve"; }
+            else if (global.improvemap[? "internet"] == "internet1") { internet_name = internet2; internet_price = internet2; quality = "Maximize " }
+            var internet_imp = scr_event_build_add_choice(improve_choice, string(quality) + " internet capabilities (" + string(internet_price) + " N.S.)");
+            with (internet_imp) {
+                scr_event_build_quest_state("superPrice", internet_price);
+                scr_event_build_quest_state("superImprove", internet_name);
+            }
+        }
+        // internet, maximum reached
+        else if (global.improvemap[? "internet"] == "internet2") { 
+            var internet_max = scr_event_build_add_choice(improve_choice, "Internet (RANK S PERFECT).");
+            with (internet_max) {
+            
+            }
+        }
+        
+    //-----------
+    // choices
+    //-----------
+    
+        // door  --------------------------------------
+        if (global.improvemap[? "door"] == "NONE") { 
+            door_name = "door";            
+            door_imp = scr_event_build_add_choice(improve_choice, "Improve the current door.");
+        }
+        // door, replacing previous improvement
+        else {
+            if (global.improvemap[? "door"] == "metal") { door_name = "revolving"; door_price = doorRevolving; quality = "Replace current metal door with a revolving door."; }
+            else if (global.improvemap[? "door"] == "revolving") { door_name = "metal"; door_price = doorMetal; quality = "Replace current revolving door with a secure metal door.";}
+            door_imp = scr_event_build_add_choice(improve_choice, string(quality) + " (" + string(door_price) + " N.S.)");
+        }
+        with (door_imp) {
+            scr_event_build_quest_state("superPrice", door_price);
+            scr_event_build_quest_state("superImprove", door_name);
+        }
+
+        // lights --------------------------------------
+        if (global.improvemap[? "lights"] == "NONE") {
+            lights_name = "lights";            
+            lights_imp = scr_event_build_add_choice(improve_choice, "Install exterior lighting.");
+        }
+        // lights, replacing previous improvement
+        else {
+            if (global.improvemap[? "lights"] == "neon") { lights_name = "flood"; lights_price = lightsFlood; quality = "Replace flood lights with neon signs."; }
+            else if (global.improvemap[? "lights"] == "flood") { lights_name = "neon"; lights_price = lightsNeon; quality = "Replace neon signs with flood lights."; }
+            lights_imp = scr_event_build_add_choice(improve_choice, string(quality) + " (" + string(lights_price) + " N.S.)");
+        }
+        with (lights_imp) {
+            scr_event_build_quest_state("superPrice", lights_price);
+            scr_event_build_quest_state("superImprove", lights_name);
+        }
+    
+        // hvac --------------------------------------
+        if (global.improvemap[? "hvac"] == "NONE") {
+            hvac_name = "hvac";
+            hvac_imp = scr_event_build_add_choice(improve_choice, "Improve the ventilation system.");
+        }
+        // hvac, replacing previous improvement
+        else {
+            if (global.improvemap[? "hvac"] == "sound") { hvac_name = "ac"; hvac_price = hvacAc; quality = "Remove the soundproofing and install central air-conditioning."; }
+            else if (global.improvemap[? "hvac"] == "ac") { hvac_name = "sound"; hvac_price = hvacSound; quality = "Remove the air-conditioning and soundproof each room."; }
+            hvac_imp = scr_event_build_add_choice(improve_choice, string(quality) + " (" + string(hvac_price) + " N.S.)");
+        }
+        with (hvac_imp) {
+            scr_event_build_quest_state("superPrice", hvac_price);
+            scr_event_build_quest_state("superImprove", hvac_name);
+        }
+        
+        // plants --------------------------------------
+        if (global.improvemap[? "plants"] == "NONE") {
+            plants_name = "plants";
+            plants_imp = scr_event_build_add_choice(improve_choice, "Plant something in the dirt patches.");
+        }
+        // plants, replacing previous improvement
+        else {
+            if (global.improvemap[? "plants"] == "trees") { plants_name = "garden"; plants_price = plantsGarden; quality = "Uproot the trees and plant a vegetable garden."; }
+            else if (global.improvemap[? "plants"] == "garden") { plants_name = "trees"; plants_price = plantsTrees; quality = "Dig up the vegetable garden and plant trees."; }
+            plants_imp = scr_event_build_add_choice(improve_choice, string(quality) + " (" + string(plants_price) + " N.S.)");
+        }
+        with (plants_imp) {
+            scr_event_build_quest_state("superPrice", plants_price);
+            scr_event_build_quest_state("superImprove", plants_name);
+        }
+    
+        // nothing --------------------------------------
+        var no_imp = scr_event_build_add_choice(improve_choice, "Nothing.");
+        with (no_imp) {
+            Breakout("build", "clear");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nothing right now, thanks!");
+            scr_event_build_dialogue("SUPER", superport, string_upper("Understood. Anything else, my liege?"));
+            scr_event_build_quest_state("superManageLoop", 0);
+            scr_event_build_quest_state("superGoBack", 1);
+        }
+        // restart event to save this information... either return to super_snippet, or go to manage_confirm_snippet
+        scr_event_build_execute_event_script(event_bct_superRobot01);
+    }
+    
+    
+    
+    
+    //-------------------------------------------------------------------------------------------------------
+    // super_snippet
+    //-------------------------------------------------------------------------------------------------------
+    with (super_snippet) {
+        //global.supergrid = scr_savedata_get("supergrid");
+        var super_choice = scr_event_build_choice("Do what?", s_port_hoopz);
+        
+        //-----------------------
+        // Choice 1. Get info
+        //-----------------------
+        var get_info = scr_event_build_add_choice(super_choice, "Get information on rooms.");
+        with (get_info) {
+            var info_choice = scr_event_build_choice("Learn about which room?", s_port_hoopz);
+            // info for room 1
+            var info1 = scr_event_build_add_choice(info_choice, "Room 1 (" + string(global.supergrid[| (RP * 0) + 0]) + ").");
+            with (info1) {
+                scr_event_build_quest_state("superRoomLoop", 1);
+            }
+            // info for room 2
+            var info2 = scr_event_build_add_choice(info_choice, "Room 2 (" + string(global.supergrid[| (RP * 1) + 0]) + ").");
+            with (info2) {
+                scr_event_build_quest_state("superRoomLoop", 2);
+            }
+            // info for room 3
+            var info3 = scr_event_build_add_choice(info_choice, "Room 3 (" + string(global.supergrid[| (RP * 2) + 0]) + ").");
+            with (info3) {
+                scr_event_build_quest_state("superRoomLoop", 3);
+            }
+            // no info, go back to super_snippet
+            var none = scr_event_build_add_choice(info_choice, "Go back.");
+            with (none) {
+                scr_event_build_quest_state("superGoBack", 1);
+            }
+            // restart event
+            scr_event_build_execute_event_script(event_bct_superRobot01);
+        }
+        
+        //-----------------------
+        // Choice 2. Evict tenant
+        //-----------------------
+        var evict_tenant = scr_event_build_add_choice(super_choice, "Evict a tenant.");
+        with (evict_tenant) {
+            // rooms are all empty or in disrepair
+            if (scr_quest_get_state("superEmpty") == ROOMS_TOTAL) {
+                // normal
+                if (scr_quest_get_state("superImprove") == "NONE") { scr_event_build_dialogue(supername, superport, string_upper("There is no one to evict.")); }
+                // angry
+                else { scr_event_build_dialogue("SUPER", superport, string_upper("Give me a break, there's nobody living here!")); }
+                scr_event_build_quest_state("superGoBack", 1);
+            }
+            // evictable
+            else {
+                // angry
+                if (scr_quest_get_state("superImprove") != "NONE") { scr_event_build_dialogue("SUPER", superport, string_upper("Come on, I'm busy! ... fine, fine, who is it?")); }
+                // evict choice
+                evict_choice = scr_event_build_choice("Evict whom?", s_port_hoopz);
+                // evict room 1
+                if (string(global.supergrid[| (RP * 0) + 0]) != "EMPTY") && (string(global.supergrid[| (RP * 0) + 0]) != "DISREPAIR") {
+                    var evict1 = scr_event_build_add_choice(evict_choice, "Evict " + string(global.supergrid[| (RP * 0) + 0]) + ".");
+                    with (evict1) {
+                        scr_event_build_quest_state("superEvictee", string(global.supergrid[| (RP * 0) + 0]));
+                        scr_event_build_quest_state("superEvictLoop", 1);
+                    }
+                }
+                // evict room 2
+                if (string(global.supergrid[| (RP * 1) + 0]) != "EMPTY") && (string(global.supergrid[| (RP * 1) + 0]) != "DISREPAIR") {
+                    var evict2 = scr_event_build_add_choice(evict_choice, "Evict " + string(global.supergrid[| (RP * 1) + 0]) + ".");
+                    with (evict2) {
+                        scr_event_build_quest_state("superEvictee", string(global.supergrid[| (RP * 1) + 0]));
+                        scr_event_build_quest_state("superEvictLoop", 1);
+                    }
+                }
+                // evict room 3
+                if (string(global.supergrid[| (RP * 2) + 0]) != "EMPTY") && (string(global.supergrid[| (RP * 2) + 0]) != "DISREPAIR") {
+                    var evict3 = scr_event_build_add_choice(evict_choice, "Evict " + string(global.supergrid[| (RP * 2) + 0]) + ".");
+                    with (evict3) {
+                        scr_event_build_quest_state("superEvictee", string(global.supergrid[| (RP * 2) + 0]));
+                        scr_event_build_quest_state("superEvictLoop", 1);
+                    }
+                }
+                // evict none
+                var none = scr_event_build_add_choice(evict_choice, "Go back.");
+                with (none) {
+                    scr_event_build_quest_state("superGoBack", 1);
+                }
+            }
+            // restart event
+            scr_event_build_execute_event_script(event_bct_superRobot01);
+        }
+        
+        //-----------------------    
+        // 3. Manage Property
+        //-----------------------
+        var manage_property = scr_event_build_add_choice(super_choice, "Manage property.");
+        with (manage_property) {
+            // normal, turn on manage loop
+            if (scr_quest_get_state("superImprove") == "NONE") {
+                scr_event_build_quest_state("superManageLoop", 1);
+            }
+            // angry, return to super_snippet
+            else {
+                scr_event_build_dialogue("SUPER", superport, string_upper("What do you mean you want to manage the property? Can't you see I'm working here! One job at a time! One job at a time!"));
+                scr_event_build_quest_state("superGoBack", 1);
+            }
+            // restart event
+            scr_event_build_execute_event_script(event_bct_superRobot01);
+        }
+        
+        //-----------------------    
+        // 4. Perform Assessment
+        //-----------------------
+        var perform_assessment = scr_event_build_add_choice(super_choice, "Perform assessment.");
+        with (perform_assessment) {
+            // normal
+            if (scr_quest_get_state("superImprove") == "NONE") { scr_event_build_dialogue(supername, superport, string_upper("Perform an assessment? Of course, my liege.")); }
+            // angry
+            else { scr_event_build_dialogue(supername, superport, string_upper("Perform an assessment? You think I have time for this? Okay, fine!")); }
+            // with improvements
+            if (scr_quest_get_state("superImproveValue") >= 1) { scr_event_build_dialogue(supername, superport, "WITH THE IMPROVMENTS MADE TO THE BUILDING, I WOULD ESTIMATE EACH ROOM AS HAVING A MARKET-VALUED RENT OF APPROXIMATELY " + string(value) + " neuro-shekelS."); }
+            // no improvements
+            else { scr_event_build_dialogue(supername, superport, "CURRENTLY, I WOULD ESTIMATE EACH ROOM AS HAVING A MARKET-VALUED RENT OF APPROXIMATELY " + string(value) + " neuro-shekelS."); }
+            // value descriptions
+            if (value >= 100) { scr_event_build_dialogue(supername, superport, "THIS IS THE MOST DESIRABLE PROPERTY IN BRAIN CITY."); }
+            else if (value >= 75) { scr_event_build_dialogue(supername, superport, "THIS IS A HIGHLY DESIRABLE PROPERTY."); }
+            else if (value >= 50) { scr_event_build_dialogue(supername, superport, "THIS IS A REASONABLY DESIRABLE PROPERTY."); }
+            else if (value >= 25) { scr_event_build_dialogue(supername, superport, "THIS IS A SOMEWHAT UNDESIRABLE PROPERTY."); }
+            else { scr_event_build_dialogue(supername, superport, "THIS IS AN EXTREMELY UNDESIRABLE PROPERTY."); }
+            // utilization descriptions
+            if (util >= 1) { scr_event_build_dialogue(supername, superport, "SINCE OUR MOST RECENT RENT-COLLECTION AVERAGED " + string(avg) + " neuro-shekelS, IT IS SAFE TO SAY WE ARE EXTRACTING PLENTY OF PROFIT FROM OUR LESSEES."); }
+            else if (util >= 80) { scr_event_build_dialogue(supername, superport, "SINCE OUR MOST RECENT RENT-COLLECTION AVERAGED " + string(avg) + " neuro-shekelS, IT SEEMS WE HAVE OUR REAL ESTATE ASSETS WELL-ALLOCATED"); }
+            else if (util >= 60) { scr_event_build_dialogue(supername, superport, "SINCE OUR MOST RECENT RENT-COLLECTION AVERAGED " + string(avg) + " neuro-shekelS, IT IS QUESTIONABLE THAT OUR RENTS ARE AS HIGH AS THEY COULD BE."); }
+            else if (util >= 30) { scr_event_build_dialogue(supername, superport, "SINCE OUR MOST RECENT RENT-COLLECTION AVERAGED " + string(avg) + " neuro-shekelS, IT IS CERTAIN WE COULD RENT TO TENANTS WILLING TO ACCEPT A HIGHER RENT."); }
+            else { scr_event_build_dialogue(supername, superport, "SINCE OUR MOST RECENT RENT-COLLECTION AVERAGED " + string(avg) + " neuro-shekelS, IT IS CLEAR THE APARTMENT IS BEING MISMANAGED. GET HIGHER-VALUED TENANTS!"); }
+            // exit, angry
+            if (scr_quest_get_state("superImprove") != "NONE") { scr_event_build_dialogue(supername, superport, string_upper("Okay, are you satisifed? I'll get back to my job if you're done here.")); }
+            // restart event
+            scr_event_build_quest_state("superGoBack", 1);
+            scr_event_build_execute_event_script(event_bct_superRobot01);
+        }
+        
+        //-----------------------    
+        // 5. Exit 
+        //-----------------------
+        var exit_choice = scr_event_build_add_choice(super_choice, "Exit.");
+        with (exit_choice) {
+            // normal
+            if (scr_quest_get_state("superImprove") == "NONE") { scr_event_build_dialogue(supername, superport, string_upper("Farewell, my liege.")); }
+            // angry
+            else { scr_event_build_dialogue(supername, superport, string_upper("That's all? Then let me get back to work!")); }
+            // end event
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

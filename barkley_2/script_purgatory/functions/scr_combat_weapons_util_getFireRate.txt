@@ -1,0 +1,18 @@
+/// scr_combat_weapons_util_getFireRate(sSpeed, sSpeedMod)
+
+var sSpeed = argument0;
+var sSpeedMod = argument1;
+
+var POWER = 1.75;
+var DIVISOR = 4.0;
+var TARGET = 300;  //pre-GoG value was 350 - bhroom
+
+var pFireSpeed = sSpeed * sSpeedMod;
+var stepInterval = 15 + (power(1 + pFireSpeed, POWER) / DIVISOR);
+var timeInterval = (TARGET / stepInterval) / 10;
+var perSecond = 1 / timeInterval;
+
+return perSecond;
+
+
+ 

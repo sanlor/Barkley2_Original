@@ -1,0 +1,30 @@
+// scr_sabah_update
+/*
+if (scr_quest_get_state("sabahQuest") == 2)
+{
+    // sabah forgives you and asks for apology.... APOLOGIES
+    if (scr_quest_get_state("sabahWedding") == 2) {
+        Quest("sabahWedding", 3);
+    }
+    // update the working state
+    switch (scr_quest_get_state("sabahWorkCurrent")) {
+        case 1:
+            if (scr_quest_get_state("sabahWorking") == 1) {
+                Quest("sabahWorkCurrent", 2);
+            }
+            break;
+        case 2:
+            if (scr_quest_get_state("sabahWorking") == 2) {
+                Quest("sabahWorkCurrent", 3);
+            }
+            break;
+        case 3:
+            if (scr_quest_get_state("sabahWorking") == 3) {
+                Quest("sabahWorkCurrent", 4);
+            }
+            break;
+        case 4:
+            
+            break;
+    }
+}

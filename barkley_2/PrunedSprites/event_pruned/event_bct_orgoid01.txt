@@ -1,0 +1,299 @@
+// event_bct_orgoid01
+// o_orgoid01
+// s_orgoid01
+
+/*
+
+
+
+*/
+
+// on start
+/*if (argument0 == SCRIPT_START) {
+    // THERE IS A WEIRD ERROR HERE - TODO: BORT
+    if (scr_quest_get_state("orgoidInit") == 0) {
+        Quest("orgoidName", "Orgoid");
+        Quest("orgoidInit", 1);
+    }
+    if (scr_quest_get_state("orgoidRejectedTime") <= scr_time_get()) {
+        Quest("orgoidRejected", 0);
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var orgoid = id;
+    
+    var orgoidname = scr_quest_get_state("orgoidName");
+    var orgoidport = NULL
+    
+    var name1 = ""
+    var name2 = ""
+    var name3 = ""
+    
+    var event = scr_event_create_main();
+    var name_snippet = scr_event_create_child(event);
+
+    //------------------------------------------------------------
+    // NAME SNIPPET
+    //------------------------------------------------------------
+    with (name_snippet) {
+        switch (scr_quest_get_state("orgoidTime") - scr_time_get()) {
+
+            case 1:
+                name1 = "Rebecca"
+                name2 = "7000"
+                name3 = "H-Bary"
+                break;
+            case 2:
+                name1 = "Percentage"
+                name2 = "Celery"
+                name3 = "Montaigne"
+                break;
+            case 3:
+                name1 = "Dolphin"
+                name2 = "Yu"
+                name3 = "4R"
+                break;
+            case 4:
+                name1 = "Ape"
+                name2 = "Apes"
+                name3 = "Elmer"            
+                break;
+            case 5:
+                name1 = "Kimp"
+                name2 = "More"
+                name3 = "Ochre"        
+                break;
+            case 6:
+                name1 = "Pulb"
+                name2 = "1"
+                name3 = "Qqq Nice"            
+                break;
+            case 7:
+                name1 = "Dr"
+                name2 = "Firt"
+                name3 = "0000000"        
+                break;
+        }
+        scr_event_build_dialogue(orgoidname, orgoidport, "Hello again. I think I've made some headway when it comes to my new name... er, my first name.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Really!? That's great! What are you thinking?");
+        scr_event_build_dialogue(orgoidname, orgoidport, "Well, I have a few ideas. Are you ready? ... here we go: /'" + name1 + "/'... /'" + name2 + "/'... or /'" + name3 + "/'... So? What do you think?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh... those are the options? Uh...");
+        var name_choice = scr_event_build_choice("Which name?", s_port_hoopz);
+        var choice1 = scr_event_build_add_choice(name_choice, string(name1) + ".");
+        var choice2 = scr_event_build_add_choice(name_choice, string(name2) + ".");
+        var choice3 = scr_event_build_add_choice(name_choice, string(name3) + ".");
+        var none = scr_event_build_add_choice(name_choice, "None of those.");
+        with (none) {
+            if (scr_quest_get_state("orgoidRejected") == 0) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, honestly, I don't really like any of those.");
+                scr_event_build_dialogue(orgoidname, orgoidport, "Really? I thought those would work as names... maybe I'm not very good at this.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, don't worry! Just think about it a little bit more I guess. You can name yourself anything! You don't wanna rush it, right?");
+                scr_event_build_dialogue(orgoidname, orgoidport, "I suppose that's true. Thanks for the advice, " + P_NAME + ".");
+            }
+            if (scr_quest_get_state("orgoidRejected") == 1) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "To tell you the truth, none of those are doing it for me either.");
+                scr_event_build_dialogue(orgoidname, orgoidport, "You know, it's hard to tell what a name is when you've never had one before.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I didn't mean it like that, just...");
+                scr_event_build_dialogue(orgoidname, orgoidport, "It's fine, I'll just have to keep thinking.");
+            }
+            if (scr_quest_get_state("orgoidRejected") == 2) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I uh... I don't know if you should use any of those.");
+                scr_event_build_dialogue(orgoidname, orgoidport, "I see. No, really, I totally get it. You've got a name, and you're just defending your turf, aren't you?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What? No, I...");
+                scr_event_build_dialogue(orgoidname, orgoidport, "Please, spare me. I'm not even sure I want a name. I'm just Orgoid. Happy now?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I didn't mean it like that.");
+                scr_event_build_dialogue(orgoidname, orgoidport, "...");
+            }
+            scr_event_build_quest_state_add("orgoidRejected", 1);
+            scr_event_build_quest_state("orgoidRejectedTime", scr_time_get());
+            scr_event_build_end();
+        }
+        with (choice1) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I like" + string(name1) + "!");
+            scr_event_build_quest_state("orgoidName", string(name1));
+            scr_event_build_dialogue(orgoidname, orgoidport, "Really, you do!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, it rules! Go with it!");
+            scr_event_build_dialogue(orgoidname, orgoidport, "Okay... my name is._._._");
+            scr_event_build_dialogue(string(name1), orgoidport, string(name1) + "!");
+        }
+        with (choice2) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I like" + string(name2) + "!");
+            scr_event_build_quest_state("orgoidName", string(name2));
+            scr_event_build_dialogue(orgoidname, orgoidport, "Really, you do!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, it rules! Go with it!");
+            scr_event_build_dialogue(orgoidname, orgoidport, "Okay... my name is._._._");
+            scr_event_build_dialogue(string(name2), orgoidport, string(name2) + "!");
+        }
+        with (choice3) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I like" + string(name3) + "!");
+            scr_event_build_quest_state("orgoidName", string(name3));
+            scr_event_build_dialogue(orgoidname, orgoidport, "Really, you do!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, it rules! Go with it!");
+            scr_event_build_dialogue(orgoidname, orgoidport, "Okay... my name is._._._");
+            scr_event_build_dialogue(string(name3), orgoidport, string(name3) + "!");
+        }
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "You're gonna be happy with it. Trust me!");
+        scr_event_build_dialogue(orgoidname, orgoidport, "Thanks for inspiring me to do this, " + P_NAME + ".");
+    }
+
+    
+    //------------------------------------------------------------
+    // MAIN EVENT
+    //------------------------------------------------------------
+    with (event) {
+        //------------------------------
+        // Named Orgoid
+        //------------------------------
+        if (scr_quest_get_state("orgoidName") == "Orgoid") {
+            //------------------------------
+            // Just rejected a name
+            //------------------------------
+            if (scr_quest_get_state("orgoidRejectedTime") >= 0) {
+                if (scr_quest_get_state("orgoidRejected") == 1) {
+                    scr_event_build_dialogue(orgoidname, orgoidport, "I must keep thinking about this.");
+                }
+                else if (scr_quest_get_state("orgoidRejected") == 2) {
+                    scr_event_build_dialogue(orgoidname, orgoidport, "Stupid... stupid... next time I will have a better name.");
+                }
+            }
+            //------------------------------
+            // Rejected all names
+            //------------------------------
+            if (scr_quest_get_state("orgoidRejected") == 3) {
+                if (scr_quest_get_state("orgoidState") == 0) {
+                    scr_event_build_dialogue(orgoidname, orgoidport, "Orgoid... I am Orgoid... I am an Orgoid...");
+                }
+                else {
+                    scr_event_build_dialogue(orgoidname, orgoidport, "Orgoid... I am an Orgoid... I am Orgoid...");
+                }
+            }
+            //------------------------------
+            // First Interaction
+            //------------------------------
+            if (scr_quest_get_state("orgoidState") == 0) {
+                // set orgoid time
+                scr_event_build_quest_state("orgoidTime", scr_time_get());
+                //  idea 1?
+                scr_event_build_dialogue(orgoidname, orgoidport, "Hm? Are you...? No, of course not. I thought you belonged here, like me.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What are you talking about?");
+                scr_event_build_dialogue(orgoidname, orgoidport, "I misread you. I was mistaken. I'm an Orgoid.");
+
+                //  idea 2?
+                scr_event_build_dialogue(orgoidname, orgoidport, "Look upon me. Do you realize what you are seeing? I'm all flesh and blood, but there's a computer in my skull, and a real one too. No brain here, just a functional silicon wafer.");
+                
+                //  idea 3?
+                scr_event_build_dialogue(orgoidname, orgoidport, "You've run into lots of cyborgs I'm sure... but there's nothing dwarf about me. I'm a robot and more. Orgoid is what I am called.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "An orgoid... that's cool, and really original! I guess you're right, I've never met one of you before. What's your name, orgoid?");
+                scr_event_build_dialogue(orgoidname, orgoidport, "I'm Orgoid.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I know you're an orgoid, but what's your name?");
+                scr_event_build_dialogue(orgoidname, orgoidport, "Name?... Orgoid is all I call myself. I've never met another orgoid from which to distinguish myself.");
+                // if player == x114jam9
+                if (scr_quest_get_state("playerX1") == 1) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nice to meet you Orgoid. For what it's worth, I'm called " + P_NAME + ", but I'm not sure if that's my real name or what. Maybe I don't have a name either.");
+                    scr_event_build_dialogue(orgoidname, orgoidport, P_NAME + " is something though. At least it's not just /'cyborg/'... or /'orgoid./' I wish my name was " + P_NAME + "...");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm sorry, Orgoid. It's not a great name, really. I promise. I'm sure you'll have a name one day, and it'll be a good one.");
+                    scr_event_build_dialogue(orgoidname, orgoidport, "...");
+                    // orgoidState = 1
+                    scr_event_build_quest_state("orgoidState", 1);
+                }
+                // else, player == hoopz OR player == created character
+                else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Really? What are you gonna do if you meet another orgoid? You should try to pull a name together before that happens, so you can tell who's who.");
+                    scr_event_build_dialogue(orgoidname, orgoidport, "It has not happened yet, but I am not sure. What's your name? How can I have one?");
+                    // player == hoopz
+                    if (scr_quest_get_state("playerHoopz") == 1) {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, most of the time you get names from your family... that's why I'm called " + P_NAME_F + " anyway. Do you have a family?");
+                        scr_event_build_dialogue(orgoidname, orgoidport, "I have no family, not that I am aware of.");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yikes... that makes it tougher. Hm._._. oh, I know! No matter what your family calls you, everyone's entitled to a nickname. And those you can choose by yourself!");
+                        scr_event_build_dialogue(orgoidname, orgoidport, "So... I can just decide? Anything I want?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Usually it has something to do with your real name, or something that you're already called. If it's too out there, it won't stick.");
+                        scr_event_build_dialogue(orgoidname, orgoidport, "I see, I see... I'll have to think on this awhile, then.");
+                        // orgoidState = 2
+                        scr_event_build_quest_state("orgoidState", 2);
+                    }
+                    // player == cc
+                    else {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, sometimes you get names from your family... but mine is " + P_NAME + " and I decided that myself. You can choose a name for yourself too, if you want.");
+                        scr_event_build_dialogue(orgoidname, orgoidport, "I have no family, not that I am aware of. I think that choosing outright is my only option. So... are you sure I can just decide?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh yeah! Think of a name you want to have, say you want to go by it, start going by it, and boom! It's yours... and it's you!");
+                        scr_event_build_dialogue(orgoidname, orgoidport, "This is... fascinating, but all very new to this orgoid. I'll have to deliberate on this, then.");
+                        // orgoidState = 3
+                        scr_event_build_quest_state("orgoidState", 3);
+                    }
+                }
+            }
+            
+            
+            //------------------------------
+            // Orgoid wants X114JAM9
+            //------------------------------
+            else if (scr_quest_get_state("orgoidState") == 1) {
+                if (scr_quest_get_state("playerX1") == 0) {
+                    scr_event_build_dialogue(orgoidname, orgoidport, "Hey, X114JAM9, you're back.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hello. Well actually, I'm not X114JAM9 anymore. I found out my name is really " + P_NAME_F + ".");
+                    scr_event_build_dialogue(orgoidname, orgoidport, "Really? " + P_NAME + "is a nice name. I'll be sure to call you that then. So... what's going on with X114JAM9? It's not free is it?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, um, I guess you ca-");
+                    scr_event_build_dialogue(P_NAME, orgoidport, "Well then, it's decided. I'm X114JAM9. I'm an orgoid. Nice to meet you, " + P_NAME + ".");
+                    scr_event_build_quest_state("orgoidName", "X114JAM9");
+                }
+                else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hi Orgoid. Wait, are you okay?");
+                    scr_event_build_dialogue(orgoidname, orgoidport, "You have a name... I do not. Please leave me in peace.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Orgoid...");
+                    scr_event_build_dialogue(orgoidname, orgoidport, "X114JAM9... before you talked to me, I didn't know I was missing anything. I was fine as an orgoid, and as Orgoid. I was happy. Now there is a hole where a name should be, and not just at this moment. I'm scanning my files, going through my memories, and while only finite amounts of data are stored there, this absence is a new addition. A lack that was not there before, with no data to describe it, but still making it's presence known.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm so sorry, Orgoid...");
+                    scr_event_build_dialogue(orgoidname, orgoidport, "It's like that all the way back. Whenever and wherever I remember being orgoid, I now remember being nameless, although the memory does not exist. I must do something about this... but I do not know what.");
+                    // TODO: nonrepeating!!!!
+                }
+            }
+            
+            //------------------------------
+            // Orgoid wants Nickname
+            //------------------------------
+            else if (scr_quest_get_state("orgoidState") == 2) {
+                if (scr_time_get() > scr_quest_get_state("orgoidTime")) {
+                    scr_event_build_dialogue("Orgo", orgoidport, "You're back! Notice anything different about me?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hmm... not really.");
+                    scr_event_build_dialogue("Orgo", orgoidport, "My nickname, silly! I'm Orgo now!... Er, I meant to say: /'I'm Orgoid... but you can call me Orgo!/' That's how you do nicknames, right?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, that's it exactly! I'm happy for you Orgo. That's a great nickname.");
+                    scr_event_build_dialogue("Orgo", orgoidport, "You think so? Man oh man, I've felt different ever since I got this name. Like I'm more fun or something... Orgoid was pretty stodgy. Orgo can do anything.");
+                }
+                else {
+                    scr_event_build_dialogue(orgoidname, orgoidport, "A nickname... I need to think about this more.");
+                }
+            }
+            
+            //------------------------------
+            // Orgoid wants Real Name
+            //------------------------------
+            else if (scr_quest_get_state("orgoidState") == 3) {
+                if (scr_time_get() > scr_quest_get_state("orgoidTime")) {
+                    scr_event_build_event_snippet(name_snippet);
+                }
+                else {
+                    scr_event_build_dialogue(orgoidname, orgoidport, "Hello again. I'm thinking about what you said about names. I almost can't believe I can have any one I want... too many possibilities. I hope I can decide soon...");
+                }
+            }
+        }
+
+        //------------------------------
+        // Named X114JAM9
+        //------------------------------
+        else if (scr_quest_get_state("orgoidName") == "X114JAM9") {
+            
+        }
+        //------------------------------
+        // Named Orgo
+        //------------------------------
+        else if (scr_quest_get_state("orgoidName") == "Orgo") {
+
+        }
+        //------------------------------
+        // Named Anything Else
+        //------------------------------
+        else {
+
+        }
+    }
+    scr_event_advance(event);
+}

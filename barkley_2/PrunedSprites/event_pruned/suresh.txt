@@ -1,0 +1,272 @@
+//Suresh
+//Figbottom's friend in Dead Dwarf Quest
+/*if (argument0 == SCRIPT_START)
+{
+    if (scr_quest_get_state("sureshJerkinless") == 1)
+    {
+        scr_entity_animation_set(o_suresh01, "default");
+    }
+    else
+    {
+        scr_entity_animation_set(o_suresh01, "jerkin");
+    }
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    // If arrested, will not be visible anymore.
+    if (visible && !scr_event_etc_instance_on_screen(id) && scr_quest_get_state("sureshArrest") == 1)
+    {
+        scr_event_interactive_deactivate();
+    }
+} 
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var suresh = id;
+    var event = scr_event_create_main();
+    var chup_sale_snippet = scr_event_create_child(event);
+    var chup_handler_snippet = scr_event_create_child(event);
+
+
+    //--------------------------------------------
+    //-------------CHUP SALE SNIPPET--------------
+    //--------------------------------------------  
+    with (chup_sale_snippet)
+    {
+        Breakout("build", "clear");
+        
+        // Never talked to Suresh about chups before.
+        if (scr_quest_get_state("sureshChup") == 0)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, you're lookin' for trash, right?");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "W-wow, how'd you know?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Just a hunch. Hey, you tried searching with chups yet? These babies will help you find the good stuff right away. That's what they're good for, finding great trash.");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "I... I gotta get some chups! I love looking for trash! Okay... I'll give you all the money I've got for a chup. It's not much but... is 274 neuro-shekels enough?");
+        }
+        // Talked to Suresh about chups before.
+        else if (scr_quest_get_state("sureshChup") == 1)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You know, you still look like you could use those chups...");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Chups? You still got 'em?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, what are you paying?");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Um... I only have 274 neuro-shekels. Is that okay?");
+        }
+        
+        var sellchup = scr_event_build_choice("Sell Suresh a chup?", s_port_hoopz);
+        // Sell Chup
+        with scr_event_build_add_choice(sellchup, "That's good enough.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, that's fine. But I'm giving you a real deal here, okay?");
+            scr_event_build_dialogue_item("Got 274 neuro-shekels!");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Wow, I can't wait for all the great trash I'll find with this! Thank you!");
+            scr_event_build_quest_state("sureshChup", 2);
+            scr_event_build_quest_state_add("chupCount", -1);
+            scr_event_build_quest_state_add("chupShekel", 274);
+            scr_event_build_money_add(274);
+            }
+        // Don't sell chup
+        with scr_event_build_add_choice(sellchup, "No way, not enough.")
+        {
+        
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Forget it, if you wanna find the real trash you'll need to pay real money. Just how it works.");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "O-oh... well I'll be here if you ever change your mind...");
+            scr_event_build_quest_state("sureshChup", 1);
+        }
+    }
+    
+    //--------------------------------------------
+    //-----------CHUP HANDLER SNIPPET-------------
+    //--------------------------------------------
+    with (chup_handler_snippet)
+    {
+        // Chup Quest
+        if (scr_chup_available("suresh") == true)
+        {
+            Breakout("build", "add", "chupCount");
+            if (scr_quest_get_state("sureshChup") == 0)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Wait a sec... maybe I can sell this guy a chup...)");
+            }
+            var chupsell = scr_event_build_choice("Sell Suresh a chup?", s_port_hoopz);
+            // Sell Chup
+            with scr_event_build_add_choice(chupsell, "Looks like you could use a chup right about now.")
+            {
+                scr_event_build_event_snippet(chup_sale_snippet);
+            }
+            // Don't Sell Chup
+            with scr_event_build_add_choice(chupsell, "Nah, this guy's probably broke.")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Does this guy really have the cash for a chup? I don't think so.)");
+            }
+        }
+    }       
+    
+    //--------------------------------------------
+    //-------------- MAIN EVENT ------------------
+    //--------------------------------------------    
+    with (event)
+    {
+        //------------------------------------------------------------------------------
+        // *** figbottomQuest = 9 - Figbottom Quest has been completed ***
+        //------------------------------------------------------------------------------
+        if (scr_quest_get_state("figbottomQuest") == 9)
+        {
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Hi. Thanks for telling Marshal Masego I didn't kill Figbottom. He was a friend of mine. I really didn't want to go to jail.");  
+        } 
+        //------------------------------------------------------------------------------
+        // *** figbottomQuest = 7 - Suresh has been talked to 2 times ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("figbottomQuest") == 7)
+        {
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Hi. If you think I killed Figbottom for the jerkin, you're wrong. But I like my new jerkin. That's all. I also like trash.");
+        } 
+        
+        //------------------------------------------------------------------------------
+        // *** figbottomQuest = 6 - Moriarty has been spoken to. ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("figbottomQuest") == 6)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Suresh, Moriarty the vagrant told me he saw you and Figbottom arguing about something a few days ago.");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Hi. I don't know who Moriarty is. Sorry.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cut it out, Suresh. You know you're a suspect in this case and if you're holding out on information, you could be in big trouble.");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Umm, okay, I'm sorry. Yes, we had a big argument about some trash we found together. It's the jerkin I'm wearing. Do you like it?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait, what was the argument about?");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Um, it was about who got to keep it. I said it was mine because I found it, but Figbottom said it was his because we split everything. But since he's gone now, I get to keep it.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Suresh, did you kill him in order to take the jerkin?");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Um, no, I don't think so. I think it was Kunigunde. Figbottom and Kunigunde used to know each other a long time ago.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What? How did they know each other? Why didn't you tell me that earlier?");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "They used to know each other back in Tir na Nog. I think they were part of a tontine together. Do you know what that is? Everyone puts money into a pot and when everyone in the tontine dies, the last remaining person gets the pot.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You should have told me this earlier, Suresh.");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "I was thinking about trash.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm leaving, but don't forget that you're still a suspect, Suresh.");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Bye.");
+            scr_event_build_quest_state("figbottomQuest", 7);   
+        } 
+        
+        //------------------------------------------------------------------------------
+        // *** figbottomQuest > 3 && < 6 - Suresh has been talked to. ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("figbottomQuest") > 3) && (scr_quest_get_state("figbottomQuest") < 6)
+        { 
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Hi again. I'm Suresh the trash lover. I remember you. We just spoke about Figbottom. I don't know anything about Figbottom's disappearance so I don't think we have anything to talk about. Well, see ya!");
+        } 
+        
+        //------------------------------------------------------------------------------
+        // *** figbottomQuest = 3 - Figbottom Quest activated ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("figbottomQuest") == 3)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, you're Suresh, right? You used to be a friend of Figbottom's. I'm looking for some information about Figbottom's disappearance, is there anything you could tell me?");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Hi. I'm Suresh and I love trash. So did Figbottom. We were best trash friends and we used to dig around in the trash together. That was our job, looking in the trash.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I gathered that. Is there anything you could tell me about his disappearance?");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Um, no, I don't think so. I haven't seen him in a long time. That's all.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well is there anyone else who might know more?");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Um, you should ask Kunigunde because she always knows everything. But you shouldn't ask me because I don't know anything.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I'll do that. But if I find out you're hiding anything from me, I'll be back.");
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Don't come back please.");
+            scr_event_build_quest_state("figbottomQuest", 4);
+        } 
+        
+        //------------------------------------------------------------------------------
+        // *** sureshState = 2 ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("sureshState") == 2)
+        {
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "I liked it when my pal Figbottom and I used to look for trash together. I haven't seen Figbottom in a while and I miss him. We used to be trash friends.");       
+        } 
+        
+        //------------------------------------------------------------------------------
+        // *** time > 3 - goofy Suresh chat 2 ***
+        //------------------------------------------------------------------------------
+        else if (scr_time_get() >= 4)
+        {
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "I find great things in the trash every day. You should also look in the trash if you want to find great stuff. But don't look in my trash.");
+            
+            var response2 = scr_event_build_choice("Respond to Suresh?", s_port_hoopz);
+            // I go where I want.
+            with scr_event_build_add_choice(response2, "I go where I want.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I go where I want. Capice?");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "I understand that. So do I. Maybe if you like trash too, we could be friends. I had a trash friend a little while ago but he's gone now. I miss him.");
+            }
+            // Listen well, trashmonger.
+            with scr_event_build_add_choice(response2, "Listen well, trashmonger.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Listen well, trashmonger: I don't give a hoot. I'm not convinced it's a good idea to touch garbage.");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "I think it's a great idea to touch garbage. Like my jerkin? I found it in the garbage with my friend. My friend's gone now. I miss him. I hope I've convinced you to touch garbage.");
+            }
+            // Fie fie.
+            with scr_event_build_add_choice(response2, "Fie fie.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "A-fie fie... For shame... for shame... a-tut tut...");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "It's okay if you don't like digging through trash, but the truth is you can find great stuff there. It's what I like to do with my time. I spend my days and nights looking for good stuff. It's my job. It could be yours too. Do you believe me? Think about it.");
+            }
+            // A penny for your thoughts. A penny for your thoughts.
+            with scr_event_build_add_choice(response2, "A penny for your thoughts. A penny for your thoughts.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "A penny for your thoughts. A penny for your thoughts.");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "Right now I'm thinking about trash. I think there's a lot of good stuff in the trash. Like this jerkin I'm wearing. Do you like it? You can find great stuff in trash all the time, so you should do it too. Well, let's be trash friends.");
+            }
+            // Cram it, rat pip.
+            with scr_event_build_add_choice(response2, "Cram it, rat pip.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cram it, rat pip. Cram it, scrudtoucher.");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "If that's the way you feel, I guess I have no choice... I just wanted to tell you how I feel about trash... a.k.a. I love it... but if that's how you feel... I guess I'll cork my yapper...");
+            }
+            // There is much knowledge in the trash.
+            with scr_event_build_add_choice(response2, "There is much knowledge in the trash.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It appears there is much to be gleaned from the trash...");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "That's true. But it's not just knowledge, it's also great stuff like chocolate dubloons, tin foil, dirty pots and sometimes even old receipts. Think well on this, youngster. I have thought about it two or three times.");
+            }
+            scr_event_build_quest_state("sureshState", 2);
+        } 
+        
+        //------------------------------------------------------------------------------
+        // *** sureshState = 1 ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("sureshState") == 1)
+        {
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Listen closely, youngster. I love trash and I love garbage.");        
+        }
+        
+        //------------------------------------------------------------------------------
+        // *** time < 4 - goofy Suresh chat 1 ***
+        //------------------------------------------------------------------------------
+        else if (scr_time_get() <= 3) 
+        {
+            scr_event_build_dialogue("Suresh", "s_port_suresh", "Hey, guess what: I like trash. If you like it too, we can be friends.");
+            
+            var response1 = scr_event_build_choice("Respond to Suresh?", s_port_hoopz);
+            //I'm the trash bigshot.
+            with scr_event_build_add_choice(response1, "I'm the trash bigshot.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm the trash bigshot around here.");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "Ahhh... ahhh... that's what I want to hear. Let me tell you a secret, youngster. People think trash is junk, but I know the truth. Trash is actually really great. This jerkin I'm wearing? I found it in the trash. I hope you believe me.");
+            }
+            //Give me a break.
+            with scr_event_build_add_choice(response1, "Give me a break.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Give me a break. Ah, ah, give me a break.");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "If you don't believe me, that's okay. I'm content with myself and trash. I think about trash at all times and I think about garbage at all times. It's a mental exercise for me.");
+            }
+            //You think you know everything about trash?
+            with scr_event_build_add_choice(response1, "You think you know about trash?") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You think you know everything about trash?");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "Anyone who tells you they know everything about trash is a liar, a huckster, a mountebank or a numps. I don't know everything there is to know about trash, but I know a fair amount, and let me tell you youngster, trash is treasure. Trash is treasure...");
+            }
+            //Spoof me once.
+            with scr_event_build_add_choice(response1, "Spoof me once, shame on you.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Spoof me once, shame on you. Spoof me twice, shame on me.");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "Not buying it, eh? Let me tell you this, youngster. This jerkin I'm wearing? Got it from the trash. If you think you can't find anything good in the trash, you're out of your gourd. That's why I say look to the trash. Try it, youngster.");
+            }
+            //Trash is not a toy.
+            with scr_event_build_add_choice(response1, "Trash is not a toy.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Tut tut... trash is not a toy.");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "The youngster speaks truth... the youngster speaks truth... listen up youngster, I know the ins and outs of trash. You can always find something good in the trash. That's what I always say. That's why you should look in the trash. I hope you believe me.");
+            }
+            //Speak up? Speak up? Eh?
+            with scr_event_build_add_choice(response1, "Speak up? Speak up? Eh?") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Speak up? Eh? Speak up? Could you pipe up? Eh? Eh?");
+                scr_event_build_dialogue("Suresh", "s_port_suresh", "To me, trash is important to me. You never know what you'll find in the trash. That's why I always look in the trash. You would be wise to look in the trash too. Don't forget my advice.");
+            }
+            scr_event_build_quest_state("sureshState", 1);
+        }
+        // Check to see if Chups can be sold.
+        scr_event_build_event_snippet(chup_handler_snippet);
+    }
+    
+    scr_event_advance(event);
+}

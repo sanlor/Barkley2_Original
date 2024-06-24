@@ -1,0 +1,546 @@
+//Dr. Liu
+
+//------------------------------------------------------------------------------
+// *** govQuest = 6 ***
+//------------------------------------------------------------------------------
+
+Dr. Liu:
+Well, X1, not only did you pull it off, but you managed to make life in Tir na Nog just a little bit easier for the dwarfs. The policies you enacted are already underway, much to the disappointment of the Duergars, who were hoping for expanded torture routines. This was a victory for L.O.N.G.I.N.U.S. and it's thanks to you, X114JAM9!
+
+//go to Questions 3
+
+//------------------------------------------------------------------------------
+// Questions 3
+//------------------------------------------------------------------------------
+
+Do you know where I can find Cyberdwarf?
+
+	X114JAM9:
+	So I guess I'm leaving now, but do you have any idea where I can find the Cyberdwarf?
+	
+	Dr. Liu:
+	Well, I don't know. Like I told you earlier, we're a small, local branch of L.O.N.G.I.N.U.S. that deals with life in Tir na Nog. We're trying to take Cuchulainn down one peg at a time. All I know is that wherever the Cyberdwarf is, he's not here. But there are lots of L.O.N.G.I.N.U.S. people outside Tir na Nog and I'm sure they'll be able to help you better than I can.
+	
+	//go to Questions 3
+
+What can you tell me about L.O.N.G.I.N.U.S.?
+
+	X114JAM9:
+	So what's L.O.N.G.I.N.U.S. all about?
+	
+	Dr. Liu:
+	Well, L.O.N.G.I.N.U.S. is about a lot of things. For some dwarfs, it's about fighting Cuchulainn. For others, it's about escaping from the Necron 7. For more it's about pan-dwarfism. But for all of us, it's about autonomy; Cuchulainn doesn't have the right to corral up all the dwarfs in the galaxy into Tir na Nog, whether or not he's going to give us all a fabulous prize. We just want to go back to the lives we used to have.
+	
+	//go to Questions 3;
+
+So I can just leave now?
+
+	X114JAM9:
+	So I guess I can just leave now?
+	
+	Dr. Liu:
+	Right out the front gate. You're lucky! Very few people get to leave that way. Most of us have to sneak out through the sewers!
+	
+	//go to Questions 3
+
+Is there anything else I can do to help L.O.N.G.I.N.U.S.?
+
+	X114JAM9:
+	Is there anything else I can do to help out L.O.N.G.I.N.U.S.?
+
+	Dr. Liu:
+	Not this chapter, unless Absalom wants help with something, but if you meet any L.O.N.G.I.N.U.S. in your travels outside of Tir na Nog, let them know you're on their side.
+	
+	//go to Questions 3
+
+What are you going to do with the Governor?
+
+	X114JAM9:
+	So uh, what are you going to do with the Governor now?
+	
+	Dr. Liu:
+	Heh, I guess we kind of overlooked that part, huh? Well, I guess we'll keep him around and 'use' him for as long as we think we can keep up the charade.
+	
+	Governor Elagabalus:
+	Kiss my ass, mother fuckers!
+	
+	//go to Questions 3
+
+See ya.
+
+	X114JAM9:
+	It was interesting working with you all, Dr. Liu. I'll keep an eye out for L.O.N.G.I.N.U.S. outside of Tir na Nog. Take care.
+	
+	Dr. Liu:
+	You too! We'll be sure to put the Governor to good use!
+	
+	//end dialogue;
+	
+
+//------------------------------------------------------------------------------
+// *** govQuest = 5 ***
+//------------------------------------------------------------------------------
+
+Dr. Liu:
+X1! You've got a speech to give! Get down to the Governor's mansion at the center of Tir na Nog and give that address!
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// Body Transference
+//------------------------------------------------------------------------------
+
+X114JAM9:
+Well, I guess I'm ready as I'll ever be.
+
+Dr. Liu:
+Excellent. Sit in the chair next to the Governor. When I pull the lever, an electrical pulse will either fry your brains or transfer your consciousness into the Governor's body.
+
+X114JAM9:
+So... what's gonna happen to my body when I'm inside the Governor?
+
+Dr. Liu:
+The Governor will be inside your body. Don't worry! We'll keep him fed and watered, clean up if he makes a mess of himself.
+
+X114JAM9:
+Great. Well... I guess it's time to see if this thing works...
+
+//X114JAM9 gets in chair, Dr. Liu gets by the lever
+
+Dr. Liu:
+Ready X1? 3...
+
+Governor Elagabalus:
+Get me the hell out of here! Who are you people? I'll smash your brains in! I'm the gatdam governor!
+
+Dr. Liu:
+...2...
+
+X114JAM9:
+Here goes...
+
+Dr. Liu:
+...1!
+
+//electric animation, switch bodies with Duergars
+
+X114JAM9:
+AAAAAAHHHHHHHH!!!!!
+
+Governor Elagabalus:
+Ughhhhhhh..............
+
+//screen blanks out. From this point on, X114JAM9 is going to be Governor Elagabalus and vice versa. Governor Elagabalus is out of the chair, X1 is still in it. You control Governor Elagabalus now.
+
+X114JAM9:
+Let me the hell out of this chair you cretinous turd hounds! When I escape, Cuchulainn will crush every single one of you! He'll enslave the dwarfs forever, throw you in the Mines! You've made the worst mistake of your lives!
+
+Dr. Liu:
+It sounds like it definitely worked. How's it feel, X1?
+
+Governor Elagabalus:
+Kinda disorienting. It's really weird looking at my body from the outside. Or being someone else... I uh, kind of want to go back.
+
+Dr. Liu:
+You can go back as soon as you've given the speech. You know what you need to do, right?
+
+Governor Elagabalus:
+Yeah, I think so. I'm gonna be giving the Governor's inaugural speech at the Governor's mansion at the center of Tir na Nog. The first thing I do is give X114J- I mean myself - a free pass to leave Tir na Nog. After that, I lay out some policies that will help the dwarfs of Tir na Nog, right?
+
+Dr. Liu:
+That's right. Try to lay out plans that will have long-term benefits and consequences. Talk to people around Tir na Nog and see what they want, but anything that offers relief from Cuchulainn's oppression will help. After you're done, get back and we'll switch you back to your old body.
+
+Governor Elagabalus:
+I almost can't wait... I already hate this body.
+
+Dr. Liu:
+Good luck, X1! Do the community some good out there. I know you can do it!
+
+//govQuest = 5
+//end dialogue;
+ 
+
+//------------------------------------------------------------------------------
+// *** govQuest = 4 ***
+//------------------------------------------------------------------------------
+
+Dr. Liu:
+You're back! Are you ready to switch bodies with the Governor yet?
+
+Governor Elagabalus:
+Let me the hell outta here you miserable cretins! I'll crush you all!
+
+I guess I'm ready.
+
+I'm not ready yet.
+
+	X114JAM9:
+	I'm not ready yet.
+		
+	Dr. Liu:
+	Okay, but come back soon. We'll need to do this quick, the speech is scheduled to start shortly!
+	
+	//end dialogue;
+
+	
+//------------------------------------------------------------------------------
+// *** govQuest = 2 or govQuest = 3 ***
+//------------------------------------------------------------------------------
+
+Dr. Liu:
+You're back! Is there something you needed, X114JAM9?
+
+//go to Questions 2
+
+
+//------------------------------------------------------------------------------
+// Questions 2
+//------------------------------------------------------------------------------
+
+//if govQuest = 3
+I've got the Duergar... stuff.
+
+	X114JAM9:
+	Well Dr. Liu, I got the Duergar... stuff. What are we supposed to do with it?
+	
+	Dr. Liu:
+	Excellent. I'm not even going to ask how you got it. Duergars are territorial animals and urinate to mark their turf. The pheromones in Duergar urine convey power and authority; Duergars will often urinate over another Duergar's urine in order to assert their dominance. It's my hope that we can attract the incoming governor and capture him. Go place it on the left-most chair of the body transference device.
+	
+	X114JAM9:
+	Just... dump it on?
+	
+	Dr. Liu:
+	Yes, of course.
+	
+	X114JAM9:
+	Okay...
+	
+	//X114JAM9 walks over to chair
+	
+	X114JAM9:
+	Well, here goes... *sniff sniff*... ugh, horrendous.
+	
+	//X114JAM9 walks back to Dr. Liu
+	
+	Dr. Liu:
+	Well, I suppose we just need to wait and se-
+	
+	//Duergar Governor smashes through the window, sniffs around
+	
+	Governor Elagabalus:
+	*sniff sniff* Smells like...
+	
+	Dr. Liu:
+	(It's the Governor!)
+	
+	Governor Elagabalus:
+	...like...
+	
+	Dr. Liu:
+	(Don't make any quick movements!)
+	
+	Governor Elagabalus:
+	...like competition!
+	
+	//gets in chair, handles latch down over hands
+	
+	Dr. Liu:
+	We got him!
+	
+	X114JAM9:
+	I can't believe it worked...
+	
+	//Dr. Liu and X114JAM9 walk closer.
+	
+	Governor Elagabalus:
+	Lemme outta here! Let me the hell outta here! I'll dash your gourd upon the rocks! Do you have any idea who I am? I'm Governor Elagabalus and I own you all! If you don't let me out of here at once, I'll burn you and this whole city to the ground!
+	
+	R. Itkonen:
+	Keep it down! We've got a game going on over here!
+	
+	X114JAM9:
+	That shouldn't have been so easy. I guess I underestimated that Duergar competitive spirit.
+	
+	Dr. Liu:
+	Well, the Duergar urine worked like a charm. It looks like we've got ourselves a Governor. I guess it's time to see if the body transference device really works!
+	
+	X114JAM9:
+	Wait, you don't know if it works yet?
+	
+	Dr. Liu:
+	Well, it should in theory. If it doesn't, at least we know the urine trick works.
+	
+	X114JAM9:
+	That's really not reassuring, Dr. Liu. What am I supposed to do?
+	
+	Governor Elagabalus:
+	Get me the hell out of here you gatdam Cyberdwarf sympathizers! I'll crush you like bugs!
+	
+	Dr. Liu:
+	Well, if you're ready, you can strap in and we'll switch your bodies around. If not, take care of your business and come back. But make it quick, we can't take too long with this!
+	
+	I'm ready...
+	
+		//go to Body Transference
+	
+	I'm not ready yet.
+	
+		X114JAM9:
+		I'm not ready yet.
+		
+		Dr. Liu:
+		Okay, but come back soon. We'll need to do this quick, the speech is scheduled to start shortly!
+		
+		//govQuest = 4
+		//end dialogue;
+	
+What's the whole plan again?
+
+	X114JAM9:
+	So what's the whole plan again? How is this supposed to work?
+	
+	Dr. Liu:
+	Absalom and I built a body transference device that switches the bodies of the two people sitting in it. Our plan, Operation: S.A.B.O.T.A.G.E., is to kidnap the incoming governor by attracting him with Duergar urine and then switching bodies with him. You'll then give his inaugural speech, in which you'll state your policies and give yourself, X114JAM9, permission to leave Tir na Nog. Then the mission will be complete!
+	
+	X114JAM9:
+	What do you mean about stating my policies?
+	
+	Dr. Liu:
+	Yes, of course. As governor, or at least when you're pretending to be governor, you'll be able to set initiatives that help the people of Tir na Nog. Medicine for the elderly, clearing out the sewers for fishing, anything that has positive, meaningful consequences for the dwarfs living there. Ask around, see what people care about.
+	
+	//go to Questions 2
+
+Where am I supposed to get Duergar urine?
+
+	X114JAM9:
+	Where am I supposed to get that Duergar urine?
+	
+	Dr. Liu:
+	Hmm, good question. I doubt shops sell it. I guess you'll have to try a Duergar.
+	
+	X114JAM9:
+	Thanks...
+	
+	//go to Questions 2
+
+What can you tell me about L.O.N.G.I.N.U.S.?
+
+	X114JAM9:
+	So what's L.O.N.G.I.N.U.S. all about?
+	
+	Dr. Liu:
+	Well, L.O.N.G.I.N.U.S. is about a lot of things. For some dwarfs, it's about fighting Cuchulainn. For others, it's about escaping from the Necron 7. For more it's about pan-dwarfism. But for all of us, it's about autonomy; Cuchulainn doesn't have the right to corral up all the dwarfs in the galaxy into Tir na Nog, whether or not he's going to give us all a fabulous prize. We just want to go back to the lives we used to have.
+	
+	//go to Questions 2;
+
+Do you know anything about the Cyberdwarf?
+
+	X114JAM9:
+	Do you know anything about the Cyberdwarf? Who is he and where can I find him?
+	
+	Dr. Liu:
+	Cyberdwarf is the founder of L.O.N.G.I.N.U.S. and the leader of the rebels fighting Cuchulainn. He is very wise and it's said that he's very old... maybe even as old as Cuchulainn. We're a small branch of L.O.N.G.I.N.U.S. and we're cut off from the main group, so I couldn't tell you where he is, but he's got to be wherever the main rebel base is.
+	
+	//go to Questions 2;
+
+See you later.
+
+	X114JAM9:
+	Hey, I'll see you later.
+	
+	Dr. Liu:
+	Good luck, X1!
+	
+	//end dialogue;
+
+//------------------------------------------------------------------------------
+// *** govQuest = 1 ***
+//------------------------------------------------------------------------------
+
+Dr. Liu:
+I wasn't expecting to see you again, X114JAM9. I thought you weren't interested in helping L.O.N.G.I.N.U.S. Have you reconsidered helping us with Operation: S.A.B.O.T.A.G.E.?
+
+//------------------------------------------------------------------------------
+// *** no conditions ***
+//------------------------------------------------------------------------------
+
+Dr. Liu:
+Sigh... it looks like after all my hard work, nobody's going to even try. What's even the point anymore...?
+
+X114JAM9:
+Hey, this is L.O.N.G.I.N.U.S., right? I think I need your help. It's kind of a long story, but I was rescued from the Necron 7 engine room by a bunch of L.O.N.G.I.N.U.S. people who told me to find the Cyberdwarf. I don't know who I am or why I was there. Do you have any idea where he might be or what I have to do?
+
+Dr. Liu:
+Hmmm? You startled me! I didn't see you there! Well, I hate to tell you but the Cyberdwarf isn't in Tir na Nog and we're not the people who rescued you. We're a small, local branch trying to fight injustice in Tir na Nog and we don't have much contact with the outside. If you're looking for the Cyberdwarf, you'll have to look elsewhere. Sorry.
+
+X114JAM9:
+Oh... I see... well, thanks anyway...
+
+Dr. Liu:
+Wait a second! You're a pretty resourceful kid. You made it to our hideout in one piece, maybe you could help us out with our problem and we could, in turn, help you with yours?
+
+//go to Questions 1
+
+//------------------------------------------------------------------------------
+// Questions 1
+//------------------------------------------------------------------------------
+
+That body transference thing?
+
+	X114JAM9:
+	That body transference thing you were talking about earlier?
+
+	//go to Yes Answer.
+	
+	
+//go to Yes Answer
+
+I just want to find the Cyberdwarf.
+
+	X114JAM9:
+	Well, I really just want to find the Cyberdwarf.
+	
+	Dr. Liu:
+	I can't help you with that specifically, but I know he's not here and I believe we could come to a mutually beneficial resolution - we help the dwarfs of Tir na Nog and you escape. I could explain it in more depth if you're interested.
+	
+	Sure.
+	
+		X114JAM9:
+		Sure, you could elaborate.
+		
+		//go to Yes Answer
+	
+	Not today.
+	
+		X114JAM9:
+		No thanks. Not interested.
+		
+		Dr. Liu:
+		Sigh... we could have both benefited from this... I shouldn't have even bothered...
+		
+		//govQuest = 1
+		//end dialogue;
+
+I just want to get out of Tir na Nog as quick as I can.
+
+	X114JAM9:
+	Well, I really just want to get out of here as fast as possible.
+	
+	Dr. Liu:
+	I was getting to that! I believe that we could come to a mutually beneficial resolution - we help the dwarfs of Tir na Nog and you escape. I could explain it in more depth if you're interested.
+	
+	Sure.
+	
+		X114JAM9:
+		Sure, you could elaborate.
+		
+		//go to Yes Answer
+	
+	Not today.
+	
+		X114JAM9:
+		No thanks. Not interested.
+		
+		Dr. Liu:
+		Sigh... we could have both benefited from this... I shouldn't have even bothered...
+		
+		//govQuest = 1
+		//end dialogue;
+
+Not today. Kiss my grits, granny.
+
+	X114JAM9:
+	Not happening. Kiss my grits, granny.
+	
+	Dr. Liu:
+	Wh-what? But... but I believe we can both benefit from it. And I worked so hard... I shouldn't have even bothered...
+	
+	//govQuest = 1
+	//end dialogue;
+	
+
+//------------------------------------------------------------------------------
+// Yes Answer
+//------------------------------------------------------------------------------
+
+Dr. Liu:
+For the past few months, Absalom and I have been working on a device that can transfer the consciousness of one being into another, the idea being that we somehow capture a Duergar, switch bodies with him and infiltrate Cuchulainn's establishment to bring him down from the inside. Pretty clever, huh?
+
+X114JAM9:
+If it works.
+
+Dr. Liu:
+Then a golden opportunity came up: the last governor got transferred. They tend to burn out pretty quickly in Tir na Nog. Whenever a new governor comes in, they give an inaugural speech that dictates their policy. In the past it's been exclusively draconian updates to laws and harsh punishments; they constantly try to one-up the last in the dreadfulness of their policies... but it doesn't have to be that way. If we could somehow kidnap the incoming governor before he gives his speech, switch bodies with him and then give the speech in his place, we can create policies that help the people of Tir na Nog. What do you think?
+
+//go to Yes Branch
+
+//------------------------------------------------------------------------------
+// Yes Branch
+//------------------------------------------------------------------------------
+
+But how does this help me?
+
+	X114JAM9:
+	Okay, so I get how this helps you. But how does this help me?
+	
+	Dr. Liu:
+	The Duergars don't let anyone through the front gates... unless they have explicit permission from the governor. If you switch bodies with the governor and then give yourself, or X114JAM9 that is, permission to leave, then you can walk right out the door. I don't know where the Cyberdwarf is, but I know he's not here.
+	
+	//go to Yes Branch
+
+What do you mean by create policy?
+
+	X114JAM9:
+	What do you mean by creating policy?
+	
+	Dr. Liu:
+	At every inaugural address, the governor lays out their plans for the future of Tir na Nog. Usually they're about indiscriminate torture roundups or food rationing. But what if we did something good for the community - medicine for the elderly, fix up the b-ball court, make the sewers a safe place to fish? Who knows, talk to people, see what they've got on their minds and address them. But by hijacking the governor's speech we have an extremely rare opportunity to make Tir na Nog a better place.
+	
+	//go to Yes Branch
+
+Okay, I'm in.
+
+	X114JAM9:
+	Alright, I'm in. What do I need to do?
+	
+	Dr. Liu:
+	Fantastic! I knew I could count on you! So here's how it goes down: we somehow kidnap the governor, you switch bodies with him using the body transference device and then deliver his speech. During his speech, you lay out policies that will help the people of Tir na Nog and give yourself, or I suppose X114JAM9, permission to leave. Then get back, switch back to your old body and Operation: S.A.B.O.T.A.G.E. will be a success!
+	
+	X114JAM9:
+	This sounds unbelievably complicated. How are we supposed to kidnap the incoming governor?
+	
+	Dr. Liu:
+	Well, that's the tricky part. But I have an idea... see, Duergars are instinctively territorial creatures. They mark their turf, their home with... ahh... well, their urine. When a Duergar urinates on something, it indicates that he owns it. But Duergars are also competitive and domineering creatures as well. A Duergar, attracted by the pheromones of another Duergar's urine, will urinate over it in order to prove his dominance.
+	
+	X114JAM9:
+	So what are you saying?
+	
+	Dr. Liu:
+	Well, I think we could attract the Governor using either Duergar urine or the pheromones extracted from it. The Governor is the highest ranking Duergar in Tir na Nog and he'll want to prove it by stamping out any rivals.
+	
+	X114JAM9:
+	So you're saying I need to get some Duergar urine? That's pretty disgusting. Where am I even supposed to get it?
+	
+	Dr. Liu:
+	Well you could try asking...
+	
+	X114JAM9:
+	Ugh... well I'll find it somehow and I'll be back when I get it. Later, Dr. Liu.
+	
+	Dr. Liu:
+	Excellent. Good luck to you, X1.
+	
+	//govQuest = 2
+	//end dialogue;
+
+Kiss my grits.
+
+	X114JAM9:
+	Kiss my grits, granny. Not happening.
+	
+	Dr. Liu:
+	Wh-what? But... but I believe we can both benefit from it. And I worked so hard... I shouldn't have even bothered...
+	
+	//govQuest = 1
+	//end dialogue;

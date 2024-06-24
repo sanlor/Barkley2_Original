@@ -1,0 +1,58 @@
+// Event for Gaspar, a juggling enthusiast who shows up in the Industrial Park at times 
+//9, 10 and 11.
+
+if (argument0 == SCRIPT_STEP) {
+if (scr_time_get() == 2) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 3) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 11) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var gaspar = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("gasparState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Gaspar", NULL, "Huh? What's that? Am I a juggler? Good eye, kid. Yeah, I've tossed a few balls around before but I'm no Juggler's Guild material. I guess you could call me... a juggler aficionado. I'm not just in it for the stunts, I'm in it for the personalities - the Juggler's Guild's biggest celebrities, the stars. Hey, you ever wanna talk juggling, tips, tricks, rumors, bigtime jugglers, the works, you come to me. I'm always down for a juggling confab.");
+            scr_event_build_quest_state("gasparState", 1);
+        } else if (scr_quest_get_state("gasparState") == 1) {
+        //random dialogue 1
+            scr_event_build_dialogue("Gaspar", NULL, "Word on the street is Cuchulainn's a juggler himself. I don't usually buy into cheap talk but... this time I'll bite. I hate to say it but there's just too much evidence.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? What evidence?");
+            scr_event_build_dialogue("Gaspar", NULL, "Just look around you, kid. The proof is in the pudding.");
+        } else if (scr_quest_get_state("gasparState") == 2) {
+        //random dialogue 2
+            scr_event_build_dialogue("Gaspar", NULL, "The Juggler's Guild? Keep your voice down! Yeah, I know a little... but don't spread this around! They say it's made up of the most elite jugglers on the Necron 7, guys like Barnabus, Dark Rick, Beefer. Nobody knows where to find the Juggler's Guild, but they say you can't... 'cuz they find you. Apparently they come at night when you're sleeping, wake you up with the most hellzapoppin' juggling routine you can even imagine - we're talking 20 bowling pins, two whole lanes - and then fade back into the shadows. Nobody even knows how many jugglers there are, only that they seem to have a hand in every single juggling performance on the Necron 7.");
+        } else if (scr_quest_get_state("gasparState") == 3) {
+        //random dialogue 3
+            scr_event_build_dialogue("Gaspar", NULL, "So you think you're a juggler, huh? You think you're Juggler's Guild material? Don't make me laugh, kid. You don't even have juggler's calluses yet, are you still throwing scarves? Can you even juggle devil sticks?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I-I'm Rank D...");
+            scr_event_build_dialogue("Gaspar", NULL, "Look, if you want to impress the Juggler's Guild, and quite frankly, me, you're gonna have to start doing some death defying juggles. Juggle near monsters, juggle near Duergars, juggle near lava, heck, juggle at your parole hearing. The key is to juggle when nobody expects it. That's how you become a REAL juggler.");
+        } else if (scr_quest_get_state("gasparState") == 4) {
+        //random dialogue 4
+            scr_event_build_dialogue("Gaspar", NULL, "I've got the names of the Juggler's Guild all-stars tattooed to my sternum in case I forget. Grundo, Beefer, The Virtuous Cholo, Devil Stick Chad. Hey, you know about Barnabus? The masked juggler? Course you do. Rumor is he wears a mask to hide his face, which he disfigured in a terrible juggling accident. He's a real maverick, a loose cannon; nobody knows when he'll strike or what he'll juggle next. They say he juggles for a purpose, but what it is... nobody knows.");
+         } else if (scr_quest_get_state("gasparState") == 5) {
+        //random dialogue 5
+            scr_event_build_dialogue("Gaspar", NULL, "I mean, yeah, juggling is cool. It's fashionable and that's one of the biggest perks. Demand for top tier jugglers is higher than ever. But it's about more than just entertainment, it's about more than just jukes and japes, you know? It's the lifestyle, the dedication to the craft. Anyone can toss a few balls around, but juggling? That takes something special.");
+         } else if (scr_quest_get_state("gasparState") == 6) {
+        //random dialogue 6
+            scr_event_build_dialogue("Gaspar", NULL, "Listen, kid... you didn't hear it from me, but they say there's a level even higher than juggler. Once you master juggling, they say you become something even more powerful. I can't even imagine...");
+         } else if (scr_quest_get_state("gasparState") == 7) {
+        //random dialogue 7
+            scr_event_build_dialogue("Gaspar", NULL, "You ever juggle when nobody's looking? Me? Never. But I hear the pros do it sometimes. Juggle near a monster, juggle near a door, juggle near a computer, it might just make something happen. Heck, I've even heard about a guy who juggled near a Bainshee. Who knows, kid. There may just be something to juggling.");
+        } else if (scr_quest_get_state("gasparState") == 8) {
+        //random dialogue 8
+            scr_event_build_dialogue("Gaspar", NULL, "The latest juggling rumor? Yeah, I've heard it. It's /'juggle everything./'");
+        }
+    }
+    scr_event_advance(event);
+}

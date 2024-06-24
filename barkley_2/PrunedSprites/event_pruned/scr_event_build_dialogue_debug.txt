@@ -1,0 +1,42 @@
+/// scr_event_build_dialogue_debug(title,portrait,dialogue)
+/// This script is used to build a dialogue action. 
+/// However, it only runs when you are in debug mode.
+/// For no title, put NULL_STRING.
+/// For no portrait, put NULL.
+if (global.DEBUGMODE) {
+    var action = ds_list_create();
+    ds_list_add(action, scr_event_action_dialogue);
+    ds_list_add(action, argument0); // title
+    ds_list_add(action, argument1); // portrait
+    ds_list_add(action, argument2); // dialogue
+    var debug_extras = scr_event_dialogue_build_extras(8, 140, 368, 4, NULL, c_maroon, c_red, "sn_talk1", "sn_talk3", NULL, NULL, false);
+    ds_list_add(action, debug_extras); // extras
+    ds_list_add(_event_list, action); // add the action to the list
+        
+    return ds_list_size(_event_list) - 1;
+}
+
+/*
+if (global.DEBUGMODE) {
+    var action = ds_list_create();
+    ds_list_add(action, scr_event_action_dialogue_debug);
+    ds_list_add(action, argument0); // title
+    ds_list_add(action, argument1); // portrait
+    ds_list_add(action, argument2); // dialogue
+    ds_list_add(action, NULL); // extras
+    ds_list_add(_event_list, action); // add the action to the list
+    
+    return ds_list_size(_event_list) - 1;
+}
+else {
+    var action = ds_list_create();
+    ds_list_add(action, scr_event_action_dialogue_debug);
+    ds_list_add(action, argument0); // title
+    ds_list_add(action, argument1); // portrait
+    ds_list_add(action, argument2); // dialogue
+    ds_list_add(action, NULL); // extras
+    ds_list_add(_event_list, action); // add the action to the list
+    
+    return ds_list_size(_event_list) - 1;
+}
+*/

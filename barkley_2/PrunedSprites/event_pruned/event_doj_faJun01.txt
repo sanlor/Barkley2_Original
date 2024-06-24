@@ -1,0 +1,133 @@
+// event_doj_faJun01
+/*
+if (argument0 == SCRIPT_START) {}
+else if (argument0 == SCRIPT_STEP) {}
+else if (argument0 == SCRIPT_INTERACT) {
+    var faJun = id;
+    var event = scr_event_create_main();
+    var meet_snippet = scr_event_create_child(event);
+    var task_snippet = scr_event_create_child(event);
+    
+    //--------------------------------------------
+    // main event
+    //--------------------------------------------
+    with (event) {
+        if (scr_quest_get_state("faJunTask") >= 1) {
+             scr_event_build_event_snippet(task_snippet);
+        }
+        if (scr_quest_get_state("faJunState") == 1) {
+            //scr_event_build_dialogue("Fa Jun", NULL, "The dojo is full of students who have sought Grandmaster Mizutani. We also tend to the dojo's upkeep.");
+        }
+        else {
+            scr_event_build_event_snippet(meet_snippet);
+        }
+    }
+    
+    
+    //--------------------------------------------
+    // task_snippet
+    //--------------------------------------------
+    with (task_snippet) {
+        if (scr_quest_get_state("faJunTask") == 1) {
+            if (scr_quest_get_state("bucketMode") == 1) {
+                scr_event_build_dialogue("Fa Jun", NULL, "Good, you have the bucket. The practitioners at this dojo keep our bodies in pristine condition. We drink from the water at the base of Mt. ______, after it has undergone it's purifying cascades. There is a small pool at the base of the mountain. Fill this water bucket, and return.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Carry a water bucket up a mountain? I know how this works, this guy's the flippin' Grandmaster! It's written all over the place!)");
+                scr_event_build_dialogue("Fa Jun", NULL, "Do you understand?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh yeah, totally. I hope this hard work pays off... I gotta meet the Grandmaster! (Heh heh...)");
+                scr_event_build_dialogue("Fa Jun", NULL, "Very good. Remember, hard work and clean water leads to bodily purification. Bodily purification leads to spiritual release. Spiritual release leads to meeting our Grandmaster.");
+                scr_event_build_quest_state("faJunTask", 2);
+            }
+            else {
+                scr_event_build_dialogue("Fa Jun", NULL, "Hard work leads to bodily purification. Bodily purification leads to spiritual release. Spiritual release leads to meeting Grandmaster Mizutani. Go fetch the bucket and return if you wish to proceed.");
+            }
+        }
+        // task accepted
+        else if (scr_quest_get_state("faJunTask") == 2) {
+            if (Item("count", "Pure Water Bucket") == 1) {
+            
+            
+            }
+            else if (Item("count", "Spring Water Bucket") == 1) {
+            
+            
+            }
+            else {
+                scr_event_build_dialogue("Fa Jun", NULL, "Take the bucket and fill it with the pure waters at the base of Mt. _____.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yes, Grandmas-... I mean, yes Fa Jun!");
+            }
+        }
+    }
+    
+    //--------------------------------------------
+    // meet_snippet
+    //--------------------------------------------
+    with (meet_snippet) {
+        scr_event_build_dialogue("Fa Jun", NULL, "Halt! Who attempts to cross this threshold!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "My name is " + P_NAME_F +". I didn't mean to intrude...");
+        scr_event_build_dialogue("Fa Jun", NULL, "Why have you come here? " + P_NAME_F + "? Are you a seeker of wisdom? Or, like many others bound to this world, do you seek folly?");
+        var choice = scr_event_build_choice("I'm looking for...", s_port_hoopz); 
+        //---------------
+        // Wisdom
+        //---------------
+        var wisdom = scr_event_build_add_choice(choice, "Wisdom.");
+        with (wisdom) {
+            if (scr_quest_get_state("cdwarfDojo") >= 1) 
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm looking for wisdom. I heard a very wise and powerful teacher lives on this mountaintop.");
+                scr_event_build_dialogue("Fa Jun", NULL, "Yes, indeed. This dojo is the home to those who seek more. To learn from Grandmaster Mizutani how to see past the /'reality/' that exists in their own minds. The /'reality/' of illusion.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow...");
+            }
+            else
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm looking for wisdom. I'm dying to learn...");
+                scr_event_build_dialogue("Fa Jun", NULL, "Very good. This dojo is the home to those who seek more. To learn from Grandmaster Mizutani how to see past the /'reality/' that exists in their own minds. The /'reality/' of illusion.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow...");
+            }
+            
+        }
+        //---------------
+        // Cyberdwarf
+        //---------------
+        if (scr_quest_get_state("cdwarfJoined") == 0) { // TODO: not correct
+            var cyberdwarf = scr_event_build_add_choice(choice, "The Cyberdwarf.");
+            with (cyberdwarf) {
+                if (scr_quest_get_state("cdwarfDojo") >= 1)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm looking for the Cyberdwarf. I heard a very wise and powerful man lives on this mountaintop. I think that might be the Cyberdwarf.");
+                    scr_event_build_dialogue("Fa Jun", NULL, "/'Cyberdwarf/', hmm. /'Cyberdwarf/'... I don't know the master of the dojo by that name, but you and I may know different things.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "What do you mean?");
+                    scr_event_build_dialogue("Fa Jun", NULL, "I know our Grandmaster as Mizutani. But Grandmaster Mizutani may be Grandmaster Cyberdwarf in your mind. Who determines identity? Who determines reality?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa... I don't even know. That's nuts...");
+                    scr_event_build_dialogue("Fa Jun", NULL, "Aptly put, seeker. What's /'nuts/' to you could be /'reality/' to others. After all... /'reality/' is just an illusion.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow...");
+                }
+                else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm looking for the Cyberdwarf.");
+                    scr_event_build_dialogue("Fa Jun", NULL, "/'Cyberdwarf/', hmm. /'Cyberdwarf/'... I don't know of any Cyberdwarfs at this dojo, but dwarfs from many paths seek wisdom from Grandmaster Mizutani. So I could be mistaken. After all... /'reality/' is just an illusion.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow...");
+                }
+            }
+        }
+        //---------------
+        // Folly
+        //---------------
+        var folly = scr_event_build_add_choice(choice, "Folly.");
+        with (folly) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm looking for folly. It's fun to be foolhardy.");
+            scr_event_build_dialogue("Fa Jun", NULL, "Tsk... such is the case for those of us bound to material /'reality/'. All of us in the dojo were once that way. But Grandmaster Mizutani is showing us an exit... an exit from the /'reality/' of illusion.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow...");
+        }
+        //---------------
+        // TODO: ROUNDMOUND
+        //---------------
+        var roundmound = scr_event_build_add_choice(choice, "TODO: Other RM");
+        with (roundmound) {
+            scr_event_build_dialogue_debug(P_NAME, s_port_hoopz, "Whatever RoundMound stuff we want goes here! EX: Candy, to play Sports, etc.");
+        }
+        scr_event_build_move_to_point(faJun, x, y);
+        scr_event_build_dialogue("Fa Jun", NULL, "Enter, should thou seek further!");
+        scr_event_build_quest_state("faJunState", 1);
+    }
+        
+    scr_event_advance(event);
+}

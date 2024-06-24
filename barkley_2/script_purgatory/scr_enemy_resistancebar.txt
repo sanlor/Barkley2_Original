@@ -1,0 +1,134 @@
+/// Draw Enemy resistance bar
+var resBio    = scr_stats_getEffectiveStat(self, STAT_BASE_RESISTANCE_BIO);
+var resCyb  = scr_stats_getEffectiveStat(self, STAT_BASE_RESISTANCE_CYBER);
+var resMen = scr_stats_getEffectiveStat(self, STAT_BASE_RESISTANCE_MENTAL);
+var resCos = scr_stats_getEffectiveStat(self, STAT_BASE_RESISTANCE_COSMIC);
+var resZau = scr_stats_getEffectiveStat(self, STAT_BASE_RESISTANCE_ZAUBER);
+
+resAlt[0] = resBio != scr_stats_getBaseStat(self, STAT_BASE_RESISTANCE_BIO);
+resAlt[1] = resCyb != scr_stats_getBaseStat(self, STAT_BASE_RESISTANCE_CYBER);
+resAlt[2] = resMen != scr_stats_getBaseStat(self, STAT_BASE_RESISTANCE_MENTAL);
+resAlt[3] = resCos != scr_stats_getBaseStat(self, STAT_BASE_RESISTANCE_COSMIC);
+resAlt[4] = resZau != scr_stats_getBaseStat(self, STAT_BASE_RESISTANCE_ZAUBER);
+
+if (resAlt[0] or resAlt[1] or resAlt[2] or resAlt[3] or resAlt[4] or quickmenu())
+{
+    var xoff = ailmentTotem_core_x_get(self.id);
+    var yoff = ailmentTotem_core_y_get(self.id);
+    var drx = floor(dx + xoff);
+    var dry = floor(dy - yoff);
+    DrawResistance(drx, dry, resBio, resCyb, resMen, resCos, resZau);
+}
+
+exit;
+
+/*resistances_altered[0] = resBio    != scr_stats_getBaseStat(self, STAT_BASE_RESISTANCE_BIO) + (scr_stats_getEffectiveStat(self, STAT_BASE_PIETY) * 0.5);
+resistances_altered[1] = resCyber  != scr_stats_getBaseStat(self, STAT_BASE_RESISTANCE_CYBER) + (scr_stats_getEffectiveStat(self, STAT_BASE_PIETY) * 0.5);
+resistances_altered[2] = resMental != scr_stats_getBaseStat(self, STAT_BASE_RESISTANCE_MENTAL) + (scr_stats_getEffectiveStat(self, STAT_BASE_PIETY) * 0.5);
+resistances_altered[3] = resCosmic != scr_stats_getBaseStat(self, STAT_BASE_RESISTANCE_COSMIC) + (scr_stats_getEffectiveStat(self, STAT_BASE_PIETY) * 0.5);
+resistances_altered[4] = resZauber != scr_stats_getBaseStat(self, STAT_BASE_RESISTANCE_ZAUBER) + (scr_stats_getEffectiveStat(self, STAT_BASE_PIETY) * 0.5);
+*/
+
+// Draw this resistance shit //
+var qmn = quickmenu();//instance_exists(o_qmenu_button) || instance_exists(o_qmenu_item) || quickmenu();
+if resistances_altered[0] or resistances_altered[1] or resistances_altered[2] or resistances_altered[3] or resistances_altered[4] or qmn then
+    {
+    // Scale of resistances 300 // From -100 to +200 //
+    var scale = 300;
+    var line_height = 24;
+    
+    // Variables //
+    var value_bi = (resBio    + 100) / 300 * line_height;
+    var value_cy = (resCyber  + 100) / 300 * line_height;       
+    var value_me = (resMental + 100) / 300 * line_height;
+    var value_co = (resCosmic + 100) / 300 * line_height; 
+    var value_za = (resZauber + 100) / 300 * line_height;
+    
+    // Offset //
+    var xoff = ailmentTotem_core_x_get(self.id);
+    var yoff = ailmentTotem_core_y_get(self.id);
+    var drx = floor(dx + xoff);
+    var dry = floor(dy - yoff);
+    var line_w = 3;
+    var gap = 3;
+    var xposition = 0;
+    
+    
+    // Resistance bar alpha //
+    draw_set_alpha(0.8);
+    draw_set_color(c_white);
+    
+     // Font //
+    draw_set_font(global.fn_small);
+    
+    // Resistance line //
+    if (qmn) { repeat (5) xposition += (line_w + gap); }
+    else
+    {
+        for (var g = 0; g < 5; g += 1) { if (resistances_altered[g]) xposition += (line_w + gap); }
+    }
+    draw_sprite_ext(s1x1, 0, drx, dry + 8 - line_height / 2, xposition - 1, 1, 0, c_white, 0.8);
+    xposition = 0;
+    
+    // BIO //    
+    if resistances_altered[0] or qmn then 
+        {
+        //draw_set_color(c_bio);
+        //draw_line_width(drx + xposition + 2, dry + 8, drx + xposition + 2, dry + 8 - value_bi, line_w);
+        draw_sprite_ext(s1x1, 0, drx + xposition + 1, dry + 8 + 1, line_w, - value_bi, 0, c_bio, 0.8);
+        //draw_set_color(c_white);
+        draw_text(drx + xposition, dry + 9, "B");
+        xposition += (line_w + gap);
+        }
+        
+    // CYBER //    
+    if resistances_altered[1] or qmn then 
+        {
+        //draw_set_color(c_cyber);
+        //draw_line_width(drx + xposition + 2, dry + 8, drx + xposition + 2, dry + 8 - value_cy, line_w);
+        draw_sprite_ext(s1x1, 0, drx + xposition + 1, dry + 8 + 1, line_w, - value_cy, 0, c_cyber, 0.8);
+        //draw_set_color(c_white);
+        draw_text(drx + xposition, dry + 9, "C");
+        xposition += (line_w + gap);
+        }
+        
+    // MENTAL //        
+    if resistances_altered[2] or qmn then 
+        {
+        //draw_set_color(c_mental);
+        //draw_line_width(drx + xposition + 2, dry + 8, drx + xposition + 2, dry + 8 - value_co, line_w);
+        draw_sprite_ext(s1x1, 0, drx + xposition + 1, dry + 8 + 1, line_w, - value_me, 0, c_mental, 0.8);
+        //draw_set_color(c_white);
+        draw_text(drx + xposition - 1, dry + 9, "M");
+        xposition += (line_w + gap);
+        }
+        
+    // COSMIC //    
+    if resistances_altered[3] or qmn then 
+        {
+        //draw_set_color(c_cosmic);
+        //draw_line_width(drx + xposition + 2, dry + 8, drx + xposition + 2, dry + 8 - value_me, line_w);
+        draw_sprite_ext(s1x1, 0, drx + xposition + 1, dry + 8 + 1, line_w, - value_co, 0, c_cosmic, 0.8);
+        //draw_set_color(c_white);
+        draw_text(drx + xposition, dry + 9, "K");
+        xposition += (line_w + gap);
+        }
+        
+    // ZAUBER //    
+    if resistances_altered[4] or qmn then 
+        {
+        //draw_set_color(c_zauber);
+        //draw_line_width(drx + xposition + 2, dry + 8, drx + xposition + 2, dry + 8 - value_za, line_w);
+        draw_sprite_ext(s1x1, 0, drx + xposition + 1, dry + 8 + 1, line_w, - value_za, 0, c_zauber, 0.8);
+        //draw_set_color(c_white);
+        draw_text(drx + xposition, dry + 9, "Z");
+        xposition += (line_w + gap);
+        }
+        
+    // Line //
+    //draw_set_alpha(0.75);
+    //draw_set_color(c_white);
+    //draw_line(drx - 1, dry + 8 - line_height / 2, drx + xposition - 2, dry + 8 - line_height / 2);
+    
+    draw_set_alpha(1);
+    }

@@ -1,0 +1,64 @@
+// event_gbl_beggingGame01
+
+// Script for GENERIC BEGGING GAME
+// usage: event_gbl_beggingGame01
+/*
+-------------
+
+-------------
+*/
+/*if (argument0 == SCRIPT_START)
+{
+    // initialize, if not yet
+    scr_lemuel_init();
+
+    // save in global variable for this game instance
+    global.mapbegging = scr_savedata_get("mapbegging");
+    
+    // ADD IN ABOVE ???
+    global.listbegging = ds_list_create();
+    
+    var q;
+    for (q = 0; q <= scr_begging_count(); q += 1)
+    {
+        global.listbegging[| q] = scr_begging("random");
+        show_debug_message("Begging Queue " + string(q) + ": " + string(global.listbegging[| q]) + ".");
+    }
+
+    var beggingGame = id;
+   
+    //---------------------------------------
+    // Main Event
+    //---------------------------------------
+    var event = scr_event_create_main();
+    with (event)
+    {
+        scr_event_build_fade(true, 0);
+        scr_event_build_wait_for_actions();
+        scr_event_build_set_object(o_cts_hoopz, o_beggingRug01.x, o_beggingRug01.y - 8);
+        scr_event_build_wait_for_actions();
+        scr_event_build_fade(false, 3);
+        scr_event_build_wait_for_actions();
+        scr_event_build_wait(1);
+        scr_event_build_wait_for_actions();
+        
+        for (h = 0; h <= ds_list_size(global.listbegging); h += 1)
+        {
+            scr_event_build_begging_receive();
+        }
+        scr_event_build_quest_state("beggingGame", 0);
+        scr_event_build_fade(true, 3);
+        scr_event_build_wait_for_actions();
+        scr_event_build_teleport(room, o_hoopz.x, o_hoopz.y);
+    }
+    scr_event_advance(event);
+    
+} 
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    
+}

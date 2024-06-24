@@ -1,0 +1,54 @@
+/// scr_event_choice_parse_extras(extras)
+/// Parses all of the extras (if there are any) for a choice.
+
+var extras = argument0;
+
+if (extras != NULL) {
+    // Grab all of the values from the extras list.
+    var draw_x = ds_list_find_value(extras, 0);
+    var draw_y = ds_list_find_value(extras, 1);
+    var width = ds_list_find_value(extras, 2);
+    var lines = ds_list_find_value(extras, 3);
+    var title_color = ds_list_find_value(extras, 4);
+    var text_color = ds_list_find_value(extras, 5);
+    var selection_color = ds_list_find_value(extras, 6);
+    var highlight_color = ds_list_find_value(extras, 7);
+    var lowlight_color = ds_list_find_value(extras, 8);
+    var choice_sound = ds_list_find_value(extras, 9);
+    var confirm_sound = ds_list_find_value(extras, 10);
+
+    // Only set the values if they aren't null.
+    if (draw_x != NULL) {
+        _draw_x = draw_x;
+    }
+    if (draw_y != NULL) {
+        _draw_y = draw_y;
+    }
+    if (width != NULL) {
+        _width = width;
+    }
+    if (lines != NULL) {
+        _lines = lines;
+    }
+    if (title_color != NULL) {
+        _title_color = title_color;
+    }
+    if (text_color != NULL) {
+        _text_color = text_color;
+    }
+    if (selection_color != NULL) {
+        _selection_color = selection_color;
+    }
+    if (highlight_color != NULL) {
+        _highlight_color = highlight_color;
+    }
+    if (lowlight_color != NULL) {
+        _lowlight_color = lowlight_color;
+    }
+    if (choice_sound != NULL) {
+        _choice_sound = choice_sound;
+    }
+    if (confirm_sound != NULL) {
+        _confirm_sound = confirm_sound;
+    }
+}

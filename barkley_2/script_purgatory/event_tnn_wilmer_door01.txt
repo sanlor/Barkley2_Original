@@ -1,0 +1,34 @@
+// event_tnn_wilmer_door01 // The taped up door when Wilmer has been evicted //
+/*
+if (argument0 == SCRIPT_START) then
+    {
+    if (scr_quest_get_state("wilmerEvict") == 2) || (scr_quest_get_state("wilmerEvict") == 3) then
+        {
+        with (o_door_parent)
+            {
+            if (name == "wilmer_door") then event_user(0);
+            }
+        }        
+    if (scr_quest_get_state("wilmerDisplay") == 0) then scr_quest_set_state("wilmerDisplay", 1);        
+    }
+    
+// Hoopz walks to the door only to notice something is not right... //
+else if (argument0 == SCRIPT_COLLISION_HOOPZ) then
+    {
+    if (scr_quest_get_state("wilmerDoor") == 0) && ((scr_quest_get_state("wilmerEvict") == 2) || (scr_quest_get_state("wilmerEvict") == 3)) then
+        {
+        scr_quest_set_state("wilmerDoor", 1);        
+        var event = scr_event_create_main();
+        with (event)
+            {
+            // GOVERNOR
+            if (BodySwap() == "governor") then scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Huh, there's a note here - /'By order of the Tir na Nog Department of Population and Housing, the owner of this house, Wilmer, is to be evicted with no possibility of reentry, for not renewing his mortgage on time./' Umm... I think he might have asked me to do something about that before...");
+                                    
+            // NORMAL
+            else scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh, there's a note here - /'By order of the Tir na Nog Department of Population and Housing, the owner of this house, Wilmer, is to be evicted with no possibility of reentry, for not renewing his mortgage on time./' Umm... I think he might have asked me to do something about that before...");
+            }
+            
+        // Gameboy advance //
+        scr_event_advance(event);
+        }
+    }

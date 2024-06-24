@@ -1,0 +1,52 @@
+/* Event script for the player's cell door. Some dialogue/events occur when this object is activated, so it's being treated like any other NPC.
+
+This is EVENT#7 of my Prison Break design document.
+// NOTE: Since it involves cinematics/teleportation(neither of which I can do right now), the scripted material in this deals exclusively with the events that occur 
+         when the player has the key item ELECTROLARYNX and is actively breaking out of their cell. This script will also need to be revised later to include a teleporter 
+         to the courtyard, which the player can do every day.
+// ANIMATION NOTE: The prison door should open for the player at the end of this event. I don't even know if graphics are available for this yet, 
+                   so it's not scripted here. Triggering this animation should also otherwise disable this script from being activated again.
+*/ 
+
+// FUTURE NOTE: Eventually this script needs to be updated to include the teleporter to the courtyard.
+/*
+if (argument0 == SCRIPT_START) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var prisoncelldoor = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("cellrecruitState") == 2) {
+        // After the player has spoken to both Kawasaki and Devigny, effectively recruiting them.
+            Dialogue(P_NAME, "Are you guys ready?");
+            scr_event_build_dialogue("Kawasaki", NULL, "Eh, I guess.");
+            scr_event_build_dialogue("Devigny", NULL, "If making more graves are involved, I'm always ready.");
+            Dialogue(P_NAME, "Ok, here goes....\OPEN THE FUCKING DOOR, ASSHOLE.\Whoa, I didn't say that. I just politely asked it to open the door.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "The cell door should open at this point. It will not close again.");
+            // The door opens.
+            scr_event_build_dialogue("Kawasaki", NULL, "Don't gotta curse at it, Charlie. That door's treated us pretty good over the years.");
+            Dialogue(P_NAME, "Hey, it worked!");
+            scr_event_build_dialogue("Devigny", NULL, "So......\Now what? When do I get to kill everybody?");
+            Dialogue(P_NAME, "Somehow I didn't think this would actually work.\Uh, I guess we need to get all the other cell doors open. Do either of you know where I could do that?");
+            scr_event_build_dialogue("Kawasaki", NULL, "They got some security room thataway. Could show you.\Want you to know that I don't really feel much like it, ain't nice to drag an old dwarf around like this. Doing this because I like ya, Charlie.");
+            Dialogue(P_NAME, "Ok, great, thanks. How about you go with me to the security room while Devigny keeps watch the other way.");
+            scr_event_build_dialogue("Devigny", NULL, "Sounds good. May I kill all the Duergars now, please?");
+            Dialogue(P_NAME, "Just keep watch. Wait until I get my hands on some gun's before trying that.");
+            scr_event_build_dialogue("Devigny", NULL, "Check.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Devigny runs out of the cell and down the right side of the corridor.\The player and Kawasaki walk out of the cell and move into the hall to the left.");
+            // Devigny runs off down the right side of the corridor. The player and Kawasaki move into the hall to the left.
+            Dialogue(P_NAME, "You said it was this way?");
+            scr_event_build_dialogue("Kawasaki", NULL, "Said thataway. Ain't the same thing.");
+            Dialogue(P_NAME, "Thataway it is, then.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CODING TODO: Kawasaki begins following the player at this point. There's no combat for now, so he doesn't actually do anything.");
+            // Kawasaki begins following the player. There's no combat here, so he doesn't do anything.
+            Quest("cellrecruitState", 3);
+            Quest("prisonQuest", 2);
+            scr_event_build_end();
+        } else if (Quest("prisonQuest") == 1) {
+            Dialogue(P_NAME, "I should probably talk to the others before trying to open the door.....");
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

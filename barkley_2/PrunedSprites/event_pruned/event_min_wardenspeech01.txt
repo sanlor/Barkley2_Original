@@ -1,0 +1,31 @@
+// [EVENT 2] Brief cinematic in the courtyard, the Warden giving a speech to the new prisoners.
+/* From my design document: 
+Fade in to the player being led into a large line of newly imprisoned dwarfs as they listen to a speech from the warden. A short speech ensues, 
+and fades to black when it's completed.
+
+As for location, this can simply take place in the courtyard unless there's another section that makes sense for this. 
+The level design for the prison isn't necessarily set in stone, lots of directions we can still take it. 
+We can probably decide where this should take place once we've designed the maps, but the courtyard is always an option.
+
+NOTE: Critically important is the fact that the warden visibly uses an electrolarynx.
+
+Bhroom NOTE: we can make this into a legitimate scene by having Lafferty start the wardenspeech variable to 1.  
+The warden will be standing on a balcony in the Prison Map.
+*/
+
+/*
+if (argument0 == SCRIPT_START) {
+var warden = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("wardenspeechState") == 1) {
+            //TODO: add to this event the Warden speaking from his Balcony, he shows his electrolarynx
+            scr_event_build_dialogue("Warden", NULL, "....and your bones shall bleach in the glaring sun, and Clispaeth will not find you.\You will be torn apart, ripped into little pieces, and Clispaeth will not put you back together again.\You will be cast into the deepest abyss without a torch, and Clispaeth will not light your way.\And you will be buried to your neck in the deepest trench in the deepest ocean, and Clispaeth will not part the waters for you.\Whatever you were in your past life is forfeit. Now, you all are meat, and the starving earthworms eagerly await what scant nutrition they can squeeze from your worthless corpse.\Some of you may already be thinking of escape, but let me put these thoughts to rest:__________ There is no escape.__________ There is no outside world.__________ There is no life to go back to.\Everything you knew is gone. Everyone you knew is dead. Everyplace you knew is destroyed. Every fruit you knew has rotted. Every gem you knew has lost its luster.\You are the prison. The prison is you. Nothing else remains.\Welcome to your new lives. Your death shall come when the stench of your decomposition is too great.");
+            scr_event_build_dialogue("Guard", NULL, "All right, you mugs!! Move it!! Single file!!!");
+            Quest("wardenspeechState", 2);
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC: Fade to black. Script then links to the IMPRISONED SCRIPT");
+            // Screen fades to black. Link to the STOCK_IMPRISONED_SCRIPT.
+        }
+    }
+    scr_event_advance(event);
+}

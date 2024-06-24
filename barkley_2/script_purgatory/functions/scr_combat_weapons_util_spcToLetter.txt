@@ -1,0 +1,9 @@
+/// scr_combat_weapons_util_spcToLetter(spcValue)
+
+var spc = argument0;
+
+spc = max(0, min(255, spc));
+
+var letterCode = ord('Z') - round((ord('Z') - ord('A')) * (spc/255));
+
+return chr(letterCode);

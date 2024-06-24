@@ -1,0 +1,11 @@
+/*
+for (var reset = 0; reset < ROOMS_TOTAL; reset++) {
+    for (var i = 0; i < RP; i++) {
+        if (i == 0) { global.supergrid[| (RP * reset) + i] = "EMPTY"; }
+        else if (i == 3) { global.supergrid[| (RP * reset) + i] = "EMPTY"; }
+        else if (i == 9) { global.supergrid[| (RP * reset) + i] = "NONE"; }
+        else { global.supergrid[| (RP * reset) + i] = 0; }
+    }
+}
+scr_quest_set_state("superEmpty", ROOMS_TOTAL);
+scr_savedata_save();

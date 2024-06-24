@@ -1,0 +1,99 @@
+// scr_lemuel_bowl_update()
+/*
+    Called by scr_time_set()
+    Updates the contents of Lemuel's Bowl.
+    Also updates Lemuel's variable "Lemuel Count", which adjusts when he wakes up.
+    
+    ITEM LIST NEEDS A COMPLETE OVERHAUL
+    IT COULD EVEN HAVE MUCH MORE COMPLEX
+    LOGIC TO DETERMINE CONTENTS! ~ bort
+    
+    http://www.talesofgames.com/trac/tickets/1333
+*/
+
+// When time passes, lemuelCount increases by 1.
+/*if (scr_quest_get_state("lemuelCount") >= 1)
+{
+    scr_quest_set_state("lemuelCount", scr_quest_get_state("lemuelCount") + 1);
+}
+
+// If player talked to lemuel last time unit, it increases by 1 more.
+if (scr_quest_get_state("lemuelCountSwitch") == 1)
+{
+    scr_quest_set_state("lemuelCount", scr_quest_get_state("lemuelCount") + 1);
+    // then lemuelCountSwitch is turned off
+    scr_quest_set_state("lemuelCountSwitch", 0);
+}
+
+// initialize scr_lemuel_init() if it hasn't been done already
+scr_lemuel_init()
+
+// load item list
+global.listlemuel = scr_savedata_get("listlemuel");
+
+// change money
+scr_lemuel_bowl_money();
+
+// add and remove items based on time
+switch (scr_time_get())
+{
+    case 0:
+        break;
+    case 1:
+        scr_lemuel_bowl_add("Guppy");
+        break;
+    case 2:
+        scr_lemuel_bowl_add("Carp");
+        break;
+    case 3:
+        scr_lemuel_bowl_remove("Guppy");
+        break;
+    case 5:
+        scr_lemuel_bowl_remove("Carp");
+        break;
+    case 6:
+        break;
+    case 7:
+        scr_lemuel_bowl_add("Guppy");
+        scr_lemuel_bowl_add("Carp");
+        scr_lemuel_bowl_add("Pike");
+        scr_lemuel_bowl_add("Bomb");
+        break;
+    case 8:
+        scr_lemuel_bowl_remove("Bulgur Wheat");
+        scr_lemuel_bowl_add("Bonnet");
+        scr_lemuel_bowl_add("Dreadfruit");
+        break;
+    case 9:
+        break;
+    case 10:
+        break;
+    case 11:
+        break;
+    case 12:
+        break;
+    case 13:
+        break;
+    case 14:
+        break;
+    case 15:
+        break;
+    case 16:
+        break;
+    case 17:
+        break;
+    case 18:
+        break;
+    case 19:
+        break;
+    case 20:
+        break;
+    case 21:
+        break;    
+    case 22:
+        break;
+    case 23:
+        break;
+    case 24:
+        break;
+}

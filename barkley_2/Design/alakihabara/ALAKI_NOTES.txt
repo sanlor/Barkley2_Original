@@ -1,0 +1,160 @@
+If Hoopz hasn't gotten behind the bar, there are dialogues that suggest he get behind the bar from 1 person the entire game. They can always be there, maybe you can kill them if they go through the whole game without water. Maybe they have an item, who cares. Maybe they tell you something nice. Maybe they have a soliloquy about staying in the same place and hanging with your friends. Could I have left? I don't know... one more drink on me... I'm sure I'll be ever more parched....
+
+Sometimes you just wanna be drunk... it may not help... but at least you're drinking something....
+It's nice to drink... it's a vice... but I like it! Bartender, you make our worlds go round... there's a sandy light at the end of this tunnel... hallelujah!
+Water or drinks, drinks or water... Clispaeth provides in the end! You're doing his work, X114JAM9!
+
+
+TENDING BAR:
+Ingredients build up on your shoes as you traipse through the game. The more often you show up, the more you have total. Perhaps 2 of the 4 on average increase by one per time unit. So that's 2 per unit, and thus all should be at 10 at the end of the game.
+10 / 10 / 10 / 10
+Or they could ALL increase, but they change based on where you're going.
+10 / 7 / 6 / 8
+Each area could have an index of some sort!!!!!!! bwahahahaha that is Shangrila!
+
+TAKE ORDERS.
+	I'm craving sand!
+	I want pebbles, nothing but pebbles!
+	Do you know how to make a Dusty Dirtbag? It's nothing but dust... with I think a little bit of dirt? Maybe that's just the name... you know how they do things like that.
+
+MIX A DRINK:
+Serve whom?
+
+COMPARE TO DESIRED DRINK:
+	
+Everyone has 2 scores.
+One is increased by the number of points they get. 
+
+
+"Tend the bar?"
+"Please sir, give me something that'll quench me. I'm jonesing for a DEEP quench."
+
+INGREDIENTS:
+1 parts sand
+1 parts pebble
+1 parts dirt
+1 parts dust
+
+3 parts sand
+"It's called a Sandstorm."
+2 parts sand, 1 part pebble
+"It's called a Sandblaster."
+2 parts sand, 1 part dirt
+"It's called a Dirty Beach."
+2 parts sand, 1 part dust
+"It's called a "
+
+3 parts pebble
+"It's called a "
+2 parts pebble, 1 part sand
+"It's called a "
+2 parts pebble, 1 part dust
+"It's called a "
+2 parts pebble, 1 part dirt
+"It's called a Rocky Top"
+
+3 parts dust
+"It's called an Old Fashioned "
+2 parts dust, 1 part sand
+"It's called a Dust "
+2 parts dust, 1 part pebble
+"It's called a Dust Bowl "
+2 parts dust, 1 part dirt
+"It's called a Dusty Trail"
+
+3 parts dirt
+"It's called a Dirtopia"
+2 parts dirt, 1 part sand
+"It's called a Dirty Beach"
+2 parts dirt, 1 part pebble
+"It's called a Dirt Devil"
+2 parts dirt, 1 part dust
+"It's called a Dirt & Dusty"
+
+sand / pebble / dirt
+sand / pebble / dust
+sand / dirt / dust
+pebble / dirt / dust
+
+
+BAR PATRONS:
+Zelda, with a tale about obeying her thirst:
+"I followed my thirst through the desert and it brought me to this bar. Now, if only it would open..."
+"You can lead a dwarf to water..."
+"You can't lead a dwarf to water..."
+"I obeyed my thirst's call and here... here I am at the end of my rope. My tongue is cooked. Feels hot. Feels like hot heat. I'm dried up, I'm shriveled like a prune."
+"My thirst beckoned me to this bar... there's got to be some water..."
+"Mix me up a _________ and I'll talk to you more. I want something hard, and dry. If I can't get quenched, I'll get dry... something to really spackle my throat!"
+**** If she is the naysayer depicted below, she can have a different response to a hopeful water-seeker if you talk to the hopeful water-seeker at the beginning than if you talk to them at the end.
+**** Early, "I'm sure it will open up." Late, "Your thirst led you astray."
+**** Make this humorous, but also a game-long rumination on desire. Speak of thirst. "Do you speak of thirst?" "You speak of thirst?"
+**** This can give you a hint as to your current Round Mound points. Various NPCs should do the same thing, I think. Some should actually sense your personality, detecting a favored, leading, or disfavored goal or alignment. Others should be experts at a goal or alignment, and give you a reading exclusively on that one.
+
+
+"Boy, oh boy, I'm parched. Really hope this bar opens soon. If I don't quaff something soon, I'm a goner!"
+"I've been hanging out at this bar for ages just trying to sip on some good 'quids. What can I say, I'm kind of a hydrophile!"
+"Mm, mm, MM!!! Good agua!... is what I'd be saying if I had a drink right now."
+"Why, my lips are so dry and cracked I can barely even speak of my thirst!"
+"So... thirsty..."
+"So... thirsty..."
+"So... thirsty... why, my lips are so dry and cracked, I can barely speak of my thirst!"
+"So... thirsty..."
+Hoopz:
+"Looks like he was defeated... by his thirst."
+"Looks like his thirst got one over on him."
+"Looks like her thirst got one over on her."
+
+"I... is that you, bartender?"
+"Please... please tend bar."
+
+CRAWLER:
+"W... water..."
+"M... my thirst..."
+"Wa... need water..."
+"So... parched..."
+"I'm... chapping..."
+TIME 20:
+"I came all this way and I'm not thirsty anymore."
+
+"I'm shrivelling up like a prune!"
+"I'm parched... I'm chapped... I'm thirsty... when will this bar open up!?"
+
+NAYSAYER:
+"Everybody knows there's no water in Al Akihabara!"
+"Don't waste your breath on these poor dwarfs... they were led here by a mirage."
+"We saw it... neon lights, there must be a bar!"
+"Your brains are chapped even more than your lips... get a grip! This town's been droughted!"
+"No! No! The oasis is here, we saw it!"
+"We'd recognize that neon sign from miles away!!!"
+
+AFTER NEON LIGHTS:
+"See, see!!!"
+* The well gives forth a Booty Bass glow *
+"See! Maybe the bar's located down there?"
+
+AFTER THE GLOW OCCURS:
+"Milo was just hanging around over there..."
+"Where's Milo?"
+
+EXPLODING THE WELL-TOP:
+- gains access to the otaku dwarf early
+- is something you can offer to do for the arcade guild to start a raid
+- is unavailable after time 10? the klatch starts?
+- available AGAIN after the klatch?
+- does it lead to under-sewers or the otaku dwarf's room itself
+
+NAYSAYER / WITCH:
+"Stay away from that well! There's weird noises that come from there every now and then..."
+"One day a figure came... the figure appeared as a dwarf, a new dwarf born upon this world, but lo was not! The figure was a devil dwarf, a devil that arose into the world to spread pestilence. We cast it into the well!"
+"Only trouble's going to come of that well... now, where were we? Water... please... water!"
+
+WITCH:
+"There is a way to reach it... are you willing to follow me?"
++ 15m to clock time if you say yes
+"Here we are...
+
+WITCH ACCESS:
+"I've forgotten some of my spells. What do you have?"
+- nutrimagus dx
+"I was told there was a powerful book here!"
+"Codex Nutrimagus DX"

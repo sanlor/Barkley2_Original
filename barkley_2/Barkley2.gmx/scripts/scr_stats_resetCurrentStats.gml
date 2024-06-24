@@ -1,0 +1,8 @@
+/// scr_stats_resetCurrentStats()
+ds_map_replace(stats_current, STAT_CURRENT_HP, ds_map_find_value(stats_effective, STAT_EFFECTIVE_MAX_HP))
+ds_map_replace(stats_current, STAT_CURRENT_KNOCKBACK, 0)
+ds_map_replace(stats_current, STAT_CURRENT_STAGGER_INSTANT, 0)
+ds_map_replace(stats_current, STAT_CURRENT_STAGGER_SOFT, 0)
+ds_map_replace(stats_current, STAT_CURRENT_STAGGER_HARD, 0)
+ds_map_replace(stats_current, STAT_CURRENT_STAGGER_HARDNESS, 0)
+ds_map_replace(stats_current, STAT_CURRENT_STAGGER_TIME, 0)

@@ -1,0 +1,29 @@
+// Event script for the death dialogue following the end of the Warden boss battle. This script is Event #11.1 from my Prison Break design document.
+// ANIMATION NOTE: The Warden should be lying in a puddle of blood on the floor, nearly dead during this event.
+
+/*
+if (argument0 == SCRIPT_START) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var warden = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("prisonQuest") == 9) {
+            scr_event_build_dialogue("Warden", NULL, ".__________.__________.__________.__________.__________.__________.__________.__________ha.\Ha.__________.__________.__________HA HA!! .__________.__________.__________.__________ha ha ha ha!!\You probably think.......I am defeated........\I am but one Duergar....... among....... INFINITE.\We can feel it in our blood...... every dwarf....... every single dwarf....... must be destroyed.......\Our blood SCREAMS OUT....... SCREAMS FOR THE BLOOD OF THE INFIDEL DWARF..........\Starting with you.......\You......\Death will not be enough. Destruction will be too mild. Eradication too soft. Pulling you apart limb from limb too gentle.\Killing you just once won't be enough. The finest duergar scientists in the world will clone you A MILLION TIMES and KILL EVERY SINGLE ONE OF YOU.\YOUR BLOOD WILL RUN THROUGH EVERY STREET, THROUGH EVERY SUBWAY, THROUGH EVERY ROOM, THROUGH EVERY-");
+            Dialogue(P_NAME, "Enough of that.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player walks up to the Warden.");
+            // CINEMATIC TODO: The player walks up to the Warden.
+            scr_event_build_dialogue(" ", NULL, "*You reacquired the Electrolarynx.*");
+            scr_event_build_dialogue_debug("Hundley", NULL, "ITEM TODO: Give the player the Electrolarynx.");
+            // ITEM TODO: Give the player the Electrolarynx.
+            Dialogue(P_NAME, "You just don't deserve this if you aren't going to ever say anything nice.");
+            scr_event_build_dialogue("Warden", NULL, "grrgglllk..........ggggggkk......");
+            Dialogue(P_NAME, "It's not that hard to occasionally say good things, you butthead. It probably won't kill you.");
+            scr_event_build_dialogue("Warden", NULL, "gggggg.......kill.......ggrggrgll......you.......");
+            Dialogue(P_NAME, "You just sit there and think about what you've done for a while.");
+            Quest("prisonQuest", 10);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

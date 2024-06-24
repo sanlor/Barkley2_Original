@@ -1,0 +1,70 @@
+//van Boekel - CardPlay2
+
+//------------------------------------------------------------------------------
+// *** govQuest = 6 = Governor quest complete. ***
+//------------------------------------------------------------------------------
+
+van Boekel:
+You did a lot of good for L.O.N.G.I.N.U.S. and the dwarfs of Tir na Nog today. Wish I could do something like that. We mostly just sit around playing poker here.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 5 = currently governor. ***
+//------------------------------------------------------------------------------
+
+van Boekel:
+Even though I know you're really X114JAM9, you're still a little intimidating...
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 4 = ready to become governor. ***
+//------------------------------------------------------------------------------
+
+van Boekel:
+I joined L.O.N.G.I.N.U.S. because I don't think it's right that Cuchulainn can round up all the dwarfs, even if he thinks it's for our own good. I'm looking forward to the prize... but I'd rather be back in the Sombrero Galaxy.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 3 = have duergar urine. ***
+//------------------------------------------------------------------------------
+
+van Boekel:
+Looks like you've got the stuff... don't worry, you don't need to show me, I can already tell.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 2 = Governor quest accepted, need duergar urine. ***
+//------------------------------------------------------------------------------
+
+van Boekel:
+Hey, that's real big of you to help out L.O.N.G.I.N.U.S. like that. Sorry you have to get Duergar urine though.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 1 = Governor quest rejected ***
+//------------------------------------------------------------------------------
+
+van Boekel:
+It's not my business if you don't want to help out L.O.N.G.I.N.U.S. but as far as I can tell, the only other way to get out of Tir na Nog is to go deep into the sewers. I've done it before and it's not fun.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** no conditions ***
+//------------------------------------------------------------------------------
+
+van Boekel:
+Hey, you came from the sewers, right? Have you seen our scout Carlton anywhere? He's a real skinny guy with a big beard, real goofy-looking. He's been incommunicado for a while now. I just hope he's not in trouble.
+
+//end dialogue;

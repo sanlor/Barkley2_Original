@@ -1,0 +1,39 @@
+// -- Squatter Wendy -- 
+// event_bct_wendy01
+// Event script for Wendy, a squatter in the Dilapidated Zone.
+//    This event script "wendy01" contains all her scripts 
+//    when the house IS owned by the Anarchists/Commune/Squatters.
+//    for his other scripts, see event_bct_wendy02
+// o_wendy01
+// s_wendy01
+/*
+
+
+*/
+/*if (argument0 == SCRIPT_START) {
+    
+} 
+else if (argument0 == SCRIPT_STEP) {} 
+else if (argument0 == SCRIPT_INTERACT) {
+    var wendy = id;
+    var event = scr_event_create_main();
+    
+    with (event) { 
+
+        //-------------------
+        // commune is not on!
+        //-------------------
+        if (scr_quest_get_state("dilapEmancipated") == 0) {
+            scr_event_build_execute_event_script(event_bct_wendy02);
+        }
+        //-----------------
+        // normal procedure
+        //-----------------
+        else {
+        
+        
+        
+        } 
+    }
+    scr_event_advance(event);
+}

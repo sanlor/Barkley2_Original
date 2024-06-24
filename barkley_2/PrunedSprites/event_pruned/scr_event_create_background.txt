@@ -1,0 +1,8 @@
+/// scr_event_create_background()
+/// Creates a new background event to run in the background.
+
+var event = instance_create(0, 0, o_event);
+event._event_object = id;
+event._type = EVENT_BACKGROUND;
+
+return event;

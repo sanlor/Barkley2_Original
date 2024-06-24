@@ -1,0 +1,10 @@
+/// scr_event_action_entity_settings(list)
+/// object
+/// interact_snabled
+/// collision_enabled
+/// shadow_enabled
+
+scr_event_entity_settings(ds_list_find_value(argument0, 1), ds_list_find_value(argument0, 2),
+                        ds_list_find_value(argument0, 3), ds_list_find_value(argument0, 4));
+
+scr_event_advance(id);

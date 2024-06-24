@@ -1,0 +1,517 @@
+/* Slag Working in TnN, mainly for the Lugner Quest
+
+    lugnerQuest:
+        1 = you've turned down lugner and he wants nothing to do with you QUEST UNAVAILABLE
+        2 = you've told Lugner you can't help him right away but this leave the quest open for later
+        3 = you've accepted the quest from Lugner, next stop Slag, then Giuseppe
+        4 = Giuseppe refuses to give you any dwarfs. The player can get fuck you dialogue from Slag and Lugner
+        5 = The player has gained some dwarfs and has chosen the Slag path.
+        6 = The player has gained some dwarfs and has chosen the Lugner path.
+        7 = End of Lugner route. You've pressed the button and killed the dwarfs. The player talks to Slag and the quest ends.
+        8 = Spoken to Lugner, the player can press the button or just leave entirely for some reason.
+        9 = End of Slag route. Lugner is dead.
+    
+    slagChase - If you exit the market transition left, then go back right away, slag chases you down to give you the quest
+        0 = Default state
+        1 = Slag will chase you down
+        2 = Slag chased you down and you got the quest
+*/
+
+/* CINEMA MARKERS o_cinema*
+0 = Hoopz talk to slag first location
+1 = Where Lugner spawns off screen
+2 = Where Lugner walks up to confront Hoopz
+3 = Lugner gets up in Hoopz grill
+4 = Hoopz backs up
+5 = Where Slag is hidden behind crates when you send dwarves to Lugner's crate
+6 = Where Slag goes to surprise shoot Lugner
+7 = Where Hoopz goes to talk to Lugner, also where he goes to distract Lugner for slag to shoot him
+*/
+
+if (argument0 == SCRIPT_START) {
+    if (room == r_tnn_warehouse01)
+    {
+        //You got no dwarfs
+        if (scr_quest_get_state("lugnerQuest") == 4) { scr_event_interactive_activate(); }
+        //You chose Slag over Lugner
+        else if (scr_quest_get_state("lugnerQuest") == 5) { scr_event_interactive_activate(); }
+        //You chose Lugner, but can still choose Slag - Slag is hiding behind crates
+        else if (scr_quest_get_state("lugnerQuest") == 6) { scr_event_set_object(o_slag01, o_cinema5.x, o_cinema5.y); o_slag01.image_xscale = -1; } //scr_entity_look(o_slag01, SOUTHEAST); }
+        //Slag isn't here
+        else { scr_event_interactive_deactivate(); }
+    }
+    else if (room == r_tnn_marketDistrict01) 
+    {
+        if (scr_quest_get_state("lugnerQuest") == 3 && scr_quest_get_state("slagLugnerOffer") == 0)
+            scr_event_interactive_activate();
+        else
+            scr_event_interactive_deactivate();
+    }
+    else
+    {
+        if (scr_quest_get_state("lugnerQuest") == 3 && scr_quest_get_state("slagLugnerOffer") == 0 && room == r_tnn_businessDistrict01)
+        {
+            if (scr_quest_get_state("slagChase") == 0) scr_quest_set_state("slagChase", 1);
+        }
+    
+        if (scr_quest_get_state("slagLugnerOffer") == 0) and (scr_quest_get_state("lugnerQuest") == 3) {
+            scr_event_interactive_activate();
+        } else {
+            scr_event_interactive_deactivate();
+        }
+    }
+}
+
+else if (argument0 == SCRIPT_INTERACT) {
+    var slag = id;
+    var event = scr_event_create_main();
+    
+    /////////////////////////////////////////////////////////////
+    // MAIN EVENT, Slag waiting, just a bunch of if statements //
+    /////////////////////////////////////////////////////////////
+    o_slag01.image_xscale = 1;
+    with (event) {
+        //Slag offered you a price for the Dwarfs
+        if (scr_quest_get_state("lugnerQuest") == 8 || scr_quest_get_state("lugnerQuest") == 6) {
+            //scr_event_build_dialogue("Slag", s_port_slag, "You still hanging around here? Offer's still out there if you've come to your senses.");
+            
+            scr_event_build_dialogue("Slag", s_port_slag, "Not too late to change your mind, kid. Offer's still out there if you've come to your senses.");
+            var flipflop = scr_event_build_choice("Change of mind?", s_port_hoopz);
+            with (scr_event_build_add_choice(flipflop, "I'd rather go with you.")) {
+                //scr_event_set_object(o_lugner01, o_lugner01.x + 64, o_lugner01.y);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Maybe going with you is not such a bad idea after all.");
+                //scr_event_build_dialogue("Slag", s_port_slag, "I knew it. One look into these sulfur yellow eyes gets 'em every time. You stay here and guard the door for a second, it's time for me to negotiate with your blue friend.");
+                scr_event_build_dialogue("Slag", s_port_slag, "I knew it. One look into these sulfur yellow eyes gets 'em every time. You distract your blue friend over there. Act normal, like everything's just peachy. I'll take care of the rest.");
+                // This event is optional for GZ!  Bhroom will do it later if need be.
+                scr_event_build_camera_follow(CAMERA_FAST, o_cts_hoopz);
+                scr_event_build_move_to_point_ext(o_cts_hoopz, o_cinema7.x, o_cinema7.y, MOVE_FAST);
+                scr_event_build_wait_for_actions();
+                scr_event_build_look_object(o_cts_hoopz, o_lugner01);
+                scr_event_build_look_object(o_lugner01, o_cts_hoopz);
+                scr_event_build_camera_frame(CAMERA_FAST, o_lugner01, o_cts_hoopz);
+                Wait();
+                
+                if (scr_quest_get_state("lugnerQuest") == 8) 
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "So I'm supposed to push this switch?");
+                    scr_event_build_move_to_point_ext(o_slag01, o_cinema6.x, o_cinema6.y, MOVE_SLOW);
+                    scr_event_build_look(o_cts_hoopz, EAST);
+                    Wait(1);
+                    scr_event_build_look_object(o_cts_hoopz, o_lugner01);
+                }
+                else 
+                {
+                    scr_event_build_dialogue("Lugner", s_port_lugnerHappy, "Hey, you're back. I didn't think I'd see you again.");
+                    scr_event_build_move_to_point_ext(o_slag01, o_cinema6.x, o_cinema6.y, MOVE_SLOW);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I really wanted to help you out. I hate seeing the Dwarfs live like this.");
+                }
+                if (scr_quest_get_state("lugnerQuest") == 8) scr_event_build_dialogue("Lugner", s_port_lugnerThrilled, "That's right...");
+                else scr_event_build_dialogue("Lugner", s_port_lugnerHappy, "I know. It breaks my heart. I'm just glad you were able to help me save a couple from this mess. Now let's see how many you've brought me...");
+                scr_event_build_wait_for_actions();
+                scr_event_build_camera_frame(CAMERA_FAST, o_slag01, o_cts_hoopz);
+                scr_event_build_wait_for_actions();
+                scr_event_build_animation_play_and_set(o_slag01, "slagShoot", "stand_SE");
+                Wait(0.75);
+                scr_event_build_sound_play("sn_revolver1_3");
+                scr_event_build_entity_settings(o_lugner01, 0, 0, 0);
+                scr_event_build_animation_play_and_set(o_lugner01, "lugnerShot", "lugnerDead");
+                scr_event_build_wait_for_actions();
+                scr_event_build_animation_play_and_set(o_cts_hoopz, "surpriseSW", "surpriseHoldSW");
+                Wait(2);
+                scr_event_build_camera_frame(CAMERA_FAST, o_slag01, o_cts_hoopz); //, o_lugner01);
+                
+                scr_event_build_dialogue("Slag", s_port_slag, "Fucking Duergars.#Just not good for business.");
+                scr_event_build_look_object(o_cts_hoopz, o_slag01);
+                
+                //////////scr_event_build_camera_follow(CAMERA_FAST, o_slag01);
+                //////////scr_event_build_look(o_lugner01, SOUTHWEST);
+                /*
+                scr_event_build_move_to_point_ext(o_slag01, o_cinema6.x, o_cinema6.y, MOVE_SLOW);
+                scr_event_build_wait_for_actions();
+                // As Slag walks up to Lugner who is facing him with his back to the container Slag says:
+                scr_event_build_look_object(o_slag01, SOUTHEAST);
+                //scr_event_build_dialogue("Slag", s_port_slag, "Hey your Dwarfs are getting away.");
+                
+                scr_event_build_look(o_lugner01, NORTHEAST);
+                scr_event_build_sound_play("sn_revolver1_3"); //Make shot sync
+                scr_event_build_animation_play_and_set(o_slag01, "slagShoot", "stand_SE");
+                scr_event_build_wait_for_actions();
+                scr_event_build_entity_settings(o_lugner01, 0, 0, 0);
+                scr_event_build_animation_play_and_set(o_lugner01, "lugnerShot", "lugnerDead");
+                scr_event_build_wait_for_actions();*/
+                
+                //scr_event_blah blah animation! Slag shoots Lugner!
+                //scr_event_build_camera_frame(CAMERA_FAST, o_cts_hoopz);
+                scr_event_build_active(o_cts_lugnerlever01, 0);
+                scr_event_build_quest_state("lugnerQuest", 9);
+                scr_event_build_quest_state("lugnerFlipFlop", 1); //Just to keep track that you betrayed Lugner
+                scr_event_build_quest_state("slagLugnerOffer", 5);
+               scr_event_build_user(o_slag01, 2);
+               //scr_event_advance(event);
+           }
+           with (scr_event_build_add_choice(flipflop, "No thanks.")) {
+               scr_event_build_dialogue(P_NAME, s_port_hoopz, "What am I thinking? I need to get these Dwarfs to the Sombrero Galaxy.");
+               scr_event_build_dialogue("Slag", s_port_slag, "Waste of time, waste of my damn time.");
+               //scr_event_advance(event);
+           }
+        }
+        else if (scr_quest_get_state("slagLugnerOffer") == 1 && scr_quest_get_state("lugnerQuest") == 3) {
+            scr_event_build_dialogue("Slag", s_port_slag, "Where are my goddamn Dwarfs?!?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "...");
+            scr_event_build_dialogue("Slag", s_port_slag, "Don't just stand there, move it!");
+            scr_event_build_end();
+        }
+        else if (scr_quest_get_state("lugnerQuest") == 7) {
+            if (scr_quest_get_state("lugnerLost") == 1) {
+                scr_event_build_dialogue("Slag", s_port_slag, "Look how happy that ugly fuck is. Disgusting.\Happiness in others really rubs me the wrong way.");
+            }
+            else {
+                scr_event_build_dialogue("Slag", s_port_slag, "Heh, I see he didn't come through on the deal.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "... what?");
+                scr_event_build_dialogue("Slag", s_port_slag, "The money. He didn't give you the money he promised.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "He didn't promise me any money.");
+                scr_event_build_dialogue("Slag", s_port_slag, "What? What did he offer you?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "He said he was going to put them on a cargo ship back to the Sombrero Galaxy.");
+                scr_event_build_dialogue("Slag", s_port_slag, "You believed that shit?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I didn't know he was a liar...");
+                scr_event_build_dialogue("Slag", s_port_slag, "Heh, guess it's good you learned this pretty young. Always assume every one of these jocksuckers you run into is trying to pull a fast one on you. They're just waiting for you to look away long enough to stick a knife up in your ribs.\Money's the only truth on Necron 7.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why should I believe you? What do you know about telling the truth.");
+                scr_event_build_dialogue("Slag", s_port_slag, "I don't know nothing. We're just talking.\What I do know is if you went along with old Slag here we'd have quite a few more happy folks right now. I'd have my money, you'd have your money, and a handful of stupidass Dwarfs would be on their way to mining work right about now.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I didn't know that's where you were sending them. I thought you were going to do something bad to them. They.....probably would have really liked that.");
+                scr_event_build_dialogue("Slag", s_port_slag, "Should have asked. So long, kid.");
+                
+                scr_event_build_quest_state("lugnerLost", 1);
+            }
+        }
+        // Told Giuseppe to give the dwarfs to Lugner 
+        else if (scr_quest_get_state("lugnerQuest") == 60) {
+            scr_event_build_dialogue("Slag", s_port_slag, "Don't you worry. Slag always lands on his feet. Don't need your stupid help getting any richer.");
+        } 
+        // Slag just killed Lugner after flip flopping
+        else if (scr_quest_get_state("slagLugnerOffer") == 5) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You... you killed him?");
+            //scr_event_build_look_object(o_slag01, ooo); //container//);
+            scr_event_build_dialogue("Slag", s_port_slag, "No kidding? Wondered what all that red shit was.\Ah, I see why you come back to old Slag after all. I guess he didn't tell you about the piston up front. Clever shit, never would have guessed. When did you spot it?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What?");
+            scr_event_build_dialogue("Slag", s_port_slag, "You didn't know? You just wanted the cash?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know what I wanted...");
+            scr_event_build_dialogue("Slag", s_port_slag, "You're ok, kid. Maybe I can teach you a thing or two after all.\You see that thing next to the container on the left side?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No...");
+            scr_event_build_dialogue("Slag", s_port_slag, "Well I ain't gonna show you. It's a piston and it was set to go the moment you pressed the green button on here. Would have completely smashed the whole container and my payday with it thin as a piece of paper.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait, it would have killed them?");
+            scr_event_build_dialogue("Slag", s_port_slag, "I guess. Dwarfs probably got bones and a skull and all that. Doubt all that works too good when you grind it into a paste.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, I had no idea that's what Lugner really wanted. I guess I made the right decision going to you.");
+            scr_event_build_dialogue("Slag", s_port_slag, "No shit, I told you that before. You just don't listen too good, kid. Duergars are always up to no good. Better to go with Slag and sell them off somewhere to do mining work, make a bit of coin in the process.\Shit, these kids nowadays. Like throwing a check away before you add a couple zeros and cash it.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, you never said anything about that. I didn't know you were going to send them to do mining work. They'd probably really like that.");
+            scr_event_build_dialogue("Slag", s_port_slag, "I'll make sure these twerps get their stupid fun with their stupid rocks.");
+            // Slag turns to the player.
+            scr_event_build_dialogue("Slag", s_port_slag, "One more loose end to tie up. Here's your money, kid.");
+            // Slag gives you money but it needs to be balanced by Bort and Bhroom
+            var dwf = scr_quest_get_state("dwarfCustody");
+            var prc = scr_money_db("slagDwarfPrice");
+            Breakout("build", "add", "money");
+            scr_event_build_money_add(dwf * prc);
+            scr_event_build_dialogue_item("Got " + string(dwf * prc) + " neuro-shekels.");
+            Breakout("build", "clear");
+            //SYSTEM TEXT: Money received [Dwarfs Recruited] x 7.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Did you mean all of that? Was he really going to kill them? Are you really sending them to do mining work?");
+            scr_event_build_dialogue("Slag", s_port_slag, "Kid, if I was playing you for a fool, I'd be hiding two bodies right now, it'd be no leather off my ass. But you came through for old Slag here, you didn't fuck up my gig.\Gotta say though, some of that money's counterfeit, but you can spend it just fine.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, thanks, I guess.");
+            scr_event_build_dialogue("Slag", s_port_slag, "Any time. Now, you better fuck off unless you want a crash course in hiding a dead duergar.");
+            scr_event_build_quest_state("slagLugnerOffer", 3);
+        }
+        // Second looping reactivation after the end of the Slag route
+        else if (scr_quest_get_state("slagLugnerOffer") == 4) {
+            scr_event_build_dialogue("Slag", s_port_slag, "Heh, maybe I'll dump this sack of shit down in the mines. Send those duergars a little love letter......");
+        }
+        
+        else if (scr_quest_get_state("slagLugnerOffer") == 3) {
+            // Looping reactivation after the end of the Slag route
+            scr_event_build_dialogue("Slag", s_port_slag, "Still kicking around, eh? Wanna help me hide this dead body? Figure it's a good learning experience for ya. Feeling generous, so I won't even charge you for my expertise this time.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No thanks. Maybe next time.");
+            scr_event_build_dialogue("Slag", s_port_slag, "Yeah, well I'm holding you to that. About time I got me a protege to absorb my elite duergar body hiding skills.");
+            scr_quest_set_state("slagLugnerOffer", 4);
+        } 
+        
+        else if (scr_quest_get_state("slagLugnerOffer") == 2) {
+            // Reactivation with Slag if the player got no dwarfs from Giuseppe
+            // TODO: Fix price of necklace
+            scr_event_build_dialogue("Slag", s_port_slag, "Got this here necklace made out of duergar teeth. For you, 75 n-sheks.\No? Come on, kid, you're breaking my heart.");
+        } 
+            
+        else { //This means you have either 4 or 5 on Lugner quest
+            // scr_event_build_camera_move_to_point(808, 1800, 1)
+            // scr_event_build_animation_auto(o_hoopz, true);
+            // scr_event_build_move_to_point_ext(o_hoopz, 808, 1800, 1)
+            // scr_event_build_wait_for_actions();
+            if (scr_quest_get_state("dwarfCustody") != 0)
+            {
+                scr_event_build_look(o_slag01, SOUTHEAST);
+                scr_event_build_move_to_point(o_cts_hoopz, o_cinema0.x, o_cinema0.y);
+                scr_event_build_wait_for_actions();
+                scr_event_build_look_object(o_cts_hoopz, o_slag01);
+                scr_event_build_wait(0.25)
+                scr_event_build_camera_frame(CAMERA_FAST, o_slag01, o_cts_hoopz);
+            }
+            scr_event_build_dialogue("Slag", s_port_slag, "Took you long enough.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yes, do you have my money?");
+            scr_event_build_dialogue("Slag", s_port_slag, "Look at you, little businessman. Yeah, I got the money. Let's do a headcount, see how much you got coming to you.");
+            
+            if (scr_quest_get_state("dwarfCustody") == 0) {
+            // Alternate dialogue 1(no dwarfs)
+                scr_event_build_dialogue("Slag", s_port_slag, "So... I don't see no Dwarfs.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I couldn't get any from Giuseppe.");
+                //TODO: balance the neuro-shekels
+                scr_event_build_dialogue("Slag", s_port_slag, "So... let's do the math... paying you " + string(scr_money_db("slagDwarfPrice")) + " by the head... times zero Dwarfs...\That comes out to absolutely nothing.\Pleasure doing business with you.");
+                scr_event_build_quest_state("slagLugnerOffer", 2);
+                scr_event_build_end();
+                // Quest end, although the player can still go to Lugner as well and get the same NO REWARD WHATSOEVER resolution to the quest.
+                // +1 Slag affinity points gained(assuming we do the Slag ending, and for further encounters with Slag)
+            }
+            
+            if (scr_quest_get_state("dwarfCustody") >= 15) {
+            // Alternate dialogue 2(got all dwarfs)
+                scr_event_build_dialogue("Slag", s_port_slag, "Heh, look at that. Got quite a few there. Looks like we got a small fortune coming to us.");
+            }
+            
+            if (scr_quest_get_state("dwarfCustody") <= 14) {
+            // Alternate dialogue 3(Got some dwarfs)
+                scr_event_build_dialogue("Slag", s_port_slag, "A couple, not bad. Enough for a night or two on the town.");
+            }
+            
+            // Dialogue resumes
+            scr_event_build_dialogue("Slag", s_port_slag, "Now let's get your money.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait a minute.");
+            scr_event_build_dialogue("Slag", s_port_slag, "Nah, you aren't pulling this shit on me now. You didn't string me along to fuck me now.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I just want to know where you're taking them, or we're all leaving.");
+            scr_event_build_dialogue("Slag", s_port_slag, "What is this bullshit?\._._._ Alright, there's some star that this rich asshole has decided he's going to mine, needs a bunch of miners, dwarfs are the best at that shit. Rich man said he'd pay by the head for any of these little bastards I could skim off the top here.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh. I didn't know that you were going to send them to a mining colony. That sounds like it might be nice ... well for dwarfs at least");
+            // TODO: create Lugner and walk him down into the alley.
+            // scr_event_build_animation_auto(o_lugner04);
+            // scr_event_build_move_direction(o_lugner04, 0, 200);
+            scr_event_build_dialogue("Slag", s_port_slag, "Yeah, nice for us, dumb dwarfs love that shit so much they don't even know we just sold them into slavery. That's how you win the game, kid, when you fuck 'em so hard they don't even know you fucked 'em.\So you aren't going to ruin deal are you? I got an advance to make this happen.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, go ahead. This has to be better than just leaving th-");
+            scr_event_build_set_object(o_lugner01, o_cinema1.x, o_cinema1.y);
+            scr_event_build_dialogue("Lugner", s_port_lugner01, "HEY!");
+            scr_event_build_move_to_point_ext(o_lugner01, o_cinema2.x, o_cinema2.y, MOVE_FAST);
+            scr_event_build_wait_for_actions();
+            scr_event_build_camera_frame(CAMERA_FAST, o_slag01, o_cts_hoopz, o_lugner01);
+            //scr_event_build_look_object(o_lugner01, o_cts_hoopz);
+            scr_event_build_look_object(o_cts_hoopz, o_lugner01);
+            scr_event_build_dialogue("Lugner", s_port_lugner01, "What the fuck are you doing with my Dwarfs?!?");
+            scr_event_build_dialogue("Slag", s_port_slag, "Yeah right. So kid, we got a deal?");
+            scr_event_build_dialogue("Lugner", s_port_lugner01, "What deal, there is no deal. THESE ARE MY DWARFS.");
+            scr_event_build_look_object(o_slag01, o_lugner01);
+            scr_event_build_dialogue("Slag", s_port_slag, "Hey buttplug, do I look like I'm fucking talking to you? Me and my associate are trying to complete a business transaction. Now if you don't mind taking your ugly mug elsewhere...");
+            scr_event_build_move_to_point(o_lugner01, o_cinema3.x, o_cinema3.y);
+            scr_event_build_wait_for_actions();
+            scr_event_build_camera_frame(CAMERA_FAST, o_slag01, o_cts_hoopz, o_lugner01);
+            scr_event_build_look_object(o_lugner01, o_cts_hoopz);
+            scr_event_build_look_object(o_cts_hoopz, o_lugner01);
+            scr_event_build_dialogue("Lugner", s_port_lugner01, "You....betrayed me.....");
+            //scr_event_build_user(o_slag01, 0);
+            scr_event_build_move_backwards(o_cts_hoopz, 50, 0); //o_cinema4.x, o_cinema4.y);
+            //scr_event_build_user(o_slag01, 1);
+            scr_event_build_wait_for_actions();
+            scr_event_build_camera_frame(CAMERA_FAST, o_slag01, o_cts_hoopz, o_lugner01);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Lugner.....I was afraid you-");
+            scr_event_build_dialogue("Lugner", s_port_lugner01, "Figured out I was lying, huh? Figured I was going to get all the Dwarfs and smash them in the most inventive way possible. Good for fucking you.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, I was afraid you'd get into trouble. This guy said he'd take the Dwarfs to a mining colony. I didn't know you were...");
+            scr_event_build_dialogue("Lugner", s_port_lugner01, "Oh, this is even better. Now you're trying to bullshit me. I'm really going to enjoy tearing you apart.");
+            // ANIMATION - Lugner getting shot
+            //scr_event_build_move_to_point_ext(o_slag01, 472 - 64, 288, MOVE_FAST); //position to shoot
+            //scr_event_build_wait_for_actions();
+             //Make shot sync
+            scr_event_build_animation_play_and_set(o_slag01, "slagShoot", "stand_SE");
+            Wait(0.75);
+            scr_event_build_sound_play("sn_revolver1_3");
+            scr_event_build_entity_settings(o_lugner01, 0, 0, 0);
+            scr_event_build_animation_play_and_set(o_lugner01, "lugnerShot", "lugnerDead");
+            scr_event_build_wait_for_actions();
+            scr_event_build_animation_play_and_set(o_cts_hoopz, "surpriseSW", "surpriseHoldSW");
+            Wait(2);
+            scr_event_build_camera_frame(CAMERA_FAST, o_slag01, o_cts_hoopz); //, o_lugner01);
+            
+            scr_event_build_dialogue("Slag", s_port_slag, "Fucking Duergars.#Just not good for business.");
+            scr_event_build_look_object(o_cts_hoopz, o_slag01);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Th... thanks... I didn't think he was like that...");
+            scr_event_build_dialogue("Slag", s_port_slag, "That's one for you. Now you owe me one someday."); //\Now let's get these little brats shipped out. Now that I've got a body to make disappear, time is a little tight.");
+            // ANIMATION - Slag gets on a nearby console, a couple beats.
+            ////scr_event_build_dialogue("Slag", s_port_slag, "Hey you little shit, stop screwing around in there. I can't fucking concentrate with you making so much goddamn noise. Don't make me come in there.");
+            ////scr_event_build_dialogue(P_NAME, s_port_hoopz, "You don't need to rough them up, do you?");
+            ////scr_event_build_dialogue("Slag", s_port_slag, "I don't NEED TO, but I can if you're asking. No extra charge. Your call.");
+            ////scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, don't hit them. I promised Giuseppe I'd take care of them.");
+            ////scr_event_build_dialogue("Slag", s_port_slag, "Fine, I don't care.\Where's that damn button.......#There it goes......");
+            // ANIMATION - The sound of a button press can be heard, the container DOES SOMETHING and the dwarfs are gone.
+            ////scr_event_build_dialogue("Slag", s_port_slag, "Simple as that. Here's your money, kid.");
+            scr_event_build_wait(1);
+            scr_event_build_dialogue("Slag", s_port_slag, "Oh, here's your money, kid.");
+            var dwf = scr_quest_get_state("dwarfCustody");
+            var prc = scr_money_db("slagDwarfPrice");
+            Breakout("build", "add", "money");
+            scr_event_build_money_add(dwf * prc);
+            scr_event_build_dialogue_item("Got " + string(dwf * prc) + " neuro-shekels.");
+            Breakout("build", "clear");
+            // TODO: add this to the economy tracker minus some money for "body cleanup"
+            // SYSTEM TEXT: Money received [Dwarfs Recruited] x 1000.
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "It feels good doing something nice for the Dwarfs. They really need people like us.");
+            scr_event_build_dialogue("Slag", s_port_slag, "Heh, I guess. Probably wrong to leave them here, living in this nightmare._____._____.______.______._____\.....when there's so much fucking money to be made off of them.\See you around, kid. Don't get caught with your pants down.");
+            //scr_event_build_flip(o_slag01, -1);
+            scr_event_build_quest_state("lugnerQuest", 9);
+            scr_event_build_quest_state("slagLugnerOffer", 3);
+            if (scr_quest_get_state("dwarfCustody") != 0) scr_time_change(1); //TODO: add this to the time change log
+            
+            //Quest end. Cuchulainn concession points lost(?????), Slag affinity points(assuming we do the Slag ending, or something with Slag later) +1*
+        }
+    }
+    scr_event_advance(event);
+}
+else if (argument0 == SCRIPT_COLLISION_HOOPZ) {
+
+    if (room == r_tnn_warehouse01)
+    {
+        if (scr_quest_get_state("lugnerQuest") == 8)
+        {
+            if (y < 400) //Trying to walk away from Lugner
+            {
+                if (scr_quest_get_state("lugnerPlea") == 0) 
+                {
+                    scr_quest_set_state("lugnerPlea", 1);
+                    var event = scr_event_create_main();
+                    with (event) {
+                        // WE CAN USE THE LUGNER TIMID SPRITE HERE!
+                        scr_entity_animation_set(o_lugner01, "lugnerTimid");
+                        scr_event_build_camera_frame(CAMERA_FAST, o_lugner01);
+                        scr_event_build_dialogue("Lugner", s_port_lugner01, "Hey, where are you off to?");
+                        scr_event_build_camera_frame(CAMERA_FAST, o_cts_hoopz);
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh yeah... sorry. I must have wandered off.");
+                    }
+                    scr_event_advance(event);
+                }
+            }
+            else //Trying to leave warehouse
+            {
+                if (scr_quest_get_state("warehouseExit") == 0) {
+                    scr_quest_set_state("warehouseExit", 1);
+                    var event = scr_event_create_main();
+                    with (event) {
+                        // WE CAN USE THE LUGNER TIMID SPRITE HERE!
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I need to make sure those Dwarfs make it out of here!");
+                        scr_event_build_move(o_cts_hoopz, 0, -16);
+                        scr_event_build_wait_for_actions();
+                        scr_event_build_quest_state("warehouseExit", 0);
+                    }
+                    scr_event_advance(event);
+                }
+            }
+        }
+    }
+    else
+    {
+    
+        if (scr_quest_get_state("lugnerQuest") == 3) and (scr_quest_get_state("slagLugnerOffer") == 0) {
+            scr_quest_set_state("slagLugnerOffer", 1); // Deactivate the collision with questVariable
+        
+            var slag = id;
+            var event = scr_event_create_main();
+                
+            with (event) {
+                
+                // MARKET DISTRICT MEETING //
+                if (room == r_tnn_marketDistrict01)
+                {
+                    if (scr_quest_get_state("slagChase") == 1)
+                    {
+                        scr_quest_set_state("slagChase", 2);
+                        
+                        scr_event_build_look(o_slag01, EAST);
+                        scr_event_build_move(o_cts_hoopz, 96, 0); 
+                        scr_event_build_wait(.75);
+                        scr_event_build_set_object(o_slag01, 0, 896 + 8);
+                        scr_event_build_move_ext(o_slag01, 96, 0, MOVE_FAST);
+                        scr_event_build_wait_for_actions();
+                    }
+                    else
+                    {
+                        scr_event_build_move_to_point(o_cts_hoopz, 192, 896);
+                        scr_event_build_wait(1);
+                        scr_event_build_move_to_point(o_slag01, 272, 880);
+                        scr_event_build_wait_for_actions();
+                        scr_event_build_animation_set(o_slag01, ANIMATION_DEFAULT);
+                        scr_event_build_wait_for_actions();
+                    }
+                }
+                                              
+                // BUSINESS DISTRICT MEETING //
+                if (room == r_tnn_businessDistrict01) 
+                {
+                    scr_event_build_move_to_point(o_cts_hoopz, o_cinema8.x, o_cinema8.y);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_look(o_cts_hoopz, WEST);
+                    scr_event_build_look(o_slag01, NORTHWEST);
+                    scr_event_build_wait_for_actions();
+                }
+                
+                // LOOK AT SLAG IN THE MARKET //
+                if (room == r_tnn_marketDistrict01) scr_event_build_look_object(o_cts_hoopz, o_slag01);
+                
+                // BEGIN MEETING //
+                scr_event_build_dialogue("Slag", s_port_slag, "Where ya goin, kid?");  
+                if (room == r_tnn_businessDistrict01) 
+                {   
+                    scr_event_build_look_object(o_cts_hoopz, o_slag01);
+                }      
+                scr_event_build_camera_frame(CAMERA_NORMAL, o_cts_hoopz, o_slag01);
+                scr_event_build_wait_for_actions();               
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "None of your business.");
+                scr_event_build_dialogue("Slag", s_port_slag, "Heh... that right? Well, an interested party may have just overheard that heartworming conversation you and that sweet little Duergar just had. You gotta figure that an interested party may have a pretty good idea where you'd be going after a conversation like that.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "... I don't know what you're talking about.");
+                scr_event_build_dialogue("Slag", s_port_slag, "Oh, I think you do. Supposing I was the person who overheard a little conversation like that. I might just tell you that handing off still-breathing Dwarfs to a worthless Duergar may not be in the best interests of all parties involved.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why are you talking like that?");
+                scr_event_build_dialogue("Slag", s_port_slag, "We're not even talking at all. Just two passing strangers in the street, asking each other the time.\Look down at your watch.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What?");
+                scr_event_build_dialogue("Slag", s_port_slag, "Your watch. Look down at it.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm not wearing a watch.");
+                scr_event_build_dialogue("Slag", s_port_slag, "Just look down at your arm and say...\7:30.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "7:30?");
+                scr_event_build_dialogue("Slag", s_port_slag, "Louder, I'm a little hard of hearing.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "7:30!");
+                scr_event_build_dialogue("Slag", s_port_slag, "There, that wasn't so hard. Now everybody in an earshot heard you.\Alibi, kid, don't leave home without it.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "There's nobody here.");
+                scr_event_build_dialogue("Slag", s_port_slag, "Right, that's good. Tell that to the Duergars when they're smashing your adorable little face in.\So these Dwarfs you're about to have sent over. You don't want to bring them to that Duergar you just ran into.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What are you trying to say?");
+                //TODO: get a price for the dwarfs!
+                scr_event_build_dialogue("Slag", s_port_slag, "Heh. I'm saying that I'll pay you " + string(scr_money_db("slagDwarfPrice")) + " neuro-shekels a head for every Dwarf you bring to me instead of that Duergar. Cash in hand, no questions asked. Anyone gets wise to what we're doing, they'll be face down in the sewers by morning.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "No thanks.");
+                scr_event_build_dialogue("Slag", s_port_slag, "Not even gonna think about it?\Someone's funeral, kid. Just think about that money when you're out there getting those dwarfs. You could go buy yourself a hat as pretty as my hat. Ain't my hat pretty?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't think it fits your head right.");
+                scr_event_build_dialogue("Slag", s_port_slag, "Bullshit, I'm a goddamn dreamboat in this fucking hat.\Why the fuck don't you wear a hat? Your head looks stupid without one.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I gotta protect the 'hawk.");
+                scr_event_build_dialogue("Slag", s_port_slag, "Tough luck, now take your busted-ass do and get out of my face. Meditate a little bit about the merits of crushed skulls over some tender, loving fistful of cash from your friendly neighborhood businessman.\If you have a change of heart, I'll be behind that club, the one with the shit music ... you'll know it when you hear it.");
+                // Hey GZ, I borked this move script since now you have him moving two diferent ways in one room, I'm guessing it checks for  "slagChase" first ... good luck
+                if (room == r_tnn_marketDistrict01)
+                {
+                    if (scr_quest_get_state("slagChase") != 2)
+                    {
+                        scr_event_build_move(o_slag01, 64, 16);
+                        scr_event_build_wait_for_actions();
+                    }
+                    else
+                    {
+                        scr_event_build_move(o_slag01, 0, -16);
+                        scr_event_build_wait_for_actions();
+                    }
+                }
+                else
+                    {
+                    scr_event_build_look(o_slag01, SOUTHEAST);
+                    scr_event_build_wait_for_actions();
+                    }
+                scr_quest_set_state("slagKnown", 1);
+                scr_quest_set_state("slagMet", 1);
+            }
+            scr_event_advance(event);
+        }
+    
+    }
+}

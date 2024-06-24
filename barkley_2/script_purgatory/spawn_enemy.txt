@@ -1,0 +1,2 @@
+scr_event_build_enemy_spawn(o_enemy_crabcommando_body, 800, 600);
+        scr_event_build_disappear(borkbork);

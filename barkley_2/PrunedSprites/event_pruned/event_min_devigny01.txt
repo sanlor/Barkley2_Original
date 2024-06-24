@@ -1,0 +1,78 @@
+// NPC script for Devigny, one of the player's two cellmates.
+// BIO: A bit of a simpleton and rather emotionally unstable. Devigny is a gravedigger currently trying to dig his way out of the prison, though the hole he's dug is less than an inch deep. He adopts the persona BRAINSLAYER when he's attempting to escape with the player, though it's never clear what this even means.
+// CRITICAL COMBAT NOTE: Devigny eventually aids the player as a combat NPC later in this location, though this script doesn't handle that. devigny01 is replaced with devigny02 in the cell when the player is ready to break out. check that script for more information.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") >= 1) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var devigny = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("devignyState") == 3) {
+            scr_event_build_dialogue("Devigny", NULL, "About time you went to sleep, you know. I can't concentrate on my digging with you wandering around like this.");
+            scr_event_build_end();
+        } else if (Quest("devignyState") == 2) {
+            Dialogue(P_NAME, "Anything interesting you can tell me about the prison?");
+            scr_event_build_dialogue("Devigny", NULL, "A bunch of doors that won't open for you, a bunch of mean guards that'll kick your head in if you look 'em in the eye.\They got a courtyard you can go to every day, but the duergars like picking folks out of the courtyard sometimes to practice their torture.\I don't go to the courtyard anymore.\..........\That's about it, really. Don't know what more you want to know.");
+            var escape = Choice("Should you tell him about your escape plan?", NULL);
+            with (ChoiceAdd(escape, "No.")) {
+                Dialogue(P_NAME, "Don't know. Just making conversation, I guess.");
+                scr_event_build_dialogue("Devigny", NULL, "Not much to do but chat with us, have a rest, or wait by the door if you want to go to the courtyard.\You're safer here than the courtyard, though. Me and the old fart there aren't going to try cutting off any of your fingers.");
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(escape, "I'm thinking of breaking out.")) {
+                Dialogue(P_NAME, "I'm thinking of breaking out. That's why I got thrown in here in the first place, I wanted to start a big prison break, get everyone out of here.");
+                scr_event_build_dialogue("Devigny", NULL, "No shit? Just break everyone out? How you planning on doing it?");
+                Dialogue(P_NAME, "Well, I only just got here. I'm still working on it.");
+                scr_event_build_dialogue("Devigny", NULL, "Oh......\I figured by the way you were talking you already had a plan laid out.\Well, let me give you a piece of advice: You can just rest easy and leave all that to me. I've already got a plan in the works to get out of here.");
+                Dialogue(P_NAME, "Wow, you do?!? You've got a way to bust out of here?");
+                scr_event_build_dialogue("Devigny", NULL, "Not busting, kid. Digging. Digging all the way to Brain City. I'll be kicking back with a frosty mug before they even know I'm missing.");
+                Dialogue(P_NAME, "No kidding? That's awesome.");
+                scr_event_build_dialogue("Devigny", NULL, "You're telling me. Wanna see the hole?");
+                Dialogue(P_NAME, "Yeah, where is it? You're hiding it really well.");
+                scr_event_build_dialogue("Devigny", NULL, "Take a peek under my bunk. You can't miss it.");
+                scr_event_build_wait(4);
+                Dialogue(P_NAME, "Where is it?");
+                scr_event_build_dialogue("Devigny", NULL, "Move the shirt.");
+                Dialogue(P_NAME, "Oh, ok.....");
+                scr_event_build_wait(3);
+                Dialogue(P_NAME, "._____._____._____._____._____._____._____._____._____._____._____\It's not too deep of a hole, is it?");
+                scr_event_build_dialogue("Devigny", NULL, "Well, you've got to start somewhere, right?");
+                Dialogue(P_NAME, "Yeah, but I guess I kinda thought it'd be more like......");
+                scr_event_build_dialogue("Devigny", NULL, "Well it's not finished yet, you know. I'm still working on it.");
+                Dialogue(P_NAME, "It's not very hole-like at the moment, though.\I don't want to be a jerk, but it's not really a hole as much as it is a dent in the ground.");
+                scr_event_build_dialogue("Devigny", NULL, "The ground's tough, you know!! I spent all night on that. Takes time to dig, and I'm a bit of a perfectionist.");
+                Dialogue(P_NAME, "It looks like there's something written there? What's that say? It's written in the ground.");
+                scr_event_build_dialogue("Devigny", NULL, "Dunno, found it like that. Looked like someone probably dropped something pretty heavy there before they put the bunks in. Words are the indentation, I bet.");
+                Dialogue(P_NAME, "Oh.......\So you didn't dig this hole either?");
+                scr_event_build_dialogue("Devigny", NULL, "Well, someone got it started for me. I've added a bit to it since.");
+                Dialogue(P_NAME, "This doesn't sound like the best escape plan. Are you sure this is going to work?");
+                scr_event_build_dialogue("Devigny", NULL, "Absolutely. No question. As long as my number doesn't get called for the executions, I should have this baby ready in......\Oh, I don't know, 14 years. In 14 years we'll be sitting pretty in Brain City. You have my guarantee.");
+                Dialogue(P_NAME, "I don't really have that much time to wait. I'll see if I can think up something better, ok? Can you help me if I come up with something?");
+                scr_event_build_dialogue("Devigny", NULL, "Help you? I guess, sure. But I'm not going to let you beat me to Brain City. This is a race, now.");
+                Quest("devignyState", 3);
+                scr_event_build_end();
+            }
+        } else if (Quest("devignyState") == 1) {
+            Dialogue(P_NAME, "So what's there to do around here?");
+            scr_event_build_dialogue("Devigny", NULL, "Sleep. Torture. Sometimes they let you go out to the courtyard.");
+            Dialogue(P_NAME, "Oh.");
+            scr_event_build_dialogue("Devigny", NULL, "Hope you weren't expecting more than that.");
+            Dialogue(P_NAME, "Do they let you play basketball or anything? I think I saw that in a vidcon once.....");
+            scr_event_build_dialogue("Devigny", NULL, "Nope.\Don't think so, anyway. I never seen anything like that.");
+            Quest("devignyState", 2);
+            scr_event_build_end();
+        } else {
+            scr_event_build_dialogue("Devigny", NULL, "New guy.");
+            Dialogue(P_NAME, "I guess.\New to you anyway. To me I'm the same.");
+            scr_event_build_dialogue("Devigny", NULL, "Huh.\Guess not. Thought you were somebody else.");
+            Quest("devignyState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

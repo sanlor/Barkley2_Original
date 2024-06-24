@@ -1,0 +1,49 @@
+// BIO: I have no idea what this is, I just needed filler dialogue and I don't like people. This is literally what it sounds like to me when I'm forced to talk with people my age who are too invested in internet culture and it is a miracle I have not been imprisoned for violent actions. When old age wears away my restraining bolts I am certain I will indiscriminately murder people.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("dbaseNPCsState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var osiris = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("baseescapeQuest") == 1) {
+            Dialogue("Osiris", "Heh. Looks like somebody stepped in the trough. EPIC FAIL, right here.");
+            scr_event_build_end();
+        } else if (Quest("osirisState") == 2) {
+            Dialogue("Osiris", "Oh, come back to-");
+            Dialogue(P_NAME, "I just wanted you to know that you will die a miserable, lonely death.\That is all.");
+            scr_event_build_end();
+        } else if (Quest("osirisState") == 1) {
+            Dialogue(P_NAME, "Hey, I found out about a new meme. It's really cool. It's called The Lock Osiris In The AirLock meme.\It's super cool. It's where I lock Osiris in the airlock and blast him into space.");
+            Dialogue("Osiris", "This is not a meme. You made this up.");
+            Dialogue(P_NAME, "There's no air out there for Osiris to breathe.");
+            Dialogue("Osiris", "I don't have time for pretenders like you. Let's see if you can get this worthless pretender-meme on memecounter.duerg. They'll laugh you off the beginner forums.");
+            Dialogue(P_NAME, "He will die out there in space with no oxygen to breathe.\I think this is a killer meme. It will reach pandemic levels of viral. Everyone is really excited about seeing you floating around in space, dying.");
+            Dialogue("Osiris", "Fail. Just fail. Meme fail.\Everybody on the forums are going to love hearing this story about your epic fail.");
+            Quest("osirisState", 2);
+            scr_event_build_end();
+        } else {
+            Dialogue("Osiris", "Heh heh.\Looks like someone had caviar for breakfast......");
+            Dialogue(P_NAME, "You better not be talking to me, city slicker.");
+            Dialogue("Osiris", "Caviar for breakfast? Hello? From the duergnet webinar?!? Hello?!?!");
+            Dialogue(P_NAME, "I don't care what you had for breakfast, but you're earning yourself a knuckle-sandwich for lunch at this rate.");
+            Dialogue("Osiris", "You're serious? You really have no idea what I'm talking about??\The correct answer is supposed to be /'With a side of 'taters/'......\Hello?? Nothing?!?!");
+            Dialogue(P_NAME, "Sorry, wasn't listening. I was just thinking how easily your spinal column would break under the immense pressure of my pristine glutes.");
+            Dialogue("Osiris", "I don't even know why I'm stopping to talk to somebody who has never heard of the Caviar for Breakfast meme.\memecounter.duerg rated it the 4th most talked-about meme this year. If you're even bothering talking to people without AT LEAST being familiar with the Caviar for Breakfast meme, the numbers show you're missing at least 17% of what people are saying.\Yes, so why don't you just go and flip the wagon. And by the perplexed scent rolling off your ass, I'm guessing you don't know what that means either.");
+            Dialogue(P_NAME, "Hmm, yes, yes, very interesting. I am completely listening to all of this.\I am definitely not thinking about the infinite amount of other things in the universe that are more interesting than this.");
+            Dialogue("Osiris", "It means FUCK OFF. You get that one, yeah?");
+            Dialogue(P_NAME, "Nope, sorry, didn't catch that one either. I make it about one syllable into your sentences before my brain turns off.\I'm going to go and try finding someone less interesting than you. It will be a tough journey. I may not make it back alive. It will certainly end up being my life's work.\Wish me luck.");
+            Dialogue("Osiris", "Fuck you.");
+            Quest("osirisState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

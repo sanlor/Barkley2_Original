@@ -1,0 +1,111 @@
+    // Script for Vikinstad in the TNN Housing Department
+    // Mainly just accepts a small extortion and then sends wilmerEvict from 1 (active) to 4 (complete and paid)
+    
+    // money
+    var curmoney = scr_money_count();
+    
+    // wilmer values
+    var mortgage = scr_money_db("wilmerMortgage");
+    var bonus = scr_money_db("wilmerMortgageBonus");
+    var mtotal = scr_money_db("wilmerMortgageTotal");
+    
+    // vikingstad demands
+    var demand1 = scr_money_db("vikingstadDemand1");
+    var demand2 = scr_money_db("vikingstadDemand2");
+    var demand3 = scr_money_db("vikingstadDemand3");
+    
+    // Build Event
+    var event = scr_event_create_main();
+    var payRent = scr_event_create_child(event);
+    
+    // This calls when you finally agree to pay the money to Vikingstad
+    with (payRent) {
+        scr_event_build_money_add(-demand1);
+        scr_event_build_dialogue(P_NAME, "s_port_hoopz", "Well... I guess I've got no choice. I don't want Mr. Wilmer to get evicted after all he's done for me. Okay, here's the money...");
+        scr_event_build_breakout("clear");
+        scr_event_build_dialogue("Vikingstad", "s_port_vikingstad", "Gwahaha, thanks for your business! We'll make sure Wilmer gets to stay in house a little longer. Now get outta here, we're closing! It's my lunch break and I'll be damned if I miss my potted meat with termite spread for you. Scram, kid!");
+        scr_event_build_quest_state("wilmerEvict", 4);
+        scr_event_build_quest_state("vikingstadTnn", 1);
+        scr_event_build_time_add(1);
+        scr_event_build_end();
+    }
+    
+    with (event)
+    {
+        
+        // If you're controlling Matthias/Dead Son.
+        if (scr_quest_get_state("deadSon") == 3)
+        {
+            scr_event_build_dialogue("Vikingstad", "s_port_vikingstad", "This is the Department of Population and Housing... what do you want?");
+            scr_event_build_dialogue("Matthias", NULL, "What's that? This is the Department of Population and Housing??? I thought this was the Department of Dwarf Persecution. Looks like I'm in the wrong place! Well, I've got to be running. Bye!");
+        }
+        
+        // If you're controlling the Governor.
+        else if (scr_quest_get_state("govQuest") == 5)
+        {
+            scr_event_build_dialogue("Vikingstad", "s_port_vikingstad", "M-Mr. Governor, sir! If I had known you were in line, I would've let you right through! What can I do for you, sir?");
+            scr_event_build_dialogue("Governor Elagabalus", "s_port_governor", "Good eye, subordinate! It is, in fact, I, the Governor. Be sure to tell your friends and coworkers that I, the 100% authentic Governor was here!");
+        }
+        
+        // Spoken to Vikingstad before.
+        else if (scr_quest_get_state("vikingstadTnn") == 1)
+        {
+            scr_event_build_dialogue("Vikingstad", "s_port_vikingstad", "What're you doing still standing around here? I told you to scram! Now beat it, kid! We're closing!");
+        }
+        
+        else if (scr_quest_get_state("wilmerEvict") == 1)
+        {
+            scr_event_build_dialogue(P_NAME, "s_port_hoopz", "Am I up next? Is this the Housing Department?");
+            scr_event_build_dialogue("Vikingstad", "s_port_vikingstad", "Yes, yes, this is the Department of Population and Housing... whattaya want?");
+            scr_event_build_dialogue(P_NAME, "s_port_hoopz", "Um, I'm here on behalf of Mr. Wilmer. He needs me make his mortgage payment... um... I've never done this before, am I doing it right?");
+            scr_event_build_dialogue("Vikingstad", "s_port_vikingstad", "Let me look at my papers... Mr. Wilmer... yes, yes, Bungalow 2... more like Mr. Delinquent! That'll be " + string(mortgage) + " neuro-shekels to renew... with a " + string(demand1 - mortgage) + " surcharge for umm, let's call it 'expedient processing', bringing the total to " + string(demand1) + " neuro-shekels!");
+            scr_event_build_dialogue(P_NAME, "s_port_hoopz", "(But... Wilmer said it would only be " + string(demand1) + " neuro-shekels!)");
+            scr_event_build_dialogue("Vikingstad", "s_port_vikingstad", "Is crybaby gonna need to go to the back of the line or is crybaby gonna pay up?");
+            
+            // Don't have the money
+            if (curmoney < demand1)
+            {
+                scr_event_build_dialogue(P_NAME, "s_port_hoopz", "I... I don't have that much... I already spent it.");
+                scr_event_build_dialogue("Vikingstad", "s_port_vikingstad", "Well then you're outta luck, kid! You stood in line for all that time for nothing! It's my lunch break and we're closing! I'll be damned if I miss my potted meat with termite spread for you. Scram, kid!");
+                scr_event_build_dialogue(P_NAME, "s_port_hoopz", "But I really have to renew Mr. Wilmer's mortgage! C'mon, cut me a break just this once!");
+                scr_event_build_dialogue("Vikingstad", "s_port_vikingstad", "And I'VE really gotta get to this potted meat! I told you to scram! Don't make me get the guards!");
+                scr_event_build_dialogue(P_NAME, "s_port_hoopz", "(Dad jiggit... I blew it, Mr. Wilmer...)");
+                scr_event_build_quest_state("vikingstadTnn", 1);
+            }
+            // If you have the money
+            else if (curmoney >= demand1)
+            {
+                scr_event_build_breakout("add", "money");
+                
+                var choice1 = scr_event_build_choice("Pay the mortgage?", "s_port_hoopz");
+                var pay1 = scr_event_build_add_choice(choice1, "Pay up already.");
+                with (pay1)
+                {
+                    scr_event_build_event_snippet(payRent);
+                }
+                var dispute1 = scr_event_build_add_choice(choice1, "Dispute it! It should only cost " + string(mortgage) + "!");
+                with (dispute1)
+                {
+                    scr_event_build_dialogue(P_NAME, "s_port_hoopz", "B-but Mr. Wilmer said it would only be " + string(mortgage) + " neuro-shekels! He gave me " + string(mtotal) + " neuro-shekels, " + string(mortgage) + " for you, and " + string(bonus) + " for me for helping him out.");
+                    scr_event_build_dialogue("Vikingstad", "s_port_vikingstad", "Well it looks like it's " + string(demand1) + " for me and " + string(mtotal - demand1) + " for you now! Gwahaha!");
+                    
+                    // Second Chance to pay the Mortgage
+                    var choice2 = scr_event_build_choice("Submit to the shakedown?", "s_port_hoopz");
+                    var pay2 = scr_event_build_add_choice(choice2, "Fine, here's the money.");
+                    with (pay2)
+                    {
+                        scr_event_build_event_snippet(payRent);
+                    }
+                    var refuse = scr_event_build_add_choice(choice2, "Frup this, I'm out of here.");
+                    with (refuse)
+                    {
+                        scr_event_build_breakout("clear");
+                        scr_event_build_dialogue(P_NAME, "s_port_hoopz", "You've got some nerve, and won't get a nickel of Wilmer's money. I'm contacti-");
+                        scr_event_build_dialogue("Vikingstad", "s_port_vikingstad", "Contacting the what?! Ain't nobody here give a damn about your senile old grandpa. Now scram and use the rest of the money you have to get Wilmer a nice warm coat for the streets!");
+                    }
+                }
+            }
+            scr_event_build_dialogue(P_NAME, "s_port_hoopz", "...");
+        } 
+    }
+    scr_event_advance(event);

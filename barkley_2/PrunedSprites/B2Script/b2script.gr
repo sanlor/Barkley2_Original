@@ -1,0 +1,125 @@
+// This is the grammar for the Barkley 2 Scripting language.
+
+// --- DEFINE TOKENS ---
+
+// Keywords
+token VAR 'var' ;
+token IF 'if' ;
+token ELSE 'else' ;
+token WITH 'with' ;
+token RETURN 'return' ;
+token SWITCH 'switch' ;
+token CASE 'case' ;
+token BREAK 'break' ;
+token WHILE 'while' ;
+token RETURN 'return' ;
+
+// Symbols
+token LPAR '(' ;
+token RPAR ')' ;
+token LBRACK '{' ;
+token RBRACK '}' ;
+token LSQBRACK '[' ;
+token RSQBRACK ']' ;
+token DOT '.' ;
+token COMMA ',' ;
+token COLON ':' ;
+token SEMICOLON ';' ;
+token ASSIGN '=' ;
+token PIPE '|' ;
+token QMARK '?' ;
+token HASH '#' ;
+
+// Comparators
+token EQ '==' ;
+token NEQ '!=' ;
+token LTEQ '<=' ;
+token GTEQ '>=' ;
+token LT '<' ;
+token GT '>' ;
+
+// Boolean operators
+token AND 'and' ;
+token ANDAMP '&&' ;
+token OR 'or' ;
+token ORPIPE '||' ;
+token TRUE 'true' ;
+token FALSE 'false' ;
+
+// Arithmetic operators
+token PLUS '+' ;
+token MINUS '-' ;
+token MULT '*' ;
+token DIV '/' ;
+
+// --- Built-ins:
+//WORD : (a-z|A-Z|0-9|'_')+ ;
+//INT : (0-9)+ ;
+//FLOAT : [0-9]+.[0-9]+ ;
+//STRING : '"'(.|'""')*'"' ;
+//COMMENT : '//'.* | '/*'~*'*/' ;
+
+// --- DEFINE GRAMMAR ---
+grammar b2script;
+
+// A Barkley 2 Script is a series of statements
+b2script : prog;
+prog : [ stmt ] ;
+
+// A statement is an executable line of code
+stmt : fcall SEMICOLON | ifelstmt | ifstmt | withstmt | vdef | vdefass | vass | LBRACK [ stmt ] RBRACK | returnstmt;
+
+// Variable assignments;
+vdef : VAR [ WORD COMMA ] SEMICOLON;
+vdefass : VAR WORD ASSIGN expr SEMICOLON;
+vass : WORD ASSIGN expr SEMICOLON;
+// (TODO: Add to executor)
+//vassacc : accessor ASSIGN expr SEMICOLON;
+//vassdot : dotnot ASSIGN expr SEMICOLON;
+
+// If statement
+ifstmt : IF expr stmt;
+ifelstmt : IF expr stmt ELSE stmt;
+
+// With statement
+withstmt : WITH LPAR expr RPAR stmt;
+
+// While statement (TODO: Add to executor)
+//whilestmt : WHILE expr stmt;
+
+// Switch statement (TODO: Add to executor)
+//switchstmt : SWITCH expr LBRACK [ casestmt ] RBRACK ;
+//casestmt : case primary COLON [ stmt ] ( BREAK SEMICOLON ) ;
+
+// Function call
+fcall : WORD LPAR fargs RPAR ;
+fargs : [ expr COMMA ] ;
+
+// An expression is computable and returns a value
+expr : boolexpr;
+boolexpr : eqexpr ( boolOp boolexpr );
+eqexpr : arithexpr ( comparator arithexpr );
+arithexpr : primary ( arithOp arithexpr );
+primary : TRUE | FALSE | INT | FLOAT | STRING | MINUS primary | fcall | WORD | LPAR expr RPAR;
+
+// Comparators
+comparator : EQ | NEQ | LTEQ | GTEQ | LT | GT;
+
+// Arithmetic operator
+arithOp : PLUS | MINUS | MULT | DIV;
+
+// Boolean operators (TODO: Add to executor)
+boolOp : AND | ANDAMP | OR | ORPIPE;
+
+// Dot notation (TODO: Add to executor)
+//dotnot : WORD DOT WORD;
+
+// Accessors (TODO: Add to executor)
+//accessor : accessorarray | accessorlist | accessormap | accessorgrid ;
+//accessorarray : WORD LSQBRACK expr RSQBRACK ; 
+//accessorlist  : WORD LSQBRACK PIPE expr RSQBRACK ; 
+//accessormap   : WORD LSQBRACK QMARK expr RSQBRACK ; 
+//accessorgrid  : WORD LSQBRACK HASH expr COMMA expr RSQBRACK ; 
+
+// Return statement
+returnstmt : RETURN expr SEMICOLON;

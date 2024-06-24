@@ -1,0 +1,495 @@
+// Doctor Pelekryte //
+// ***************************************************************************************** //
+// A hobbyist Astrologist
+// ***************************************************************************************** //
+/*
+// Initialize //
+if (argument0 == SCRIPT_START) 
+{
+// ****** Doctor Pelekryte ****** //
+// Pelekryte is on the rooftops of Tir na nn0g //
+if room = r_tnn_marketDistrict01 then 
+{
+if scr_time_get() >= 4 then scr_event_interactive_deactivate(); 
+}
+
+// Pelekryte's hat is on the sewer floor, Pelekryte is assumed dead // Happens if you don't beat the Sewer Boss (U-Boat? Generator?) by a certain time unit //
+else if room = r_sw1_plantation01 then 
+{
+// TODO use a room near a boss //
+// TODO if scr_quest_get_state("boss_sewerGenerator") >= 2 or scr_time_get() <= 7 then scr_event_interactive_deactivate();
+}
+
+// Pelekryte got goofed in the sewers, he won't appear in BCT //
+else if room = r_bct_observatory01 then 
+{
+// TODO if scr_quest_get_state("boss_sewerGenerator") >= 2 or scr_time_get() <= 7 then scr_event_interactive_deactivate();
+}
+
+// Observatory is opened for public // TODO figure out how to handle this //
+} 
+                  
+// Step //
+if (argument0 == SCRIPT_STEP) 
+{
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) 
+{
+// dr_pelekryte //
+// 0 = First interaction //
+// 1 = Second+ interaction //
+// 2 = Logic minigame //
+// 3 = Have met in BCT //
+// 4 = Minigame complete //
+// 5 = Exiting the telescope //
+// 6 = Exiting the starfield //
+
+// dr_pelekryte_cleanliness //
+// Informs the amount of pieces you moved around for Pelekryte in the logic minigame //
+// 7 = Perfect score //
+// 5 - 6 = Good score //
+// 2 - 4 = Poor score //
+// 0 - 1 = Abysmal score //
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) 
+{
+// TIR NA NOG //
+if room = r_tnn_marketDistrict01 then
+{
+// First interaction //
+if scr_quest_get_state("dr_pelekryte") == 0 then
+{
+// Talk to Pelekryte for the first time //
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hmph? W-whosh there? You're not one of thoshe Duergarsh now are you?");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, just your average youngster on the loose.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Phew, thank the shtarsh for that! I can't even imagine what thoshe brutesh would do if they'd find me on their precioush rooftopsh.");
+
+// Choice //
+var choice_task = scr_event_build_choice("Hey mister...", s_port_hoopz); 
+
+// Ask if drunk //
+var drunk = scr_event_build_add_choice(choice_task, "Are you drunk?");
+with drunk 
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey mister... are you drunk? Do you need help?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "What? What ish that shupposhed to mean?");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Don't misunderstand, it's just the way you... What are you doing up here anyway?");
+}
+
+// Ask what is he doing up there //
+var what = scr_event_build_add_choice(choice_task, "What are you doing here?");
+with what 
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey mister... What are you doing up here?");
+}
+
+// Say that you need to leave //
+var leave = scr_event_build_add_choice(choice_task, "I need to get going now");
+with leave 
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey mister... I need to get going now.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Alright then. Jusht don't tell the Duergarsh that I'm up here...");
+// TODO end script here //
+}
+
+// Rest of the conversation //
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "I'm shtudying the shtarsh and conshtellationsh around Necron 7. Or at leasht that'sh what I'm trying to do.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh? What's the problem?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Thish locale for shtartersh. A glorified ghetto with Duergarsh around every corner jusht waiting to beat up ush dwarfsh. The equipment I got from thoshe L.O.N.G.I.N.U.S.'h fellash is extremely outdated, and on top of that there are no adequetly high locationsh in Tir na Nog to properly shurvey the shtarsh and conshtellationsh.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Can't you just go to some other place? I'm sure there's better places to do all this.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hmm, you musht be new here, right? Dwarfsh aren't allowed to leave Tir na Nog once they are in here. Thish is the besht I'm going to get until they let ush leave. If they ever let ush leave.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, uh, right. I forgot about that.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Pershonally I don't think they'll ever let ush out of here. I can't put my finger on it, but shomething'sh wrong here. I don't know what ish going to happen once all the dwarfsh have been brought to Necron 7, and I'm not keen on finding out either. Once the L.O.N.G.I.N.U.S.'h boysh make their next excurshion to the shewersh I'm going with them. There'sh gotta be a way out of here through the shewersh.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sounds dangerous. Hey, I gotta be going now. Good luck on that excursion mister.");
+scr_event_build_quest_state("dr_pelekryte", 1);
+}
+}
+
+// TIR NA NOG SEWERS //
+else if room = r_sw1_plantation01 then
+{
+// Find Pelekrytes hat and comment on it // Check if you've met Pelekryte or not //
+if scr_quest_get_state("") >= 1 then scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, isn't this the hat that old guy on the rooftops was wearing? *Gulp* There's blood stains on it... Dad gummit, I think that guy got chomped by some sewer ghoulie.\Rest in peace, goofy old guy...");
+else scr_event_build_dialogue(P_NAME, s_port_hoopz, "Some sort of goofy hat. It has a lot of blood stains on it..."); 
+}
+
+// BRAINCITY //
+else if room = r_bct_observatory01 then
+{
+// Observatory not yet finished up //
+if scr_quest_get_state("bct_observatory_complete") == 0 then
+{
+// Talk to Pelekryte for the first time in BCT //
+if scr_quest_get_state("dr_pelekryte") <= 1 then
+{
+// Talk to Pelekryte in the BCT observatory without knowing him from before //
+if scr_quest_get_state("dr_pelekryte") == 0 then 
+{
+// Discuss the observatory with Dr. Pelekryte //
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cool little place you got here, mister. What is all this stuff?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Wha...? Oh, hello there. Shorry, I wash a bit preoccupied. What were you shaying?");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "I was just asking about all this stuff in here. What is this place anyway?");
+}
+
+// Talk to Pelekryte in the BCT observatory when you know him from before //
+else if scr_quest_get_state("dr_pelekryte") == 1 then  
+{
+// Discuss the observatory with Dr. Pelekryte //
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, it's you! So you made it out of Tir na Nog after all, huh?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Wha...? Oh, hello youngshter. I shee you alsho got out of there shafe and shound. It feelsh like agesh since I left Tir na Nog, but I shure am glad that I did.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "So what's the deal here? Is this your place?");
+}
+
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Thish ish the one and only Braincity Obshervatory. Uh, actually it'sh not much of anything yet. Jusht look at all thish shtuff I shtill need to short out. But I'm hopeful that with shome time and effort I'll make thish into a bashtion of knowledge.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heh, yeah, it's a real pigsty in here. No offense.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "None taken, youngshter. Shay, you wouldn't have the time to help me put everything in place, would you?");
+
+// Choice //
+var choice_task2 = scr_event_build_choice("Help Doctor Pelekryte?", s_port_hoopz); 
+
+// Volunteer //
+var yes = scr_event_build_add_choice(choice_task2, "Okay, I guess I can help a bit");
+with yes 
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, I guess I can help a bit. What exactly do you need me to do?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh that'sh great newsh! Yeah, sho ash you can shee all my equipment ish shtrewn about the would-be obshervatory. If you could, pleashe help me shet them in their proper placesh.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Alright. How do I know which thing goes where?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Let'sh do it like thish: you click on the inshtrument you want to know about, and I'll tell you where it'sh shupposhed to go. Don't worry, you don't have to asshemble anything, just put all theshe thingsh into a nice order and I'll asshemble it all later.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, sounds easy enough. Here we go...");
+scr_event_build_quest_state("dr_pelekryte", 2);
+// TODO begin logic minigame //
+}
+
+// Decline //
+var no = scr_event_build_add_choice(choice_task2, "Sorry but I got other things to do");
+with no 
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry but I got other things to do.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh that'sh quite alright. I can manage thish on my own. It'll jusht take a bit more time doing it by myshelf.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "I might come back here some other time. Good luck with the observatory.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Thanksh!");
+scr_event_build_quest_state("dr_pelekryte", 3);
+}
+}
+
+// Talk to Pelekryte during the logic pushing minigame //
+else if scr_quest_get_state("dr_pelekryte") == 2 then
+{
+// Which item are you holding // 0 = No item, chance to quit the minigame //
+if scr_quest_get_state("dr_pelekryte_item") == 0 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hey what'sh thish? Your handsh are empty! Did you get everything shorted out already?");
+
+// Choice //
+var choice_task3 = scr_event_build_choice("Is this arduous task over?", s_port_hoopz); 
+
+// Done and Dusted //
+var done = scr_event_build_add_choice(choice_task3, "Done and dusted!");
+with done 
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Done and dusted!");
+scr_Event_build_quest_state("dr_pelekryte", 4);
+
+// You sorted out most of the stuff or everything //
+if scr_quest_get_state("dr_pelekryte_cleanliness") >= 5 then
+{
+// You sorted out everything //
+if scr_quest_get_state("dr_pelekryte_cleanliness") >= 7 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Thanksh! I really appreciate thish you know. I'm shorry that I don't really have anything to give you in return.");
+}
+
+// You sorted most of the stuff //
+else
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Thanksh! Uh, you misshed shome of the shtuff, but that'sh quite okay. The resht I can manage on my own. I'm shorry that I don't really have anything to give you in return.");
+}
+
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm just glad to help doc.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh, I know! You're a gun'shbrashter, right?");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Gunpowder flows in my veins.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Okay, great! Sho lishten up. There'sh thish old L.O.N.G.I.N.U.S.'h shupply cache in the Washteland, near the wesht shide wall. It might have shomething that ish of shome ushe to you, and I jusht happen to have the key for the place. Here, it'sh yoursh.");
+// TODO get key //
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, thanks.\Wait a minute. How do you know all this? And where did you get the key from?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Long shtory short, one of the LONGINUS'h guysh who helped me get through the shewersh told me about it. There wash shome... trouble and we get sheperated but before that he told me to take thish key and deliver it to the L.O.N.G.I.N.U.S.'h membersh here in Brain City. Apparently it wash deemed too rishky to try and shalvage whatever wash in that shupply cache sho they let me keep the key.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh... There's probably just some junk in there...");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "You never know until you know!");
+scr_event_build_quest_state("dr_pelekryte", 4);
+}
+
+// You sorted some of the stuff //
+else if scr_quest_get_state("dr_pelekryte_cleanliness") >= 2 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Thanksh! Uh, I wash hoping you'd do a bit more but that's fine. The resht I can manage on my own. Well, I better get to it then. Thanksh for your help.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "No problem, doc.");
+scr_event_build_quest_state("dr_pelekryte", 4);
+}
+
+// You did barely anything //
+else
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Thanksh! Umm... Wait a minute. Did you even do anything? What a shcam! I've been schammed! Schammed, flimmed and flammed!");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry doc, that's all I could manage with this aching back of mine.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hmph. Guessh I have to short thish shtuff on my own after all.");
+scr_event_build_quest_state("dr_pelekryte", 4);
+}
+}
+
+// There is still work to be done //
+var notdone = scr_event_build_add_choice(choice_task3, "There's still work to be done");
+with notdone 
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "There's still work to be done.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Let's get to it then!");
+}
+}
+
+/// CORRECT ASEEMBLY: ///
+/// BFXT Mainframe - Quantum Tesla Scanner - Quadcore Heimlich Battery - Hyperborean Modulator - Mark II Globulator - Crystal Pistons - Exhaust Pipe - Empty //
+
+// Which item are you holding // 1 = BFXT Mainframe //
+else if scr_quest_get_state("dr_pelekryte_item") == 1 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "That beauty ish the BFXT Mainframe. Shet that next to the Quantum Teshla Shcanner.");
+}
+
+// Which item are you holding // 2 = Quantum Tesla Scanner //
+else if scr_quest_get_state("dr_pelekryte_item") == 2 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh, careful! That'sh the Quantum Teshla Shcanner. Put that next to the Quadcore Heimlich Battery and the BFXT Mainframe.");
+}
+
+// Which item are you holding // 3 = Quadcore Heimlich Battery //
+else if scr_quest_get_state("dr_pelekryte_item") == 3 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Heavy ishn't it? That'sh the Quadcore Heimlich Battery. Shet that next to the Quantum Teshla Shcanner and the Hyperborean Modulator.");
+}
+
+// Which item are you holding // 4 = Hyperborean Modulator //
+else if scr_quest_get_state("dr_pelekryte_item") == 4 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hmm, oh that's the Hyperborean Modulator. Put that between the Mark II Globulator and the Quadcore Heimlich Battery.");
+}
+
+// Which item are you holding // 5 = Mark II Globulator //
+else if scr_quest_get_state("dr_pelekryte_item") == 5 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "That's the Mark II Globulator. Put that near the Hyperborean Modulator and the Crystal Pistons.");
+}
+
+// Which item are you holding // 6 = Crystal Pistons //
+else if scr_quest_get_state("dr_pelekryte_item") == 6 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Thoshe are the Cryshtal Pishtonsh. Put thoshe next to the Mark II Globulator and the Exhaust Pipe.");
+}
+
+// Which item are you holding // 7 = Exhaust Pipe //
+else if scr_quest_get_state("dr_pelekryte_item") == 7 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Ah, look at that beauty. That'sh the Exhausht Pipe. Put that next to the Crystal Pishtonsh and leave shome empty room on the right shide of it.");
+}
+}
+
+// Talk to Pelekryte in BCT for the second+ time //
+else if scr_quest_get_state("dr_pelekryte") == 3 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hmm? Oh, the youngshter from before. Shomething I can do for you?");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "No I'm good, thanks. Just looking around.");
+}
+
+// Talk to Pelekryte after the logic minigame // Just a thank you speech by Pelekryte after helping him out //
+else if scr_quest_get_state("dr_pelekryte") == 4 then
+{
+// You did good //
+if scr_quest_get_state("dr_pelekryte_cleanliness") == 7 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hey youngster, thanksh again for your help! You really helped me out here!");
+}
+
+// You did average //
+else if scr_quest_get_state("dr_pelekryte_cleanliness") >= 5 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hey youngster, thanksh again for your help!");
+}
+
+// You did poorly //
+else if scr_quest_get_state("dr_pelekryte_cleanliness") >= 2 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hello youngster. Thanksh for giving me a hand with thish shtuff. I shtill got a long way to go though...");
+}
+
+// You did abysmal //
+else
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh, hey there youngshter. Your back shtill acting up? No matter, I'll get thish shtuff figured out on my own.");
+}
+}
+}
+
+// Talk to Pelekryte when Observatory is completed //
+else if scr_quest_get_state("bct_observatory_complete") == 1 then
+{
+// Greeted to the Observatory //
+if scr_quest_get_state("dr_pelekryte") <= 4 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Ah, welcome youngshter! Welcome to the Brain City Obshervatory!");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks!");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "What can I interesht you in? How about shome coshmic shtatishticsh? A peek at the moon through the teleshcope? Or shomething elshe entirely? What would you say about the possibility of registering a new constellation?");
+
+// Choice //
+var choice_task4 = scr_event_build_choice("What should I ask for?", s_port_hoopz); 
+
+// Super boring stats //
+var stats = scr_event_build_add_choice(choice_task4, "Give me some stats!");
+with stats
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Give me some stats!");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "You want shtatsh? I'll show you shtatsh...\In the coshmosh shurrounding Necron 7 there are approximately 32 million different shtarsh. Now undershtand that the Ulrichshon method ish ushed to confirm theshe numbersh and ash shuch there ish definetly a margin of error. But that ish nor here or there. Out of theshe shtarsh only approximately 12% have any shignificant celeshtial objectsh orbiting them which ish conshidered to be an anomaly among the ashtronomical community. Three of the biggesht shtarsh near Necron 7 are YLDDD-523, QW23-BETA and LOPNER6. Ash far ash planetsh go, there are only a handful of planetsh that are inhabited. The inhabitantsh conshisht moshtly of indigenoush wildlife ever shince all the dwarf coloniesh on thoshe planetsh were abducted and transhported to Necron 7. In the year 5443, there wash a shignificant shupernova which devashtated the Goiter and Jalapeno shyshtemsh. Another very intereshting event happened in 6022 when there wash a big breakout from the Iron Hooshgow which ish conshtantly drifting along the edge of the known univershe. The Grand Duke of Lopshtopore deshcribed the breakout ash the greatesht hoot in a hooshgow he hash ever sheen. Oh, excushe me, I wash getting off topic for a bit there. Anywyash ash I wash shaying, there has been 530572 confirmed ashteroid shightingsh ever shince shuch thingsh have been recorded. On top of that, there hash been 9372 shightings of U.F.O.'s from which only 62 have been officially confirmed. Shtrange, huh?");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thank you doc, this has been... very interesting but I have to, uh... it's time to take my medicine, I'll see you later. Bye.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Aww, you are going to missh out, I wash jusht getting to the good part!");
+scr_event_build_quest_state("dr_pelekryte", 7);
+}
+
+// Take a peek thourhg the telescope //
+var telescope = scr_event_build_add_choice(choice_task4, "I wanna look at the moon!");
+with telescope
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "I wanna look at the moon!");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Heh, I guesshed as much. The teleshcope ish out mosht popular attraction here at the Obshervatory. Sho much sho that unfortunately I've had to shart ashking for a shmall fee for ushing the teleschope. I hate to do it, but there are shome maintenance coshtsh involved here, and I gotta eat too. Pleashe undershtand.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "How much is the fee?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "... 100£.");
+
+// Choice //
+var choice_task5 = scr_event_build_choice("The fee is 100£?", s_port_hoopz); 
+
+// Complain about the price //
+var complain = scr_event_build_add_choice(choice_task5, "That's an outrageous sum!");
+with complain
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's an outrageous sum!");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Yesh yesh, I know. But what can I do? Do you know how expenshive it ish to run an obshervatory?");
+
+// Choice //
+var choice_task6 = scr_event_build_choice("Should I pay up?", s_port_hoopz); 
+
+// Complain about the price //
+var payup = scr_event_build_add_choice(choice_task6, "Okay, fine, you win!");
+with payup
+{
+// Don't have enough //
+if curmoney < 100 then
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, fine, you win! Ah, well, actually... I don't have that much on me.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "No pay, no play. Shorry.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'll get that money... somehow. Then I'll be back, and I'm going to enjoy the HECK out of that telescope.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "I'll shee you later then.");
+}
+
+// Have enough //
+else
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, fine, you win! Here you go...");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Shorry about thish... and thank you for the money! Here you go, have a lookshey!");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Put on your sunday finest, moon. It's peeping time!");
+scr_Event_build_quest_state("dr_pelekryte", 5);
+// TODO Hoopz walks to the telescope and a super blurry google image search pic of the moon comes on the screen //
+}
+}
+}
+
+// Concede to the price //
+var concede = scr_event_build_add_choice(choice_task5, "I guess I have no choice...");
+with concede
+{
+// Don't have enough //
+if curmoney < 100 then
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess I have no choice... Or maybe I do. I don't have that much on me.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "No pay, no play. Shorry.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'll get that money... somehow. Then I'll be back, and I'm going to enjoy the HECK out of that telescope.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "I'll shee you later then.");
+}
+
+// Have enough //
+else
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess I have no choice... Here's your money.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Shorry about thish... and thank you for the money! Here you go, have a lookshey!");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Put on your sunday finest, moon. It's peeping time!");
+scr_Event_build_quest_state("dr_pelekryte", 5);
+// TODO Hoopz walks to the telescope and a super blurry google image search pic of the moon comes on the screen //
+}
+}
+}
+
+// Constellation //
+var constellation = scr_event_build_add_choice(choice_task4, "I wanna register my own constellation!");
+with constellation
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "I wanna register my own constellation!");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Ah, you want your name in the hishtory booksh eh? Well, thish ish your chance!");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "What do I need to do? I don't have to fill in some boring forms do I?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "No no, I'll take care of shuch formalitiesh. All you have to do ish create the conshtellation. You shee that computer machine over there? It'sh running a shimulation of the coshmosh around Necron 7. It'sh bashed on all the findingsh I have inputted into the shyshtem.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "How do I use that to make constellations?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Conshtellation. Shingular. Everyone getsh to regishter only one conshtellation. Thoshe are the rulesh. Anywaysh, I've shetup the shyshtem sho that all you have to do ish draw the conshtellation on it. That'sh it! Shimple, huh?");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "What about the registration part? This is going to be made official right?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh yesh, quite right. Once you've drawn the conshtellation, I'll fill in the regishtration form and then I'll d-mail all the material to the conshtellation committee. They'll shend out a certificate for you and then it'll all be official.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, sounds great! Let's get to it then.");
+scr_event_build_quest_state("dr_pelekryte", 6);
+// TODO Hoopz walks to the computer and minigame begins //
+}
+
+// Nevermind //
+var nevermind = scr_event_build_add_choice(choice_task4, "Nevermind...");
+with nevermind
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nevermind, I gotta be somewhere else. See ya!");
+}
+}
+
+// Exiting the telescope //
+else if scr_quest_get_state("dr_pelekryte") == 5 then
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "... Wow. That sure was... something.");
+scr_event_build_quest_state("dr_pelekryte", 7);
+}
+
+// Exiting the starfield //
+else if scr_quest_get_state("dr_pelekryte") == 6 then
+{
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Alright doc. I've got the constellation here.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Great work! Okay I'll d-mail the material to the committee and after a while they should shend out the certificate. Exciting huh?");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Awesome... I can't wait! Okay doc I think I'll go and do something to pass the time. You'll tell me as soon as the certificate arrives, right?");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Absholutely.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay. See you around doc.");
+scr_event_build_quest_state("dr_pelekryte", 8);
+}
+
+// Hoopz disappoint in the observatory //
+else if scr_quest_get_state("dr_pelekryte") == 7 then
+{
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Sho what do you think about the Obshervatory? Pretty cool right? You think it'sh going to be a real shlam hit among the dwarfsh?");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "I uh, yeah, slam hit. A real slam hit for sure.");
+scr_event_build_dialogue("Dr. Pelekryte", NULL, "Heh... I shtill got the touch...");
+}
+
+            // Hoopz waiting for his certificate //
+                else if scr_quest_get_state("dr_pelekryte") == 8 then
+               {
+               scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey doc. Any news about my certificate?");
+               scr_event_build_dialogue("Dr. Pelekryte", NULL, "Take it eashy, youngshter. Theshe thingsh take time. You jusht have to be patient.");
+                    }
+                }
+            }
+        }
+    
+    // Advance the script //
+    scr_event_advance(event);
+    }

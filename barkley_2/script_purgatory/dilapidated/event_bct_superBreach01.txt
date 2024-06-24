@@ -1,0 +1,40 @@
+// event_bct_superBreach01
+// -- Super Robot Breach --
+/*
+
+
+*/
+/*
+if (argument0 == SCRIPT_START) {
+    // set location in room!
+    scr_quest_set_state("superRobotLocation", r_bct_dilapidatedMain01);
+
+    var superBreach = id;
+    var event = scr_event_create_main();
+
+    var superport = s_portrait;
+    
+    with (event) {
+        scr_event_build_dialogue("Super", superport, "ACCESS OBTAINED! IS THIS TRULY MY OLD POST? I WILL PERFORM A CURSORY INVESTIGATION. IT SEEMS CONDITIONS HAVE DEGRADED DURING MY ABSENCE.");
+        // TODO: SUPER ROBOT GOES TO DOOR 3
+        scr_event_build_dialogue_debug("bort", NULL, "Super moves to Door 03.");
+        scr_event_build_dialogue("Super", superport, "MAJOR LEAKING, WATER DAMAGE, PLUMBING REPAIRS NECESSARY.");
+        // TODO: SUPER ROBOT GOES TO DOOR 2
+        scr_event_build_dialogue_debug("bort", NULL, "Super moves to Door 02.");
+        scr_event_build_dialogue("Kirshnik's Voice", NULL, "You're not moving me, metal cretin! You thorium thug! You bismuth bastard! Get out of here!");
+        scr_event_build_dialogue("Super", superport, "UNKNOWN OCCUPANT. SEVERE SMOKE DAMAGE.");
+        // TODO: SUPER ROBOT GOES TO DOOR 1
+        scr_event_build_dialogue_debug("bort", NULL, "Super moves to Door 01.");
+        scr_event_build_dialogue("Wendy's Voice", NULL, "Get lost! We're staying put! This is our home!");
+        scr_event_build_dialogue("Super", superport, "UNKNOWN OCCUPANT. MUCH REFUSE IN NEED OF REMOVAL.");
+        // TODO: super robot wheels to hoopz
+        scr_event_build_dialogue_debug("bort", NULL, "super robot wheels to hoopz");
+        scr_event_build_dialogue("Super", superport, "LIEGE, I AM DETECTING TWO UNAUTHORIZED INHABITANTS ... CONFIRMING... INDEED, LEASES FOR OCCUPANTS /'WENDY/' AND /'KIRSHNIK/' ARE NOWHERE TO BE FOUND. ISSUE THE COMMAND! THEIR EVICTION WILL BE SWIFT AND IMMEDIATE!");
+        scr_event_build_quest_state("superBreach", 2);
+        scr_event_build_quest_state("superOn", 1);
+        scr_event_build_execute_event_script(event_bct_superRobot01);
+    }
+    scr_event_advance(event);
+} 
+else if (argument0 == SCRIPT_STEP) {} 
+else if (argument0 == SCRIPT_INTERACT) {}

@@ -1,0 +1,88 @@
+///scr_combat_weapons_suffix_of_question(action, bulletOrNoone, gunOrNull)
+var _action = argument0;
+var _bullet = argument1;
+var gun = argument2;
+var _retvar = 0;
+var _goofstero = irandom(3);
+var _poofstero = irandom(3);
+var _doofstero = irandom(2);
+
+
+
+
+// DOWN - BIO - AGGRESSIVE // <--- TODO check this thing 
+switch(_action)
+{
+    case "apply":
+        // Increase lifespan //
+        if _goofstero = 0 then
+            {
+            gun[? "bAdvanced"] = true;
+            gun[? "bTimeLife"] += 50;
+            gun[? "bDistanceLife"] += 100;
+            }
+            
+        // ADHD
+        else if _goofstero = 1 then
+            {
+            gun[? "bRoaming"] += 150;
+            gun[? "bAdvanced"] = true;
+            }
+            
+        // Fething //
+        else if _goofstero = 1 then
+            {
+            gun[? "bReturning"] = true;
+            gun[? "bMaxSpeed"] = 36;
+            gun[? "bMinSpeed"] = -36;
+            gun[? "bAccel"] = 0.5;
+            }
+            
+        break;
+    case "checkval":
+        _retvar = 20;
+        break;
+    case "applyBullet":
+
+        // Add Cyber damage //
+        if _poofstero = 0 then
+            {
+            var goofy = scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) * 0.25;
+                scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_CYBER, goofy);    
+            }
+            
+        // Add Bio damage //
+        else if _poofstero = 1 then
+            {
+            var goofy = scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) * 0.25;
+                scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_BIO, goofy);    
+            } 
+            
+        // Add Mental damage //
+        else if _poofstero = 2 then
+            {
+            var goofy = scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) * 0.25;
+                scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_MENTAL, goofy);    
+            } 
+            
+        // Jack up the knockback //
+        if _doofstero = 0 then
+            {
+            var conf;
+            conf = scr_statusEffect_addToCombatAttack(statusEffect_slow, _bullet);
+            conf[? "timer"] = 5;
+
+            scr_stats_setAttackStat(_bullet, STAT_ATTACK_KNOCKBACK, 
+            scr_stats_getAttackStat(_bullet,STAT_ATTACK_KNOCKBACK) + 15 * gun[? "pAffix"]/100); 
+            }   
+            
+        // Flub up the knockback //
+        else if _doofstero = 1 then
+            {      
+            scr_stats_setAttackStat(_bullet, STAT_ATTACK_KNOCKBACK,0); 
+            }
+        break;
+}
+
+// END //
+return _retvar;

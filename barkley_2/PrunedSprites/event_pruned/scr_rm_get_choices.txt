@@ -1,0 +1,233 @@
+// VAR
+/*var rmThreshold = scr_quest_state_get("rmThreshold");
+var rmCandy = scr_quest_state_get("rmCandy");
+var rmBball = scr_quest_state_get("rmBball");
+var rmCandy = scr_quest_state_get("rmCandy");
+var rmClispaeth = scr_quest_state_get("rmClispaeth");
+var rmCyberdwarf = scr_quest_state_get("rmCyberdwarf");
+var rmDwarfs = scr_quest_state_get("rmDwarfs");
+var rmGuns = scr_quest_state_get("rmGuns");
+var rmHome = scr_quest_state_get("rmHome");
+var rmPower = scr_quest_state_get("rmPower");
+var rmTranshumanism = scr_quest_state_get("rmTranshumanism");
+var rmTruth = scr_quest_state_get("rmTruth");
+var rmVengeance = scr_quest_state_get("rmVengeance");
+var rmVidcons = scr_quest_state_get("rmVidcons");
+var rmZaubers = scr_quest_state_get("rmZaubers");
+
+
+var rmThreshold = 50;
+var rmCandy = random(100);
+var rmBball = random(100);
+var rmCandy = random(100);
+var rmClispaeth = random(100);
+var rmCyberdwarf = random(100);
+var rmDwarfs = random(100);
+var rmGuns = random(100);
+var rmHome = random(100);
+var rmPower = random(100);
+var rmTranshumanism = random(100);
+var rmTruth = random(100);
+var rmVengeance = random(100);
+var rmVidcons = random(100);
+var rmZaubers = random(100);
+
+// ALIGNMENT SCORES
+
+Quest("alignBball0", random(100));
+Quest("alignBball1", random(100));
+Quest("alignBball2", random(100));
+Quest("alignBball3", random(100));
+Quest("alignBball4", random(100));
+Quest("alignCandy0", random(100));
+Quest("alignCandy1", random(100));
+Quest("alignCandy2", random(100));
+Quest("alignCandy3", random(100));
+Quest("alignCandy4", random(100));
+Quest("alignClispaeth0", random(100));
+Quest("alignClispaeth1", random(100));
+Quest("alignClispaeth2", random(100));
+Quest("alignClispaeth3", random(100));
+Quest("alignClispaeth4", random(100));
+Quest("alignCyberdwarf0", random(100));
+Quest("alignCyberdwarf1", random(100));
+Quest("alignCyberdwarf2", random(100));
+Quest("alignCyberdwarf3", random(100));
+Quest("alignCyberdwarf4", random(100));
+Quest("alignDwarfs0", random(100));
+Quest("alignDwarfs1", random(100));
+Quest("alignDwarfs2", random(100));
+Quest("alignDwarfs3", random(100));
+Quest("alignDwarfs4", random(100));
+Quest("alignGuns0", random(100));
+Quest("alignGuns1", random(100));
+Quest("alignGuns2", random(100));
+Quest("alignGuns3", random(100));
+Quest("alignGuns4", random(100));
+Quest("alignHome0", random(100));
+Quest("alignHome1", random(100));
+Quest("alignHome2", random(100));
+Quest("alignHome3", random(100));
+Quest("alignHome4", random(100));
+Quest("alignPower0", random(100));
+Quest("alignPower1", random(100));
+Quest("alignPower2", random(100));
+Quest("alignPower3", random(100));
+Quest("alignPower4", random(100));
+Quest("alignTrans0", random(100));
+Quest("alignTrans1", random(100));
+Quest("alignTrans2", random(100));
+Quest("alignTrans3", random(100));
+Quest("alignTrans4", random(100));
+Quest("alignTruth0", random(100));
+Quest("alignTruth1", random(100));
+Quest("alignTruth2", random(100));
+Quest("alignTruth3", random(100));
+Quest("alignTruth4", random(100));
+Quest("alignVengeance0", random(100));
+Quest("alignVengeance1", random(100));
+Quest("alignVengeance2", random(100));
+Quest("alignVengeance3", random(100));
+Quest("alignVengeance4", random(100));
+Quest("alignVidcons0", random(100));
+Quest("alignVidcons1", random(100));
+Quest("alignVidcons2", random(100));
+Quest("alignVidcons3", random(100));
+Quest("alignVidcons4", random(100));
+Quest("alignZaubers0", random(100));
+Quest("alignZaubers1", random(100));
+Quest("alignZaubers2", random(100));
+Quest("alignZaubers3", random(100));
+Quest("alignZaubers4", random(100));
+
+// TEXT
+
+Quest("alignBball0Text", "alignBball0Text");
+Quest("alignBball1Text", "alignBball1Text");
+Quest("alignBball2Text", "alignBball2Text");
+Quest("alignBball3Text", "alignBball3Text");
+Quest("alignBball4Text", "alignBball4Text");
+Quest("alignCandy0Text", "alignCandy0Text");
+Quest("alignCandy1Text", "alignCandy1Text");
+Quest("alignCandy2Text", "alignCandy2Text");
+Quest("alignCandy3Text", "alignCandy3Text");
+Quest("alignCandy4Text", "alignCandy4Text");
+Quest("alignClispaeth0Text", "alignClispaeth0Text");
+Quest("alignClispaeth1Text", "alignClispaeth1Text");
+Quest("alignClispaeth2Text", "alignClispaeth2Text");
+Quest("alignClispaeth3Text", "alignClispaeth3Text");
+Quest("alignClispaeth4Text", "alignClispaeth4Text");
+Quest("alignCyberdwarf0Text", "alignCyberdwarf0Text");
+Quest("alignCyberdwarf1Text", "alignCyberdwarf1Text");
+Quest("alignCyberdwarf2Text", "alignCyberdwarf2Text");
+Quest("alignCyberdwarf3Text", "alignCyberdwarf3Text");
+Quest("alignCyberdwarf4Text", "alignCyberdwarf4Text");
+Quest("alignDwarfs0Text", "alignDwarfs0Text");
+Quest("alignDwarfs1Text", "alignDwarfs1Text");
+Quest("alignDwarfs2Text", "alignDwarfs2Text");
+Quest("alignDwarfs3Text", "alignDwarfs3Text");
+Quest("alignDwarfs4Text", "alignDwarfs4Text");
+Quest("alignGuns0Text", "alignGuns0Text");
+Quest("alignGuns1Text", "alignGuns1Text");
+Quest("alignGuns2Text", "alignGuns2Text");
+Quest("alignGuns3Text", "alignGuns3Text");
+Quest("alignGuns4Text", "alignGuns4Text");
+Quest("alignHome0Text", "alignHome0Text");
+Quest("alignHome1Text", "alignHome1Text");
+Quest("alignHome2Text", "alignHome2Text");
+Quest("alignHome3Text", "alignHome3Text");
+Quest("alignHome4Text", "alignHome4Text");
+Quest("alignPower0Text", "alignPower0Text");
+Quest("alignPower1Text", "alignPower1Text");
+Quest("alignPower2Text", "alignPower2Text");
+Quest("alignPower3Text", "alignPower3Text");
+Quest("alignPower4Text", "alignPower4Text");
+Quest("alignTrans0Text", "alignTrans0Text");
+Quest("alignTrans1Text", "alignTrans1Text");
+Quest("alignTrans2Text", "alignTrans2Text");
+Quest("alignTrans3Text", "alignTrans3Text");
+Quest("alignTrans4Text", "alignTrans4Text");
+Quest("alignTruth0Text", "alignTruth0Text");
+Quest("alignTruth1Text", "alignTruth1Text");
+Quest("alignTruth2Text", "alignTruth2Text");
+Quest("alignTruth3Text", "alignTruth3Text");
+Quest("alignTruth4Text", "alignTruth4Text");
+Quest("alignVengeance0Text", "alignVengeance0Text");
+Quest("alignVengeance1Text", "alignVengeance1Text");
+Quest("alignVengeance2Text", "alignVengeance2Text");
+Quest("alignVengeance3Text", "alignVengeance3Text");
+Quest("alignVengeance4Text", "alignVengeance4Text");
+Quest("alignVidcons0Text", "alignVidcons0Text");
+Quest("alignVidcons1Text", "alignVidcons1Text");
+Quest("alignVidcons2Text", "alignVidcons2Text");
+Quest("alignVidcons3Text", "alignVidcons3Text");
+Quest("alignVidcons4Text", "alignVidcons4Text");
+Quest("alignZaubers0Text", "alignZaubers0Text");
+Quest("alignZaubers1Text", "alignZaubers1Text");
+Quest("alignZaubers2Text", "alignZaubers2Text");
+Quest("alignZaubers3Text", "alignZaubers3Text");
+Quest("alignZaubers4Text", "alignZaubers4Text");
+
+
+// LIST
+goalList = ds_list_create()
+ds_list_add(goalList, "alignBball");
+ds_list_add(goalList, "alignCandy");
+ds_list_add(goalList, "alignClispaeth");
+ds_list_add(goalList, "alignCyberdwarf");
+ds_list_add(goalList, "alignDwarfs");
+ds_list_add(goalList, "alignGuns");
+ds_list_add(goalList, "alignHome");
+ds_list_add(goalList, "alignPower");
+ds_list_add(goalList, "alignTrans");
+ds_list_add(goalList, "alignTruth");
+ds_list_add(goalList, "alignVengeance");
+ds_list_add(goalList, "alignVidcons");
+ds_list_add(goalList, "alignZaubers");
+
+// MAP
+allGoals = ds_map_create()
+ds_map_add(allGoals, "alignBball", rmBball)
+ds_map_add(allGoals, "alignCandy", rmCandy)
+ds_map_add(allGoals, "alignClispaeth", rmClispaeth)
+ds_map_add(allGoals, "alignCyberdwarf", rmCyberdwarf)
+ds_map_add(allGoals, "alignDwarfs", rmDwarfs)
+ds_map_add(allGoals, "alignGuns", rmGuns)
+ds_map_add(allGoals, "alignHome", rmHome)
+ds_map_add(allGoals, "alignPower", rmPower)
+ds_map_add(allGoals, "alignTrans", rmTranshumanism)
+ds_map_add(allGoals, "alignTruth", rmTruth)
+ds_map_add(allGoals, "alignVengeance", rmVengeance)
+ds_map_add(allGoals, "alignVidcons", rmVidcons)
+ds_map_add(allGoals, "alignZaubers", rmZaubers)
+
+// TRUNCATE BAD SCORES
+var size, i;
+size = ds_map_size(allGoals);
+for (i = 0; i < size - 1; i += 1)
+    {
+    if ds_map_find_value(allGoals, ds_list_find_value(goalList, i)) <= rmThreshold { // is the value of rm____ less than rmThreshold?
+        ds_list_delete(goalList, i); // delete the corresponding item from goalList
+    }
+}
+
+// ASSIGN ALIGNMENT AND TEXT TO MAP
+alignChoice = ds_map_create() // create a map to hold a) the name of the goal, and b) the choice it represents
+for (i = 0; i < ds_list_size(goalList) - 1; i += 1) {
+    for (j = 0; j == 4; j += 1) {
+        var current_align = string(ds_list_find_value(goalList, i) + j); // this adds a 0, 1, 2, 3, 4, or 5 to the name of the referenced quest
+        if scr_quest_get_state(current_align) != 0 { // if the quest points are not blank
+            align[i, j] = current_align; // create an array, where i = the goal and j = alignment number, set it to the alignment score
+        } if j >= 1 { // do not perform when j = 0 (nothing to compare it to)
+            if align[i, j] >= align[i, j - 1] { // if the last alignment score is greater than the previous
+                //var add_goal = string_letters(string_replace(current_align), 'align', 'goal')) // create "goalBBall" out of "alignBball0"
+                var add_text = string_insert("text", current_align, string_length((current_align)))
+                ds_map_replace(alignChoice, current_align, add_text) // replace or add to choice list (ex: (alignChoice, "alignBball0", "alignBball0Text")
+            }
+        }
+    }
+}   
+
+ds_list_destroy(goalList)
+ds_map_destroy(allGoals)
+*/

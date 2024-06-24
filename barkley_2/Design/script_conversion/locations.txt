@@ -1,0 +1,1014 @@
+----------------------CommunityServiceQuest // TODO
+comServ
+    event_tnn_cornrow01
+    event_tnn_fruitbasket01
+    event_tnn_juicebox01
+    event_tnn_mortimer01
+    event_tnn_note01
+    event_tnn_vivian01
+-------------------------------DeadSonQuest // TODO
+deadSon
+    ALL NPCS
+    TODO
+-------------------------------EricPetQuest // TODO
+ericQuality
+    event_tnn_cuthbert01
+    event_tnn_eric01
+    event_tnn_eric02
+ericQuest
+    event_tnn_bob01
+    event_tnn_bouncer01
+    event_tnn_cuthbert01
+    event_tnn_eric01
+    event_tnn_eric02
+    event_tnn_kalevi01
+    event_tnn_mortimer01
+ericTolerance
+    event_tnn_eric01
+    event_tnn_eric02
+-------------------------------GovernorQuest // TODO
+govBball
+    event_tnn_govSpeech01
+    event_tnn_uschi01
+    event_tnn_uschi02
+govCandy
+    event_tnn_govSpeech01
+govCar
+    event_tnn_amalberga01
+    event_tnn_amalberga02
+    event_tnn_govSpeech01
+    event_tnn_hildeburga01
+    event_tnn_hildeburga02
+govChurch
+    event_tnn_giuseppe02
+    event_tnn_govSpeech01
+concessionVal
+    event_tnn_cornrow01
+    event_tnn_govSpeech01
+    event_tnn_note01
+govCow
+    event_tnn_govSpeech01
+    event_tnn_marina01
+concessionCurrent
+    event_tnn_govSpeech01
+govBomb
+    event_tnn_bombX01
+    event_tnn_pvtMadison01
+    event_tnn_pvtMadisonShout01
+govHandler
+    event_tnn_govSpeech01
+govIntro
+    event_tnn_govSpeech01
+govQuest
+    ALL NPCS
+    TODO
+govGuillaume
+    event_tnn_govSpeech01
+    event_tnn_guillaume01
+govKalevi
+    event_tnn_govSpeech01
+    event_tnn_kalevi01
+    event_tnn_kalevi02
+govMedicine
+    event_tnn_govSpeech01
+cuthbertGov
+    event_tnn_cuthbert01
+mortimerGov
+    event_tnn_mortimer01
+pvtMadisonShout
+    event_tnn_pvtMadisonShout01
+--------------------------------LetterQuest // TODO
+aelfledaAugustine
+    event_tnn_aelfleda01
+    event_tnn_gelasio01
+aelfledaRepeat
+    event_tnn_aelfleda01
+baldomeroDeadBody
+    event_tnn_gelasio01
+    event_sw1_baldo_fake01
+    event_sw1_baldo_letter01
+baldomeroDoorLocked
+    event_tnn_gelasio01
+baldomeroLetterTaken
+    event_sw1_baldo_letter01
+baldomeroNoteGiven
+    event_tnn_gelasio01
+baldomeroPaperRead
+    event_sw1_baldo_fake01
+    event_sw1_baldoletter01
+baldomeroPaperTaken
+    event_sw1_baldo_fake01
+fedeQuest
+    event_sw1_fede01
+gelasioAelfledaQuestion
+    event_tnn_aelfleda01
+    event_tnn_gelasio01
+gelasioAugustineDead
+    event_tnn_gelasio01
+gelasioAugustineInfo
+    event_tnn_gelasio01
+gelasioAugustineQuestion
+    event_tnn_aelfleda01
+    event_tnn_gelasio01
+    event_tnn_jindrich01
+gelasioCarlton
+    event_tnn_gelasio01
+gelasioFedeNote
+    event_tnn_gelasio01
+gelasioIntro
+    event_tnn_gelasio01
+gelasioJoad
+    event_tnn_gelasio01
+jindrichAugustine
+    event_tnn_gelasio01
+    event_tnn_jindrich01
+joadBad
+    event_sw1_joad01
+joadGood
+    event_sw1_joad01
+joadLife
+    event_sw1_joad01
+joadLine
+    event_tnn_gelasio01
+    event_tnn_milagros01
+    event_sw1_joad01
+joadQuest
+    event_sw1_joad01
+joadScrollChoice
+    event_sw1_joad01
+joadScrollKnow
+    event_sw1_joad01
+joadScrollOn
+    event_sw1_joad01
+milagrosQuest
+    event_tnn_abdul_gafur01
+    event_tnn_milagros01
+absalomLetter
+    event_tnn_absalom01
+    event_tnn_drLiu01
+--------------------------------LugnerQuest
+dwarfCustody
+    TODO
+    event_tnn_giuseppe01
+    event_tnn_lugner02
+    event_tnn_slag02
+lugnerDwarfs
+    NOWHERE
+    TODO
+lugnerQuest
+    event_tnn_giuseppe01
+    event_tnn_lugner01
+    event_tnn_lugner02
+    event_tnn_lugner03
+    event_tnn_slag01
+    event_tnn_slag02
+    event_tnn_slag03
+----------------------------------BootyBass
+bootyBassQuest
+    event_tnn_hyacinth01
+    event_tnn_rosario01
+    event_tnn_stonewallBootyDaimyoJackson01
+    event_tnn_vortigern01
+    event_tnn_bouncer01
+-----------------------------------TnnExits
+tnnBan
+    event_tnn_gutterhound01
+    event_tnn_maria01
+tnnExitAiRuins
+tnnExitFairy
+tnnExitGate
+tnnExitGenerator
+---------------------------------------Misc
+abdulGafurTime
+    event_tnn_abdul_gafur01
+bballMonologue
+    event_tnn_basketballMonologue01
+castorDead
+    event_tnn_brunward01
+    event_tnn_castor01
+    event_tnn_elcege01
+    event_tnn_fadima01
+    event_tnn_pollux01
+crosswordQuest
+    event_tnn_crosswordguys01
+    event_tnn_crosswordguys02
+gutterhoundQuest
+    event_tnn_gutterhound01
+gunSeller
+    event_tnn_gunsalesman
+rebelBaseReached
+    event_tnn_absalom01
+    event_tnn_pvtMadison01
+    event_tnn_ladder02
+tnnLadder
+    NOWHERE
+uschiBall
+    event_tnn_uschi01
+wilmerWhoAmI
+    event_tnn_wilmer01
+mortimerTalk
+    event_tnn_abdul_gafur01
+    TODO
+giuseppeScene
+    event_tnn_giuseppe02
+-----------------------------StateVariables
+abdulGafurState
+aelfledaState
+animeBulldogState
+baboState
+baldoLetterState
+benedictState
+    01 and 02
+birchardState
+    01 and 02
+bobState
+bootyslayerState
+bouncerState
+brunwardState
+cowState
+dubuqueState
+    event_tnn_dubuque01
+    event_tnn_evander01
+    TODO
+duergarSlaverState
+    event_tnn_duergarSlaver04
+elcegeState
+evanderState
+fadimaState
+fedeState
+gelasioState
+    event_tnn_aelfleda01
+    event_tnn_gelasio01
+giuseppeState
+    event_tnn_giuseppe01
+guillaumeState
+hyacinthState
+jindrichState
+kaleviState
+    02 only
+ludwigState
+mariaState
+marinaState
+milagrosState
+occupiedDuergarState
+polluxState
+rosarioState
+sviatoslavState
+    01 and 02
+uschiState
+    01 and 02
+wilcyState
+wilhelminaState
+    01 and 02
+wilmerState
+__________________________________________________Wasteland
+eliseFrontier
+    event_dz1_elise01
+fabianKnight
+    event_wst_knightFabian01
+fabianPleased
+    event_wst_knightFabian01
+frontierQuest
+    event_dz1_elise01
+knightCount
+    event_wst_knightFabian01
+roundTable
+    event_wst_knightFabian01
+-------------------------CybergremlinVillage
+villageMoved
+    event_wst_knightFabian01
+cybergremlinMove
+    event_wst_elderZenobia01
+______________ConversionQuest
+conversionBall
+    NOWHERE
+    TODO
+conversionBoot
+    NOWHERE
+    TODO
+conversionBumper
+    NOWHERE
+    TODO
+conversionGlobe
+    NOWHERE
+    TODO
+conversionHat
+    NOWHERE
+    TODO
+conversionMug
+    NOWHERE
+    TODO
+conversionQuest
+    event_wst_elderZenobia01
+    event_dz1_brimble01
+    event_dz1_irmingard01
+____________________RumiQuest
+rumiCave
+    event_wst_rumi01
+rumiDumpster
+    event_wst_rumi01
+rumiCamera
+    event_wst_rumi01
+rumiSpoken
+    event_wst_rumi01
+rumiTree
+    event_wst_rumi01
+------------------------------IndustrialPark
+_______________CliveChupQuest
+cliveArrest
+    event_dz1_clive01
+chupCount
+    event_dz1_brimble01
+    event_dz1_clive01
+chupQuest
+    event_dz1_brimble01
+    event_dz1_clive01
+chupShekel
+    event_dz1_clive01
+chupSuspicion
+    event_dz1_clive01
+_______________FigbottomQuest
+figbottomQuest
+    event_dz1_kunigunde01
+    event_dz1_masego01
+    event_dz1_moriarty01
+    event_dz1_suresh01
+borisArrest
+    event_dz1_boris01
+    event_dz1_masego01
+moriartyArrest
+    event_dz1_masego01
+    event_dz1_moriarty01
+moriartyEvidence
+    NOWHERE
+    TODO
+sureshArrest
+    event_dz1_masego01
+    event_dz1_suresh01
+sureshEvidence
+    NOWHERE
+    TODO
+kunigundeArrest
+    event_dz1_kunigunde01
+    event_dz1_masego01
+kunigundeEvidence
+    NOWHERE
+    TODO
+_________________________Misc
+borisVar
+    event_dz1_boris01
+    event_dz1_masego01
+brimbleTalk
+    event_wst_elderZenobia01
+    event_dz1_brimble01
+clispaethResponsibility
+    event_dz1_clispaethStatue01
+clispaethStatue
+    event_dz1_clispaethStatue01
+deaconBrimbleChup
+    event_dz1_brimble01
+deaconBrimbleTime
+    event_dz1_brimble01
+gunStone
+    event_dz1_gunInTheStone01
+industrialPower
+    event_dz1_sepideh01
+irmingardVar
+    event_dz1_irmingard01
+junkyardPower
+    event_wst_pythagoras01
+masegoSpoken
+    event_dz1_boris01
+    event_dz1_masego01
+sepidehMachine
+    event_dz1_sepideh01
+sepidehVar
+    event_dz1_sepideh01
+sureshState
+    event_dz1_suresh01
+zenobiaSpoken
+    event_wst_elderZenobia01
+-----------------------------StateVariables
+aliceState
+banquoState
+berniceState
+bothildState
+darkDrakerState
+eliseState
+eulerState
+garfieldState
+gasparState
+gorandukhtState
+grigorState
+hectorsDogState
+hectorState
+hentaiCarlState
+ilmeState
+jedidiahState
+kunigundeState
+lagerthaState
+lonnieState
+malmfridState
+masegoState
+miliaState
+nicoState
+raduState
+ramonaState
+ronaldState
+rudolphState
+rutherfordState
+sureshState
+suzuState
+vercingetorixState
+__________________________________________________BrainCity
+-----------------------------StateVariables
+clarissaState
+kurushState
+longinusDoorState
+neneState
+wiglafState
+__________________________________________________MainQuest
+--------------------------MainQuest&Cutscene
+mainQuest
+    event_dz1_clispaethStatue01
+    event_dz1_kunigunde01
+    event_dz1_ooze01
+cdwarfCinema
+    event_bct_cdwarf_cinema01
+    event_bct_trigal01
+    event_gbl_questlord01
+crustDeath
+    event_bct_cdwarf_cinema01
+killCuch
+    NOWHERE
+    TODO
+longinusDoorOpen
+    event_bct_clarissa01
+    event_bct_longinusDoor01
+    event_bct_nene01
+longinusHelp
+    event_bct_longinusDoor01 
+neneKnock
+    event_bct_kurush01
+    event_bct_longinusDoor01
+    event_bct_nene01    
+wiglafMission
+    event_bct_cdwarf_cinema01
+    event_bct_wiglaf01
+    event_gbl_questlord01
+    event_chu_confrontation_x01
+    event_chu_crustacea_door01
+    event_chu_crustacea_entrance01
+    event_chu_elevator01
+    event_chu_lobby_callbutton01
+trigalScene
+    event_bct_cdwarf_cinema01
+    event_bct_trigal01
+----------------------------------Cyberdwarf
+cdwarfJoined
+    event_bct_cdwarf_cinema01
+    event_gbl_questlord01
+    event_chu_crustacea_victory01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+    event_chu_point_no_return01
+    event_chu_vestibule01
+cdwarfTime
+    event_gbl_round_mound01
+cdwarfReformat
+    event_gbl_questlord01
+    event_chu_elevator01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+    event_chu_point_no_return01
+    event_chu_primordia01
+    event_chu_vestibule01
+cdwarfTakeover
+    event_chu_confrontation_cyberdwarf01
+cdwarfOmni
+    event_chu_confrontation_cyberdwarf01
+    event_chu_primordia01
+cdwarfOmniDead
+    event_chu_confrontation_cyberdwarf01
+    event_chu_primordia01
+---------------------------------Cyberspears
+csEggGot
+    event_gbl_round_mound01
+csAIGot
+    event_gbl_round_mound01
+csForgeGot
+    event_gbl_round_mound01
+csNecropolisGot
+    event_gbl_round_mound01
+csMinesGot
+    event_gbl_round_mound01
+csExteriorLost
+    NOWHERE
+    TODO
+csComplete
+    event_gbl_questlord01
+    event_chu_confrontation_reformat01
+    event_chu_crustacea_door01
+    event_chu_elevator01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+    event_chu_point_no_return01
+    event_chu_vestibule01
+csPiecesTotal
+    event_gbl_questlord01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+----------------------------------Cuchulainn
+vestibuleScene
+    NOWHERE
+    TODO
+cuchuChallenges
+    event_gbl_round_mound01
+cuchuLairDeath
+    NOWHERE
+    TODO
+crustDoorAny
+    event_chu_crustacea_door01
+crustDoorSolo
+    event_chu_crustacea_door01
+crustDoorComplete
+    event_chu_crustacea_door01
+crustDoorIncomplete
+    event_chu_crustacea_door01
+    event_chu_point_no_return01
+crustFightAny
+    event_chu_crustacea_entrance01    
+crustFightSolo
+    event_chu_crustacea_entrance01
+crustFightComplete
+    event_chu_crustacea_entrance01
+crustFightIncomplete
+    NOWHERE
+    TODO
+crustFightCyberdwarf
+    event_chu_crustacea_entrance01
+crustFightReformat
+    NOWHERE
+    TODO
+crustDead
+    event_bct_cdwarf_cinema01
+    event_bct_wiglaf01
+    event_chu_crustacea_door01
+    event_chu_crustacea_entrance01
+    event_chu_crustacea_victory01
+    event_chu_point_no_return01
+pointNoReturn
+    event_chu_point_no_return01
+cuchuFought
+    NOWHERE
+    TODO
+primoDead
+    event_chu_confrontation_cyberdwarf01
+    event_chu_confrontation_reformat01
+    event_chu_confrontation_x01
+    event_chu_primordia01
+oldmanBegin
+    event_chu_oldman01
+    event_chu_primordia01
+oldmanTemptation
+    event_chu_oldman01
+oldmanDeath
+    event_chu_oldman01
+------------------------------------Elevator
+elevatorRide
+    event_chu_elevator01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+elevatorCamp
+    event_chu_elevator01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+elevatorChastise
+    event_chu_elevator01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+elevatorCSPieces
+    event_chu_elevator01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+elevatorDirection
+    event_chu_elevator01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+elevatorFloor
+    NOWHERE
+    TODO
+___________________________________________GlobalCharacters
+-----------------------------TravelingDwarfs
+cruceAskArea
+cruceAskCruce
+cruceAskDelphine
+cruceAskHiking
+cruceAskPlans
+cruceDoor
+cruceLastSpoke
+cruceQuestionLoop
+hikingTalk
+----------------------------------------Ooze
+oozeIdentity
+    event_dz1_ooze01
+oozeIndustrial
+    event_dz1_masego01
+    event_dz1_ooze01
+oozeSpoken
+    event_dz1_ooze01
+oozeTirNaNog
+    event_dz1_ooze01
+oozeTurret
+    event_dz1_masego01
+    event_dz1_ooze01
+    event_dz1_sepideh01
+oozeVar
+    event_dz1_masego01
+    event_dz1_ooze01
+----------------------------------------Slag
+PLACEHOLDER
+------------------------------------Ziusudra
+ziusudraIndustrialPark
+    event_wst_ziusudra01
+ziusudraVar
+    event_wst_ziusudra01
+____________________________________________________Zaubers
+zauberVar
+    event_wst_pythagoras01
+----------------------------------Pythagoras
+pythagorasAI
+    event_wst_pythagoras01
+pythagorasCyber
+    event_wst_pythagoras01
+pythagorasDead
+    event_wst_pythagoras01
+pythagorasLife
+    event_wst_pythagoras01
+pythagorasSpoken
+    event_wst_pythagoras01
+pythagorasZauber
+    event_wst_pythagoras01
+_____________________________________________________Player
+------------------------------------Identity
+playerX1
+    event_bct_cdwarf_cinema01
+    event_gbl_round_mound01
+    event_gbl_questlord01
+    event_chu_confrontation_cyberdwarf01
+    event_chu_confrontation_reformat01
+    event_chu_confrontation_x01
+    event_chu_crustacea_door01
+    event_chu_crustacea_entrance01
+    event_chu_crustacea_victory01
+    event_chu_elevator01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+    event_chu_oldman01
+    event_chu_point_no_return01
+    event_chu_throne01
+    event_chu_vestibule01
+playerHoopz
+    event_bct_cdwarf_cinema01
+    event_gbl_round_mound01
+    event_gbl_questlord01
+    event_chu_confrontation_cyberdwarf01
+    event_chu_confrontation_reformat01
+    event_chu_confrontation_x01
+    event_chu_crustacea_door01
+    event_chu_crustacea_entrance01
+    event_chu_crustacea_victory01
+    event_chu_elevator01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+    event_chu_oldman01
+    event_chu_point_no_return01
+    event_chu_throne01
+    event_chu_vestibule01
+playerCC
+    event_bct_cdwarf_cinema01
+    event_gbl_round_mound01
+    event_gbl_questlord01
+    event_chu_confrontation_cyberdwarf01
+    event_chu_confrontation_reformat01
+    event_chu_confrontation_x01
+    event_chu_crustacea_door01
+    event_chu_crustacea_entrance01
+    event_chu_crustacea_victory01
+    event_chu_elevator01
+    event_chu_lair_callbutton01
+    event_chu_lobby_callbutton01
+    event_chu_oldman01
+    event_chu_point_no_return01
+    event_chu_throne01
+    event_chu_vestibule01
+----------------------------------------Name
+playerFirstName
+    event_bct_cdwarf_cinema01
+    event_gbl_round_mound01
+playerFullName
+    event_bct_cdwarf_cinema01
+-----------------------------------------Dad
+dadMound
+    NOWHERE
+    TODO
+dadCuchulainn
+    NOWHERE
+    TODO
+dadCyberdwarf
+    NOWHERE
+    TODO
+dadWilmer
+    NOWHERE
+    TODO
+----------------------------------------Body
+chipInstalled
+    event_bct_cdwarf_cinema01
+______________________________________________________Goals
+-----------------------------RoundMoundScene
+rmThreshold
+    event_gbl_round_mound01
+    scr_rm_get_choices
+totalVisited
+    NOWHERE
+    TODO
+goalName
+    NOWHERE
+    TODO
+______________________Control
+rmComplete
+    event_gbl_questlord01
+rmDebugPrevRoom
+    event_gbl_questlord01
+rmDebugPrevX
+    event_gbl_questlord01
+rmDebugPrevY
+    event_gbl_questlord01
+________________________Goals
+rmBball
+    event_gbl_round_mound01
+    scr_rm_get_choices
+rmCandy
+    event_gbl_round_mound01
+    scr_rm_get_choices
+rmClispaeth
+    event_gbl_round_mound01
+    scr_rm_get_choices
+rmCyberdwarf
+    event_gbl_round_mound01
+    scr_rm_get_choices
+rmDwarfs
+    event_gbl_round_mound01
+    scr_rm_get_choices
+rmHome
+    event_gbl_round_mound01
+    scr_rm_get_choices
+rmPower
+    event_gbl_round_mound01
+    scr_rm_get_choices
+rmTruth
+    event_gbl_round_mound01
+    scr_rm_get_choices
+rmVengeance
+    event_gbl_round_mound01
+    scr_rm_get_choices
+rmVidcons
+    event_gbl_round_mound01
+    scr_rm_get_choices
+____________________Threshold
+----------------------------------------Goal
+motiveName
+    event_gbl_round_mound01
+    event_chu_throne01
+motiveDescription
+    NOWHERE
+    TODO
+____________________Alignment
+    event_gbl_round_mound01
+    event_chu_throne01
+alignBballLaw
+alignBballChaos
+alignCandyRarity
+alignCandyVariety
+alignClispaethWorship
+alignClispaethHeresy
+alignCyberdwarfOne
+alignDwarfsLiberate
+alignDwarfsTrouble
+alignDwarfsSavior
+alignHomeOne
+alignPowerLow
+alignPowerHigh
+alignTruthNormal
+alignTruthReal
+alignVengeanceOne
+alignVidconsPlay
+alignVidconsConquer
+alignVidconsHoard
+alignVidconsPreserve
+________________WackAlignment
+alignVengeanceUltimate
+    NOWHERE
+    TODO
+--------------------------------------Points
+________________________Bball
+ptsBballVictory
+ptsBballRatio
+ptsBballChampionship
+ptsBballCloseGames
+ptsBballDominantGame
+ptsBballEvangelism
+ptsBballTeamsJoined
+ptsBballCourtBuilt
+ptsBballCharity
+ptsBballInjury
+ptsBballDuergar
+ptsBballChaosDunk
+________________________Candy
+ptsCandyTypes
+ptsCandyUses
+ptsCandyEvangelism
+ptsCandyLevels
+ptsCandyMaxLevel
+ptsCandyRares
+ptsCandyMastery
+ptsCandyFood
+ptsCandyDestroy
+ptsCandyWaste
+ptsCandyGluttony
+____________________Clispaeth
+ptsClispaethIDontKnow
+___________________Cyberdwarf
+ptsCdwarfMet
+ptsCdwarfHoopz
+ptsCdwarfAlive
+ptsCdwarfInstalled
+ptsCdwarfAre
+ptsCdwarfCSPieces
+ptsCdwarfCSComplete
+ptsCdwarfReformat
+ptsCdwarfMissed
+ptsCdwarfKilled
+_______________________Dwarfs
+ptsDwarfsVotes
+ptsDwarfsMayor
+ptsDwarfsSvengali
+ptsDwarfsMayorAlly
+ptsDwarfsMayorEnemy
+ptsDwarfsHelped
+ptsDwarfsHindered
+ptsDwarfsLiberated
+ptsDwarfsCaptured
+ptsDwarfsBefriended
+ptsDwarfsBefoed
+ptsDwarfsHarmed
+ptsDwarfsPerished
+ptsDwarfsKilled
+ptsDwarfsEscaped
+ptsDwarfsSombrero
+_________________________Home
+ptsHomeTime
+ptsHomeClock
+ptsHomeLocation
+________________________Power
+ptsPowerIDontKnow
+________________________Truth
+ptsTruth
+____________________Vengeance
+ptsVengeanceDefeat
+ptsVengeanceKill
+ptsVengeanceTime
+ptsVengeanceTries
+ptsVengeancePerfect
+ptsVengeanceBainshees
+ptsVengeanceDuergars
+ptsVengeanceTricked
+______________________Vidcons
+ptsVidconsFound
+ptsVidconsPlayed
+ptsVidconsMint
+ptsVidconsPreserved
+ptsVidconsCollection
+ptsVidconsCollectionMax
+ptsVidconsEvangelism
+ptsVidconsHighScore
+ptsVidconsSatellite
+ptsVidconsRares
+ptsVidconsRaresMint
+ptsVidconsSpoilers
+ptsVidconsCheats
+ptsVidconsBinges
+-------------------------------------OldTemp
+truthVar
+    event_gbl_round_mound01
+gunsVar
+    event_dz1_clispaeth_statue01
+hoopzBball
+    event_dz1_clispaeth_statue01
+hoopzCandy
+    event_dz1_clispaeth_statue01
+hoopzClispaeth
+    event_tnn_cuthbert01
+hoopzPower
+    event_dz1_clispaeth_statue01
+hoopzZauber
+    event_dz1_clispaeth_statue01
+transhumanismVar
+    event_dz1_clispaeth_statue01
+_____________________OldGoals
+goalBball
+    scr_rm_get_choices
+goalCandy
+goalClispaeth
+goalCyberdwarf
+goalDwarfs
+goalGuns
+goalHome
+goalPower
+goalTranshumanism
+goalTruth
+goalVengeance
+goalVidcons
+goalZaubers
+_________________OldAlignment
+alignGunsCraft
+    event_gbl_round_mound01
+    event_gbl_timelord01
+alignGunsCollect
+    event_gbl_round_mound01
+    event_gbl_timelord01
+alignZaubersLich
+    event_gbl_round_mound01
+    event_gbl_timelord01
+alignZaubersMystery
+    event_gbl_round_mound01
+    event_gbl_timelord01
+alignTranshumanismTrans
+    event_gbl_round_mound01
+    event_gbl_timelord01
+alignTranshumanismPost
+    event_gbl_round_mound01
+    event_gbl_timelord01
+__________________________________________________Knowledge
+knowBrainCity
+knowCruce
+knowDelphine
+knowHiking
+knowMountainPass
+knowSombrero
+knowSwamp
+knowTirNaNog
+knowWasteland
+___________________________________________________GameData
+-------------------------------------Elapsed
+timeClockTime
+timeRoomChange
+timeStepsDistance
+timeTimeChange
+-------------------------------------Visited
+________________________Total
+visitedTotal
+    scr_area_visited
+________________________Areas
+visitedTirNaNog
+visitedWasteland
+visitedIndustrialPark
+visitedCybergremlinVillage
+visitedSewer
+visitedMountainPass
+visitedDojo
+visitedSwamp
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

@@ -1,0 +1,13 @@
+if (argument0 == SCRIPT_START) {
+
+}
+else if (argument0 == SCRIPT_STEP) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var event = scr_event_create_main();
+    with (event) {
+        scr_event_build_quest_state("deadSonFrontGate", 1);
+        scr_event_build_dialogue("Matthias", s_port_matthias, "(Um, there's no way I'm getting out of here like this...)");
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,195 @@
+/* Template for status effects.
+
+arg0 - Configuration map
+arg1 - Actor to target
+arg2 - Command to execute ("generate", "apply", "step", "draw", "finish")
+arg3 - Other data (e.g. changestat, damaging CombatAttackEntity...)
+
+
+var conf = argument0;
+var actor = argument1;
+var command = argument2;
+var changestat = argument3; // Used only when command = "changestat"
+
+if (command == "generate") {
+    // Copy attack stats into Conf so it can be used as an attack object
+    var atk = scr_stats_newAttackStats();
+    ds_map_copy(conf, atk);
+    ds_map_destroy(atk);
+    // Append basic information
+    scr_statusEffect_generateBasicInfo(conf, statusEffect_fragmenting, 80);
+    
+    conf[? "affixPower"]        = 0;
+
+    conf[? STAT_BASE_GUTS]      = 0;
+    conf[? STAT_BASE_MIGHT]     = 0;
+    conf[? STAT_BASE_AGILE]     = 0;
+    conf[? STAT_BASE_LUCK]      = 0;
+    conf[? STAT_BASE_PIETY]     = 0;
+
+    conf[? "perc_gut"]          = 0;
+    conf[? "perc_mig"]          = 0;
+    conf[? "perc_agi"]          = 0;
+    conf[? "perc_luc"]          = 0;
+    conf[? "perc_pie"]          = 0;
+    
+    conf[? "hitInterval"]       = 5;
+    conf[? "hitTimer"]          = 1;
+    conf[? "hitNumber"]         = 1;
+    conf[? "restorationNumber"] = 0;
+    conf[? "drainSet"]          = false;
+
+    conf[? "timerTotal"] = conf[? "timer"];
+    conf[? "timerEnd"] = 50;
+    conf[? "timerDelay"] = conf[? "timer"] - 20;
+
+    conf[? "effectImage"] = 0;
+    conf[? "effectImageMin"] = 0;
+    conf[? "effectImageMax"] = 4;
+    conf[? "effectY"] = 0;
+
+    conf[? "effectFlickerTimer"] = 0;
+    conf[? "effectFlickerTimerReset"] = 5;
+    conf[? "effectFlickerToggle"] = 1;
+
+    return conf;
+}
+
+else if (!instance_exists(actor)) {
+    return 0;
+}
+
+else if (command == "apply") {
+    // -- On-hit effects --
+    /* In this part, we can take into consideration resistances,
+       the current state of the CombatActor (such as if he already
+       has the status effect on him), etc. 
+            var currentFragmenting = scr_statusEffect_getFromCombatActor(actor, statusEffect_fragmenting);
+            if (currentFragmenting == -1)
+                {
+                // Apply //
+                scr_statusEffect_applyNewToCombatActor(actor, conf);
+                
+                // Visuals //
+                audio_play_sound_on_actor(actor,scr_soundbank_pickSound("affix_fragmenting"),false,70);
+                }
+                else {
+                    // Refresh time on existing
+                    var timer = conf[? "timer"];
+                    timer = max(timer, currentFragmenting[? "timer"]);
+                    currentFragmenting[? "timer"] = timer;
+                }
+    return 0;
+} 
+
+else if (command == "step") {
+    // -- Effect to perform each step --
+    // This is for the status effect visual //
+    scr_fx_statusFlicker(conf, 4, 1);
+    
+    // Set the drain variables //
+    if conf[? "drainSet"] = false then
+        {
+        conf[? "perc_gut"] = (scr_stats_getBaseStat(actor, STAT_BASE_GUTS) * (0.5 + conf[? "affixPower"])) / (50 / conf[? "hitInterval"]);
+        conf[? "perc_luc"] = (scr_stats_getBaseStat(actor, STAT_BASE_LUCK) * (0.5 + conf[? "affixPower"])) / (50 / conf[? "hitInterval"]);
+        conf[? "perc_agi"] = (scr_stats_getBaseStat(actor, STAT_BASE_AGILE) * (0.5 + conf[? "affixPower"])) / (50 / conf[? "hitInterval"]);
+        conf[? "perc_mig"] = (scr_stats_getBaseStat(actor, STAT_BASE_MIGHT) * (0.5 + conf[? "affixPower"])) / (50 / conf[? "hitInterval"]);
+        conf[? "perc_pie"] = (scr_stats_getBaseStat(actor, STAT_BASE_PIETY) * (0.5 + conf[? "affixPower"])) / (50 / conf[? "hitInterval"]);
+        conf[? "drainSet"] = true;
+        }
+        
+    // Set up some variables needed down below //
+    var hitTimer = conf[? "hitTimer"];
+    var hitNumber = conf[? "hitNumber"];
+    var restorationNumber = conf[? "restorationNumber"];
+    
+    // Delay before this all takes effect //
+    if conf[? "timer"] <= conf[? "timerDelay"] and hitNumber > 0 then
+        {
+        // Timer shyte //
+        hitTimer -= dt();
+    
+        // Stat changes //
+        if (hitTimer <= 0) then
+            {
+            conf[? STAT_BASE_GUTS] = conf[? STAT_BASE_GUTS]     - (conf[? "perc_gut"] * 10);
+            conf[? STAT_BASE_MIGHT] = conf[? STAT_BASE_MIGHT]   - (conf[? "perc_mig"] * 10);
+            conf[? STAT_BASE_AGILE] = conf[? STAT_BASE_AGILE]   - (conf[? "perc_agi"] * 10);
+            conf[? STAT_BASE_LUCK] = conf[? STAT_BASE_LUCK]     - (conf[? "perc_luc"] * 10);
+            conf[? STAT_BASE_PIETY] = conf[? STAT_BASE_PIETY]   - (conf[? "perc_pie"] * 10);
+            hitTimer = conf[? "hitInterval"];
+            restorationNumber = 10;       
+            hitNumber -= 1;        
+            }
+        }
+        
+    // Return stats // X SECONDS AT THE END //
+    if conf[? "timer"] <= conf[? "timerEnd"] then
+        {
+        // Timer shyte //
+        hitTimer -= dt();
+    
+        // Stat changes //
+        if (hitTimer <= 0 and restorationNumber > 0) then
+            {
+            conf[? STAT_BASE_GUTS] = conf[? STAT_BASE_GUTS]     + (conf[? "perc_gut"]);
+            conf[? STAT_BASE_MIGHT] = conf[? STAT_BASE_MIGHT]   + (conf[? "perc_mig"]);
+            conf[? STAT_BASE_AGILE] = conf[? STAT_BASE_AGILE]   + (conf[? "perc_agi"]);
+            conf[? STAT_BASE_LUCK] = conf[? STAT_BASE_LUCK]     + (conf[? "perc_luc"]);
+            conf[? STAT_BASE_PIETY] = conf[? STAT_BASE_PIETY]   + (conf[? "perc_pie"]);
+            hitTimer = conf[? "hitInterval"]; 
+            restorationNumber -= 1;             
+            }
+        }
+    
+    // Get variables back for the next step coming up //
+    conf[? "hitTimer"] = hitTimer;
+    conf[? "hitNumber"] = hitNumber;
+    conf[? "restorationNumber"] = restorationNumber;
+    return false;
+}
+
+else if (command == "changestat") {
+    // -- Change RPG stats --
+    /* This is called when a stat should be changed, with the stat (or statgroup)
+       to change in the 'changestat' argument. See scr_stats_genEffectiveStats
+       for reference on when this is called and with which arguments. 
+    if(changestat== STATGROUP_BASICS)
+    {
+        scr_stats_setEffectiveStat(actor, STAT_BASE_GUTS, scr_stats_getEffectiveStat(actor, STAT_BASE_GUTS)     +conf[? STAT_BASE_GUTS]);
+        scr_stats_setEffectiveStat(actor, STAT_BASE_MIGHT, scr_stats_getEffectiveStat(actor, STAT_BASE_MIGHT)   +conf[? STAT_BASE_MIGHT]);
+        scr_stats_setEffectiveStat(actor, STAT_BASE_AGILE, scr_stats_getEffectiveStat(actor, STAT_BASE_AGILE)   +conf[? STAT_BASE_AGILE]);
+        scr_stats_setEffectiveStat(actor, STAT_BASE_LUCK, scr_stats_getEffectiveStat(actor, STAT_BASE_LUCK)     +conf[? STAT_BASE_LUCK]);
+        scr_stats_setEffectiveStat(actor, STAT_BASE_PIETY, scr_stats_getEffectiveStat(actor, STAT_BASE_PIETY)   +conf[? STAT_BASE_PIETY]);
+    }
+    return 0;
+}
+
+else if (command == "damage") {
+    // -- Actor takes damage --
+    /* This is called when the actor takes damage. The ID of the damaging
+       CombatAttackEntity is provided as arg3. Here you can do things like
+       return damage to attacker or other cool on-hit effects. 
+    // Return 'true' to remove this status effect from the combatactor.
+    return 0;
+}
+
+else if (command == "draw") {
+    // -- Draw effect to perform before CombatActor is drawn --
+    /* This can apply draw effects to the actor, such as change
+       rendering colors, configure a shader, particle effects, etc. 
+       return 0;
+}
+
+else if (command == "draw_post") {
+    // -- Draw effect to perform after CombatActor is drawn --
+    /* This can apply draw effects to the actor, such as change
+       rendering colors, configure a shader, particle effects, etc. 
+       scr_fx_statusDrawEffect(conf, actor, s_effect_affix_TEMP);
+    return 0;
+}
+
+else if (command == "finish") {
+    // -- Action to perform when status effect ends --
+    return 0;
+}

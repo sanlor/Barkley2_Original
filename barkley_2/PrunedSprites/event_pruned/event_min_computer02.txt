@@ -1,0 +1,83 @@
+// Event script for what's essentially the CLIMAX of this quest. The player gets to the main security room but either doesn't have the hacking expertise, 
+// or is too affected by the drugs Van Cleef gave him to do anything about it. 
+// There's NO NARRATIVE WAY AROUND THIS, because even if he is some master hacker, he's too high to do anything about it.
+// NOTE: This script is rather incomplete, since there's the need for light cinematics and sound here, none of which I can do right now.
+// NOTE2: Created a quest called baseescapeQuest. It's technically a quest, but all it really does is change the dialogue of all the duergars 
+// in the base to something that reflects the fact that the drugs the player was on is wearing off. It completes by leaving the base.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("dbaseNPCsState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var computer = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("baseescapeQuest") == 1) {
+            Dialogue(P_NAME, "I can't do anything right..........");
+            scr_event_build_end();
+        } else {
+            Dialogue(P_NAME, "Heh. Ok, computer. This is how it's going to go. I'm your master now. You'll do exactly what I say.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "Pffft. That's what you think. Let's crack you open.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "SOUND NEEDS: The player typing.");
+            // SOUND TODO: sound of player typing.
+            Dialogue(P_NAME, "Yeah, right. What's this crap? Password? PASSWORDS ARE FOR NUMBSKULLS.");
+            scr_event_build_dialogue("Computer", NULL, "Please use appropriate login credentials.");
+            Dialogue(P_NAME, "Yeah, sure, whatever. Username______.______.______.______.______.______.______.______.P_NAME. Password______.______.______.______.______.______.______.______.?\Hmm, what should my password be? This is a tough one.\How about bball.........\NO!!!!! ___________Those jerks will probably figure that out.\Password___.___.___.___.___.___.___.___.bballisthebest34.");
+            scr_event_build_dialogue("Computer", NULL, "Invalid username and password. User not found.");
+            Dialogue(P_NAME, "Yeah, because I want to make a new username you idiot.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "SHUT UP!!! I GOT THIS.\Uh, I'll need to hack my way in. I can do this. I got this. I GOT THIS.\Just need to remember the name of one of the duergars and figure out his password. Easy. So easy a little, fat, crying baby can do it.\Ok, so....... duergars....... eh......\Is Cuchulainn a duergar? I don't even know. Probably. Who knows. I bet he's a real butthead. I'll try that.\Username.......#c o u c h e u l a n e.......\Is that how that stupid name is spelled?");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "NOBODY ASKED YOU.\I'm rolling with it. Coucheulane. Got it. If I can't spell it, no way that moron can spell it either.\Now what would his password be?");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "One more peep out of you, and I swear.......\Oh, whatever. His password is probably something really dumb and stupid to reflect how dumb and stupid he is.\Password______.______.______.______.______.______.______.______.#iamwearingshoes.");
+            scr_event_build_dialogue("Computer", NULL, "Invalid username and password.");
+            Dialogue(P_NAME, "Oh, yeah, right. Almost forgot.\Username: Coucheulane#Password:iamwearing2shoes");
+            scr_event_build_dialogue("Computer", NULL, "Invalid username and password.");
+            Dialogue(P_NAME, "..........\Username: Coucheulane#Password:iamwearing2shoes2");
+            scr_event_build_dialogue("Computer", NULL, "Invalid username and password.");
+            Dialogue(P_NAME, "That Cuchulainn is a tricky one.\Well, I can't remember the names of any of these idiot duergars, so it looks like I'll have to do this the old-fashioned way.\Computer!!! I want to override the controls on all the gun turrets.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "I don't know what all that is!!! Just change the gun turrets. Make them do something else.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "DON'T FORCE ME TO GET ROUGH WITH YOU!!!! I AM A MEAN DUERGAR AND I'M NOT AFRAID TO USE MY GUN'S ON YOU!!!");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "Wait, I'm not actually a duergar. I'm just regular old butthead " + P_NAME + ".");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "Wow, not being a duergar is kinda wierd. I kinda feel like throwing myself in the air lock and shooting myself into outer space.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "I wonder what outer space is really like. I've seen it, but I don't know what it's actually like.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "Just going into the airlock is pretty dangerous though, I'd need a space suit.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "And I'd probably get hungry, so I'd need to bring something to eat.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "I don't actually know if you can bring anything to eat in a space suit though. You're wearing the helmet and all.\Wait, how do astronauts even eat?!? Maybe they don't eat at all??? That'd be really wierd.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "HEY SHUT YOUR UGLY CAKEHOLE, COMPUTER. I'M TALKING OVER HERE.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "Wait, that's not something I'd say. I really am out of it.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player walks away from the computer, and/or just wanders confused around the room.");
+            // CINEMATIC TODO: The player walks away from the computer.
+            Dialogue(P_NAME, "Why am I even here? I know I needed to get to this place, but.......\Nah, it's gone. I think somebody told me to come in here and do this......but what was it?\I remember feeling really lonely that day. He asked me to go and do it? But who is he?\I remember he seemed really nice. It was a really tough-sounding idea, but he sounded so nice about it.\I know earlier that day I was just going around shooting stuff and I just stopped for a second when I was finished. There was nobody around me.\Not even the monsters. Just nobody. It was so quiet. I thought how cool it would be if I was traveling with somebody, if I could go and give them a high five.\You can't high five yourself though. I tried that once. You feel kinda dumb just clapping for no reason.\I remember it felt so cool seeing this guy who cared enough about something to talk to me about it. Most people don't really like to talk to me.\He had all this stuff going on inside his head and he wanted to talk to me about it. I felt like I really belonged somewhere.\It was really cool. I really think I needed someone like Lafayette to do that.\Oh!!! Yes!!! Lafayette!!! He sent me in here to........\Yeah, that's right. He wanted me to figure out the weak spot of the base.......");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player steps back in front of the computer, essentially where they were before.");
+            // CINEMATIC TODO: The player walks back to the computer.
+            Dialogue(P_NAME, "......and now I'm here. Shouting at a computer that doesn't listen to me.");
+            scr_event_build_dialogue("Computer", NULL, "Voice recognition module not installed.");
+            Dialogue(P_NAME, "And that guy injected me with something.......\......and it's wearing off........");
+            scr_event_build_wait(3);
+            Dialogue(P_NAME, "Ok. So I need to get out of here. Fast.\Then I need to come up with something to tell Lafayette.\I hope he isn't sore with me. I really tried my best. I hope I haven't let him down too much.");
+            Quest("baseescapeQuest", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

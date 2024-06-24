@@ -1,0 +1,130 @@
+// ANNOUNCE CURFEW //
+// Initialize //
+//TODO: change all this to DSL
+if (argument0 == SCRIPT_START) then
+    {
+    // Reset collisions //
+    Quest("curfewCollision", 0);
+    
+    // Disable object //
+    if Quest("curfewAnnouncement") == 0 then
+        {
+        if ClockTime("get") < 4 then 
+            {
+            scr_event_interactive_deactivate();
+            instance_destroy();
+            }
+        }
+    else if Quest("curfewAnnouncement") == 1 then
+        {
+        if ClockTime("get") < 5 then 
+            {
+            scr_event_interactive_deactivate();
+            instance_destroy();
+            }
+        }
+    else if Quest("curfewAnnouncement") == 2 then 
+        {
+        scr_event_interactive_deactivate();
+        instance_destroy();
+        }   
+    } 
+
+// Collision //
+else if (argument0 == SCRIPT_COLLISION_HOOPZ) then
+    {
+    // Variable for only initiating this once //
+    if scr_quest_get_state("curfewCollision") == 0 then 
+        {
+        // Switch off, run through once only //
+        Quest("curfewCollision", 1);
+
+        // Variables //
+        var event = scr_event_create_main();
+        
+        // Main event //
+        with (event) 
+            {
+            // INITIATE CURFEW //
+            if Quest("curfewAnnouncement") == 0 then
+                {
+                // USE AN ANNOUCENMENT //
+                if scr_area_get() == "tnn" then
+                    {
+                    // TODO: Speakers tunein // A sound of one of those mic things when someone goes too close to a mic and it makes a horrible loud noise //
+                    scr_event_build_wait(0.25);
+                    scr_event_build_look_object(o_cts_hoopz, o_tnn_loudspeaker01);
+                    scr_event_build_wait(0.25);
+                    Emote("build", "question", o_hoopz, 0, 0);
+                    scr_event_build_wait(1.25);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? What's going on?");
+                    scr_event_build_user(o_tnn_loudspeakerPedestrianSpot01, 0);
+                    scr_event_build_wait(0.25);
+                    scr_event_build_camera_frame(MOVE_NORMAL, o_tnn_loudspeaker01);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_quest_state("tnnLoudspeaker", 1);
+                    scr_event_build_dialogue_mystery("Loudspeaker", NULL, "Attention all citizens! A curfew is now in effect. Everyone must retreat to their housing units and remain there until further notice. No unauthorized personnel are allowed anywhere near the bank. Anyone breaking these rules will be punished accordingly.");
+                    scr_event_build_dialogue_mystery("Loudspeaker", NULL, "Now move it, you lazy sacks of shit!"); 
+                    scr_event_build_wait(0.25);
+                    scr_event_build_user(o_tnn_loudspeakerPedestrianSpot01, 1);
+                    scr_event_build_quest_state("tnnLoudspeaker", 0);
+                    scr_event_build_pedestrianCirculation(false);
+                    scr_event_build_wait(1.75);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa, this sounds serious. I'd better stay out of sight of those duergars.");            
+                    scr_event_build_quest_state("curfewAnnouncement", 1);
+                    scr_event_build_quest_state("tnnCurfew", 1);
+                    scr_event_build_teleport(room, o_hoopz.x, o_hoopz.y, 2, 2);
+                    }
+                    
+                // NO ANNOUNCEMENT //
+                else
+                    {
+                    scr_event_build_quest_state("curfewAnnouncement", 1);
+                    scr_event_build_quest_state("curfewSurprise", 1);
+                    scr_event_build_quest_state("tnnCurfew", 1);
+                    }
+                }
+                
+            // END CURFEW //
+            else if Quest("curfewAnnouncement") == 1 then
+                {
+                // USE AN ANNOUCENMENT //
+                if scr_area_get() == "tnn" then
+                    {
+                    // TODO: Speakers tunein // A sound of one of those mic things when someone goes too close to a mic and it makes a horrible loud noise //
+                    scr_event_build_wait(0.25);
+                    scr_event_build_look_object(o_cts_hoopz, o_tnn_loudspeaker01);
+                    scr_event_build_wait(0.25);
+                    Emote("build", "question", o_hoopz, 0, 0);
+                    scr_event_build_wait(1.25);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? Another announcement?");
+                    scr_event_build_user(o_tnn_loudspeakerPedestrianSpot01, 0);
+                    scr_event_build_wait(0.25);
+                    scr_event_build_camera_frame(MOVE_NORMAL, o_tnn_loudspeaker01);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_quest_state("tnnLoudspeaker", 1);
+                    scr_event_build_dialogue_mystery("Loudspeaker", NULL, "Attention all citizens! The curfew is now over and you may return to your sad, pathetic lives.");
+                    scr_event_build_wait(0.25);
+                    scr_event_build_user(o_tnn_loudspeakerPedestrianSpot01, 1);
+                    scr_event_build_quest_state("tnnLoudspeaker", 0);
+                    scr_event_build_wait(1.25);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, cool.");            
+                    scr_event_build_quest_state("curfewAnnouncement", 2);
+                    scr_event_build_quest_state("tnnCurfew", 2);
+                    scr_event_build_teleport(room, o_hoopz.x, o_hoopz.y, 2, 2);
+                    }
+                    
+                // NO ANNOUNCEMENT //
+                else
+                    {
+                    scr_event_build_quest_state("curfewAnnouncement", 2);
+                    scr_event_build_quest_state("curfewSurprise", 2);
+                    scr_event_build_quest_state("tnnCurfew", 2);
+                    }
+                }            
+            }
+                    
+        // GAMEBOY ADVANCE //
+        scr_event_advance(event);
+        }    
+    }

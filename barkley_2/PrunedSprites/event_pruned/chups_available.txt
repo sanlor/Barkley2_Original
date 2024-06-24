@@ -1,0 +1,140 @@
+// scr_chup_available
+// Determines if a Chup can be sold to a character during Chup Quest
+var time = scr_time_get();
+var quest = scr_quest_get_state("chupQuest");
+var chups = scr_quest_get_state("chupCount");
+
+if (argument_count != 1) then
+    {
+    if (global.DEBUGMODE == true) then show_message("Error: scr_chup_available needs an argument.");
+    }
+else
+    {
+    if (time != 8) || (quest != 2) || (chups == 0) then return false;
+    
+    // Boris
+    if (argument[0] == "boris") then
+        {
+        if (scr_quest_get_state("borisChup") < 2) then return true;
+        else return false;
+        }
+        
+    // Dark Draker
+    else if (argument[0] == "darkdraker") then
+        {
+        if (scr_quest_get_state("darkDrakerChup") < 1) then return true;
+        else return false;
+        }
+        
+    // Deacon Brimble
+    else if (argument[0] == "brimble") then
+        {
+        if (scr_quest_get_state("brimbleChup") < 1) then return true;
+        else return false;
+        }
+        
+    // Euler
+    else if (argument[0] == "euler") then
+        {
+        if (scr_quest_get_state("eulerChup") < 1) then return true;
+        else return false;
+        }
+        
+    // Garfield
+    else if (argument[0] == "garfield") then
+        {
+        if (scr_quest_get_state("garfieldChup") < 1) then return true;
+        else return false;
+        }
+        
+    // Grigor
+    else if (argument[0] == "grigor") then
+        {
+        if (scr_quest_get_state("grigorChup") < 1) then return true;
+        else return false;
+        }
+        
+    // Irmingard
+    else if (argument[0] == "irmingard") then
+        {
+        if (scr_quest_get_state("irmingardChup") < 1) then return true;
+        else return false;
+        }
+        
+    // Kunigunde
+    else if (argument[0] == "kunigunde") then
+        {
+        if (scr_quest_get_state("kunigundeChup") < 1) then return true;
+        else return false;
+        }
+        
+    // Lagertha
+    else if (argument[0] == "lagertha") then
+        {
+        if (scr_quest_get_state("lagerthaChup") < 1) then return true;
+        else return false;
+        }
+        
+    // Lonnie
+    else if (argument[0] == "lonnie") then
+        {
+        if (scr_quest_get_state("lonnieChup") < 1) then return true;
+        else return false;
+        }
+        
+    // Masego
+    else if (argument[0] == "masego") return true;
+    
+    // Moriarty
+    else if (argument[0] == "moriarty") then
+        {
+        if (scr_quest_get_state("moriartyChup") < 1) return true;
+        else return false;
+        }
+        
+    // Nico
+    else if (argument[0] == "nico") then
+        {
+        if (scr_quest_get_state("nicoChup") < 2) then return true;
+        else return false;
+        }
+        
+    // Obadiah
+    else if (argument[0] == "obadiah") then
+        {
+        if (scr_quest_get_state("obadiahChup") < 1) then return true;
+        else return false;
+        }
+        
+    // Rutherford
+    else if (argument[0] == "rutherford") then
+        {
+        if (scr_quest_get_state("rutherfordChup") < 1) then return true;
+        else return false;
+        }
+        
+    // Sepideh
+    else if (argument[0] == "sepideh") then 
+        {
+        if (scr_quest_get_state("sepidehChup") < 1) then return true;
+        else return false;
+        }
+    // Suresh
+    else if (argument[0] == "suresh") then 
+        {
+        if (scr_quest_get_state("sureshChup") < 2) then return true;
+        else return false;
+        }
+        
+    // Waldo
+    else if (argument[0] == "waldo") then 
+        {
+        if (scr_quest_get_state("waldoChup") < 1) then return true;
+        else return false;
+        }
+    else
+        {
+        if (global.DEBUGMODE == true) then show_message("Error: scr_chup_available needs an argument.");
+        return false;
+        }
+    }

@@ -1,0 +1,8 @@
+// chaiyaporn think!
+
+/*scr_event_build_dialogue("Chaiyaporn", NULL, "Scanning memory banks... calculating possibilities... widening perception...");
+//scr_event_build_wait(3);
+//scr_event_build_animation_play_and_set(o_gehirnkind01, "think", "idle");
+scr_event_build_wait(0.3);
+//scr_event_build_play_sound();
+scr_event_build_wait_for_actions();

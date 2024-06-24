@@ -1,0 +1,199 @@
+//Absalom - ComputerGuy
+
+//------------------------------------------------------------------------------
+// *** govQuest = 6 = Governor quest complete. ***
+//------------------------------------------------------------------------------
+
+Absalom:
+It was a long shot but you pulled it off - the people of Tir na Nog are the better for it and you've got an exit into the Necron 7 wilds. I'm quite impressed! I sincerely hope you find whatever it is you're looking for, and if you cross paths with L.O.N.G.I.N.U.S. again, I hope you help in any way you can. But about the governor, I'm not too sure what we're going to do with him...
+
+//go to Questions;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 5 = currently governor. ***
+//------------------------------------------------------------------------------
+
+Absalom:
+Oh, don't worry, we'll make sure no harm comes to your body while your consciousness is inhabiting the Governor's. But please do be quick, just in case!
+
+//go to Questions;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 4 = ready to become governor. ***
+//------------------------------------------------------------------------------
+
+Absalom:
+Look at him over there, convulsing in rage and indignation. Perhaps I shouldn't say this, but I almost take pleasure in his misery. Well, I suppose it's almost time to see if the body switching device is working correctly, then?
+
+//go to Questions;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 3 = have duergar urine. ***
+//------------------------------------------------------------------------------
+
+Absalom:
+Ah, the Duergar.. substance! That must have been quite a challenge to obtain. I must say that I'm quite impressed. You should take it to Dr. Liu immediately.
+
+//go to Questions;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 2 = Governor quest accepted, need duergar urine. ***
+//------------------------------------------------------------------------------
+
+Absalom:
+Duergars are instinctually territorial creatures - they mark their turf with their, ah, fluids. It is my hope, as well as Dr. Liu's, that we can trigger Governor Elagabalus hormonal territorial instincts with a sample of ah, Duergar solution. I wish you good luck, X114JAM9, but unfortunately I wouldn't know where to obtain any. But you made it through the sewers to get here, you're a tenacious youngster. I'm sure you can get your hands on some quite easily! So to speak.
+
+//go to Questions;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 1 = Governor quest rejected ***
+//------------------------------------------------------------------------------
+
+Absalom:
+I know it's a long shot, but if we can somehow capture the incoming governor and body switch with him, we'll be able to deliver his upcoming speech and lay out a plan that helps the people of Tir na Nog and L.O.N.G.I.N.U.S... at least temporarily.
+
+//go to Questions;
+
+
+//------------------------------------------------------------------------------
+// *** no conditions ***
+//------------------------------------------------------------------------------
+
+Absalom:
+I'm quite pleased with the body transfer system Dr. Liu and I devised. Without going into the specifics, when two individuals are strapped properly into the chairs with the electrodes in place and the lever is pulled, the consciousness of each individual is transferred to the other. And there's only a minimal chance of frying!
+
+//go to Questions;
+
+
+//------------------------------------------------------------------------------
+// Questions
+//------------------------------------------------------------------------------
+
+Is this L.O.N.G.I.N.U.S.?
+
+	X114JAM9:
+	Um, this is L.O.N.G.I.N.U.S., right?
+	
+	Absalom:
+	Correct! This is the Tir na Nog branch of L.O.N.G.I.N.U.S. It's quite amazing to me that you managed to find us! I'm a little concerned you'll compromise our safety! I'm Absalom, the group technician. I assist Dr. Liu, our leader, with... secret weapons. Private Madison handles weapon supplies and our poker players over there handle the poker games. 
+	
+	//go to Questions;
+
+	
+What are you doing?
+
+	X114JAM9:
+	What are you doing?
+	
+	Absalom:
+	Right now? I'm decoding messages. Duergar messages, reports from our scouts, fragments of radio communication - you wouldn't believe the kinds of secrets contained in these messages. Duergars disguise their messages as songs, love letters, farewell letters - they're all codes! If you find any interesting messages, please give them to me. They're certainly Duergar codes.
+	
+	//absalomLetter = 1
+	//go to Questions;
+	
+
+//if absalomLetter = 2
+Is there anything I can do to help?
+
+	X114JAM9:
+	Is there anything else I can do to help out L.O.N.G.I.N.U.S.?
+	
+	Absalom:
+	Not at the moment. Delivering that message to me was a big help. Thanks.
+	
+	//go to Questions;
+
+
+//if absalomLetter = >= 1
+Is there anything I can do to help?
+
+	X114JAM9:
+	I want to help out L.O.N.G.I.N.U.S. Is there anything I can do?
+	
+	Absalom:
+	Beyond helping Dr. Liu with the body transference device? Well, I've been expecting a report from our scout Carlton for some time now. I would be much obliged if you could get that report to me. Don't even bother trying to read it - Carlton's messages are so layered in code and innuendo that no layman could ever decipher it.
+	
+	//absalomLetter = 1
+	//go to Questions;
+
+
+//if absalomLetter = 1
+I think I have something you might want to see.
+
+	X114JAM9:
+	Hey, I think I've got that report you told me about.
+	
+	Absalom:
+	Oh, yes?
+	
+	//this is your stuff bort
+	letter 1
+	
+	letter 2
+	
+	letter 3
+	
+	Never mind.
+		
+		X114JAM9:
+		Er, never mind.
+		
+		//go to Questions;
+
+I'm looking for the Cyberdwarf.
+
+	X114JAM9:
+	I was rescued by L.O.N.G.I.N.U.S. rebels from the Necron 7 engine room and they told me to find the Cyberdwarf. Do you have any idea where he is?
+	
+	Absalom:
+	Hmmm, I heard about a recent operation to the engine room but the Tir na Nog branch of L.O.N.G.I.N.U.S. wasn't involved. Nope, sorry. Can't tell you where he is. We're pretty cut off here and there's too much of a risk of radio communication being detected by Duergars. If you were able to escape from Tir na Nog, I'm sure you could find some L.O.N.G.I.N.U.S. on the outside who could tell you how to find the Cyberdwarf. Hope this helps.
+	
+	//go to Questions;
+
+//if govQuest = 6
+How do I get out of here?
+
+	X114JAM9:
+	How do I get out of here?
+	
+	Absalom:
+	Well, you could always find one of the exits even deeper in the sewers, if that sounds like an enticing prospect. Or you could, you know, walk right out the front gate of Tir na Nog since 'the Governor' just gave you permission *wink*.
+	
+	//go to Questions;
+	
+//if govQuest = 5
+How do I get out of Tir na Nog?
+
+	X114JAM9:
+	How do I get out of here?
+	
+	Absalom:
+	In your current state? I can't imagine why you'd want to. You've got a speech to give, Mr. Governor!
+	
+	//go to Questions;
+	
+//if govQuest <= 4
+How do I get out of Tir na Nog?
+
+	X114JAM9:
+	How do I get out of here?
+	
+	Absalom:
+	I'm quite impressed that you made it to our hideout! Not even the Duergars can make it this far through the sewers. It's certainly a frightening proposition but there are several exits even deeper in the sewers. Although if that doesn't sound like a particularly enticing prospect, I believe that you could potentially escape using the body transference device Dr. Liu and I made. You should ask her more about that.
+	
+	//go to Questions;
+
+See ya.
+
+	X114JAM9:
+	See ya later.
+	
+	Absalom:
+	Indeed.
+	
+	//end dialogue;

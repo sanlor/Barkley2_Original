@@ -1,0 +1,45 @@
+if (argument0 == SCRIPT_INTERACT) {
+    var carol = id;   
+    var event = scr_event_create_main();
+    
+    with event {
+        scr_event_build_dialogue("Carol", NULL, "Hi, I'm Carol.");
+        var carolChoice = scr_event_build_choice("What you wanna do?", NULL);
+        var moveUp = scr_event_build_add_choice(carolChoice, "Up.");
+        var moveDown = scr_event_build_add_choice(carolChoice, "Down.");
+        var hpLose = scr_event_build_add_choice(carolChoice, "Take my life.");
+        var hpGain = scr_event_build_add_choice(carolChoice, "Give me life.");
+        var hpOne = scr_event_build_add_choice(carolChoice, "Bring me to an inch of my life.");
+        var pietyGain = scr_event_build_add_choice(carolChoice, "Take my life.");
+        
+        with moveUp {
+            scr_event_build_move_direction(o_cts_hoopz, 0, -32);
+        }
+        
+        with moveDown {
+            scr_event_build_move_direction(o_cts_hoopz, 0, 32);
+        }
+        
+        with hpLose {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I will lose 50% HP after this...");
+            scr_event_build_stat("hp", "-50%");
+        }
+
+        with hpGain {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I will gain 10 HP after this...");
+            scr_event_build_stat("hp", "+10");
+        }
+
+        with hpOne {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I will have 1 HP after this...");
+            scr_event_build_stat("hp", "1");
+        }
+
+        with pietyGain {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I will gain 1 piety after this...");
+            scr_event_build_stat("piety", "+1");
+        }
+        
+    }
+    scr_event_advance(event);
+}

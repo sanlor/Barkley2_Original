@@ -1,0 +1,290 @@
+scr_event_build_variable_set(
+scr_event_build_quest_state(
+---
+scr_event_variable_get(
+scr_quest_get_state(
+---
+scr_event_build_state_set(
+scr_event_build_quest_state(
+---
+scr_event_state_get(
+scr_quest_get_state(
+
+-------------------------------------------------
+Brain City:
+    Scripted:
+        event_bct_clarissa01
+            changed event state variable "clarissa" to quest variable "clarissaState"
+        event_bct_kurush01
+            changed event state variable "kurush" to quest variable "kurushState"
+        event_bct_longinusDoor01
+            changed event state variable "longinusdoor" to quest variable "longinusDoorState"
+        event_bct_nene01
+            changed event state variable "nene" to quest variable "neneState"
+        event_bct_wiglaf01
+            changed event state variable "wiglaf" to quest variable "wiglafState"       
+
+-------------------------------------------------
+Sewers:
+    ISSUES:
+        event_sw1_baldo_fake01
+        event_sw1_baldo_letter01
+        event_sw1_fede01
+        event_sw1_joad01
+        event_sw1_baldomero01
+
+    Scripted:
+        event_sw1_maria01
+            changed event state variable "maria" to quest variable "mariaState"
+
+    Unscripted:
+        event_tnn_anxo01
+        event_tnn_dolvolund01
+        event_tnn_growth_elemental01
+        event_tnn_turald01
+
+-------------------------------------------------
+Tir na Nog:
+    ISSUES:
+        //event_tnn_abdul_gafur01.gml
+        event_tnn_aelfleda01.gml
+        event_tnn_aelfleda02.gml
+        event_tnn_dubuque01.gml
+        event_tnn_duergarSlaver01.gml
+        event_tnn_duergarSlaver04.gml
+        event_tnn_gelasio01.gml
+        event_tnn_jindrich01.gml
+        event_tnn_milagros01.gml
+        event_tnn_slag01.gml
+        event_tnn_slag02.gml
+        event_tnn_slag03.gml
+        event_tnn_slag04.gml
+    
+    EVENT VARIABLES:
+        //event_tnn_abdul_gafur01
+        event_tnn_aelfleda01
+        event_tnn_cuthbert01
+        event_tnn_gelasio01
+        event_tnn_gunsalesman
+        event_tnn_gutterhound01
+        event_tnn_gutterhound01
+        event_tnn_jindrich01
+        event_tnn_puzzlelock_math01
+        event_tnn_puzzlelock_riddle01
+        event_tnn_stonewallBootyDaimyoJackson01
+        event_tnn_wordlock01
+        
+    MULTIPLE LOCATIONS & STATES:
+        wilhelmina
+        benedict
+        birchard
+        
+    COLLISION:
+        giuseppe02
+        gateguard01 
+        
+    Scripted:
+        event_tnn_wilmer01
+            changed event state variable "wilmer" to quest variable "wilmerState"
+        event_tnn_wilhelmina02
+            changed event state variable "wilhelmina" to quest variable "wilhelminaState"
+        event_tnn_wilhelmina02
+            changed event state variable "wilhelmina" to quest variable "wilhelminaState"
+        event_tnn_wilcy01
+            changed event state variable "wilcy" to quest variable "wilcyState"
+        event_tnn_rosario01
+            changed event state variable "rosario" to quest variable "rosarioState"
+        event_tnn_babo01
+            changed event state variable "babo" to quest variable "baboState"
+        event_tnn_bballMonologue01
+            changed event state variable "NULL" to quest variable "bballMonologue"
+        event_tnn_benedict01
+            changed event state variable "benedict" to quest variable "benedictState"
+        event_tnn_benedict02
+            changed event state variable "benedict" to quest variable "benedictState"
+        event_tnn_birchard01
+            changed event state variable "birchard" to quest variable "birchardState"
+        event_tnn_birchard02
+            changed event state variable "birchard" to quest variable "birchardState"
+        event_tnn_bob01
+            changed event state variable "bob" to quest variable "bobState"
+        event_tnn_bootySlayer01
+            changed event state variable "bootyslayer" to quest variable "bootyslayerState"
+        event_tnn_bouncer01
+            changed event state variable "bouncer" to quest variable "bouncerState"
+        event_tnn_brunward01
+            changed event state variable "brunward" to quest variable "brunwardState"
+        event_tnn_cow02
+            changed event state variable "cow02" to quest variable "cowState"
+        event_tnn_elcege01
+            changed event state variable "elcege" to quest variable "elcegeState"
+        event_tnn_fadima01
+            changed event state variable "fadima" to quest variable "fadimaState"
+        event_tnn_giuseppe01
+            changed event state variable "giuseppe" to quest variable "giuseppeState"
+        event_tnn_giuseppe01
+            changed event state variable "giuseppe" to quest variable "giuseppeScene"
+        event_tnn_grieg01
+            changed event state variable "grieg" to quest variable "griegState"
+        event_tnn_guillaume01
+            changed event state variable "guillaume" to quest variable "guillaumeState"
+        event_tnn_hyacinth01
+            changed event state variable "hyacinth" to quest variable "hyacinthState"
+        event_tnn_kalevi02
+            changed event state variable "kalevi" to quest variable "kaleviState"
+        event_tnn_ludwig01
+            changed event state variable "NULL" to quest variable "ludwigState"
+        event_tnn_marina01
+            changed event state variable "marina" to quest variable "marinaState"
+        event_tnn_occupiedDuergar01
+            changed event state variable "duergar" to quest variable "occupiedDuergarState"
+        event_tnn_pollux01
+            changed event state variable "pollux" to quest variable "polluxState"
+        event_tnn_pvtMadisonShout01
+            changed event state variable "id" to quest variable "pvtMadisonShout"
+        
+    Unchanged:
+        event_tnn_vortigern01
+        event_tnn_vivian01
+        event_tnn_vanBoekel01
+        event_tnn_uschi01
+        event_tnn_uschi02
+        event_tnn_toilet01
+        event_tnn_sviatoslav01
+        event_tnn_sviatoslav02
+        event_tnn_absalom01
+        event_tnn_bethunia01
+        event_tnn_brandingSequence
+        event_tnn_cow01
+        event_tnn_crosswordguys01
+        event_tnn_crosswordguys02
+        event_tnn_dancer01
+        event_tnn_doris01
+        event_tnn_doris02
+        event_tnn_amalberga01
+        event_tnn_amalberga02
+        event_tnn_eric01
+        event_tnn_eric02
+        event_tnn_gormlaith01
+        event_tnn_hildeburga01
+        event_tnn_hildeburga02
+        event_tnn_juicebox01
+        event_tnn_ladder02
+        event_tnn_lugner01
+        event_tnn_lugner02
+        event_tnn_lugner03
+        event_tnn_firas01
+        event_tnn_fruitbasket01
+        event_tnn_gateguard01
+        event_tnn_poster01
+        event_tnn_pvtMadison01
+        event_tnn_rItkonen01
+        event_tnn_naoko01
+        
+    Skipped:
+        event_tnn_wordlock01
+        event_tnn_gunsalesman
+        
+    Unscripted:
+       event_tnn_drLiu01
+       event_tnn_animeBulldog01
+       event_tnn_govIntro01
+       
+    Delete?
+        event_tnn_wordlock_chest01
+        event_tnn_toilet
+        event_tnn_sanchez
+        event_tnn_cornrow02
+        event_tnn_cornucopia01
+        event_tnn_guiseppe01
+        event_tnn_guiseppe02
+        event_tnn_gutterhound_walk_01
+        event_tnn_gutterhound02
+        event_tnn_gutterhound03
+        event_tnn_kindermann
+        event_tnn_ooze02
+        event_tnn_ooze03
+        event_tnn_ooze04
+   
+-------------------------------------------------
+Wasteland:
+    Scripted:
+        event_dz1_vercingetorix01
+            changed event state variable "vercingetorix" to quest variable "vercingetorixState"
+        event_dz1_suzu01
+            changed event state variable "suzu" to quest variable "suzuState"
+        event_dz1_suresh01
+            changed event state variable "suresh" to quest variable "sureshState"
+        event_dz1_rutherford01
+            changed event state variable "rutherford" to quest variable "rutherfordState"
+        event_dz1_rudolph01
+            changed event state variable "rudolph" to quest variable "rudolphState"
+        event_dz1_ronald01  
+            changed event state variable "ronald" to quest variable "ronaldState"
+        event_dz1_ramona01
+            changed event state variable "ramona" to quest variable "ramonaState"
+        event_dz1_radu01
+            changed event state variable "radu" to quest variable "raduState"
+        event_dz1_jedidiah01
+            changed event state variable "jedidiah" to quest variable "jedidiahState"
+        event_dz1_nico01
+            changed event state variable "nico" to quest variable "nicoState"
+        event_dz1_milia01
+            changed event state variable "milia" to quest variable "miliaState"
+        event_dz1_masego01
+            changed event state variable "masego" to quest variable "masegoState"
+        event_dz1_malmfrid01
+            changed event state variable "malmfrid" to quest variable "malmfridState"
+        event_dz1_lonnie01
+            changed event state variable "lonnie" to quest variable "lonnieState"
+        event_dz1_lagertha01
+            changed event state variable "lagertha" to quest variable "lagerthaState"
+        event_dz1_kunigunde01
+            changed event state variable "kunigunde" to quest variable "kunigundeState"
+        event_dz1_ilme01
+            changed event state variable "ilme" to quest variable "ilmeState"
+        event_dz1_hentaiCarl01
+            changed event state variable "hentaiCarl" to quest variable "hentaiCarlState"
+        event_dz1_hectorsDog01
+            changed event state variable "hectorsDog" to quest variable "hectorsDogState"
+        event_dz1_hector01
+            changed event state variable "hector" to quest variable "hectorState"
+        event_dz1_grigor01
+            changed event state variable "grigor" to quest variable "grigorState"
+        event_dz1_gorandukht01
+            changed event state variable "gorandukht" to quest variable "gorandukhtState"
+        event_dz1_gaspar01
+            changed event state variable "gaspar" to quest variable "gasparState"
+        event_dz1_garfield01
+            changed event state variable "garfield" to quest variable "garfieldState"           
+        event_dz1_euler01
+            changed event state variable "euler" to quest variable "eulerState"
+        event_dz1_darkDraker01
+            changed event state variable "darkDraker" to quest variable "darkDrakerState"
+        event_dz1_bothild01
+            changed event state variable "bothild" to quest variable "bothildState"
+        event_dz1_bernice01
+            changed event state variable "bernice" to quest variable "berniceState"
+        event_dz1_banquo01
+            changed event state variable "banquo" to quest variable "banquoState"
+        event_dz1_alice01
+            changed event state variable "alice" to quest variable "aliceState"
+      
+    Unchanged:
+        event_dz1_moriarty01
+        event_dz1_clive01
+        
+    Unscripted:
+        event_dz1_ziusudra01
+        event_dz1_sepideh01
+        event_dz1_ooze01
+        event_dz1_irmingard01
+        event_dz1_elise01
+        event_dz1_clispaethStatue01
+        event_dz1_brimble01
+        event_dz1_boris01
+        event_wst_elderZenobia01
+        event_wst_rumi01
+        event_wst_pythagoras01
+        event_wst_knightFabian
+-------------------------------------------------       

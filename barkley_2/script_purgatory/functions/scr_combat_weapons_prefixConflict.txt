@@ -1,0 +1,14 @@
+/// scr_combat_weapons_prefixConflict(affix1,affix2)
+
+var _affix1,_affix2;
+_affix1 = argument0;
+_affix2 = argument1;
+
+////this script will figure out what to do when two patterns are mixed.
+////will return the resulting pattern, which may be the "stronger" of the two
+////or a combination of the two patterns into a special third.
+////in the event both patterns are not combinable, the script returns -1,
+////so the code will 
+
+////for now ill just make return -1 always.
+return -1;

@@ -1,0 +1,16 @@
+/*
+// scr_dilapidated_get_room(tenant)
+
+// returns the room number of a tenant, from 1 to 3
+// returns 0 if the tenant is not in a room
+
+global.supergrid = scr_savedata_get("supergrid");
+
+var i;
+var rnum = 0;
+for (i = 0; i < ROOMS_TOTAL || rnum = 0; i++) {
+    if (supergrid[| RP * i] == argument0) {
+        rnum = i + 1;
+    }
+}
+return rnum;

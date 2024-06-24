@@ -1,0 +1,33 @@
+// scr_frog_quiz
+/*
+switch (argument0) {
+    case 0:
+        scr_event_build_dialogue_debug("bort", NULL, "DOES NOT EXIST. ENDING EVENT.");
+        scr_event_build_end();
+        break;
+    case 1:
+        scr_event_build_dialogue_debug("bort", NULL, "The 1st frog kid quiz.");
+        break;
+    case 2:
+        scr_event_build_dialogue_debug("bort", NULL, "The 2nd frog kid quiz.");
+        break;
+    case 3:
+        scr_event_build_dialogue_debug("bort", NULL, "The 3rd frog kid quiz.");
+        break;
+    case 4:
+        scr_event_build_dialogue_debug("bort", NULL, "The 4th frog kid quiz.");
+        break;
+    case 5:
+        scr_event_build_dialogue_debug("bort", NULL, "The FINAL frog kid quiz.");
+        break;
+}
+var right1 = scr_event_build_choice("Did you get it right?", s_port_hoopz);
+with (scr_event_build_add_choice(right1, "Yep."))
+{
+    scr_event_build_quest_state("frogAnswer", 2);
+}
+with (scr_event_build_add_choice(right1, "Nope."))
+{
+    scr_event_build_quest_state("frogAnswer", 1);
+}
+scr_event_build_execute_event_script(event_swp_frogKid01);

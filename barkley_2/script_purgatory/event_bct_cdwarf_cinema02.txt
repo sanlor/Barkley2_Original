@@ -1,0 +1,45 @@
+// This is the new INTERACT CONVERSATION with Cyberdwarf after blowing up Oligarchy Online
+/*if argument0 = SCRIPT_INTERACT {
+    var cybderdwarf = id;
+    var event = scr_event_create_main(event);
+    
+    with event {
+        
+        // Choosing Hoopz' Identity //
+        scr_event_build_dialogue("Determined Youngster", s_port_hoopzAngry, "Listen, Cyberdwarf. I don't know who I am or why I'm here, but I know this: if I don't stop Cuchulainn, I and every dwarf on this ship are getting a one-way ticket to Hec-... to Hell.");
+        scr_event_build_animation_set(o_cdwarfHead01, "talk");
+        scr_event_build_dialogue("Cyberdwarf", NULL, "I see. Cuchulainn has made his intentions apparent to you. Without you, we are all doomed. But you are wrong about one thing...");
+        scr_event_build_wait_for_actions();
+        scr_event_build_animation_set(o_cdwarfHead01, "idle");
+        scr_event_build_dialogue("Determined Youngster", s_port_hoopzAngry, "Huh?");
+        scr_event_build_animation_set(o_cdwarfHead01, "talk");
+        scr_event_build_dialogue("Cyberdwarf", NULL, "You DO know who you are. Tell me, child... who are you?");
+        scr_event_build_wait_for_actions();
+        scr_event_build_animation_set(o_cdwarfHead01, "idle");
+        scr_event_build_dialogue_debug("bhroom", NULL, "Add in the IDENTITY CHOOSER MINIGAME.  This will be a ticket and include all the things pertinent to character creation.");
+        scr_event_build_create_object(o_mg_identity, 0, 0);
+        
+        // TEMPORARY SOLUTION BELOW:
+        /*var identity_choice = scr_event_build_choice("Who am I?", s_port_hoopz);
+        with (scr_event_build_add_choice(identity_choice, "Hoopz Barkley")) {
+            scr_event_build_quest_state("playerHoopz", 1);
+            scr_event_build_quest_state("playerName", "Hoopz");
+            scr_event_build_quest_state("playerNameShort", "Hoopz");
+            scr_event_build_quest_state("playerNameFull", "Hoopz Barkley");
+        }
+        //TODO: connect this to the Character Creation
+        with (scr_event_build_add_choice(identity_choice, "Chad Bumppo (character creation name)")) {
+            scr_event_build_quest_state("playerCC", 1);
+            scr_event_build_quest_state("playerName", "Chad Bumppo");
+            scr_event_build_quest_state("playerNameShort", "Chad");
+            scr_event_build_quest_state("playerNameFull", "Chad Bumppo");
+        }
+        scr_event_build_quest_state("playerX1", 0);
+        scr_event_build_quest_state("cdwarfJoined", 1);
+        scr_event_build_quest_state("cdwarfPresent", 1);
+        scr_event_build_quest_state("cdwarfCinema", 8);
+        scr_event_build_execute_event_script(event_bct_cdwarf_cinema01);   */
+        // END OF TEMP SOLUTION
+/*    }
+    scr_event_advance(event);        
+}

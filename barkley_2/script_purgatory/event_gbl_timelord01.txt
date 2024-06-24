@@ -1,0 +1,101 @@
+// This is the Time Lord, you can set him to whatever time you'd like it to be..
+// OLD COMMENT SAID: changed a word or two and added string() around the scr_time_get() function, which might be necessary, idk.
+
+if (argument0 == SCRIPT_INTERACT)
+{
+    var timelord = id;
+    
+    var event = scr_event_create_main();
+    var choice_snippet = scr_event_create_child(event);
+    var clear_snippet = scr_event_create_child(event);
+    
+    with (event)
+    {
+        var note = Note("selected");
+        Note("selected", "");
+        if (note != "")
+        {
+            if (note == "exit")
+            {
+                Dialogue("Tillious", "Ok nvm then... a EXIT it is...");
+                Execute(event_gbl_timelord01);
+            }
+            else if (note == "none")
+            {
+                Dialogue("Tillious", "Ok nvm then... a NONE it is...");
+                Execute(event_gbl_timelord01);
+            }
+            else
+            {
+                DialogueItem("Gave Timelord the " + note + ".");
+                if (irandom(1) == 1)
+                {
+                    Dialogue("Timalto", "Wow... thanks for the " + note + " pal... I'll take it");
+                    Note("give", note);
+                }
+                else
+                {
+                    Dialogue("Timalto", note + " huh??? Don't care for it, excluded! Notes are auto-excluded when given to a person.");
+                    DialogueItem("Timelord returned the " + note + "!");
+                }
+                Execute(event_gbl_timelord01);
+            }
+        }
+        
+        var time_choice = Choice("What gives?");
+        
+        var doz = ChoiceAdd(time_choice, "View your held notes.");
+        with (doz)
+        {
+            Note("build", "viewer");
+        }
+        
+        var dox = ChoiceAdd(time_choice, "Give Timelord a note.");
+        with (dox)
+        {
+            Note("build", "select", "Timelord");
+        }
+        
+        // Get All Letters
+        var all_letters = ChoiceAdd(time_choice, "Get all letters.");
+        with (all_letters)
+        {
+            for (i = 0; i < ds_list_size(global.noteList); i += 1)
+            {
+                Note("build", "take", ds_list_find_value(global.noteName, i));
+            }
+
+            Dialogue("Tudley", "Done & dasted.");
+            Execute(event_gbl_timelord01);
+        }
+        
+        // Just get a few letters
+        var type = ChoiceAdd(time_choice, "Get a normal assortment of letters.");
+        with (type)
+        {
+            for (i = 0; i < ds_list_size(global.noteList); i += 1)
+            {
+                if (random(100) < 50) Note("build", "take", ds_list_find_value(global.noteName, i));
+            }
+            Dialogue("Timmlon", "Done.");
+            Execute(event_gbl_timelord01);
+        }
+        
+        // Clear all notes
+        var throwaway = ChoiceAdd(time_choice, "Discard all notes AND exclusions.");
+        with (throwaway)
+        {
+            Note("build", "clear");
+            Dialogue("Timmlon", "Done.");
+            Execute(event_gbl_timelord01);
+        }
+
+        // Leave
+        var leave = ChoiceAdd(time_choice, "Get me out of here.");
+        with (leave)
+        {
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

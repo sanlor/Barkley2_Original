@@ -1,0 +1,60 @@
+// Prison Courtyard NPC script for the dwarf prisoner Gar. He is a master storyteller.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var gar = id;
+    var event = scr_event_create_main();
+    var DayOver = scr_event_create_child(event);
+    with DayOver {
+        scr_event_build_dialogue("Loudspeaker", NULL, "Attention please! All inferior lifeforms not scheduled for afternoon activities, please report to the courtyard entrance.\All those scheduled for torture, please form a queue behind the silver line.\And all those scheduled for execution, please remain where you are, someone will come to pick you up.\Thanks, and have an awful day.");
+        Quest("prisondayoverState", 0);
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC NOTE: The screen should fade to black and the player is teleported to a cinematic showing them being led back to their cell.\This snippet is identical for all the NPCs in the prison courtyard. If you're seeing this now, you're on your way back to your prison cell, buster.");
+        // CINEMATIC NOTE: This is where the player is teleported back to their cell for the day. After a fade to black, this event should link to the brief cinematic of the player being led to their jail cell.
+        scr_event_build_end();
+    }
+
+    with (event) {
+        if (Quest("garState") == 3) {
+            scr_event_build_dialogue("Gar", NULL, "I_________ h_________a_________v_________e_________ n_________o_________t_________h_________i_________n_________g_________ m_________o_________r_________e_________ t_________o_________ s_________a_________y_________ t_________o_________ y_________o_________u_________.");
+            scr_event_build_end();
+        } else if (Quest("garState") == 2) {
+            QuestAdd("prisondayoverState", 1);
+            scr_event_build_dialogue("Gar", NULL, "O_________n_________e_________ d_________a_________y_________ t_________h_________e_________ h_________o_________r_________s_________e_________ o_________f_________ C_________a_________r_________l_________o_________s_________ d_________i_________e_________d_________.");
+            Dialogue(P_NAME, "Ok. Well, that's a relief, I guess. At least it only took one day for the horse to die.\Dying is really taxing stuff. Getting it all out of the way in one day is the way to do it, I think.");
+            scr_event_build_dialogue("Gar", NULL, "A_________n_________d_________ C_________a_________r_________l_________o_________s_________ n_________o_________ l_________o_________n_________g_________e_________r_________ h_________a_________d_________ t_________h_________e_________ p_________r_________e_________t_________t_________i_________e_________s_________t_________ h_________o_________r_________s_________e_________.");
+            Dialogue(P_NAME, "Cool, ok.\You know, I kinda liked this story. It was really easy to follow. It was.........\Eh.........");
+            scr_event_build_wait(3);
+            Dialogue(P_NAME, "It was a story about a horse, I guess. That's saying something. That's more than you can say about a story that isn't about a horse.");
+            scr_event_build_dialogue("Gar", NULL, "I_________ h_________a_________v_________e_________ n_________o_________t_________h_________i_________n_________g_________ m_________o_________r_________e_________ t_________o_________ s_________a_________y_________ t_________o_________ y_________o_________u_________.");
+            Dialogue(P_NAME, "Yeah, ok. Thanks for the story.");
+            scr_event_build_dialogue("Gar", NULL, "D_________o_________n_________'t_________ m_________e_________n_________t_________i_________o_________n_________ i_________t_________.");
+            Quest("garState", 3);
+            if (Quest("prisondayoverState") == 3) {
+                Snippet(DayOver);
+            }
+            scr_event_build_end();
+        } else if (Quest("garState") == 1) {
+            QuestAdd("prisondayoverState", 1);
+            scr_event_build_dialogue("Gar", NULL, "C_________a_________r_________l_________o_________s_________ h_________a_________d_________ t_________h_________e_________ p_________r_________e_________t_________t_________i_________e_________s_________t_________ h_________o_________r_________s_________e_________. C_________a_________r_________l_________o_________s_________ w_________o_________u_________l_________d-");
+            Dialogue(P_NAME, "Do you think I need a haircut?\I think I need a haircut. I'm getting shaggy.");
+            scr_event_build_dialogue("Gar", NULL, "-n_________e_________v_________e_________r_________ t_________a_________k_________e_________ n_________o_________ f_________o_________r_________ a_________n_________ a_________n_________s_________w_________e_________r_________ w_________h_________e_________n_________ i_________t_________ c_________a_________m_________e_________ t_________o_________ h_________i_________s_________ h_________o_________r_________s_________e_________.");
+            Dialogue(P_NAME, "All right.");
+            Quest("garState", 2);
+            if (Quest("prisondayoverState") == 3) {
+                Snippet(DayOver);
+            }
+            scr_event_build_end();
+        } else {
+            scr_event_build_dialogue("Gar", NULL, "T_________h_________e_________r_________e_________ o_________n_________c_________e_________ w_________a_________s_________ a_________ m_________a_________n_________ n_________a_________m_________e_________d_________ C_________a_________r_________l_________o_________s_________ w_________h-");
+            Dialogue(P_NAME, "If there was a man named Carlos, I'm sure I would have heard about it.");
+            Quest("garState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

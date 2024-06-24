@@ -1,0 +1,22 @@
+// Event script for encountering Kawasaki after the Aloysius sequence. This is Event 10 of my Prison Break design document.
+/*
+if (argument0 == SCRIPT_START) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var kawasaki = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("prisonQuest") == 7) {
+            scr_event_build_dialogue("Kawasaki", NULL, "Wondered where you got off to. Did ya find what you were looking........\.......\You didn't do that to him, did ya?");
+            Dialogue(P_NAME, "No!");
+            scr_event_build_dialogue("Kawasaki", NULL, "I ain't one to judge, I reckon. Just ain't the model of hospitality.\So I come all this way to give you a warning.");
+            Dialogue(P_NAME, "What is it? Is something wrong? Did something happen?");
+            scr_event_build_dialogue("Kawasaki", NULL, "It looks to me like the universe is collapsing. Best get your gun's ready.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Kawasaki runs ahead of the player. He disappears once off-screen.");
+            // CINEMATIC TODO: Kawasaki runs ahead of the player. He disappears once off-screen.
+            Quest("prisonQuest", 8);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

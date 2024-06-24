@@ -1,0 +1,428 @@
+/// Note(build [optional], take / give / have / selected / exclude / viewer / select / gallery / identity)
+
+// Note("take", note); <---- Gives hoopz a note
+// Note("give", note); <---- Hoopz will lose this note
+// Note("have", note); <---- Returns if Hoopz has that note
+
+// Note("selected")            <-- Returns last selected note, "exit" is exit, "none" is no notes
+// Note("exclude", "milagros", Note("selected")); <--- Excludes last selected note from Milagros (This is done AUTOMATICALLY)
+// Note("include", "milagros", "Blank Paper"); <--- Includes Blank Paper to Milagros (if already excluded)
+
+// BRINGING UP THE MENU
+// Note("viewer")              <-- Invoke the note viewer
+// Note("select", "milagros")  <-- Invoke the note selector
+// Note("gallery", "goofster") <-- Invoke the gallery
+// Note("identity")            <-- Invoke identity chooser
+
+// DEBUG FUNCTIONS
+// Note("clear")               <-- Clears all notes from inventory, and all exclusions from people
+// Note("exists")              <-- Checks if note with the given name exists in the DB
+
+// ALL COMMANDS IN NOTE CAN BE SET TO BUILD BY SIMPLY DOING...
+// Note("build", "gallery", "goofster");
+
+if (is_real(argument[0])) // This is the ACTION event, don't touch.
+{
+    var siz = ds_list_size(argument[0]) - 1;
+    if (siz == 1) Note(ds_list_find_value(argument[0], 1));
+    if (siz == 2) Note(ds_list_find_value(argument[0], 1), ds_list_find_value(argument[0], 2));
+    if (siz == 3) Note(ds_list_find_value(argument[0], 1), ds_list_find_value(argument[0], 2), ds_list_find_value(argument[0], 3));
+    if (siz == 4) Note(ds_list_find_value(argument[0], 1), ds_list_find_value(argument[0], 2), ds_list_find_value(argument[0], 3), ds_list_find_value(argument[0], 4));
+    if (siz == 5) Note(ds_list_find_value(argument[0], 1), ds_list_find_value(argument[0], 2), ds_list_find_value(argument[0], 3), ds_list_find_value(argument[0], 4), ds_list_find_value(argument[0], 5));
+    if (siz == 6) Note(ds_list_find_value(argument[0], 1), ds_list_find_value(argument[0], 2), ds_list_find_value(argument[0], 3), ds_list_find_value(argument[0], 4), ds_list_find_value(argument[0], 5), ds_list_find_value(argument[0], 6));
+    scr_event_advance(id);
+    return 1;
+}
+else if (argument[0] == "db") // @@@@@ SET THE VALUES FOR ART, NOTES, AND CHARACTERS HERE @@@@@ //
+{
+    // NOTES - Note("add note", subimage, name, sound)
+    // Baldomero
+    Note("add note", 0, "Blank Paper", "sn_mnu_noteFlipLight01", "BAK|s_tnn_papers|0");
+    Note("add note", 1, "Suicide Note", "sn_mnu_noteFlipMedium01", "BAK|s_tnn_papers|0~STR|Suicide Note|-35|-2|0|16777215|1");
+    Note("add note", 2, "Augustine's Note", "sn_mnu_noteFlipMedium01", "BAK|s_tnn_papers|0~STR|Augustine's Note|-35|-2|0|16777215|1");
+    Note("add note", 3, "Carlton's Note", "sn_mnu_noteFlipMedium01", "BAK|s_tnn_papers|0~STR|Carlton's Note|-35|-2|0|16777215|1");
+    // Joad
+    Note("add note", 3, "Tattered Paper", "sn_mnu_noteFlipLight01", "BAK|s_tnn_papers|4~STR|0501 - commence sortie|-134|-63|6|10092545|1~STR|0613 - waypoint BRAVO rea- \       hostiles neutralized|-134|-49|6|10027013|1~STR|0735 - waypoint DEBRA, \       McGillycuddy took\       shrapnel to the hams|-133|-25|6|10223620|1~STR|0747 - EVAC requested|-135|9|6|10223620|1~STR|0756 - unknown entity appro|-134|24|6|10223620|1");
+    Note("add note", 3, "Ancient Scroll", "sn_mnu_noteFlipMedium01", "BAK|s_tnn_papers|4~STR|THIS IS THE ANCIENT SCROLL\AND AT SOME POINT SHOULD HAVE\A SECRET WITHIN IT'S CONTENTS|-121|-59|0|214015|1~STR|IT SHOULD HAVE  AN IN-GAME CYPHER\OR SOMETHING TO\DETERMINE THE SECRET|-121|2|0|17406|1");
+    Note("add note", 3, "Dead Soldier's Note", "sn_mnu_noteFlipMedium01", "BAK|s_tnn_papers|4~STR|0501 - commence sortie|-133|-63|6|10092545|0.27~STR|0613 - waypoint BRAVO rea- \       hostiles neutralized|-135|-49|6|10027013|0.34~STR|0735 - waypoint DEBRA, \       McGillycuddy took\       shrapnel to the hams|-134|-25|6|10223620|0.23~STR|0747 - EVAC requested|-135|9|6|10223620|0.30~STR|0756 - unknown entity appro|-134|23|6|10223620|0.42~STR|MISSION COMPRIMISED|-105|-33|1|254|1~STR|BAINSHEE ATTACK|-92|-11|1|435|1~STR|REPORTING: SGT. -|-50|50|1|65716|1~STR|WAYPOINT DEBRA SEALED\CASUALTIES 80%|-108|9|1|65716|1~STR|KEYCODE|52|-62|0|254|1");
+    Note("add note", 4, "Joad's Note", "ssn_mnu_noteFlipMedium01", "BAK|s_tnn_papers|4~STR|0501 - commence sortie|-133|-63|6|10092545|0.27~STR|0613 - waypoint BRAVO rea- \       hostiles neutralized|-135|-49|6|10027013|0.34~STR|0735 - waypoint DEBRA, \       McGillycuddy took\       shrapnel to the hams|-134|-25|6|10223620|0.23~STR|0747 - EVAC requested|-135|9|6|10223620|0.30~STR|0756 - unknown entity appro|-134|23|6|10223620|0.42~STR|MISSION COMPRIMISED|-108|-33|1|254|1~STR|BAINSHEE ATTACK|-96|-12|1|435|1~STR|REPORTING: SGT. JOAD, LONGINUS|-50|50|1|65716|1~STR|WAYPOINT DEBRA SEALED\CASUALTIES 80%|-107|9|1|65716|1~STR|--- 100%|-39|27|1|254|1~STR|KEYCODE|53|-62|0|590760|1");
+    Note("add note", 5, "Bloody Paper", "sn_mnu_noteFlipMedium01", "BAK|s_tnn_papers|5~STR|     - commence sortie|-133|-63|6|16475493|1~STR|       way   nt BRAVO rea- \       ho   les neu     zed|-133|-49|6|16777027|0.31~STR|   5 -    poi   DEBRA, \       Mc illy  ddy     \       shrapnel t   h|-132|-24|6|10223620|1~STR|0747 - EVAC requested|-135|10|6|16672102|0.17~STR|07   - unknown en   y|-135|24|6|10223620|0.27");
+    // Anxo
+    Note("add note", 6, "Sealed Letter", "sn_mnu_noteFlipHeavy01", "BAK|s_tnn_papers|6");
+    Note("add note", 7, "Unsealed Letter", "sn_mnu_noteFlipHeavy01", "BAK|s_tnn_papers|7~STR|My dearest,|-11|-88|9|13657769|1~STR| I wade through the muck and|-3|-55|8|16672102|1~STR| sludge for thee, guided not by|-17|-42|8|16672102|1~STR|the light of my torch, but by the |-15|-28|8|13657701|1~STR|internal compass of our love.|-13|-13|8|10249959|1~STR|Mine heart longs for your gentle|-14|1|8|16672102|1~STR|touch, and I also yearn for your|-14|15|8|16672102|1~STR|prize-winning chicken salad.|-14|30|8|16672102|1~STR|Prepare yourself, and some salad,|-13|46|8|13788773|1~STR|for my return.|-12|60|8|16672102|1~STR|You'res truly,|-7|74|9|13657769|1~STR|- A|110|85|9|13657769|1");
+    // Eric
+    Note("add note", -1, "Pet Shop Application", "sn_mnu_noteFlipLight01", "BAK|s_tnn_papers|9");
+    Note("add note", -2, "Completed Application", "sn_mnu_noteFlipMedium01", "BAK|s_tnn_papers|9");
+    Note("add note", 11, "Pet Manifesto", "sn_mnu_noteFlipHeavy01", "BAK|s_tnn_papers|11~STR|Pet Manifesto|-43|-4|7|16777215|1");
+    Note("add note", 11, "Pet Apocrypha", "sn_mnu_noteFlipHeavy01", "BAK|s_tnn_papers|11~STR|Pet Apocrypha|-43|-4|7|16777215|1");
+    // Standalone notes
+    Note("add note", 8, "Gamesmasterjasper's Vidcon Almanac", "sn_debug_one", "BAK|s_tnn_papers|8"); // VR Chair
+    Note("add note", 10, "Printed Note", "sn_mnu_noteFlipLight01", "BAK|s_tnn_papers|10~STR|Fede's Receipt|-48|-65|0|16777215|1");
+    Note("add note", 11, "Cornrow's Note", "sn_mnu_noteFlipLight01", "BAK|s_tnn_papers|11~STR|X1, this is an emergency.\We've been captured by our\enemies and need you to break\us out. I need to keep this short\'cuz they're getting suspicious.\I've left a gun for you underneath\this crate. Take it and break us\out of here - for the love of\Clispaeth, save us! I can hear\them torturing Juicebox!\Oh Clispaeth his screams\are terrible.\I'm sorry about all those\terrible things we made you do!\Please help us, I'm begg-|-93|-86|13|16776516|1");
+    Note("add note", 12, "Clandestine Courts Baller Zine", "sn_mnu_noteFlipHeavy01", "BAK|s_tnn_papers|12"); // Baller Zine
+    Note("add note", 13, "Wilmer's Amortization Schedule", "sn_mnu_noteFlipLight01", "BAK|s_tnn_papers|13~STR|By Holy Supreme and\Regnant Decree of\  Lord Emperor Cuchulainn|-68|-50|3|3355344|1~STR|It is hereby known to\Dwarfkin and Duergar alike\\That        \\of           ,\is duly charged with\remittance to The\Resplendent Coffers of\President Cuchulainn,\the value of\\      Cuchu-Bucks\or current equivalent\neuroshekels.\\Due upon the reading\of this decree.|-70|-22|3|0|1~STR|Mr. Wilmer|-45|-5|11|16646144|1~STR|Tir na nOg|-50|9|8|16515328|1~STR|45,936|-66|58|11|16646144|1");
+    Note("add note", 8, "Aelfleda's Eviction", "sn_debug_one", "BAK|s_tnn_papers|13~STR|By Holy Supreme and\Regnant Decree of\  Lord Emperor Cuchulainn|-68|-50|3|3355344|1~STR|As your first and final\notice, The Tir na nOg\Department of Population\and Housing hereby evicts\your sorry ass and\sentences you to a miser-\able existence in the Sewer\in Accordance with\Section 1 Article 3 of the\Dwarf Codes.\\Eviction is in effect when\this ink dries.|-70|-16|3|0|1~STR|Eviction can be postponed\with a payment of |-71|80|3|0|1~STR|Aelfleda (homeowner),|-63|-28|8|16515328|1~STR|10,560|31|88|8|16646144|1~STR|Cuchubucks.|-71|95|3|0|1");
+    
+    //Pravda Tir na nOg
+    Note("add note", 14, "Pravda Tir na nOg", "sn_debug_one", "BAK|s_tnn_papers|14~STR|Yesterday's News for the forward-thinking dwarf.|-131|-89|3|0|1~STR|Find us online.|-146|-43|3|0|1~STR|YEAR: 666X, Day:|70|-42|3|0|1~STR|TIR NA NOG, N7 – All dwarven eyes\turn to the citys central mansion\today as new Tir na nOg Governor\Decree, Elagabalus assumes office.\Elagabalus,   who  served   with\distinction as the Mountain Prison\Operational  Warden, claims  he\“watches  city budgets  like  [he]\watches jailbirds rotting in their\cells”, adding that that he “bleeds\blue for  Cuchulainn.  He  also\added, /'Men, women  and children\mess their shorts when they hear”|-143|-3|3|0|1~STR|IF THE /'GOV/' FITS|-143|-24|1|0|1");
+    Note("add note", 14, "Deciphered Pravsa", "sn_debug_one", "BAK|s_tnn_papers|14~STR|Yesterday's News for the forward-thinking dwarf.|-131|-89|3|0|1~STR|Find us online.|-146|-43|3|0|1~STR|YEAR: 666X, Day:|70|-42|3|0|1~STR|TIR NA NOG, N7 – All dwarven eyes\turn to the citys central mansion\today as new Tir na nOg Governor\Decree, Elagabalus assumes office.\Elagabalus,        served   with\distinction as the Mountain Prison\Operational  Warden, claims  he\“         city budgets  like  [he]\watches jailbirds rotting in their\cells”, adding that that he “bleeds\     for  Cuchulainn.  He  also\added, /''   , women  and children\mess their shorts when they hear”|-143|-3|3|0|1~STR|IF THE /'GOV/' FITS|-143|-24|1|0|1~STR|who|-71|23|2|254|1~STR|watches|-142|44|2|254|1~STR|blue|-140|65|2|254|1~STR|Men|-93|72|2|254|1");
+    
+    // PEOPLE YOU CAN GIVE NOTES TO, USE THEIR NAME TO INVOKE THEM WITH Note("select", birgit")
+    Note("add person", "Timelord", "TIMELORD NOTE", event_gbl_timelord01);
+    Note("add person", "Milagros", "Hand Over What Scoop...?", event_tnn_milagros01);
+    Note("add person", "Gelasio", "UNKNOWN", event_tnn_gelasio01);
+    Note("add person", "Birgit", "Deliver What Letter...?", event_tnn_birgitDoor01);
+    Note("add person", "Cuthbert", "Submit Which Application...?", event_tnn_cuthbert01);
+    Note("add person", "Absalom", "Turn In What Intel...?", event_tnn_absalom01);
+    Note("add person", "Vikingstad", "Give Which Paperwork...?", event_tnn_vikingstad01);
+    Note("add person", "Dying Dwarf", "A piece of paper for him?", event_sw1_joad01);
+    
+    // ART GALLERY - Note("add art", subimage, name, description)
+    Note("add art", 0, "Goofster", "Goofsters are tall and slender creatures most well known for their supernatural hardy constitution. ##While Goofsters are considered to be benevolent, social creatures, they are rarely, if ever, seen among their kin. Instead they prefer the company of sentient mallards and rats. ##Goofsters live and thrive in ancient subterranean ruins but are highly susceptible to microwave tunnels.");
+    Note("add art", 1, "Slender Man", "Slender Men are the cursed offspring of a forgotten Mesopotamian King. They are born without a face and as such are forever plagued by an unsatiable hunger. ##The dark magicks that run in their veins makes them immortal, which rather than being a divine blessing only serves to prolong their suffering. These conditions make the Slender Men weak and malnourished, hence their name.");
+    Note("add art", 2, "Drakescorned", "The Drakescorned are a noble subgenus of orc who shun the use of all nunchucks. ##Versed in asceticism, the Drakescorned live in secluded mountain monasteries where they train their minds and bodies to deflect bows and arrows. ##As their name implies, they recieve a -2 penalty to all drake-based skill checks but more than make up for it with high level juggling. ##The Drakescorned are known for their elaborate wicker baskets.");
+    Note("add art", 3, "Sergal", "Sergals are the mystical offspring of highborne elves and werewolves. They are worshipped in many cultures almost exclusively as benevolent deities protecting the realm. ##All Sergals have a pathological fear of ghosts, and they try to avoid ancient ruins and graveyards any way they can.");
+    Note("add art", 4, "Geldrach", "Geldrachs are a very common barnyard animal found on many traditional farms. They are a genetically engineered species that are bred for the sole purpose of being cattle, and on some more rare occasions, for their milk. ##They are easily identifiable by their mixture of black and brown fur.");
+    Note("add art", 5, "Dire Juggler", "Dire Juggler are distant cousins of more well known species, Jugglers. Isolated and imprisoned onto a distant island during the events of The Second Cudgel War the Firstborne Jugglers slowly changed to a more dire existence. ##To this day not much else is known about the Dire Jugglers, but their recent resurgence aligns with the prophecy of the end times.");
+    Note("add art", 6, "Hellmonster", "Hellmonster are considered to be one of the most formidable demons of Hell, and their high position in the demon hierarchy supports this viewpoint. They use devastating Hell Magicks to battle their foes and have the ability to conjure Illiorchs Infernal Worms without spending any magicpoints. ##Hellmonsters are archenemies with Sporelips and Elder Stardusters.");
+    Note("add art", 7, "Mujahoudini", "The Mujahoudini are desert dwelling mystics who live solely to entertain people with their crazy stunts and daring feats. ##Not much is known about their day to day existence, but many rumours suggest that the Mujahoudini do not eat, drink or sleep, but rather spend every waking moment honing their art and protecting their oil.");
+}
+else if (argument[0] == "include") // Note("include", name, note)
+{
+    var qst = "note_exclude_" + string_lower(argument[1]);
+    if (is_real(scr_quest_get_state(qst))) scr_quest_set_state(qst, ""); // Clear if exclusion doesn't exist
+    var txt = string_replace_all(scr_quest_get_state(qst), argument[2] + "|", "");
+    scr_quest_set_state(qst, txt);
+    show_debug_message("Note('exclude') - " + argument[1] + " excludes are now... " + txt);
+}
+else if (argument[0] == "exclude") // Note("exclude", name, note)
+{
+    if (argument[2] == "exit" || argument[2] == "none") return -1;
+    var qst = "note_exclude_" + string_lower(argument[1]);
+    if (is_real(scr_quest_get_state(qst))) scr_quest_set_state(qst, ""); // Clear if exclusion doesn't exist
+    var txt = scr_quest_get_state(qst) + argument[2] + "|";
+    scr_quest_set_state(qst, txt);
+    show_debug_message("Note('exclude') - " + argument[1] + " excludes are now... " + txt);
+}
+else if (argument[0] == "selected")
+{
+    if (argument_count == 1) return global.noteSelected;
+    else global.noteSelected = argument[1];
+}
+else if (argument[0] == "exists")
+{
+    if (ds_list_find_index(global.noteList, argument[1]) == -1) return 0; else return 1;
+}
+else if (argument[0] == "have")
+{
+    if (Note("exists", argument[1]) == 0) { show_message("WARNING: You are checking to see if you have a note that doesn't exist."); return -1; }
+    return scr_quest_get_state("note_have_" + string_lower(argument[1]));
+}
+else if (argument[0] == "take")
+{
+    if (Note("exists", argument[1]) == 0) { show_message("WARNING: You are taking a note that doesn't exist."); return -1; }
+    if (Note("have", argument[1]) == 1) { show_message("WARNING: You are taking a note you already have."); return -1; }
+    scr_quest_set_state("note_have_" + string_lower(argument[1]), 1);
+}
+else if (argument[0] == "give")
+{
+    if (Note("exists", argument[1]) == 0) { show_message("WARNING: You are giving a note that doesn't exist."); return -1; }
+    if (Note("have", argument[1]) == 0) { show_message("WARNING: You are giving a note you don't have."); return -1; }
+    scr_quest_set_state("note_have_" + string_lower(argument[1]), 0);
+}
+else if (argument[0] == "clear") // Clear all notes and exclusions
+{
+    for (var i = 0; i < ds_list_size(global.noteList); i += 1)
+    {
+        scr_quest_set_state("note_have_" + string_lower(ds_list_find_value(global.noteName, i)), 0);
+    }
+    for (var i = 0; i < ds_list_size(global.personList); i += 1)
+    {
+        scr_quest_set_state("note_exclude_" + string_lower(ds_list_find_value(global.personName, i)), 0);
+    }
+}
+else if (argument[0] == "build") // Shift functions to action
+{
+    var act = ds_list_create();
+    ds_list_add(act, Note);
+    if (argument_count > 1) ds_list_add(act, argument[1]);
+    if (argument_count > 2) ds_list_add(act, argument[2]);
+    if (argument_count > 3) ds_list_add(act, argument[3]);
+    if (argument_count > 4) ds_list_add(act, argument[4]);
+    if (argument_count > 5) ds_list_add(act, argument[5]);
+    if (argument_count > 6) ds_list_add(act, argument[6]);
+    if (argument_count > 7) ds_list_add(act, argument[7]);
+    ds_list_add(_event_list, act);
+    return ds_list_size(_event_list) - 1;
+}
+else if (argument[0] == "gallery") // Note("gallery", "goofster") - Creates gallery object for Goofster
+{
+    obj = instance_create(0, 0, oNote);
+    obj.typ = "gallery";
+    obj.notClk = 0;
+    obj.galX = floor(384 * 0.25);
+    obj.galY = floor(240 * 0.5) - 6;
+    obj.butAmt = 1;
+    var ind = ds_list_find_index(global.artNameLower, string_lower(argument[1]));
+    if (ind == -1) ind = 0;
+    obj.sub = ds_list_find_value(global.artSub, ind);
+    obj.tit = ds_list_find_value(global.artName, ind);
+    obj.dsc = ds_list_find_value(global.artText, ind);
+}
+else if (argument[0] == "identity")
+{
+    obj = instance_create(0, 0, oNote);
+    obj.typ = "identity";
+    obj.tit = "Choose your identity...";
+    obj.notClk = 0;
+    obj.butAmt = 0;
+}
+else if (argument[0] == "viewer")
+{
+    obj = instance_create(0, 0, oNote);
+    obj.typ = "viewer";
+    obj.notClk = 0;
+}
+else if (argument[0] == "select")
+{
+    global.noteExclude = scr_quest_get_state("note_exclude_" + string_lower(argument[1]));
+    obj = instance_create(0, 0, oNote);
+    global.noteExclude = "";
+    var ind = ds_list_find_index(global.personNameLower, string_lower(argument[1]));
+    if (ind == -1) ind = 0;
+    obj.tit = ds_list_find_value(global.personText, ind);
+    obj.event = ds_list_find_value(global.personEvent, ind);
+    obj.person = ds_list_find_value(global.personName, ind);
+}
+else if (argument[0] == "info")
+{
+    noteLower = string_lower(argument[1]);
+    _ind = ds_list_find_index(global.noteNameLower, noteLower);
+    if (_ind != -1)
+    {
+        noteSub = ds_list_find_value(global.noteSub, _ind);
+        noteName = ds_list_find_value(global.noteName, _ind);
+        noteSound = ds_list_find_value(global.noteSound, _ind);
+    }
+    else
+    {
+        noteSub = 0;
+        noteLower = "invalid note";
+        noteName = "Invalid Note";
+        noteSound = "sn_debug_one";
+    }
+}
+else if (argument[0] == "add person")
+{
+    ds_list_add(global.personName, argument[1]);
+    ds_list_add(global.personNameLower, string_lower(argument[1]));
+    ds_list_add(global.personText, argument[2]);
+    ds_list_add(global.personEvent, argument[3]);
+    // person was here quest variable
+    ds_list_add(global.personList, argument[1]); // Add to note person list
+}
+else if (argument[0] == "add art") // Note("add art", subimage, name, description) - sGallery is sprite
+{
+    ds_list_add(global.artSub, argument[1]);
+    ds_list_add(global.artName, argument[2]);
+    ds_list_add(global.artNameLower, string_lower(argument[2]));
+    ds_list_add(global.artText, argument[3]);
+}
+else if (argument[0] == "add note") // Note("add note", subimage, name, sound) - s_tnn_papers is sprite
+{
+    ds_list_add(global.noteSub, argument[1]);
+    ds_list_add(global.noteName, argument[2]);
+    ds_list_add(global.noteNameLower, string_lower(argument[2]));
+    ds_list_add(global.noteSound, argument[3]);
+    ds_list_add(global.noteData, argument[4]);
+    // note have quest variable was here
+    ds_list_add(global.noteList, argument[2]); // Add to note list
+}
+else if (argument[0] == "game init") // Run on game init
+{
+    global.noteExclude = ""; // Temp for transferring to oNote
+    global.noteSelected = "";
+    
+    global.noteList = ds_list_create(); // Contains name of every note in the game
+    global.personList = ds_list_create(); // Contains name of every note person in the game
+    
+    global.noteSub = ds_list_create();
+    global.noteName = ds_list_create();
+    global.noteNameLower = ds_list_create();
+    global.noteSound = ds_list_create();
+    global.noteData = ds_list_create();
+    
+    global.personName = ds_list_create();
+    global.personNameLower = ds_list_create();
+    global.personText = ds_list_create();
+    global.personEvent = ds_list_create();
+
+    global.artSub = ds_list_create();
+    global.artName = ds_list_create();
+    global.artNameLower = ds_list_create();
+    global.artText = ds_list_create();
+    
+    global.dslNoteFont = ds_list_create();
+    ds_list_add(global.dslNoteFont, global.fn_1);
+    ds_list_add(global.dslNoteFont, global.fn_1o);
+    ds_list_add(global.dslNoteFont, global.fn_2);
+    //ds_list_add(dslNoteFont, global.fn_3);
+    ds_list_add(global.dslNoteFont, global.fn_small);
+    ds_list_add(global.dslNoteFont, global.fn_2c);
+    ds_list_add(global.dslNoteFont, global.fn_2o);
+    ds_list_add(global.dslNoteFont, global.fn_2f);
+    //ds_list_add(dslNoteFont, global.fn_5);
+    ds_list_add(global.dslNoteFont, global.fn_5o);
+    ds_list_add(global.dslNoteFont, global.fn_7oc);
+    ds_list_add(global.dslNoteFont, global.fn_12oc);
+    ds_list_add(global.dslNoteFont, global.fn_5os);
+    ds_list_add(global.dslNoteFont, global.fn_7ocs);
+    ds_list_add(global.dslNoteFont, global.fn_12ocs);
+    ds_list_add(global.dslNoteFont, global.fn_tactics);
+    ds_list_add(global.dslNoteFont, global.fn_tactics_bold);
+    
+    Note("db");
+}
+else if (argument[0] == "init") // Run under new player identity
+{
+    global.noteSelected = "";
+    
+    for (i = 0; i < ds_list_size(global.noteNameLower); i += 1)
+    {
+        scr_quest_set_state("note_have_" + ds_list_find_value(global.noteNameLower, i), 0); // Set that I don't have the note
+    }
+    for (i = 0; i < ds_list_size(global.personNameLower); i += 1)
+    {
+        scr_quest_set_state("note_exclude_" + ds_list_find_value(global.personNameLower, i), ""); // Make exclusion list empty
+    }
+}
+else if (argument[0] == "draw resume") // draw resume, 1 = x, 2 = y, 3 = progress, 4 = ansInd[0], 5 = andInd[1], 6 = andInd[2], 7 = ansInd[3]
+{
+    var i = 0;
+    progress = argument[3];
+    qx = 64;
+    qs = 16;
+    queX[i] = qx; queY[i] = 80;
+    que[i] = "References: ";
+    ansX[i] = queX[i] + 80; 
+    ansY[i] = queY[i];// + qs;
+    ans[i, 0] = P_NAME;
+    ans[i, 1] = "Not applicable";
+    ans[i, 2] = "Lots of animals";
+    ans[i, 3] = "Cuchulainn";
+
+    i = 1;
+    queX[i] = qx; queY[i] = ansY[i - 1] + qs;
+    que[i] = "Experience:";
+    ansX[i] = queX[i] + 80;// + 96; 
+    ansY[i] = queY[i];
+    ans[i, 0] = "None (but full of gumption)";
+    ans[i, 1] = "DwarfNET Moderator";
+    ans[i, 2] = "Full-time MMO player";
+    ans[i, 3] = "Bat guano enthusiast";
+    ans[i, 4] = "fuckyeahbulldogs.cogworx.edu";
+
+    i = 2;
+    queX[i] = qx; queY[i] = ansY[i - 1] + qs;// + qs;
+    que[i] = "Qualifications:";
+    ansX[i] = queX[i];// + 96; 
+    ansY[i] = queY[i] + qs;
+    ans[i, 0] = "Love animals, works with them daily";
+    ans[i, 1] = "Unbelievably loud falcon mimicry";
+    ans[i, 2] = "Perhaps my BARNSTARS will convince you";
+    ans[i, 3] = "Basically none, completely dysfunctional cretin";
+    ans[i, 4] = "Mole breeder extraordinaire";
+
+    i = 3;
+    queX[i] = qx; queY[i] = ansY[i - 1] + qs;// + qs;
+    que[i] = "Skills:";
+    ansX[i] = queX[i];// + 96; 
+    ansY[i] = queY[i] + qs;
+    ans[i, 0] = "More than two decades of pet care";
+    ans[i, 1] = "I cut through the pet bullshit";
+    ans[i, 2] = "I have NEVER missed Shark Week";
+    ans[i, 3] = "No skills, product of entropy and a wasted life";
+    ans[i, 4] = "Depraved ocelot DwarfNET meme";
+    
+    for (i = 0; i < 4; i += 1) ansInd[i] = 0;
+    ansInd[0] = argument[4];
+    ansInd[1] = argument[5];
+    ansInd[2] = argument[6];
+    ansInd[3] = argument[7];
+    
+    /// DRAW CODE
+    vx = argument[1];
+    vy = argument[2];
+    col0 = notCol;
+    col1 = c_dkgray;
+    col2 = make_color_rgb(16, 16, 16);
+    if (col0 != c_white) { col1 = make_color_rgb(32, 32, 32); col2 = make_color_rgb(8, 8, 8); }
+    
+    draw_set_halign(0);
+    draw_set_font(global.fn_1o);
+    draw_set_alpha(0.8);
+    draw_sprite_ext(s_resume_paper, 0, vx + 34, vy + 8, 1, 1, 0, col0, 1);
+    draw_set_color(col1);
+    if (progress == 0)
+    {
+        draw_text(vx + 64 + 6, vy + 14 + 24, "PHOTO");
+        draw_text(vx + 64 + 6, vy + 14 + 24 + 5, "_____");
+        draw_text(vx + 64 + 6, vy + 14 + 24 + - 16, "_____");
+    }
+    else draw_sprite_ext(s_resume_photo, 0, vx + 64, vy + 14, 1, 1, 0, col0, 1); //43, 60
+    
+    dx = vx + 107 + 8; //112 + 8;
+    dy = vy + 14 + 2; //24;
+    vspc = 16 + 4; //24;
+    hspc = 32 + 8;
+    draw_set_color(col2);
+    if (progress > 1) draw_text(dx + hspc, dy, "Eric");
+    if (progress > 2) draw_text(dx + hspc, dy + vspc, "???");
+    if (progress > 3) draw_text(dx + hspc, dy + vspc + vspc, '"No gods, no masters. Only pets."');
+    draw_set_color(col1);
+    draw_text(dx, dy, "Name:");
+    draw_text(dx, dy + vspc, "Age:");
+    draw_text(dx, dy + vspc + vspc, "Quote:");
+    
+    draw_set_font(global.fn_1o);
+    for (i = 0; i < 4; i += 1)
+    {
+        draw_set_color(col1);
+        draw_text(vx + queX[i], vy + queY[i], que[i]);
+        draw_set_color(col2);
+        if (progress > 4 + i) draw_text(vx + ansX[i], vy + ansY[i], ans[i, ansInd[i]]);
+    }
+    draw_set_alpha(1);
+}
+else if (argument[0] == "draw") // 0 = DRAW, 1 = Note ID, 2 = X, 3 = Y, 4 = Only BG
+{
+    /// Load from note data
+    //var prc = get_timer();
+    skp = 1; event_user(6); skp = 0;
+    objSel = -1;
+    draw_set_halign(0);
+    draw_set_valign(0);
+    if (global.noteData[| argument[1]] != "")
+    {
+        var arrCom = string_split(global.noteData[| argument[1]], "~");
+        var arrSub = string_split(arrCom[0], "|");
+        draw_sprite(asset_get_index(arrSub[1]), real(arrSub[2]), argument[2] - 192, argument[3] - 120);
+        if (argument_count > 4) exit;
+        for (i = 1; i < array_length_1d(arrCom); i += 1)
+        {
+            arrSub = string_split(arrCom[i], "|");
+            //0 = STR| 1 = Text| 2 = x| 3 = y| 4 = font| 5 = col| 6 = alp
+            draw_set_font(global.dslNoteFont[| real(arrSub[4])]);
+            draw_set_alpha(real(arrSub[6]));
+            draw_set_color(real(arrSub[5]));
+            draw_text(argument[2] + real(arrSub[2]), argument[3] + real(arrSub[3]), string_replace_all(arrSub[1], "\", "#"));
+        }
+    }
+    draw_set_alpha(1);
+    draw_set_color(c_white);
+    //show_debug_message("Note('draw') - Took " + string((get_timer() - prc) / 1000) + " ms");
+}
+else
+{
+    show_message("Note() - ERROR! No such sub-command " + argument[0]);
+}

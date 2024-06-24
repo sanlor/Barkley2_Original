@@ -1,0 +1,76 @@
+// event_min_honus01
+/* 
+Bio: The chief security officer in the duergar base.
+Hasdrubal and Dozier kinda lead the player there, 
+but the guy is dangerously unstable and doesn't help the player in any conventional way.
+
+NOTE: This was supposed to be a much more complicated NPC, 
+in that if the player FUCKED UP a bunch of times in the duergar base, 
+Honus identifies you as a traitor, breaks your legs, and ejects you from the base. 
+I elected against doing this since it kinda broke the quest logic 
+AND because one of the side effects of this was the player actually getting 
+permanently crippled and confined to a wheelchair the rest of the game 
+(which had the perk of weapon weight having a drastically reduced effect on the player's movement speed). 
+This was going to culminate in the player actually needing to crawl to the rebel outpost, 
+where Lafayette would give the player his wheelchair. 
+
+Really cool idea, but complicated stuff, and I didn't really feel like putting the hours in to make it happen. 
+If somebody likes this idea enough, and doesn't mind allocating the resources to the wheelchair dynamic, 
+I can go with this again, but I'll let somebody else decide this. Otherwise Honus is just another flavor NPC. 
+For the record, I'm absolutely not against doing this, it just felt like an overly ambitious thing to try doing.
+
+NOTE: After the fact I added the little dialogue where Honus reacts one time 
+to the shit the player is doing over the base loudspeaker. 
+I kinda center the honusState around this, so if anything more is done with him
+ beyond what I've written at the moment, I'll need to come up with a unique state
+ to compensate for Honus yelling at the player about the loudspeaker.
+*/
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("dbaseNPCsState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var honus = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("honusState") == 3) {
+            Dialogue("Honus", "Don't you fucking walk away from me. Identify yourself.");
+            scr_event_build_end();
+        } else if (Quest("baseescapeQuest") == 1) {
+            Dialogue("Honus", "Hey, who the fuck are you?");
+            Quest("honusState", 3);
+            scr_event_build_end();
+        } else if (Quest("honusState") == 2) {
+            Dialogue("Honus", "As long as your fucked up ass is here I've got my eye on you. Don't forget that.");
+            scr_event_build_end();
+        } else if (Quest("ext7State") >= 1) && (Quest("honusState") == 1) {
+            Dialogue("Honus", "Hey, shit for brains. Was that your ass I heard on the loudspeaker a few minutes ago?");
+            Dialogue(P_NAME, "YOU FREAKIN' WISH. As if I'd waste my breath on knuckleheads like you.");
+            Dialogue("Honus", "Fuck off, I don't care about that shit. Just asked you a question any fucking idiot could answer.\Look, you figure out who did that shit, you be sure to let me know. You're suspect number one, and legs need to be broken for that stunt.");
+            Quest("honusState", 2);
+            scr_event_build_end();
+        } else if (Quest("honusState") == 1) {
+            Dialogue("Honus", "As long as your fucked up ass is here I've got my eye on you. Don't forget that.");
+            scr_event_build_end();
+        } else {
+            Dialogue("Honus", "And who the shit might you be?");
+            Dialogue(P_NAME, "I'm Mot. I'm the new barber.");
+            Dialogue("Honus", "Oh, a fucking comedian. Great, just what we need, Clispaeth knows we don't have enough jokers around here already.\I'm Honus. Rememeber the name. I'm the security chief. Anybody fucks around or fucks up, they have to answer to me.");
+            Dialogue(P_NAME, "Great. If I break anything I know who to blame.");
+            Dialogue("Honus", "Something about you I just don't like. Can't quite put my finger on it.\You ever serve with the 22s?");
+            Dialogue(P_NAME, "I don't know what that is but if you're talking about it I'm sure it's for wimps. I'd probably have been with the 178s which are ten times better.");
+            Dialogue("Honus", "I want you to know that I bricked over the jail cell we got here. They used to throw the ones in there that got drunk or annoying, but we don't do that since I took over. I decide the punishment and I take exactly zero shit.\You piss me off, you act like a little shit, you do anything anti-duergar, you act suspicious in general and I'll shatter your kneecaps and cut the fucking tendons in your legs. And it's a long crawl to the next base.");
+            Dialogue(P_NAME, "Heh.");
+            Dialogue("Honus", "As long as your fucked up ass is here I've got my eye on you. Don't forget that.");
+            Quest("honusState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

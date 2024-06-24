@@ -1,0 +1,15 @@
+// event_bct_superDebugger01
+// s_superDebugger01
+// o_superDebugger01
+
+/*if (argument0 == SCRIPT_START) {
+    // run scr_superRobot_init() ... 
+    // this builds supergrid and improvemap if they are not yet built
+    scr_superRobot_init();
+    global.supergrid = scr_savedata_get("supergrid");
+    global.improvemap = scr_savedata_get("improvemap");
+}
+else if (argument0 == SCRIPT_STEP) { }
+else if (argument0 == SCRIPT_INTERACT) {
+    
+}

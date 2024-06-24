@@ -1,0 +1,75 @@
+// duergar base NPC script for Garth
+/* Pretty simple quest. The player must learn that Garth has a keycard, THROUGH SOME MEANS, talk to him and learn that he 
+   wants a maiden's toe. Meanwhile, Kim is having financial problems due to a landmine shortage. The player can connect the 
+   dots here and make up a silly story to acquire Kim's toe in exchange for money(which is a lie).
+
+The quest states are inordinately simple here. It's garthToeQuest(as of right now), and the following are the states:
+1. Garth tells you he wants a toe
+2. Garth offers to trade you the passkey for a toe.
+3. Kim gives you a toe(which the player can optionally throw away entirely, aborting the quest permanently)
+4. Given Garth the toe, quest completed.
+*/
+// NOTE: Other characters will need to tell the player that Garth has a passkey or this quest dialogue won't trigger. Haven't written this yet(BUT WILL)
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("dbaseNPCsState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var garth = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("baseescapeQuest") == 1) {
+            Dialogue("Garth", "Hmmm........\This is not a duergar that stands before me. Might I see the caliber of toe you possess?");
+            scr_event_build_end();
+        } else if (Quest("garthToeQuest") == 4) {
+            Dialogue("Garth", "Now! BEGONE! So mine eyes alone may be the first to gaze upon the skeleton of this toe.");
+            scr_event_build_end();
+        } else if (Quest("garthToeQuest") == 3) {
+            scr_event_build_dialogue_debug("Hundley", NULL, "This script does not currently check to see if the player has Kim's toe, as items do not work atm. Add that as one of the conditions of this dialogue.");
+            // WHEN ITEMS WORK(OR YOU KNOW HOW TO ADD THEM) ADD HAVING ITEM "Kim's Toe" as a requirement for this dialogue.
+            Dialogue(P_NAME, "Hey, I got you a stupid toe.");
+            Dialogue("Garth", "Can it be? Is it true? Do the fates allow?\A toe! Indeed, a toe! Of the fairest blue glow. Were it but a Duergar I would know.");
+            Dialogue(P_NAME, "Yeah, it was from a real babe.\I told her all about you before I cut her up. She said you sound like a disgusting jerk.\I told her not to say things about my best friend that I'd like to see die in a fire Garth, but she insisted so it must be true. Sorry.");
+            Dialogue("Garth", "This key unlocks the chamber of my heart. Please treasure it as I will treasure the peeling of this toe.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Add the KEYCARD ITEM. Here, and potentially any other quest-ending states/rewards that need to occur.");
+            // PLAYER GOT THE KEYCARD. But items don't seem to work ATM.
+            Dialogue("Garth", "Now! BEGONE! So mine eyes alone may be the first to gaze upon the skeleton of this toe.");
+            Quest("garthToeQuest", 4);
+            scr_event_build_end();
+        } else if (Quest("garthToeQuest") == 3) {
+        // YES, this is necessary in case the player throws Kim's toe away, rendering this quest permanently blocked.
+            Dialogue("Garth", "Garth: A toe!!! A toe!!!\All of duergardom screams a scream of a thousand colors_____._____._____._____._____.a toe_____._____._____._____._____.");
+            scr_event_build_end();
+        } else if (Quest("garthToeQuest") == 2) {
+            Dialogue("Garth", "A toe!!! A toe!!!\All of duergardom screams a scream of a thousand colors_____._____._____._____._____.a toe_____._____._____._____._____.");
+            scr_event_build_end();
+        } else if (Quest("garthToeQuest") == 1) && (Quest("dcardsState") == 1) {
+            Dialogue(P_NAME, "Hey jack, they say you got a passkey into the boiler room. Give it to me.");
+            Dialogue("Garth", "Oho! Me oh my! Whatever shall I do!?!\I require a maiden's toe, sir. With great haste you should go, sir. Bring but an ear and the answer is no, sir.\Sincerely,##_____ Garth.");
+            Dialogue(P_NAME, "You are quickly climbing to the top of the list of people I would most like to see die in a fire.");
+            Quest("garthToeQuest", 2);
+            scr_event_build_end();
+        } else if (Quest("garthToeQuest") == 1) {
+            Dialogue("Garth", "A toe!!! A toe!!!\All of duergardom screams a scream of a thousand colors_____._____._____._____._____.a toe_____._____._____._____._____.");
+            scr_event_build_end();
+        } else {
+            Dialogue("Garth", "Oh, greetings to you!");
+            Dialogue(P_NAME, "Yeah, what of it. Did I say you could talk to me?");
+            Dialogue("Garth", "A greeting to you, a greeting to me. A severed head to you, a severed head to me.");
+            Dialogue(P_NAME, "Yeah, that's not how you say hello, idiot.");
+            Dialogue("Garth", "Please, fairest maiden, may I peek, perchance glance, at your severed spinal column?");
+            Dialogue(P_NAME, "Don't talk to me anymore. Get a truckin' job, you bum.");
+            Dialogue("Garth", "Oh, I am but the most feeble of the jester's jesters. Grant me but one maiden so that I might be the first to be hypnotized by the beauty of her skeleton.\Your maiden forever be yours, grant me but a hand,________NO!! A finger. A toe. The smallest toe. The skeleton beneath shall be mine and mine alone.");
+            Dialogue(P_NAME, "I have no idea what you're even talking about, but I'm pretty certain it's something gross and stupid.");
+            Quest("garthToeQuest", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

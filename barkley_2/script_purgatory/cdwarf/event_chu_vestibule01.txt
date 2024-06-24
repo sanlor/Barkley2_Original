@@ -1,0 +1,43 @@
+// event_chu_vestibule01
+
+/* event_chu_vestibule - NOTES
+TODOS:
+    1. Incorporate Start and/or Step events to destroy the event when unused.
+*/
+/*if (argument0 == SCRIPT_START) {
+    scr_actor_unsetRigid(id);
+} else if (argument0 == SCRIPT_STEP) {
+    //if (scr_quest_get_state("vestibuleScene")) >= 1 {
+    //    scr_event_action_destroy_object(o_vestibule01);
+    //}
+}
+else if (argument0 == SCRIPT_COLLISION_HOOPZ) {
+    if (scr_quest_get_state("vestibuleScene") == 0) {
+        scr_quest_set_state("vestibuleScene", 1);
+        var vestibule = id;
+        var event = scr_event_create_main();
+
+        with (event) {  
+            //scr_event_build_dialogue("NARRATOR", NULL, "Dis works.");
+            scr_event_build_dialogue_debug("NARRATOR", NULL, "Dis works.");
+            scr_event_build_wait_for_actions();
+            //scr_event_build_quest_state("vestibuleScene", 1); // You must set the quest variable immediately
+            if (scr_quest_get_state("cdwarfPresent") == 1) {
+                scr_event_build_dialogue_debug("VESTIBULE", NULL, "Here in the vestibule, since Cyberdwarf is present, the player gets a warning if they do not have the complete Cyberspear. This is the least fleshed-out part of the whole thing. It would be a good chance to introduce dialogue based on your goal, if we wanted to do that.");
+                //------------------------------------------------------------------
+                // CHASTISING SEGMENT (INCOMPLETE CYBERSPEAR)
+                //------------------------------------------------------------------
+                if (scr_quest_get_state("csComplete") == 0) { // Cyberspear is not yet complete.
+                    scr_event_build_dialogue_debug("VESTIBULE", NULL, "Cyberspear is incomplete, so the message shows. Not sure exactly how we should do this. Only one time, no matter what? Should Hoopz mutter something under his breath about his goal? Dunno. But it's a chance for Cdwarf to say /'NO YOU FOOL GET THE SPEAR/' yet again.");
+                }
+                //------------------------------------------------------------------
+                // CAMPFIRE SEGMENT (CYBERSPEAR COMPLETED)
+                //------------------------------------------------------------------ 
+                else if (scr_quest_get_state("csComplete") == 1) { // Cyberspear is complete.
+                    scr_event_build_dialogue_debug("VESTIBULE", NULL, "Cyberspear is complete, so we don't have to do much.");
+                }
+            }
+            scr_event_advance(event);   
+        }
+    }
+}

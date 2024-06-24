@@ -1,0 +1,1142 @@
+// event_tnn_milagros01
+// Script for Milagros, vidcon purveyor in Tir na nOg
+/*
+    QUEST VARIABLE:
+        milagrosQuest
+            0 = nothing
+            1 = heard request, she is waiting when you speak to her
+            2 = failed, she is waiting and will take no more notes until she leaves at the time 4/5 transition.
+            3 = waiting for fede
+            4 = spoken with, after meeting fede
+
+    ALSO EFFECTS:
+        QUESTS:
+            egidiusQuest ??
+            fedeQuest ??
+            abdulGafurQuest ??
+
+    STATES:
+        0 = have not talked
+        1 = talked
+
+    NEEDS:
+        The right hooks from Egidius and Abdul-Gafur and Fede
+        Her disappearance to be correctly scripted in the Step event.
+        More run-throughs to see if it is sensible.
+        Time 5 dialogue from Fede to make sense also.
+*/
+/*
+if (argument0 == SCRIPT_START)
+{
+    // This initializes the paper map data structure.
+    // TODO: Move somewhere earlier.
+    scr_tnn_paper();
+
+    // Outside, During Curfew
+    if (scr_time_db("tnnCurfew") == "during") && (scr_inside() == false) // THere was == 3 after the curfew script, what was that all about?
+    {
+        scr_event_interactive_deactivate();
+    }
+    // Inside, Not During Curfew
+    else if (scr_inside() == true) &&  !(scr_time_db("tnnCurfew") == "during")
+    {
+        scr_event_interactive_deactivate();
+    }
+}
+
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Refreshes the information in the map.
+    scr_tnn_paper();
+
+    var milagros = id;
+
+    var event = scr_event_create_main();
+
+    var rm_snippet = scr_event_create_child(event);
+    var explain_snippet = scr_event_create_child(event);
+
+    var shop_snippet = scr_event_create_child(event);
+    var buy_snippet = scr_event_create_child(event);
+    var sell_snippet = scr_event_create_child(event);
+    var look_snippet = scr_event_create_child(event);
+    var tips_snippet = scr_event_create_child(event);
+
+    var eric_snippet = scr_event_create_child(event);
+    var job_snippet = scr_event_create_child(event);
+    var job_early_snippet = scr_event_create_child(event);
+
+    var choose_snippet = scr_event_create_child(event);
+    var paper_snippet = scr_event_create_child(event);
+    var ancient_snippet = scr_event_create_child(event);
+
+    var ancient_string = "Bzzzzt! It's vidcons, baby!"
+    if (Quest("milagrosAncientVidcons") == 1)
+    {
+        ancient_string = "You got it! Vidcons, baby!"
+    }
+
+
+    // Clear handler variables
+    if is_real(Quest("milagrosLoop")) { scr_quest_set_state("milagrosLoop", ""); }
+    if is_real(Quest("milagrosPaper")) { scr_quest_set_state("milagrosPaper", ""); }
+
+    //--------------------------------
+    // eric_snippet
+    //--------------------------------
+    with (eric_snippet)
+    {
+        Quest("milagrosEric", 1);
+
+        if (Quest("milagrosState") == 0)
+        {
+            Dialogue(P_NAME, "Play? No, but are you hiring, by any chance? I'm looking for a friend...");
+        }
+        else
+        {
+            Dialogue(P_NAME, "Are you hiring by any chance? I'm looking for a job for a friend of mine.");
+        }
+
+        Dialogue("Milagros", "Hiring? Well, you know this is a game store, right? So tell me, does your friend know much about vidcons?");
+
+        var eric_choice = Choice("Does Eric know about vidcons?", s_port_hoopz);
+
+        var eric_no = ChoiceAdd(eric_choice, "Nope... just pets.");
+        with (eric_no)
+        {
+            Dialogue(P_NAME, "No... I mean, not at all. He's pretty single-minded about this pet thing... nevermind, I'll look somewhere else!");
+            Dialogue("Milagros", "Well don't look too fast, kid. Why don't you do some shopping?");
+
+            if (Quest("milagrosState") == 0)
+            {
+                Dialogue(P_NAME, "This... this is a vidcon store?");
+                Snippet(explain_snippet);
+            }
+            else
+            {
+                Snippet(shop_snippet);
+            }
+        }
+
+        // Allows player to get a job early.
+        var eric_but = ChoiceAdd(eric_choice, "Nope... but I do.");
+        with (eric_but)
+        {
+            Dialogue(P_NAME, "No... I mean, nothing at all. But I do! I know a whole heck of a lot about vidcons!");
+            Dialogue("Milagros", "Oh yeah? Oh yeah???");
+            Dialogue(P_NAME, "Yeah! Yeah!");
+            Dialogue("Milagros", "... well you can relax, kid, I'm not gonna quiz you! I've actually got things mostly covered at the store here, but if you're going to be in Tir na Nog for awhile, there is one thing you could do for me. Interested?");
+            Snippet(job_early_snippet);
+        }
+    }
+
+
+    //--------------------------------
+    // explain_snippet
+    //--------------------------------
+    with (explain_snippet)
+    {
+        Dialogue("Milagros", "Yep, I sell the finest vidcons in Tir na Nog!... er, well, that's what I used to say. It's been ages since I had some new product to sell. Vidcon players are rare in Tir na Nog... everyone interested has beaten my inventory over and over, and the rest of the citizenry have moved on to VR... It's just the same dozen dwarfs trading in their games for neuro-shekels, day after day after day... I feel more like I'm running a pawn shop than a true 'con emporium...");
+
+        var explain_choice = Choice("Same old vidcons...", s_port_hoopz);
+
+        // ROUNDMOUND: VIDCONS
+        with (ChoiceAdd(explain_choice, "You shouldn't be sad... vidcons are meant to be conquered!"))
+        {
+            Dialogue(P_NAME, "You shouldn't be sad... vidcons are meant to be conquered!");
+        }
+        // ROUNDMOUND: VIDCONS
+        with (ChoiceAdd(explain_choice, "Poor vidcons, getting so worn out!"))
+        {
+            Dialogue(P_NAME, "Poor vidcons, getting so worn out! I hope those dwarfs keep them in good condition...");
+        }
+        // ROUNDMOUND: VIDCONS
+        with (ChoiceAdd(explain_choice, "Hey, at least you've got vidcons!"))
+        {
+            Dialogue(P_NAME, "Hey, be happy! At least you're allowed to have vidcons... and play them too!");
+        }
+
+        Dialogue("Milagros", "Huh?... wait, what got into me?! Forget I said that! I can't complain to a customer! Welcome to Milagros' Vidcon Palazzo! Have a look around!");
+        Snippet(shop_snippet);
+    }
+
+
+
+    //--------------------------------
+    // look_snippet
+    //--------------------------------
+    with (look_snippet)
+    {
+        Dialogue("Milagros", "You wanna make some cash, huh? I'll take a look, but keep in mind, you can't sell me anything you're currently playing!");
+        Debug("The player would have their vidcons examined and be given the option to sell them.");
+        /*
+        var vidcount = Vidcon("count");
+        if (vidcount >= 1)
+        {
+            if (vidcount == 2)
+            {
+            }
+            else
+            {
+            }
+            Dialogue(P_NAME, "Yeah, I have some vidcons, sure...");
+        }
+        */
+        
+        
+        
+    // } /////////////////////////////////
+
+
+/*
+    //--------------------------------
+    // rm_snippet
+    //--------------------------------
+    with (rm_snippet)
+    {
+        var main_choice = Choice("Play? Well...", s_port_hoopz);
+
+        // ROUNDMOUND: B-Ball
+        var main_ball = ChoiceAdd(main_choice, "... I live to play b-ball!");
+        with (main_ball)
+        {
+            Dialogue(P_NAME, "Play? I live to play b-ball! I'm only the baddest baller that ever lived! ... I think... I mean, I hope so anyway...");
+            Dialogue("Milagros", "Basketball, huh? That's not really what I meant. This is an electronics shop. I'm about chips, computers, and of course the 'cons!");
+            Dialogue(P_NAME, "V... vidcons?");
+
+            Snippet(explain_snippet);
+        }
+
+        // ROUNDMOUND: Vidcons
+        var main_game = ChoiceAdd(main_choice, "... I'm a dyed-in-the-wool gamer!");
+        with (main_game)
+        {
+            Dialogue(P_NAME, "Play? I'm a dyed-in-the-wool gamer! I can play all night, I'm talking hard mode, nightmare mode, 300 peak APM!");
+            Dialogue("Milagros", "Then you've found the right spot! You're in vidcon heaven, buddy!");
+            Dialogue(P_NAME, "Yes! Yes! Fruck yes! This is a vidcon store!?");
+
+            Snippet(explain_snippet);
+        }
+
+        // ROUNDMOUND: Destiny/Cyberdwarf
+        var main_cyberdwarf = ChoiceAdd(main_choice, "... no time for playing games. I'm trying to find the Cyberdwarf.");
+        with (main_cyberdwarf)
+        {
+            Quest("milagrosCyberdwarf", 1);
+            Dialogue(P_NAME, "Play? I don't have time to play. I'm trying to find the Cyberdwarf.");
+            Dialogue("Milagros", "Hmm... let's see, I think I actually just got one in. Should be around here somewhere...");
+            Dialogue(P_NAME, "Huh? You mean he's in Tir na Nog!?");
+            Dialogue("Milagros", "Yeah, I mean, I just saw it.... /'Cyber/'... /'Cyber/'... okay, here you go! It's a bit dog-eared, but I've got one copy of /'Zukünftiger Erbauer II: Cyberdorf/'... yours for 5!");
+            Dialogue(P_NAME, "...w-what? This is a vidcon...?");
+            Dialogue("Milagros", "Well, believe me, I see your point. It's definitely a step backwards from /'Zukünftiger Erbauer I: Cyberburg/'. I sure played a lot of that back in the day. Like when you have to write and submit those briefs to the Galactic Rathaus every time you want to expand your dorf-size by a single solar-hectare, I mean, it's a little obtuse, definitely!... but it's still a vidcon!");
+            Dialogue(P_NAME, "I think we misunderstood, I was trying to say /'Cyberdwarf/', but... nevermind! So you sell vidcons here?");
+
+            Snippet(explain_snippet);
+        }
+
+        if (Quest("ericQuest") == 1) && (Quest("milagrosEric") == 0)
+        {
+            var main_job = ChoiceAdd(main_choice, "... no, but are you hiring?");
+            with (main_cyberdwarf)
+            {
+                Quest("milagrosEric", 1);
+                Snippet(eric_snippet);
+            }
+        }
+    }
+
+
+
+    //--------------------------------
+    // shop_snippet
+    //--------------------------------
+    with (shop_snippet)
+    {
+        var shop_choice = Choice("Do what?", s_port_hoopz);
+
+        var shop_buy = ChoiceAdd(shop_choice, "Buy a game.");
+        with (shop_buy)
+        {
+            Snippet(buy_snippet);
+        }
+
+        var shop_sell = ChoiceAdd(shop_choice, "Sell a game.");
+        with (shop_sell)
+        {
+            Snippet(look_snippet);
+        }
+
+        var shop_tips = ChoiceAdd(shop_choice, "Ask for vidcon tips.");
+        with (shop_tips)
+        {
+            Snippet(tips_snippet);
+        }
+
+        if (Quest("milagrosJob") >= 3)
+        {
+            var shop_info = ChoiceAdd(shop_choice, "Turn in some information.");
+            with (shop_info)
+            {
+                if (ds_map_size(global.tnnpapermap) == 0)
+                {
+                    Dialogue(P_NAME, "(I wanna turn in some info... but I've got none... nada... nary an info-nugget...)");
+                    Quest("milagrosLoop", "shop");
+                    Execute(event_tnn_milagros01);
+                }
+                else
+                {
+                    Snippet(choose_snippet);
+                }
+            }
+        }
+
+        if (Quest("ericChoice") == 1) && (Quest("milagrosEric") == 0)
+        {
+            var shop_eric = ChoiceAdd(shop_choice, "Ask about a job.");
+            with (shop_eric)
+            {
+                Snippet(eric_snippet);
+            }
+        }
+
+        if (Quest("milagrosJob") > 0) && (Quest("milagrosJob") <= 4)
+        {
+            var shop_job = ChoiceAdd(shop_choice, "Ask about the job.");
+            with (shop_job)
+            {
+                Snippet(job_snippet);
+            }
+        }
+        var shop_nothing = ChoiceAdd(shop_choice, "Nothing.");
+        with (shop_nothing)
+        {
+            Snippet(buy_snippet);
+        }
+    }
+
+
+    //--------------------------------
+    // tips_snippet
+    //--------------------------------
+    with (tips_snippet)
+    {
+        Quest("milagrosTips", 1);
+        Quest("milagrosLoop", "tips");
+
+        if (Quest("milagrosTips") == 0)
+        {
+            Dialogue("Milagros", "Tips, huh? Well, I'm nothing special as a player, but as a vidcon merchant, I think I can be of some assistance. What do you wanna know?");
+        }
+
+        var tips_choice = Choice("Tell me...", s_port_hoopz);
+
+        var tips_overview = ChoiceAdd(tips_choice, "Tell me about your store.");
+        with (tips_overview)
+        {
+            Dialogue(P_NAME, "Tell me about your store, Milagros.");
+            Dialogue("Milagros", "My store? What's there to know? I've been doing this for some years now, and things used to be better. Most everyone's beaten what I have here, some rarer games have gotten a bit scratched up, and the instruction manuals are nearly disintegrating, but there's a loyal group of gamers here in Tir na Nog. Used to be more, but times change... anyway, keep checking back with me and I'll surely have some new stuff in. New to you, anyway.");
+        }
+
+        var tips_overview = ChoiceAdd(tips_choice, "Give me a vidcon overview.");
+        with (tips_overview)
+        {
+            Dialogue(P_NAME, "Would you mind giving me an overview of how vidcons work?");
+            Dialogue("Milagros", "Hmm... vidcons, vidcons, where to start? Well, first, the name... according to legend, it's a combination of the words /'console video program/' by a gaming sage of ages past... but nobody can really say for sure. You're gonna need a console to play one... and luckily you've got some tech in the back of your head there...");
+            Dialogue(P_NAME, "(T... this?)");
+            Dialogue("Milagros", "... you should know, there's a lot to learn from playing a quality vidcon! Heck, there's a lot to learn from just reading the instruction manual! Now I'm in the collecting biz, and there's money to be made there, but if I were you I'd pop them in my cranium when I got one, binge-play it on your down time, and find a new one. Can't have that backlog build up!");
+        }
+
+        var tips_play = ChoiceAdd(tips_choice, "What can I do with them?");
+        with (tips_play)
+        {
+            Dialogue(P_NAME, "What can I do if I buy some vidcons... or find some?");
+            Dialogue("Milagros", "Well, it depends on perspective! You can unbox 'em and pop them into your deck there... that's a start. Games can change you though, and you gotta be strong enough to handle it. You can also sell 'em, like I do, and make a little spare dough. Or you could even build a collection yourself! Dwarfs cherish vidcons in lots of different ways, so you'll have to find a way that makes sense to you.");
+        }
+
+        var tips_done = ChoiceAdd(tips_choice, "What can I do when I'm done playing?");
+        with (tips_done)
+        {
+            Dialogue("Milagros", "Well, some dwarfs like to hold onto 'em... I guess I can understand why. Games can really get intertwined with your memories in a weird way. But sooner or later you'll probably want the cash! Liquidate 'em, that's what I say! Some dwarfs like to hang on and play a game till they're blue in the face, but I don't get that completionist stuff. Beat it and move on already! I can tell you this much, though... once you take it out of your console, there's no way you'll go back to it... there's too many games out there!");
+        }
+
+        var tips_manual = ChoiceAdd(tips_choice, "Should I read the manual?");
+        with (tips_manual)
+        {
+            Dialogue(P_NAME, "What about instruction manuals? Should I check 'em out, or just jump right in?");
+            Dialogue("Milagros", "I see it two ways... manuals are founts of knowledge! But at the same time, unboxing a game, if you're lucky enough to find a new one, can really destroy it's resale value. Up to you, kid!");
+        }
+
+        var tips_condition = ChoiceAdd(tips_choice, "What should I know about the biz?");
+        with (tips_condition)
+        {
+            if (Quest("milagrosJob") == 0)
+            {
+                Quest("milagrosJob", 1);
+                Dialogue(P_NAME, "Let's say I wanna play some games... or just make some money. What should I know about the vidcon business?");
+                Dialogue("Milagros", "You're going to do some trading like me, huh? Well, know that things go in cycles. Sometimes dwarfs are buying, sometimes they're selling. If you can get a good pick, hold onto it until you can get a good deal... but then again, there's no use holding onto something if you're not playing it. I'm starting to notice some sales trends, but what I don't know could fill a book... hey, wait a minute! That's it!");
+                Dialogue(P_NAME, "Huh? What?");
+                Dialogue("Milagros", "Do you think you could help me out? I've got a favor to ask. A little job that I can't do, but I think you'd be perfect for. How about it?");
+
+                var tips_job_choice = Choice("Hear Milagros out?", s_port_hoopz);
+
+                var tips_job_yes = ChoiceAdd(tips_job_choice, "Sure, lay it on me.");
+                with (tips_job_yes)
+                {
+                    Dialogue(P_NAME, "Hmm, I'll bite. Lay it on me.");
+
+                    Quest("milagrosJob", 2);
+                    Quest("milagrosLoop", "job");
+                    Execute(event_tnn_milagros01);
+                }
+                
+                if (Quest("ericQuest") == 2)
+                {
+                    var tips_job_eric = ChoiceAdd(tips_job_choice, "I've got just the guy for you.");
+                    with (tips_job_eric)
+                    {
+                        Dialogue(P_NAME, "I've got just the guy for you. His name's Eric.");
+                        Dialogue("Milagros", "Eric, huh? What does he know about vidcons?");
+                        Dialogue(P_NAME, "Um... basically nothing, I think. Maybe he's not the guy for you after all.");
+                        Dialogue("Milagros", "Probably not. Let me know if you change your mind.");
+                        Quest("milagrosEric", 1);
+                    }
+                }
+
+                var tips_job_no = ChoiceAdd(tips_job_choice, "Nah, not right now.");
+                with (tips_job_no)
+                {
+                    Dialogue(P_NAME, "Umm, not right now, okay? Maybe another time!");
+                    Dialogue("Milagros", "Sure, sure thing. Let me know if you're interested.");
+                    Quest("milagrosJob", 1);
+                }
+            }
+            else
+            {
+                Dialogue("Milagros", "Buy low, sell high! You know, that standard investment mumbo-jumbo. You are investing, right?");
+            }
+        }
+
+        var tips_nevermind = ChoiceAdd(tips_choice, "Back to Shop.");
+        with (tips_nevermind)
+        {
+            Quest("milagrosLoop", "shop");
+        }
+
+        Execute(event_tnn_milagros01);
+    }
+
+
+    //--------------------------------
+    // job_early_snippet
+    //--------------------------------
+    with (job_early_snippet)
+    {
+        var job_early_choice = Choice("Hear Milagros out?", s_port_hoopz);
+
+        var job_early_yes = ChoiceAdd(job_early_choice, "Sure, lay it on me.");
+        with (job_early_yes)
+        {
+            Dialogue(P_NAME, "Hmm, I'll bite. Lay it on me.");
+
+            Quest("milagrosJob", 2);
+            Quest("milagrosLoop", "job");
+            Execute(event_tnn_milagros01);
+        }
+
+        var job_early_no = ChoiceAdd(job_early_choice, "Nah, not right now.");
+        with (job_early_no)
+        {
+            Dialogue(P_NAME, "Umm, not right now, okay? Maybe another time!");
+            Dialogue("Milagros", "Sure, sure thing. Let me know if you're interested.");
+            Quest("milagrosJob", 1);
+        }
+    }
+
+
+    //--------------------------------
+    // job_snippet
+    //--------------------------------
+    with (job_snippet)
+    {
+        Quest("milagrosLoop", "");
+
+        if (Quest("milagrosJob") == 4)
+        {
+            Dialogue(P_NAME, "Hey Milagros, um, what was it you wanted me to do again, exactly?");
+            Dialogue("Milagros", "Huh? You're doing great so far, just keep it up! You find some information that's game-related and bring it to me. Really simple!");
+            Quest("milagrosLoop", "shop");
+            Execute(event_tnn_milagros01);
+        }
+        else if (Quest("milagrosJob") == 3)
+        {
+            Dialogue(P_NAME, "Hey Milagros, um, what was it you wanted me to do again, exactly?");
+            Dialogue("Milagros", "I'm trying to beat the market, kid. You gotta find game-related info and bring it to me. I need a scoop!");
+            Quest("milagrosLoop", "shop");
+            Execute(event_tnn_milagros01);
+
+        }
+        else if (Quest("milagrosJob") == 2)
+        {
+            //Dialogue(P_NAME, "A job, huh? I'm all ears...");
+            Dialogue("Milagros", "Great! I knew you'd be on board, kid. Well, here's the thing... something's /'going on/'... you know... something /'game related/'...");
+            Dialogue(P_NAME, "Um, I'm not sure I'm following you...");
+            Dialogue("Milagros", "I've been doing this for years, and something's afoot. Something in the market. The biz. There's cycles in the game racket, booms and busts, but I can feel something huge happening... and you know what that means?");
+
+            var job_subchoice = Choice("It means...", s_port_hoopz);
+
+            var job_worlds = ChoiceAdd(job_subchoice, "New games... new worlds to explore...");
+            with (job_worlds)
+            {
+                Dialogue(P_NAME, "New games... new worlds to explore... a real gaming event huh? I hope it's not just an ARG...");
+            }
+
+            var job_hero = ChoiceAdd(job_subchoice, "A new gaming champ... and that champ is me...");
+            with (job_hero)
+            {
+                Dialogue(P_NAME, "A new gaming champ... and that champ is me! Right in front of your eyes Milagros!");
+            }
+
+            var job_ball = ChoiceAdd(job_subchoice, "More vidcons? Yawn... give me a flippin' b-ball for once...");
+            with (job_ball)
+            {
+                Dialogue(P_NAME, "More vidcons... yawn... give me a flippin' b-ball for once...");
+            }
+            Dialogue("Milagros", "Uh, not at all what I meant actually. It means there's money! Money, baby! Neuroshekels to be made! That's the thing, you can't get caught up in the hype. If you want to succeed in the gaming biz, you gotta see a good pick and seize it. It's simple stuff, but you gotta keep your eye on the prize. That's why I need you. I want you to investigate for me. I can't leave the store, but I just KNOW there's a scoop out there. You gotta find it for me. Come back when you've got some intel, okay? Some info! I'll make it worth your while!");
+            Dialogue(P_NAME, "Okay, find a scoop! Will do!");
+            Quest("milagrosJob", 3);
+        }
+
+        else if (Quest("milagrosJob") == 1)
+        {
+            Dialogue("Milagros", "So, what's it gonna be? You interested or not?");
+
+            var job_return_choice = Choice("Interested?", s_port_hoopz);
+
+            var job_return_yes = ChoiceAdd(job_return_choice, "Yes, hear about the job.");
+            with (job_return_yes)
+            {
+                Quest("milagrosLoop", "job");
+                Quest("milagrosJob", 3);
+                Execute(event_tnn_milagros01);
+            }
+
+            var job_return_no = ChoiceAdd(job_return_choice, "Not now.");
+            with (job_return_no)
+            {
+                Dialogue(P_NAME, "Umm, not right now, sorry. I've got a lot on my plate.");
+                Dialogue("Milagros", "Okay, I understand. Thought you might be interested. Work means money, money means games... you'll figure it out some day.");
+            }
+        }
+    }
+
+
+    //--------------------------------
+    // choose_snippet
+    //--------------------------------
+    with (choose_snippet)
+    {
+        var paper_choice = Choice("Give Milagros which info?", s_port_hoopz);
+
+        var size = ds_map_size(global.tnnpapermap) - 1;
+        var i = 0;
+        var item = ds_map_find_first(global.tnnpapermap);
+        var qvar = "";
+        for (i = 0; i < ds_map_size(global.tnnpapermap) - 1; i++)
+        {
+            qvar = global.tnnpapermap[? item];
+            if (Item("have", item)) && (Quest("milagros" + qvar) == 0)
+            {
+                with (ChoiceAdd(paper_choice, string(item) + "."))
+                {
+                    Quest("milagrosPaper", qvar);
+                    Quest("milagros" + qvar , 1);
+                    Execute(event_tnn_milagros01);
+                }
+            }
+            item = ds_map_find_next(global.tnnpapermap, item);
+        }
+    }
+
+    //--------------------------------
+    // paper_snippet
+    //--------------------------------
+    with (paper_snippet)
+    {
+        Quest("milagrosPaper", "");
+
+        switch (Quest("milagrosPaper"))
+        {
+            
+              ___                    ___   __  __
+            // / _ \ _ __   ___       / _ \ / _|/ _|___
+            //| | | | '_ \ / _ \_____| | | | |_| |_/ __|
+            //| |_| | | | |  __/_____| |_| |  _|  _\__ \
+            // \___/|_| |_|\___|      \___/|_| |_| |___/
+            
+            //------------------------------------
+            // Vidcon Almanac
+            //------------------------------------
+            case "Almanac":
+                // Very thankful!
+
+                // REWARD: 25% Discount.
+                // Makes prices more accurate (changes them all)!
+
+                Dialogue(P_NAME, "How about this? It's about vidcons... probably up your alley, right?");
+                // This is a note now -> Vidcon Almanac", -1);
+                DialogueItem("Gave the Vidcon Almanac to Milagros.");
+                Dialogue("Milagros", "What in the gaming heck!?... Gamesmasterjasper's Vidcon Almanac, April 202X edition! This is a holy grail of vintage vidcon info... a speculator's dream! Look at this section right here: /'Jasperdamus' Prophecies: Racing Games?... IN! RPGs?... OUT! Platformers?... VERY IN!/' I gotta fix my prices, pronto.");
+                Dialogue(P_NAME, "So you like it? Great!");
+
+                // IF ON THE JOB
+                if (Quest("milagrosJob") >= 3)
+                {
+                    Dialogue("Milagros", "Like it? Of course I like it, kid! Oh yeah, that's right, I told you this was a job, didn't I? Well... I'm going to need to reprice my entire inventory now that I got this information, but I'll give you a discount, okay? " + string(scr_money_db("milagrosPercentJob")) + "% off, for you only!");
+                    Dialogue(P_NAME, "Awesome, thanks Milagros. Glad I could help!");
+                    Dialogue("Milagros", "Oh, you did, kid, you did! Make sure you buy something at the special, " + P_NAME + "-only prices!");
+                    Quest("milagrosJob", 4);
+                }
+
+                // IF YOU JUST GAVE
+                else
+                {
+                    Dialogue("Milagros", "Like it? Of course I like it, kid! Now I feel like I owe you something... hmm. I'm going to need to reprice my entire inventory now that I got this information, but I tell you what... I'll give you a discount, okay? How does " + string(scr_money_db("milagrosPercentGift")) + "% off, for you only!");
+                    Dialogue(P_NAME, "Awesome! I'll definitely check it out.");
+                    Dialogue("Milagros", "Hey, wait! Before you go... if you find anything else like that, let me know. In fact, anything you think would suit me knowing, bring it here, okay? Scoops like this are what give me the edge, and I gotta keep this store alive. Let me know what you come across, okay?");
+                    Dialogue(P_NAME, "Um, sure thing!");
+                    Quest("milagrosJob", 4);
+                }
+                break;
+
+            //------------------------------------
+            // Printed Invitation
+            //------------------------------------
+            case "Printed":
+                // Goes to meet Fede.
+
+                // REWARD: Delayed until later.
+                // Closes shop.
+                // Advances MAIN Gaming Klatch story.
+
+                Debug("Printed");
+                Dialogue(P_NAME, "");
+                DialogueItem("Gave the Printed Invitation to Milagros.");
+
+                // This is a note now -> Printed Invitation", -1);
+                break;
+
+            //-----------------------------------
+            // Clandestine Courts Baller Zine
+            //-----------------------------------
+            case "Clandestine":
+                Dialogue(P_NAME, "Check this out, Milagros. It's about games... a ball game in fact! It's called /'B-Ball/'! Take a look!");
+                DialogueItem("Gave the 'Clandestine Courts' Baller Zine to Milagros.");
+                // This is a note now -> Clandestine Courts Baller Zine", -1);
+                Dialogue("Milagros", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("Milagros", "Sports, huh? Not really games if you ask me. Where's the graphics? Where's the timed-input challenges? Where's the codes? I guess capturing the excitement of this b-ball game in a vidcon though, that would be way more my speed! Bring me something about games, kid!");
+                DialogueItem("Milagros gave back the Baller Zine.");
+                // This is a note now -> Clandestine Courts Baller Zine", 1);
+                Dialogue(P_NAME, "(Can... can you capture B-Ball in a vidcon...?)");
+                break;
+
+            //-----------------------------------
+            // Cornrow's Note
+            //-----------------------------------
+            case "Cornrow":
+                Dialogue(P_NAME, "");
+                DialogueItem("Gave Cornrow's Note to Milagros.");
+                // This is a note now -> Cornrow's Note", -1);
+                Dialogue("Milagros", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("Milagros", "");
+                Dialogue(P_NAME, "");
+                DialogueItem("Milagros gave back Cornrow's Note.");
+                // This is a note now -> Cornrow's Note", 1);
+                Dialogue(P_NAME, "()");
+                break;
+
+            //------------------------------------
+            // Sealed Letter
+            //------------------------------------
+            case "Sealed":
+                // Predicts Estate Sale.
+                // REWARD: One-time flat N.S. discount.
+
+                // Didn't give before...
+                if (Quest("milagrosSealedState") == 1)
+                {
+                    Dialogue("Milagros", "This again... didn't we say it was confidential?");
+                }
+                // First time.
+                else
+                {
+                    Dialogue(P_NAME, "Here you go... I came across this a little bit ago. It might be some info, if you're interested...");
+
+                    DialogueItem("Gave the Sealed Letter to Milagros..");
+                    // This is a note now -> Sealed Letter", -1);
+
+                    Dialogue("Milagros", "It's sealed in this envelope, but it doesn't say who it's from... you think it's for me? Could be confidential...");
+                }
+
+                // CHOICE: Give or do not give.
+                var sealed_choice = Choice("What is it?", s_port_hoopz);
+
+                // Give!
+                var sealed_open = ChoiceAdd(sealed_choice, "Confidential... and valuable?");
+                {
+                    // Didn't give before...
+                    if (Quest("milagrosSealedState") == 1)
+                    {
+                        Dialogue(P_NAME, "Yeah, it could be confidential... but that makes it valuable! Take it and open it!");
+                        DialogueItem("Gave the Sealed Letter to Milagros.");
+                        // This is a note now -> Sealed Letter", -1);
+                    }
+                    // First time.
+                    else
+                    {
+                        Dialogue(P_NAME, "Yeah, it could be confidential... but that makes it valuable! Go ahead and open it!");
+                    }
+
+                    Dialogue("Milagros", "All right, you convinced me! Hopefully there's a good vidcon tidbit in here! Let's see...");
+                    Wait(1);
+                    //TODO: Milagros animation if possible.
+                    Dialogue("Milagros", ""); // TEXT_Sealed
+                    Wait(1);
+                    Dialogue("Milagros", "That's... that's uh...");
+                    Dialogue(P_NAME, "That's so sad... whoever wrote this, they...");
+
+                    // Heard Estate Sale stuff from Suicide Note.
+                    if (Quest("milagrosEstate") == 2)
+                    {
+                        Debug("Estate sale stuff here.");
+                    }
+                    else if (Quest("milagrosEstate") == 1)
+                    {
+                        Debug("Estate sale stuff here.");
+                    }
+                    // Haven't heard Estate Sale spiel before.
+                    else
+                    {
+                        Dialogue("Milagros", "Sad? You know what happens when people kick the bucket? ESTATE SALE, baby! If you wanna get good at the vidcon game, you gotta be able to make these associations. There could be vintage picks dropping at low, low, prices... and soon! I'm gonna hold onto this, okay? I think I'll pound the pavement and figure out who this character is, and what kind of a stash they're sitting on. Then I'll buy 'em up before the market gets flooded. Thanks kid! Oh, I guess I owe you something... how about some uh... store credit! Next vidcon you buy from me, " + string(scr_money_db("milagrosSealed")) + " N.S. discount!");
+                        Dialogue(P_NAME, "Hmm, that means I gotta buy something? Oh well...");
+                        Dialogue("Milagros", "Don't be like that, it's a good thing! Well, lemme know if you wanna buy something!");
+                    }
+                    QuestAdd("milagrosEstate", 1);
+                }
+
+                // Don't give!
+                var sealed_dont = ChoiceAdd(sealed_choice, "Confidential... and private!");
+                {
+                    // Didn't give before...
+                    if (Quest("milagrosSealedState") == 1)
+                    {
+                        Dialogue(P_NAME, "Yeah, you're right. Confidential and private. Nevermind...");
+                    }
+                    // First time.
+                    else
+                    {
+                        Dialogue(P_NAME, "Yeah, it could be confidential... and private. Nevermind, I should take it back.");
+                        DialogueItem("Milagros gave back the Sealed Letter.");
+                        // This is a note now -> Sealed Letter", 1);
+                    }
+                }
+                break;
+
+
+            /*
+                _                 _
+               | | ___   __ _  __| |
+            _  | |/ _ \ / _` |/ _` |
+           | |_| | (_) | (_| | (_| |
+            \___/ \___/ \__,_|\__,_|
+            
+            //------------------------------------
+            // Dead Soldier's Note
+            //------------------------------------
+            case "Dead":
+
+                // Wants to explore tomb.
+                // REWARD: One-time flat neuroshekel discount.
+
+                Dialogue(P_NAME, "I came across this in the sewers... some real crazy stuff happens down there. Check it out!");
+                DialogueItem("Gave the Dead Soldier's Note to Milagros.");
+                // This is a note now -> Dead Soldier's Note", -1);
+                Dialogue("Milagros", "Hmm, let's see here...");
+                Wait(0.1);
+                Dialogue("Milagros", ""); // TEXT_soldier
+                Wait(0.1);
+                Dialogue(P_NAME, "He died right in front of me... it was really sad... but I'm glad I could fulfill his request...");
+                Dialogue("Milagros", "Yeah, that's a trip all right. Tir na n0g is a messed up place, and the sewers are even worse. Ah well, at least we've got vidcons! .. but you know, this tomb thing sounds pretty exciting. What do you think I could get for an ancient vidcon? Just imagine prying open a sarcophagus and glimpsing a glittering kart... I'm salivating here! Well, I don't know what I'll do what I'll do with it, but info's info... tell you what, how's a discount sound? " + string(scr_money_db("milagrosTomb")) + " off your next purchase, on me!");
+                break;
+
+            //------------------------------------
+            // Joad's Note
+            //------------------------------------
+            case "Joad":
+
+                // Wants to explore tomb.
+                // REWARD: One-time flat neuroshekel discount.
+
+                Dialogue(P_NAME, "I came across this in the sewers... some real crazy stuff happens down there. Check it out!");
+                DialogueItem("Gave Joad's Note to Milagros.");
+                // This is a note now -> Joad's Note", -1);
+                Dialogue("Milagros", "Hmm, let's see here...");
+                Wait(0.1);
+                Dialogue("Milagros", ""); // TEXT_joad
+                Wait(0.1);
+                Dialogue(P_NAME, "He died right in front of me... it was really sad... but I'm glad I could fulfill his request...");
+                Dialogue("Milagros", "Yeah, that's a trip all right. Tir na n0g is a messed up place, and the sewers are even worse. Ah well, at least we've got vidcons!");
+                Dialogue(P_NAME, "True...");
+                Dialogue("Milagros", "But you know, this tomb thing sounds pretty exciting. What do you think is the price of a truly ancient vidcon? Just imagine... prying open a sarcophagus and glimpsing a glittering kart... I'm salivating here! Well, I don't know quite what I'll do what I'll do with it, but info's info... tell you what, how's a discount sound? " + string(scr_money_db("milagrosTomb")) + " off your next purchase, on me!");
+                break;
+
+            //------------------------------------
+            // Tattered Paper
+            //------------------------------------
+            case "Tattered":
+                // Returns paper.
+
+                Dialogue(P_NAME, "Hey, maybe you're looking for something like this?");
+                DialogueItem("Gave the Tattered Paper to Milagros.");
+                // This is a note now -> Blank Paper", -1);
+                Dialogue("Milagros", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("Milagros", "What is this? Just looks like a torn up piece of paper to me. Is there supposed to be something special here?");
+                Dialogue(P_NAME, "Uh... nevermind! Just give it back!");
+                DialogueItem("Milagros gave back the Tattered Paper.");
+                // This is a note now -> Blank Paper", 1);
+                Dialogue(P_NAME, "(What a mistake... egg all over my face...)");
+                break;
+
+            //------------------------------------
+            // Bloody Paper
+            //------------------------------------
+            case "Bloody":
+                // Shrieks! Predicts market flooding.
+                // REWARD: Global 5% discount.
+
+                Dialogue(P_NAME, "Um... I don't know if this counts as information, but check this out!");
+
+                DialogueItem("Gave the Bloody Paper to Milagros.");
+                // This is a note now -> Bloody Paper", -1);
+
+                Dialogue("Milagros", "W-what!? Gross, I don't want this! Take it back!");
+
+                DialogueItem("Milagros gave back the Bloody Paper.");
+                // This is a note now -> Bloody Paper", 1);
+
+                Dialogue("Milagros", "That's really disgusting. Where did you find that anyway?");
+                Dialogue(P_NAME, "Well, there was this dwarf in the sewers...");
+                Dialogue("Milagros", "A... a dead dwarf?");
+                Dialogue(P_NAME, "Yeah... ");
+
+                // TODO: Estate knowledge.
+                Dialogue("Milagros", "Hmm... this is tricky. A death or an eviction in Tir na n0g is always a weird situation. Depending on the number of vidcons they owned, the market could be flooded. I'll make it very clear: I do NOT in any way want your bloodsoaked scrap of paper, but at the same time, this is info. Strange, vague info, but info. I think I'm going to pre-emptively mark down my prices, in case there's a sudden supply spike. Better to sell off my inventory now than have demand drop out on me... I think a " + string(scr_money_db("milagrosBloody")) + "% markdown across the board should work... so uh, it's cheaper now... buy something, all right?");
+                break;
+
+            //------------------------------------
+            // Ancient Scroll
+            //------------------------------------
+            case "Ancient":
+                // Excited! Wants to research.
+
+                // REWARD: Free vidcon.
+                // Closes shop.
+                // Advances Gaming Klatch sideplot: HIVE/FARY/DEATHTOWER
+
+                Dialogue(P_NAME, "What about this? The dwarf I got it from told me it was an Ancient Scroll. He uh... unfortunately he didn't make it...");
+                Dialogue("Milagros", "Didn't make it? That sounds spooky... hand it here!");
+
+                DialogueItem("Gave the Ancient Scroll to Milagros.");
+                // This is a note now -> Ancient Scroll", -1);
+
+                Dialogue("Milagros", "Hmmm... hmm... this is interesting, very interesting indeed.");
+                Dialogue(P_NAME, "What does it say? What does it say!?");
+                Dialogue("Milagros", "Hmmm... yes... fascinating...");
+                Dialogue(P_NAME, "HEY! What does it say!?");
+
+                Dialogue("Milagros", "Oh, huh? No, I can't read it... look at these symbols, it's a bunch of gibberish. Must be another language, one I've never seen before... and you know what that means, right? What's the one universal trait of dwarfs, near and far? What do dwarfs of all cultures share?");
+
+                // ROUNDMOUND CHOICE
+                var culture_choice = Choice("______: the universal dwarf culture.", s_port_hoopz);
+
+                with (ChoiceAdd(culture_choice, "B-Ball."))
+                {
+                    Dialogue(P_NAME, "I know this one... B-Ball! All the dwarfs love basketball! ... right?");
+                }
+                with (ChoiceAdd(culture_choice, "Vidcons"))
+                {
+                    Dialogue(P_NAME, "I know this one... Vidcons! Dwarfs gotta game, in any age or clime!");
+                    Quest("milagrosAncientVidcons", 1);
+                }
+                with (ChoiceAdd(culture_choice, "Candy."))
+                {
+                    Dialogue(P_NAME, "I know this one... /'All Dwarfs Under Candy/'!");
+                }
+                with (ChoiceAdd(culture_choice, "Clispaeth."))
+                {
+                    Dialogue(P_NAME, "I know this one... or at least, I hope I do... it's Clispaeth, right?");
+                }
+                with (ChoiceAdd(culture_choice, "Pride."))
+                {
+                    Dialogue(P_NAME, "I know this one... Dwarf Pride! The Duergars seem tough... but I think the dwarfs can get out of this bind. Just my opinion...");
+                }
+                with (ChoiceAdd(culture_choice, "Prizes."))
+                {
+                    Dialogue(P_NAME, "I know this one... all the dwarfs are waiting for Cuchulainn's prize, right?");
+                }
+                with (ChoiceAdd(culture_choice, "No idea."))
+                {
+                    Dialogue(P_NAME, "I've got no idea... I don't know squat about dwarfs yet... help me out with this one!");
+                }
+                Quest("milagrosLoop", "ancient");
+                Execute(event_tnn_milagros01);
+                break;
+
+
+            /*
+                ____        _     _
+               | __ )  __ _| | __| | ___
+               |  _ \ / _` | |/ _` |/ _ \
+               | |_) | (_| | | (_| | (_) |
+               |____/ \__,_|_|\__,_|\___/
+            
+
+            //------------------------------------
+            // Blank Paper
+            //------------------------------------
+            case "Blank":
+                // Returns paper.
+
+                Dialogue(P_NAME, "Maybe you're looking for something like this?");
+                DialogueItem("Gave the Blank Paper to Milagros.");
+                // This is a note now -> Blank Paper", -1);
+                Dialogue("Milagros", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("Milagros", "I don't get it. Is it supposed to be blank? Is it a joke or did you mean to give me something else?");
+                Dialogue(P_NAME, "Oh, uh... yeah! It was a joke!");
+                Dialogue("Milagros", "Great... then no egg on your face. You don't want egg on your face, do you?");
+                Dialogue(P_NAME, "N-no...");
+                DialogueItem("Milagros gave back the Blank Paper.");
+                // This is a note now -> Blank Paper", 1);
+                break;
+
+            //------------------------------------
+            // Suicide Note
+            //------------------------------------
+            case "Suicide":
+                // Predicts Estate Sale.
+                // REWARD: One-time flat N.S. discount.
+
+                Dialogue(P_NAME, "I found this... it's pretty grim, but maybe you should take a look.");
+                DialogueItem("Gave the Suicide Note to Milagros..");
+                // This is a note now -> Suicide Note", -1);
+                Dialogue("Milagros", "Okay, let's see...");
+                Wait(1);
+                Dialogue("Milagros", ""); // TEXT_suicide
+                Dialogue("Milagros", "... okay, first of all, warn me next time! That's more than grim! Secondly...");
+                // estate
+
+                if (Quest("milagrosEstate") == 2)
+                {
+
+                }
+                else if (Quest("milagrosEstate") == 1)
+                {
+
+                }
+                else
+                {
+
+                }
+
+                QuestAdd("milagrosEstate", 1);
+
+                break;
+
+            //------------------------------------
+            // Augustine's Letter
+            //------------------------------------
+            case "Augustine":
+                // Augustine dead, sells inventory.
+                // Offers X game up for sale.
+
+                DialogueItem("Gave Augustine's Letter to Milagros.");
+
+
+
+                Quest("milagrosAugustineSale", 1);
+
+                // This is a note now -> Augustine's Letter", -1);
+
+                break;
+
+            //------------------------------------
+            // Carlton's Letter
+            //------------------------------------
+            case "Carlton":
+                // Carlton dead, sells inventory.
+                // Offers X game up for sale.
+
+                DialogueItem("Gave Carlton's Letter to Milagros.");
+
+                // This is a note now -> Carlton's Letter", -1);
+                Quest("milagrosCarltonSale", 1);
+
+                break;
+
+
+            /*
+                ____      _
+               |  _ \ ___| |_ ___
+               | |_) / _ \ __/ __|
+               |  __/  __/ |_\__ \
+               |_|   \___|\__|___/
+            
+            //-----------------------------------
+            // Pet Shop Application
+            //-----------------------------------
+            case "Application":
+                Dialogue(P_NAME, "");
+                DialogueItem("Gave the Pet Shop Application to Milagros.");
+                // This is a note now -> Pet Shop Application", -1);
+                Dialogue("Milagros", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("Milagros", "");
+                Dialogue(P_NAME, "");
+                DialogueItem("Milagros gave back the Pet Shop Application.");
+                // This is a note now -> Pet Shop Application", 1);
+                Dialogue(P_NAME, "()");
+                break;
+
+            //-----------------------------------
+            // Completed Application
+            //-----------------------------------
+            case "Completed":
+                Dialogue(P_NAME, "");
+                DialogueItem("Gave the Completed Application to Milagros.");
+                // This is a note now -> Completed Application", -1);
+                Dialogue("Milagros", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("Milagros", "");
+                Dialogue(P_NAME, "");
+                DialogueItem("Milagros gave back the Completed Application.");
+                // This is a note now -> Completed Application", 1);
+                Dialogue(P_NAME, "()");
+                break;
+
+            //-----------------------------------
+            // Pet Manifesto
+            //-----------------------------------
+            case "Manifesto":
+                Dialogue(P_NAME, "");
+                DialogueItem("Gave Pet Manifesto to Milagros.");
+                // This is a note now -> Pet Manifesto", -1);
+                Dialogue("Milagros", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("Milagros", "");
+                Dialogue(P_NAME, "");
+                DialogueItem("Milagros gave back the Pet Manifesto.");
+                // This is a note now -> Pet Manifesto", 1);
+                Dialogue(P_NAME, "()");
+                break;
+
+            //-----------------------------------
+            // Pet Apocrypha
+            //-----------------------------------
+            case "Apocrypha":
+                Dialogue(P_NAME, "");
+                DialogueItem("Gave the Pet Apocrypha to Milagros.");
+                // This is a note now -> Pet Apocrypha", -1);
+                Dialogue("Milagros", "Hmm... let's see...");
+                Wait(1);
+                Dialogue("Milagros", "");
+                Dialogue(P_NAME, "");
+                DialogueItem("Milagros gave back the Pet Apocrypha.");
+                // This is a note now -> Pet Apocrypha", 1);
+                Dialogue(P_NAME, "()");
+                break;
+        }
+    }
+
+    //-----------------------------------
+    // ancient_snippet
+    //-----------------------------------
+    with (ancient_snippet)
+    {
+        Dialogue("Milagros", ancient_string + "Just imagine what kind of games these cats are playing if I can't even read their language! What kind of consoles are they using? What's the big game over there?  Over uh... wherever it is they use these scribbles to communicate? What's their /'Hyperborea Monogatari/'? What's their /'Bolly Mixtures/'? And most importantly... what's their damned GOTY? I've got so many questions!");
+        Dialogue(P_NAME, "Wow... sounds like this could be the vidcon motherlode then...");
+        Dialogue("Milagros", "I'm certain of it... and that's why I can't stop now! You've awakened something in me, " + P_NAME_S + ", and I'm gonna get to the bottom of this! ... oh yeah, oh yeah, I owe you something for your hard work bringing this to me. Sheesh, all this stuff around me looks like complete garbage now. I'm on a foreign game hunt! This is the last frontier, kid! Just uh, take something!");
+        Quest("milagrosFree", 1);
+        Quest("milagrosLoop", "shop");
+        Execute(event_tnn_milagros01);
+        break;
+    }
+
+    //---------------------------------------------------------------------------
+    // MAIN EVENT
+    //---------------------------------------------------------------------------
+    /*
+
+    
+    with (event)
+    {
+
+        //------------------------------------------
+        // Body Swap States
+
+        //if you're controlling the Governor.
+        if (BodySwap() == "governor") {
+        
+            Dialogue("Governor Elagabalus", "(She looks kind of busy... maybe I should leave her alone. Maybe I should stop walking around talking to everyone I see and go give that speech, too...)");
+        }
+
+
+        //------------------------------------------
+        // Paper Handler
+        //------------------------------------------
+        else
+        {
+            if (Quest("milagrosPaper") != "")
+            {
+                Snippet(paper_snippet);
+            }
+            //------------------------------------------
+            // Event Handler
+            //------------------------------------------
+            else if (Quest("milagrosLoop") != "")
+            {
+                Quest("milagrosLoop", "");
+
+                switch (Quest("milagrosLoop"))
+                {
+                    case "ancient": Snippet(ancient_snippet); break;
+                    case "tips": Snippet(tips_snippet); break;
+                    case "shop": Snippet(shop_snippet); break;
+                    case "eric": Snippet(eric_snippet); break;
+                    case "job": Snippet(job_snippet); break;
+                }
+            }
+            //------------------------------------------
+            // Normal States
+            //------------------------------------------
+            else if (Quest("milagrosState") == 1)
+            {
+                Dialogue("Milagros", "Milagros' Vidcon Palazzo! How can I help you?");
+                Quest("milagrosLoop", "shop");
+                //Execute(event_tnn_milagros01);
+                Snippet(shop_snippet);
+            }
+            else
+            {
+                Quest("milagrosState", 1);
+                Dialogue("Milagros", "Hey, customer! What do you got for me?");
+                Dialogue(P_NAME, "Got for you?... I only just got here myself...");
+                Dialogue("Milagros", "A new arrival? Perfect! I'm Milagros, and I run this shop. You play much, kid?");
+                Snippet(rm_snippet);
+            }
+        }
+    }
+    scr_event_advance(event);
+}

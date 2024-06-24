@@ -1,0 +1,132 @@
+// Event for Rutherford, a chump who stands in front of the Gun in the Stone.
+/*
+if (argument0 == SCRIPT_START) 
+{
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var rutherford = id;
+    var event = scr_event_create_main();
+    var chup_sale_snippet = scr_event_create_child(event);
+    var chup_handler_snippet = scr_event_create_child(event);
+
+    //---------------------------------------
+    //-----------CHUP SALE SNIPPET-----------
+    //---------------------------------------
+    with (chup_sale_snippet)
+    {
+        Breakout("build", "clear");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey buddy, have you given it a shot yet?");
+        scr_event_build_dialogue("Rutherford", NULL, "Huh, me? Of course. Turns out I'm not pure of heart enough...");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Nah, that's not the problem. The problem was that you weren't strong enough. I know how you can do it and I've got what you're looking for... chups. These bad boys will give you the edge to pull it out. Trust me. Heck, you'll be strong enough to take out Cuchulainn in one punch.");
+        scr_event_build_dialogue("Rutherford", NULL, "You really think so? Boy, I sure would love to pull that gun out. Hey, whattaya think'll happen when I pull it out? You think I'll be crowned king? Maybe they'll give me a parade or something, huh? Yeah, I'll take 'em, how's 600 neuro-shekels sound?");
+        
+        var chupdeal = scr_event_build_choice("Sell Rutherford a chup? I've got " + (string(scr_quest_get_state("chupCount"))) + " left...", s_port_hoopz);
+        
+        // Accept Offer
+        with scr_event_build_add_choice(chupdeal, "You've got yourself a deal.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You've got yourself a deal, buddy. Here you go. Good luck. Oh, and congratulations, our soon-to-be-king.");
+            scr_event_build_dialogue(NULL, NULL, "Get 600 neuro-shekels!");
+            scr_event_build_dialogue("Rutherford", NULL, "Ooooooh mama! I'm gonna go bop these chups and pull it out right away! Thanks, pal!");
+            scr_event_build_quest_state("rutherfordChup", 2);
+            scr_event_build_quest_state_add("chupCount", -1);
+            scr_event_build_quest_state_add("chupShekel", 600);
+            scr_event_build_money_add(600);
+        }
+        // Don't Accept Offer
+        with scr_event_build_add_choice(chupdeal, "Sorry, that's not enough.")
+        {
+            Breakout("build", "clear");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No way, that's not nearly enough. These are -chups-, not candies. You've gotta pay real money to get the good stuff.");
+            scr_event_build_dialogue("Rutherford", NULL, "Eh, forget about it. I don't need 'em anyway. I'm gonna train every day to get more and more pure of heart, until my heart's the purest of all. Chups don't make your heart purer. Leave me alone.");
+            scr_event_build_quest_state("rutherfordChup", 1);
+        }
+    }
+    //---------------------------------------
+    //---------CHUP HANDLER SNIPPET----------
+    //---------------------------------------  
+    with (chup_handler_snippet)
+    {
+        // Chup Quest
+        if (scr_chup_available("rutherford"))
+        {
+            Breakout("build", "add", "chupCount");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Maybe I can sell this guy a chup...?)");
+            var chupsell = scr_event_build_choice("Sell Rutherford a chup? I've got " + (string(scr_quest_get_state("chupCount"))) + " left...", s_port_hoopz);
+            // Sell Chup
+            with scr_event_build_add_choice(chupsell, "I think I've got something you'll like.")
+            {
+                Breakout("build", "clear");
+                // Blew Up Stone
+                if (scr_quest_get_state("gunStone") == 2)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey buddy, I've got something I think you'll like...");
+                    scr_event_build_dialogue("Rutherford", NULL, "Just because you've got the Gun in the Stone doesn't mean you're pure of heart... that wasn't how you were supposed to do it... leave me alone...");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Shucks...)");
+                }
+                // Regular, go to Sale Snippet
+                else
+                {
+                    scr_event_build_event_snippet(chup_sale_snippet);
+                }
+            }
+            // Don't Sell Chup
+            with scr_event_build_add_choice(chupsell, "Forget it, he looks like a narc.")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Nah, this guy looks like a narc. Forget it.)");
+            }
+        }
+    }
+
+    //---------------------------------------
+    //--------------MAIN EVENT---------------
+    //---------------------------------------
+    with (event)
+    {
+        // Time is greater than or equal to 10, when the gun is removed.
+        // ... and player did not remove the gun.
+        if (scr_time_get() >= 10) && (scr_quest_get_state("gunStone") != 2)
+        {
+            scr_event_build_dialogue("Rutherford", NULL, "You missed it. Some buff dude with huge muscles came and pulled the gun out of the stone. He must've been the most pure-of-heart guy I've ever seen.");
+            scr_event_build_end();
+        }
+        else
+        {
+            // Blew up the stone.
+            if (scr_quest_get_state("gunStone") == 2)
+            {
+                scr_event_build_dialogue("Rutherford", NULL, "That's not how you were supposed to do it...");
+            }
+            // Tried removing the gun.
+            else if (scr_quest_get_state("gunStone") == 1)
+            {
+                scr_event_build_dialogue("Rutherford", NULL, "Guess you weren't pure of heart enough.");
+                //Haven't spoken to Rutherford yet.
+                if (scr_quest_get_state("rutherfordState") == 0)
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? What do you mean?");
+                    scr_event_build_dialogue("Rutherford", NULL, "The gun in the stone? They say only those pure of heart can remove it.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Shucks...");
+                    scr_event_build_quest_state("rutherfordState", 1);
+                }
+            }
+            // Haven't tried removing the gun in the stone yet.
+            else if (scr_quest_get_state("gunStone") == 0)
+            {
+                scr_event_build_dialogue("Rutherford", NULL, "See that gun in the stone over there? They say only those pure of heart can remove it.");
+                scr_event_build_quest_state("rutherfordState", 1);
+            }
+            // Go to Chup Snippet if available
+            scr_event_build_event_snippet(chup_handler_snippet);
+        }
+    }
+    scr_event_advance(event);
+}

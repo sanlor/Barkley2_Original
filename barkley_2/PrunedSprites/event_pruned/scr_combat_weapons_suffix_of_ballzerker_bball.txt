@@ -1,0 +1,20 @@
+///scr_combat_weapons_suffix_of_ballzerker_bball(action, bulletOrNoone, gunOrNull)
+var _action = argument0;
+var _bullet = argument1;
+var gun = argument2;
+var _retvar = 0;
+
+// DOWN - COSMIC - AGRESSIVE //
+switch(_action)
+{
+    case "apply":
+        break;
+    case "checkval":
+        _retvar = 20;
+        break;
+    case "applyBullet":
+        break;
+}
+
+// END //
+return _retvar;

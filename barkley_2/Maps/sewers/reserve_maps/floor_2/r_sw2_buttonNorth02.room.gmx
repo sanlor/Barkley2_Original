@@ -1,0 +1,74 @@
+<room>
+  <caption></caption>
+  <width>480</width>
+  <height>400</height>
+  <vsnap>16</vsnap>
+  <hsnap>16</hsnap>
+  <isometric>0</isometric>
+  <speed>60</speed>
+  <colour>12632256</colour>
+  <showcolour>0</showcolour>
+  <code></code>
+  <enableViews>-1</enableViews>
+  <clearViewBackground>-1</clearViewBackground>
+  <backgrounds/>
+  <views>
+    <view visible="-1" objName="&lt;undefined&gt;" xview="0" yview="0" wview="384" hview="240" xport="0" yport="0" wport="384" hport="240" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
+    <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="384" hview="240" xport="0" yport="0" wport="384" hport="240" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
+    <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="384" hview="240" xport="0" yport="0" wport="384" hport="240" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
+    <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="384" hview="240" xport="0" yport="0" wport="384" hport="240" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
+    <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="384" hview="240" xport="0" yport="0" wport="384" hport="240" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
+    <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="384" hview="240" xport="0" yport="0" wport="384" hport="240" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
+    <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="384" hview="240" xport="0" yport="0" wport="384" hport="240" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
+    <view visible="0" objName="&lt;undefined&gt;" xview="0" yview="0" wview="384" hview="240" xport="0" yport="0" wport="384" hport="240" hborder="32" vborder="32" hspeed="-1" vspeed="-1"/>
+  </views>
+  <instances>
+    <instance objName="o_solid16" x="0" y="0" name="inst_00000001" locked="0" code="" scaleX="23" scaleY="7" colour="4294967295" rotation="0"/>
+    <instance objName="o_solid16" x="0" y="112" name="inst_00000002" locked="0" code="" scaleX="7" scaleY="18" colour="4294967295" rotation="0"/>
+    <instance objName="o_solid16" x="112" y="336" name="inst_00000003" locked="0" code="" scaleX="7" scaleY="4" colour="4294967295" rotation="0"/>
+    <instance objName="o_solid16" x="256" y="336" name="inst_00000004" locked="0" code="" scaleX="7" scaleY="4" colour="4294967295" rotation="0"/>
+    <instance objName="o_solid16" x="368" y="0" name="inst_00000005" locked="0" code="" scaleX="7" scaleY="25" colour="4294967295" rotation="0"/>
+    <instance objName="o_semisolid16" x="112" y="112" name="inst_00000006" locked="0" code="" scaleX="16" scaleY="2" colour="4294967295" rotation="0"/>
+  </instances>
+  <tiles>
+    <tile bgName="tls_sw1_sewers02" x="112" y="144" w="16" h="16" xo="416" yo="336" id="10000000" name="inst_10000000" depth="93" locked="0" colour="4294967295" scaleX="16" scaleY="10"/>
+    <tile bgName="tls_sw1_sewers02" x="224" y="304" w="16" h="16" xo="416" yo="336" id="10000001" name="inst_10000001" depth="93" locked="0" colour="4294967295" scaleX="2" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="112" y="64" w="16" h="80" xo="64" yo="112" id="10000002" name="inst_10000002" depth="92" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="128" y="64" w="32" h="80" xo="48" yo="112" id="10000003" name="inst_10000003" depth="92" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="160" y="64" w="32" h="80" xo="48" yo="112" id="10000004" name="inst_10000004" depth="92" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="192" y="64" w="32" h="80" xo="48" yo="112" id="10000005" name="inst_10000005" depth="92" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="224" y="64" w="32" h="80" xo="48" yo="112" id="10000006" name="inst_10000006" depth="92" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="256" y="64" w="32" h="80" xo="48" yo="112" id="10000007" name="inst_10000007" depth="92" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="288" y="64" w="32" h="80" xo="48" yo="112" id="10000008" name="inst_10000008" depth="92" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="320" y="64" w="32" h="80" xo="48" yo="112" id="10000009" name="inst_10000009" depth="92" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="352" y="64" w="16" h="80" xo="48" yo="112" id="10000010" name="inst_10000010" depth="92" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="0" y="0" w="16" h="16" xo="16" yo="16" id="10000011" name="inst_10000011" depth="-1000000" locked="0" colour="4294967295" scaleX="30" scaleY="4"/>
+    <tile bgName="tls_sw1_sewers02" x="0" y="64" w="16" h="16" xo="16" yo="16" id="10000012" name="inst_10000012" depth="-1000000" locked="0" colour="4294967295" scaleX="7" scaleY="21"/>
+    <tile bgName="tls_sw1_sewers02" x="368" y="64" w="16" h="16" xo="16" yo="16" id="10000013" name="inst_10000013" depth="-1000000" locked="0" colour="4294967295" scaleX="7" scaleY="21"/>
+    <tile bgName="tls_sw1_sewers02" x="112" y="304" w="16" h="32" xo="16" yo="0" id="10000014" name="inst_10000014" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="128" y="304" w="16" h="32" xo="16" yo="0" id="10000015" name="inst_10000015" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="144" y="304" w="16" h="32" xo="16" yo="0" id="10000016" name="inst_10000016" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="160" y="304" w="16" h="32" xo="16" yo="0" id="10000017" name="inst_10000017" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="176" y="304" w="16" h="32" xo="16" yo="0" id="10000018" name="inst_10000018" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="192" y="304" w="16" h="32" xo="16" yo="0" id="10000019" name="inst_10000019" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="208" y="304" w="16" h="32" xo="16" yo="0" id="10000020" name="inst_10000020" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="256" y="304" w="16" h="32" xo="16" yo="0" id="10000021" name="inst_10000021" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="272" y="304" w="16" h="32" xo="16" yo="0" id="10000022" name="inst_10000022" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="288" y="304" w="16" h="32" xo="16" yo="0" id="10000023" name="inst_10000023" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="304" y="304" w="16" h="32" xo="16" yo="0" id="10000024" name="inst_10000024" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="320" y="304" w="16" h="32" xo="16" yo="0" id="10000025" name="inst_10000025" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="336" y="304" w="16" h="32" xo="16" yo="0" id="10000026" name="inst_10000026" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="352" y="304" w="16" h="32" xo="16" yo="0" id="10000027" name="inst_10000027" depth="-1000000" locked="0" colour="4294967295" scaleX="1" scaleY="1"/>
+    <tile bgName="tls_sw1_sewers02" x="224" y="320" w="16" h="16" xo="16" yo="16" id="10000028" name="inst_10000028" depth="-1000000" locked="0" colour="4294967295" scaleX="2" scaleY="5"/>
+    <tile bgName="tls_sw1_sewers02" x="112" y="336" w="16" h="16" xo="16" yo="16" id="10000029" name="inst_10000029" depth="-1000000" locked="0" colour="4294967295" scaleX="7" scaleY="4"/>
+    <tile bgName="tls_sw1_sewers02" x="256" y="336" w="16" h="16" xo="16" yo="16" id="10000030" name="inst_10000030" depth="-1000000" locked="0" colour="4294967295" scaleX="7" scaleY="4"/>
+  </tiles>
+  <PhysicsWorld>0</PhysicsWorld>
+  <PhysicsWorldTop>0</PhysicsWorldTop>
+  <PhysicsWorldLeft>0</PhysicsWorldLeft>
+  <PhysicsWorldRight>640</PhysicsWorldRight>
+  <PhysicsWorldBottom>0</PhysicsWorldBottom>
+  <PhysicsWorldGravityX>0</PhysicsWorldGravityX>
+  <PhysicsWorldGravityY>10</PhysicsWorldGravityY>
+  <PhysicsWorldPixToMeters>0.100000001490116</PhysicsWorldPixToMeters>
+</room>

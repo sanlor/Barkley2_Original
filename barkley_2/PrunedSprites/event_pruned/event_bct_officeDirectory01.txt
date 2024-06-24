@@ -1,0 +1,29 @@
+// event_bct_officeDirectory01
+
+/*if (argument0 == SCRIPT_START) {  
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var directory = id;
+    
+    var event = scr_event_create_main();
+    
+    //----------------------------------------------------------
+    // main event
+    //----------------------------------------------------------
+    with (event)
+    {
+        if (scr_quest_get_state("officeDirectory") == 0) 
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Looks like this is the building directory... let's see...)");
+            scr_event_build_quest_state("officeDirectory", 1);
+        }
+        scr_event_build_dialogue("Directory", NULL, "100 - Lobby / Reception#201 - Accounting - Wentworth#202 - Data Processing - Mayhew#301 - Human Resources - Quatermaine#302 - Public Relations - Davenport#401 - Mergers - Pembroke#402 - Acquisitions - Pomeroy");
+    }
+    scr_event_advance(event);
+}

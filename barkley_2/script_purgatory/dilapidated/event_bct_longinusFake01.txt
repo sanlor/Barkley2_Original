@@ -1,0 +1,51 @@
+// -- Fake Longinus Base --
+// event_bct_longinusFake01
+// Event script for entry into the Fake Longinus Base, which is actually the Dilapidated Zone
+// Controlled by a cutscene object in r_bct_dilapidatedMain01
+/*
+
+
+*/
+
+/*if (argument0 == SCRIPT_START) {
+    if (scr_quest_get_state("kirshnikEvictTime") >= scr_time_get() + 5) {
+        scr_quest_set_state("kirshnikEvict", 3);
+    }
+    
+    var longinusFake = id;
+    var event = scr_event_create_main();
+    
+    var wendyport = NULL;
+    var kirshnikport = NULL;
+    
+    with (event) {
+        if (scr_quest_get_state("longinusFakeDoor") == 1) {
+            scr_event_build_fade(false, 3);
+            scr_event_build_dialogue("Gen. Wendy", wendyport, "");
+            if (scr_time_get() <= 7) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, " this is L.O.N.G.I.N.U.S. then... my name is " + P_NAME + ". Or at least that is what I am called. I must meet the Cyberdwarf.");
+            }
+            else if (scr_time_get() <= 15) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, " this is L.O.N.G.I.N.U.S. then... my name is " + P_NAME + ". Or at least that is what I am called. I must meet the Cyberdwarf.");
+            }
+            else {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, " this is L.O.N.G.I.N.U.S. then... my name is " + P_NAME + ". Or at least that is what I am called. I must meet the Cyberdwarf.");
+            }
+            scr_event_build_dialogue("General Wendy", wendyport, "The Cyberdwarf... um...");
+            scr_event_build_dialogue("Captain Kirshnik", kirshnikport, "The Cyberdwarf ain't in! You best be-");
+            scr_event_build_dialogue("Captain Kirshnik", kirshnikport, "Ahem, what... Captain, Captain Kirshnik means to say is that the Cyberdwarf isn't in, but definitely will be later. Right Kirshnik?");
+            scr_event_build_dialogue("Captain Kirshnik", kirshnikport, "Aye, General Wendy, aye. If you don't mind...");
+            scr_event_build_dialogue("Captain Kirshnik", kirshnikport, "By all means. Um... at ease!");
+            // kirshnik takes a nap
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What's he doing?");
+            scr_event_build_dialogue("Captain Kirshnik", kirshnikport, "He's resting... we're all on a big mission. But you've got work to do. Listen, L.O.N.G.I.N.U.S. and the fight for freedom requires the following, immediately: " + ""); 
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yes ma'am, right away!");
+            scr_event_build_quest_state("longinusFakeDoor", 2);
+        }
+    }
+    scr_event_advance(event);
+} 
+else if (argument0 == SCRIPT_STEP) {} 
+else if (argument0 == SCRIPT_INTERACT) {
+    
+}

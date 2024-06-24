@@ -1,0 +1,215 @@
+// The Slag NPC script for his Granny-Murdering quest. The playthrough for this quest is structurally rather simple with very few ultimate quest states. The player gets the quest from Slag, goes to the granny's basement map, kills granny, reports back to Slag.
+// CRITICAL NOTE: This script is hinged slightly on the Lugner quest from tnn, where Slag will approach the player with different dialogue if they have completed that quest. Different dialogue is displayed if the quest was never finished.
+// NOTE: Some factors in the current composition of this script, most notably the script step. I don't know what kind of timeframe this quest operates on, but I was generally figuring something in the range of 5-8.
+// NOTE: Calling this quest "littlerobbingHood" because I don't think this is a quest name that will be used again. I'm just copypasting this shit so it doesn't matter if it's a few characters longer than most.
+// ANOTHER NOTE: I wrote in my initial dialogue that Slag gives the player some relatively noteworthy gun at the end of this quest. I'm not sure if the gun system will really permit this, so it can be changed to something else later when I/we have a better idea of how the quest reward system will work when it comes to non-monetary rewards.
+
+/*
+if (argument0 == SCRIPT_START)
+{
+    if (scr_time_get() == 9) || (scr_time_get() == 10)
+    {
+        scr_event_interactive_activate();
+    }
+    else if (scr_quest_get_state("littleRobbingHood") == 4)
+    {
+        scr_event_interactive_deactivate();
+    } 
+    else
+    {
+       scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var slag = id;
+    var event = scr_event_create_main();
+    var slagpitch1 = scr_event_create_child(event);
+    var slagpitch2 = scr_event_create_child(event);
+    var slagpitch3 = scr_event_create_child(event);
+
+//--------------------------------------------
+//-------------- SLAG PITCH 3 ----------------
+//--------------------------------------------      
+    
+    with (slagpitch3) {
+    var slagquestion2 = scr_event_build_choice("You in or out?", s_port_hoopz);
+    
+    //What's the angle??????????????buh buh
+    with (scr_event_build_add_choice(slagquestion2, "So what's the angle?")) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "So what's the angle?");
+        scr_event_build_dialogue("Slag", s_port_slag, "Heh, you let me worry about the angle. Let's just say that I got a genetic predisposition against grandmothers.");
+        scr_event_build_quest_state("littleRobbingHoodHandler", 1);
+        scr_event_build_execute_event_script(event_dz1_slag01); 
+        }
+        
+    //Why can't you do it yourself??? hoopz givin slag some sass
+    with (scr_event_build_add_choice(slagquestion2, "Why can't you do this yourself?")) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why can't you do this yourself? This sounds like something up your alley.");
+        scr_event_build_dialogue("Slag", s_port_slag, "Let's be honest: I'm slimy as fuck. You ever hear of a famous Kobold thief?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Beats me, I have amnesia.");
+        scr_event_build_dialogue("Slag", s_port_slag, "Well I'll give you some elementary biology, free of charge. Most races think Kobolds fucking stink. I don't know what the big fucking deal is, but apparently everybody knows when a goddamn Kobold is around. You take this piece of information and add it to the fact that we Kobolds are really goddamn slimy, leave so thick a trail wherever we go that plants and shit grow out of it. It's what we are, getting constantly persecuted for our superior bile ducts and sweat glands by all these dry-assed fleshy bone bags. Ask me, I don't see what the big fucking deal is. I fell out of a sewer pipe this way, and I'm thankful for it. You don't pick up the chisel and fuck around with the masterpiece after the sculptor is done. The dregs are damn lucky they get to see perfection once in their stupid lives. So... unfortunately, the downside of having such superior bodily functions is that we're the worst fucking thieves. We got the spirit, got the instinct, but we just make too much of an impact on the world to sneak away when the job's done. The call of the Kobold is just too great.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "They're right, though. You do kinda stink.");
+        scr_event_build_dialogue("Slag", s_port_slag, "I've been told that I have a pretty intoxicating musk, but everyone's a fucking critic.");
+        scr_event_build_quest_state("littleRobbingHoodHandler", 1);
+        scr_event_build_execute_event_script(event_dz1_slag01); 
+        }
+        
+    //Explain it to me again.
+    with (scr_event_build_add_choice(slagquestion2, "Explain it all to me again.")) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Explain it all to me again, I wasn't really listening.");
+        scr_event_build_dialogue("Slag", s_port_slag, "You're fucking with me now, aren't you? Listen close, I don't want to explain this again: Granny. Basement. Safe. Money. Me. Follow these quick and easy steps or you'll be waking up without a lot of fucking fingers left.");
+        scr_event_build_quest_state("littleRobbingHoodHandler", 1);
+        scr_event_build_execute_event_script(event_dz1_slag01); 
+        }
+        
+    //Where is the shop?
+    with (scr_event_build_add_choice(slagquestion2, "Where is this shop?")) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Where is this shop? I've never been there.");
+        scr_event_build_dialogue("Slag", s_port_slag, "I'm not a walking fucking atlas, guy. It's around here, you can find it.");
+        scr_event_build_quest_state("littleRobbingHoodHandler", 1);
+        scr_event_build_execute_event_script(event_dz1_slag01); 
+        }
+        
+    //I'll think it over.
+    with (scr_event_build_add_choice(slagquestion2, "I'll think it over.")) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'll think it over.");
+        scr_event_build_dialogue("Slag", s_port_slag, "I'm not paying you to think, kid. You gotta get yourself over to that safe and liberate those bills before old granny spends it all on moth balls or some shit. Come on, don't just stand there! Move it! Move it!!");
+        scr_event_build_quest_state("Hood", 1)
+        scr_event_build_quest_state("littleRobbingHoodHandler", 1)
+        scr_event_build_quest_state("slagQuestReject", 0);
+        }
+    
+    //This seems mean
+    with (scr_event_build_add_choice(slagquestion2, "This doesn't sound like a nice thing to do to somebody.")) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "This doesn't sound like a nice thing to do to somebody.");
+        scr_event_build_dialogue("Slag", s_port_slag, "No kidding? I must be doing something right. Now get over there and clean out that safe. You have a deadline, I'm not standing here all day.");
+        scr_event_build_quest_state("littleRobbingHood", 1)
+        scr_event_build_quest_state("slagQuestReject", 0);
+        scr_event_build_quest_state("littleRobbingHoodHandler", 0)
+        }
+    }
+    
+//--------------------------------------------
+//-------------- SLAG PITCH 2 ----------------
+//--------------------------------------------      
+    
+    with (slagpitch2) {
+    
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know. I'm good at shooting things, though.");
+        scr_event_build_dialogue("Slag", s_port_slag, "Heh, close enough. So there's this little old lady in town that has a nice little shop, making wonderful little fucking things for the nice little townfolk. Problem is, we don't like wrinkly-ass granny and we think that she should make a healthy donation to the " + P_NAME + " troublemaking fund. The way I see it, you need more lubricant for whatever the hell that shit is growing out of your head, so this is where you come in. You're going to go down into her basement and crack open that safe of hers. You shouldn't have trouble getting in. She's got a back entrance nobody knows about, a little bitty window someone your size could crawl through. Don't know about the safe, but it's probably some stupidass fucking granny password like /'Cookies/' or /'I love my grandkids/'. You clean the safe, bring it back here. I get my cut for being such a well-meaning guy and you get your handsome cut of the take, and I throw in this gun I may or may not have pulled off the body of a Duergar I may or may not have beaten to death in the sewers. That's all there is to it. Deal of a lifetime, kid. I know for a fact that aspiring hoodlums like yourself lay awake at night in their flophouse dreaming of biting into such a juicy fucking deal.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know. This sounds pretty illegal to me.");
+        scr_event_build_dialogue("Slag", s_port_slag, "Nah kid, this is a free ziggurat. We're just talking. It's only illegal if you get caught, and you won't be getting very far in this life if you get caught by a little old granny of all fucking people. So.... what the hell are you still doing here? You in or out?");
+        scr_event_build_event_snippet(slagpitch3);
+    }    
+
+//--------------------------------------------
+//-------------- SLAG PITCH 1 ----------------
+//--------------------------------------------      
+    
+    with (slagpitch1) {
+
+        scr_event_build_dialogue("Slag", s_port_slag, "So I gotta ask an enterprising kid like yourself: Are your safecracking skills up to par?");
+        var slagquestion = scr_event_build_choice("Are your safecracking skills up to par?", s_port_hoopz);
+        
+        //up to par.
+        with (scr_event_build_add_choice(slagquestion, "I don't know. I'm good at shooting things, though.")) {
+        scr_event_build_event_snippet(slagpitch2);
+        }
+        
+        //Not up to par.
+        with (scr_event_build_add_choice(slagquestion, "I don't think so.")) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't think so.");
+            scr_event_build_dialogue("Slag", s_port_slag, "I know you're shitting me, boy. You'll never catch up to ol' Slag by holding back. I'd pop you one if you was my kid.\I'll stick around here, hope I run into someone who ain't gonna hold back.");
+            scr_event_build_quest_state("slagQuestReject", 1);
+        }
+    }
+
+//--------------------------------------------
+//---------- MAIN EVENT - INTRO --------------
+//--------------------------------------------      
+
+    with (event) {
+        
+        //slagpitch1 handler
+        if (scr_quest_get_state("littleRobbingHoodHandler") == 1) {
+            scr_event_build_quest_state("littleRobbingHood", 0);
+            scr_event_build_event_snippet(slagpitch3);
+            
+    
+        //Quest completed, speaking again.
+        }else if (scr_quest_get_state("littleRobbingHood") == 3) {    
+            scr_event_build_dialogue("Slag", s_port_slag, "Ugh. The same old ulcer, kid. These are the only things that help, these tablets. These are the last. Can't get 'em anywhere on Necron 7 anymore.");
+        
+        }else if (scr_quest_get_state("littleRobbingHood") == 2) {
+        // Quest completed dialogue.
+            scr_event_build_dialogue("Slag", s_port_slag, "Heh, back so soon? Don't tell me you chickened out.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No... it's done...");
+            scr_event_build_dialogue("Slag", s_port_slag, "I can smell those bucks on you, kid. You better not be holding out.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I didn't know she was a murderer. Her basement was... was... awful...");
+            scr_event_build_dialogue("Slag", s_port_slag, "You're tellin' me. Old hag tried to make an ascot out of me. Just think about that shit for a minute. Me. A fucking ascot. Whatever if she wanted to make a leather glove out of me, a fucking boot or something. I could get used to booting dwarfs in the ass all day, and you could make a pretty sexy leather glove out of a Kobold. But a fucking ascot...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "She was going to make a handkerchief out of me. She attacked me and I had to kill her...");
+            scr_event_build_dialogue("Slag", s_port_slag, "Heh heh, a handkerchief. That's even worse. You'd think- wait, what? You killed her?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah. She attacked me. It was all I could do.");
+            scr_event_build_dialogue("Slag", s_port_slag, "HA HA HA HA HA HA! This kid... this kid... I tell ya... just wanted you to rip her off, a little payback for not paying due respect to the local pissed off kobold. Fuck, I figured you'd chicken out, be just enough of a pussy to come back and tell me all about how much you don't want to go through with it. And not only do you prove me wrong and clear her safe, you blow her away for good measure. You're fucking there, kid. You got it.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know. She seemed like a pretty awful person, but I didn't want to kill her. I was just defending myself. I don't like killing anybody.");
+            scr_event_build_dialogue("Slag", s_port_slag, "Can't do nothing else when you got the gift. Murder's just gonna keep following you around. Just let old Slag give you a piece of advice: gotta slow it down a couple notches, kid. Gonna get yourself too big a reputation. People of all shapes and colors are gonna immediately think " + P_NAME + " if they got a grandma that needs rubbing out.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "She wasn't even a grandmother anymore. She said she ate her grandkids...");
+            scr_event_build_dialogue("Slag", s_port_slag, "HA HA HA HA HA - ooh... ouch... you're killing my ulcer here, kid. Can't take much more of this.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "That doesn't sound good. You should get that looked at.");
+            scr_event_build_dialogue("Slag", s_port_slag, "I'm not giving some two-bit hustler my hard-earned money to tell me something I already know. Just an allergic reaction. I took a shotgun shell in the gut by one of those Duergar fucks down in the Mines.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "That sounds serious. I don't think that counts an allergic reaction.");
+            scr_event_build_dialogue("Slag", s_port_slag, "Hate to break it to ya, kid, but I think most people are allergic to shotguns. So enough of that, let me see the color of the... aww, fuck it. You made me proud today, kid. You keep my share of the take. My way of paying my respect to the new crime czar. And here's that gun I promised. Looks pretty good to me. Thought about pawning it, but it's just the sort of thing I don't want ending up in the hand of a smartass that might shoot me. So my minion gets it instead. I'm a regular fucking charity organization over here.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks, Slag.");
+            scr_event_build_dialogue("Slag", s_port_slag, "It's what I owe. Now get lost. Anybody asks, we were just having a friendly conversation about the weather. We never seen each other before.");
+            scr_event_build_quest_state("littleRobbingHood", 3);
+            scr_event_build_quest_state_add("slagVar", 1);
+            scr_event_build_time_add(1);  
+    
+        //accepted Quest
+        } else if (scr_quest_get_state("littleRobbingHood") == 1) {
+            scr_event_build_dialogue("Slag", s_port_slag, "Look deep into this throat, kid. My appendix ain't bleeding for nothing. What the fuck you standing here for? You ain't getting second thoughts are you? Come on, spit it out, you in this or out of this?");
+            scr_event_build_event_snippet(slagpitch3);
+    
+        //Rejected Quest before
+        } else if (scr_quest_get_state("slagQuestReject") = 1) {
+            scr_event_build_dialogue("Slag", s_port_slag, "Knew you'd be back. You ready to see if your safecracking skills are ready for the wild?");
+            var slagquestion1 = scr_event_build_choice("Your safecracking skills ready for the wild?", s_port_hoopz);
+            
+            //Safecracking skills up to par.
+            with (scr_event_build_add_choice(slagquestion1, "I don't know. I'm good at shooting things, though.")) {
+                scr_event_build_event_snippet(slagpitch2);
+            }
+            
+            //Not up to par.
+            with (scr_event_build_add_choice(slagquestion1, "I don't think so.")) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't think so.");
+                scr_event_build_dialogue("Slag", s_port_slag, "I know you're shitting me, boy. You'll never catch up to ol' Slag by holding back. I'd pop you one if you was my kid. I'll stick around here, hope I run into someone who ain't gonna hold back.");
+                }
+            
+    
+        // If the player completed the first Slag quest.
+        } else if (scr_quest_get_state("lugnerQuest") >= 7) {    
+            scr_event_build_dialogue("Slag", s_port_slag, "Heh, if it ain't the terror of the wastes.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hi Mr. Slag.");
+            scr_event_build_dialogue("Slag", s_port_slag, "MISTER Slag? MISTER? You can't just slap that label on me, kid. Can't have these fine suckers thinking I went corporate. Gotta keep the fear alive. So how you doing, kid? Kidnap any dwarfs lately?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Not lately.");
+            scr_event_build_dialogue("Slag", s_port_slag, "Damn shame. You got it in you to be a top shelf slaver, kid. You got the gift. ");
+            scr_event_build_event_snippet(slagpitch1);
+            
+        // If the player never completed the first Slag quest
+        } else {
+            scr_event_build_dialogue("Slag", s_port_slag, "Hey, kid.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Who, me?");
+            scr_event_build_dialogue("Slag", s_port_slag, "Fucking Clispaeth... yeah, fucking you, kid. Nice town, huh? Pretty fun place to be, isn't it? You having fun?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know. Not really. I wish this nightmare would end.");
+            scr_event_build_dialogue("Slag", s_port_slag, "That's great, I'm extremely interested in whatever you have to say.");
+            scr_event_build_event_snippet(slagpitch1);
+        }
+    
+    }
+    scr_event_advance(event);
+}

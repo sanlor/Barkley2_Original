@@ -1,0 +1,292 @@
+// Dr. Pelekryte // Quest: Starmap // Filler NPC that asks Hoopz to help him decipher a starmap //
+// Second Quest: Pixel Dwarf // Shrinks himself down to start a new age of discovery //
+// Initialize //
+if (argument0 == SCRIPT_START) {
+
+    // Pelekryte is off doing field studies in one of the Dwarf zones for a good portion of the game //
+    if scr_time_get() <= 15 then scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+
+            // bct_pelekryte //
+            // 0 = First interaction //
+            // 1 = Second interaction //
+
+            // Pelekryte has gotten shrunk //
+            //if (scr_quest_get_state("bct_pelekryte_shrunk") == 1) {
+            
+            //    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I shouldn't rummage Doctor Pelekrytes stuff while he is shrunk and missing.");
+            //    }
+            
+            // First meeting with Doctor Pelekryte //
+            if (scr_quest_get_state("bct_pelekryte") == 0) {
+            
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow... Such weird gizmos here...");
+                
+                // TODO: Pelekryte runs up to X1 //
+
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "Well I'll be DANGED! I've got myshelf a vishitor! Welcome friend, weeeeeeeelcome!!"); 
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, I was just taking a look at all this... stuff.");
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "Shtuff ish a grossh undershtatement, youngshter! Thish ishn't jusht shome shtuff! Shure, they may look like ushelessh gizhmosh and gadgetsh but you'd be a fool to buy into that firsht impresshion."); 
+                
+                // Choices: What does hoopz think about these gizmos //
+                var choice_task = scr_event_build_choice("These gizmos are...", s_port_hoopz); 
+                
+                    // Load of bologna //
+                    var bologne = scr_event_build_add_choice(choice_task, "...A load of bologne!");
+                    with bologne {
+
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry doc, but these gizmos are a load of bologne.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "W-what? What do you mean?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hate to be the bearer of bad news, but anyone could find higher quality products down at a Dwarfmart.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Hah! Everyone'sh a critic. Alright, kid. Looksh like you need shome convincing, eh?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Convincing?");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Heh, peaked your interesht, eh? Let'sh jusht shay I've got a little shomething shpecial I've been working on for shome time now. Shomething that'll blow the shocksh off of even the mosht adamant dishbeliever.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh yeah? Let's see it then.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Not yet, youngshter. I shtill need to make a few... adjushtmentsh. But resht asshured, it will be ready later today.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah right...");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh, you'll shee. Shwing by here a bit later and I'll show you what real shcience looksh like...");
+                    } 
+                    
+                    // No thanks you looney //
+                    var fascinating = scr_event_build_add_choice(choice_task, "...Fascinating.");
+                    with fascinating {
+
+                    }
+                
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, ""); 
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "Take a look at thish thing over here for example. What you're looking at right there ish a cutting edge navigation tool. Ushed moshtly for shpace exploration. I call it the " + '"' + "Pelekryte Conshtellator" + '"' + ".");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "So what exactly do you do with this thing?");
+                
+                // TODO: Pelekryte comes even closer to X1 //
+                
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "A better queshtion would be" + '"' + "What don't you do with it?" + '"' + "");
+                scr_event_build_wait(1.5);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh...?");
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "Well come on now, you heard what I shaid! Ashk me " + '"' + "What don't you do with it?" + '"' + "");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What?");
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh, you are no fun! Jusht forget it.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry, I didn't mean to spoil your fun.");
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "Nevermind about that! Oh, shpeaking about fun, are you good at drawing?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm alright. Why do you ask?");
+                
+                // TODO: Pelekryte comes even closer to X1 //
+
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "That'sh marveloush! You shee, NASA ish holding a little competition for kidsh. They want drawingsh of new conshtellationsh. The besht one getsh to be officially regognizhed bu NASA. You could get your name in the hishtory booksh! Did I shpark your interest, hmm?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I might be too old for that.");
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "Nonshenshe! I'm shure you are shtill eligible! Whaddaya shay? It'll only take a minute.");
+
+                // Choices: Starmap //
+                var choice_task = scr_event_build_choice("I...", s_port_hoopz); 
+                
+                    // Zodiacs are my game //
+                    var yes = scr_event_build_add_choice(choice_task, "... would love to.");
+                    with yes {
+
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I would love to.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Grrreat! Here, come a bit closher and I'll explain how it all worksh.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I'm close enough, thanks.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh? Shuit yourshelf.\Anywaysh, ash I wash shaying, what you gotta do here ish you gotta pick up the Pelekryte Conshtellator and connect all the available celeshtial bodiesh into a conshtellation of your chooshing. Jusht click away until you think you have shomething that'll really blow the judgesh away! But remember, you can only have up to 30 connectionsh.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I see... Well, here goes nothing...");
+                    scr_event_build_wait(0.5);
+                    scr_event_build_create_object(o_mg_star_control, view_xview + 192, view_yview + 120);
+                    } 
+                    
+                    // No thanks you looney //
+                    var no = scr_event_build_add_choice(choice_task, "... think I'll pass.");
+                    with no {
+
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I'll pass on this one.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh don't be shuch a shpoilshport! Come on, it'll only take a shecond. Whaddaya shay, huh? Come on, you can do it!");
+    
+                        // Choices: Starmap //
+                        var choice_task = scr_event_build_choice("Draw a constellation?", NULL); 
+                        
+                            // Zodiacs are my game //
+                            var yes = scr_event_build_add_choice(choice_task, "Yes");
+                            with yes {
+        
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, fine, I'll give it a spin. What do I have to do?");
+                            scr_event_build_dialogue("Dr. Pelekryte", NULL, "Grrreat! Here, come a bit closher and I'll explain how it all worksh.");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I'm close enough, thanks.");
+                            scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh? Shuit yourshelf.\Anywaysh, ash I wash shaying, what you gotta do here ish you gotta pick up the Pelekryte Conshtellator and connect all the available celeshtial bodiesh into a conshtellation of your chooshing. Jusht click away until you think you have shomething that'll really blow the judgesh away! But remember, you can only have up to 30 connectionsh.");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I see... Well, here goes nothing...");
+                            scr_event_build_wait(0.5);
+                            scr_event_build_create_object(o_mg_star_control, view_xview + 192, view_yview + 120);
+                            } 
+                            
+                            // No thanks you looney //
+                            var no = scr_event_build_add_choice(choice_task, "No");
+                            with no {
+        
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, I really need to go already, I've got lots of things to do.");
+                            scr_event_build_dialogue("Dr. Pelekryte", NULL, "By the Higgsh Boshon, you youngshtersh of today shure are in a hurry all the time, huh? You better come back shoon, today ish the lasht day you can shend in your entriesh.");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, sure, I'll see if I can make it.");
+                            scr_event_build_quest_state("bct_pelekryte", 1);
+                            }                    
+                    
+                    scr_event_build_quest_state("bct_pelekryte", 1);
+                    }                 
+                }
+                
+         // Talk to Pelekryte again, haven't done the starmap //
+         else if (scr_quest_get_state("bct_pelekryte") == 1) {
+            
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "Ah, looksh like you've had a change of heart. Got an itch in your drawing bone, hmm?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What? What are you talking about?");
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "The drawing contesht! You have to shend in all the entriesh today, sho we are in a hurry!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, that... Yeah, now I remember.");
+                scr_event_build_dialogue("Dr. Pelekryte", NULL, "Flying flipratsh! Don't jusht shtand there! It'sh time to shtart drawing!");
+                
+                // Choices: Starmap //
+                var choice_task = scr_event_build_choice("Draw a constellation?", NULL); 
+                
+                    // Zodiacs are my game //
+                    var yes = scr_event_build_add_choice(choice_task, "Yes");
+                    with yes {
+
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, fine, I'll do it.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Grrreat! Here, come a bit closher and I'll explain how it all worksh.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I'm close enough, thanks.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh? Shuit yourshelf.\Anywaysh, ash the rulesh dictate, what you gotta do here ish you gotta pick up the Pelekryte Conshtellator and connect all the available celeshtial bodiesh into a conshtellation of your chooshing. Jusht click away until you think you have shomething that'll really blow the judgesh away! But remember, you can only have up to 30 connectionsh.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I see... Well, here goes nothing...");
+                    scr_event_build_wait(0.5);
+                    scr_event_build_create_object(o_mg_star_control, view_xview + 192, view_yview + 120);
+                    } 
+                    
+                    // No thanks you looney //
+                    var no = scr_event_build_add_choice(choice_task, "No");
+                    with no {
+
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, I don't think this stuff is for me, sorry..");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Really? Are you shure you don't want to participate?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I'm sure. You'll have to draw one of those constellations yourself.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "Oh woe ish me, for I am too old to shign up, otherwishe I would do it in a heartbeat.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Don't worry mister, I'm sure there'll be some kids coming by here that would love to participate.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "I hope you're right...");
+                    scr_event_build_quest_state("bct_pelekryte", 1);
+                    }  
+                }
+                
+        // Starmap searching has been completed, this happens right after the minigame //
+        else if (scr_quest_get_state("bct_pelekryte") == 2) {
+           
+               scr_event_build_wait(1);
+               scr_event_build_dialogue("Dr. Pelekryte", NULL, "Wow, that'sh one weird looking conshtellation! Don't worry though, they all look bonkersh to me.");
+               scr_event_build_dialogue(P_NAME, s_port_hoopz, "You think I have a shot at winning this contest?");
+               scr_event_build_dialogue("Dr. Pelekryte", NULL, "I don't know, I don't undershtand anything about art. Oh, there'sh shtill one more thing we need to do!");
+               scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh yeah? What's that?");
+               scr_event_build_dialogue("Dr. Pelekryte", NULL, "You have to give your conshtellation a name, ya shilly gooshe! Make shure you think up a real good one in cashe you win. You wouldn't want to give it an embarrasshing name now would you?");
+               scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hmm...");
+
+               // Choices: Name the Zodiac //
+               var name_choice = scr_event_build_choice("I hereby name this constellation...", s_port_hoopz); 
+               
+                   // Zodiacs are my game //
+                   with (scr_event_build_add_choice(name_choice, "Dwarfius")) {
+                        scr_event_build_quest_state("zodiacName", "Dwarfius");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Rasputin")) {
+                        scr_event_build_quest_state("zodiacName", "Rasputin");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Anime Travesty")) {
+                        scr_event_build_quest_state("zodiacName", "Anime Travesty");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Dankius")) {
+                        scr_event_build_quest_state("zodiacName", "Dankius");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Schnappi")) {
+                        scr_event_build_quest_state("zodiacName", "Schnappi");
+                    } 
+                    with (scr_event_build_add_choice(name_choice, "Keystone Hypeline")) {
+                        scr_event_build_quest_state("zodiacName", "Keystone Hypeline");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Yolglar")) {
+                        scr_event_build_quest_state("zodiacName", "Yolglar");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Amadeus-5")) {
+                        scr_event_build_quest_state("zodiacName", "Amadeus-5");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "United States of America")) {
+                        scr_event_build_quest_state("zodiacName", "United States of America");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Bballhalla")) {
+                        scr_event_build_quest_state("zodiacName", "Bballhalla");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Sephiroth")) {
+                        scr_event_build_quest_state("zodiacName", "Sephiroth");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Xavier")) {
+                        scr_event_build_quest_state("zodiacName", "Xavier");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Qwerty")) {
+                        scr_event_build_quest_state("zodiacName", "Qwerty");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Dontrel")) {
+                        scr_event_build_quest_state("zodiacName", "Dontrel");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Space Tony")) {
+                        scr_event_build_quest_state("zodiacName", "Space Tony");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Hitlers Hoghouse")) {
+                        scr_event_build_quest_state("zodiacName", "Hitlers Hoghouse");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Outer Heaven")) {
+                        scr_event_build_quest_state("zodiacName", "Outer Heaven");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Papa Papyrus")) {
+                        scr_event_build_quest_state("zodiacName", "Papa Papyrus");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Shadow Paladin")) {
+                        scr_event_build_quest_state("zodiacName", "Shadow Paladin");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Dark Mirage")) {
+                        scr_event_build_quest_state("zodiacName", "Dark Mirage");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Edge of Eternity")) {
+                        scr_event_build_quest_state("zodiacName", "Edge of Eternity");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Dwarfnet DLC")) {
+                        scr_event_build_quest_state("zodiacName", "Dwarfnet DLC");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "The " + string(P_NAME) + " zone")) {
+                        scr_event_build_quest_state("zodiacName", "The " + string(P_NAME) + " zone");
+                    }
+                    with (scr_event_build_add_choice(name_choice, "Atlantiz")) {
+                        scr_event_build_quest_state("zodiacName", "Atlantiz");
+                    }
+                    
+                    // Name has been decided //
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think " + string(scr_quest_get_state("zodiacName")) + " has a nice ring ot it.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "...");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, when are they gonna announce the winner?");   
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "The judging ushually takesh about shix months or sho. They'll publish the reshultsh at n7ww.nasa.gov.");            
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Dang. I'll have forgotten all about this by the time they announce the winner.");
+                    scr_event_build_dialogue("Dr. Pelekryte", NULL, "No way buddy, thish ish the short of thing you'll remember 'till the day you croak. I know I will.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Alright, well, I guess I'll be going now. Bye.");
+                    scr_event_build_quest_state("bct_pelekryte", 3);
+               }
+               
+        // Starmap searching has been completed, this happens right after the minigame //
+        else if (scr_quest_get_state("bct_pelekryte") == 3) {
+        
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I've had my share of stars for the day.");  
+            }
+
+        }
+    scr_event_advance(event);
+    }

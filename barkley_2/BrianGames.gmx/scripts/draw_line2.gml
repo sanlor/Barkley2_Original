@@ -1,0 +1,13 @@
+_x0 = argument[0];
+_y0 = argument[1];
+_x1 = argument[2];
+_y1 = argument[3];
+draw_set_color(c_orange);
+//draw_set_alpha(0.5);
+//draw_line_width(argument[0], argument[1], argument[2], argument[3], 3);
+_dir = point_direction(_x0, _y0, _x1, _y1);
+_dis = point_distance(_x0, _y0, _x1, _y1);
+draw_sprite_ext(s_sine_line64, 0, _x0, _y0, (1.0 / 64) * _dis, (1.0 / 64) * 5, _dir, c_orange, (.25 - random(.1)) * alpha);
+draw_set_alpha((0.5 - random(0.2)) * alpha);
+draw_line(_x0, _y0, _x1, _y1);
+draw_set_alpha(1);

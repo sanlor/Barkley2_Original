@@ -1,0 +1,26 @@
+// scr_lemuel_bowl_add("item")
+/* 
+    Adds an item to Lemuel's Bowl.
+    Only adds until there are 4 items in the bowl.
+    No duplicates allowed!
+    This is called during scr_time_set()
+    A "built" version can be found as
+    scr_event_build_lemuel_bowl_add("item")
+*/
+
+
+// if there is room in the bowl...
+/*if (ds_list_size(global.listlemuel) <= 3)
+{
+    // if item is not already in bowl
+    if (ds_list_find_index(global.listlemuel, argument0) == -1)
+    {
+        // add to bowl
+        ds_list_add(global.listlemuel, argument0);
+        show_debug_message("Added " + string(argument0));
+    }
+    // if item already exists, does not get added to bowl
+    else { show_debug_message("Item " + string(argument0) + " already exists in Lemuel's bowl."); }
+}
+// if not, does not get added
+else { show_debug_message(string(argument0) + " not added: Lemuel's bowl is full."); }

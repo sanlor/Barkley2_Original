@@ -1,0 +1,447 @@
+/*
+This will eventually go into the Chatroulette Mechanic that we will be building,
+for now, this is how Cdwarf talks to you and will work much like the Junk Lord 
+in that he is turned on to run at certain stages of the game (mainly quest variables).
+
+Variables:
+chatrouletteState
+    0 = never run chat roulette
+    1 = have run it and spoken to Cyberdwarf the first time
+
+csQuest
+    0 = Have not started quest
+    1 = Discussed the AI Ruins Hoopz has started his journey there
+    2 = Hoopz talks to cdwarf after turning on the Wifi. Cyberdwarf and is compelled to descend into the ruins
+    3 = Cyberdwarf repeating dialogue
+    4 = Hoopz finds the Cyberspear altar empty
+    5 = Cyberdwarf asks him to descend further into the ruins
+    6 = Cyberdwarf repeating dialogue
+    7 = Hoopz has found the first piece
+    8 = Hoopz talks to Cyberdwarf and is on a quest to find the remaining 3 pieces
+    9 = repeating dialogue. (this will be tracked by csPiecesTotal)
+   10 = Hoopz has all 4 pieces
+   11 = Hoopz has been told to go back to Cyberdwarf to assemble the pieces
+   12 = Repeating dialogue
+
+csPieceFactory
+    0 = Hoopz has not seen the Factory Piece
+    1 = Hoopz seen the Factory Piece
+    2 = Hoopz now realizes that the Factory Piece is a CS Piece and agrees to go get it
+    3 = Cyberdwarf filler dialogue
+    4 = Cyberdwarf looping dialogue
+    5 = Hoopz has the piece
+
+csPieceGrem
+    0 = Hoopz has not completed the cybergremlin quest
+    1 = Hoopz has completed the cybergremlin quest
+    2 = Hoopz now realizes that the Clispeathian relic is a CS Piece, Cdwarf has told him to go retrieve it
+    3 = Cyberdwarf filler dialogue
+    4 = Cyberdwarf repeating dialogue
+    5 = Hoopz has the piece
+
+csDaisSeen
+    1 = you've seen the empty dais
+    2 = you've seen and talked to C-dwarf about the empty dais
+    
+///////
+workspace
+    Dialogue(P_NAME, "");
+    Dialogue(cdwarf, "");
+    Dialogue(P_NAME, "");
+    Dialogue(cdwarf, "");
+    Dialogue(P_NAME, "");
+    Dialogue(cdwarf, "");
+
+*/
+
+/*if (argument0 == SCRIPT_INTERACT) {
+    var cdwarfChat = id;
+    var cdwarf = "The Cyberdwarf";
+    
+    //Main Event
+    var event = scr_event_create_main();
+    
+    // random amount of dicks cyberdwarf sees before talking to you
+    // this is a random integer of the distance between Quest Time and 10 (midway-sh through the game)
+    var dickGauntlet = 4//irandom(scr_time_get() - 10);
+    
+    // cyberspear variables
+    var csQuest = scr_quest_get_state("csQuest");
+    var csPieceTutorial = scr_quest_get_state("csPieceTutorial");
+    var csPieceFactory = scr_quest_get_state("csPieceFactory");
+    var csPieceGrem = scr_quest_get_state("csPieceGrem");
+    var csPiecesTotal = scr_quest_get_state("csPiecesTotal");
+    var csComplete = scr_quest_get_state("csComplete");
+    
+    
+    // Child Events
+    var topicChooser = scr_event_create_child(event);
+    var cyberspearQuest = scr_event_create_child(event);
+    var factoryQuest = scr_event_create_child(event);
+    var cybergremlinQuest = scr_event_create_child(event);
+    var directionChooser = scr_event_create_child(event);
+    
+    /*==================
+         Snippets 
+    ==================*/
+
+    /////////////////////////////////////
+    ///// Cyber Spear Master Quest //////
+    /////////////////////////////////////
+    
+/*    with cyberspearQuest {
+        //To start there are automatically played dialogue trees for certain important quest variables
+        //This is when you return from getting the first piece, I don't think it is possible to not at least have the 
+        // flashback of the Factory Piece...
+        if csQuest == 7 {
+            Dialogue(P_NAME, "Cyberdwarf! I got a piece of the Cyberspear from the bottom of the ruins!");
+            Dialogue(cdwarf, "By the slam of jams, you've done well " + P_NAME_S + "! I knew the fate of the universe was well placed in you, child.");
+            Dialogue(P_NAME, "Th-thank you, Cyberdw-");
+            Dialogue(cdwarf, "Wait, youngster... did you say a piece? A piece of what?");
+            Dialogue(P_NAME, "The Cyberspear! I mean I know you wanted whole thing, but this has gotta be a good start!");
+            Wait(1);
+            Dialogue(cdwarf, "By F.A.T.E.-... it seems our journey is merely beginning.");
+            Dialogue(P_NAME, "Well I think I might know where one of the pieces is!");
+            Wait(1);
+            Dialogue(cdwarf, "...");
+            Dialogue(cdwarf, "Well?");
+            
+            //If you know where the Factory is:
+            if (csPieceFactory == 2) {
+                Dialogue(P_NAME, "Oh, yeah it's the Factory in the Wasteland!");
+                Dialogue(cdwarf, "What in 'paeth's name are you waiting for then, get to the Wasteland!");
+                Dialogue(P_NAME, "Yessir, Cyberdwarf! I won't let you down!");
+                Dialogue(cdwarf, "The only thing letting me down is the array of indecency in this correspondence protocol.");
+                Dialogue(cdwarf, "Now, do you need anything else from me before you venture forth on your glorious journey?");
+                scr_event_build_event_snippet(topicChooser);
+            }
+            
+            //If you don't know where the Factory is (you get sent to the Industrial Park anyways ... to talk to 
+            else if (csPieceFactory == 1) {
+                Dialogue(P_NAME, "Actually... I don't know where it is per se, but more like I've seen it before!");
+                Dialogue(cdwarf, "");
+                Dialogue(P_NAME, "");
+                Dialogue(cdwarf, "");  
+            }
+        }
+        
+        else if csQuest = 6 {
+            Dialogue(cdwarf, "Dally not teen baller. Calvary's Spear hides in the depths of the ruins. F.A.T.E. awaits the brave and fortune favors the bold.");
+        }
+        
+        // These two quest variables are if Hoopz saw the Dais without the cyberspear on it
+        // both end with you being sent into the ruins further
+        else if csQuest == 4 or (Quest("csDaisSeen") == 1) {
+            //seen the dais first
+            if (Quest("csDaisSeen") == 1) {
+                Dialogue(P_NAME, "Cyberdwarf, I found the room with the Cyberspear.");
+                Dialogue(cdwarf, "Glory b-ball! And what of it child? Doth thou carry the Sacred Lance?");
+                Dialogue(P_NAME, "... umm, nay I uhh... doth not carry it?", s_port_hoopzSad);
+                Dialogue(cdwarf, "I see. That must mean defensive protocols in the Ruins were established. The Spear must be deeper withing the structure. You must delve again, youngster.");
+            }
+            //seen the dais after talking to cdwarf
+            if csQuest == 4 {
+                Dialogue(P_NAME, "We have a problem...");
+                Dialogue(cdwarf, "I have forseen this already, young baller. The Spear is not there.");
+                Dialogue(P_NAME, "How did you know?");
+                Dialogue(cdwarf, "The Demon Cuchulainn would already wield such a weapon if it was as easy to procure as upon the Altar. No, the Cyberspear must shroud itself in the shadows that lie in the depths of the Ruins.");
+            }
+            Quest("csDaisSeen", 2);
+            Dialogue(P_NAME, "You mean... (gulp)... deeper?");
+            Dialogue(cdwarf, "Indeed. But fear not. I have been 'in communicado' with my troops at L.O.N.G.I.N.U.S., Wiglaf has already dispatched an assault force to aid your incursion depths of the Ruins.");
+            
+            //Quick choice that adds flavor to the event
+            //TODO: ROUNDMOUND can be added here
+            var assaultFlavor = scr_event_build_choice("Response?", s_port_hoopz);
+            
+            var amIReady = scr_event_build_add_choice(assaultFlavor, "Am I up for this?");
+            with (amIReady) {    
+                Dialogue(P_NAME, "Do... do you think I'm ready?");
+                Dialogue(cdwarf, "Have you learned nothing, child? I not only think, I BELIEVE it to be true. I believe that the Spirit of the Universe bestows upon you undeniable abilities. You are not only ready for this, you're very purpose on this abyssmal spacecraft is to fullful this task. Make haste!");
+                Dialogue(P_NAME, "Alright let's do it!");
+            }
+            var letMeAtIt = scr_event_build_add_choice(assaultFlavor, "Let me at this spear!");
+            with (letMeAtIt){
+                Dialogue(P_NAME, "Locked and loaded!");
+            }
+            Dialogue(cdwarf, "Find the L.O.N.G.I.N.U.S. operatives inside the AI Ruins, and spelunk until the prize is won!");
+            
+            //Advance the quest to looping dialogue.
+            Quest("csQuest", 5);
+            
+            //end the event early
+            scr_event_build_end();
+        }
+        
+        //If you just made it to the Chatroulette program but before seeing the Cyberspear Dais
+        else if csQuest == 2 {
+            Dialogue(P_NAME, "Well nothing really yet. I think I'm close to the AI Ruins though!");
+            Dialogue(cdwarf, "Good, but make haste, my child! The Spear of Destiny is the key to ending C-Lainn's reign of terror upon the hapless Dwarfs. Vindication will come at the tip of its point!");
+            Dialogue(P_NAME, "You got it C-Dwarf!");
+            Dialogue(cdwarf, "Cyberdwarf.");
+            Dialogue(P_NAME, "Oh uh...");
+            Dialogue(cdwarf, "Cyberdwarf is my name.");
+            Dialogue(P_NAME, "... sorry, yes Cyberdwarf...");
+            Dialogue(cdwarf, "Careful lest insolence become your character, youngster. We have a job to do, now carry forth and find the Altar of Golgotha, within its techno-sanctity is the Holy Spear. Bring it to me!");
+            //Advance the quest to looping dialogue
+            Quest("csQuest", 3);
+            
+            //end the event early
+            scr_event_build_end();
+        }
+        Dialogue(cdwarf, "What do you wish of me, youngster?");
+        //TODO: add the general questions about the Cyberspear
+        //Now, go to the Update Snippet
+        scr_event_build_event_snippet(topicChooser);
+    }
+
+    //////////////////////////
+    ///// Factory Piece //////
+    //////////////////////////
+    
+    //TODO: all of this
+    with factoryQuest {
+        //To start there are automatically played dialogue trees for certain important quest variables
+        if csPieceFactory == 6 {
+            Dialogue(P_NAME, "");
+            Dialogue(cdwarf, "");
+        }
+        else if csPieceFactory == 4 {
+            Dialogue(P_NAME, "");
+            Dialogue(cdwarf, "");
+        }
+        else if csPieceFactory == 2 {
+            Dialogue(P_NAME, "");
+            Dialogue(cdwarf, "");
+        }
+        //TODO: add the general questions about the Cyberspear
+    }
+    
+    ///////////////////////////////////////
+    ///// Cybergremlin Village Piece //////
+    ///////////////////////////////////////
+    
+    //TODO: all of this
+    with cybergremlinQuest {
+        //To start there are automatically played dialogue trees for certain important quest variables
+        if csPieceGrem == 6 {
+            Dialogue(P_NAME, "");
+            Dialogue(cdwarf, "");
+        }
+        else if csPieceGrem == 4 {
+            Dialogue(P_NAME, "");
+            Dialogue(cdwarf, "");
+        }
+        else if csPieceGrem == 2 {
+            Dialogue(P_NAME, "");
+            Dialogue(cdwarf, "");
+        }
+        //TODO: add the general questions about the Cyberspear
+    }
+
+    //////////////////////////
+    ///// Topic Chooser //////
+    //////////////////////////
+    
+    with topicChooser {
+        //There are a few conditions that immediately send you to a particular snippet, these are checked first
+        
+        //Check Cyberspear Main Quest and send to it if something big has happenned
+        //if (csQuest == 4) or (csQuest ==6) {
+        //    scr_event_build_event_snippet(cyberspearQuest);
+        //}
+        
+        // Tabulate all the topics that Hoopz can talk about
+        var topics = scr_event_build_choice("What to report?", s_port_hoopz);
+        
+        //Activate the Cyber Spear Questions for the Piece in the AI Ruins
+        if csQuest >= 1 {
+            var cyberspearUpdate = scr_event_build_add_choice(topics, "I have a question about the cyberspear.");
+            with cyberspearUpdate {
+                Dialogue(P_NAME, "Actually, can I ask a little about the spear.");
+                Dialogue(cdwarf, "Knowledge gets you only halfcourt, it is up to your own feet to get you to the hoop. We are men of action " + P_NAME_F + ", but if it will help your understanding of your glorious destiny, then I shall serve to answer.");
+                scr_event_build_event_snippet(cyberspearQuest);
+            }  
+        }
+        
+        //Activate the Cyber Spear Questions for the Piece in the Factory when you DON'T KNOW that it is in the Factory
+        if csPieceFactory == 1 {
+            var cyberspearUpdate = scr_event_build_add_choice(topics, "About this other cyberspear piece...");
+            with cyberspearUpdate {
+                Dialogue(P_NAME, "I don't know where to look for this Cyberspear piece, Cyberdwarf! I feel like a fraud and a phony.");
+                Dialogue(cdwarf, "Calm your nerves and think, " + P_NAME_S + "!");
+                Dialogue(P_NAME, "But I don't have the foggiest idea as to where to look!");
+                Dialogue(cdwarf, "Cease shadowing your small brain into the fog of your naivety. Instead, pursue the direction of your heart, for what guides you youngster resides not in your wisdom, but in the will of of your soul. Which direction does it tell you to go?");
+                scr_event_build_event_snippet(directionChooser);
+           }  
+        }
+        
+        //Activate the Cyber Spear Questions for the Piece in the Factory WHEN YOU KNOW IT'S IN THE FACTORY
+        if csPieceFactory >= 2 {
+            var cyberspearUpdate = scr_event_build_add_choice(topics, "I should really go check out the Factory...");
+            with cyberspearUpdate {
+                Dialogue(P_NAME, "About the Factory...");
+                scr_event_build_event_snippet(factoryQuest);
+            }  
+        }
+        //Activate the Cyber Spear Questions for the Piece in the Cybergremlin Village
+        if csPieceGrem >= 1 {
+            var cyberspearUpdate = scr_event_build_add_choice(topics, "I am thinking about the spear piece I gave the Cybergremlins...");
+            with cyberspearUpdate {
+                Dialogue(P_NAME, "Um- about the Cybergremlins...");
+                Dialogue(cdwarf, "Cretins ones and all, what do you want to know?");
+                scr_event_build_event_snippet(cybergremlinQuest);
+            }  
+        }
+        
+        //Standard exit response
+        var topicEnd = scr_event_build_add_choice(topics, "Actually, nevermind.");
+        with topicEnd {
+            Dialogue(P_NAME, "Uh, nevermind Cybedwarf, I think I know what to do.");
+            Dialogue(cdwarf, "You best, child. You best.");
+            scr_event_build_end();
+        }
+    }
+    
+    //////////////////////////////
+    ///// Direction Chooser //////
+    //////////////////////////////
+    
+    with directionChooser {
+        var directionChoice = scr_event_build_choice("What direction does your heart tell you go?", P_NAME);
+        
+        var dirCrow = scr_event_build_add_choice(directionChoice, "As The Crow Flies.");
+        with dirCrow {
+            Dialogue(P_NAME, "My heart tells me to follow the path of the Old Crow.");
+            Dialogue(cdwarf, "The Old Crow?");
+            Dialogue(P_NAME, "Uh... yes?");
+            Dialogue(cdwarf, "That means nothing. That was an empty and hollow answer and if I was still of organic matter I would fear my very bones would ache at that answer. The Old Crow? What does that even mean, child?");
+            //ROUNDMOUND
+            remove_choice(directionChoice, dirCrow);
+            scr_event_build_goto_choice(directionChoice);
+        }
+        
+        var dirLumberjack = scr_event_build_add_choice(directionChoice, "The Way of the Lumberjack.");
+        with dirLumberjack {
+            Dialogue(P_NAME, "I choose the Way of the Lumberjack.");
+            Dialogue(cdwarf, "Ah yes, you must be referring to the lonely pilgrimage of Mythological Titan_ Paul_ Bunyan. Legend, no-_ irrefutable fact states that The Mightly Jack of Lumber trudged NORTH EAST, with only the companionship of his beloved Blue Ox, Zane. So powerful was the man and so lonely his excursion, that each step has been said to create what became known as 'The Iroquois League', a crucial cornerstone that Pre-Cyberpocalyptal Democracy was based.");
+            Wait(1);
+            Dialogue(P_NAME, "Is that a good thing?");
+            Dialogue(cdwarf, "Of that, there is no doubt. NORTH EAST it is, " + P_NAME_S + ". Journey as the Great Lumberjack also traveled.");
+            Dialogue(P_NAME, "I hope I can find it, Cyberdwarf.");
+            Dialogue(cdwarf, "There is someone you can talk to. It has been many cycles since I have heard of her travails, but seek out Sepideh. She toils in a settlement deep within the Wasteland. She is sympathetic to our cause.");
+            
+            //Check for Sepideh Knowledge
+            if (Quest("knowSepideh") >= 1) {
+                Dialogue(P_NAME, "Oh I know Sepideh! She's in the Industrial Park!");
+                Dialogue(cdwarf, "Then skedaddle to her youngster! She must know something about the missing pieces!");
+                Dialogue(P_NAME, "You got it sir! I won't let you down!");
+            }
+            //If not play this but do not increase the Sepideh knowledge
+            else {
+                Dialogue(P_NAME, "");
+                Dialogue(cdwarf, "");
+                Dialogue(P_NAME, "");
+                Dialogue(cdwarf, "");
+                Dialogue(P_NAME, "");
+                Dialogue(cdwarf, "");
+            }
+            Quest("csQuest", 8);
+            Quest("csPieceFactory", 2);
+            //ROUNDMOUND
+            scr_event_build_end();
+        }
+        
+        var dirBend = scr_event_build_add_choice(directionChoice, "Just around the bend.");
+        with dirBend {
+            Dialogue(P_NAME, "I feel like the Spear is just around the bend, Cyberdwarf.");
+            Dialogue(cdwarf, "That answer is both stunningly childish and shockingly misinformed. Try again youngster.");
+            Dialogue(P_NAME, "Oh...", s_port_hoopzSad);
+            //ROUNDMOUND
+            remove_choice(directionChoice, dirBend);
+            scr_event_build_goto_choice(directionChoice);
+        }
+        
+        var dirSouthNorth = scr_event_build_add_choice(directionChoice, "South by Northeast.");
+        with dirSouthNorth {
+            Dialogue(P_NAME, "South by Northeast?");
+            Dialogue(cdwarf, "If the F_._A_._T_._E_._ of the Universe and all living things within did not rest upon your square shoulders child, I would log off now and await my demise. That was indeed the worst answer my super-processing main frame could possibly simulate... Try again, and this time - make an attempt.");
+            Dialogue(P_NAME, "...", s_port_hoopzSad);
+            //ROUNDMOUND
+            remove_choice(directionChoice, dirSouthNorth);
+            scr_event_build_goto_choice(directionChoice);
+        }
+    }
+    
+    /*==================
+         Event Code 
+    ==================*/
+    
+    /////////////////////////////////////////////////////////////////
+    ////// Cyberdwarf's Dick Gauntlet Greeting (default event) //////
+    /////////////////////////////////////////////////////////////////
+    
+/*    with (event) {
+        //First unique time this runs through, Cyberdwarf mentions all the dicks he's seen (TODO: this dialogue is weak)
+        if (Quest("chatrouletteState") == 0) && (csQuest == 2) {
+                Dialogue(cdwarf, "- on the grave of my fallen comrades if I see one more-");
+                Dialogue(cdwarf, P_NAME_S + "! I finally found you!");
+                Dialogue(P_NAME, "Hey Cyberdwarf! I got the router working!");
+                Dialogue(cdwarf, "It looks as if lot of gentledwarfs have their er-_ routers working... I apologize you had to see all this, " + P_NAME_S + ".");
+                Dialogue(P_NAME, "See what? This chat program looks pretty handy.");
+                Dialogue(cdwarf, "Is that some type of joke? There is nothing on here but languishing schwanze.");
+                Dialogue(P_NAME, "I'm not sure I understand...");
+                Dialogue(cdwarf, "Forget it, child. Count yourself lucky if you have not encountered such filth. Now! What have you discovered?");
+                //Set this variable to never play again.
+                Quest("charouletteState", 1);
+                scr_event_build_event_snippet(cyberspearQuest);
+        }
+                
+        //TODO: add in Cyberdwarfs reactions to each "dickGauntlet"
+        else if dickGauntlet >= 1 {
+            if dickGauntlet == 12 {
+                Dialogue("Bhroom", "Enter dialogue here for 12 (max) dicks.");
+            }
+            if dickGauntlet == 11 {
+                Dialogue("Bhroom", "Enter dialogue here for 10 dicks.");
+            }
+            if dickGauntlet == 10 {
+                Dialogue("Bhroom", "Enter dialogue here for 10 dicks.");
+            }
+            if dickGauntlet == 9 {
+                Dialogue("Bhroom", "Enter dialogue here for 9 dicks.");
+            }
+            if dickGauntlet == 8 {
+                Dialogue("The Cyberdwarf", "I am functionally blind. The dicks mine eyes hath seen to locate you, my child, have virtually pierced my psyche with each flash of member. I can take no more... I beg you, bear with thee good news as my faint heart, weakened by phallic transgression, can stand no more strain.");
+            }
+            if dickGauntlet == 7 {
+                Dialogue("Bhroom", "Enter dialogue here for 7 dicks.");
+            }
+            if dickGauntlet == 6 {
+                Dialogue("Bhroom", "Enter dialogue here for 6 dicks.");
+            }
+            if dickGauntlet == 5 {
+                Dialogue("Bhroom", "Enter dialogue here for 5 dicks.");   
+            }
+            if dickGauntlet == 4 {
+                Dialogue(cdwarf, "Ah! " + P_NAME_S + "! Thank Clispaeth. I have seen such... indecencies... on this communications protocol. I had hoped my arcane firewalls still had the power to filter such travesties... I pray I can at least empty my image cache.");
+            }
+            if dickGauntlet == 3 {
+                Dialogue("Bhroom", "Enter dialogue here for 3 dicks.");
+            }
+            if dickGauntlet == 2 {
+                Dialogue("Bhroom", "Enter dialogue here for 2 dicks.");
+            }
+            if dickGauntlet == 1 {
+                Dialogue("Bhroom", "Enter dialogue here for 1 dicks.");
+            }           
+        }
+        
+        else {
+            Dialogue("The Cyberdwarf", "Ah, there you are, " + P_NAME + ".  Tell me of your progress, child.");
+        }
+        //Go to the Cyberspear Quest Checker
+        scr_event_build_event_snippet(cyberspearQuest);
+    }
+    scr_event_advance(event);
+}

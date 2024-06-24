@@ -1,0 +1,70 @@
+//R. Itkonen - CardPlay4
+
+//------------------------------------------------------------------------------
+// *** govQuest = 6 = Governor quest complete. ***
+//------------------------------------------------------------------------------
+
+R. Itkonen:
+It probably came off like I was more invested in my poker game than in that body transfering stuff you did earlier. To be honest, it was a little over my head, but I appreciate what you did. But I'm this close to taking the whole pot, so piss off.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 5 = currently governor. ***
+//------------------------------------------------------------------------------
+
+R. Itkonen:
+Don't stand over my shoulder like that. You're givin' me the willies.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 4 = ready to become governor. ***
+//------------------------------------------------------------------------------
+
+R. Itkonen:
+Look at this hand... pair of lychees and the ace of grapes. These suckers won't even see it comin'.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 3 = have duergar urine. ***
+//------------------------------------------------------------------------------
+
+R. Itkonen:
+You smell like piss, kid. Take a shower or something.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 2 = Governor quest accepted, need duergar urine. ***
+//------------------------------------------------------------------------------
+
+R. Itkonen:
+Duergar urine? Go bother someone else, I'm in the zone.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 1 = Governor quest rejected ***
+//------------------------------------------------------------------------------
+
+R. Itkonen:
+Yeah, figured you didn't have what it takes to be a L.O.N.G.I.N.U.S. Too bad. I wanted to fleece you in poker.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** no conditions ***
+//------------------------------------------------------------------------------
+
+R. Itkonen:
+Piss off kid, I'm on fire tonight. Cuchulainn can wait until I milk these suckers for all they're worth.
+
+//end dialogue;

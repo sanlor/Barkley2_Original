@@ -1,0 +1,18 @@
+if (argument0 == SCRIPT_START) {
+
+}
+else if (argument0 == SCRIPT_STEP) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var event = scr_event_create_main();
+    with (event) 
+    {
+            scr_quest_set_state("deadSonBootyBass", 1);
+            scr_event_build_dialogue("Matthias", s_port_matthias, "(I really, really, really do not want to go into a rave like this. Maybe next time!)");
+            scr_event_build_move(o_cts_hoopz, 0, 16);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("deadSonBootyBass", 0);
+        
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,10 @@
+/// scr_combat_createGunDrop(gun, x, y)
+/// Returns created gun drop object
+
+var gun = argument0;
+var _x = argument1;
+var _y = argument2;
+
+var n = instance_create(_x, _y, o_pickup_gun);
+n.gun = gun;
+return n;

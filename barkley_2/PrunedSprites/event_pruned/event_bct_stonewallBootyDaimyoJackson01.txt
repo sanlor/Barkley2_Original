@@ -1,0 +1,483 @@
+// Event for Stonewall 'Booty Daimyo' Jackson in Brain City. Part of Wedding Quest
+// and Brain City Booty Bass
+// stonewallBrain = 1 - introduced to Stonewall before.
+// stonewallHandler = 1 - go to questions snippet.
+
+/*if (argument0 == SCRIPT_START) {
+
+
+}
+else if (argument0 == SCRIPT_STEP) {
+
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var stonewall = id;
+    var event = scr_event_create_main();
+    var questionsnippet = scr_event_create_child(event);
+    var weddingquestion = scr_event_create_child(event);
+    var rehearsal = scr_event_create_child(event);
+
+//--------------------------------------------
+//---------- REHEARSAL SNIPPET ---------------
+//--------------------------------------------    
+        
+    with (rehearsal) {
+        
+        scr_event_build_quest_state("startWedding", 1);    
+    
+        //Have Boris.
+        if (scr_quest_get_state("borisWedding") == 1){
+            scr_event_build_dialogue("Boris", s_port_boris, "Ah, our budding band leader returns! What ho, nubile wanderer!");
+        }
+        
+        //Have Cap'n Jane.
+        if (scr_quest_get_state("janeWedding") == 1){
+            scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Hmmm... what took you so long? I can hardly hear the sound of me accordion over these lubbers!");
+        
+            //Have Zalmoxis.
+            if (scr_quest_get_state("zalmoxisWedding") == 1){
+                scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Hmph, of course one as unsophisticated as you wouldn't understand the unique and delicate beauty of a bellowing cuica...");
+            }
+            
+            //Have Poly.
+            else if (scr_quest_get_state("polyWedding") == 1){
+                scr_event_build_dialogue("Poly", s_port_poly, "Aw, get choomed, Jane! Who the hell brings an accordion to a wedding?");
+            }
+            
+        
+        }
+        
+        //STONEWALL SINGER QUESTION
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Cool, cool... so the band's all assembled. So uh, which one of you is the singer?");
+        
+        //Have Wayne.
+        if (scr_quest_get_state("wayneWedding") == 1){
+            scr_event_build_dialogue("Wayne", s_port_wayne, "...make someone else do it.");
+        }
+        
+        //Have Poly.
+        if (scr_quest_get_state("polyWedding") == 1){
+            scr_event_build_dialogue("Poly", s_port_poly, "I can't really drum and sing at the same time... get someone else to do it!");
+        }
+        
+        //Have Guillaume.
+        if (scr_quest_get_state("guillaumeWedding") == 1){
+            scr_event_build_dialogue("Guillaume", s_port_guillaume, "Don't look at me, maaaaan, I'm just the guitarist.");
+        }
+        
+        //Have Dinah.
+        if (scr_quest_get_state("dinahWedding") == 1){
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Um, I'm not really a /'performer/', y'know? Like... I'm more of just a drum programmer?");
+        }
+        
+        //Have Zalmoxis.
+        if (scr_quest_get_state("zalmoxisWedding") == 1){
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "The cuica zauber demands far too much focus to sing! If I lost concentration for even a fraction of a second, the cuica results could be disastrous.");
+        }
+        
+        //Have Cap'n Jane.
+        if (scr_quest_get_state("janeWedding") == 1){
+            scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Not me! No how, no way!");
+        }
+        
+        //Have Garcia.
+        if (scr_quest_get_state("garciaWedding") == 1){
+            scr_event_build_dialogue("Garcia", s_port_garcia, "Uh... I'm kind of a, uhhh, background guy. H-have someone else do it!");
+        }
+        
+        //Have WIZARD.
+        if (scr_quest_get_state("wizardWedding") == 1){
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "I VOLUNTEER MY TORTURED SHRIEKS AND INFERNAL DEATH GROWLS IN THE NAME OF THE UNDIMMED STAR.");
+        
+            //Have Cap'n Jane.
+            if (scr_quest_get_state("janeWedding") == 1){
+                scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Zip it, you overgrown water buffalo. Nobody wants to hear you mooing.");
+            } 
+            
+            //Have Zalmoxis.
+            else if (scr_quest_get_state("zalmoxisWedding") == 1){
+                scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Silence, philistine! The horrible racket you've been making with that untuned guitar is more than enough, we don't need to hear your death moos too.");
+            }
+            
+            //Have Guillaume.
+            else if (scr_quest_get_state("guillaumeWedding") == 1){
+                scr_event_build_dialogue("Guillaume", s_port_guillaume, "'eeeey, man, maybe you should just take a chill pill for a while, y'know? All this doom and gloom stuff is killing my vibe, maaaan.");
+            }
+            
+            //Have Garcia.
+            else if (scr_quest_get_state("garciaWedding") == 1){
+                scr_event_build_dialogue("Garcia", s_port_garcia, "I-I thought this gig was supposed to be at a wedding, not a mosh pit...");
+            }
+            
+            else {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, uh, hmmm... that's an interesting suggestion... we should definitely consider it... I'll write you down as a definite 'maybe'.");
+            }
+            
+        }
+        
+        //Have Boris.
+        if (scr_quest_get_state("borisWedding") == 1){
+            scr_event_build_dialogue("Boris", s_port_boris, "I'd volunteer, but alas! The challenge of juggling both woodwind and warbling is too much for one such as myself!");
+        }
+        
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Wait, wait, so you mean to tell me you got four musicians and forgot the most important part? You didn't get a singer?! Dad fruggit, kid! There's not much time left, what are we gonna do?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, well... I guess I could give it a shot.");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "You, uh, you got the chops? You don't really look like much of a crooner to me...");
+        
+        //sing question
+        var singquestion = scr_event_build_choice("I can SORTA sing, right?", s_port_hoopz);
+        
+        //Trust me, I can croon with the best of them.
+        with scr_event_build_add_choice(singquestion, "Trust me, I can croon with the best of them.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Trust me, Stonewall. I can belt 'em out like old Blue Eyes.");
+        }
+        
+        //I'm okay...
+        with scr_event_build_add_choice(singquestion, "I sing in the shower.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Don't worry, Stonewall, I practice in the shower. We'll be okay.");
+        }
+        
+        //I can hold a note... sort of.
+        with scr_event_build_add_choice(singquestion, "I can hold a note... sort of.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, well I can hold a note... sort of...");
+        }
+        
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Well, if you say so... We don't have enough time to go out and find another singer. That leaves us with one last thing - what's the band's name? You're gonna need something snappy, something people will remember.");
+        
+        //Have Boris.
+        if (scr_quest_get_state("borisWedding") == 1){
+            scr_event_build_dialogue("Boris", s_port_boris, "Something with aplomb!");
+        }
+        
+        //Have Guillaume.
+        if (scr_quest_get_state("guillaumeWedding") == 1){
+            scr_event_build_dialogue("Guillaume", s_port_guillaume, "Something trippy... something far out, maaaan...");
+        }
+        
+        //Have Poly.
+        if (scr_quest_get_state("polyWedding") == 1){
+            scr_event_build_dialogue("Poly", s_port_poly, "Somethin' totally kick ass!");
+        }
+        
+        //Have Cap'n Jane.
+        if (scr_quest_get_state("janeWedding") == 1){
+            scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "We need a name that'll strike fear in the hearts of our foes!");
+        }
+        
+        //Have Dinah.
+        if (scr_quest_get_state("dinahWedding") == 1){
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Maybe something cool and futuristic... or artsy maybe?");
+        }
+        
+        //Have Garcia.
+        if (scr_quest_get_state("garciaWedding") == 1){
+            scr_event_build_dialogue("Garcia", s_port_garcia, "Something retro... something kind of new wave...");
+        }
+        
+        //Have Zalmoxis.
+        if (scr_quest_get_state("zalmoxisWedding") == 1){
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Something mystical... arcane... a reference to some eternal classic...");
+        }
+        
+        //Have WIZARD.
+        if (scr_quest_get_state("wizardWedding") == 1){
+            scr_event_build_dialogue("WIZARD", s_port_wizard, "A NAME OF WAR, DESTRUCTION. A NAME THAT HEARKENS THE DAWN OF THE MORNING STAR.");
+        }
+        
+        //Have Wayne.
+        if (scr_quest_get_state("wayneWedding") == 1){
+            scr_event_build_dialogue("Wayne", s_port_wayne, "...don't really care.");
+        }
+        
+        //BAND NAME SEGMENT
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "A band name, huh...");
+        var bandname = scr_event_build_choice("What's the band name gonna be?", s_port_hoopz);
+        
+        with scr_event_build_add_choice(bandname, "Baha Men II") {
+        }
+        
+        with scr_event_build_add_choice(bandname, "Boyz IV Men") {
+        }
+        
+        //with scr_event_build_add_choice(bandname, "From Asher to Ashes") {
+        //}
+        
+        with scr_event_build_add_choice(bandname, "Another Beneficent Creation") {
+        }
+        
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hmmm, what about-");
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "I've got it! How about The Jazzy Rascals!");
+        
+        //Have Zalmoxis.
+        if (scr_quest_get_state("zalmoxisWedding") == 1){
+            scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "That certainly does have a ring to it.");
+        }
+        
+        //Have WIZARD.
+        if (scr_quest_get_state("wizardWedding") == 1){
+            scr_event_build_dialogue("Wizard", s_port_wizard, "THAT WILL SUFFICE.");
+        }
+        
+        //Have Dinah.
+        if (scr_quest_get_state("dinahWedding") == 1){
+            scr_event_build_dialogue("Dinah", s_port_dinah, "Y'know, I kinda like the sound of that.");
+        }
+        
+        //Have Poly.
+        if (scr_quest_get_state("polyWedding") == 1){
+            scr_event_build_dialogue("Poly", s_port_poly, "The Jazzy Rascals, huh? Y'know... that ain't half bad...");
+        }
+        
+        //Have Cap'n Jane.
+        if (scr_quest_get_state("janeWedding") == 1){
+            scr_event_build_dialogue("Cap'n Jane", s_port_capnJane, "Arrrr... that'll do just fine!");
+        }
+        
+        //Have Guillaume.
+        if (scr_quest_get_state("guillaumeWedding") == 1){
+            scr_event_build_dialogue("Guillaume", s_port_guillaume, "Yeaaaah, man. That's it! That's totally it! That's totally what I was thinking!");
+        }
+        
+        //Have Wayne.
+        if (scr_quest_get_state("wayneWedding") == 1){
+            scr_event_build_dialogue("Wayne", s_port_wayne, "...cool.");
+        }
+        
+        //Have Garcia.
+        if (scr_quest_get_state("wayneWedding") == 1){
+            scr_event_build_dialogue("Garcia", s_port_garcia, "Yeah! That's it! That's the perfect name! The Jazzy Rascals!");
+        }
+        
+        //Have Boris.
+        if (scr_quest_get_state("borisWedding") == 1){
+            scr_event_build_dialogue("Boris", s_port_boris, "A name of such splendor, of such... pizazz! Yes! I could accept nothing less!");
+        }
+        
+        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Then it's settled! You're The Jazzy Rascals! Are you guys ready to show 'em what you're made of out there?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(J-Jazzy Rascals...? That name is horrible... what about my name?)");
+        scr_event_build_fade(true, 1.5);
+        scr_event_build_wait_for_actions(); 
+        scr_event_build_teleport(r_bct_chapel02, 232, 136);
+    
+    }
+
+//--------------------------------------------
+//---------- WEDDING QUESTION ----------------
+//--------------------------------------------    
+        
+    with (weddingquestion) {
+        var weddingq = scr_event_build_choice("Do I have time to help Stonewall?", s_port_hoopz);
+    
+        //I can help you put together a band.
+        with scr_event_build_add_choice(weddingq, "Sure, I can help you put together a band.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sure, I guess I could help you out. What do I need to do?");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Oh man, I knew I could count on you. Okay, here's what I'm thinkin': a good band has like what, four members? If you can find four musicians who wanna help us out, then tell 'em to come back here and we can rehearse a little. I don't care what instruments they play, pick up anyone as long as they seem kinda competent. Just be quick about it, 'cuz this wedding is going down pretty soon, okay?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sounds good, I'll try to be quick.");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Nice, nice. Now was there anything else?");
+            scr_event_build_quest_state("stonewallHandler", 1);
+            scr_event_build_quest_state("weddingQuest", 1);
+            scr_event_build_execute_event_script(event_bct_stonewallBootyDaimyoJackson01);
+        }
+        
+        //I don't think I have the time.
+        with scr_event_build_add_choice(weddingq, "Sorry, I don't think I have the time.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, it sounds like you've got your work cut out for you. I don't actually like to work, I just like asking about it.");
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Aww man. I thought you'd be able to help me out. I think this is gonna fall through. Come back if you find the time, okay?");
+        }
+    
+    }
+    
+//--------------------------------------------
+//---------- QUESTIONS SNIPPET ---------------
+//--------------------------------------------    
+        
+    with (questionsnippet) {
+        var questions1 = scr_event_build_choice("I've got a question...", s_port_hoopz);
+        
+        //What is this booty brouhaha?
+        with scr_event_build_add_choice(questions1, "What is this booty brouhaha?") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, so what are all the booty shenanigans going on?");
+            
+            //TODO: DUKE OF BOOTY HOOKS
+            //If time <=18.
+            if (scr_time_get() <= 18) {
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Huh, you mean the club? Man, this is the most poppin' booty bass venue this side of the Sombrero Galaxy. Forget that Tir na Nog warehouse, we can really cut loose and flex our glutes here. The Anime Bulldog and DJ Booty Slayer are the perfect match for this place and keep the rump ruckus hype. You gonna be here for the Duke of Booty contest? Man, this place is gonna be wild when that gets going. It's pretty soon, too. Get here early 'cuz this place is gonna be packed.");
+            }
+            
+            //Past time 18.
+            else {
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Man, you just missed the Duke of Booty contest, the hypest booty blowout this side of the Sombrero Galaxy. You shoulda been here, the crowd was goin' nuts. This is the place, man, the hottest spot to rock what you got in Brain City. Don't forget it.");
+            }
+            scr_event_build_quest_state("stonewallHandler", 1);
+            scr_event_build_execute_event_script(event_bct_stonewallBootyDaimyoJackson01);
+        }
+        
+        //Hey, I've got 4 musicians.
+        if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("musicianCount") >= 4) {
+            with scr_event_build_add_choice(questions1, "I've finally got four musicians for the wedding band.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, I've got four musicians for the wedding band. What do we do now?");
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Awww, man, I knew you could do it. Good job, kid. Took your time, but at least we gotta band now...");
+                scr_event_build_dialogue_debug("bort", NULL, "This conversation is taking place in the Brain City club. We should either have Stonewall say /'meet me at the church / musician room!/' or have everyone teleport there");
+                //TODO: FADEOUT, TELEPORT TO BACK ROOM.
+                scr_event_build_event_snippet(rehearsal);
+            }
+        }
+        
+        //What am I supposed to do for the wedding thing again?
+        if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("musicianCount") < 4) {
+            with scr_event_build_add_choice(questions1, "What am I supposed to do for this wedding thing again?") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, what am I supposed to do for this wedding thing again?");
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "So I'm putting together a rock band for a wedding that's going on pretty soon. I need you to find some musicians who are willing to do the gig - I don't care what they play as long as they're good. We'll need 4 and right now we've got " + string(scr_quest_get_state("musicianCount")) + ". We'll need 'em fast 'cuz the wedding is soon, so get on it! Anything else?");
+                scr_event_build_quest_state("stonewallHandler", 1);
+                scr_event_build_execute_event_script(event_bct_stonewallBootyDaimyoJackson01);
+            }
+        }
+        
+        //Is there any work around here?
+        if (scr_quest_get_state("weddingQuest") == 0){
+            with scr_event_build_add_choice(questions1, "Is there any work around here?") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You seem like the kind of guy who knows what's going on in Brain City. Is there any work for a kid like me here?");
+                
+                //If time >=4 and <=10
+                if (scr_time_get() >= 4) and (scr_time_get() <= 10) {
+                    
+                    //If you are the Baron of Booty.
+                    if (scr_quest_get_state("bootyBassQuest") == 3) {
+                        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Work, huh? Yeah, you know, you might just be the one for the job, being Baron of Booty and all. So there's this wedding going on at the church soon and they asked me to put together a rock band for the wedding party. I'm down with that, you know, I'm all about the jams but I've got a club to run, y'know? I don't have the time to run around lookin' for musicians for a band. But what if I had someone I knew I could trust, the Baron of Booty help me out? I mean there's gotta be a ton of good musicians looking for a gig out there. So whaddaya say? You think you've got the time to help me put together a rock group for the wedding?");
+                        scr_event_build_event_snippet(weddingquestion);
+                    }
+                    
+                    //Not Baron of Booty.
+                    else  {
+                        scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Work, huh? Well, yeah, I've got a job if you've got any music experience. So there's this wedding going on at the church soon and they asked me to put together a rock band for the wedding party. I'm down with that, you know, I'm all about the jams but I've got a club to run, y'know? I don't have the time to run around lookin' for musicians for a band. But what if I had someone help me out, a talent scout? I mean there's gotta be a ton of good musicians looking for a gig out there. So whaddaya say? You think you've got the time to help me put together a rock group for the wedding?");
+                        scr_event_build_event_snippet(weddingquestion);
+                    }
+                }
+                
+                //after 10
+                else if (scr_time_get() > 10) {
+                    scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Man, if only you'd have shown up a little earlier. There was this gig at the church you probably could've helped me out with. Priest at the church asked me to help him put together a rock group for a wedding but it kinda fell through. Too bad.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Shucks... I love to work...");
+                    scr_event_build_quest_state("stonewallHandler", 1);
+                    scr_event_build_execute_event_script(event_bct_stonewallBootyDaimyoJackson01);
+                }
+                
+                //before 4
+                else {
+                    scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Haha, lookin' for employment, huh? Aren't we all. Nah, I don't have anything for you right now, but I might if you come back in a little bit. I've always got an ear out for ways to make a little extra scratch.");
+                    scr_event_build_quest_state("stonewallHandler", 1);
+                    scr_event_build_execute_event_script(event_bct_stonewallBootyDaimyoJackson01);
+                }
+            }
+        }
+        
+        
+        //I'll see you later.
+        with scr_event_build_add_choice(questions1, "I'll see you later.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, I'm taking off. See you later, Stonewall!");
+            
+            //if you won baron of booty contest
+            if (scr_quest_get_state("bootyBassQuest") == 3) {
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "You bet. Keep it real, kid. Hey everyone, the Baron is leaving the premises! I repeat: the Baron! Is leaving! The premises!");
+            }
+            
+            //standard goodbye
+            else {
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "You bet. Keep it real, kid.");
+            }
+        }
+    
+    }
+
+
+//--------------------------------------------
+//---------- MAIN EVENT - INTRO --------------
+//--------------------------------------------
+    
+    with (event) {
+        
+        if (scr_quest_get_state("stonewallHandler") == 1) {
+        //On reset
+            scr_event_build_quest_state("stonewallHandler", 0);
+            scr_event_build_event_snippet(questionsnippet);
+    
+        //Agreed to do wedding quest but didn't do it.
+        } else if (scr_quest_get_state("weddingQuest") == 2) {
+            //Spoken to Stonewall before, failed wedding quest.
+            if (scr_quest_get_state("stonewallWeddingFail") == 1) { 
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Oh, it's you again. What the hell do you want, kid?");
+                scr_event_build_event_snippet(questionsnippet);
+            }
+            //Haven't spoken yet after failure
+            else {
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Hey, real funny, you showing up here after you blew it like that.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "B-blew it? I didn't blow it! What are you talking about?");
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "What am I talking about? Get choomed, kid! The wedding! I'm talking about the wedding! You were supposed to find a bunch of musicians for the wedding! I told you there wasn't much time left! What the hell, kid?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "C-crud... I swear I was gonna get to it...");
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Yeah, well you didn't and it was a bunch of egg on my face. That's the last time I ever trust you with anything.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "S-sorry...");
+                scr_event_build_quest_state("stonewallWeddingFail", 1);
+            }
+            
+        //Spoken to Stonewall before, completed wedding quest.
+        }else if (scr_quest_get_state("weddingQuest") == 3) {
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "'eeeeeey, there's that Jazzy Rascal! What's going on, kiddo?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Don't call me a Jazzy Rascal...)");
+            scr_event_build_event_snippet(questionsnippet);
+        
+        //Spoken to Stonewall before.
+        }else if (scr_quest_get_state("stonewallBrain") == 1) {
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Hey, the prodigal booty Baryshnikov returns. You back for more of Booty Slayer and the Anime Bulldog's rump-numbing sonic keistercore? What's poppin', kiddo?");
+            scr_event_build_event_snippet(questionsnippet);
+            
+    
+        //Won booty bass contest, speaking to for first time.
+        }else if (scr_quest_get_state("bootyBassQuest") == 3) {
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "'eeeeeey! It's our reigning Baron of Booty! Hey everyone, we got a VIP in the building - it's the Baron of Booty! Woooooo! Been a while since the mean streets of Tir na Nog, huh?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, a booty bass club here in Brain City? I might have to cause some damage on the vinyl.");
+            //Time is <=18. Brain City booty bass contest from times 12-18? Could change.
+            if (scr_time_get() <= 18) {
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Awww snap! Now that's what I like to hear! We've got another contest goin' down soon... this one's for the crown - the Duke of Booty. I hope you're down, 'cuz we're gonna need your funk, kiddo. So what's poppin'?");
+            }
+            
+            //Time is > 18.
+            else {
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Awww man, you know you just missed the Duke of Booty contest? So what's poppin', kid?");
+            }
+            scr_event_build_quest_state("stonewallBrain", 1);
+            scr_event_build_event_snippet(questionsnippet);
+        
+        //Lost booty bass contest, speaking to first time.
+        }else if (scr_quest_get_state("bootyBassQuest") == 2) {
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Hey, kid, I recognize you. You were a regular in the Tir na Nog Booty Bass scene... what was your name again? DJ uh... Booty Crumpet, right?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Not quite. I participated in the Baron of Booty contest but got my booty handed to me...");
+            
+            //Time is <=18. Brain City booty bass contest from times 12-18? Could change.
+            if (scr_time_get() <= 18) {
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Yeah, yeah, I remember now! Tough luck, Bootyslayer and The Anime Bulldog were killin' it that night. Killin' it now, too. What's shakin', kiddo? You here for the Duke of Booty contest?");
+            }
+            
+            //Time is > 18.
+            else {
+                scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Yeah, yeah, I remember now! Tough luck, Bootyslayer and The Anime Bulldog were killin' it that night. Killin' it now, too. So what's shakin', kiddo?");
+            }
+            scr_event_build_quest_state("stonewallBrain", 1);
+            scr_event_build_event_snippet(questionsnippet);
+
+        //Time is <=18. Brain City booty bass contest from times 12-18? Could change. Haven't spoken to before.
+        } else if (scr_time_get() <= 18) {
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Dang, you're lookin' slick, kid. That's one booty-poppin' hawk you're rockin'. I think you'll fit right in here. What's up? You here for the Duke of Booty contest, the biggest booty bass hootenany this side of the Sombrero Galaxy?");
+            scr_event_build_quest_state("stonewallBrain", 1);
+            scr_event_build_event_snippet(questionsnippet);
+            
+        //Never met before, never spoke to in Tir na Nog, time > 18.
+        } else {
+            scr_event_build_dialogue("Stonewall /'Booty Daimyo/' Jackson", "s_port_daimyo", "Dang, you're lookin' slick, kid. That's one booty-poppin' hawk you're rockin'. I think you'll fit right in here. If you're here for the Duke of Booty contest, I've got bad news: ya missed it! But our new booty royalty, DJ Booty Slayer and The Anime Bulldog are still tearin' it up on stage. So what's up, kiddo?");
+            scr_event_build_quest_state("stonewallBrain", 1);
+            scr_event_build_event_snippet(questionsnippet);
+        }
+    }
+    scr_event_advance(event);
+}

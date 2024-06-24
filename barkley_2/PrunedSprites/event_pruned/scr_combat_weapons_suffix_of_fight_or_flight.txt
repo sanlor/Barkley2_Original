@@ -1,0 +1,21 @@
+///scr_combat_weapons_suffix_of_fight_or_flight(action, bulletOrNoone, gunOrNull)
+var _action = argument0;
+var _bullet = argument1;
+var gun = argument2;
+var _retvar = 0;
+
+// UP - MENTAL - REACTIVE //
+switch(_action)
+{
+    case "apply":
+        gun[? "stepScript"] = script_get_name(scr_combat_weapons_step_fightflight);
+        break;
+    case "checkval":
+        _retvar = 20;
+        break;
+    case "applyBullet":
+        break;
+}
+
+// END //
+return _retvar;

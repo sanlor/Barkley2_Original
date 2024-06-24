@@ -1,0 +1,46 @@
+// event_bct_candyist01
+/*
+    This is the Brain City Candyist.
+    Ideally, there should be someone who fulfills this role in Brain City.
+    In the meantime, it is essentially a debug object.
+    Right now, you can obtain Durian Gaz only.
+
+*/
+
+/*if (argument0 == SCRIPT_START) {}
+if (argument0 == SCRIPT_STEP) {}
+if (argument0 == SCRIPT_INTERACT) {
+    var candyist = id;
+    var event = scr_event_create_main();
+    
+    with (event) {
+        scr_event_build_dialogue_debug("Candyist", NULL, "Greets, greets, greets! I'm the Candyist of Brain City. What can I help you with?");
+        var candy = scr_event_build_choice("What candy?", s_port_hoopz);
+        var durian_gaz = scr_event_build_add_choice(candy, "Durian Gaz.");
+        with (durian_gaz) {
+            scr_event_build_dialogue("Candyist", NULL, "Here ya go...");
+            scr_event_build_dialogue_item("Got 1 Durian Gaz!");
+            Item("build", "gain", "Durian Gaz", 1);
+        }
+        var temp_crypto = scr_event_build_add_choice(candy, "TEMP: Turn on Crypto");
+        with (temp_crypto) {
+            scr_event_build_dialogue("Candyist", NULL, "You know about Cryptocurrency!");
+            scr_event_build_quest_state("mayorKnown", 1);
+        }
+        var temp_politics = scr_event_build_add_choice(candy, "TEMP: Turn on Politics");
+        with (temp_politics) {
+            scr_event_build_dialogue("Candyist", NULL, "You know about Dwarf Politics!");
+            scr_event_build_quest_state("cryptoKnown", 1);
+        }
+        var none = scr_event_build_add_choice(candy, "None.");
+        with (none) {
+            scr_event_build_end();
+        }
+        var take = scr_event_build_add_choice(candy, "Take my candy!");
+        with (take) {
+            Item("build", "lose", "Durian Gaz", Item("count", "Durian Gaz"));
+            scr_event_build_dialogue_item("Lost all Durian Gaz!");
+        }
+    }
+    scr_event_advance(event);
+}

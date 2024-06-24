@@ -1,0 +1,97 @@
+/* Template for status effects.
+
+arg0 - Configuration map
+arg1 - Actor to target
+arg2 - Command to execute ("generate", "apply", "step", "draw", "finish")
+arg3 - Other data (e.g. changestat, damaging CombatAttackEntity...)
+
+
+var conf = argument0;
+var actor = argument1;
+var command = argument2;
+
+if (command == "generate") {
+    // Append basic information
+    scr_statusEffect_generateBasicInfo(conf, statusEffect_mortal, 320);
+    
+    conf[? "timerTotal"] = conf[? "timer"];
+    conf[? "effectImage"] = 0;
+    conf[? "effectImageMin"] = 0;
+    conf[? "effectImageMax"] = 0;
+    conf[? "effectY"] = 0;
+
+    conf[? "effectFlickerTimer"] = 0;
+    conf[? "effectFlickerTimerReset"] = 5;
+    conf[? "effectFlickerToggle"] = 1;
+
+    return 0;
+}
+
+else if (!instance_exists(actor)) {
+    return 0;
+}
+
+else if (command == "apply") {
+    // -- On-hit effects --
+    /* In this part, we can take into consideration resistances,
+       the currentMortal state of the CombatActor (such as if he already
+       has the status effect on him), etc. 
+    var currentMortal = scr_statusEffect_getFromCombatActor(actor, statusEffect_mortal);
+    if (currentMortal == -1) {
+        // Apply new status effect
+        scr_statusEffect_applyNewToCombatActor(actor, conf);
+    }
+    else {
+        // Refresh time on existing
+        var timer = conf[? "timer"];
+        timer = max(timer, currentMortal[? "timer"]);
+        currentMortal[? "timer"] = timer;
+    }
+    return 0;
+} 
+
+else if (command == "step") {
+    // -- Effect to perform each step --
+    scr_fx_statusFlicker(conf, 0, 0);
+    var red = 255 * (scr_stats_getCurrentStat(actor, STAT_CURRENT_HP) / scr_stats_getEffectiveStat(actor, STAT_EFFECTIVE_MAX_HP));
+    if red < 0 then red = 0;
+    if red > 255 then red = 255;
+    conf[? "healthColor"] = make_color_rgb(red, 30, 40); 
+    return 0;
+}
+
+else if (command == "changestat") {
+    // -- Change RPG stats --
+    /* This is called when a stat should be changed, with the stat (or statgroup)
+       to change in the 'changestat' argument. See scr_stats_genEffectiveStats
+       for reference on when this is called and with which arguments. 
+    return 0;
+}
+
+else if (command == "damage") {
+    // -- Actor takes damage --
+    /* This is called when the actor takes damage. The ID of the damaging
+       CombatAttackEntity is provided as arg3. Here you can do things like
+       return damage to attacker or other cool on-hit effects. 
+    // Return 'true' to remove this status effect from the combatactor.
+    return 0;
+}
+
+else if (command == "draw") {
+    // -- Draw effect to perform before CombatActor is drawn --
+    /* This can apply draw effects to the actor, such as change
+       rendering colors, configure a shader, particle effects, etc. 
+    draw_sprite_ext(s_effect_affix_mortal, conf[? "effectImage"], actor.x, actor.y - actor.z - ailmentTotem_headqueue_get(actor), image_xscale, image_yscale, image_angle, conf[? "healthColor"], 0.8 * conf[? "effectFlickerToggle"]);
+    ailmentTotem_headqueue_next(actor);
+    draw_set_color(c_white);
+    draw_set_halign(fa_center);
+    draw_set_font(global.fn_small);
+    draw_text(actor.x, actor.y - actor.z - ailmentTotem_foot_get(actor) - 4, string(scr_stats_getCurrentStat(actor, STAT_CURRENT_HP)));
+    draw_set_halign(fa_left);
+    return 0;
+}
+
+else if (command == "finish") {
+    // -- Action to perform when status effect ends --
+    return 0;
+}

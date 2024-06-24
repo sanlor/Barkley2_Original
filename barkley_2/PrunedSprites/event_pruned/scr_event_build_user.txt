@@ -1,0 +1,10 @@
+/// scr_event_build_user(object, user_event)
+/// This script is used to execute a user event
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_user);
+ds_list_add(action, argument0); // object id
+ds_list_add(action, argument1); // user event
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;

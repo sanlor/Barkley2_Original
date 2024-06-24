@@ -1,0 +1,177 @@
+/*
+Firas in Dwarf Ghetto
+
+[unfinished]
+
+*Note on Firas - deadSon 2 is activated in the sewers by finding his dead son from anywhere between Times 1-3. The quest ends automatically at 4 if it's not completed.*
+
+deadSon = 6 - You've completed the quest and talked to Firas.
+deadSon = 5 means you completed the quest, haven't talked to firas
+deadSon = 4 means Firas saw through your disguise and realized his son is dead
+deadSon = 3 means you're currently controlling the dead son who is in the sewers
+deadSon = 2 means the quest has been accepted
+deadSon = 1 means Firas has been spoken to but the quest was rejected
+deadSon = 0 means Firas hasn't been spoken to and the quest is not active
+
+*/
+
+//------------------------------------------------------------------------------
+// *** deadSon = 6 ***
+//------------------------------------------------------------------------------
+
+Firas:
+Can't wait until that boy gets outta that tub! We're gonna have ourselves a time!
+
+X114JAM9:
+(I have made a horrendous mistake.)
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** deadSon = 5 ***
+//------------------------------------------------------------------------------
+
+Firas:
+Hey! Yer back! Heh, I'm sorry about that hemin' and hawin' I was doing earlier. I guess... I guess I was just worried about my boy. He was off lookin' fer rebels, but he's back now! My boy's back!
+
+X114JAM9:
+That's great...
+
+Firas:
+So you don't need to worry about lookin' for him, cuz he's takin' a bath now. And when he gets out, we're gonna spend some quality father/son time together. Goin' fishin', playin' the jug and washboard, goin' muddin', all sorts of dad and son things. Even though you didn't find him, what the heck, my boy's back, lemme give ya this...
+
+Get Firas' life savings!
+
+X114JAM9:
+You really, really shouldn't do this.
+
+Firas:
+We're startin' over, me and Matthias! A new beginning! It's just me and the boy now. Thanks for doin' the right thing and lookin' for him. That means more to me than anything in the world. You take care now, me 'n the boy sure will.
+
+X114JAM9:
+(This is the worst mistake I've ever made in my entire life...)
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** deadSon = 4 ***
+//------------------------------------------------------------------------------
+
+Firas:
+Yer... yer... yer not a good fella. You... I think... I think you should just leave me alone for now.
+
+X114JAM9:
+I just thought it would cheer you up...
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** deadSon = 3 ***
+//------------------------------------------------------------------------------
+
+Firas:
+M-Matthias? My eyes ain't what they used to be, I'll tell you what, but you sure look like my boy to me...
+
+
+
+//------------------------------------------------------------------------------
+// *** deadSon = 2 ***
+//------------------------------------------------------------------------------
+
+Firas:
+Still lookin' for my boy, whippersnapper? Remember, his name's Matthias, he loves grapes and blue jeans, he's lookin' fer the rebels in the sewers and he's due the fiercest keister whoopin' this side of Tir na Nog! Don't tell him that last part though. I want it to be a surprise.
+
+X114JAM9
+Got it, mister!
+
+
+//end dialogue;
+
+//------------------------------------------------------------------------------
+// *** deadSon = 1 ***
+//------------------------------------------------------------------------------
+     
+
+Firas:
+What in tarnation do you think you're doin' back here, you lousy, good fer nothin', guff givin', scraggly-haired cybervarmint? You didn't... reconsider looking for my boy, did you?
+
+I'll look for him.
+
+	X114JAM9:
+	Well, I guess I can look for him.
+	
+	Firas:
+	Aww, I knew you'd say that! Now look, he's a real runt of a thing, goes by Matthias and always wears those new-fangled... /'blue jeans/' or whatever you call 'em. He loves his grapes, likes to say /'a grape a day keeps the doctor away,/' whatever that means. He acts tough but I know he'll be a-hootin' and a-hollerin' with all those Bainshees in there so... so if you see him, please tell him to come home... come home to his ol' Pa...
+
+	X114JAM9:
+	I'll do what I can, mister.
+	
+	//deadSon = 2
+	
+	//end dialogue;
+	
+I don't have the time
+
+	X114JAM9:
+	I'm really sorry but, um... well, I'm kind of busy.
+
+	Firas:
+	Well now I'm rootin', tootin' pissed you dang, numbskull, birdbrained, no-good dimwit! Why in tarnation did you come back if you don't have nothin' good to say to me! Get outta my face you... you... you...!!!
+	
+	X114JAM9:
+	I'm sorry!!!!
+
+	//end dialogue;
+	
+
+//------------------------------------------------------------------------------
+// *** deadSon = 0, time <= 3 ***
+//------------------------------------------------------------------------------
+	
+Firas:
+...told that knucklehead to stay away from the sewers... always getting into trouble... gonna give that blockhead a whooping he'll never forget...
+
+X114JAM9:
+Umm, are you alright, mister?
+
+Firas:
+Am I alright? Am I alright!? By gum, I'm madder than a Duergar looking for rubies at an opal convention, I tell you what! I'm madder than a moon-croonin', balloon-brained buffoon panning for dubloons in a typhoon! I'm... I'm mad as hell, dad gummit! I told that numbskull boy of mine not to go near the sewers, that if he goes in he's Bainshee food, and what's the first thing he does? /'I'm gonna be a rebel, Pa!/' and off he goes! When he gets back, why, I'm gonna wallop his keister 'til... 'til... well, I'm gonna wallop it!
+
+X114JAM9:
+Um, I'm really sorry about that, mister... 
+
+Firas:
+You're... you're not going to the sewers anytime soon, are you? If you do, you wouldn't mind... keeping an eye out for him, right? He's just a runt of a thing, real small for his age and he don't have no beard or nothin'. Always wears those new-fangled... /'bluejeans/' or whatever you call 'em. Name's Matthias, loves his grapes. Always says /'a grape a day keeps the doctor away./' Would you... would you do that for me?
+
+
+I'll keep an eye out.
+
+	X114JAM9:
+	Well, I'm not really sure if I'll be going to the sewers soon, but I can keep an eye out for Matthias if you'd like..
+	
+	Firas:
+	Yeah, you better! Cuz I'm gonna whoop that rascal silly when he gets back! I'm gonna tan that rump 'til the cows come home! And those cows ain't comin' home anytime soon, I tell you what!
+
+	X114JAM9:
+	Um, well... okay. I guess I'll look for him. But uh, please don't spank him too hard.
+	
+	//deadSon = 2
+	//end dialogue;
+	
+	
+Sorry, I'm going to be busy
+
+	X114JAM9:
+	I'm kinda busy... I don't think I'll be able to look for him. Sorry...
+
+	Firas:
+	Yeah? Well you can kiss my grits! Get the heck outta here ya lazy good fer nothin' son of a bandit-lovin', bib-wearin', bulldog-havin'...
+
+	X114JAM9:
+	Um... sorry, mister...
+	
+	//deadSon = 1
+	//end dialogue;

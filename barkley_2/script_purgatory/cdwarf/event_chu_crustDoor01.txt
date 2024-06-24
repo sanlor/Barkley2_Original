@@ -1,0 +1,292 @@
+// event_chu_crustDoor01
+
+/*
+    This is the event that occurs just before the door to your battle with Cuchu-Crustacea.
+To-Do:
+    1. Write incomplete dialogues.
+    2. Incorporate into complete dialogues.
+    3. Make proper use of "crustDoorAny"
+    4. Create proper teleports.
+    5. Create Time- and Power-based taunts for Cyberdwarf to encourage Hoopz.
+        5a. "We're so close to Hell!"
+        5b. "You're so much stronger!"
+    6. Incorporate 2x attempts with Incomplete Spear into Cyberdwarf taunts.
+*/
+/*if (argument0 == SCRIPT_START) {
+
+} 
+else if (argument0 == SCRIPT_STEP) {
+    
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    
+    var crustDoorSolo = scr_quest_get_state("crustDoorSolo");
+    var crustDoorIncomplete = scr_quest_get_state("crustDoorIncomplete");
+    var crustDoorComplete = scr_quest_get_state("crustDoorComplete");
+    var wiglafMission = scr_quest_get_state("wiglafMission");
+    var csComplete = scr_quest_get_state("csComplete");
+
+    var elevator = id;
+    var event = scr_event_create_main();
+    //var _______ = scr_event_create_child(event);
+    with (event) {
+        //--------------------------------------------------------
+        // CRUSTACEA DEAD SEGMENT
+        //--------------------------------------------------------
+        if (scr_quest_get_state("crustDead") == 1) { // CuchuCrustacea has been killed
+            // teleport
+            scr_event_build_teleport(r_chu_crustRoom01, 232, 168);
+        }
+        
+        //--------------------------------------------------------
+        // X114JAM9 SEGMENT
+        //--------------------------------------------------------
+        else if (scr_quest_get_state("playerX1") == 1) { // Player is X114JAM9
+            // Have not approached door before
+            if (crustDoorSolo == 0) { 
+                if (wiglafMission >= 1) { var bossname = "Is this where Cuchulainn is? I could fight him" } // On Wiglaf's quest
+                else if (wiglafMission == 0) { var bossname = "Maybe this is where I'll find the Cyberdwarf" } // Not on Wiglaf's quest
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Whoa... I can feel a chilling power behind this door. " + string(bossname) + "... or maybe this is where I stop...)");
+            }
+            // Approached door, did not enter
+            else if (crustDoorSolo == 1) {
+                // He could certainly say more here.
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Hmmm... should I? I need to be careful).");
+            } 
+            // Entered door, fought CuchuCrustacea, and lost
+            else if (crustDoorSolo == 2) { 
+                if (wiglafMission >= 1) { var bossname = "that Cuchulainn thing is bad. Wiglaf is insane. He's insane...)" }
+                else if (wiglafMission == 0) { var bossname = "that thing said it was Cuchulainn, not a Cyberdwarf... is this the right way?)" }
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I don't think I wanna go back in there..." + string(bossname));   
+            }
+            
+            //------------------------
+            // Door Choice
+            //------------------------
+            var door_choice = scr_event_build_choice("Enter the door?", s_port_hoopz);
+            // "no" choice
+            var no = scr_event_build_add_choice(door_choice, "No, do not enter.");
+            with (no) {
+                // haven't entered
+                if (crustDoorSolo <= 1) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I don't know... maybe I'll come back later.)");
+                    // quest variable 1 = examined only
+                    scr_event_build_quest_state("crustDoorSolo", 1);
+                    scr_event_build_quest_state("crustDoorAny", 1);
+                } 
+                // entered and died
+                else if (crustDoorSolo == 2) {
+                    if (wiglafMission >= 1) { scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I'm not ready for this... maybe I should just tell Lft. Wiglaf)."); }
+                    else { scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I'm not ready for this... I really got bopped last time.)"); }
+                }
+            }
+            // "yes" choice
+            var yes = scr_event_build_add_choice(door_choice, "Yes, enter.");
+            with (yes) {
+                // first entry
+                if (crustDoorSolo <= 1) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "All right, here goes nothing!");
+                    // quest variable 2 = entered
+                    //scr_event_build_quest_state("crustDoorSolo", 2);
+                    scr_event_build_quest_state("crustDoorAny", 2);
+                }
+                // second entry 
+                else if (crustDoorSolo == 2) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Oh boy... here it goes...)");
+                }
+                // teleport to crustacea's room for battle
+                scr_event_build_teleport(r_chu_crustRoom01, 80, 152);
+            } 
+        }
+        
+        //--------------------------------------------------------
+        // HOOPZ OR CC SEGMENT
+        //--------------------------------------------------------
+        else if (scr_quest_get_state("playerCC") == 1 ) || (scr_quest_get_state("playerHoopz") == 1) {             
+            
+            //---------------------------------
+            // INCOMPLETE CYBERSPEAR
+            //---------------------------------
+            if (csComplete == 0) {
+                // 0 door attempts w/incomplete Cyberspear
+                if (crustDoorIncomplete == 0) { 
+                    scr_event_build_dialogue("Cyberdwarf", CD_PORT, "I can sense the dreaded power of Cuchulainn behind this door. We mustn't press forward until we have obtained the Cyberspear!");
+                    // Have not entered solo
+                    if (crustDoorSolo <= 1) { 
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Isn't Cuchulainn who we're after? He's probably not so tough...");
+                        scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Yes, child. But you must be in possession of the Cyberspear to defeat him. It is the only way...");                     
+                    } 
+                    // Fought Crustacea solo
+                    else if (crustDoorSolo >= 2) { 
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I tussled with this Cuchulainn before... he's tough, but I can beat him. I know I can...");
+                        scr_event_build_dialogue("Cyberdwarf", CD_PORT, "You must be a resilient lad to escape in one piece... I've already applauded your daring, I won't do the same for stupidity. You must find the Cyberspear! It is instrumental if we have any hope of defeating Cuchulainn.");
+                    }
+                    // Add 1 attempt
+                    scr_event_build_quest_state("crustDoorIncomplete", 1); 
+                }
+                
+                // 1 door attempt w/incomplete Cyberspear 
+                else if (crustDoorIncomplete == 1) { 
+                    scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Child, you must turn back! You haven't a chance of defeating Cuchulainn without the completed Cyberspear!");
+                    // Have not entered solo
+                    if (crustDoorSolo <= 1) { var h_reply = "I can beat him, Cyberdwarf. I know I can!"; } 
+                    // Fought Crustacea solo
+                    else if (crustDoorSolo == 2) { var h_reply = "Cuchulainn's not so tough, Cyberdwarf. I've got it!"; }
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, h_reply);
+                    scr_event_build_dialogue("Cyberdwarf", CD_PORT, "What is this insolence!? There's no way you can defeat Cuchulainn. It simply isn't possible. You must leave, and retrieve the Cyberspear!");
+                    // Add 1 attempt
+                    scr_event_build_quest_state("crustDoorIncomplete", 2);
+                } 
+                
+                // 2 door attempts w/incomplete Cyberspear 
+                else if (crustDoorIncomplete == 2) {
+                    scr_event_build_dialogue("Cyberdwarf", CD_PORT, "You must obtain the Cyberspear, child. You must!");
+                }
+            }
+            
+            //---------------------------------
+            // COMPLETED CYBERSPEAR
+            //---------------------------------
+            else if (csComplete == 1) {
+                
+                // First time with complete spear.
+                if (crustDoorComplete == 0) {
+                
+                    // Did not fight solo
+                    if (crustDoorSolo <= 1) {
+                        if (crustDoorIncomplete == 0) { 
+                            // Solo = approached or not. With incomplete spear = not approached.
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "This is it, my child. You are finally ready... do you feel it,  " + P_NAME + "? Holding the Cyberspear, you are finally ready to step into Cuchulainn's chamber. But be ready... Cuchulainn has ignored us for now, but if we cross beyond this point, he will surely show us his worst.");
+                            var refuseHoopz = "Whew, okay. I just need a minute to prepare."
+                            var refuseCD = "Good... you must be on your guard. But don't hesitate too long! We are in the heart of Cuchulainn's domain. The time is right to strike!";
+                        } 
+                        else {
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Finally, we are ready my child. When we cross this threshold, Cuchulainn will certainly set his strongest forces against us, with the Cyberspear in hand, we have nothing to fear. Open the door, child and face Cuchulainn. Destroy him once and for all!");
+                            // Solo = approached or not. With incomplete spear = approached but not entered.
+                            if (crustDoorIncomplete <= 2) {
+                                var refuseHoopz = "Yikes... just gimme a minute Cyberdwarf."
+                                var refuseCD = "Of course, child. But please... push onward. We are so close to fulfilling your destiny."
+                            } 
+                            // Solo = approached or not. With incomplete spear = fought.
+                            if (crustDoorIncomplete == 3) {
+                                var refuseHoopz = "Yikes... just gimme a minute Cyberdwarf."
+                                var refuseCD = "Of course, child. But please... push onward. We are so close to fulfilling your destiny."
+                            }
+                        }
+                    }
+                    
+                    // Fought Cuchulainn solo
+                    else if (crustDoorSolo == 2) {
+                        // Solo = fought. With incomplete spear = not approached.
+                        if (crustDoorIncomplete == 0) {
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "At last, we are here, with Cyberspear in hand. Finally you are ready, child. You fell to him before, but you've gained such strength... your destiny lies in front of you. Snatch it up, and crush Cuchulainn!");
+                            var refuseHoopz = "There's a lobster in there, Cyberdwarf. I just need a minute."
+                            var refuseCD = "Prepare, then. But quickly! There is little time to spare. The Necron 7 edges closer to hell as we speak!"
+                        } 
+                        // Solo = fought. With incomplete spear = approached 2x but not entered.
+                        if (crustDoorIncomplete >= 2) {
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Now, " + P_NAME + ", now you are ready. With Cyberspear in hand, you are ready to enter this chamber. There is nothing to fear from Cuchulainn. Face your final battle, and claim your destiny!");
+                            var refuseHoopz = "Whoa... my final battle. Gimme a sec. I need to stretch first..."
+                            var refuseCD = "Stretch quickly! We have Cuchulainn on the ropes!"
+                        }
+                        // Solo = approached or not. With incomplete spear = fought.
+                        if (crustDoorIncomplete == 3) {
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Finally, we are ready my child. When we cross this threshold, Cuchulainn will certainly set his strongest forces against us... but with the Cyberspear in hand, we have nothing to fear! Open the door, my child, and face Cuchulainn. Destroy him once and for all!");
+                            var refuseHoopz = "Yikes... just gimme a minute Cyberdwarf."
+                            var refuseCD = "Of course, child. But please... push onward. We are so close to fulfilling your destiny."
+                        }
+                    }
+                } 
+                
+                // 2+ tries with completed spear, but did not enter
+                else if (crustDoorComplete == 1) {
+                
+                    // Did not fight solo
+                    if (crustDoorSolo <= 1) {
+                        // Solo = approached, maximum. With incomplete spear = not approached.
+                        if (crustDoorIncomplete == 0) { 
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Enter, " + P_NAME + ", and face your destiny. Your final battle lies past this door!");
+                            var refuseHoopz = "Yikes... hold on a second."
+                            var refuseCD = "Hurry, child. Hurry..."
+                        } 
+                        // Solo = approached, maximum. With incomplete spear = approached but not entered.
+                        else if (crustDoorIncomplete >= 1) {
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Your preparation is complete and the Cyberspear is in hand. Enter, my child, and face your destiny!");
+                            var refuseHoopz = "Whew, okay. I just need a minute to prepare."
+                            var refuseCD = "Hurry, child. Hurry..."
+                        } 
+                        // Solo = approached, maximum. With incomplete spear = fought.
+                        else if (crustDoorIncomplete >= 1) {
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Your preparation is complete and the Cyberspear is in hand. Enter, my child, and face your destiny!");
+                            var refuseHoopz = "Whew, okay. I just need a minute to prepare."
+                            var refuseCD = "Hurry, child. Hurry..."
+                        }
+                    } 
+                    
+                    // Fought Cuchulainn solo
+                    else if (crustDoorSolo == 2) {
+                        // Solo = fought. With incomplete spear = not approached.
+                        if (crustDoorIncomplete == 0) {
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "You are finally ready to defeat Cuchulainn. There is no more time for hesitation. Enter, " + P_NAME + ", and fight!");
+                            var refuseHoopz = "Whew, okay. I just need a minute to prepare."
+                            var refuseCD = "Hurry, child. Cuchulainn anticipates your return, and his power only builds."
+                        } 
+                        // Solo = fought. With incomplete spear = approached but not entered.
+                        else if (crustDoorIncomplete >= 1) {
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "You are finally ready to defeat Cuchulainn. There is no more time for hesitation. Enter, " + P_NAME + ", and fight!");
+                            var refuseHoopz = "Whew, okay. I just need a minute to prepare."
+                            var refuseCD = "Hurry, child. Cuchulainn anticipates your return, and his power only builds."
+                        } 
+                        // Solo = fought. With incomplete spear = fought.
+                        else if (crustDoorIncomplete >= 2) {
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "You are finally ready to defeat Cuchulainn. There is no more time for hesitation. Enter, " + P_NAME + ", and fight!");
+                            var refuseHoopz = "Whew, okay. I just need a minute to prepare."
+                            var refuseCD = "Hurry, child. Cuchulainn anticipates your return, and his power only builds."
+                        }
+                    }
+                }
+            }    
+            
+            //--------------------------
+            // Enter Choice
+            //--------------------------
+            var enter_choice = scr_event_build_choice("Enter Cuchulainn's chamber?", s_port_hoopz);
+            var no = scr_event_build_add_choice(enter_choice, "Do not enter.");
+            with (no) {
+                if (csComplete == 0) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ok, Cyberdwarf... I just want to get this over with. (Doesn't he believe in me?)");
+                }
+                else {
+                    if (crustDoorComplete == 2) {
+                        scr_event_build_dialogue("Cyberdwarf", CD_PORT, "You mustn't hesitate too long Hoopz. Cuchulainn knows we plot against him. He is only building his power...");
+                    }
+                    else {
+                        scr_event_build_quest_state("crustDoorComplete", 1);
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, string(refuseHoopz));
+                        scr_event_build_dialogue("Cyberdwarf", CD_PORT, string(refuseCD));
+                    }
+                }
+            }
+            var yes = scr_event_build_add_choice(enter_choice, "Enter the chamber.");
+            with (yes) {
+                if (csComplete == 0) {
+                    // update to ENTERED
+                    //scr_event_build_quest_state("crustDoorIncomplete", 3);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry, Cyberdwarf... I'm gonna take it to him!");
+                }
+                else {
+                    if (crustDoorComplete == 2) {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ok... let's try this again!")
+                    }
+                    else {
+                        //scr_event_build_quest_state("crustDoorComplete", 2);
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Get ready " + P_NAME + "...)");
+                    }
+                }                             
+                // teleport
+                scr_event_build_teleport(r_chu_crustRoom01, 80, 152);
+            } 
+        }
+    }
+    scr_event_advance(event);
+}

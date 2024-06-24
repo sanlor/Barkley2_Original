@@ -1,0 +1,119 @@
+{
+    "2dmOPRqZ62IcaZNS4QHKajWCAIesnu": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "2dmOPRqZ62IcaZNS4QHKajWCAIesnu",
+        "x": 219,
+        "y": 177
+    },
+    "8hDJN7fMI9RwVIb17qk8nAIncAzRVO": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "8hDJN7fMI9RwVIb17qk8nAIncAzRVO",
+        "x": 285,
+        "y": 81
+    },
+    "AxkusaTfuCmDKfHJkxyc4We7TpECzT": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "AxkusaTfuCmDKfHJkxyc4We7TpECzT",
+        "x": 240,
+        "y": 92
+    },
+    "DSyPDfTKgoJXgYWIEfC2pjcSRnw40V": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_werecroc",
+        "resources": 1,
+        "uuid": "DSyPDfTKgoJXgYWIEfC2pjcSRnw40V",
+        "x": 329,
+        "y": 341
+    },
+    "G37p9FHZGMWO53gQlWQQvlYJ50bAgG": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_werecroc",
+        "resources": 1,
+        "uuid": "G37p9FHZGMWO53gQlWQQvlYJ50bAgG",
+        "x": 424,
+        "y": 101
+    },
+    "I4v6BOGhMOJWfAVpTNtOLJKeOG3grC": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_mosquito_control",
+        "resources": 1,
+        "uuid": "I4v6BOGhMOJWfAVpTNtOLJKeOG3grC",
+        "x": 541,
+        "y": 109
+    },
+    "PjTlvIn1u01Wa9jSZjv1sqbl6acnqI": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "PjTlvIn1u01Wa9jSZjv1sqbl6acnqI",
+        "x": 163,
+        "y": 277
+    },
+    "YvDkfKklShGcFQpZCYGlpovNWcJ1r1": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "YvDkfKklShGcFQpZCYGlpovNWcJ1r1",
+        "x": 326,
+        "y": 84
+    },
+    "ZlTYyz1cdhXQqhiFqCeOnL77CaElTX": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "ZlTYyz1cdhXQqhiFqCeOnL77CaElTX",
+        "x": 206,
+        "y": 204
+    },
+    "g6ixWjFHIyjDVQv16Oeyun5iPIjMpw": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "g6ixWjFHIyjDVQv16Oeyun5iPIjMpw",
+        "x": 116,
+        "y": 288
+    },
+    "p9BXNJ7oCNJ7gsErexQf6xCBb5k2nh": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "p9BXNJ7oCNJ7gsErexQf6xCBb5k2nh",
+        "x": 189,
+        "y": 236
+    },
+    "sqd0AT3fSvVTzMe7O6W0kswcbsNTTA": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_bugflower_plant",
+        "resources": 1,
+        "uuid": "sqd0AT3fSvVTzMe7O6W0kswcbsNTTA",
+        "x": 77,
+        "y": 343
+    },
+    "y9MGu7bCRbpNDlAhaYrKoPc1u5SENv": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_mosquito_control",
+        "resources": 1,
+        "uuid": "y9MGu7bCRbpNDlAhaYrKoPc1u5SENv",
+        "x": 472,
+        "y": 408
+    }
+}

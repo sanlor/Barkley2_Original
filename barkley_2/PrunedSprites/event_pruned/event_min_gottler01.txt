@@ -1,0 +1,91 @@
+/* event_min_gottler01
+NPC script for Gottler, a pissed off janitor who hates Hasdrubal. 
+Speaking with him triggers the prank call section of the prank call quest, 
+where you prank call Gottler in order to persuade him to confront and kill Hasdrubal.
+
+/* 
+Central character of the PRANK CALL QUEST(prankcallQuest) wherein you manipulate the Hasdrubal/Gottler rivalry in order to get Gottler to blow Hasdrubal away.
+The prankcallQuest is pretty simple, though somewhat easy for the player to miss.
+prankcallQuest=1 - Player is informed by Hasdrubal that he just took this job "to piss off Gottler"
+prankcallQuest=2 - Gottler vents to the player about his hatred for Hasdrubal(Gottler added to the base phone directory)
+prankcallQuest=3 - The player has prank called Gottler, prompting him to approach Hasdrubal.
+prankcallQuest=4 - Gottler has killed Hasdrubal. Quest complete. Hasdrubal' corpse can be looted for a keycard.
+*/
+// Some TEMPORARY SHIT here, primarily in that included currently in this script is the 
+// cinematic dialogue for the encounter between Hasdrubal and Gottler. That may or may not be even in this script, 
+// depends on if it'll be easier to handle it in another script entirely. 
+// Even if it is, it'll need to be revised with cinematic data once the maps have been designed and all the graphics are in place.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("dbaseNPCsState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var gottler = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("prankcallQuest") == 4) {
+            Dialogue("Gottler", "Damn guy, you really smell. Thanks for helping me and all, but I don't want anything to do with you until you clean your ass off.");
+            scr_event_build_end();
+        } else if (Quest("baseescapeQuest") == 1) {
+            Dialogue("Gottler", "What the fuck? Do you smell dwarf around here?");
+            scr_event_build_end();
+        } else if (Quest("prankcallQuest") == 3) {
+            scr_event_build_dialogue_debug("Hundley", NULL, "ACHTUNG: Not sure if this dialogue appears in this script or if another needs to be created for this cinematic event.\Putting it here for test purposes and so it isn't LOST IN TIME.");
+            Dialogue(P_NAME, "What do you two idiots think you're doing? Get back to your post.");
+            Dialogue("Hasdrubal", "This moron....\This FUCKING moron.....");
+            Dialogue(P_NAME, "Hey butthead, you're not allowed to swear in my presence. I'm writing your sorry butt up for that.");
+            Dialogue("Hasdrubal", "No swearing? The FUCK? Since when?");
+            Dialogue(P_NAME, "SINCE NOW.");
+            Dialogue("Gottler", "You're going to answer for what you did, Hasdrubal. I heard all about it. You're going to pay.");
+            Dialogue("Hasdrubal", "I already told you, I don't know what the fuck you're talking about. I don't give a flying fuck about your shanty or your shrunken head collection or any of that shit.\Hey fuckface, go call for backup or something will ya? This guy's got one too many grapes on the brain.");
+            Dialogue(P_NAME, "Negative. And you have continued to swear in my presence, so I have no choice but to enter your name into Cuchulainn's weekly execution raffle.");
+            Dialogue("Gottler", "Hey you, stick around, I want you as a witness.\This little rat here thought it'd be a good idea to burn my house down and go around my neighborhood bragging about it.");
+            Dialogue("Hasdrubal", "Bullshit.");
+            Dialogue(P_NAME, "This can only be resolved with the spilling of blood.");
+            Dialogue("Gottler", "You read my mind.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC: Gottler shoots and kills Hasdrubal.");
+            // Gottler shoots Hasdrubal in the chest, killing him.
+            Dialogue("Gottler", "Wow......I really did it.....\I don't know how many years he's been screwing with me. Feels like most of my life....\I don't remember the last time I felt so alive.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC: Gottler turns towards the player.");
+            // Gottler turns to the player.
+            Dialogue("Gottler", "Hey guy, thanks for giving me that talking to. I needed somebody to tell me how it is.");
+            Dialogue(P_NAME, "Yeah, well you need to open your mind to a world where I want you to go away and never talk to me again.");
+            Dialogue("Gottler", "Sure thing. You do smell pretty awful. You spend a lot of time around dwarfs lately?");
+            Dialogue(P_NAME, "This is none of your concern. Mind your own stupid business.");
+            Dialogue("Gottler", "You should hit the showers pretty soon, you don't smell right.");
+            Quest("prankcallQuest", 4);
+            scr_event_build_end();
+        } else if (Quest("gottlerState") == 2) {
+            Dialogue("Gottler", "One day, Hasdrubal......one day......you will be the cornerstone of my shrunken head collection........");
+            scr_event_build_end();
+        } else if (Quest("prankcallQuest") == 1) {
+            Dialogue("Gottler", "Just look at that, standing there all upright like he owns the world.");
+            Dialogue(P_NAME, "My revolver's got six reasons why you better not be talking about me, goofball.");
+            Dialogue("Gottler", "Yeah, you wish. You're nowhere close to my league. Don't even try.\It's that guy over there. That stupid punk that guards the reactor room. Hasdrubal. Fucking Hasdrubal. The name I curse every waking moment of my life.");
+            Dialogue(P_NAME, "That's funny, all I see is one sorry sack.");
+            Dialogue("Gottler", "That fucking guy. He knew how much I wanted that promotion. Been cleaning the fucking toilets for months trying to get that promotion.\He already had a good job, cleaning the gun turrets is a great job. He just took that guard job because he knew I wanted it.\He's toying with me. He's always toying with me.");
+            Dialogue(P_NAME, "You are still the sorriest sack, your boring story has not changed this.\You should go over and talk to him. And by talk to him I mean bring every gun you own and let the gun's do the talking.");
+            Dialogue("Gottler", "Yeah right, I can't do that. That's too easy. I have to wait for him to slip up. Then I go in for the kill.\Then that guard job will be mine, and all that's left of poor little Hasdrubal will be a shrunken head in my collection....");
+            Dialogue(P_NAME, "Let's recap:# You have decided that you will do nothing about this guy ruining your life and you are just going to keep cleaning the toilets in the hopes that something happens.\Did I miss something, or is that it?");
+            Dialogue("Gottler", "Well.....I mean-");
+            Dialogue(P_NAME, "Yeah, well what. Have fun cleaning the toilets.");
+            Quest("prankcallQuest", 2);
+            Quest("gottlerState", 2);
+            scr_event_build_end();
+        } else if (Quest("gottlerState") == 1) {
+            Dialogue("Gottler", "Did I say you could talk to me?");
+            scr_event_build_end();
+        } else {
+            Dialogue("Gottler", ".....then I squeeze his neck a little more and I can see his eyeballs start to bulge out........\Only a matter of time before they come loose.......");
+            Quest("gottlerState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

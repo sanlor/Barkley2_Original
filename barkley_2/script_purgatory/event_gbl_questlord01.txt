@@ -1,0 +1,310 @@
+// event_gbl_questlord
+
+if (argument0 == SCRIPT_START)
+{
+    //show_debug_message("questlordTeleport state = " + string(scr_quest_get_state("questlordTeleport")));
+    if (scr_quest_get_state("questlordTeleport") == 1)
+    {
+        //show_debug_message("Trying to run questlordTeleport...");
+        scr_quest_set_state("questlordTeleport", 0);
+        
+        var event = scr_event_find_main();
+        with (event)
+        {
+            scr_event_build_dialogue("Q.L.", NULL, "Ya done did it... teleported and found an event.");
+        }
+    }
+} else if (argument0 == SCRIPT_STEP) {
+    
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // identity
+    var playerX1 = scr_quest_get_state("playerX1");
+    var playerHoopz = scr_quest_get_state("playerHoopz");
+    var playerCC = scr_quest_get_state("playerCC");
+    // name
+    if (scr_quest_get_state("playerCC") == 1) {
+        if (scr_quest_get_state("playerName") == "X114JAM9") {
+            scr_quest_set_state("playerName", "Dougray");
+            scr_quest_set_state("playerNameFull", "Dougray BlaYze");
+            scr_quest_set_state("playerNameShort", "Doug");
+        }
+    } else if (scr_quest_get_state("playerHoopz") == 1) {
+        if (scr_quest_get_state("playerName") == "X114JAM9") {
+            scr_quest_set_state("playerName", "Hoopz");
+            scr_quest_set_state("playerNameFull", "Hoopz Barkley");
+            scr_quest_set_state("playerNameShort", "Hoopz");
+        }
+    }
+    /*
+    if (scr_quest_get_state("cdwarfJoined") && !scr_quest_get_state("cdwarfReformat")) { scr_quest_set_state("cdwarfPresent", 1); }
+    var cdwarfJoined = scr_quest_get_state("cdwarfJoined");
+    var cdwarfReformat = scr_quest_get_state("cdwarfReformat");
+    var cdwarfPresent = scr_quest_get_state("cdwarfPresent");
+    */
+    // cyberdwarf
+    var cdwarfJoined = scr_quest_get_state("cdwarfJoined");
+    var cdwarfReformat = scr_quest_get_state("cdwarfReformat");
+    var cdwarfPresent = 0;
+    if (cdwarfJoined && !cdwarfReformat) { cdwarfPresent = 1; }
+    scr_quest_set_state("cdwarfPresent", cdwarfPresent);
+    // cyberspear
+    var csQuest = scr_quest_get_state("csQuest");
+    var csPiecesTotal = scr_quest_get_state("csPiecesTotal");
+    var csComplete = scr_quest_get_state("csComplete");
+    // wiglaf / brain city / cuchulainn
+    var cdwarfCinema = scr_quest_get_state("cdwarfCinema");
+    var wiglafState = scr_quest_get_state("wiglafState");
+    var wiglafMission = scr_quest_get_state("wiglafMission");
+    var longinusDoorState = scr_quest_get_state("longinusDoorState");
+    var longinusDoorOpen = scr_quest_get_state("longinusDoorOpen");
+    var longinusHelp = scr_quest_get_state("longinusHelp");
+    var neneState = scr_quest_get_state("neneState");
+    var neneKnock = scr_quest_get_state("neneKnock");
+    var crustFightAny = scr_quest_get_state("crustFightAny");
+    var crustDead = scr_quest_get_state("crustDead");
+    var cuchuLairDeath = scr_quest_get_state("cuchuLairDeath");
+    // elevator (has the elevator been ridden before?)
+    var elevatorRide = scr_quest_get_state("elevatorRide");
+    var elevatorDirection = scr_quest_get_state("elevatorRide");
+    var elevatorChastise = scr_quest_get_state("elevatorChastise");
+    var campfireScene = scr_quest_get_state("campfireScene")
+    var elevatorCSPieces = scr_quest_get_state("elevatorCSPieces");
+    // room
+    var roomName = room_get_name(room)
+    var prevRoom = scr_quest_get_state("rmDebugPrevRoom");
+    var prevX = scr_quest_get_state("rmDebugPrevX");
+    var prevY = scr_quest_get_state("rmDebugPrevY");
+    /* EXTRA
+    var  = scr_quest_get_state("");
+    var  = scr_quest_get_state("");
+    var  = scr_quest_get_state("");
+    var  = scr_quest_get_state("");
+    */
+       
+    var questlord = id;
+    var event = scr_event_create_main()
+    with (event) {
+        //scr_event_build_dialogue_debug("Dr Exquasier Tong", s_portrait, "You've been bugged... DE-BUGGED.");
+        //scr_event_build_dialogue_debug("Hello! Hello!");
+        var extras = scr_event_dialogue_build_extras(NULL, 90, NULL, 8, NULL, NULL, NULL, NULL_STRING, NULL_STRING, NULL, NULL, false);
+        var qchoice = scr_event_build_choice("Do what, " + P_NAME + "?", s_port_hoopz);
+        
+        // Choices
+        
+        // END FIGHT WITH CRUSTACEA
+        if (room == r_chu_crustRoom01) && (crustDead == false) {
+            var crustduel = scr_event_build_add_choice(qchoice, "End Crusty Duel..."); 
+            with crustduel {
+                scr_event_build_execute_event_script(event_chu_crustVictory01);
+            }
+        }
+        
+        // EXECUTE ROUND MOUND
+        if (room == r_swp_barkleypond01) {
+            var rm_exe = scr_event_build_add_choice(qchoice, "Execute ROUND MOUND.");
+            with (rm_exe) {
+                scr_event_build_execute_event_script(event_gbl_round_mound01);
+            }
+        }
+        
+        // LEAVE AI RUINS
+        if (room == r_air_cyberspear01) {
+            var leave = scr_event_build_add_choice(qchoice, "LEAVE AI Ruins.");
+            with (leave) {
+                scr_event_build_quest_state("questlordTeleport", 1);
+                scr_event_build_teleport(r_bct_tower01, 392, 376, 3, 8);
+            }
+        }
+        // GET IDENTITY READOUT
+        var readout = scr_event_build_add_choice(qchoice, "IDENTITY readout.");
+        with readout {
+            scr_event_build_execute_event_script(event_gbl_readout01);
+        }
+        
+        // CYBERDWARF, IDENTITY
+        if (cdwarfCinema <= 10) {
+            var cdwarfup = scr_event_build_add_choice(qchoice, "ADVANCE /'cdwarfCinema/' by 1 (cur: " + string(cdwarfCinema) + ").")
+            with (cdwarfup) {
+                cdwarfCinema += 1;
+                scr_event_build_quest_state("cdwarfCinema", cdwarfCinema);
+                scr_event_build_dialogue("Quimlobe", s_portrait, "Now it's " + string(cdwarfCinema) + "!");
+                if (cdwarfCinema == 8) {
+                    var id_choice = scr_event_build_choice("Who are ya?", s_port_hoopz);
+                    var hoopz = scr_event_build_add_choice(id_choice, "I'm Hoopz.")
+                    with hoopz {
+                        scr_event_build_quest_state("playerHoopz", 1);
+                        scr_event_build_quest_state("playerX1", 0);
+                        scr_event_build_quest_state("playerCC", 0);
+                        scr_event_build_quest_state("playerName", "Hoopz");
+                        scr_event_build_quest_state("playerNameFull", "Hoopz Barkley");
+                        scr_event_build_quest_state("playerNameShort", "Hoopz");
+                        scr_event_build_quest_state("cdwarfJoined", 1);
+                        scr_event_build_quest_state("cdwarfPresent", 1);
+                        //scr_event_build_goto_choice(qchoice);
+                    }
+                    var cc = scr_event_build_add_choice(id_choice, "I'm that created character... Dougray.");
+                    with cc {
+                        scr_event_build_quest_state("playerCC", 1);
+                        scr_event_build_quest_state("playerX1", 0);
+                        scr_event_build_quest_state("playerHoopz", 0);
+                        scr_event_build_quest_state("playerName", "Dougray");
+                        scr_event_build_quest_state("playerNameFull", "Dougray BlaYze");
+                        scr_event_build_quest_state("playerNameShort", "Doug");
+                        scr_event_build_quest_state("cdwarfJoined", 1);
+                        scr_event_build_quest_state("cdwarfPresent", 1);
+                        //scr_event_build_goto_choice(qchoice);
+                    }
+                }
+                if (cdwarfCinema == 11) {
+                    scr_event_build_dialogue("Quesolomo", s_portrait, "Cyberspear quest turned on!");
+                    scr_event_build_quest_state("csQuest", 1);
+                }
+            }
+            if (scr_quest_get_state("cdwarfCinema") == 0) {
+                var cdwarfrun = scr_event_build_add_choice(qchoice, "Cyberdwarf CUTSCENE.");
+                with (cdwarfrun) {
+                    scr_event_build_quest_state("wiglafMission", 3);
+                    scr_event_build_quest_state("cdwarfCinema", 1);
+                    scr_event_build_teleport(r_bct_cyberdwarf01, 205, 588); 
+                }
+            }
+            var cdwarfmax = scr_event_build_add_choice(qchoice, "FINISH Cyberdwarf meeting.");
+            with (cdwarfmax) {
+                cdwarfCinema = 11;
+                scr_event_build_quest_state("csQuest", 1);
+                scr_event_build_quest_state("wiglafMission", 3);
+                scr_event_build_quest_state("cdwarfCinema", 11);
+                scr_event_build_dialogue("Quimlobe", s_portrait, "Now it's " + string(cdwarfCinema) + "!"); 
+                var id_choice = scr_event_build_choice("Who are ya?", s_port_hoopz);
+                var hoopz = scr_event_build_add_choice(id_choice, "I'm Hoopz.")
+                with hoopz {
+                    scr_event_build_quest_state("playerHoopz", 1);
+                    scr_event_build_quest_state("playerX1", 0);
+                    scr_event_build_quest_state("playerCC", 0);
+                    scr_event_build_quest_state("playerName", "Hoopz");
+                    scr_event_build_quest_state("playerNameFull", "Hoopz Barkley");
+                    scr_event_build_quest_state("playerNameShort", "Hoopz");
+                    scr_event_build_quest_state("cdwarfJoined", 1);
+                    scr_event_build_quest_state("cdwarfPresent", 1);
+                    //scr_event_build_goto_choice(qchoice);
+                }
+                var cc = scr_event_build_add_choice(id_choice, "I'm that created character... Dougray.");
+                with cc {
+                    scr_event_build_quest_state("playerCC", 1);
+                    scr_event_build_quest_state("playerX1", 0);
+                    scr_event_build_quest_state("playerHoopz", 0);
+                    scr_event_build_quest_state("playerName", "Dougray");
+                    scr_event_build_quest_state("playerNameFull", "Dougray BlaYze");
+                    scr_event_build_quest_state("playerNameShort", "Doug");
+                    scr_event_build_quest_state("cdwarfJoined", 1);
+                    scr_event_build_quest_state("cdwarfPresent", 1);
+                    //scr_event_build_goto_choice(qchoice);
+                }
+            } 
+        }
+        // REFORMAT
+        if (cdwarfCinema >= 11) && (cdwarfReformat != 1) {
+            var reformatter = scr_event_build_add_choice(qchoice, "REFORMAT Cyberdwarf.")
+            with reformatter {
+                scr_event_build_quest_state("cdwarfReformat", 1);
+            }
+        }
+        // CYBERSPEARS
+        if (csPiecesTotal < 4) {
+            var add_spear = scr_event_build_add_choice(qchoice, "Add 1 CYBERSPEAR piece (cur: " + string(csPiecesTotal) + ").");
+            with add_spear {
+                csPiecesTotal += 1;
+                scr_event_build_quest_state("csPiecesTotal", csPiecesTotal);
+                //scr_event_build_goto_choice(qchoice);
+            }
+        }
+        if (csComplete == 0) && (csQuest == 1) {
+            var complete_spear = scr_event_build_add_choice(qchoice, "COMPLETE cyberspear.");
+            with complete_spear {
+                csComplete = 1;
+                scr_event_build_quest_state("csPiecesTotal", 4);
+                scr_event_build_quest_state("csComplete", 1);               
+            }
+        }
+        if (csComplete == 1) {
+            var uncomplete_spear = scr_event_build_add_choice(qchoice, "RESET Cyberspear.");;
+            with uncomplete_spear {
+                scr_event_build_quest_state("csPiecesTotal", 0);
+                scr_event_build_quest_state("csComplete", 0);
+            }
+        }
+
+        // RESET CYBERDWARF AND IDENTITY AND REFORMAT
+        var cdwarfdown = scr_event_build_add_choice(qchoice, "RESET all Cyberdwarf.");
+        with (cdwarfdown) {
+            cdwarfCinema = 0;
+            scr_event_build_quest_state("cdwarfCinema", 0);
+            //
+            scr_event_build_quest_state("playerX1", 1);
+            scr_event_build_quest_state("playerHoopz", 0);
+            scr_event_build_quest_state("playerCC", 0);
+            //
+            scr_event_build_quest_state("cdwarfJoined", 0);
+            scr_event_build_quest_state("cdwarfReformat", 0);
+            scr_event_build_quest_state("cdwarfPresent", 0);
+            //
+            scr_event_build_quest_state("playerName", "X114JAM9");
+            scr_event_build_quest_state("playerNameFull", "X114JAM9");
+            scr_event_build_quest_state("playerNameShort", "X1");
+            //
+            scr_event_build_quest_state("csQuest", 0);
+            scr_event_build_quest_state("csComplete", 0);
+            scr_event_build_dialogue("Quiltlong", s_portrait, "/'cdwarfCinema/' is" + string(cdwarfCinema) + "!");
+            if (csPiecesTotal != 0) {
+                scr_event_build_dialogue("Quiltlong", s_portrait, "You have " + string(csPiecesTotal) + " pieces of the Cyberspear, but they are just junk now.");
+            }
+        }
+        // TELEPORT TO ROUND MOUND
+        if (roomName != "r_swp_barkleypond01") {
+            if (scr_quest_get_state("rmComplete") == 0) {
+                var rm_tele = scr_event_build_add_choice(qchoice, "TELEPORT to Round Mound.");
+                with (rm_tele) {
+                    //scr_event_build_quest_state("rmDebugPrevRoom", roomName);
+                    //scr_event_build_quest_state("rmDebugPrevX", o_hoopz.x);
+                    //scr_event_build_quest_state("rmDebugPrevY", o_hoopz.y);
+                    scr_event_build_quest_state("questlordTeleport", 1);
+                    //scr_quest_set_state("questlordTeleport", 1);
+                    scr_event_build_teleport(r_swp_barkleypond01, 120, 376, 3, 9);
+                }
+            }
+        }
+        // DIE
+        var die = scr_event_build_add_choice(qchoice, "DIE in " + string(roomName) + ".");
+        with (die) {
+            scr_event_build_stat("hp", "-150%");
+        }
+        
+        // GET MONEY!
+        var get_money = scr_event_build_add_choice(qchoice, "Get $10000 N.S.");
+        with get_money {
+            scr_event_build_money_add(10000);
+        }
+        // TELEPORT TO ROUND MOUND
+            var bc_tele = scr_event_build_add_choice(qchoice, "TELEPORT to Brain City.");
+            with (bc_tele) {
+                //scr_event_build_quest_state("rmDebugPrevRoom", roomName);
+                //scr_event_build_quest_state("rmDebugPrevX", o_hoopz.x);
+                //scr_event_build_quest_state("rmDebugPrevY", o_hoopz.y);
+                scr_event_build_quest_state("questlordTeleport", 1);
+                scr_event_build_teleport(r_bct_tower01, 400, 376, 6, 3);
+            }
+        //}
+        // EXIT
+        var getout = scr_event_build_add_choice(qchoice, "EXIT.");
+        with (getout) {
+            // NOTHING
+            scr_event_build_end();
+        }  
+        //var rm_check = scr_event_build_add_choice(qchoice, "EXIT AND: Check Round Mound goal/alignment/points.");
+        //with (rm_check) {
+        //    scr_event_build_dialogue("Quakeloan", s_portrait, "Not working right now!");
+        //} 
+    } 
+    scr_event_advance(event);
+}

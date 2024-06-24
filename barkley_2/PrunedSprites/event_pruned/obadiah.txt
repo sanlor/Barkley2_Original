@@ -1,0 +1,95 @@
+// Event for Obadiah, an old guy in the Industrial Park who is always there. Old dude
+// graphics. Rats on you for selling chups!!!
+/*
+if (argument0 == SCRIPT_START)
+{
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var obadiah = id;
+    var event = scr_event_create_main();
+    var chup_sale_snippet = scr_event_create_child(event);
+
+    //--------------------------------------------
+    //------------ CHUP SALE SNIPPET -------------
+    //--------------------------------------------
+    with (chup_sale_snippet)
+    {
+        Breakout("build", "clear");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey old timer, I've got something that'll put a spring in your step. You interested?");
+        scr_event_build_dialogue("Obadiah", NULL, "What's that youngster? You've got something for old Obadiah? By cracky, I wouldn't mind wetting my whistle.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "These'll wet your whistle real good, grandpa. You've never had anything like these before... Goose Guzzlers, Tijuana Green, Jamaican Macaroni... these are quality chups and they're going at rock-bottom prices.");
+        scr_event_build_dialogue("Obadiah", NULL, "Ch-chups?! Snap out of it! Youngster, snap out of it! Take those chups and throw 'em on the ground! Stomp 'em out! HEEEEELP! HEEEEEEEEEELP! THIS YOUNGSTER'S GOT CHUPS!!!! HEEEEEEELP!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Crap... I gotta get outta here!)");
+        scr_event_build_quest_state("obadiahChup", 1);
+        scr_event_build_quest_state("obadiahChupHandler", 1);
+        scr_event_build_quest_state_add("chupSuspicion", 1);
+        scr_event_build_execute_event_script(event_dz1_obadiah01)
+    }
+
+    //--------------------------------------------
+    //------------ MAIN EVENT --------------------
+    //--------------------------------------------
+    with (event)
+    {
+        //On Chup Sale...
+        if (scr_quest_get_state("obadiahChupHandler") == 1)
+        {
+            scr_event_build_quest_state("obadiahChupHandler", 0);
+            // Arrest if suspicion == 3
+            if (scr_quest_get_state("chupSuspicion") == 3)
+            {
+                scr_event_build_execute_event_script(event_dz1_chupArrest01); 
+            }
+        }    
+        //Tried to sell Obadiah a chup.
+        else if (scr_quest_get_state("obadiahChup") == 1)
+        {
+            scr_event_build_dialogue("Obadiah", NULL, "Stay away from me, hooligan! Don't hurt me! I'm just an old man, I don't have any money! Leave me alone! I don't want any trouble!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Looks like this old guy's still upset about that time I tried to sell him chups. I should just leave...)");
+        }
+        //Haven't tried to sell a chup.
+        else
+        {
+            // Select dialogue...
+            switch (scr_quest_get_state("obadiahState"))
+            {
+                case 5: scr_event_build_dialogue("Obadiah", NULL, "Eh? What's that youngster? You need to speak up! Old Obadiah can barely hear you!"); break;
+                case 4: scr_event_build_dialogue("Obadiah", NULL, "I like the cut of that Matlock's jib. You can't judge a book by its cover. Pecans are too hard to chew these days. My gout's flaring up."); break;
+                case 3: scr_event_build_dialogue("Obadiah", NULL, "Moths ate all my clothes. Why don't they make Charleston Chews anymore? Looks like all the geese have gone south for the winter. I'll be damned if they make me take a bath!"); break;
+                case 2: scr_event_build_dialogue("Obadiah", NULL, "I can't understand what they're saying in that rap music. My neighbors are too loud. I miss my hair. The early bird gets the worm. I want a steak and kidney pie."); break;
+                case 1: scr_event_build_dialogue("Obadiah", NULL, "I want a blanket. I can't hear anything. Where's my newspaper? There's too much sulphur in the water. My grandkids never visit. A penny saved is a penny earned."); break;
+                case 0: scr_event_build_dialogue("Obadiah", NULL, "I'm old. My bones hurt when it rains. I hate chewing food. I'm afraid of loud noises. Young people scare me. I don't like what they do with their hair."); break;
+            }
+            
+            // Increment obadiahState
+            if (scr_quest_get_state("obadiahState") != 5) { scr_event_build_quest_state_add("obadiahState", 1); }
+            
+            // Chup Quest
+            if (scr_chup_available("obadiah") == true)
+            {
+                Breakout("build", "add", "chupCount");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Hmmm, this guy looks promising. Maybe I can sell him a chup...?)");
+                var chupsell = scr_event_build_choice("Sell Obadiah a chup?", s_port_hoopz);
+                // Sell chup
+                with scr_event_build_add_choice(chupsell, "Hey buddy, you want a chup?")
+                {
+                    scr_event_build_event_snippet(chup_sale_snippet);
+                }
+                // Don't Sell Chup
+                with scr_event_build_add_choice(chupsell, "Nah, he's not worth it.")
+                {
+                    Breakout("build", "clear");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Nah, forget it. This old guy definitely doesn't have enough money.)");
+                }
+            }
+        } 
+    }
+    scr_event_advance(event);
+}

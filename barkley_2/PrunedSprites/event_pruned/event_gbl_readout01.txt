@@ -1,0 +1,167 @@
+/*
+// event_gbl_readout01
+if (argument0 == SCRIPT_INTERACT) {
+    var event = scr_event_create_main();
+    with (event) {
+        // identity
+        var playerX1 = scr_quest_get_state("playerX1");
+        var playerHoopz = scr_quest_get_state("playerHoopz");
+        var playerCC = scr_quest_get_state("playerCC");
+        // name
+        /*
+        if (Quest("cdwarfJoined") && !Quest("cdwarfReformat")) { Quest("cdwarfPresent", 1); }
+        var cdwarfJoined = Quest("cdwarfJoined");
+        var cdwarfReformat = Quest("cdwarfReformat");
+        var cdwarfPresent = Quest("cdwarfPresent");
+        */
+        // cyberdwarf
+/*        var cdwarfJoined = Quest("cdwarfJoined");
+        var cdwarfReformat = Quest("cdwarfReformat");
+        var cdwarfPresent = 0;
+        if (cdwarfJoined && !cdwarfReformat) { cdwarfPresent = 1; }
+        Quest("cdwarfPresent", cdwarfPresent);
+        // cyberspear
+        var csQuest = scr_quest_get_state("csQuest");
+        var csPiecesTotal = scr_quest_get_state("csPiecesTotal");
+        var csComplete = scr_quest_get_state("csComplete");
+        // wiglaf / brain city / cuchulainn
+        var cdwarfCinema = scr_quest_get_state("cdwarfCinema");
+        var wiglafState = scr_quest_get_state("wiglafState");
+        var wiglafMission = scr_quest_get_state("wiglafMission");
+        var longinusDoorState = scr_quest_get_state("longinusDoorState");
+        var longinusDoorOpen = scr_quest_get_state("longinusDoorOpen");
+        var longinusHelp = scr_quest_get_state("longinusHelp");
+        var neneState = scr_quest_get_state("neneState");
+        var neneKnock = scr_quest_get_state("neneKnock");
+        var crustFightAny = scr_quest_get_state("crustFightAny");
+        var crustDead = scr_quest_get_state("crustDead");
+        var cuchuLairDeath = scr_quest_get_state("cuchuLairDeath");
+        // elevator (has the elevator been ridden before?)
+        var elevatorRide = scr_quest_get_state("elevatorRide");
+        var elevatorDirection = scr_quest_get_state("elevatorRide");
+        var elevatorChastise = scr_quest_get_state("elevatorChastise");
+        var campfireScene = scr_quest_get_state("campfireScene")
+        var elevatorCSPieces = scr_quest_get_state("elevatorCSPieces");
+        // room
+        var roomName = room_get_name(room)
+        var prevRoom = scr_quest_get_state("rmDebugPrevRoom");
+        var prevX = scr_quest_get_state("rmDebugPrevX");
+        var prevY = scr_quest_get_state("rmDebugPrevY");
+        /* EXTRA
+        var  = scr_quest_get_state("");
+        var  = scr_quest_get_state("");
+        var  = scr_quest_get_state("");
+        var  = scr_quest_get_state("");
+        */    
+    
+    
+    
+    
+        //----------------------------
+        // IDENTITY 
+        //----------------------------
+/*        if (playerX1) {
+            scr_event_build_dialogue_debug("PLAYER", CD_PORT, "Player is X114JAM9.");
+        } else if (playerHoopz) {
+            scr_event_build_dialogue_debug("PLAYER", CD_PORT, "Player is Hoopz Barkley.");
+        } else if (playerCC) {
+            scr_event_build_dialogue_debug("PLAYER", CD_PORT, "Player is Created Character, named " + P_NAME + ".");
+        }
+        //----------------------------
+        // CYBERDWARF 
+        //----------------------------
+        if (cdwarfJoined) {
+            if (cdwarfPresent) {
+                scr_event_build_dialogue_debug("CYBERDWARF", CD_PORT, "Cyberdwarf joined, and is present.");
+            } else {
+                scr_event_build_dialogue_debug("CYBERDWARF", CD_PORT, "Cyberdwarf joined, but got reformatted.");
+            }
+        }
+        //----------------------------
+        // CYBERSPEAR 
+        //----------------------------
+        if (csQuest) {
+            scr_event_build_dialogue_debug("CYBERSPEAR", CD_PORT, "Player is on the Cyberspear Quest.");
+        } else {
+            if (csPiecesTotal) {
+                scr_event_build_dialogue_debug("CYBERSPEAR", CD_PORT, "Player is not on the Cyberspear Quest, but has collected pieces anyway.");
+            } 
+        }
+        if (csPiecesTotal) {
+            scr_event_build_dialogue_debug("CYBERSPEAR", CD_PORT, "Player has " + string(csPiecesTotal) + " Cyberspear pieces.");
+        } else if (csQuest) {
+            scr_event_build_dialogue_debug("CYBERSPEAR", CD_PORT, "Player has 0 pieces of the Cyberspear.");
+        }
+        if (csPiecesTotal == 4) {
+            if (csComplete) {
+                scr_event_build_dialogue_debug("CYBERSPEAR", CD_PORT, "Player has /'completed/' the Cyberspear.");
+            } else {
+                scr_event_build_dialogue_debug("CYBERSPEAR", CD_PORT, "But the player has not yet /'completed/' the Cyberspear.");
+            }
+        }
+        
+        //----------------------------
+        // ELEVATOR 
+        //----------------------------
+        if (room == r_chu_elevator01) {
+            if (elevatorDirection) {
+                scr_event_build_dialogue_debug("ELEVATOR", CD_PORT, "The elevator is on floor 666. Elevator is going down!");
+            } else {
+                scr_event_build_dialogue_debug("ELEVATOR", CD_PORT, "The elevator is on floor L. Elevator is going up!");
+            } 
+            if (elevatorRide) {
+                scr_event_build_dialogue_debug("ELEVATOR", CD_PORT, "Player has ridden the elevator.");
+            } else {
+                scr_event_build_dialogue_debug("ELEVATOR", CD_PORT, "Player's first time on the elevator.");
+            }
+            if (cdwarfPresent) {
+                if (csComplete) {
+                    if (campfireScene) {
+                        scr_event_build_dialogue_debug("ELEVATOR",  NULL, "Player has already seen the campfire scene.");
+                    } 
+                    else {
+                        scr_event_build_dialogue_debug("ELEVATOR", CD_PORT, "Campfire scene has not been seen.");
+                    }
+                } else {
+                    if (csPiecesTotal > elevatorCSPieces) { 
+                        scr_event_build_dialogue_debug("ELEVATOR", CD_PORT, "The player will get chastised for not having a complete Cyberspear.");
+                    }
+                }
+            }
+        }
+        //----------------------------
+        // MAIN QUEST 
+        //----------------------------
+        if (!cdwarfJoined) {
+            if (wiglafMission == 3) && (cdwarfCinema == 1) {
+                scr_event_build_dialogue_debug("CYBERDWARF", CD_PORT, "Player is ready to meet Cyberdwarf.");
+            }
+            else if (wiglafMission == 2) || (wiglafMission == 1) {
+                scr_event_build_dialogue_debug("WIGLAF", CD_PORT, "Player is on the mission to Kill Cuchulainn.");
+                //if (
+                //scr_event_build_dialogue_debug("WIGLAF", NULL, "");
+            }
+            else if (longinusDoorOpen == 3) {
+                scr_event_build_dialogue_debug("LONGINUS",  CD_PORT, "Player has gained access to the Longinus Base.");
+            }
+            if (longinusDoorOpen) {
+                if (neneKnock) {
+                    scr_event_build_dialogue_debug("LONGINUS", CD_PORT, "Player has learned the knock from Nene.");
+                    if (longinusHelp) {
+                        scr_event_build_dialogue_debug("LONGINUS", CD_PORT, "Player has also helped Longinus.");
+                    }
+                }
+                else if (longinusHelp) {
+                    scr_event_build_dialogue_debug("LONGINUS", CD_PORT, "Player has not learned the knock from Nene yet, but did help Longinus elsewhere.");
+                }
+                else {
+                    scr_event_build_dialogue_debug("LONGINUS",  CD_PORT, "Player knows they have to learn the knock from Nene to get into the Longinus base.");
+                }
+            }
+        } 
+        else if (longinusHelp) {
+            scr_event_build_dialogue_debug("LONGINUS", CD_PORT, "Player hasn't talked to the Longinus Door yet, but they did help Longinus members elsewhere.");
+        }
+    }
+    scr_event_advance(event);
+}

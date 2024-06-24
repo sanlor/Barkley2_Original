@@ -1,0 +1,68 @@
+// Event for WIZARD after he's been recruited for wedding quest. Hangs out in Brain City
+//Bar
+// usage: event_bct_wizard02();
+
+/*if (argument0 == SCRIPT_STEP) {
+
+//if wedding quest is currently active
+if (scr_quest_get_state("wizardWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+    scr_event_interactive_activate();
+} else{
+    scr_event_interactive_deactivate();
+}
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var wizard = id;
+    var event = scr_event_create_main();
+    with (event) {
+    //if you have poly in group.
+    if (scr_quest_get_state("polyWedding") == 1) and (scr_quest_get_state("wizardPoly") == 0) {
+        scr_event_build_dialogue("WIZARD", s_port_wizard, "THERE IS A SATISFYING SYNERGY BETWEEN THE DRUMMER POLY AND MYSELF. I MUST WORK TO MANIFEST HER DESTRUCTIVE POTENTIAL.");
+        scr_event_build_quest_state("wizardWait", 1);
+        scr_event_build_quest_state("wizardPoly", 1);
+    }
+        
+    //if you have zalmoxis
+    else if (scr_quest_get_state("zalmoxisWedding") == 1) and (scr_quest_get_state("wizardZalmoxis") == 0) {
+        scr_event_build_dialogue("WIZARD", s_port_wizard, "THE ZAUBERMANCER ZALMOXIS FLIRTS WITH MY MASTER'S ESOTERIC SECRETS. THERE IS AN UNTAPPED POWER... CACOPHANY... IN HER CUICA ZAUBER.");
+        scr_event_build_quest_state("wizardWait", 1);
+        scr_event_build_quest_state("wizardZalmoxis", 1);
+    }
+    
+    //if you have guillaume
+    else if (scr_quest_get_state("guillaumeWedding") == 1) and (scr_quest_get_state("wizardGuillaume") == 0) {
+        scr_event_build_dialogue("WIZARD", s_port_wizard, "THE GUITARIST GUILLAUME'S PRESENCE UNDERMINES THE LEVIATHAN'S MESSAGE OF DISCORD. I AM DISPLEASED.");
+        scr_event_build_quest_state("wizardWait", 1);
+        scr_event_build_quest_state("wizardGuillaume", 1);
+    }    
+
+    //if you have garcia
+    else if (scr_quest_get_state("garciaWedding") == 1) and (scr_quest_get_state("wizardGarcia") == 0) {
+        scr_event_build_dialogue("WIZARD", s_port_wizard, "I CANNOT CONCENTRATE WITH GARCIA'S EXECRABLE KEYBOARD PLAYING. THERE IS NOTHING - /NOTHING/ - LESS KVLT THAN KEYBOARDS.");
+        scr_event_build_quest_state("wizardWait", 1);
+        scr_event_build_quest_state("wizardGarcia", 1);
+    }
+    
+    //if you have dinah
+    else if (scr_quest_get_state("dinahWedding") == 1) and (scr_quest_get_state("wizardDinah") == 0) {
+        scr_event_build_dialogue("WIZARD", s_port_wizard, "DESPITE MY INSISTENCE, DINAH REFUSES TO PROGRAM BLAST BEATS. HOW CAN THE LEVIATHAN'S INFERNAL MESSAGE OF SUFFERING BE CONVEYED WITHOUT BLAST BEATS?");
+        scr_event_build_quest_state("wizardWait", 1);
+        scr_event_build_quest_state("wizardDinah", 1);
+    }
+    
+    
+    //if you've spoken to before.
+    else if (scr_quest_get_state("wizardWait") == 1) {
+        scr_event_build_dialogue("WIZARD", s_port_wizard, "THOSE WHO DO NOT SUBMIT TO THE BEATIFIC GUIDANCE OF THE DAWN STAR WILL BE EXPUNGED BY THE SONIC CACOPHANY OF MY BASS. FOR THE UNENLIGHTENED, THERE IS ONLY PUNISHMENT.");
+    }
+    
+    //Haven't spoken to WIZARD while waiting.
+    else {
+        scr_event_build_dialogue("WIZARD", s_port_wizard, "WHEN WILL THE TIME ARRIVE FOR US TO BATHE THE ALTAR OF CLISPAETH IN THE ANATHEMA OF THE LEVIATHAN? MY BASS LUSTS TO BLASPHEME THE SHEPHERD'S CRADLE OF LIES.");
+        scr_event_build_quest_state("wizardWait", 1);
+        }
+    }
+    scr_event_advance(event);
+}

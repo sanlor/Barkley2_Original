@@ -1,0 +1,74 @@
+/* Event for Elise, a wasteland lady looking for a home who shows up in the Industrial Park at times 9 and 10.
+
+if (argument0 == SCRIPT_STEP) {
+    if (visible and scr_time_get() != 8 || scr_time_get() != 9) {
+        scr_event_interactive_deactivate();
+    }
+    else if (!visible and !scr_event_etc_instance_on_screen(id)) {
+        scr_event_interactive_activate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var elise = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("eliseState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Elise", NULL, "It's a nice fire, but it's still pretty cold, huh?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "My velveteen jerkin keeps me warm.");
+            scr_event_build_dialogue("Elise", NULL, "I'm jealous... wish there was somewhere I could go to be warm. The people here, they just sort of come and go, huh? Nobody really sticks around. It kinda feels like there's nowhere for anyone out there, like you're out in the cold no matter where you go.");
+                if (scr_quest_get_state("frontierQuest") == 1) {
+                //If you know about Frontier Town
+                var frontiertalk = scr_event_build_choice("Mention the Frontier Town?", s_port_hoopz);
+                with scr_event_build_add_choice(frontiertalk, "You know there's a place that's looking for people.") {
+                //Tell her about Frontier Town.
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "You know there's a town that's looking for people. It's north of here, kind of a ways, you have to take the train to get there but they're looking for more people to help build it up.");
+                    scr_event_build_dialogue("Elise", NULL, "Really? Is it safe?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well it's right next to a Death Tower... but other than that it seems safe.");
+                    scr_event_build_dialogue("Elise", NULL, "I don't really have anywhere better to go... I guess if they're looking for people I can head up there. I've never taken a train before, that might be fun. Okay, I'll do it. I'll pack up my bags and head to this Frontier Town... that was a joke. I don't have any bags, get it?",);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Take care, maybe I'll visit you up there.");
+                    scr_event_build_dialogue("Elise", NULL, "Yeah... thanks.");
+                    scr_event_build_quest_state("eliseFrontier", 1);
+                    scr_event_build_quest_state("eliseState", 2);
+                }
+                with scr_event_build_add_choice(frontiertalk, "I'm pretty lonely too.") {
+                //Don't tell her about Frontier Town
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I know what you mean. It's pretty lonely out here... it would be nice if I had somewhere to go home to.");
+                scr_event_build_dialogue("Elise", NULL, "I don't think warmth is the problem... I'd suffer the cold if I could do it with other people. Maybe it was a bad idea to leave Tir na Nog. Maybe there really isn't anything for us out here.");
+                scr_event_build_quest_state("eliseState", 1);
+                }
+            }
+        } else {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I know what you mean. It's pretty lonely out here... it would be nice if I had somewhere to go home to.");
+            scr_event_build_dialogue("Elise", NULL, "I don't think warmth is the problem... I'd suffer the cold if I could do it with other people. Maybe it was a bad idea to leave Tir na Nog. Maybe there really isn't anything for us out here.");
+            scr_event_build_quest_state("eliseState", 1);
+        } else if (Quest("eliseState") == 1) {
+            scr_event_build_dialogue("Elise", NULL, "The fire's getting dimmer. It'll die eventually. I wonder if people will still come here if there's nothing to keep them warm.");
+                if (scr_quest_get_state("frontierQuest") == 1) {
+                    //If you know about Frontier Town
+                    var frontiertalk1 = scr_event_build_choice("Mention the Frontier Town?", s_port_hoopz);
+                    with scr_event_build_add_choice(frontiertalk1, "You know there's a place that's looking for people.") {
+                    //Tell her about Frontier Town.
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "You know there's a town that's looking for people. It's north of here, kind of a ways, you have to take the train to get there but they're looking for more people to help build it up.");
+                        scr_event_build_dialogue("Elise", NULL, "Really? Is it safe?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well it's right next to a Death Tower... but other than that it seems safe.");
+                        scr_event_build_dialogue("Elise", NULL, "I don't really have anywhere better to go... I guess if they're looking for people I can head up there. I've never taken a train before, that might be fun. Okay, I'll do it. I'll pack up my bags and head to this Frontier Town... that was a joke. I don't have any bags, get it?",);
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Take care, maybe I'll visit you up there.");
+                        scr_event_build_dialogue("Elise", NULL, "Yeah... thanks.");
+                        scr_event_build_quest_state("eliseFrontier", 1);
+                        scr_event_build_quest_state("eliseState", 2);
+                    }
+                    with scr_event_build_add_choice(frontiertalk1, "There are other fires out there.") {
+                    //Don't tell her about Frontier Town
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm sure there are other places you can go. There are lots of people out there. Someone's bound to have some firewood.");
+                    scr_event_build_dialogue("Elise", NULL, "Haha. Yeah. I guess so, I guess I could just go somewhere else. I'm just getting tired of going somewhere else. That's all. Sometimes it just doesn't feel worth it.");
+                    }
+                }
+        } else if (Quest("eliseState") == 2) {
+            scr_event_build_dialogue("Elise", NULL, "Hey, thanks for telling me about the Frontier Town. I don't really have any practical skills or anything, but maybe they can find something for me. Maybe I can really start over this time.");
+            }
+    }
+    scr_event_advance(event);
+}
+*/

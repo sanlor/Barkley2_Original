@@ -1,0 +1,48 @@
+// BAD ENDING NPC script for Van Cleef.
+// NOTE: This is actually the totality of the game's bad ending, since absolutely everybody else involved in the quest ends up dead.
+// PLACEMENT NOTE: I think it's really important for the player to be required to see this dialogue, so this should trigger at a pretty critical spot in the duergar base that CANNOT be missed.
+
+/*
+if (argument0 == SCRIPT_START)
+{
+    if (Quest("prisonquestbadState") == 0)
+    {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("prisonquestbadState") == 2)
+    {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var vancleef = id;
+    var event = scr_event_create_main();
+    
+    with (event)
+    {
+        if (Quest("prisonquestbadState") == 1)
+        {
+            Dialogue("Van Cleef", "I gotta hand it to ya, dirtbag. Didn't know ya had the guts for something like this.");
+            Dialogue(P_NAME, "It really happened.......he killed them all.....");
+            Dialogue("Van Cleef", "What are you on about?");
+            Dialogue(P_NAME, "Aloysius, he_______._______._______._______._______._______._______he killed them.......\I couldn't stop him in time......");
+            Dialogue("Van Cleef", "Heh. That brainless fuck did all this? ______________My kind of guy.\Guessing you killed his ass if you're the only one here.");
+            Dialogue(P_NAME, "Yeah, but.....\Just look at this. Everyone's gone. This isn't the way it was supposed to happen.");
+            Dialogue("Van Cleef", "Guess that makes you king of the mountain.");
+            Dialogue(P_NAME, "What's that supposed to mean?");
+            Dialogue("Van Cleef", "You won, all those sorry fuckers lost. The base is yours now. The base, the prison, everything. Belongs to you.");
+            Dialogue(P_NAME, "But it's just empty rooms. It doesn't mean anything without anybody in it.");
+            Dialogue("Van Cleef", "Never said it did.");
+            Dialogue(P_NAME, "I didn't want this. I didn't want any of this. I just wanted to do something good in this fucked up world.");
+            Dialogue("Van Cleef", "Then you best keep moving. I can already hear the ghosts starting to look for something. You don't catch the next gust of wind it'll be up to you to find it for them.\Stick to killing, fuckball. That saintly mantle don't fit you right with all those gun's you're carrying.");
+            
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Van Cleef walks off-screen. He is gone from the game.");
+            // CINEMATIC TODO: Van Cleef walks off-screen. He is gone from the game.
+            
+            Quest("prisonquestbadState", 2);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

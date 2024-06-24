@@ -1,0 +1,216 @@
+/* event_bct_drgMelqart01 
+// o_melqart01
+
+    Description
+        Melqart is the duergar guard of the Lobby.
+        He'll interject if you approach the upstairs or downstairs without a Visitor's Badge.
+        He has a choice to start combat, and can also be turned on by Raffael shouting for security.
+        
+    Graphics & Animations:
+        Duergar combat ability.
+    
+    Variables:
+        melqartState
+        melqartDead
+            1 = Melqart has been killed.
+    
+    Operation:
+        Melqart demands to see your badge when you approach a door without checking with him.
+        Once you do, you are free to travel.
+        Talking to Melqart at any point gives the option to fight him.
+*/
+/*if (argument0 == SCRIPT_START)
+{  
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var drgMelqart = id;
+    
+    var event = scr_event_create_main();
+    var battle_snippet = scr_event_create_child(event);
+
+    var npc_port = NULL;
+    
+    //----------------------------------------------------------
+    // battle_snippet
+    //----------------------------------------------------------
+    with (battle_snippet)
+    {
+        Debug("Raffael does a hiding animation, and is now behind his desk, unclickable.");
+        Debug("Pacify mode disabled.");
+        Debug("Duergar Melqart should turn into a combat actor.");
+        Debug("Combat tunes should start up.");
+        scr_event_build_pacify(false);
+        Quest("raffaelCaught", 1);
+    }
+    
+    //----------------------------------------------------------
+    // main event
+    //----------------------------------------------------------
+    with (event)
+    {
+        // first time talking, no appointment. is this impossible?
+        if (Quest("raffaelAppt") == 0)
+        {
+            if (Quest("drgMelqartState") == 0)
+            {
+                Dialogue("Melqart", "Get out of my face, you disgusting dwarf! Talk to the receptionist or I will destroy you where you stand!");
+            }
+            else 
+            {
+                Dialogue("Melqart", "Did you not hear me!? Talk to the receptionist, NOW.");
+            }
+            var receptionist = Choice("Receptionist!?", s_port_hoopz)
+            with (ChoiceAdd(receptionist, "Sorry, I'll do that right away."))
+            {
+                Dialogue(P_NAME, "Sorry, I'll do that right away.");
+                Dialogue("Melqart", "Don't tell me you will do this, JUST DO IT, NOW.");
+                // set state to 1
+                Quest("drgMelqartState", 1);
+            }
+            with (ChoiceAdd(receptionist, "I'd rather talk to you... with gun's!"))
+            {
+                Dialogue(P_NAME, "I'd rather talk to you... and let my gun's do the talking. Eat lead, duergar scum!");
+                // go to battle_snippet
+                scr_event_build_event_snippet(battle_snippet);
+            }
+        }
+        // soliciting
+        else if (Quest("raffaelAppt") == 1)
+        {
+            if (Quest("drgMelqartState") == 0)
+            {
+                Dialogue("Melqart", "Stupid salesperson. You like to wait, do you? Nobody will buy a thing from you. Then you will leave. Do you realize what a waste of time and space you are? You are waiting for nothing!");
+            }
+            else 
+            {
+                Dialogue("Melqart", "Stupid, stupid salesperson! Do you not understand!? Your wait is over when it is over, and you keep it to yourself! Get out of my face!");
+            }
+            var solicit = Choice("Wait!? Wait!?", s_port_hoopz)
+            with (ChoiceAdd(solicit, "Sorry. I will silently wait."))
+            {
+                Dialogue(P_NAME, "Sorry. I will silently wait.");
+                Dialogue("Melqart", "YES, THANK YOU. Go wait to yourself. I... I hate this job! I hate working for dwarfs!");
+                // set state to 1
+                Quest("drgMelqartState", 1);
+            }
+            with (ChoiceAdd(solicit, "Your wait is over... now die!"))
+            {
+                Dialogue(P_NAME, "Wait!? Your wait is over... your end has come! Now die, duergar scum!");
+                // go to battle_snippet
+                scr_event_build_event_snippet(battle_snippet);
+            }
+        }
+        
+        else 
+        { 
+            if (Quest("drgMelqartState") == 0)
+            {
+                Dialogue("Melqart", "You. You there! Your badge, at once!");
+                Dialogue(P_NAME, "Um... okay... it's in this lanyard, do you wan-");
+                Dialogue("Melqart", "Your badge, at once! AT ONCE!");
+                Dialogue(P_NAME, "Yikes! Here, okay! Look!");
+                Dialogue("Melqart", "Hmmm... hmmm...");
+                scr_event_build_wait(2);
+                scr_event_build_wait_for_actions();
+                // delivery, mailroom
+                if (Quest("raffaelAppt") == 2)
+                {
+                    Dialogue("Melqart", "Everything seems to be in order. A delivery to the mailroom! Just as you appear, you are someone's insignificant gofer. Carry on, report to the basement for your appointed drudgery.");
+                    var gofer_choice = Choice("Gofer!? Gofer!?", s_port_hoopz);
+                    // agree
+                    with (ChoiceAdd(gofer_choice, "Yep... I'm a gofer. I'm the lowly one."))
+                    {
+                        Dialogue(P_NAME, "Yep... I'm a gofer. I'm the lowly one. I am a simple person and I am at my full potential doing simple tasks.");
+                        Dialogue("Melqart", "Yes, yes! A simpleton! You cannot do complex tasks like a duergar, yes??? Gahahaha! So sad! I love it! Go where you are supposed to go, imbecile!")
+                        // update quest state
+                        Quest("drgMelqartState", 1);
+                    }
+                    // fight
+                    with (ChoiceAdd(gofer_choice, "I'll show you goferdom! Die!"))
+                    {
+                        Dialogue(P_NAME, "I'll show you goferdom! This is where you meet your end, duergar scum!");
+                        // go to battle_snippet
+                        scr_event_build_event_snippet(battle_snippet);
+                    }
+                }
+                // accounting, 2f
+                if (Quest("raffaelAppt") == 3)
+                {
+                    Dialogue("Melqart", "Everything seems to be in order. Seeing the accountant? Yet another effete, number-crunching dwarf! What can I expect out of those lacking duergar muscle! Carry on, weakling. Go to the second floor and play with your maths!");
+                    var effete_choice = Choice("Weakling!? Weakling!?", s_port_hoopz);
+                    // agree
+                    with (ChoiceAdd(effete_choice, "Yep... I'm a weakling. I'm very effete."))
+                    {
+                        Dialogue(P_NAME, "Yep... I'm a weakling. I'm very effete. My hands are useless for holding anything but a calculator.");
+                        Dialogue("Melqart", "Yes, yes! Calculator! You have a pocket protector as well, yes??? Gahahaha! So weak! I love it! Go where you are supposed to go, wimpy math-child!")
+                        // update quest state
+                        Quest("drgMelqartState", 1);
+                    }
+                    // fight
+                    with (ChoiceAdd(effete_choice, "I'll show you who's a weakling! Die!"))
+                    {
+                        Dialogue(P_NAME, "I'll show you who's a weakling! This is where you meet your end, duergar scum!");
+                        // go to battle_snippet
+                        scr_event_build_event_snippet(battle_snippet);
+                    }
+                }
+                // h.r., 3f
+                if (Quest("raffaelAppt") == 4)
+                {
+                    Dialogue("Melqart", "Everything seems to be in order. You're coming to apply for a job? You want to be a pathetic paper pusher!? I knew it. You still have it, that eye thing. That eye-twinkle. It is BEGGING to be crushed. Carry on, go to the third floor and crush yourself!");
+                    var pathetic_choice = Choice("Pathetic!? Pathetic!?", s_port_hoopz);
+                    // agree
+                    with (ChoiceAdd(pathetic_choice, "Yep... I'm really pathetic. I want a pointless job."))
+                    {
+                        Dialogue(P_NAME, "Yep... I'm really pathetic. I want a pointless job and let this tomb sap my spirit away.");
+                        Dialogue("Melqart", "Yes, yes! You are pathetic! You will work in this stupid box! Although... I am in this box too, hm? You... you are making me realize my life is not wonderful! Cuchulainn doesn't pay me enough, that is why I am here! You are forcing self-reflection upon me! Get out of my face!");
+                        // update quest state
+                        Quest("drgMelqartState", 1);
+                    }
+                    // fight
+                    with (ChoiceAdd(pathetic_choice, "I'll show you who's pointless! Die!"))
+                    {
+                        Dialogue(P_NAME, "I'll show you who's pointless! This is where you meet your end, duergar scum!");
+                        // go to battle_snippet
+                        scr_event_build_event_snippet(battle_snippet);
+                    }
+                }
+            }
+            
+            else {
+                // delivery, mailroom
+                if (Quest("raffaelAppt") == 2)
+                { 
+                    Dialogue("Melqart", "I am paid to be a guard not a babysitter! Go downstairs! You are supposed to be downstairs, idiot!");
+                }
+                else if (Quest("raffaelAppt") == 3)
+                {
+                    Dialogue("Melqart", "I am paid to be a guard not a babysitter! Go upstairs! You are supposed to be upstairs, idiot!");
+                }
+                else if (Quest("raffaelAppt") == 4)
+                {
+                    Dialogue("Melqart", "I said get out of my face! What do you not understand!? GET OUT OF MY FACE, IDIOT!");
+                }
+                var idiot_choice = Choice("Idiot!? Idiot!?", s_port_hoopz);
+                with (ChoiceAdd(idiot_choice, "I'm a big idiot who will heed your instructions."))
+                {
+                    Dialogue(P_NAME, "Sorry. I'm a big idiot who will heed your instructions. I'll be on my way now!");
+                    scr_event_build_end();
+                }
+                with (ChoiceAdd(idiot_choice, "You're the idiot for crossing a gun'sbraster!"))
+                {
+                    Dialogue(P_NAME, "You're the idiot for crossing a gun'sbraster! This is the end for you, duergar scum!");
+                    // go to battle_snippet
+                    scr_event_build_event_snippet(battle_snippet);
+                }
+            }
+        }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,107 @@
+// Nose Dwarf Bumbbo // Filler NPC // 
+// ***************************************************************************************** //
+// Talks Probuscus Dwarf Lore
+// Can also provide some insight/hints as to what the Duergars are up to in the mines 
+// ***************************************************************************************** //
+
+// Initialize //
+if (argument0 == SCRIPT_START) 
+    {
+    // ****** Bumbbo exists on Beta and Sneak ****** //
+    // Beta Camp // Exists on Beta Camp up until Sneak Mission begins //
+    if room = r_min_baseCampBeta01 then
+        {
+        if scr_min_cspear() == "during" or scr_min_cspear() == "after" then scr_event_interactive_deactivate(); 
+        }
+     
+    // Sneak Mission // Exists during Sneak Mission in the detainment room //
+    else if room = r_min_sneakPassage01 then
+        {
+        if scr_min_cspear() == "before" or scr_min_cspear() == "prep" or scr_min_cspear() == "after" then scr_event_interactive_deactivate(); 
+        }
+    } 
+                      
+// Step //
+if (argument0 == SCRIPT_STEP) 
+    {
+
+    }
+    
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) 
+   {
+    // Variables //
+    var event = scr_event_create_main();
+    var reply = irandom(2);
+    
+    // Main event //
+    with (event) 
+    {
+    // Talk to Bumbbo while in Beta Camp //
+    if room = r_min_baseCampBeta01 then
+        {
+        // Reply 01 //
+        if reply = 0 then scr_event_build_dialogue("Bumbbo", NULL, "Just a few more weeks and it's going to be Ruby Day. I can't wait!");
+         
+        // Reply 02 //
+        else if reply = 1 then scr_event_build_dialogue("Bumbbo", NULL, "I tried to tell the Duergars about Ruby Day but they just punched me in the face. I guess they don't much appreciate Proboscus Dwarf culture.");
+         
+        // Reply 03 //
+        else if reply = 2 then scr_event_build_dialogue("Bumbbo", NULL, "I don't know if I'll ever see it but I believe that there will be a time when both the Proboscus Dwarfs and the Duergars can come together as a family and celebrate Ruby Day.");
+        }
+    
+        // Talk to Bumbbo while in Detainemnt / during Sneak Mission //
+        else if room = r_min_sneakPassage01 then
+            {
+            // Only one reply //
+            scr_event_build_dialogue("Bumbbo", NULL, "Ugh... I'm so tired. What I wouldn't do for a nice red ruby right now.");
+            }
+        }
+    scr_event_advance(event);
+    }
+
+
+// OLD //
+
+// Nose Dwarf // BETA CAMP //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+    // Only exist while Beta Camp is safe //
+    if scr_min_cspear() == "during" or scr_min_cspear() == "after" scr_event_interactive_deactivate();
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {       
+
+    // Variables //
+    var event = scr_event_create_main();
+    var talk = irandom(2);
+    
+    // Main event //
+    with (event) {
+        
+        // Hoopz talks to Kalakan //
+        if talk == 0 
+            {
+            scr_event_build_dialogue("Kalakan", NULL, "I don't know what it was that the duergars found before the hoppers attacked, but it seems to be really important.");
+            }
+        
+        else if talk == 1 
+            {
+            scr_event_build_dialogue("Kalakan", NULL, "I can't wait for lunch hour. I can smell Luigis delicate concoctions from all the way from here. Mmmm... Mice with rice... *Drools*");
+            }
+        
+        else if talk == 2 
+            {
+            scr_event_build_dialogue("Kalakan", NULL, "*Sniff* *Sniff* So many tender aromas. Luigis cooking is seducing my nose, but I must resist! I also smell a trace of bitcoins coming somewhere from this rock wall...");
+            }
+        }
+    scr_event_advance(event);
+    }

@@ -1,0 +1,23 @@
+/// scr_event_build_audiolog(sound)
+/// Builds an action to play audio
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_audiolog);
+ds_list_add(action, argument0); // sound
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;
+
+
+
+
+/// scr_event_action_audiolog(list)
+/// An action to create an audiolog
+/// The list contains the audiofile.
+
+var sound = ds_list_find_value(argument0, 1);
+//show_debug_message(object_get_name(object));
+audiolog = instance_create(0, 0, o_mg_audiolog_playback);
+audiolog.sound = sound;
+
+scr_event_advance(id);

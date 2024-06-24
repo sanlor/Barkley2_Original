@@ -1,0 +1,105 @@
+/*
+// scr_guilderberg_update()
+// adjusts your guilderberg score each time unit!
+// called from scr_time_set();
+
+
+
+// scr_quest_set_state("guilderPlazaCount", 3);
+if (scr_quest_get_state("guilderJoined") >= 1) {
+    show_debug_message("scr_guilderberg_update() running!");
+    show_debug_message("you have " + string(scr_money_count()) + "n.s.");
+    // constants
+    var g_money = 0.1 // what percent of current money is added to guilder points
+    var g_plaza = 500; // how much each plaza person decreased adds per time unit
+    var g_law = 1000; // how much a favorable law earns per time unit
+    var g_crypto = 250; // how much crypto being on or destroyed adds/subtracts from points
+    var g_rent = 1; // what fraction of rent is added to guilderberg points
+    
+    // quest rewards
+    var plaza_reward = 2000 // bonus for completing plaza quest
+    var develop_reward = 2000 // bonus for completing dilapidated zone development quest
+    var gentrify_reward = 2000 // bonus for completing dilapidated zone gentrification quest
+    var crypto_reward = 2000 // bonus for completing cryptocurrency quest
+    var politics_reward = 2000 // bonus for completing politics quest
+    var reward_total = 0; // initialize reward_total variable
+    
+    // ooze
+    if (scr_quest_get_state("oozeGuilder") >= 2) && (scr_quest_get_state("oozeGuilderComplete") == 0) {
+        scr_quest_set_state("oozeGuilderComplete", 1);
+        scr_quest_set_state("guilderPlazaCount", 1 + scr_quest_get_state("guilderPlazaCount"))
+        if (scr_quest_get_state("oozeGuilder") == 2) {
+            scr_quest_set_state("ertharinPlaza", 3);
+        }
+        else if (scr_quest_get_state("oozeGuilder") == 3) {
+            scr_quest_set_state("durriyahPlaza", 2);
+        }
+        else if (scr_quest_get_state("oozeGuilder") == 4) {
+            scr_quest_set_state("qutlughPlaza", 2);
+        }
+    }
+       
+    // plaza
+    if (scr_quest_get_state("guilderPlazaQuest") == 4) {
+        reward_total += plaza_reward;
+        show_debug_message("plaza quest completed");
+        scr_quest_set_state("guilderPlazaQuest", 5);
+    }
+    // develop
+    if (scr_quest_get_state("guilderDevelopQuest") == 4) {
+        reward_total += plaza_reward;
+        show_debug_message("develop quest completed");
+        scr_quest_set_state("guilderDevelopQuest", 5);
+    }
+    // gentrify
+    if (scr_quest_get_state("guilderGentrifyQuest") == 4) {
+        reward_total += plaza_reward;
+        show_debug_message("gentrify quest completed");
+        scr_quest_set_state("guilderGentrifyQuest", 5);
+    }
+    // crypto
+    if (scr_quest_get_state("guilderCryptoQuest") == 4) {
+        reward_total += plaza_reward;
+        show_debug_message("crypto quest completed");
+        scr_quest_set_state("guilderCryptoQuest", 5);
+    } 
+    // politics
+    if (scr_quest_get_state("guilderPoliticsQuest") == 4) {
+        reward_total += plaza_reward;
+        show_debug_message("politics quest completed");
+        scr_quest_set_state("guilderPoliticsQuest", 5);
+    }
+    
+    // calculate points per category
+    var guilder_money = g_money * scr_money_count();
+    var guilder_plaza = g_plaza * scr_quest_get_state("guilderPlazaCount");
+    var guilder_laws = g_law * scr_quest_get_state("guilderLawFavor");
+    var guilder_rent = g_rent * scr_quest_get_state("superRentCurrent");;
+    
+    //if scr_savedata_contains("supergrid") {
+    //    for (var r = 0; r < ROOMS_TOTAL; r += 1) {
+    //        rent_total += global.supergrid[| (RP * r) + 1];
+    //    }
+    //}
+    
+    var guilder_crypto = 0;
+    if (scr_quest_get_state("cryptoDestroyed") == 1) { crypto_points = g_crypto; }
+    else if (scr_quest_get_state("cryptoOn") == 1) { crypto_points = -g_crypto; }
+    
+    // print debug messages
+    show_debug_message("guilder_money = " + string(guilder_money));
+    show_debug_message("guilder_plaza = " + string(guilder_plaza));
+    show_debug_message("guilder_laws = " + string(guilder_laws));
+    show_debug_message("guilder_rent = " + string(guilder_rent));
+    show_debug_message("guilder_crypto = " + string(guilder_crypto));
+    show_debug_message("reward_total = " + string(reward_total));
+    
+    // total points, set new
+    show_debug_message("old guilderPoints = " + string(scr_quest_get_state("guilderPoints")));
+    var guilder_old = scr_quest_get_state("guilderPoints");
+    show_debug_message("guilder_old = " + string(guilder_old));
+    var guilder_points = guilder_old + guilder_money + guilder_plaza + guilder_laws + guilder_rent + guilder_crypto + reward_total;
+    show_debug_message("guilder_points = " + string(guilder_points));
+    scr_quest_set_state("guilderPoints", guilder_points);
+    show_debug_message("new guilderPoints = " + string(scr_quest_get_state("guilderPoints")));
+}

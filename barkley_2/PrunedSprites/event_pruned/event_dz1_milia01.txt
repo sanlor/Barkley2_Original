@@ -1,0 +1,29 @@
+// Event for Milia, random traveller in the Industrial Park at times 10 and 11.
+
+if (argument0 == SCRIPT_STEP) {
+
+    if (scr_time_get() == 10) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 11) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var milia = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("miliaState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Milia", NULL, "The Necron 7 has probably been around for a while, huh? Banquo and I just got back from this big swamp south of here that had these ancient stone mounds, like stupas or something. There were lots of them. Some were cracked and falling apart, others were covered in moss, others were partially submerged in water. We didn't go far because it's too dangerous, but I wonder if there are more. I bet there's somethin' good inside of 'em.");
+            scr_event_build_quest_state("miliaState", 1);
+        } else {
+            scr_event_build_dialogue("Milia", NULL, "There was all this muck in the swamp that was hard to walk through. When we tried to wade through it, these giant mosquitos would swarm us and we had to run. I don't think we'll go back to the swamp for a while, but I'd like to see those stupas again, find out what's inside...");
+        }
+    }
+    scr_event_advance(event);
+}

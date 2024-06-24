@@ -1,0 +1,105 @@
+/*
+Event for the Router to turn on and give you access to Chatroulette in the Quick Menu
+
+Variables
+routerAirState
+  0 = the router is ON but has stopped working (this is either because it timed out or because it wasn't left off for 15 seconds)
+  1 = the router is OFF
+  2 = the router is ON and is sending wifi (enable CHATROULETTE)
+
+*/
+if (argument0 == SCRIPT_START) {
+    //Sets the router to a specific color when the game loads up
+    if (Quest("routerAirState") == 0) then scr_entity_animation_set(o_gbl_router01, "routerYellow"); 
+    else if (Quest("routerAirState") == 1) then scr_entity_animation_set(o_gbl_router01, "routerOff");
+    else if (Quest("routerAirState") == 2) then scr_entity_animation_set(o_gbl_router01, "routerGreen");
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+        //TODO: this needs to be a more persistent object and check if it is on or off (and it stays on for 2 hours of clockTime, then dies)
+        //If router is on but not working
+        if (Quest("routerAirState") == 0) {
+            var routerPower = scr_event_build_choice("The router isn't working.", s_port_hoopz);
+            
+            var routerOff = scr_event_build_add_choice(routerPower, "Unplug the router.");
+            with routerOff {
+                //TODO: animate Hoopz manupulating the router
+                Wait(0.3);
+                Quest("routerAirState", 1);
+                scr_event_build_animation_set(o_gbl_router01, "routerOff");
+                scr_event_build_user(o_gbl_router01, 15);
+            }
+            
+            var routerInfo = scr_event_build_add_choice(routerPower, "Check the owner's manual.");
+            with routerInfo {
+                Dialogue(P_NAME, "...");
+                Dialogue(P_NAME, "Ah here it is, 'to connect to WiFi, unplug the device and wait 10 seconds before plugging back in.'");
+            }
+            
+            var routerNothing = scr_event_build_add_choice(routerPower, "Leave it be.");
+            with routerNothing {
+                Dialogue(P_NAME, "Maybe it just needs to warm up...");
+            }
+        }
+        
+        //If router is off
+        else if (Quest("routerAirState") == 1) {
+            var routerPower = scr_event_build_choice("The router is off.", s_port_hoopz);
+            
+            var routerOn = scr_event_build_add_choice(routerPower, "Turn on the router.");
+            with routerOn {
+                //TODO: animate Hoopz manupulating the router
+                Wait(0.3);
+                
+                //TODO: check the time since you turned off the router ... it needs to be 15 realtime seconds for it to properly turn on
+                // for now this just automatically turns it on
+                
+                // No realtime, you just have to stay in the room until it's ready, if you turn it on too early it goes to the YELLOW sate //
+                if scr_quest_get_state("routerAirReady") == 1 then
+                    { 
+                    Quest("routerAirState", 2);
+                    scr_event_build_animation_set(o_gbl_router01, "routerGreen");
+                    }
+                else
+                    {
+                    Quest("routerAirState", 0);
+                    scr_event_build_animation_set(o_gbl_router01, "routerYellow");
+                    }
+            }
+            
+            var routerNothing = scr_event_build_add_choice(routerPower, "Leave it be.");
+            with routerNothing {
+                Dialogue(P_NAME, "This router can't harm anyone if it is off...");
+            }
+        }
+        
+        //If router is on and working
+        else if (Quest("routerAirState") == 2) {
+            var routerPower = scr_event_build_choice("The router is on and connected to WiFi.", s_port_hoopz);
+            
+            var routerOff = scr_event_build_add_choice(routerPower, "Unplug the router.");
+            with routerOff {
+                //TODO: animate Hoopz manupulating the router
+                Wait(0.3);
+    
+                Dialogue(P_NAME, "There is a time and a place for routing.");
+                Quest("routerAirState", 1);
+                scr_event_build_animation_set(o_gbl_router01, "routerOff");
+                scr_event_build_user(o_gbl_router01, 15);
+            }
+            
+            var routerNothing = scr_event_build_add_choice(routerPower, "Leave it be.");
+            with routerNothing {
+                Dialogue(P_NAME, "Nothing browns my toast like a stable WiFi connection.");
+            }
+        }
+    }
+    scr_event_advance(event);
+}        

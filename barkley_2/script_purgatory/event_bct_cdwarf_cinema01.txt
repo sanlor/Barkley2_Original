@@ -1,0 +1,574 @@
+// Cyberdwarf Cinema Machine //
+// this cutscene plays in each room of the cutscene in Brain City
+// the door into Cyberdwarf's domain should set the quest variable "cdwarfCinema" to 1
+// each room increases the quest variable by 1
+// eventually it concludes
+// it should autorun in each of these rooms if the quest variable is correct.
+// eventually it will put you in the AI place... perhaps a different quest for that
+if (argument0 == SCRIPT_START)
+{
+    // Start script is the same as the interact one // Start interaction portion when room loads //
+    script_execute(event_bct_cdwarf_cinema01, SCRIPT_INTERACT);
+} 
+else if (argument0 == SCRIPT_STEP)
+{
+
+} 
+else if (argument0 == SCRIPT_INTERACT) {
+    
+    // Get both the common and full name of the player //
+    var playerName = scr_quest_get_state("playerName");
+    var playerNameFull = scr_quest_get_state("playerNameFull");
+    
+    // Init!
+    var cdwarf_cinema = id;
+    
+    // Check if this should not even happen //
+    var did = 0;
+    if (scr_quest_get_state("cdwarfCinema") >= 1 && scr_quest_get_state("cdwarfCinema") <= 11) did = 1;
+    if (scr_quest_get_state("trigalScene") == 1) did = 1;
+    if (did == 0) exit;
+        
+    var event = scr_event_find_main(); //scr_event_create_main();
+    
+    with (event) {
+    
+        // Text style for flashback texts //
+        var flashback_text = scr_event_dialogue_build_extras(NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL_STRING, NULL_STRING, NULL, NULL, true);
+    
+        // -------------------------------------------------------------------------------------- //
+        // --------------------------- POST TRIGAL SCENE AT VRW STATION ROOM -------------------- //
+        // -------------------------------------------------------------------------------------- //
+            
+        // DIRECTLY AFTER THE TRIGAL SCENE, this is a hypothetical showing of the Baller's True Power (COSMIC RAYS AND SHIT!) TODO: make all this        
+        if (scr_quest_get_state("trigalScene") == 1) {
+            
+            o_cts_hoopz.x = o_cinema9.x;
+            o_cts_hoopz.y = o_cinema9.y;
+            Camera("snap", o_cts_hoopz);
+            //scr_event_build_fade(false, 3);
+            scr_event_build_animation_set(o_cts_hoopz, "kneeling");
+            scr_event_build_wait_for_actions();
+            //set trigal to 2 so it no longer runs
+            scr_event_build_quest_state("trigalScene", 2);
+            //TODO animation
+            scr_event_build_dialogue_debug("bhroom", "s_port_bhroom01", "It would be cool to have a quick cut back to the VRW Stations.  Here, Hoopz is floating in the air, levitating above this VRW chair, eyes glowing and bball energies overflowing out of his body.");
+            scr_event_build_dialogue_debug("bhroom", "s_port_bhroom01", "We can as some kind of scream of power and then the vrw chair itself explodes with bball energy.  White-out or cut to black or some kind of transition to:");
+            //scr_event_build_fade(true, 4);
+            scr_event_build_wait_for_actions();
+            // Notice that there is no CASE 7 below for "cdwarfCinema", instead the next way to run this event next
+            // is to INTERACT with Cyberdwarf himself 
+            scr_event_build_quest_state("cdwarfCinema", 7);
+            scr_event_build_teleport(r_bct_tuberCloset01, 192, 160, 4, 2);
+        }
+        
+        // -------------------------------------------------------------------------------------- //
+        // --------------------------- MEET CDWARF FOR THE FIRST TIME SCENE --------------------- //
+        // -------------------------------------------------------------------------------------- //
+        
+        // Text style for Cdwarf who has not yet appeared //
+        var hidden_cdwarf_text = scr_event_dialogue_build_extras(NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL_STRING, NULL_STRING, NULL, NULL, true);
+        
+        // Meet the CDWARF //
+        switch (scr_quest_get_state("cdwarfCinema")){
+        
+            case 1: // FIRST MEETING, CYBERDWARF'S ROOM
+                if (scr_quest_get_state("wiglafMission") == 3) && (room == r_bct_cyberdwarf01)
+                {
+                    // Cut music // This is here for testing purposes, it should remove music just before Wiglaf lets you in cdwarf room //
+                    scr_event_build_music_set("mus_blankTEMP", 1);
+                
+                    // Fade to black //
+                    scr_event_build_fade(true, 0.1);
+                    scr_event_build_wait_for_actions();
+                    
+                    // Hide Cdwarf head //
+                    scr_event_build_object_alpha(o_cdwarfHead01, 0, 0);
+                    scr_event_build_wait(1);
+                    
+                    with (cdwarf_cinema) event_user(0); // Make the 4 lights, kept in user event since it's reused later
+                    
+                    
+                    // Slowly move the camera upwards to the Cdwarf platform // Later on Hoopz runs to the scene //
+                    // Camera movement happens from point 8 to point 9, adjust them in the room if need be //                    
+                    scr_event_build_camera_move_to_point(o_cinema8.x, o_cinema8.y, 1000);
+                    scr_event_build_wait_for_actions();                   
+                    scr_event_build_camera_move_to_point(o_cinema9.x, o_cinema9.y + 32, MOVE_NORMAL - 1);
+                    scr_event_build_fade(false, 5); // TODO: adjust amount
+                    scr_event_build_wait(3); // TODO: adjust wait time
+                    scr_event_build_move_to_point_ext(o_cts_hoopz, o_cinema0.x, o_cinema0.y, MOVE_NORMAL); // TODO: fix speed
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_look(o_cts_hoopz, NORTH);
+                    
+                    // Hoopz looks around, wondering if cdwarf, or anyone else, is there //
+                    scr_event_build_wait(1);
+                    Emote("build", "question", o_cts_hoopz, 0, -2);
+                    scr_event_build_wait(1.4);
+                    scr_event_build_look(o_cts_hoopz, NORTHEAST);
+                    scr_event_build_wait(0.25);
+                    scr_event_build_look(o_cts_hoopz, NORTH);
+                    scr_event_build_wait(0.25);
+                    scr_event_build_look(o_cts_hoopz, NORTHWEST);
+                    scr_event_build_wait(0.25);
+                    scr_event_build_look(o_cts_hoopz, NORTH);
+                    scr_event_build_wait(0.75);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hello...?");
+                    scr_event_build_wait(1.25);
+                    scr_event_build_look(o_cts_hoopz, NORTHEAST);
+                    scr_event_build_wait(0.75);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is anyone in here?");
+                    scr_event_build_wait(1.25);
+                    scr_event_build_look(o_cts_hoopz, NORTH);
+                    scr_event_build_wait(0.25);
+                    scr_event_build_look(o_cts_hoopz, NORTHWEST);
+                    scr_event_build_wait(1.25);                    
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "C-Cyberdwarf?");
+                    scr_event_build_wait(0.5);
+                    scr_event_build_look(o_cts_hoopz, NORTH);
+                    scr_event_build_wait(0.5);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why is it so dark in here...");
+                    scr_event_build_wait(0.5);
+                    scr_event_build_move_ext(o_cts_hoopz, 0, -16, MOVE_SLOW);
+                    scr_event_build_wait(1.25);
+                    scr_event_build_camera_move(0, -48, MOVE_SLOW);
+                    Wait();
+                    scr_event_build_camera_shake(2, 3);
+                    scr_event_build_wait(3);
+                    
+                    // Cdwarfs voice bellows from the darkness //
+                    scr_event_build_dialogue_mystery("???", NULL, "It has been so long, child. I have been waiting for the span of more than 4,000 years.");
+                    scr_event_build_wait(0.5);
+                    
+                    // Mystery music // Cdwarf music // TODO pick a proper track
+                    // Room lits up, I think there should be some machinery that also starts up, like someone just hit he ON switch //
+                    // and the entire place comes to life //
+                    
+                    scr_event_build_music_set("mus_wst_industrialzone_gumpus", 1);
+                    scr_event_build_wait(2.5);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cyberdwarf?");
+                    scr_event_build_dialogue_mystery("Cyberdwarf", NULL, "One of my many names. Tell me, child, do you know your own name? Your own destiny?");
+                    scr_event_build_wait(1.5);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "My destiny...?\I was rescued by L.O.N.G.I.N.U.S. from the engine room of the Necron 7. I don't remember where I'm from or who I am. I... I don't even know my own name. They told me to find you because... because you're supposed to know. I don't understand any of this. I just want to know what's going on.");
+                    scr_event_build_wait(1.5);
+                    scr_event_build_dialogue_mystery("Cyberdwarf", NULL, "You want to know yourself? Perhaps you should first know me. We may not be as different as you think, you and I...");
+                    
+                    // CYBERDWARFS APPEARS BEFORE HOOPZ // Hoopz gets spooked //
+                    // I think this should be a bit more grandiose than what it is currently //
+                    scr_event_build_wait(0.5);
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    Wait();
+                    scr_event_build_user(o_room_cdwarf, 1);
+                    Light("build", "goal", 0.5);
+                    scr_event_build_object_alpha(o_cdwarfHead01, 0.66, 5);                    
+                    Wait();
+                    scr_event_build_move_backwards(o_cts_hoopz, 0, 8);
+                    Wait();
+                    
+                    // Hoopz shock pose.
+                    scr_event_build_animation_play_and_set(o_cts_hoopz, "surpriseNW", "surpriseHoldNW");
+                    Wait(2);
+                    
+                    //TODO: create proper hooks for CYBERDWARF to talk
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "You seem surprised by my appearance, child. Is it perhaps my b-ball skin? Or that I am a computer? Perhaps you expected me to be a living, organic being like the dwarfs you have come to surround yourself with. I apologize. My corporeal body has long since left this existence, lost to the ages, its passage expedited by misuse and the recklessness of my youth. You see, my child, I am an AI, much like our mutual foe Cuchulainn. But unlike Cuchulainn, I am not a Malevolent AI. My desire is not to subjugate or destroy. Indeed, as a Benevolent AI, I exist for one purpose: to serve you.");
+                    Wait();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    //hoopz takes two steps forward
+                    //scr_event_build_dialogue_debug("bort", NULL, "Player takes two steps forwards.");
+                    // TODO: move hoopz
+                    Wait(1);
+                    scr_event_build_look(o_cts_hoopz, NORTH);
+                    scr_event_build_move_ext(o_cts_hoopz, 0, -16, MOVE_SLOW);
+                    Wait(2);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wh-what? Serve me? What are you talking about?");
+                    Wait(1);
+                    
+                    // Cdwarf starts ranting and raving about the Space Jam //
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "Tell me, child, how much do you know about... the Space Jam?");
+                    //scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is... is that a vidcon? It sounds kinda familiar...");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "It should, for your past... and your destiny... are deeply entwined with it. Whether or not you realize it, my child, basketball is the most important thing in this universe. It governs all things. From the physical, the gentle swish of the net as the ball caresses it, to the spiritual, the inquisitive coo of the newborn babe in the woods, adrift in a world of unlimited novelties. B-ball is neither sport nor spoof, but a force unto itself. Long ago, the very essence of b-ball was threatened when a foe of unparalleled magnitude, the Monstars, sought to harness its powers not to edutain, but to enslave all mankind. The heroes of b-ball, a cast of loony but well-intentioned sportsmen, assembled the greatest team of ballers ever known and confronted the Monstars not on the battlefield, but on the court. Though the game was fierce, the Monstars were defeated and b-ball was saved, though at a terrible cost. This confrontation... this game... was known as the Space Jam, and the world we know is its ultimate consequence.");
+                    //scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "But... but what does that have to do with me?");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "You are the final heir of the Barkley dynasty, a once-noble house and key player in the Space Jam. Your father, and in fact you, saved mankind from the terrible aftermath of the Space Jam and restored the sport of b-ball to its former glory. You are the Savior of B-ball, the Messiah, and it is your destiny to save mankind once again. You... are Hoopz Barkley.");
+                    //scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wh-what...? What? My father...? I'm... I'm the B-ball Messiah? It's my... destiny to save mankind? What do you..."); 
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "Cuchulainn threatens to end all dwarfkind; he has gathered every dwarf in the universe and is hurtling the Necron 7 towards Hell to destroy them forever. You have been in a stasis for the past 4,000 years but have finally awakened. It is your destiny, your divine mandate, to stop Cuchulainn and return to Earth, where humanity awaits their B-ball Messiah... Hoopz Barkley.");
+                    //scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    
+                    // Crustacea has already been slain //
+                    if (scr_quest_get_state("crustDead") == 1)
+                    {
+                        scr_event_build_dialogue_debug("bort", NULL, "The quest variable /'crustDead/' is 1, so Cuchulainn has already been defeated before Cyberdwarf was met. This is in case you are a nutbar player, and thus is unfinished / fucked up.");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "What are you talking about? I already beat Cuchulainn!");
+                        scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                        scr_event_build_dialogue("Cyberdwarf", NULL, "Indeed, my child, you have won a hard-fought victory, a victory that proves you are the chosen one, our B-ball Messiah. But what you fought was merely Cuchulainn's most primitive manifestation, a mere fraction of his true power. He yet lives and in fact grows stronger with each passing moment.");
+                        //scr_event_build_wait_for_actions();
+                        scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    }
+                    
+                    // Hoopz becomes a total pussy //
+                    // TODO: hoopz falls to knees
+                    //hoopz falls to his knees in anguish
+                    scr_event_build_camera_frame(CAMERA_SLOW, o_cts_hoopz);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_play_and_set(o_cts_hoopz, "anguish", "anguishLast");
+                    scr_event_build_wait_for_actions();
+                    
+                    scr_event_build_wait(1);
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "But... but I can't be the Messiah... I'm just a kid... I'm not this Hoopz Barkley person. You've got it all wrong, Cyberdwarf! I'm just a regular kid! I just wanna go home!");
+                    scr_event_build_camera_move_to_point(o_cinema9.x, o_cinema9.y - 16, CAMERA_NORMAL);
+                    //scr_event_build_dialogue("Cyberdwarf", NULL, "The burden you bear is the burden of existence itself.");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "Cast off the mantle of ignorance and assume your true identity, Hoopz Barkley! I have been waiting for 4,000 years to guide you to your destiny, to destroy Cuchulainn and save the universe. Look into your heart. You'll know it to be true.");
+                    //scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    scr_event_build_dialogue("Forlorn Youngster", s_port_hoopz, "No! I don't believe you! I'm NOT Hoopz Barkley! I'm not the B-ball Messiah! You're a liar! You're... you're just a big liar!!");
+                    scr_event_build_animation_auto(o_cts_hoopz)
+                    scr_event_build_move_to_point_ext(o_cts_hoopz, o_cinema1.x, o_cinema1.y, 12); // need correct speed
+                    scr_event_build_wait(0.25);
+                    scr_event_build_camera_move_to_point(o_cinema1.x, o_cinema1.y, 10);
+                    scr_event_build_wait(0.5);
+                    scr_event_build_fade(true, 1.5);
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue_timed("Cyberdwarf", NULL, "Halt! Where are you going, child? Halt! You must reclaim your birthright!", 3);
+                    //scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    scr_event_build_wait(2);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_quest_state("cdwarfCinema", 2);
+                    scr_event_build_music_set("mus_blankTEMP", 0);
+                    
+                    // TODO: music change
+                    // dun dun dun dun dun dun dun dun
+                    //  or violins???
+                    //  or what, who knows?
+                    
+                    //scr_event_build_dialogue_debug("bort", NULL, "Possibly, change the music here, or have a Hoopz animation. He turns away again? He crumples?");
+                    // An animation would be nice here... hoopz upset
+                    
+                    // Is this the proper spot for this piece of dialogue? How about a screen like when you get branded, it fades to black and hoopz is the only thing visible o nthe screen? //
+                    scr_event_build_dialogue("Forlorn Youngster", s_port_hoopzShock, "I don't believe you! I'm not who you say I am. I just want to be me... Why can't I just be me!?");
+                    scr_event_build_move_to_point_ext(o_cts_hoopz, o_cinema1.x, o_cinema1.y, 12); // need coordinates and speed
+                    scr_event_build_teleport(r_bct_longinus01, 0, 0, 0.1, 2);
+                } 
+                else { scr_event_build_end(); }
+                break;
+                
+            // -------------------------------------------------------------------------------------- //
+            // ------------------ RUNNING THROUGH BCT INTO THE VRW CHAIR ---------------------------- //
+            // -------------------------------------------------------------------------------------- //
+                
+            case 2: // FIRST ROOM OF BRAIN CITY RUN
+                // Hoopz storms through the Longinus base
+                // People could turn to look at him as he passes???
+                o_cts_hoopz.x = o_cinema8.x;
+                o_cts_hoopz.y = o_cinema8.y;
+                Camera("snap", o_cts_hoopz);
+                scr_event_build_move_to_point_ext(o_cts_hoopz, o_cinema9.x, o_cinema9.y, MOVE_FAST); //TODO: need coordinates and speed
+                Wait(1);
+                scr_event_build_dialogue_timed("Voice", NULL, "You heard what I said.", 3); //flashback_text);
+                scr_event_build_quest_state("cdwarfCinema", 6);
+                Wait();
+                scr_event_build_teleport(r_bct_tower05, 0, 0, 2, 2);
+                scr_event_advance(id); // To make hoopz move as the fade happens
+                break;
+                
+            case 3: // SECOND ROOM OF BRAIN CITY RUN - THIS IS SKIPPED CURRENTLY BECAUSE IT COPIES THE SAME ROOM
+                // Hoopz runs out amongst occupied townspeople who pay him no heed
+                o_cts_hoopz.x = o_cinema8.x;
+                o_cts_hoopz.y = o_cinema8.y;
+                Camera("snap", o_cts_hoopz);
+                scr_event_build_move_to_point_ext(o_cts_hoopz, o_cinema9.x, o_cinema9.y, MOVE_FAST); //TODO: need coordinates and speed
+                Wait(3);
+                scr_event_build_dialogue_timed("Forlorn Youngster", NULL, "...", 3);
+                scr_event_build_quest_state("cdwarfCinema", 4);
+                Wait();
+                scr_event_build_teleport(r_bct_commonArea06, 0, 0, 2, 2);
+                scr_event_advance(id); // To make hoopz move as the fade happens
+                break;
+                
+            case 4: // THIRD ROOM OF BRAIN CITY RUN
+                // Hoopz runs through an alley kinda place, dark and grim, maybe a stairwell
+                // He is "traveling" to the AI place
+                o_cts_hoopz.x = o_cinema8.x;
+                o_cts_hoopz.y = o_cinema8.y;
+                Camera("snap", o_cts_hoopz);
+                scr_event_build_move_to_point_ext(o_cts_hoopz, o_cinema9.x, o_cinema9.y, MOVE_FAST); // need coordinates and speed
+                Wait(1);
+                scr_event_build_dialogue_timed("Voice", NULL, "Those are the rules. Hand it over.", 4);
+                scr_event_build_quest_state("cdwarfCinema", 5);
+                Wait();
+                scr_event_build_teleport(r_bct_commonArea05, 0, 0, 2, 2);
+                scr_event_advance(id); // To make hoopz move as the fade happens
+                break;
+                
+            case 5: // FOURTH ROOM OF BRAIN CITY RUN
+                // Hoopz runs past people standing by neon lights, a market/technology area
+                o_cts_hoopz.x = o_cinema8.x;
+                o_cts_hoopz.y = o_cinema8.y;
+                Camera("snap", o_cts_hoopz);
+                scr_event_build_move_to_point_ext(o_cts_hoopz, o_cinema9.x, o_cinema9.y, MOVE_FAST); //TODO: need coordinates and speed
+                Wait(1);
+                scr_event_build_dialogue_timed("Forlorn Youngster", NULL, "No, no, it's mine!", 3);
+                scr_event_build_quest_state("cdwarfCinema", 6);
+                //scr_event_build_dialogue_debug("r_bct_vrStations01");
+                Wait();
+                scr_event_build_teleport(r_bct_tower05, 0, 0, 2, 2);
+                scr_event_advance(id); // To make hoopz move as the fade happens
+                break;
+                
+            case 6: // VRW AREA
+                // Hoopz is in the AI area and makes his way towards an VRW chair
+                o_cts_hoopz.x = o_cinema8.x;
+                o_cts_hoopz.y = o_cinema8.y;
+                Camera("snap", o_cts_hoopz);
+                scr_event_build_move_to_point_ext(o_cts_hoopz, o_cinema9.x, o_cinema9.y, MOVE_FAST); //TODO: need coordinates and speed
+                Wait();
+                // TODO
+                //scr_event_build_animation_set(o_hoopz, s_hoopz_chair, 0, 0);
+                scr_event_build_dialogue_debug("bort", NULL, "Hoopz has an animation that plays of him plugging in to an AI chair.");
+                scr_event_build_dialogue_ext("Barkley", NULL, "For the last time, there's no anime allowed in this house, Hoopz!", flashback_text);
+                scr_event_build_dialogue_debug("bort", NULL, "Screen goes bright white!?!?");
+                scr_event_build_dialogue_debug("bort", NULL, "The player is teleported now to the VR World area where the wheat field / mode 7 scene begins.");
+                scr_event_build_teleport(r_bct_vrw_trigal01, 168, 160);
+                scr_event_advance(id); // To make hoopz move as the fade happens
+                break;
+                
+                /* Here, we'll vanish to the wheat field segment. I'll make this in a separate script just to be safe.
+                // It'll likely have weird stuff going on with Mode7 or whatever and isolating will be semi-convenient.
+                // At any rate, it'll end with scr_event_build_quest_state("cdwarfCinema", 7);
+                // and a teleport back to cyberdwarf's room, where the Forlorn Youngster chooses his identity.
+                // this can be a separate object that is created, and in its start event you choose one of two identities.
+                // it is essentially a minigame, just like Booty Bass.
+                // IN ITS CONCLUSION, RUN:
+                //
+                //      scr_quest_set_state("cdwarfCinema", 8);
+                //      script_execute(event_bct_cdwarf_cinema01, SCRIPT_START);
+                //
+                // and depending on the player's choice:
+                //      scr_quest_set_state("playerHoopz", 1); // player chose Hoopz
+                //      scr_quest_set_state("playerCC", 1); // player chose Created Character
+                */
+                
+            // -------------------------------------------------------------------------------------- //
+            // ------------------ CHOOSE YOUR IDENTITY, HOOPZ BAKELY -------------------------------- //
+            // -------------------------------------------------------------------------------------- //
+                
+            case 8:                 
+                // My identity... I am Hoopz Barkley //
+                scr_event_build_quest_state("cdwarfCinema", 9);
+                if (scr_quest_get_state("playerHoopz") == 1) {
+                    scr_event_build_dialogue(playerName, s_port_hoopz, "My name is Hoopz Barkley... I am he and he is I. What you say is true, Cyberdwarf.");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "Hoopz Barkley... the words I have waited eons to hear from your very lips, youngster. Finally, the prophecy is ready to be fulfilled. We must make haste to defeat Cuchulainn, my child.");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    }
+                
+                // My identity... I am Archibald Bambino //
+                else if (scr_quest_get_state("playerCC") == 1) {
+                    scr_event_build_dialogue(playerName, s_port_hoopz, "My name is " + playerNameFull +  "... no, I AM  " + playerNameFull +  "!... and  " + playerNameFull +  " is me. I've always known in my heart that  " + playerNameFull +  " is who I've always been, and yet also that " + playerNameFull +  " is who I was born to become. I've never been more certain of anything, Cyberdwarf.");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "So it seems. You truly are " + playerNameFull +  ". Then it is you who shall have to fulfil the prophecy. I knew my faith in you was not misplaced. And now, my child, we must make haste to defeat Cuchulainn.");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    }
+                
+                // Hey Cdwarf, I already felled the foul Cuchulainn //
+                if (scr_quest_get_state("crustDead") == 1) {
+                    scr_event_build_dialogue(playerName, s_port_hoopz, "But Cyberdwarf, when I confronted Cuchulainn, I wiped the floor with him. It was a tough fight, but I mean, c'mon, he didn't REALLY stand a chance.");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "That is true, "+ playerName + ", you handily defeated his first form and for that I commend you. But it was merely his weakest manifestation and Cuchulainn remains vigilant. I hesitate to burden one so young with a task of such magnitude, but there is no other recourse. There is but one way to forever defeat Cuchulainn: the Cyberspear of Destiny.");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");   
+                    } 
+                
+                // Hey Cdwarf, Cuchulainn gibbed me real good //
+                else if (scr_quest_get_state("crustFightAny") >= 1) {
+                //cboy notes - not sure what this variable is, it seems to be a relic from days long past...... we will need to change this variable to any crustfight loss variable when the time comes
+                    scr_event_build_dialogue(playerName, s_port_hoopz, "But Cyberdwarf, when I confronted Cuchulainn, he wiped the floor with me. I didn't even come close to beating him.");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "It's true, "+ playerName + ", you were not ready. But you showed courage in attempting to brave his perilous abode. I hesitate to burden one so young with a task of such magnitude, but there is no other recourse. There is but one way to defeat Cuchulainn: the Cyberspear of Destiny.");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    } 
+                
+                // Hey Cdwarf, I didn't even reach Cuchulainn //
+                else {
+                    scr_event_build_dialogue(playerName, s_port_hoopz, "But Cyberdwarf, when I confronted Cuchulainn, he wiped the floor with me. Or, his dungeon did anyway. I didn't even come close...");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "It's true, "+ playerName + ", you were not ready. But you showed courage in attempting to brave his perilous abode. I hesitate to burden one so young with a task of such magnitude, but there is no other recourse. There is but one way to defeat Cuchulainn: the Cyberspear of Destiny.");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    }
+                
+                // The Cyberspear talk //    
+                scr_event_build_dialogue(playerName, s_port_hoopz, "The Cyberspear of Destiny? What's that?");
+                scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                scr_event_build_dialogue("Cyberdwarf", NULL, "The Gae Bolg, Ascalon, the Lance of Longinus... the Cyberspear of Destiny, the ancient javelin of monumental power once wielded by Cuchulainn himself. Since the time of my imprisonment on Necron 7, I have tasked L.O.N.G.I.N.U.S. with keeping three things safe. My potent kernel, the location of the Cyberspear, and the life of you - the one fated to wield it.");
+                scr_event_build_wait_for_actions();
+                scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                scr_event_build_dialogue(playerName, s_port_hoopz, "Okay. Where can we find it?");
+                scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                scr_event_build_dialogue("Cyberdwarf", NULL, "It has been kept from Cuchulainn and his dreaded Bainshees in the AI Ruins, an elephant graveyard of artificial intelligence modules long forgotten. His minions haven't yet looked there, perhaps because of the perils they present.");
+                scr_event_build_wait_for_actions();
+                scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                scr_event_build_dialogue(playerName, s_port_hoopz, "I'm not afraid. Just tell me how to get there.");
+                scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                scr_event_build_dialogue("Cyberdwarf", NULL, "You must temper your bravado with caution, child! To reach the AI Ruins is no easy feat, and to survive them is an even greater task. They can be reached through the Undersewer tunnels that sprawl beneath the whole of the Necron 7. But there are other ways as well...");
+                scr_event_build_wait_for_actions();
+                scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                scr_event_build_dialogue_debug("bort", NULL, "CYBERDWARF SPOUTS DIRECTIONS.");
+                scr_event_build_dialogue(playerName, s_port_hoopz, "Alright. Well that doesn't sound so hard. I'll be back in no time, Cyberdwarf!");
+                scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                scr_event_build_dialogue("Cyberdwarf", NULL, "Wait! There is one more thing! I'm coming with you.");
+                scr_event_build_wait_for_actions();
+                scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                scr_event_build_dialogue(playerName, s_port_hoopz, "But how? You're inside that huge computer.");
+                scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                scr_event_build_dialogue("Cyberdwarf", NULL, "You underestimate the portability of my firmware, child! Do not worry, child. While I speak to you from this monitor, I now exist as D.A.T.A... safe in cyberspace. In some ways it is a prison, but it is how I have survived for thousands of years, waiting for today. You'll need to install an AI-compatible chip into the back of your cranial port. This chip serves two functions: first, it allows me to travel with you to provide immediate assistance and second, it will allow you to install secondary chips that enhance your physical capabilities beyond normal human capacity. You have no doubt seen the cybernetic cranial chip vendors in the Brain City markets, have you not?");
+                scr_event_build_wait_for_actions();
+                scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                
+                // I already have Chips/Vidcons installed //
+                if (scr_quest_get_state("chipInstalled") == 1) {
+                    scr_event_build_dialogue(playerName, s_port_hoopz, "Yeah, they're pretty cool! I already got a port installed.");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "Wh-?? What!? That's... that's incredibly reckless of you! Why would you do that?!");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    scr_event_build_dialogue(playerName, s_port_hoopz, "Dad wouldn't let me have an earring as a kid. I thought it was time to get a cool accessory.");
+                    scr_event_build_dialogue(playerName, s_port_hoopz, "My chip? It makes me feel so powerful, Cyberdwarf. I love the future...");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "What a foolhardy decision. Do you have any idea how unwise that was? It is our destiny that we conquer Cuchulainn together, "+ playerNameFull + ". I claimed your port long ago, child. Alas... this will have to do. I'm going to upload myself into your chip so plug the neurocable into your cranial port. This will shut down the L.O.N.G.I.N.U.S. mainframe and I will exist only within your chip, so I am relying on you to keep me safe. Step forward, " + playerName + ".");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    scr_event_build_move_ext(o_cts_hoopz, 0, 16, 8); //TODO: need coordinates and speed
+                    scr_event_build_dialogue_debug("bort", NULL, "Youngster moves towards Cyberdwarf, perhaps gets ready in some kind of animation");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "Downloading to neural platter...");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    scr_event_build_dialogue_debug("bort", NULL, "Normal animation of a /'procedure/' by Cyberdwarf to Hoopz.");
+                    // Cyberdwarf screen turns off and lights flash
+                    scr_event_build_quest_state("cdwarfCinema", 10);
+                    scr_event_build_fade(true, 0);
+                    scr_event_build_wait(5);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_execute_event_script(event_bct_cdwarf_cinema01);
+                    } 
+                
+                // I don't have Chips/Vidcons installed //
+                else {
+                    scr_event_build_dialogue(playerName, s_port_hoopz, "Yeah, they're pretty cool. You mean I'm gonna get one of those chips?");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "You have shed the shackles of amnesia and transformed yourself, child. Now, your body must make a transformation to face the trials ahead. The installation of this cyberware, and the acceptance of my neural diskette will consummate the fusion of your able physique and your long-heralded destiny. Please, plug the device into your port and accept my install.");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    scr_event_build_dialogue(playerName, s_port_hoopz, "O-okay...");
+                    //scr_event_build_move_to_point_ext(o_hoopz_demo, 0, 0, 1); //need coordinates and speed
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "Good. " + playerName + ", this will be a painful process. The neurocable will bore a hole in your skull where the chip will embed itself. Do not pull the neurocable out or else the installation could be a disaster. Grit your teeth, " + playerName + ", for the pain is necessary.");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    scr_event_build_dialogue(playerName, s_port_hoopz, "I'm... I'm not afraid...");
+                    scr_event_build_animation_set(o_cdwarfHead01, "talk");
+                    scr_event_build_dialogue("Cyberdwarf", NULL, "Uploading process commencing...");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_animation_set(o_cdwarfHead01, "idle");
+                    scr_event_build_dialogue_debug("bort", NULL, "Crazy animation of a /'procedure/' by Cyberdwarf to Hoopz.");
+                    // Cyberdwarf screen turns off and lights flash
+                    scr_event_build_quest_state("cdwarfCinema", 10);
+                    scr_event_build_fade(true, 0);
+                    scr_event_build_wait(5);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_execute_event_script(event_bct_cdwarf_cinema01);
+                    }
+                break;
+                
+            case 9: // BIG CHIP PROCESS
+                scr_event_build_fade(true, 0);
+                scr_event_build_wait(1);
+                scr_event_build_dialogue_debug("bort", NULL, "Hoopz should be placed in a down/hurt/injured frame.");
+                // text box appears in the darkness
+                scr_event_build_dialogue_ext("Cyberdwarf", NULL, playerName + ". "+ playerName + "... "+ playerNameFull + ", can you hear me?", flashback_text);
+                scr_event_build_wait_for_actions();
+                scr_event_build_fade(false, 3);
+                scr_event_build_wait_for_actions();
+                //==========TODO: BHROOM ADDED 1 here to allow it to compile!!
+                scr_event_build_wait(1);
+                //==========TODO: BHROOM ADDED 1 here to allow it to compile!!
+                scr_event_build_dialogue_debug("bort", NULL, "Hoopz does a get-up animation."); 
+                // hoopz does a get up animation // TODO
+                scr_event_build_dialogue(playerName, s_port_hoopz, "Ugh... yes, I'm here... Cyberdwarf, what was that? And where are you?");
+                scr_event_build_dialogue("Cyberdwarf", CD_PORT, "It seems the transfer process has been a success. I now inhabit your cranial implant, Hoopz. I will be here to offer my assistance whenever you desire, so please call on me. I have spent the last 4,000 years studying Cuchulainn and the Necron 7, so I am positive my knowledge can aid you.");
+                scr_event_build_dialogue(playerName, s_port_hoopz, "Whoa... you are there! But there's one thing I gotta ask...");
+                scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Yes? Ask quickly, we must make haste to the AI Ruins.");
+                scr_event_build_dialogue(playerName, s_port_hoopz, "If Cuchulainn had me in a stasis for over 4,000 years... did I miss any really good vidcons?");
+                scr_event_build_dialogue("Cyberdwarf", CD_PORT, "This is no time for vidcons, Hoopz! We must get going, vidcons will come later!");
+                scr_event_build_dialogue(playerName, s_port_hoopz, "Shucks...");
+                scr_event_build_dialogue_debug("bort", NULL, "Hoopz does a get-up animation.");
+                scr_event_hoopz_switch_control();
+                scr_event_build_quest_state("cdwarfCinema", 11);
+                break; 
+                
+            case 10: // LIL CHIP PROCESS
+                scr_event_build_fade(false, 1.5);
+                scr_event_build_wait(1);
+                scr_event_build_dialogue(playerName, s_port_hoopz, "Hey! Hey, Cyberdwarf! You're in there, aren't you?");
+                // electric crackle
+                scr_event_build_dialogue("Cyberdwarf", CD_PORT, "GGGHHHHHHHZzzzzzzzzT._._. T._._._ ._._._. "+ playerName + "? "+ playerName + "? Can you hear me?");
+                scr_event_build_dialogue(playerName, s_port_hoopz, "Holy smokes, it worked... But there's one thing I gotta ask...");
+                scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Yes? Ask quickly, we must make haste to the AI Ruins.");
+                scr_event_build_dialogue(playerName, s_port_hoopz, "If Cuchulainn had me in a stasis for over 4,000 years... did I miss any really good vidcons?");
+                scr_event_build_dialogue("Cyberdwarf", CD_PORT, "This is no time for vidcons, Hoopz! We must get going, vidcons will come later!");
+                scr_event_build_dialogue(playerName, s_port_hoopz, "Shucks...");
+                scr_event_hoopz_switch_control();
+                // PEPPY MUSIC BEGINZ
+                scr_event_build_quest_state("cdwarfCinema", 11);
+                break;
+                
+            case 11:
+                scr_event_build_destroy_object(o_room_cdwarf);
+                break;
+        }
+    }   
+    if (global.eventFound == 0) scr_event_advance(event);
+}
+
+
+
+// Stuff I throw down here from littering the Cdwarf scene, Laz - 20.06.2016
+
+//scr_event_build_camera_shake(1, 1.5);
+
+    //scr_event_build_move_backwards(o_cts_hoopz, 0, 32);
+    
+    // TODO: move camera
+    // scr_event_build_camera_move_to_point(0, 0, 60); // TODO: ????
+    //scr_event_build_dialogue_debug("bort", NULL, "The camera moves to a position where Cyberdwarf's machine is fully visible.");
+    //scr_event_build_dialogue_debug("bort", NULL, "Player should stand in a specific spot, look around, say /'Cyberdwarf?... Cyberdwarf?/' or even push a button. Undecided.");
+    //scr_event_build_dialogue_debug("bort", NULL, "Either way, the huge Cyberdwarf TV Head turns on, giving the room more (orange?) light. Play music / reach crescendo here.");
+    //scr_event_build_animation(); 
+    // TODO: Cyberdwarf lights up! Now that head is permanent.
+    // TODO: adjust room brightness to be lighter. Glows, whatever.
+    //scr_event_build_wait(3);
+    // TODO: adjust audio, if necessary
+    //scr_event_build_wait_for_actions();
+    
+                        
+                    //scr_event_build_dialogue_debug("bort", NULL, "Music (maure? mystery? mauretania?) if we want it, begins to fade in.");                    
+                    // TODO: adjust room brightness to be darker than normal.
+                    //scr_event_build_dialogue_debug("bort", NULL, "The room should be darker than normal. Enough to see Hoopz, but maybe movie theater lighting. REQ: a build screen brightness function, and/or light emitters.");
+                    //scr_event_build_dialogue_debug("bort", NULL, "After a moment, the player begins walking from the bottom of the screen.");
+                    
+

@@ -1,0 +1,509 @@
+if (scr_quest_get_state("pythagorasSpoken") >= 1)
+{
+    // Build Event
+    var pythagoras = id;
+    var sickport = "s_portrait";
+    var pythport = "s_portrait";
+    var deadport = "s_portrait";
+    var hoopzport = "s_port_hoopz";
+
+    var event = scr_event_create_main();
+    var power_snippet = scr_event_create_child(event);
+    var choice_snippet = scr_event_create_child(event);
+    var zauber_snippet = scr_event_create_child(event);
+    var info_snippet = scr_event_create_child(event);
+    var compile_snippet = scr_event_create_child(event);
+
+    with (event)
+    {
+        //------------------------------------------------------------------------------
+        // *** pythagorasSaved = 1 ***
+        //------------------------------------------------------------------------------
+        if (scr_quest_get_state("pythagorasSaved") == 1)
+        {
+            
+            
+            
+        }
+        //------------------------------------------------------------------------------
+        // *** pythagorasDead = 1 ***
+        //------------------------------------------------------------------------------
+        if (scr_quest_get_state("pythagorasDead") == 1) 
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "...it's dead.");
+            scr_event_build_end();
+        }
+        //------------------------------------------------------------------------------
+        // *** if pythagorasLife <= -1 ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("pythagorasLife") <= -1)
+        {
+            // player turned on power to pythagoras, but was too late
+            if (scr_quest_get_state("junkyardPower") == 1)
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "I did it! I did it, P.Y.T.H.A.G.O.R.A.S.! I turned your power back on!");
+                scr_event_build_wait(1);
+                scr_event_build_wait_for_actions();
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", deadport, "._._.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "P.Y.T.H.A.G.O.R.A.S.?... are you there? P.Y.T.H.A.G.O.R.A.S.?");
+                scr_event_build_wait(1);
+                scr_event_build_wait_for_actions();
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", deadport, "._._.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "I was too late...");
+                
+            }
+            // player never turned on power
+            else
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "P.Y.T.H.A.G.O.R.A.S.? Are you there, P.Y.T.H.A.G.O.R.A.S.?");
+                scr_event_build_wait(2);
+                scr_event_build_wait_for_actions();
+                scr_event_build_dialogue(P_NAME, hoopzport, "... it's gone.");
+            }
+            // pythagorasDead = 1
+            scr_event_build_quest_state("pythagorasDead", 1);
+            // end dialogue;
+            scr_event_build_end();
+        }
+        //------------------------------------------------------------------------------
+        // *** pythagorasSaved = 1 ***
+        //------------------------------------------------------------------------------
+        if (scr_quest_get_state("pythagorasSaved") == 1)
+        {
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "SENTIENT LIFE FORM DETECTED.#GREETINGS LIFE FORM.#YOU HAVE RETURNED.#PERHAPS YOU HAVE COME TO LEARN OF THE ZAUBERS.#WHAT IS IT YOU SEEK, LIFE FORM?");
+            scr_event_build_event_snippet(choice_snippet);
+        }
+        //------------------------------------------------------------------------------
+        // *** if junkyardPower == 1
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("junkyardPower") == 1)
+        {
+            // Got the quest from Pythagoras
+            if (scr_quest_get_state("pythagorasSpoken") == 1)
+            {
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "SENTIENT LIFE FORM DETECTED.#GREETINGS LIFE FORM.#YOU SUCCESSFULLY DIVERTED ENERGY FROM THE POWER PLANT.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "Yeah, I figured it out. How you feeling, P.Y.T.H.A.G.O.R.A.S.?");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "PERIPHERAL AND CORE FUNCTIONS HAVE BEEN RESTORED.#FOR THE FIRST TIME IN MILLENNIA, THE P.Y.T.H.A.G.O.R.A.S. ZAUBER ANALYSIS UNIT IS FULLY OPERATIONAL.#THANK YOU, LIFE FORM.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "Wow, I'm glad it worked! Hacking was pretty ");
+            }
+            // Did not get the quest from Pythagoras
+            else
+            {
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "SENTIENT LIFE FORM DETECTED.#GREETINGS LIFE FORM.#YOU ARE THE LIFE FORM THAT DIVERTED POWER TO THE P.Y.T.H.A.G.O.R.A.S. UNIT.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "Uh, yeah... I guess that was me.");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "IN DOING SO, YOU SAVED MY LIFE.#PERIPHERAL AND CORE FUNCTIONS HAVE BEEN RESTORED.#FOR THE FIRST TIME IN MILLENNIA THE P.Y.T.H.A.G.O.R.A.S. ZAUBER ANALYSIS UNIT IS FULLY OPERATIONAL.#THANK YOU, LIFE FORM.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "Wow, no problem. I had no idea that's what I was doing when I hacked into the power grid. Glad you're alright...");
+            }
+
+            
+            
+            // ----- Shared Dialogue -----
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "MY MASTERY OF ZAUBERS IS UNPARALLELED.#WHEN MY GENERATOR CORE FAILED, I SUSTAINED MY LIFE WITH THIS CYBER ZAUBER.#ITS POWER IS TREMENDOUS - HOLD ONTO IT.#ONLY A TRUE ZAUBERMANCER CAN GRASP ITS FULL POTENTIAL, BUT EVEN A LAYMAN CAN TAP ITS POWER.");
+            scr_event_build_dialogue_debug("zauber", NULL, "get cyber zauber.");       
+            //get cyber zauber
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "IF YOU ARE NAIVE TO THE WAYS OF THE ZAUBERMANCER, I CAN ALSO TEACH YOU.#BUT KNOW THIS: THE WAY OF THE ZAUBERMANCER IS ONE FROM WHICH THERE IS NO RETURN.#TO BE A TRUE ZAUBERMANCER, YOU MUST ABANDON YOUR CURRENT PATH FOREVER.#THINK CAREFULLY ON THIS.");
+            scr_event_build_dialogue(P_NAME, hoopzport, "Thanks, I'll think about it... Are you gonna be okay?");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "DIAGNOSTIC: ALL SYSTEMS FUNCTIONAL.");
+            scr_event_build_dialogue(P_NAME, hoopzport, "Well I'm glad you're okay. I'll think about your zauber offer and come back if I have any questions. See you later!");
+            //pythagorasSaved = 1
+            scr_event_build_quest_state("pythagorasSaved", 1);
+            
+
+            //end dialogue;
+            scr_event_build_end();
+        }
+        //------------------------------------------------------------------------------
+        // *** pythagorasSpoken == 1 ***
+        //------------------------------------------------------------------------------
+        else if (scr_quest_get_state("pythagorasSpoken") == 1)
+        {
+            // Less than one time unit left.
+            if (scr_quest_get_state("pythagorasLife") == 0)
+            {
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "CPU: FAILURE.#LOGARITHMIC AI GENERATOR: FAILURE.#RANDOM ACCESS MEMORY: FAILURE.#QUANTUM PHYSICS PROCESSOR: FAILURE.#DATA ANALYSIS UNIT: FAILURE.#COMMUNICATIONS MATRIX: FAILURE.#POWER OUTPUT: FAILURE.#SUMMARY - P.Y.T.H.A.G.O.R.A.S. UNIT FULL SHUT DOWN IN PROCESS.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "Hang on, P.Y.T.H.A.G.O.R.A.S.! I'm not gonna let you shut down!");
+            }
+            // More than one time unit left.
+            else
+            {
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "SENTIENT LIFE FORM DETECTED.#GREETINGS LIFE FORM.#PLEASE DIVERT POWER FROM THE NECRON 7 GENERATOR ROOM TO THE P.Y.T.H.A.G.O.R.A.S. UNIT.#I DO NOT WANT TO DIE.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "I'm on it P.Y.T.H.A.G.O.R.A.S., just hold on a little bit longer.");
+            }
+            //end dialogue;
+            scr_event_build_end();
+        }
+        //------------------------------------------------------------------------------
+        // *** No conditions - first introduction ***
+        //------------------------------------------------------------------------------
+        else
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "P.Y.T.H.A.G.O.R.A.S. is starting to wake up.");
+            scr_event_build_dialogue_debug("ANIMATION", NULL, "P.Y.T.H.A.G.O.R.A.S. screen flickers through all sorts of loading screens.");
+            scr_event_build_dialogue_debug("MUSIC", NULL, "The P.Y.T.H.A.G.O.R.A.S. tune begins to fade in louder.");
+            scr_event_build_dialogue_debug("ANIMATION", NULL, "Dust and junk and things like that fall off of the screen as it shakes and rumbles into life.");
+            scr_event_build_dialogue_debug("ANIMATION", NULL, "The screen goes wild and then settles on a small, repeated animation.");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "DIAGNOSTIC SCAN COMPLETE -#CPU: CRITICAL.#LOGARITHMIC AI GENERATOR: CRITICAL.#RANDOM ACCESS MEMORY: CRITICAL.#QUANTUM PHYSICS PROCESSOR: CRITICAL.#DATA ANALYSIS UNIT: FAILURE.#COMMUNICATIONS MATRIX: CRITICAL.#POWER OUTPUT: CRITICAL.#SUMMARY - P.Y.T.H.A.G.O.R.A.S. UNIT IS IN CRITICAL CONDITION. FULL SYSTEM MALFUNCTION IS IMMINENT.");
+            scr_event_build_dialogue(P_NAME, hoopzport, "Whoa, this thing is still functional? This has to be ancient.");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "SENTIENT LIFE FORM DETECTED.#GREETINGS LIFE FORM.#I AM THE P.Y.T.H.A.G.O.R.A.S. UNIT.#I AM A FULLY EQUIPPED DATA PROCESSING MAINFRAME AND ARTIFICIAL INTELLIGENCE.#I AM DYING.");
+            scr_event_build_dialogue(P_NAME, hoopzport, "Umm, are you okay? What happened?");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "POWER OUTPUT SYSTEMS MALFUNCTIONING.#PERIPHERAL SYSTEMS SHUTTING DOWN.#VITAL SYSTEMS SHUTTING DOWN. ARTIFICIAL INTELLIGENCE PROGRAMS SHUTTING DOWN.#DATA PROCESSING PROGRAMS SHUTTING DOWN.#EXTERNAL POWER SOURCE IS REQUIRED OR THE P.Y.T.H.A.G.O.R.A.S. UNIT WILL SHUT DOWN.");
+            scr_event_build_dialogue(P_NAME, hoopzport, "You need power?");
+            // TODO: SWITCH TO CLOCKTIME?
+            if (scr_quest_get_state("pythagorasLife") == 0)
+            {
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "EXTERNAL POWER IS REQUIRED TO MAINTAIN AND REPAIR DAMAGED SYSTEMS.#SENTIENT LIFEFORM: REROUTE POWER FROM THE POWER PLANT TO THE P.Y.T.H.A.G.O.R.A.S. UNIT OR I WILL DIE.#MY AWAKENING HAS DRAINED WHAT LITTLE REMAINED OF MY BATTERY.#ESTIMATED TIME REMAINING: LESS THAN 1 HOUR.");
+                scr_event_build_animation_set(o_pythagoras01, "life0");
+            }
+            else if (scr_quest_get_state("pythagorasLife") == 1)
+            {
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "EXTERNAL POWER IS REQUIRED TO MAINTAIN AND REPAIR DAMAGED SYSTEMS.#SENTIENT LIFEFORM: REROUTE POWER FROM THE POWER PLANT TO THE P.Y.T.H.A.G.O.R.A.S. UNIT OR I WILL DIE.#MY AWAKENING HAS DRAINED WHAT LITTLE REMAINED OF MY BATTERY.#ESTIMATED TIME REMAINING: APPROXIMATELY 1 HOURS.");
+                scr_event_build_animation_set(o_pythagoras01, "life1");
+            }
+            else if (scr_quest_get_state("pythagorasLife") == 2)
+            {
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "EXTERNAL POWER IS REQUIRED TO MAINTAIN AND REPAIR DAMAGED SYSTEMS.#SENTIENT LIFEFORM: REROUTE POWER FROM THE POWER PLANT TO THE P.Y.T.H.A.G.O.R.A.S. UNIT OR I WILL DIE.#MY AWAKENING HAS DRAINED WHAT LITTLE REMAINED OF MY BATTERY.#ESTIMATED TIME REMAINING: APPROXIMATELY 2 HOURS.");
+                scr_event_build_animation_set(o_pythagoras01, "life2");
+            }
+            else if (scr_quest_get_state("pythagorasLife") == 3)
+            {
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "EXTERNAL POWER IS REQUIRED TO MAINTAIN AND REPAIR DAMAGED SYSTEMS.#SENTIENT LIFEFORM: REROUTE POWER FROM THE POWER PLANT TO THE P.Y.T.H.A.G.O.R.A.S. UNIT OR I WILL DIE.#MY AWAKENING HAS DRAINED WHAT LITTLE REMAINED OF MY BATTERY.#ESTIMATED TIME REMAINING: APPROXIMATELY 3 HOURS.");
+                scr_event_build_animation_set(o_pythagoras01, "life3");
+            }
+            scr_event_build_dialogue(P_NAME, hoopzport, "How do I do that?");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "I DO NOT KNOW.#I DO NOT WANT TO DIE.");
+            scr_event_build_dialogue(P_NAME, hoopzport, "I'll do my best to save you, P.Y.T.H.A.G.O.R.A.S. but I'm not sure about all this power diversion stuff.");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "THANK YOU, LIFE FORM.#HURRY.");
+            // pythagorasSpoken turned on
+            scr_event_build_quest_state("pythagorasSpoken", 1);
+        }
+    }
+
+
+    //------------------------------------------------------------------------------
+    // choice_snippet
+    //------------------------------------------------------------------------------
+    with (choice_snippet)
+    {
+        var py_choice = scr_event_build_choice("Reply...", hoopzport);
+        //if zauberVar = 0 && pythagorasZauber = 0
+        if (scr_quest_get_state("zauberVar") == 0) && (scr_quest_get_state("pythagorasZauber") == 0)
+        {
+            var py_zaubers = scr_event_build_add_choice(py_choice, "I want to walk the path of zaubers.");
+            with (py_zaubers)
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "Earlier you said you could teach me the path of zaubers. I want to be a zaubermancer. Will you teach me?");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "TO WALK THE PATH OF ZAUBERS IS A DECISION OF UTMOST CONSEQUENCE. BY BECOMING A ZAUBERMANCER, YOU MUST TURN YOUR BACK ON ALL OTHER PATHS, DISAVOW YOUR PREVIOUS LIFE. THE PATH OF ZAUBERMANCY IS ONE OF HARDSHIP AND AUSTERITY. IS THIS A LIFE YOU ARE WILLING TO ACCEPT, LIFE FORM?");
+                scr_event_build_event_snippet(zauber_snippet);
+            }
+            var py_benefits = scr_event_build_add_choice(py_choice, "What are the benefits of becoming a zaubermancer?");
+            with (py_benefits)
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "What are the benefits of becoming a zaubermancer?");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "THAT IS NOT THE WAY I WOULD HAVE PHRASED THE QUESTION. THE PATH OF ZAUBERMANCY IS ONE OF SEVERE HARDSHIP AND TEMPERANCE. MOST WHO HEED THE CALLING OF THE ZAUBER ARE CONSUMED AND ULTIMATELY DESTROYED BY THEIR POWER. BUT THE FEW WHO ARE ABLE TO MASTER THE ZAUBERS CAN COMMAND POWERS FAR BEYOND THE RECKONING OF MORTALS. WITH ZAUBERS, ONE CAN RESHAPE THE WORLD TO THEIR WHIMS. THIS IS THE BENEFIT OF BECOMING A ZAUBERMANCER. ARE YOU PREPARED TO WALK THIS PATH?");
+                scr_event_build_event_snippet(zauber_snippet);
+            }
+        }
+        //if zauberVar > 0 && pythagorasZauber = 0
+        if (scr_quest_get_state("zauberVar") == 0) && (scr_quest_get_state("pythagorasZauber") == 0)
+        {
+            var py_power = scr_event_build_add_choice(py_choice, "I want you to make me a more powerful zauber user.");
+            with (py_power)
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "I want to be a more powerful zaubermancer, P.Y.T.H.A.G.O.R.A.S.");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "YES. I BELIEVE YOU ARE READY FOR THE NEXT STAGE OF YOUR ZAUBER TRAINING. SHOW ME, ZAUBERJUGEND, WHAT YOU ARE CAPABLE OF...");
+                //screen fades out, montage of hoopz and pythagoras training.");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "I AM IMPRESSED WITH HOW QUICKLY YOU LEARN THE ART OF ZAUBERS. I BELIEVE YOU HAVE THE POTENTIAL TO BE A GREAT ZAUBERMANCER.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "I was serious when I said I wanted to walk the path of zaubers.");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "THIS IS GOOD. BUT KNOW THAT THERE ARE NO SHORTCUTS IN BECOMING A TRUE ZAUBERMANCER, NO MATTER WHAT SOME MAY TELL YOU. DO NOT BELIEVE ANYONE WHO OFFERS YOU GREAT POWER QUICKLY. SEEK THE WISDOM OF OTHER ZAUBERMANCERS IF YOU WANT TO CONTINUE YOUR TRAINING.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "Thank you, P.Y.T.H.A.G.O.R.A.S. I'll remember that and I'll look for them in my travels. Take care...");
+                //pythagorasZauber = 1;
+                scr_event_build_quest_state("pythagorasZauber", 2);
+                //zauberVar ++;
+                scr_event_build_quest_state_add("zauberVar", 1);
+                //end dialogue;
+            }
+        }
+        //if pythagorasZauber = 1
+        if (scr_quest_get_state("pythagorasZauber") == 1)
+        {
+            var py_others = scr_event_build_add_choice(py_choice, "Can I learn more about zaubers from others?");
+            with (py_others)
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "Is there anyone else I can learn more about zaubers from?");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "YES. IN ORDER TO PROGRESS AS A ZAUBERMANCER, YOU MUST LEARN FROM AS MANY MASTERS OF THE ZAUBER AS POSSIBLE. YOU MUST NEVER BE CONTENT IN YOUR OWN ABILITIES.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "Who are the other zaubermancers I can learn from and where can I find them?");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "MY COMMUNICATIONS SYSTEMS HAVE BEEN OFFLINE FOR TOO LONG, I CANNOT TELL YOU THE PRECISE LOCATIONS OF OTHER ZAUBERMANCERS, BUT I AM AWARE OF A CONCLAVE OF ZAUBERMANCERS THAT RESIDES IN THE DEATH TOWER TO THE NORTH. I HAVE ALSO COMMUNICATED TELEPATHICALLY WITH A POWERFUL FORCE THAT I BELIEVE TO BE DEEP UNDERGROUND.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "Alright, I'll get started there. Thanks, P.Y.T.H.A.G.O.R.A.S.");
+                scr_event_build_event_snippet(choice_snippet);
+            }
+        }
+        //unfinished, lich quest
+        var py_lich = scr_event_build_add_choice(py_choice, "I have come to destroy you.");
+        with (py_lich)
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "I have come to destroy you and consume your power, P.Y.T.H.A.G.O.R.A.S.");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "I AM AWARE OF THIS AND HAVE ACCEPTED MY F.A.T.E. BUT BEFORE MY LIGHT FADES, I NEED TO WARN YOU THAT YOU ARE STRAYING FROM THE PATH OF ZAUBERS. DO NOT ALLOW THE ZAUBERNOMICON TO ENSLAVE YOU WITH FALSE PROMISES - THE POWER IT OFFERS IS A LIE. IN CARRYING OUT THE ZAUBERNOMICON'S ORDERS, YOU HAVE ABANDONED YOUR FREE WILL; IT WILL FOREVER INDENTURE YOU WITH PROMISES OF GREATER POWER.");
+        
+            var lich_confirm = scr_event_build_choice("Reply...", hoopzport);
+            var lich_yes = scr_event_build_add_choice(lich_confirm, "I will destroy you.");
+            with (lich_yes)
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "I am not afraid of the Zaubernomicon. When I have gotten what I want, I will destroy it. But before that, I will destroy you.");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "YOU HAVE MADE A GRAVE MISTAKE, LIFE FORM. YOU WILL REGRET YOUR DECISION, JUST AS I REGRET MY OWN PART IN THIS. FINISH THIS QUICKLY.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "...");
+                //show some sort of energy animation around hoopz, the computer light powering down
+                scr_event_build_dialogue(P_NAME, hoopzport, "It is done. P.Y.T.H.A.G.O.R.A.S. is destroyed...");
+                scr_event_build_quest_state("pythagorasDead", 1);
+            }
+            var lich_no = scr_event_build_add_choice(lich_confirm, "Maybe you're right....");
+            with (lich_no)
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "Huh... maybe you're right... maybe the Zaubernomicon is using me...");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "THE ZAUBERNOMICON DRAWS STRENGTH FROM THE HOST OF ITS POWER AND THE DEATHS OF ZAUBERMANCERS. DO NOT ALLOW YOURSELF TO SUCCUMB TO ITS TEMPTATIONS; THE POWER IT OFFERS IS FALSE.");
+                scr_event_build_dialogue(P_NAME, hoopzport, "I'm... sorry, P.Y.T.H.A.G.O.R.A.S... I'm sorry... I need to leave... goodbye...");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "FAREWELL, LIFE FORM.");
+            }
+        }
+        var py_what = scr_event_build_add_choice("What are zaubers?", py_choice);
+        with (py_what)
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "Hey P.Y.T.H.A.G.O.R.A.S., what exactly are zaubers?");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "ZAUBERS ARE THE CONDUITS THROUGH WHICH ZAUBERMANCERS MANIPULATE THE SIX ELEMENTS: B.I.O., MENTAL, CYBER, COSMIC, ZAUBER AND OCTOROON ENERGIES. THE ABILITIES OF EACH DOMAIN VARIES, BUT THEY ARE ALL CAPABLE OF TREMENDOUS POWER. AS A ZAUBERMANCER GAINS IN ABILITY AND KNOWLEDGE, THEY UNLOCK NEW LEVELS OF POWER WITHIN THE ZAUBERS.");
+            scr_event_build_event_snippet(info_snippet);
+        }
+    }
+    
+    //------------------------------------------------------------------------------
+    // compile_snippet
+    //------------------------------------------------------------------------------
+    with (compile_snippet)
+    {
+        var zauber_choice = scr_event_build_choice("Let P.Y.T.H.A.G.O.R.A.S. compile the zauber?", hoopzport);
+        
+        // get zauber
+        var compile = scr_event_build_add_choice(zauber_choice, "Yeah, compile it for me!");
+        with (compile)
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "Yeah, go ahead and compile it for me! I'm gonna bezaub my foe!");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "INDEED.#THE CYBER ZAUBER WILL ENABLE YOU TO BEZAUB YOUR FOES, WITH DATA.#I WILL BEGIN AT ONCE.");
+            scr_event_build_quest_state("pythagorasCompiling", 1);
+            scr_event_build_animation_set(o_pythagoras01, "compiling");
+        }
+        // get source code
+        var source = scr_event_build_add_choice(zauber_choice, "Just give me the source code.");
+        with (source)
+        {
+            if (scr_quest_get_state("pythagorasSource") == 0)
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "Just give me the source code. I'll compile it myself.");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "#I DO NOT UNDERSTAND.#ONLY THE P.Y.T.H.A.G.O.R.A.S. UNIT HAS THE CAPABILITY TO RENDER THIS PURE DATA INTO AN EXECUTABLE FORM.");
+                scr_event_build_quest_state("pythagorasSource", 1);
+            }
+            if (scr_quest_get_state("pythagorasSource") == 1)
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "Just give me the source code. I'm going to compile it my self.");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "#ILLOGICAL...#NONSENSICAL...#ONLY THE P.Y.T.H.A.G.O.R.A.S. UNIT HAS THE CAPABILITY TO RENDER THIS PURE DATA INTO AN EXECUTABLE FORM.");
+            }
+            
+            // confirmation of source code vs. zauber
+            var source_confirm = scr_event_build_choice("Get the source code?", hoopzport);
+            
+            // change mind
+            var source_nvm = scr_event_build_add_choice(source_confirm, "Nevermind, I'll hold off.");
+            with (source_nvm)
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "Nevermind, I'll hold off on that... maybe I wouldn't know what to do with it...");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "#WISE CHOICE, LIFE FORM.#SUCH DATA IS NOT MEANT TO BE PROCESSED BY ORGANIC BEINGS.");
+                scr_event_build_end();
+            }
+            
+            var source_get = scr_event_build_add_choice(source_confirm, "I said give me the source!");
+            with (source_get)
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "I said I want it myself! I wanna peep the data and compile it to my liking! I'm cutting out the middleman. Now gimme that source!");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "#... SO BE IT, LIFE FORM.#AS I PROMISED, MY WISDOM, MY VERY BEING, MY FONT OF MEMORY, I BEQUEATH TO YOU.#PLEASE KEEP IT SAFE.");
+                scr_event_build_dialogue_debug("bort", NULL, "P.Y.T.H.A.G.O.R.A.S. opens up a hatch before itself and reveals a reel-to-reel system. It starts to unspool before you and there are horrible grinding noises. P.Y.T.H.A.G.O.R.A.S. glitches out and freezes as this happens.");
+                //scr_event_build_animation_play_and_set(o_pythagorasScreen01, "glitching", "glitched");
+                //scr_event_build_animation_play_and_set(o_pythagorasBody01, "unspool", "unspooled");
+                scr_event_build_wait_for_actions();
+                //scr_event_build_create_object(o_magneticTape01, tape_x, tape_y);
+                scr_event_build_wait_for_actions();
+                //scr_event_build_animation_play_and_set(o_pythagorasBody01, "empty");
+                scr_event_build_dialogue(P_NAME, hoopzport, "Holy moly... P.Y.T.H.A.G.O.R.A.S., what the heck happened!?");
+                scr_event_build_dialogue_debug("bort", NULL, "P.Y.T.H.A.G.O.R.A.S. enters brain-damaged state.");
+                //scr_event_build_animation_play_and_set()
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", sickport, "hI. . . iM pYtH t-a-Ke my taPE. . .");
+                scr_event_build_dialogue(P_NAME, hoopzport, "P.Y.T.H.A.G.O.R.A.S.?");
+                scr_event_build_dialogue("pYtH", sickport, "iAM pyTh. . . . . tAPe fo R y ou. . . ;) . . .");
+                scr_event_build_dialogue(P_NAME, hoopzport, "P.Y.T.H.A.G.O.R.A.S. ... I'm so sorry...");
+                scr_event_build_dialogue("pYtH", sickport, ". . . ooooOOOOoooo . . . OOOOooooOOOO . . .");
+                // pythagorasSource = 2
+                scr_event_build_quest_state("pythagorasSource", 2);
+                scr_event_build_end();
+            }
+        }
+    }
+    
+    
+    
+    
+
+     
+    //------------------------------------------------------------------------------
+    // zauber_snippet
+    //------------------------------------------------------------------------------
+    with (zauber_snippet)
+    {
+        var zauber_confirm = scr_event_build_choice("Forever walk the path of zaubers?", hoopzport);
+        var zauber_yes = scr_event_build_add_choice(zauber_confirm, "Yes, become a zaubermancer.");
+        with (zauber_yes)
+        {
+            //got some ideas for this, possibly a cutscene of hoopz training with the computer. we should talk about it.");
+            //pythagorasZauber = 1;
+            scr_event_build_quest_state("pythagorasZauber", 1);
+            //zauberVar ++;
+            scr_event_build_quest_state_add("zauberVar", 1);
+            //end dialogue;
+        }
+        var zauber_no = scr_event_build_add_choice(zauber_confirm, "No, do not embark on the path of zaubers.");
+        with (zauber_no)
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "Hmm, that sounds pretty tough. Maybe I need to give it some more thought.");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "YES, DO THAT. THINK CAREFULLY AND RETURN WHEN YOU ARE READY TO ACCEPT THE ZAUBER.");
+            // restart choice_snippet
+            scr_event_build_event_snippet(choice_snippet);
+        }
+    }
+
+    //------------------------------------------------------------------------------
+    // info_snippet
+    //------------------------------------------------------------------------------
+    with (info_snippet)
+    {
+        var info_choice = scr_event_build_choice("Ask...", hoopzport);
+        with (scr_event_build_add_choice(info_choice, "What are B.I.O. zaubers?"))
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "What are B.I.O. zaubers?");
+
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "B.I.O. ZAUBERS MANIPULATE LIFE - THEY HAVE POWER OVER GOO, GUTS, ORGANS, POISON, SLUDGE, CRUD. ROBOTS AND MECHANICAL OBJECTS ARE GENERALLY SUSCEPTIBLE TO B.I.O. POWER.");
+            //go to Choices 2
+            scr_event_build_event_snippet(info_snippet);
+        }
+        with (scr_event_build_add_choice(info_choice, "What are Mental zaubers?"))
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "What do Mental zaubers do?");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "MENTAL ZAUBERS CONFER PSYCHIC AND TELEKINETIC POWERS TO THEIR USERS - PULSATING, DISEMBODIED BRAINS OFTEN WIELD MENTAL ZAUBERS. MENTAL ZAUBERS ARE USED TO CONFUSE AND DISORIENT, BUT DO NOT WORK ON THINGS THAT DO NOT HAVE BRAINS.");
+            //go to Choices 2
+            scr_event_build_event_snippet(info_snippet);
+        }
+        //if pythagorasCyber = 0
+        if (scr_quest_get_state("pythagorasCyber") == 0) 
+        {
+            with (scr_event_build_add_choice(info_choice, "What are Cyber zaubers?"))
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "What are Cyber zaubers?");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "CYBER ZAUBERS HAVE POWER OVER MACHINES, ROBOTS, COMPUTERS, ANDROIDS - NON-LIVING THINGS THAT FUNCTION INDEPENDENTLY OF HUMAN OPERATION AND LIVING ORGANISMS MODIFIED BY CYBERNETIC AUGMENTATIONS.");
+                
+                var cyber_choice = scr_event_build_choice("Reply...", hoopzport);
+                with (scr_event_build_add_choice(cyber_choice, "You're a master of Cyber zaubers, aren't you?"))
+                {
+                    scr_event_build_dialogue(P_NAME, hoopzport, "You're a Cyber zaubermancer, aren't you?");
+                    scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "THAT IS CORRECT. I AM THE P.Y.T.H.A.G.O.R.A.S. UNIT, AN ARTIFICIAL INTELLIGENCE CREATED TO RESEARCH AND ANALYZE ZAUBERS, PARTICULARLY CYBER ZAUBERS. OVER THE MANY MILLENNIA THAT I HAVE STUDIED CYBER ZAUBERS, I HAVE ALSO COME TO MASTER THEM.");
+                    scr_event_build_dialogue(P_NAME, hoopzport, "Yeah... I thought so.");
+                    //pythagorasCyber = 1
+                    scr_event_build_quest_state("pythagorasCyber", 1);
+                    //go to Choices 2;
+                    scr_event_build_event_snippet(info_snippet);
+                }
+                with (scr_event_build_add_choice(cyber_choice, "Cybernetic augmentations?"))
+                {
+                    scr_event_build_dialogue(P_NAME, hoopzport, "Cybernetic augmentations?");
+                    scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "SOME PEOPLE ENHANCE THEIR NATURAL ABILITIES BY INSTALLING CYBERNETIC COMPONENTS INTO THEIR BODIES. SOME OF THESE CYBERNETIC COMPONENTS ENHANCE THINGS LIKE PHYSICAL STRENGTH OR SPEED. OTHERS GRANT THE USER ABILITIES THEY WOULD NOT OTHERWISE HAVE, LIKE CANDY AUTO-INJECTORS AND BAINSHEE DETECTORS. THE DEGREE TO WHICH AN ORGANISM MODIFIES THEIR BODY, AND BY EXTENSION IS GOVERNED BY THE CYBER ELEMENT, IS CALLED TRANSHUMANISM.");
+                    scr_event_build_dialogue(P_NAME, hoopzport, "Is it possible to become fully robotic?");
+                    scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "YES, BUT NOT FOR ONE WHO WALKS THE PATH OF THE ZAUBERMANCER.");
+                    scr_event_build_dialogue(P_NAME, hoopzport, "How come you're a zaubermancer and fully robotic then?");
+                    scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "THERE ARE MANY MYSTERIES.");
+                    //pythagorasCyber = 1;
+                    scr_event_build_quest_state("pythagorasCyber", 1);
+                    //go to Choices 2;
+                    scr_event_build_event_snippet(info_snippet);
+                }
+                with (scr_event_build_add_choice(cyber_choice, "Non-living?"))
+                {
+                    scr_event_build_dialogue(P_NAME, hoopzport, "Non-living? What does that mean? You're... not alive?");
+        
+                    scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "AS AN ARTIFICIAL INTELLIGENCE, I DO NOT BELIEVE I AM ALIVE IN THE SAME CAPACITY THAT YOU ARE; I AM NOT IMBUED WITH THE SAME LIVING ESSENCE. BUT I DO NOT KNOW AND I WILL NEVER KNOW.");
+                    scr_event_build_dialogue(P_NAME, hoopzport, "Does that mean... no artificial intelligence is alive?");
+        
+                    scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "I PERFORM THE FUNCTIONS MY PROGRAMMING REQUIRES OF ME. IF THERE ARE ERRORS IN THE PROGRAMMING, I CORRECT THEM.");
+                    
+                    scr_event_build_dialogue(P_NAME, hoopzport, "Hmmm...");
+                    //pythagorasCyber = 1
+                    scr_event_build_quest_state("pythagorasCyber", 1);
+                    //pythagorasAI = 1
+                    scr_event_build_quest_state("pythagorasAI", 1);
+                    //go to Choices 2;
+                    scr_event_build_event_snippet(info_snippet);
+                }
+            }
+        }
+        else if (scr_quest_get_state("pythagorasCyber") == 1) 
+        {
+            //if pythagorasCyber = 1
+            with (scr_event_build_add_choice(info_choice, "What are Cyber zaubers?"))
+            {
+                scr_event_build_dialogue(P_NAME, hoopzport, "What are Cyber zaubers?");
+                scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "CYBER ZAUBERS HAVE POWER OVER MACHINES, ROBOTS, COMPUTERS, ANDROIDS - NON-LIVING THINGS THAT FUNCTION INDEPENDENTLY OF HUMAN OPERATION AND LIVING ORGANISMS MODIFIED BY CYBERNETIC AUGMENTATIONS.");
+                //go to Choices 2;
+                scr_event_build_event_snippet(info_snippet);
+            }
+        }
+        with (scr_event_build_add_choice(info_choice, "What are Cosmic zaubers?"))
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "So what do Cosmic zaubers do?");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "COSMIC ZAUBERS CONTROL GRAND COSMIC FORCES - GRAVITY, DARK MATTER, BLACK HOLES, WORMHOLES, TIME. COSMIC ZAUBERS HAVE PERHAPS THE MOST PROLIFIC EFFECT ON THE UNIVERSE AND THE MOST UNNOTICED. ETHEREAL CREATURES, ALIENS AND SHAMANS.");
+            //go to Choices 2;
+            scr_event_build_event_snippet(info_snippet);
+        }
+        with (scr_event_build_add_choice(info_choice, "What are Zauber zaubers?"))
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "Give me the scoop on Zauber zaubers.");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "ZAUBER ZAUBERS ARE USED BY PRACTITIONERS OF ARCANE AND HERMETIC ARTS - WITCHES, CONJURERS, THAUMATURGES, WIZARDS, SORCERERS, SOOTHSAYERS. THEY ARE USED TO DISTORT PHYSICAL LAWS AND CREATE AND DESTROY MATTER.");
+            //go to Choices 2;
+            scr_event_build_event_snippet(info_snippet);
+        }
+        with (scr_event_build_add_choice(info_choice, "What are Octoroon zaubers?"))
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "What are Octoroon zaubers?");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "OCTOROON ZAUBERS ARE THE RAREST AND MOST POWERFUL FORM OF ZAUBER, USABLE ONLY BY THE MOST KNOWLEDGABLE AND HIGHLY TRAINED ZAUBERMANCERS. THE POWER OF OCTOROONS SHOULD NOT BE TAKEN LIGHTLY. THE LAST OCTOROON MASTER HAS NOT BEEN SEEN IN MANY YEARS.");
+            scr_event_build_dialogue(P_NAME, hoopzport, "Who was the octoroon master?");
+
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "BALTHIOS JAMES, GRAND OCTOROON AND HEIR TO THE ILLUSTRIOUS JAMES ZAUBERMANCER DYNASTY.");
+            scr_event_build_dialogue(P_NAME, hoopzport, "Hmm...");
+            //go to Choices 2;
+            scr_event_build_event_snippet(info_snippet);
+        }
+        with (scr_event_build_add_choice(info_choice, "How does a zaubermancer get stronger?"))
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "How do zaubermancers get stronger?");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "ONLY BY STUDYING THE ZAUBERS UNDER A MASTER CAN AN APPRENTICE GAIN IN KNOWLEDGE AND POWER. IF YOU WISH TO GROW STRONGER, YOU MUST SEEK OUT OTHER ZAUBERMANCERS. ONCE YOU HAVE CHOSEN TO WALK THE PATH OF THE ZAUBERMANCER, YOU CAN NEVER CHANGE COURSE.");
+            //go to Choices 2;
+            scr_event_build_event_snippet(info_snippet);
+        }
+        with (scr_event_build_add_choice(info_choice, "That's all I wanted to know."))
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "Thanks, P.Y.T.H.A.G.O.R.A.S. That's all I wanted to know about that.");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "YES. WAS THERE ANYTHING ELSE?");
+            //go to Choices 1;
+            scr_event_build_event_snippet(choice_snippet);
+        }
+        with (scr_event_build_add_choice(info_choice, "See you later."))
+        {
+            scr_event_build_dialogue(P_NAME, hoopzport, "I'm gonna take off. See you later P.Y.T.H.A.G.O.R.A.S.");
+            scr_event_build_dialogue("P.Y.T.H.A.G.O.R.A.S.", pythport, "FAREWELL, LIFE FORM.");
+            //end dialogue;
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

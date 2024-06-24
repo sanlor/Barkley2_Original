@@ -1,0 +1,21 @@
+///scr_combat_weapons_suffix_of_citronella(action, bulletOrNoone, gunOrNull)
+var _action = argument0;
+var _bullet = argument1;
+var gun = argument2;
+var _retvar = 0;
+
+// DOWN - BIO - PASSIVE //
+switch(_action)
+{
+    case "apply":
+        gun[? "stepScript"] = script_get_name(scr_combat_weapons_step_citronella);
+        break;
+    case "checkval":
+        _retvar = 20;
+        break;
+    case "applyBullet":
+        break;
+}
+
+// END //
+return _retvar;

@@ -1,0 +1,36 @@
+// -- Squatter Kirshnik --
+// event_bct_kirshnik01
+// Event script for Kirshnik, a squatter in the Dilapidated Zone.
+//    This event script "kirshnik01" contains all his scripts 
+//    when the house IS owned by the Anarchists/Commune/Squatters.
+//    for his other scripts, see event_bct_kirshnik02
+// o_kirshnik01
+// s_kirshnik01
+/*
+
+
+*/
+/*if (argument0 == SCRIPT_START) {} 
+else if (argument0 == SCRIPT_STEP) {} 
+else if (argument0 == SCRIPT_INTERACT) {
+    var kirshnik = id;
+    var event = scr_event_create_main();
+    
+    with (event) {
+        //-------------------
+        // commune is not on!
+        //-------------------
+        if (scr_quest_get_state("dilapEmancipated") == 0) {
+            scr_event_build_execute_event_script(event_bct_kirshnik02);
+        }
+        //-----------------
+        // normal procedure
+        //-----------------
+        else {
+        
+        
+        
+        }
+    }
+    scr_event_advance(event);
+}

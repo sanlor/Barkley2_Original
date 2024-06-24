@@ -1,0 +1,57 @@
+// Escape script for the NPC Kawasaki, one of the player's cellmates. This script appears when the player is ready to start their jailbreak.
+// NOTE: Kawasaki assists the player as a combatant and follower in this general area. The combat comes later, but this NPC does follow the player after it's triggered in a script in this room. I've split the Kawasaki scripts into the one that just sits in the jail cell(kawasaki01) and another one for Kawasaki potentially running around helping the player(this script, kawasaki02). This may not have been needed, but I figure preparing for the possibility of that would be helpful. Merging this script into kawasaki01 wouldn't be a challenge anyway.
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("prisonQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var kawasaki = id;
+    var event = scr_event_create_main();
+    var KawasakiRecruitCut = scr_event_create_child(event);
+    with KawasakiRecruitCut {
+        Dialogue(P_NAME, "Come on, it'll be fun!");
+        scr_event_build_dialogue("Kawasaki", NULL, "Fun, eh? I don't do fun anymore. Too much of that ain't good for you.");
+        Dialogue(P_NAME, "Well, it's not really going to be fun, I guess. There will probably be lots of death and murder and panic and destruction.....");
+        scr_event_build_dialogue("Kawasaki", NULL, "Go on......");
+        Dialogue(P_NAME, "We'll have to get some gun's and probably need to kill a bunch of people too. We may even die.\Actually it's probably going to be a pretty rotten time, the more I think about it.");
+        scr_event_build_dialogue("Kawasaki", NULL, "Hmm, I haven't gotten any killing in my system for a spell. May not be the worst thing in the world.\All righty, Charlie, I'm in. Now just who do I have to kill? We gonna clean the whole place out?");
+        Dialogue(P_NAME, "Uh, no, you definitely don't want to do that.\We'll need to get some gun's first, I think, then you'll just want to go for the blue guys. Everyone else are the good guys.");
+        scr_event_build_dialogue("Kawasaki", NULL, "Fine, fine, good. Course I'm totally damn color blind, can't tell blue from pink, but I'll give it my best shot.\Lead the way, Charlie.");
+        Quest("kawasakirecruitState", 1);
+        QuestAdd("cellrecruitState", 1);
+        scr_event_build_end();
+    }
+
+    with (event) {
+        if (Quest("cellrecruitState") == 2) {
+            scr_event_build_dialogue("Kawasaki", NULL, "Just say the word, Charlie.");
+            scr_event_build_end();
+        } else if (Quest("kawasakirecruitState") == 1) {
+            scr_event_build_dialogue("Kawasaki", NULL, "Better show that knucklehead over there what you got up that sleeve of yourn.");
+            scr_event_build_end();
+        // Got to kawasakiState=4
+        } else if (Quest("kawasakiState") >= 4) {
+            Dialogue(P_NAME, "Hey Mr. Kawasaki, I think I've got a plan for starting a big prison break.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Oh no, Charlie. Don't say it. We're not gonna start doing that again, are we?");
+            Dialogue(P_NAME, "Well you said you'd help me out, remember?");
+            scr_event_build_dialogue("Kawasaki", NULL, "Yeah, I reckon I did just that. Just kinda had my hopes set on you forgetting all about it.\You never had the best memory, Charlie. You used to forget your name if I wasn't always reminding.");
+            Dialogue(P_NAME, "Well you can't pull a fast one on me. I'm breaking out and you're going to help me. Get ready.");
+            scr_event_build_dialogue("Kawasaki", NULL, "Naw, don't think so. Got a nice cold spot right here. Don't want it warming up if I leave it be for too long.");
+            Snippet(KawasakiRecruitCut);
+        // Never got to kawasakiState=4
+        } else {
+            scr_event_build_dialogue("Kawasaki", NULL, "Oh boy. I know I seen that little glimmer before in your eye, Charlie. You're thinking about escape, aren't you?");
+            Dialogue(P_NAME, "Wow. How did you know?");
+            scr_event_build_dialogue("Kawasaki", NULL, "When your stumps got 58 million years of rings, I reckon a couple are gonna pick up a trick or two.");
+            Dialogue(P_NAME, "So, are you in?");
+            scr_event_build_dialogue("Kawasaki", NULL, "Can't say. Pretty comfy here, ya know.");
+            Snippet(KawasakiRecruitCut);
+        }
+    }
+    scr_event_advance(event);
+}

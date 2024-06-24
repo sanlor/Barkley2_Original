@@ -1,0 +1,12 @@
+/// scr_event_action_explosion(list)
+/// An action to create an explosion
+/// The list contains the explosion x, y, z and type.
+
+var explosion_x = ds_list_find_value(argument0, 1);
+var explosion_y = ds_list_find_value(argument0, 2);
+var explosion_z = ds_list_find_value(argument0, 3);
+var explosion_type = ds_list_find_value(argument0, 4);
+
+scr_fx_explosion_spawn_at(explosion_x, explosion_y, explosion_z, explosion_type)
+
+scr_event_advance(id);

@@ -1,0 +1,74 @@
+// Event for Alice, warrior lady who hangs out at the Industrial
+// Park at times 2, 3, 11, 12.
+
+if (argument0 == SCRIPT_STEP) {
+
+if (scr_time_get() == 2) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 3) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 11) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var alice = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_time_get() == 12) {
+        //Time = 12
+            if (scr_quest_get_state("aliceState") == 5) {
+            //Time = 12, spoken to during Time 12 twice.
+                scr_event_build_dialogue("Alice", NULL, "Maybe if we're both still alive, we can team up sometime in the future.");
+            } else if (scr_quest_get_state("aliceState") == 4) {
+            //Time = 12, Spoken to during Time 12
+                scr_event_build_dialogue("Alice", NULL, "I've heard a few things about a fighter named " + P_NAME + " out there too. You wouldn't happen to know anything about them, would you?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heh, maybe a little...");
+                scr_event_build_dialogue("Alice", NULL, "You're making a real name for yourself out there. I haven't been keeping up with this whole Cuchulainn and Cyberdwarf thing but it sounds like a handful. I say they're both frauds, kill 'em both.");
+                scr_event_build_quest_state("aliceState", 5);
+            } else {
+            //Time = 12, haven't spoken to at Time 12
+                scr_event_build_dialogue("Alice", NULL, "This Adelbrand guy seems alright. I've heard of him before, they say he's a pretty accomplished warrior. I respect that. It's dangerous to go alone out there in the Necron 7 wilds. Maybe he and I could team up for a while.");
+                scr_event_build_quest_state("aliceState", 4);
+            }
+        } else if (scr_time_get() == 11) {
+        //Time = 11
+            if (scr_quest_get_state("aliceState") == 3) {
+            //Time = 11, Spoken to during Time 11
+                scr_event_build_dialogue("Alice", NULL, "I certainly won't be going to Shangri-La anytime soon.");
+            } else {
+            //Time = 11, haven't spoken to at Time 11
+                scr_event_build_dialogue("Alice", NULL, "I'm not surprised about what happened to Lonnie's crew. Except for Lagertha, they were all a bunch of fame-hungry chumps looking for a bigger piece of the pie than they'd earned. The moral of this story is to know your limit, to taste the fruit but eat only until you're full.");
+                scr_event_build_quest_state("aliceState", 3);
+            }
+        } else if (scr_time_get() == 3) {
+        //Time = 3
+            if (scr_quest_get_state("aliceState") == 2) {
+            //Time = 3, Spoken to during Time 3
+                scr_event_build_dialogue("Alice", NULL, "Lagertha seems okay, though. She seems to realize it's not about the grapes and gold. They're nice, but they're not the goal.");
+            } else {
+            //Time = 3, haven't spoken to on Time 3
+                scr_event_build_dialogue("Alice", NULL, "I don't like Lonnie and his crew. /'Ultimate Hellbanes/'. Heh. They're punks that don't care about anything other than fame and a quick buck. They're all gonna get killed someday when they get into something way over their heads.")
+                scr_event_build_quest_state("aliceState", 2);
+            }
+        } else if (scr_time_get() == 2)
+        //Time = 2
+            if (scr_quest_get_state("aliceState") == 1 ){
+            //Time = 2 Spoken to before.
+                scr_event_build_dialogue("Alice", NULL, "Just keep practicing your gun'sbrasting and eating your vitamins. You'll get strong in no time.");
+            } else {
+            //Time = 2, haven't spoken on Time 2
+                scr_event_build_dialogue("Alice", NULL, "Hey, you look tough, are you a fighter?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm not the toughest kid in town... but I will be soon.");
+                scr_event_build_dialogue("Alice", NULL, "There are a lot of /'tough guys/' out there. I consider myself one tough lady, never met a challenge I couldn't handle, but I wouldn't want to tangle with Ooze or Slag. A word of advice: don't mess around with those guys until you've beefed up your G.L.A.M.P.s.");
+                scr_event_build_quest_state("aliceState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

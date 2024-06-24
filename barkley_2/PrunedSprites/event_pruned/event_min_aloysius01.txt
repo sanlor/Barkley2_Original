@@ -1,0 +1,42 @@
+// NPC/Event script for the player meeting and "recruiting" Aloysius. This is Event #10 in my Prison Quest design document.
+// FORMATTING NOTE: Yeah, I may need to revise this if Aloysius' babbling actually breaks the text display.
+
+/*
+if (argument0 == SCRIPT_START) {
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var aloysius = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("prisonQuest") == 6) {
+            Dialogue(P_NAME, "Hello?");
+            scr_event_build_wait(4);
+            Dialogue(P_NAME, "Um, my name is " + P_NAME + ". I'm looking for Aloysius......\Is......is he in here?");
+            scr_event_build_wait(4);
+            scr_event_build_dialogue("????", NULL, "........pfft........");
+            Dialogue(P_NAME, "Are you Aloysius?");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player moves forward. Suddenly(and dramatically) spotlights begin appearing, lighting a path.\A long pause before the final spotlight illuminates, showing Aloysius, a headless dwarf tied to a chair of some description.");
+            // CINEMATIC: The player moves forward. Suddenly(and dramatically) spotlights begin appearing, lighting a path. A long pause before the final spotlight illuminates, showing Aloysius, a headless dwarf tied to a chair of some description.
+            scr_event_build_dialogue("Aloysius", NULL, "PFFFFFFFFFFFFFFFFFFF.\GRRRRLKK......FFFFFFFFFFFFPPPT........");
+            Dialogue(P_NAME, "Holy moly......\(He doesn't have a head........where's his head.......)\Are you.......are you Aloysius?");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Aloysius twitches visibly in his chair.");
+            // CINEMATIC: Aloysius twitches visibly in his chair.
+            scr_event_build_dialogue("Aloysius", NULL, "BBBBBBBBBBFFFFFFFFFFFFFFFF");
+            Dialogue(P_NAME, "Uh, yeah......uh......we're going to kill all the duergars and I need your help.\Can you even understand me?");
+            scr_event_build_dialogue("Aloysius", NULL, "GGGGGGGGGLLLLLL. NNNNNNMMMMMGGGGGG!!!!! NNNNNNNNNNNNGGGGGGGGG!");
+            Dialogue(P_NAME, "I sure hope that's a yes.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player walks up to Aloysius, freeing him. Aloysius immediately gets out of the chair and begins running around.");
+            // CINEMATIC: The player walks up to Aloysius, freeing him. Aloysius immediately gets out of the chair and begins running around.
+            Dialogue(P_NAME, "Yeah, I don't know if you can hear me at all, but just stick close to me. I'm going to get you out of here, ok?");
+            scr_event_build_dialogue("Aloysius", NULL, "FFFFFFFFFFFFFFFFFF");
+            Dialogue(P_NAME, "There's no way you can hear me.\This is the worst idea ever. I don't know why I thought this would work.\No offense, I guess.");
+            scr_event_build_dialogue("Aloysius", NULL, "GGGGGGGGGNNNNNGGGGGMMMMMMMGGGGGGG!!!!! BBBBBBBBFFFFFFFFBBBB!!!!!");
+            Dialogue(P_NAME, "Come on, let's go get ourselves killed.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "FOLLOWER TODO: Aloysius begins following the player.\It'd be nice if Aloysius helps the player with combat too.");
+            // FOLLOWER: The player regains control, now with Aloysius following him.
+            Quest("prisonQuest", 7);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

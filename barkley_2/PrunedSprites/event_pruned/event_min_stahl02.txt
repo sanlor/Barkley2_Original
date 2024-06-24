@@ -1,0 +1,36 @@
+// Stahl NPC script - REBEL QUEST GOOD ENDING
+// NOTE: This dialogue assumes that there is an inspirational poster of X114JAM9 placed around the gameworld. If this is the first place you've seen this, the idea is that a Che Guevara-esque poster appears at a couple fixed locations(probably one or two spots per main area) if the player gets the good ending of this quest. Though I'm not sure if I NEED to revise this if those posters don't actually exist anywhere, since it's not something the player would necessarily notice. Our hero is very modest, you know.....
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonquestgoodState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var stahl = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("stahlgoodState") == 1) {
+            scr_event_build_dialogue("Stahl", NULL, "Lov'ly day, innit guvnah?");
+            scr_event_build_end();
+        } else if (Quest("prisonquestgoodState") == 1) {
+            scr_event_build_dialogue("Stahl", NULL, "Spare a coppa', gent? Give you a shine for a spot of brass?");
+            Dialogue(P_NAME, "You don't fool me, you stupid old hag! You'll probably pick my pocket!");
+            scr_event_build_dialogue("Stahl", NULL, "Likely so, likely so....\Nobody followed you out, yeah?");
+            Dialogue(P_NAME, "That's right, I'm alone. Did you want something?");
+            scr_event_build_dialogue("Stahl", NULL, "Not really. Just working. You're the one who came up to me, remember? You always seem to forget this.");
+            Dialogue(P_NAME, "Yeah, I guess. I figured you were waiting for me. I thought you'd be gone by now.");
+            scr_event_build_dialogue("Stahl", NULL, "I've gotten the intel I needed out of you. Tying up some loose ends on the rest here.\Say, nice job with the revolution by the way. They're already putting up posters with your silly mug all over the damn place. If you weren't such a nice kid, I'd probably say you were going places.\Regardless, it's all going to look pretty good in my report.");
+            Dialogue(P_NAME, "What report is that?");
+            scr_event_build_dialogue("Stahl", NULL, "Don't worry about it.");
+            Dialogue(P_NAME, "Never will get a straight answer out of you, will I?");
+            scr_event_build_dialogue("Stahl", NULL, "My sources say no.");
+            Dialogue(P_NAME, "Well, thanks again for saving my life, I guess. That was pretty cool.");
+            scr_event_build_dialogue("Stahl", NULL, "No sweat. And thanks for throwing a couple handfuls of spice into what was going to otherwise be a pretty boring day. I needed that.\You better hit the road. I normally charge more than a thank you for breaking cover for this long.");
+            Quest("stahlgoodState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

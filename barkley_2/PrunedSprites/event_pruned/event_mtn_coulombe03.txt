@@ -1,0 +1,199 @@
+// Coulombe, encounter 3
+// Detective who busts your ass for killing the three duergars around the campfire. Can be avoided by just avoiding the encounter with Coulombe, or by completing the other side of this quest, which is taking the detective job yourself and covering up the murders. This script is SUPPOSED TO auto-trigger when the player comes into range of Coulombe in his various locations. It's worth noting that Coulombe doesn't immediately bust you, he talks with you on four occasions, with the fourth encounter being the one where he will arrest the player.
+// NOTE: There is slight, currently unscripted movement in this. Ideally it would be Coulombe doing the movement, but seeing as how he probably doesn't need to the sort of range of motion required that the player already has, just writing this as THE PLAYER moves, rather than Coulombe. SOME of it is Coulombe, however, since we need to move him off the screen in order to make him disappear.
+/*
+
+
+if (argument0 == SCRIPT_START) {
+    if (Quest("detectiveQuest") == 3) {
+        scr_event_interactive_activate();
+    }
+    else if (Quest("detectiveQuest") <= 2) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("detectiveQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var coulombe = id;
+    var event = scr_event_create_main();
+    var gunroute3 = scr_event_create_child(event);
+    var mineroute3 = scr_event_create_child(event);
+    var baitroute3 = scr_event_create_child(event);
+    var feastcut1 = scr_event_create_child(event);
+    var feastcut2 = scr_event_create_child(event);
+
+    with gunroute3 {
+    //gunroute3
+        scr_event_build_dialogue("Coulombe", NULL, "We managed to find a handful of bullet casings near a campsite. That wouldn't suggest anything, lots of people hunt around here, most people need to carry a gun to protect themselves, but it was quite a few of these bullets fired in a small area. We think that there might have been a gunfight.");
+        Dialogue(P_NAME, "That could have been anything though, couldn't it? I mean, I've fired my gun around here before, but I was only protecting myself from monsters.");
+        scr_event_build_dialogue("Coulombe", NULL, "Oh, I know that, sir, but this was an unusual amount of them, seemed to be fired from different gun's.\I guess it could have been a hunting party, but all the witnesses I've talked to said that no groups of people were spotted like that.");
+        Dialogue(P_NAME, "It doesn't sound like you have a lot to work with on this case.");
+        scr_event_build_dialogue("Coulombe", NULL, "Yeah, I know. Sometimes that happens, I guess, the evidence just doesn't add up to anything. And then there's the lack of any bodies if there was a gunfight....");
+        Dialogue(P_NAME, "You know, if there weren't any sign of the bodies, it could have been hunters. They may have taken the bodies with them, I think hunters do that.\It could have been a hunter with a couple different gun's. I've got a couple different ones, that's not too uncommon.");
+        scr_event_build_dialogue("Coulombe", NULL, "Well you're right about the gun's. I saw that you keep a few, but the bodies doesn't prove anything. Duergars have.....uh....\Well.....I don't know if you really want to hear this......");
+        Dialogue(P_NAME, "What's wrong?");
+        scr_event_build_dialogue("Coulombe", NULL, "It's a pretty nasty thought, but Duergars have a really fast decomposition rate.\And when they die, they don't just____.____.____.___die___.____.____.____they____.____.____.____.____explode... Doesn't matter if it's old age or foul play, they just....pop........\And there's not much left of them after a few minutes, it all dries up pretty quickly, but that first couple seconds.......let's just not talk about that anymore.....");
+        Dialogue(P_NAME, "That's really gross.");
+        scr_event_build_dialogue("Coulombe", NULL, "I've never seen it happen, but I've heard it's really unpleasant to watch. It's one of the reasons why I don't carry a gun, it's just a messy business, carrying one. I know I shouldn't do that, but I just don't bother.");
+        Dialogue(P_NAME, "Hey, I just had a thought. You know what I think? What if they all shot each other?\They're duergars right? Duergars are pretty violent guys. They probably started arguing about something and just shot each other.");
+        scr_event_build_dialogue("Coulombe", NULL, "Well......son of a gun......\You know, I never thought about that. Duergars like to fight an awful lot too, don't they?\I better write this down......\Uh.......err........\Do you happen to have a pencil or anything on you?");
+        Dialogue(P_NAME, "Nah, I don't need to write much.");
+        scr_event_build_dialogue("Coulombe", NULL, "That figures, doesn't it?\You think those utility stations have any pencils or pens or anything they give away? I could run over and get one from there.");
+        Dialogue(P_NAME, "I don't know, actually. I'm not usually in the best mood when I use those things. I guess I don't examine them that hard.");
+        scr_event_build_dialogue("Coulombe", NULL, "Yeah, I guess not. Could be the sort of thing that's right there, but when you use it all the time, you just overlook it.");
+        Dialogue(P_NAME, "I guess so, yeah.");
+        scr_event_build_dialogue("Coulombe", NULL, "Well now I guarantee you the next time you use one, that's the first thing you'll look for.");
+        Dialogue(P_NAME, "Probably, I guess. I don't know.\Is there anything else you need from me?");
+        scr_event_build_dialogue("Coulombe", NULL, "Oh! Well, I didn't really need anything from you. I just thought you'd want to know what turned up.\I see you around here a lot, figured you'd want to be kept up to date.");
+        Dialogue(P_NAME, "Yeah, thanks for telling me.\So long, Coulombe.");
+        scr_event_build_dialogue("Coulombe", NULL, "Yeah, you too, sir. Say.....uh......");
+        // MOVEMENT NOTE: The player walks a few paces away before stopping.
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player walks a few steps away before stopping. He turns back towards Coulombe.");
+        scr_event_build_dialogue("Coulombe", NULL, "Oh, sir! Sir!!!\Before you go, there's just one other thing......\Uh, I don't really know how to say this, but I......well, I guess I'll just say it....\I lost my car. Do you know the way back to the highway? I know I parked the thing right next to the entrance to the highway, but I got kinda turned around when I was looking around here.");
+        Dialogue(P_NAME, "Highway? What highway?");
+        scr_event_build_dialogue("Coulombe", NULL, "The highway. THE highway. Oh, you wouldn't know about that, would you?\Yeah, there's a duergar highway they put up recently. They keep it pretty well-hidden, only let duergars use it. Took me most of a year to get a permit to use it. Can't find the entrances half the time.\I don't know why I even use it, come to think of it. Half the time my car breaks down on the highway and I need to call in a tow-truck, the other half I get lost on the highway anyway and take the wrong exit.\Well, don't worry about it, anyway. I guess I can call my wife, maybe she can give me a ride on that scooter of hers.");
+        Dialogue(P_NAME, "Ok!! Good luck getting home, I guess. Say hi to your wife for me.");
+        scr_event_build_dialogue("Coulombe", NULL, "You got it. Thanks, sir. You have a great day, now.");
+        // CINEMATIC NOTE: Coulombe walks off-screen. His sprite disappears when it's gotten far enough away.
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Coulombe walks off-screen and disappears.");
+        Quest("detectiveQuest", 4);
+        Quest("detectivegunQuest", 2);
+        scr_event_build_end();
+    }
+
+    with mineroute3 {
+    //mineroute3
+        scr_event_build_dialogue("Coulombe", NULL, "We found what's left of a mine near where a campsite was. We actually missed it at first, figured it was just the wrapper of something.\Wasn't until we got it back to the station and had the fellas look at it for a while that they figured out it was a mine.");
+        Dialogue(P_NAME, "Oh wow. I didn't know there were things like that out here. Do you think I need to worry about accidentally stepping on another one?");
+        scr_event_build_dialogue("Coulombe", NULL, "I don't know. I hope not. Really makes you think, doesn't it? You wonder if you're safe anywhere.");
+        Dialogue(P_NAME, "Yeah, I guess I've just gotten lucky so far.");
+        scr_event_build_dialogue("Coulombe", NULL, "Well.....I wouldn't worry too much about it.\I've got a feeling this isn't something you're going to run into again. Not too many reports of mines around here.\And this particular type of mine, I don't think you'll be seeing these again. It's a rare model, I had to talk to a specialist to figure out where it came from.\See, these mines are pretty tricky. They're military I guess, but I think they discontinued using 'em. Kinda expensive these little things.\You wouldn't think it'd be expensive, this tiny little thing. Weighs about as much as a cup of coffee. Little more kick though, and a lot more expensive. A month's pay just to blow something up.\Anyway, they're made so all of the explosion goes in a certain direction. So you put 'em on the ground, POW, and then this fireball goes up and spreads around. But the ground, the ground stays nearly untouched.\They're like fireworks, they just go straight up. You like fireworks?");
+        Dialogue(P_NAME, "I guess. It's been a long time since I've seen fireworks. I barely remember what they look like.");
+        scr_event_build_dialogue("Coulombe", NULL, "A couple towns around here have fireworks displays, my wife loves 'em. She always drags me out to see them. Kinda noisy for me.\I'm a detective you know, so I get kinda tired of hearing big bangs all day. It's bad enough I come home when my wife's in a fiery mood, but....\What were we talking about?");
+        Dialogue(P_NAME, "The fireworks? Or the bomb?");
+        scr_event_build_dialogue("Coulombe", NULL, "The bomb! Yeah, I don't know why they made 'em like this, these mines.\I guess they make landscapers pretty happy. The ground doesn't get all ruined, everything in range just gets vaporized. You don't get these big holes in the ground.");
+        Dialogue(P_NAME, "I guess that's considerate. It's still a bomb though. Pretty dangerous.");
+        scr_event_build_dialogue("Coulombe", NULL, "Oh yes sir! Really dangerous. You wouldn't want to be finding one of these out in front of your mailbox.\But it makes my job a little easier though. You see, most bombs just explode. Pow!! Everything just explodes. But these little things, they're different.\Other mines just wipe out everything in a couple meter radius, but these only wipe out everything in this little space, but leave the rest pretty clean.\I say that's great for me, see, because it leaves parts of the scene untouched, I can dig around, find something useful.");
+        Dialogue(P_NAME, "Well that's kinda cool. Did you find anything useful?");
+        scr_event_build_dialogue("Coulombe", NULL, "Oh, I don't know! Too early to tell. You win some, you lose some, you know.\All they found were a couple scattered bits of paper, parts of the mine that didn't explode. The boys at the lab are checking it out now, but.....");
+        Dialogue(P_NAME, "But?");
+        scr_event_build_dialogue("Coulombe", NULL, "I don't think anything is going to turn up. Who knows when this mine even exploded. I don't know. \Look, I've wasted enough of your time. These things, I can't get them out of my head, I go on and on about them to anybody who will listen.");
+        Dialogue(P_NAME, "Well, I guess this is useful information. Thanks for the warning. I should be a little more careful around here if somebody is putting mines around.");
+        scr_event_build_dialogue("Coulombe", NULL, "It's my pleasure, sir.");
+        Dialogue(P_NAME, "I should hit the road if there's nothing more you need, I guess.");
+        scr_event_build_dialogue("Coulombe", NULL, "Oh, you know, now that you mention it, there is one other thing. Do you know of a good place to eat around here?\My wife usually puts out some breakfast for me every morning, just some fruit or a bowl of cereal or something. I forget to eat sometimes otherwise, you know.\Well, today she's getting a vaccination. Real early appointment. Completely slipped my mind to eat. I've been walking around all day and, I've gotta tell you, I'm totally starving.");
+        Dialogue(P_NAME, "Ha ha, ok, yeah, do you know Meinhardt? You could get something from him.");
+        scr_event_build_dialogue("Coulombe", NULL, "Meinhardt? Hmmm, no, don't think so. Is that a deli around here or something?");
+        Dialogue(P_NAME, "Oh, he runs a little shop around here. He's a nice guy. He should have some snacks for you.\Oh, but don't tell anybody when you find him. It's kind of a secret.\You know, maybe I shouldn't have even told you about it. It's supposed to be top secret stuff.\You aren't going to tell anybody are you? I could get him into some trouble.");
+        scr_event_build_dialogue("Coulombe", NULL, "Sir, you have my word that I won't mention this to another living soul. I don't carry a badge because I like giving people a hard time. I do it because I like the work and I don't like seeing people get hurt. I just want something to eat, that's all.\Besides, do you know how tough it can be to find a good place to grab a bite to eat out here in the field? I'd starve to death if it wasn't for people like your friend there.\Well, I better get going now. You said it was that way?");
+        Dialogue(P_NAME, "That's right. Just check out the cave.\So long, detective. Good luck with the case.");
+        scr_event_build_dialogue("Coulombe", NULL, "Thanks, sir. You have a great day.");
+        // CINEMATIC NOTE: Coulombe walks off-screen. His sprite disappears when it's gotten far enough away.
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Coulombe walks off-screen and disappears.");
+        Quest("detectiveQuest", 4);
+        Quest("detectivemineQuest", 2);
+        scr_event_build_end();
+    }
+
+    with baitroute3 {
+    // baitroute3
+        scr_event_build_dialogue("Coulombe", NULL, "You walk around here a lot, you see how there's not really a whole lot of footprints around here?\Not too many people come through here, really, you don't find too much in the way of footprints or anything.");
+        Dialogue(P_NAME, "Well there's some monsters, but yeah not too many people come this way.");
+        scr_event_build_dialogue("Coulombe", NULL, "Well we scanned the whole area where they reported the Duergars may have gone. A whole lot of nothing for the most part, but we found this one little spot of dirt next to where a campfire had been set up.\That's not too uncommon really, lots of people make camps out here, but you need to have a license to do that, and nobody's applied for one in months.\What's left of the fire made it look like it was probably pretty fresh, within the last week or so. It probably belonged to the duergars.\That alone is fine, nothing unusual about that, but there's something about that little spot of dirt's been bothering me, the one around where the campfire was.");
+        Dialogue(P_NAME, "What about it? Did they leave something behind?");
+        scr_event_build_dialogue("Coulombe", NULL, "No, nothing like that, but there's signs of a fight there, everything's all messed up. Got some claw marks, some footprints, the works.\From the claw marks it looks like somebody got attacked by something in the wilderness out here. This happens from time to time, but.....");
+        var bait3choice = Choice("This happens from time to time, but.....", NULL);
+        with (ChoiceAdd(bait3choice, "That solves the case, doesn't it?")) {
+            Dialogue(P_NAME, "That solves the case, doesn't it?");
+            scr_event_build_dialogue("Coulombe", NULL, "Well......maybe.....\But there's another part of it all that's been bothering me....");
+            Snippet(feastcut1);
+        }
+        with (ChoiceAdd(bait3choice, "But you think there's more to it than that?")) {
+            Dialogue(P_NAME, "But you think there's more to it than that?");
+            scr_event_build_dialogue("Coulombe", NULL, "Yeah. Probably.");
+            Snippet(feastcut1);
+        }
+    }
+
+    with feastcut1 {
+    // feastcut1
+        scr_event_build_dialogue("Coulombe", NULL, "There was this real distinctive smell in the air right around where the campfire was. Have you smelled it?");
+        Dialogue(P_NAME, "Not really. This whole place kinda stinks.");
+        scr_event_build_dialogue("Coulombe", NULL, "The smell is gone now, but it was pretty strong the first day. I wouldn't have noticed it if I wasn't looking for it.\It smelled like Kobold Giblets. You ever had that for Thanksgiving? Kobold Giblets?");
+        Dialogue(P_NAME, "Nope, I'm not really from around here. Is it any good?");
+        scr_event_build_dialogue("Coulombe", NULL, "Yeah, it's great. Really sweet smell, but has this really tart taste. Really great-tasting stuff.\My wife makes the best Kobold dish, you wouldn't believe. I can't cook for nothing, most I can make is a grilled cheese sandwich, but hers is the best.\She only makes it for Thanksgiving. Unfortunately for me it's the only thing she knows how to cook particularly well, so I'm out of luck most of the year.\Uh.....don't tell her I said that, ok?");
+        Dialogue(P_NAME, "Don't worry, I can keep a secret.");
+        scr_event_build_dialogue("Coulombe", NULL, "So this smell, it reminded me of my wife's cooking. Then I got to thinking: Why is somebody making Kobold Giblets out here?\You need to cook that for a long time to get the tar out, that's not something you really make over a campfire for a snack. And the smell wouldn't have gotten around like it did unless somebody was cooking it.\Also: Duergars don't eat Kobold Giblets. The tar really chokes them up, it's a skin irritant to them, it's damn near impossible to drain a Kobold of all its tar.\So why do you think the whole place smelled like Kobold Giblets?");
+        var feast1choice = Choice("Why did the whole place smell like Kobold Giblets?", NULL);
+        with (ChoiceAdd(feast1choice, "I have no idea.")) {
+            Dialogue(P_NAME, "I have no idea.");
+            scr_event_build_dialogue("Coulombe", NULL, "My theory is that these Duergars weren't alone. They had somebody else with them who put these Kobold Giblets on the fire to lure out the monsters.\People pretty often use unprocessed Kobold as bait to lure out animals. That sweet smell I was telling you about, really gets them going.");
+            Snippet(feastcut2);
+        }
+        with (ChoiceAdd(feast1choice, "Maybe they were using it as bait to lure out monsters.")) {
+            Dialogue(P_NAME, "Maybe they were using it as bait to lure out monsters.");
+            scr_event_build_dialogue("Coulombe", NULL, "Exactly. You know a lot about Kobold Giblets for an outsider. I'm impressed.\What it also means is that somebody else had to be with them. It's too dangerous for Duergars to handle Kobold Giblets. Gets through gloves, these Duergars would have known not to do that.");
+            Snippet(feastcut2);
+        }
+        with (ChoiceAdd(feast1choice, "There was probably somebody else there with them at the campfire.")) {
+            Dialogue(P_NAME, "There was probably somebody else there with them at the campfire.");
+            scr_event_build_dialogue("Coulombe", NULL, "Exactly. And my theory behind it is that somebody else was there cooking this. Not as a snack, but to lure these monsters in.\People pretty often use unprocessed Kobold as bait to lure out animals. That sweet smell I was telling you about, really gets them going.");
+            Snippet(feastcut2);
+        }
+    }
+
+    with feastcut2 {
+    // feastcut2
+        Dialogue(P_NAME, "Wow. This sounds pretty hard to believe. Do you really think it was murder?");
+        scr_event_build_dialogue("Coulombe", NULL, "Well, it's just a thought. Probably nothing. This is a pretty big place and the smell could travel. Could have come from anywhere.\Look, I'm sorry to trouble you with all this, sir. I get these things in my head, I just go rambling about it to anybody who will listen.\Just make sure you're careful out here. It looks like we've already had one attack in the area, and you seem to come around here pretty often.\Have you done anything to protect yourself? Carry a gun or anything?");
+        Dialogue(P_NAME, "Yeah, you kinda have to here. Too dangerous to travel without any protection.");
+        scr_event_build_dialogue("Coulombe", NULL, "Yeah, what am I saying, you know this already. Just be careful.");
+        Dialogue(P_NAME, "All right. You too.");
+        // CINEMATIC NOTE: The player begins walking away, stops.
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player takes a few steps away and stops. He turns back towards Coulombe.");
+        scr_event_build_dialogue("Coulombe", NULL, "Oh, sir.____.____.____.____just one more thing.......");
+        // CINEMATIC NOTE: The player walks back to Coulombe.
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player walks up to Coulombe.");
+        Dialogue(P_NAME, "Something else, detective?");
+        scr_event_build_dialogue("Coulombe", NULL, "Do you have an address around here? Somewhere I could reach you?");
+        Dialogue(P_NAME, "I don't really live around here. I go where the wind takes me.\Why do you ask?");
+        scr_event_build_dialogue("Coulombe", NULL, "Well you know, with Thanksgiving coming up and all, and with you having said you've never had Kobold Giblets before....\You know, I just thought I'd give you some of the leftovers we have. My wife always makes too much, we end up having to throw most of it away.\It may not sound very apetizing, but my wife can make a believer out of just about anybody. You'll see.");
+        Dialogue(P_NAME, "Hey, that's nice of you. Maybe I'll run into you sometime.");
+        scr_event_build_dialogue("Coulombe", NULL, "Yeah, you're not leaving the area anytime soon are you?");
+        Dialogue(P_NAME, "I don't know. Like I said, I go-");
+        scr_event_build_dialogue("Coulombe", NULL, "-where the wind takes you, yeah, I got that. Well, take care until then, sir. Thanks for listening to me for so long.");
+        // CINEMATIC NOTE: Coulombe walks off-screen. His sprite disappears when it's gotten far enough away.
+        scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Coulombe walks off-screen and disappears.");
+        Quest("detectiveQuest", 4);
+        Quest("detectivebaitQuest", 2);
+        scr_event_build_end();
+    }
+
+    with (event) {
+        if (Quest("detectiveQuest") == 3) {
+            scr_event_build_dialogue("?????", NULL, "Oh, excuse me, sir!!");
+            // MOVEMENT NOTE: The player approaches Coulombe.
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player walks up to Coulombe.");
+            scr_event_build_dialogue("Coulombe", NULL, "Oh, it is you. I thought I recognized you. My eyes don't see so great long distance. How've you been?");
+            Dialogue(P_NAME, "Ok, I guess. Are you still on the case? It sounded like it was pretty much over last time we talked.");
+            scr_event_build_dialogue("Coulombe", NULL, "Oh! We've had a bit of a breakthrough in the case. I see you around here an awful lot, figured you'd want to know about it.");
+            Dialogue(P_NAME, "Is there a case? I thought you said they went missing.");
+            scr_event_build_dialogue("Coulombe", NULL, "Yeah, that's what they thought back at the station. I wanted to know for sure.\See, we had some evidence turn up, looks like it might be related to the case.");
+            Dialogue(P_NAME, "That's no good.\But there's lots of junk around here. You sure they left it behind?");
+            scr_event_build_dialogue("Coulombe", NULL, "It looks like it. Can't always be sure, it might just be nothing, but it's a loose end I gotta tie up.\Here, I'll run it past you, maybe you can help me make sense of it.");
+            //Go to the appropriate branch for which path the player went in the quest.
+            if (Quest("detectivemineQuest") == 1) {
+                Snippet(mineroute3);
+            }
+            if (Quest("detectivegunQuest") == 1) {
+                Snippet(gunroute3);
+            }
+            if (Quest("detectivebaitQuest") == 1) {
+                Snippet(baitroute3);
+            }
+        }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,18 @@
+///scr_drawGunInHand(sprite,x,y,angle,blend)
+
+var _spr = argument0;
+var _px = argument1;
+var _py = argument2;
+var _dir = argument3;
+var _blend = argument4;
+
+var angle = dir*22.5 // = round(_angle/22.5) mod 16;
+/*
+var rot = 0;
+var rt = 0;
+rt = round(_angle/22.5)
+if(rt mod 3==2){rot = -15;}
+if(rt mod 3==1){rot = 15;}
+*/
+
+draw_sprite_ext(_spr,img,_px,_py,1,1,0,_blend,1);

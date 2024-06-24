@@ -1,0 +1,53 @@
+// scr_lemuel_bowl_money
+/*
+    Called by scr_lemuel_bowl_update(), from scr_time_set()
+    Adjusts the money in Lemuel's bowl.
+    
+    IT WORKS RIGHT NOW, BUT IT COULD CERTAINLY
+    BE MODIFIED TO BE MORE DYNAMIC! - bort
+    
+    http://www.talesofgames.com/trac/ticket/1331
+*/
+/*var on_off = choose(0,1,1,1);
+var flat = 3;
+if (on_off == 0) { flat = 7 }
+var rnd = random(1);
+var base = flat + irandom(20);
+var time = scr_time_get();
+var spent = 5 + (irandom(5) * choose(0.33,0.5,1,1,1,1,1,2,3));
+
+// fun stuff happens by time if we want it to
+switch (time) 
+{
+    case 0: break;
+    case 1: break;
+    case 2: break;
+    case 3: break;
+    case 4: break;
+    case 5: break;
+    case 6: break;
+    case 7: break;
+    case 8: break;
+    case 9: break;
+    case 10: break;
+    case 11: break;
+    case 12: break;
+    case 13: break;
+    case 14: break;
+    case 15: break;
+    case 16: break;
+    case 17: break;
+    case 18: break;
+    case 19: break;
+    case 20: break;
+    case 21: break;
+    case 22: break;
+    case 23: break;
+    case 24: break;
+}
+
+// rudimentary formula
+var add = ceil(((on_off * base) - spent));
+
+// add into "other"
+scr_quest_set_state("lemuelAlmOther", max(0, scr_quest_get_state("lemuelAlmOther") + add));

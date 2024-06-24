@@ -1,0 +1,13 @@
+// Event for Hoopz's Matthias monologue after you've found his body + teleported to sewerfork.
+// usage: event_sw1_matthiasMonologue01();
+
+if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var matthiasMonologue = id;
+    var event = scr_event_create_main();
+    with (event) {
+        //TODO: Change Hoopz to Matthias Sprite + physics.
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "If I just string Matthias up like a marionette like this... and walk around on the rafters above... this is it! Perfect! I guess it sort of looks like Matthias is still alive. If I can get Matthias back home and impersonate him, it'll really make Firas' day. I can't wait to see the smile on Firas' face when his son's back! Hmmm, but it's gonna be kinda tough to impersonate Matthias, I don't really know anything about him. And it's gonna be kinda hard to control him from up here too..."); 
+    }
+    scr_event_advance(event);
+}

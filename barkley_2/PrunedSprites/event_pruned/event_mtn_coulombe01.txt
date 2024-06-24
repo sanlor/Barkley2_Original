@@ -1,0 +1,80 @@
+// Coulombe, encounter 1
+// Detective who busts your ass for killing the three duergars around the campfire. Can be avoided by just avoiding the encounter with Coulombe, or by completing the other side of this quest, which is taking the detective job yourself and covering up the murders. This script is SUPPOSED TO auto-trigger when the player comes into range of Coulombe in his various locations. It's worth noting that Coulombe doesn't immediately bust you, he talks with you on four occasions, with the fourth encounter being the one where he will arrest the player.
+// CONTINUITY NOTE: Coulombe can potentially arrest the player in this script if he answers a question wrong. This will either teleport the player to a currently-unwritten IN PRISON section, OR, if the player has completed the pre-requisites, to the jailbreak part of the rebel quest. Neither are created as of my writing this, so I will just note where this goes.
+// NOTE: There is slight, currently unscripted movement in this. Ideally it would be Coulombe doing the movement, but seeing as how he probably doesn't need to the sort of range of motion required that the player already has, just writing this as THE PLAYER moves, rather than Coulombe. SOME of it is Coulombe, however, since we need to move him off the screen in order to make him disappear.
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("detectiveQuest") == 1) {
+        scr_event_interactive_activate();
+    }
+    else if (Quest("detectiveQuest") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("detectiveQuest") >= 2) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var coulombe = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("detectiveQuest") == 1) {
+            scr_event_build_dialogue("?????", NULL, "Oh, excuse me, sir!!");
+            // MOVEMENT NOTE: The player approaches Coulombe.
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: The player walks up to Coulombe.");
+            scr_event_build_dialogue("?????", NULL, "Uh...I know this is going to sound like a strange question, but do you have any makeup, like ladies makeup?");
+            Dialogue(P_NAME, "Uh, why would you think I had any makeup?");
+            scr_event_build_dialogue("?????", NULL, "Yeah, I know it was a longshot. You see, I left my fingerprinting kit back at the station, you can use certain kinds of ladies makeup to get prints from a scene. The court kinda frowns on that, but sometimes you need to get the fingerprints fast before they fade off, certain kinds of makeup work.");
+            Dialogue(P_NAME, "Why would you need fingerprints? Is that some kind of hobby? Do you collect them?");
+            scr_event_build_dialogue("?????", NULL, "Aw, geez I almost forgot.");
+            scr_event_build_dialogue("Coulombe", NULL, "I'm Detective Coulombe, homicide. We got a report of a couple duergars missing, they sent me out to see if.....\Well, you don't want to hear about all that. It's probably nothing. I could still use some makeup though, if you happen to have any.");
+            Dialogue(P_NAME, "Ok??? I still don't have any makeup, sorry.");
+            scr_event_build_dialogue("Coulombe", NULL, "Yeah, that figures. If only my wife were here, she'd have some to spare, but she's back in town, a bit of a long walk.\You want to hear something funny?");
+            Dialogue(P_NAME, "I guess...");
+            scr_event_build_dialogue("Coulombe", NULL, "My wife always keeps the makeup at the same place right next to the front door, just so she can put a spot or two on before she leaves for the day. Always there.\Well there was one day when without thinking about it I picked up her makeup instead of my badge!\They had a lot of fun with me down at the station after that one, and my wife didn't have much luck flashing a badge in the mirror instead of makeup.");
+            Dialogue(P_NAME, "That's.....kind of a cool story.\So what are you doing out here in the middle of nowhere? Did something happen?");
+            scr_event_build_dialogue("Coulombe", NULL, "Huh?\Oh, right. Yeah, I got a report on some missing persons in the area, figured I'd come down and take a look around.\But there's not a whole lot to go on, not a lot of people around here. You see any duergars around here?");
+            var choice1 = Choice("You see any duergars around here?", NULL);
+            with (ChoiceAdd(choice1, "Nope")) {
+                Dialogue(P_NAME, "Nope. Sorry I can't help you more.");
+                scr_event_build_dialogue("Coulombe", NULL, "Aww, well that's ok. It's my job to investigate this, I shouldn't be pestering you about it.\Thanks for talking to me for so long. If you can remember seeing anything out of the ordinary around here, do you mind calling into the station? I'd really appreciate it. We're a little low on witnesses.");
+                Dialogue(P_NAME, "Sure, no problem.");
+                scr_event_build_dialogue("Coulombe", NULL, "Great, thank you, sir! You have a good day!!");
+                // CINEMATIC NOTE: Coulombe walks off-screen. His sprite disappears when it's gotten far enough away..
+                Quest("detectiveQuest", 2);
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice1, "Yeah.")) {
+                Dialogue(P_NAME, "Yeah, there were a couple. They had a camp going on. Sitting in front of a fire.");
+                scr_event_build_dialogue("Coulombe", NULL, "Oh great, that's just the information I was looking for. Did you see where they went? Nobody else has even seen them.");
+                var choice2 = Choice("Did you see where they went?", NULL);
+                with (ChoiceAdd(choice2, "Nope")) {
+                    Dialogue(P_NAME, "Nope. Sorry I can't help you more.");
+                    scr_event_build_dialogue("Coulombe", NULL, "Aww, well that's ok. It's my job to investigate this, I shouldn't be pestering you about it.\Thanks for talking to me for so long. If you can remember seeing anything out of the ordinary around here, do you mind calling into the station? I'd really appreciate it. We're a little low on witnesses.");
+                    Dialogue(P_NAME, "Sure, no problem.");
+                    scr_event_build_dialogue("Coulombe", NULL, "Great, thank you, sir! You have a good day!!");
+                    // CINEMATIC NOTE: Coulombe walks off-screen. His sprite disappears when it's gotten far enough away..
+                    Quest("detectiveQuest", 2);
+                    scr_event_build_end();
+                }
+                with (ChoiceAdd(choice2, "I had to kill them all")) {
+                    Dialogue(P_NAME, "I had to kill them all.");
+                    scr_event_build_dialogue("Coulombe", NULL, "........\Sir, is that a confession?");
+                    Dialogue(P_NAME, "What?");
+                    scr_event_build_dialogue("Coulombe", NULL, "What you said, could you repeat that again for me please, sir?");
+                    Dialogue(P_NAME, "I didn't want to but I had to kill them. They're pretty awful guys, they were going to-");
+                    // [IDEAL] CINEMATIC NOTE: Coulombe walks around behind the player, handcuffing him.
+                    scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: Ideally, Coulombe walks behind the player and beging handcuffing him. Depends on the range of motion our Coulombe sprites have.");
+                    scr_event_build_dialogue("Coulombe", NULL, "I was afraid that's what you said. This is the part of my job I don't always like. I'm sorry, sir.");
+                    // CINEMATIC NOTE: Coulombe leads the player away in some stock ARRESTED sequence that repeats every time they are arrested.
+                    scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC TODO: A sequence showing the player getting arrested.");
+                    // CONTINUITY NOTE: This will transition to either the stock ARRESTED sequence, or the start of the prison quest if the player is currently at rebelQuest=5
+                    scr_event_build_dialogue_debug("Hundley", NULL, "TODO: This should transition to either the stock ARRESTED sequence, or the start of the prison quest if the player is currently at rebelQuest=5");
+                    Quest("detectiveQuest", 5);
+                    scr_event_build_end();
+                }
+            }
+        }
+    }
+    scr_event_advance(event);
+}

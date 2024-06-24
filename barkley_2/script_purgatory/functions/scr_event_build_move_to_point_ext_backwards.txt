@@ -1,0 +1,12 @@
+/// scr_event_build_move_to_point_ext(object_id,x,y,speed)
+/// This script is used to build a move an object to a specific point, with the extended parameter speed.
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_move_to_point_backwards);
+ds_list_add(action, argument0); // object id
+ds_list_add(action, argument1); // x to move the object
+ds_list_add(action, argument2); // y to move the object
+ds_list_add(action, argument3); // speed of object
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;

@@ -1,0 +1,27 @@
+// Van Cleef NPC script - REBEL QUEST GOOD ENDING
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonquestgoodState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var vancleef = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("vancleefgoodState") == 1) {
+            Dialogue("Van Cleef", "That friend of yours, that Lafayette, he ain't bad. Keeps telling me places I can go to get into a good fight.\Shame the fuck on you for keeping that brainiac scum all to yourself, you little shit.");
+            scr_event_build_end();
+        } else if (Quest("prisonquestgoodState") == 1) {
+            Dialogue("Van Cleef", "These fucking dwarfs bug me. Can't stand to look at 'em.");
+            Dialogue(P_NAME, "You gonna stick around? I doubt the fighting is done here.");
+            Dialogue("Van Cleef", "You know how it is. This place is gonna be a pissed-off-duergar-magnet now that you took it away from 'em.\You tell me, fuckhead, you know of a better place to hang out if you want to find duergars that are looking to rumble?");
+            Dialogue(P_NAME, "I think you're already there.");
+            Dialogue("Van Cleef", "I can already taste the gravy.\Listen, you run into any of those fucks out there, you make sure to tell them about this place. Tell 'em how weak and defenseless all the dwarfs are.\Just don't tell 'em that the sound they'll hear on the way is my knuckles cracking. Hate to ruin the surprise.");
+            Quest("vancleefgoodState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,38 @@
+// scr_event_build_begging_receive()
+/* 
+    A "fake" build event.
+    Gives the player the first item that have been generated
+    and loaded into global.listbegging.
+    
+    You MUST have an item in this slot or the game will
+    most likely freak out.
+    
+    See usage in event_gbl_beggingGame01 and event_dz1_lemuelGame01
+*/
+
+// get first item in list
+/*alm = global.listbegging[| 0];
+
+// if it is a number (of neuro-shekels)
+if (is_real(alm) == true)
+{
+    // build breakout, add money, deliver string, clear breakout
+    Breakout("build", "add", "money");
+    scr_event_build_money_add(alm); // TODO: MONEY / SCALE
+    scr_event_build_dialogue_item("Got... " + string(alm) + " neuro-shekels!");
+    Breakout("build", "clear");
+}
+// "nothing"
+else if (alm == "nothing")
+{
+    scr_event_build_dialogue_item("Got... nothing.");
+}
+// "item"
+else
+{
+    Item("build", "gain", alm, 1);
+    scr_event_build_dialogue_item("Got... " + scr_a_an(alm) + "!");
+}
+
+// delete the current item, reducing the list size by 1
+ds_list_delete(global.listbegging, 0);

@@ -1,0 +1,13 @@
+/// scr_event_build_camera_frame(speed, object0, object1, object2 [optional], object3 [optional])
+//gz
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_camera_frame);
+ds_list_add(action, argument[0]); // speed
+ds_list_add(action, argument_count - 1); // objects
+if (argument_count > 1) ds_list_add(action, argument[1]); // object 0
+if (argument_count > 2) ds_list_add(action, argument[2]); // object 1
+if (argument_count > 3) ds_list_add(action, argument[3]); // object 2
+if (argument_count > 4) ds_list_add(action, argument[4]); // object 3
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;

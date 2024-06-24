@@ -1,0 +1,34 @@
+// Event for getting arrested for selling chups.
+/*
+if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var chuparrest = id;
+    var event = scr_event_create_main();
+    with (event) {
+    
+    scr_event_build_fade(true, 2); 
+    //teleport to predetermined location in Industrial Park map.
+    scr_event_build_wait(1);
+    scr_event_build_fade(false, 2);
+    scr_event_build_dialogue("Marshal Masego", s_port_masego, "You know, I didn't like the cut of your jib the moment I saw you slinking in through the front gate, but I gave you the benefit of the doubt because I believed in the inherent goodness of people, to never judge a book by its cover. Well guess what - I was wrong!");
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "M-my jib? I've got a good jib... a clean jib...");
+    scr_event_build_dialogue("Marshal Masego", s_port_masego, "I made a big mistake letting you in here. That's it. You're going in the slammer.");
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "J-jail? I... I didn't do anything... I was being ironic...");
+    
+    //if not arrested for Brimble shit
+    if (scr_quest_get_state("deaconBrimbleChup") != 6) {
+        scr_event_build_quest_state("chupQuest", 3);
+    }
+    scr_event_build_fade(true, 2);
+    scr_event_build_wait(1); 
+    scr_event_build_fade(false, 2); 
+                    
+     //TODO: NOW YER IN JAIL BUCKO!
+
+    
+    }
+    scr_event_advance(event);
+}

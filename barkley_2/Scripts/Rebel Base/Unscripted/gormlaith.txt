@@ -1,0 +1,70 @@
+//Gormlaith - CardPlay1
+
+//------------------------------------------------------------------------------
+// *** govQuest = 6 = Governor quest complete. ***
+//------------------------------------------------------------------------------
+
+Gormlaith:
+Well, it looks like you can walk out the front gate now. As bad as it seems in Tir na Nog, it's a million times worse out there in the Necron 7 wilds. Take care of yourself.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 5 = currently governor. ***
+//------------------------------------------------------------------------------
+
+Gormlaith:
+Not sure what smells worse, Duergar urine or Duergars.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 4 = ready to become governor. ***
+//------------------------------------------------------------------------------
+
+Gormlaith:
+I joined L.O.N.G.I.N.U.S. because I don't think it's right that Cuchulainn can round up all the dwarfs, even if he thinks it's for our own good. I'm looking forward to the prize... but I'd rather be back in the Sombrero Galaxy.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 3 = have duergar urine. ***
+//------------------------------------------------------------------------------
+
+Gormlaith:
+Uh, is that Duergar piss? You don't need to put it on the table.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 2 = Governor quest accepted, need duergar urine. ***
+//------------------------------------------------------------------------------
+
+Gormlaith:
+Mr. Itkonen is the only one here who actually likes poker.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** govQuest = 1 = Governor quest rejected ***
+//------------------------------------------------------------------------------
+
+Gormlaith:
+You know, on very rare occasions, the governor grants permission to leave to certain individuals, usually to take messages to the Duergar Mines. If you switched bodies with the governor, gave yourself permission to leave during his speech and then switched back, you could get away pretty easily. I mean uh, it's pretty far-fetched, but who knows...
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** no conditions ***
+//------------------------------------------------------------------------------
+
+Gormlaith:
+Wow, did you really make it all the way through the sewers just to get here? You must be pretty tough! I came here with a friend but she didn't make it...
+
+//end dialogue;

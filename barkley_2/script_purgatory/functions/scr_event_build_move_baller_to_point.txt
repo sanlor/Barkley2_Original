@@ -1,0 +1,13 @@
+/// scr_event_build_move_baller_to_point(object_id,x,y, allow_diag)
+/// This script is used to build a move a b-ball tactics baller to a specific point.
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_move_baller_to_point);
+ds_list_add(action, argument0); // object id
+ds_list_add(action, argument1); // x to move the object
+ds_list_add(action, argument2); // y to move the object
+ds_list_add(action, argument3); // speed of object
+ds_list_add(action, argument4); // allow diagonal movement?
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;

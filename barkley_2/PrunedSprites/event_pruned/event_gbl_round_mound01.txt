@@ -1,0 +1,883 @@
+// Script for THE ROUND MOUND
+// roundmound
+//      the mysterious head that rises from the lake
+/*
+if (argument0 == SCRIPT_START) {
+    // Init!
+} else if (argument0 == SCRIPT_STEP) {
+
+} else if (argument0 == SCRIPT_INTERACT) {
+    // ID
+    var round_mound = id;
+
+    var playerHoopz = scr_quest_get_state("playerHoopz");
+    var playerCC = scr_quest_get_state("playerCC");
+    //var playerHoopz = irandom(1);
+    //var playerCC = irandom(1);
+    /*
+    if playerHoopz = 1 {
+        playerName = "Hoopz";       
+    } else if playerCC = 1 {
+        playerName = "Ghoaddy-X";
+    } else {
+        playerName = "X114JAM9";
+    }
+    
+    
+    
+    
+    
+    
+    
+    var rmReason = 0;
+    
+    //VARIABLES
+    //var rmStop == scr_rm_stop();
+    //var rmScore == scr_rm_score();
+    var cyberspears = scr_quest_get_state("csEggGot") + scr_quest_get_state("csAIGot") + scr_quest_get_state("csForgeGot") + scr_quest_get_state("csMinesGot") + scr_quest_get_state("csNecropolisGot");
+    var constant = irandom(5); // TODO: replace with individual constants
+    var powerful_items = 1;
+    var chance_threshold = random(1); // TODO: replace random(1) with a real constant
+
+    // POINTS PER GOAL
+    var rmThreshold = scr_quest_get_state("rmThreshold");
+    var rmBball = scr_quest_get_state("rmBball");
+    var rmCandy = scr_quest_get_state("rmCandy");
+    var rmClispaeth = scr_quest_get_state("rmClispaeth");
+    var rmCyberdwarf = scr_quest_get_state("rmCyberdwarf");
+    var rmDwarfs = scr_quest_get_state("rmDwarfs");
+    var rmHome = scr_quest_get_state("rmHome");
+    var rmPower = scr_quest_get_state("rmPower");
+    var rmTruth = scr_quest_get_state("rmTruth");
+    var rmVengeance = scr_quest_get_state("rmVengeance");
+    var rmVidcons = scr_quest_get_state("rmVidcons");
+    //var rmGuns = scr_quest_get_state("rmGuns");
+    //var rmTranshumanism = scr_quest_get_state("rmTranshumanism");
+    //var rmZaubers = scr_quest_get_state("rmZaubers");
+
+    
+    var event = scr_event_create_main();
+    // SNIPPETS
+    var roll_snippet = scr_event_create_child(event);
+    var movement_snippet = scr_event_create_child(event);
+    var reason_snippet = scr_event_create_child(event);
+    var intro_snippet = scr_event_create_child(event);
+    var scene_snippet = scr_event_create_child(event);
+    var choice_snippet = scr_event_create_child(event);
+    var exit_snippet = scr_event_create_child(event);
+    
+    //-----------
+    // MAIN EVENT
+    //-----------
+    with event {
+        scr_event_build_event_snippet(roll_snippet);
+    }
+    
+    //-------------
+    // ROLL SNIPPET - Determines whether or not Round Mound appears on that map.
+    //-------------
+    with roll_snippet {
+        // DETERMINE CHANCE
+        //var rmChance = scr_rm_chance();
+        if scr_rm_reset(room_get_name(room)) { // IF ROOM IS RESET
+            // Each Round Mound location resets after X room changes, time increases, clock minutes, etc.
+            // scr_rm_reset checks to see. (Right now, it just returns true)
+            // If it has reset, calculate the 5 individual Chance Reasons below
+            var rmChancePower = ((scr_quest_get_state("totalVisited") * constant) + ((STAT_BASE_LEVEL/scr_time_get()) * constant) + (powerful_items * constant)) * random(1);
+            var rmChanceTime = ((scr_time_get() * constant) + (scr_quest_get_state("cdwarfTime") * constant)) * random(1);
+            var rmChanceQuest = ((scr_quest_get_state("cdwarfTime") * constant) + (cyberspears * constant)) * random(1);
+            var rmChanceCuchu = ((scr_quest_get_state("cuchuChallenges") * constant)) * random(1);
+            var rmChanceSummon = ((scr_quest_get_state("truthVar") * constant)) * random(1);
+            var rmChance = rmChancePower + rmChanceTime + rmChanceQuest + rmChanceCuchu + rmChanceSummon;
+            // ROLL TO SEE IF ROUND MOUND VISITS
+            rmChance = 2; // TEMPORARY
+            if rmChance >= chance_threshold { // CHANCE GREATER THAN CHANCE_THRESHOLD
+                scr_event_build_dialogue(NULL_STRING, NULL, "u passed"); // DEBUGONLY
+                reasonlist = ds_list_create() // List to sort values by score 
+                ds_list_add(reasonlist, rmChancePower);
+                ds_list_add(reasonlist, rmChanceTime);
+                ds_list_add(reasonlist, rmChanceQuest);
+                ds_list_add(reasonlist, rmChanceSummon);
+                ds_list_add(reasonlist, rmChanceCuchu);
+                ds_list_sort(reasonlist, false) // Sort by score, decreasing
+                var topscore = ds_list_find_value(reasonlist, 0); // topscore is highest reason
+                ds_list_destroy(reasonlist); // destroy list
+                if (topscore == rmChancePower) { rmReason = 0 } // determine top score, set as rmReason
+                else if (topscore == rmChanceTime) { rmReason = 1 }
+                else if (topscore == rmChanceQuest) { rmReason = 2 }
+                else if (topscore == rmChanceSummon) { rmReason = 3 }
+                else if (topscore == rmChanceCuchu) { rmReason = 4 }
+            } else { // CHANCE LESS THAN CHANCE_THRESHOLD
+                scr_event_build_end();
+            }
+            scr_event_build_event_snippet(movement_snippet);
+        } else { // ROOM IS NOT RESET
+            scr_event_build_end();
+        }
+    }
+
+    //-----------------
+    // MOVEMENT SNIPPET
+    //-----------------
+    with movement_snippet {
+        // MOVE HOOPZ TO LOCATION FOR EVENT TO BEGIN. 
+        // DEPENDENT ON LOCATION.
+        switch (room_get_name(room)) {
+            case "r_swp_barkleypond01":
+                break;
+            /*
+            case r_rm_swamp:
+                // directions
+                break;
+            case r_rm_deathtower:
+                // TEMP: N/A
+                break;
+            case r_rm_sewer:
+                // TEMP: N/A
+                break;
+            // etc
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        }
+        scr_event_build_event_snippet(reason_snippet);
+    }
+    
+    //---------------
+    // REASON SNIPPET
+    //---------------
+    with reason_snippet {
+        // DETERMINE REASON FOR PLAYER STOPPING
+        var rmStop = scr_rm_stop(); // TODO: Calculate based on lots of stuff. Currently irandom(4)
+        // Exhaustion = 0
+        // Time = 1
+        // Quest = 2
+        // Wistful = 3
+        // Gurgling = 4
+        scr_event_build_event_snippet(intro_snippet);
+    }
+    
+    //--------------
+    // INTRO SNIPPET
+    //--------------
+    with intro_snippet {
+        // INTRODUCTION CUTSCENE
+        switch (room_get_name(room)) {
+            // r_swp_barkleypond01 ---------------------------------------------------- // DEBUGONLY
+            case "r_swp_barkleypond01":
+                if (playerHoopz == 0) && (playerCC == 0) { // X114JAM9
+                    switch rmStop {
+                    
+                        case 0: // exhaustion
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whew, I think I can rest here.");
+                            // TODO: move Hoopz closer to water
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I've tried to understand, but honestly, these skeeters are out of control.");
+                            break;
+                            
+                        case 1: // time
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whew, I think I can rest here.");
+                            // TODO: move Hoopz closer to water
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I've gotten used to this swamp. It's kind of pretty in a way, if you think about it.");
+                            break;
+                            
+                        case 2: // quest
+                            // TEMP: N/A
+                            break;
+                        case 3: // wistful
+                            // TEMP: N/A
+                            break;
+                            
+                        case 4: // gurgling
+                            // TODO: pool is bubbling up
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hm, what is that?");
+                            // TODO: a suspicious noise plays
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Is... is something down there? Better get ready...");
+                            // TODO: Battle music starts up
+                            // TODO: hoopz goes into combat idle
+                            scr_event_build_wait(2)
+                            // TODO: Battle music fades out
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wh-... what in the world?");
+                            break;
+                    } 
+                } else { // HOOPZ OR CREATED CHARACTER
+                    switch rmStop {
+                    
+                        case 0: // exhaustion
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, Cyberdwarf, you mind if I sit for a sec? I'm beat.");
+                            // TODO: Cyberdwarf emerges from body
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Go ahead, Hoopz, but only for a moment. It's important that we keep moving. Cuchulainn's bainshees are tirel-");
+                            // TODO: *BZZT* sound effect and Cyberdwarf-gets-blown-away animation
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cyberdwarf!");
+                            break;
+                            
+                        case 1: // time
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, Cyberdwarf, it's been a long journey hasn't it? Wanna take a little break?");
+                            // TODO: Cyberdwarf emerges from body
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "I suppose we can, Hoopz. You've earned it, but just for a moment. We're far behind where we should be. Cuchu-");
+                            // TODO: *BZZT* sound effect and Cyberdwarf-gets-blown-away animation
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cyberdwarf!");
+                            break;
+                            
+                        case 2: // quest
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Cyberdwarf, Cuchulainn's lair isn't too far from here, is it?");
+                            // TODO: Cyberdwarf emerges from body
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "It truly isn't, my child... and you finally have what it takes to beat him. The Cyberspear has finally been formed. Are you ready for the-");
+                            // TODO: *BZZT* sound effect and Cyberdwarf-gets-blown-away animation
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cyberdwarf!");
+                            break;
+                            
+                        case 3: // wistful
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Cyberdwarf, hold up for a second.");
+                            // TODO: Cyberdwarf emerges from body
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Is something wrong, child?");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know, Cyberdwarf. I just keep thinking about what I'm doing here. I know, my destiny and all, but-");
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Your destiny is what is most important, child. The Cyberspear, the demise of Cuchulainn, the restoration of B-Ball, it's all written in the-");
+                            // TODO: *BZZT* sound effect and Cyberdwarf-gets-blown-away animation
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? Cyberdwarf?");
+                            break;
+                            
+                        case 4: // gurgling
+                            // TODO: pool is bubbling up
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cyberdwarf, what is that?");
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "Hmm... what are you talking about, my child?");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "The water, it's gurgling... something strange.");
+                            scr_event_build_dialogue("Cyberdwarf", CD_PORT, "I don't see anything. I'll run a scan... scanning... scanning... scann-");
+                            // TODO: *BZZT* sound effect and Cyberdwarf-gets-blown-away animation
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa, Cyberdwarf! What happened!?");
+                            break;
+                    }
+                }
+                break;
+            /*    
+            // DEATH TOWER ----------------------------------------------    
+            case r_rm_deathtower:
+                // TEMP: N/A
+                break;
+                
+            // SEWERS ---------------------------------------------------
+            case r_rm_sewer:
+                // TEMP: N/A
+                break;
+            
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+        }
+        scr_event_build_event_snippet(scene_snippet);
+    }
+    
+    //--------------
+    // SCENE SNIPPET
+    //--------------
+    with scene_snippet {
+        // MUSIC IS BARKLEY HEAD MUSIC
+        // TODO: Animation of head coming from water.
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cripes!");
+        if (playerHoopz == 1) || (playerCC == 1) { // HOOPZ OR CC
+            scr_event_build_dialogue("Mound", "s_port_rm", "Please, do not be afraid. I have no wish to hurt you. I have been watching you, all throughout your long slumber... [player]. Finally, you are ready.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? How do you know who I am?... and who are you?");
+        } else { // X114JAM9
+            scr_event_build_dialogue("Mound", "s_port_rm", "Please, do not be afraid. I have no wish to hurt you. I have been watching you, all throughout your long slumber... /'" + P_NAME + ",/' is it? Finally, you are ready.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Who are you?... and do you know who I am?");
+        }
+        switch (rmReason) {
+            case 0: // power
+                scr_event_build_dialogue("Mound", "s_port_rm", "I only know what you are called. I know the struggles you have faced, and the pain you have suffered. You have grown very strong in the course of your journey. What you have overcome, and how fast you have grown, is truly astonishing. And your power, like our meeting, has come not a moment too soon. For I also know what lies ahead, and how little your strength will serve you."); // reflect EARLINESS OF POWER
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't understand... I've come this far. What's going to happen?");
+                scr_event_build_dialogue("Mound", "s_port_rm", "Power without steady guidance is dangerous only lead to ruin and misfortune. And you are strong enough. You always have been. Your body has grown suited to the ordeals of combat... [OPTIONAL:][so many obstacles have fallen to the will of your gun's.][you have even bent the power of zaubers to your will.][and beneath that shining steel and chrome must lie a burning will.] An indomitable will is subject to nothing... and that is what makes it so dangerous. It can only be nudged, shifted, bent, by your radiant spirit.");
+                if (playerHoopz == 1 || playerCC == 1) { // HOOPZ OR CC
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why are you telling me this? I already know what I have to do... I need to defeat Cuchulainn. It's my destiny.");
+                } else { // X114JAM9
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why are you telling me this? What do I have besides my strength? Otherwise I'm just a nobody... if that's even who I am.");
+                }
+                break;  
+                
+            case 1: // time
+                scr_event_build_dialogue("Mound", "s_port_rm", "I only know what you are called. I know the struggles you have faced, and the pain you have suffered. The road you have taken has been long and taxing. What you have endured is truly astonishing. The end of your journey is finally drawing near. It would please me to see you to a restful future, but I am afraid that is not what lies ahead. Your greatest unrest will come moments from now.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What do you mean? Something's gonna happen?");
+                scr_event_build_dialogue("Mound", "s_port_rm", "At the poles of the Earth, even the most accurate compass offers no guidance. Likewise, your destiny has pulled you ever closer to the conclusion of this sojourn, but it can give you no peace. There is an internal journey you must take, and you are finally ready to walk the first steps. Your coming moves were plotted long in advance. Where will you /'be/' when you arrive at your destination?");
+                if (playerHoopz == 1 || playerCC) == 1 { // HOOPZ OR CC
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why are you telling me this? I already know where I'll be... Cuchulainn's Lair, with the Cyberspear in hand.");
+                } else { // X114JAM9
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "My destination is the Cyberdwarf... I was told to find him, that's what I have to do, isn't it?");
+                }
+                break;
+
+            case 2: // quest
+                scr_event_build_dialogue("Mound", "s_port_rm", "I only know what you are called. I know the struggles you have faced, and the pain you have endured. And what you have accomplished! ... you have worked tirelessly to fulfill your destiny. As it must be. Your faithfulness is an admirable virtue, though with the nature of destiny, to be predicted. I know your path, and it is why I have come. But I do not quite know you. No one can... save you.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait... no one can save me? Or no one except me?");
+                scr_event_build_dialogue("Mound", "s_port_rm", "None can see the sacred spot inside the center your mind, where context is generated, where the heart's weft is weaved into the warp that F.A.T.E. ordains. Your existence stretches from the Big Bang to your inevitable future as a mere ghost of time... like all matter, and like myself. You began as energy and will end as energy and begin again; this is inescapable. Yet some point during your infinite existence, your neverending destiny, you will choose how to write your story. When this conversation ends, your life continues. But your story begins now."); // EH
+                if (playerHoopz == 1 || playerCC) == 1 { // HOOPZ OR CC
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't understand. I know what my story is... Cyberdwarf told me. I'm off to fight Cuchulainn. I mean, I forge the Cyberspear, and then I fight Cuchulainn.");
+                } else { // X114JAM9
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "How can my story begin now? I was told to find the Cyberdwarf. How do I know what I'm doing until I see the Cyberdwarf? I don't know what destiny you're talking about!");
+                }  
+                break;
+                
+            case 3: // summon
+                scr_event_build_dialogue("Mound", "s_port_rm", "I only know what you are called. I know the struggles you have faced, and the pain you have endured. I know you have been calling out, searching for something. The path of a seeker is not a route to a destination, but a lifelong duty. You know your destiny, as do I. But what you are looking for, I cannot say. You will, soon.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Y-... you heard me?");
+                scr_event_build_dialogue("Mound", "s_port_rm", "My compassion for you is boundless, and I can do nothing but listen. And yet here I cannot help you, only encourage you to take the first faithful step off the precipice. The future will come to pass... it has been written for eons. The future, however, does not hold insight. It does not coalesce through contemplation alone. Rather, it accretes through active existence, and accumulates not with the progression of time, but spatially, as your mindful self recollects increasingly larger segments of its eternal whole.");
+                if (playerHoopz == 1 || playerCC) == 1 { // HOOPZ OR CC
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I see... I have to choose... I MUST choose.");
+                } else { // X114JAM9
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I see... whoever I am, I'm me... and the decision is mine to make.");
+                }
+                break;
+                
+            case 4: // cuchu
+                scr_event_build_dialogue("Mound", "s_port_rm", "I only know what you are called. I know the struggles you have faced, and the pain you have endured. The time of most dangerous battle has finally arrived. The bravery you have shown in pressing onwards befits your noble destiny. You know what has already been decided. Destiny... F.A.T.E.'s vassal. But knowledge of your destination alone should be no comfort. It is why I have arrived.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't understand. What's going to happen? I can beat Cuchulainn... can't I?");
+                scr_event_build_dialogue("Mound", "s_port_rm", "You, and I, and the entire cosmos knows what is to soon unfold. Victory is victory and defeat is defeat. Both seem different, but both are simply ends. You are very special... you can bring about an /'end,/' certainly. You have come so far, but is finality all that you fight for? Every force in the universe has driven you to this moment, and will continue to lead you after the last blow is struck. The source of liberation, the rite of  emancipation, lies within you.");
+                if (playerHoopz == 1 || playerCC) == 1 { // HOOPZ OR CC
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't understand... if I want to be free I must defeat Cuchulainn. I, the dwarfs, everyone on the Necron 7 will be shuttled to our doom at any moment. I have to fight!");
+                } else { // X114JAM9
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know what's happening, I don't know who I am, and I know that Cuchulainn has answers. I have to fight!");
+                }
+                break;
+        }
+        // I AM HELLA PLEASED WITH MYSELF!!!!!!!
+        scr_event_build_dialogue("Mound", "s_port_rm", "My time here expires. Soon, I will be gone again, watching and waiting from the flow of existence. Your spirit has ripened and matured. Use your blazing spirit, and awaken your soul. At long last... your destiny becomes your densetsu! Now, child, tell me. What does your soul fight for? Gaze upon me, gaze into yourself, and choose!");
+            
+        // FOLLOWING IS DEBUGONLY!!!!!!
+        
+        scr_event_build_quest_state("alignBballChaos", random(100));
+        scr_event_build_quest_state("alignBballLaw", random(100));
+        scr_event_build_quest_state("alignCandyRarity", random(100));
+        scr_event_build_quest_state("alignCandyVariety", random(100));
+        scr_event_build_quest_state("alignClispaethWorship", random(100));
+        scr_event_build_quest_state("alignClispaethHeresy", random(100));
+        scr_event_build_quest_state("alignCyberdwarfOne", random(100));
+        scr_event_build_quest_state("alignDwarfsLiberate", random(100));
+        scr_event_build_quest_state("alignDwarfsSavior", random(100));
+        scr_event_build_quest_state("alignDwarfsTrouble", random(100));
+        scr_event_build_quest_state("alignHomeOne", random(100));
+        scr_event_build_quest_state("alignPowerLow", random(100));
+        scr_event_build_quest_state("alignPowerHigh", random(100));
+        scr_event_build_quest_state("alignTruthNormal", random(100));
+        scr_event_build_quest_state("alignTruthReal", random(100));
+        scr_event_build_quest_state("alignVengeanceOne", random(100)); 
+        scr_event_build_quest_state("alignVidconsPlay", random(100));
+        scr_event_build_quest_state("alignVidconsConquer", random(100));
+        scr_event_build_quest_state("alignVidconsHoard", random(100));
+        scr_event_build_quest_state("alignVidconsPreserve", random(100));
+        /*
+        scr_event_build_quest_state("alignTranshumanismTrans", random(100));
+        scr_event_build_quest_state("alignTranshumanismPost", random(100));
+        scr_event_build_quest_state("alignGunsCraft", random(100));
+        scr_event_build_quest_state("alignGunsCollect", random(100));
+        scr_event_build_quest_state("alignZaubersLich", random(100));
+        scr_event_build_quest_state("alignZaubersMystery", random(100));
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // possibly run a script that does final updates/adjustments to alignments and scores
+        
+        scr_event_build_event_snippet(choice_snippet)
+    }
+    
+    //---------------
+    // CHOICE SNIPPET
+    //---------------   
+    with choice_snippet {
+        
+        // DEBUGONLY: RANDOMIZE VALUES
+        rmThreshold = 50; // TODO: REPLACE WITH REAL CONSTANT
+        rmBball = random(100);
+        rmCandy = random(100);
+        rmClispaeth = random(100);
+        rmCyberdwarf = random(100);
+        rmDwarfs = random(100);
+        rmHome = random(100);
+        rmPower = random(100);
+        rmTruth = random(100);
+        rmVengeance = random(100);
+        rmVidcons = random(100);
+        //rmGuns = random(100);
+        //rmTranshumanism = random(100);
+        //rmZaubers = random(100);
+        
+        // CREATE GOAL LIST
+        goalList = ds_list_create()
+        ds_list_add(goalList, "bball")
+        ds_list_add(goalList, "candy")
+        ds_list_add(goalList, "clispaeth")
+        ds_list_add(goalList, "cyberdwarf")
+        ds_list_add(goalList, "dwarfs") 
+        ds_list_add(goalList, "home")
+        ds_list_add(goalList, "power")
+        ds_list_add(goalList, "truth")
+        ds_list_add(goalList, "vengeance")
+        ds_list_add(goalList, "vidcons")
+        //ds_list_add(goalList, "guns")
+        //ds_list_add(goalList, "transhumanism") 
+        //ds_list_add(goalList, "zaubers")
+        ds_list_shuffle(goalList)
+        
+        // CREATE CHOICE
+        var goal_choice = scr_event_build_choice("Choose:", s_port_hoopz);
+        /*with (scr_event_build_add_choice(goal_choice, "It didn't work.")) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "It didn't work.");
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        alignment = ds_grid_create(5, 2) // CREATE ALIGNMENT GRID
+        // EX: 5 ALIGNMENTS each with NAME and VALUE. Increase first argument for more ALIGNMENTS per GOAL
+        var i, size, winner;
+        size = ds_list_size(goalList) - 1;
+        for (i = 0; i < size; i += 1) { // Loops through all possible goals. If achieved, add winning ALIGNMENT to choice
+            switch (ds_list_find_value(goalList, i)) {
+                case "bball":
+                    if rmBball > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignBballLaw");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignBballLaw"));
+                        ds_grid_add(alignment, 0, 1, "alignBballChaos");
+                        ds_grid_add(alignment, 1, 1, scr_quest_get_state("alignBballChaos"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0, 0));
+                        ds_grid_clear(alignment, -1)
+                        switch (winner) {
+                            case "alignBballChaos":
+                                with (scr_event_build_add_choice(goal_choice, "align Bball Chaos")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Bball Chaos");
+                                    scr_event_build_quest_state("motiveName", "alignBballChaos");
+                                }
+                                break;
+                            case "alignBballLaw":
+                                with (scr_event_build_add_choice(goal_choice, "align Bball Law")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Bball Law");
+                                    scr_event_build_quest_state("motiveName", "alignBballLaw");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                case "candy":
+                    if rmCandy > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignCandyRarity");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignCandyRarity"));
+                        ds_grid_add(alignment, 0, 1, "alignCandyVariety");
+                        ds_grid_add(alignment, 1, 1, scr_quest_get_state("alignCandyVariety"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignCandyRarity":
+                                with (scr_event_build_add_choice(goal_choice, "align Candy Rarity")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Candy Rarity");
+                                    scr_event_build_quest_state("motiveName", "alignCandyRarity");
+                                }
+                                break;
+                            case "alignCandyVariety":
+                                with (scr_event_build_add_choice(goal_choice, "align Candy Variety")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Candy Variety");
+                                    scr_event_build_quest_state("motiveName", "alignCandyVariety");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                case "clispaeth": // TODO: Finalize Goals
+                    if rmClispaeth > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignClispaethWorship");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignClispaethWorship"));
+                        ds_grid_add(alignment, 0, 1, "alignClispaethHeresy");
+                        ds_grid_add(alignment, 1, 1, scr_quest_get_state("alignClispaethHeresy"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignClispaethWorship":
+                                with (scr_event_build_add_choice(goal_choice, "align Clispaeth Worship")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Clispaeth Worship");
+                                    scr_event_build_quest_state("motiveName", "alignClispaethWorship");
+                                }
+                                break;
+                            case "alignClispaethHeresy":
+                                with (scr_event_build_add_choice(goal_choice, "align Clispaeth Heresy")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Clispaeth Heresy");
+                                    scr_event_build_quest_state("motiveName", "alignClispaethHeresy");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                case "cyberdwarf": // ONLY HAS ONE... CHECK IT OUT
+                    if rmCyberdwarf > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignCyberdwarfOne");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignCyberdwarfOne"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignCyberdwarfOne":
+                                with (scr_event_build_add_choice(goal_choice, "align Cyberdwarf One")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Cyberdwarf One");
+                                    scr_event_build_quest_state("motiveName", "alignCyberdwarfOne");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                case "dwarfs":
+                    if rmDwarfs > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignDwarfsLiberate");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignDwarfsLiberate"));
+                        ds_grid_add(alignment, 0, 1, "alignDwarfsTrouble");
+                        ds_grid_add(alignment, 1, 1, scr_quest_get_state("alignDwarfsTrouble"));
+                        ds_grid_add(alignment, 0, 2, "alignDwarfsSavior");
+                        ds_grid_add(alignment, 1, 2, scr_quest_get_state("alignDwarfsSavior"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignDwarfsLiberate":
+                                with (scr_event_build_add_choice(goal_choice, "align Dwarfs Liberate")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Dwarfs Liberate");
+                                    scr_event_build_quest_state("motiveName", "alignDwarfsLiberate");
+                                }
+                                break;
+                            case "alignDwarfsTrouble":
+                                with (scr_event_build_add_choice(goal_choice, "align Dwarfs Trouble")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Dwarfs Trouble");
+                                    scr_event_build_quest_state("motiveName", "alignDwarfsTrouble");
+                                }
+                                break;
+                            case "alignDwarfsSavior":
+                                with (scr_event_build_add_choice(goal_choice, "align Dwarfs Savior")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Dwarfs Savior");
+                                    scr_event_build_quest_state("motiveName", "alignDwarfsSavior");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                /*case "guns":
+                    if rmGuns > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignGunsCraft");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignGunsCraft"));
+                        ds_grid_add(alignment, 0, 1, "alignGunsCollect");
+                        ds_grid_add(alignment, 1, 1, scr_quest_get_state("alignGunsCollect"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignGunsCraft":
+                                with (scr_event_build_add_choice(goal_choice, "align Guns Craft")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Guns Craft");
+                                    scr_event_build_quest_state("motiveName", "gunsCraft");
+                                }
+                                break;
+                            case "alignGunsCollect":
+                                with (scr_event_build_add_choice(goal_choice, "align Guns Collect")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Guns Collect");
+                                    scr_event_build_quest_state("motiveName", "gunsCollect");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                case "home":
+                    if rmHome > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignHomeOne");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignHomeOne"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignHomeOne":
+                                with (scr_event_build_add_choice(goal_choice, "align Home One")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Home One");
+                                    scr_event_build_quest_state("motiveName", "alignHomeOne");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                case "power":
+                    if rmPower > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignPowerLow");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignPowerLow"));
+                        ds_grid_add(alignment, 0, 1, "alignPowerHigh");
+                        ds_grid_add(alignment, 1, 1, scr_quest_get_state("alignPowerHigh"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignPowerLow":
+                                with (scr_event_build_add_choice(goal_choice, "align Power Low")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Power Low");
+                                    scr_event_build_quest_state("motiveName", "alignPowerLow");
+                                }
+                                break;
+                            case "alignPowerHigh":
+                                with (scr_event_build_add_choice(goal_choice, "align Power High")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Power High");
+                                    scr_event_build_quest_state("motiveName", "alignPowerHigh");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                /*case "transhumanism":
+                    if rmTranshumanism > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignTranshumanismTrans");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignTranshumanismTrans"));
+                        ds_grid_add(alignment, 0, 1, "alignTranshumanismPost");
+                        ds_grid_add(alignment, 1, 1, scr_quest_get_state("alignTranshumanismPost"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignTranshumanismTrans":
+                                with (scr_event_build_add_choice(goal_choice, "align Transhumanism Trans")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Transhumanism Trans");
+                                    scr_event_build_quest_state("motiveName", "transhumanismTrans");
+                                }
+                                break;
+                            case "alignTranshumanismPost":
+                                with (scr_event_build_add_choice(goal_choice, "align Transhumanism Post")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Transhumanism Post");
+                                    scr_event_build_quest_state("motiveName", "transhumanismPost");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                case "truth":
+                    if rmTruth > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignTruthNormal");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignTruthNormal"));
+                        ds_grid_add(alignment, 0, 1, "alignTruthReal");
+                        ds_grid_add(alignment, 1, 1, scr_quest_get_state("alignTruthReal"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignTruthNormal":
+                                with (scr_event_build_add_choice(goal_choice, "align Truth Normal")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Truth Normal");
+                                    scr_event_build_quest_state("motiveName", "alignTruthNormal");
+                                }
+                                break;
+                            case "alignTruthReal":
+                                with (scr_event_build_add_choice(goal_choice, "align Truth Real")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Truth Real");
+                                    scr_event_build_quest_state("motiveName", "alignTruthReal");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                case "vengeance":
+                    if rmVengeance > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignVengeanceOne");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignVengeanceOne"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignVengeanceOne":
+                                with (scr_event_build_add_choice(goal_choice, "align Vengeance One")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Vengeance One");
+                                    scr_event_build_quest_state("motiveName", "alignVengeanceOne");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                case "vidcons":
+                    if rmVidcons > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignVidconsPlay");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignVidconsPlay"));
+                        ds_grid_add(alignment, 0, 1, "alignVidconsConquer");
+                        ds_grid_add(alignment, 1, 1, scr_quest_get_state("alignVidconsConquer"));
+                        ds_grid_add(alignment, 0, 2, "alignVidconsHoard");
+                        ds_grid_add(alignment, 1, 2, scr_quest_get_state("alignVidconsHoard"));
+                        ds_grid_add(alignment, 0, 3, "alignVidconsPreserve");
+                        ds_grid_add(alignment, 1, 3, scr_quest_get_state("alignVidconsPreserve"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignVidconsPlay":
+                                with (scr_event_build_add_choice(goal_choice, "align Vidcons Play")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Vidcons Play");
+                                    scr_event_build_quest_state("motiveName", "alignVidconsPlay");
+                                }
+                                break;
+                            case "alignVidconsConquer":
+                                with (scr_event_build_add_choice(goal_choice, "align Vidcons Conquer")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Vidcons Conquer");
+                                    scr_event_build_quest_state("motiveName", "alignVidconsConquer");
+                                }
+                                break;
+                            case "alignVidconsHoard":
+                                with (scr_event_build_add_choice(goal_choice, "align Vidcons Hoard")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Vidcons Hoard");
+                                    scr_event_build_quest_state("motiveName", "vidconsHoard");
+                                }
+                                break;
+                            case "alignVidconsPreserve":
+                                with (scr_event_build_add_choice(goal_choice, "align Vidcons Preserve")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Vidcons Preserve");
+                                    scr_event_build_quest_state("motiveName", "alignVidconsPreserve");
+                                }
+                                break;
+                            
+                        }
+                    }
+                    break;
+                /*case "zaubers":
+                    if rmZaubers > rmThreshold {
+                        ds_grid_add(alignment, 0, 0, "alignZaubersLich");
+                        ds_grid_add(alignment, 1, 0, scr_quest_get_state("alignZaubersLich"));
+                        ds_grid_add(alignment, 0, 1, "alignZaubersMystery");
+                        ds_grid_add(alignment, 1, 1, scr_quest_get_state("alignZaubersMystery"));
+                        ds_grid_sort(alignment, 1, false);
+                        winner = string(ds_grid_get(alignment, 0,0));
+                        ds_grid_clear(alignment, -1);
+                        switch (winner) {
+                            case "alignZaubersLich":
+                                with (scr_event_build_add_choice(goal_choice, "align Zaubers Lich")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Zaubers Lich");
+                                    scr_event_build_quest_state("motiveName", "zaubersLich");
+                                }
+                                break;
+                            case "alignZaubersMystery":
+                                with (scr_event_build_add_choice(goal_choice, "align Zaubers Mystery")) {
+                                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "align Zaubers Mystery");
+                                    scr_event_build_quest_state("motiveName", "zaubersMystery");
+                                }
+                                break;
+                        }
+                    }
+                    break;
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+            } // end switch "goal"
+        } // end loop
+        ds_grid_destroy(alignment)
+        ds_list_destroy(goalList)
+        scr_event_build_event_snippet(exit_snippet);
+    }
+    
+    //-------------
+    // EXIT SNIPPET
+    //-------------
+    with exit_snippet {
+        scr_event_build_dialogue("Mound", "s_port_rm", "Then so be it. Farewell.");
+        // mound retreats back into lake
+        // fog clears
+        // old music fades in
+        // etc
+    }
+    scr_event_advance(event);
+}

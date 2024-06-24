@@ -1,0 +1,15 @@
+/*
+var e = ds_list_find_index(global.supergrid, argument0) div RP;
+show_debug_message(string(e));
+global.supergrid[| (RP * e) + 0] = "EMPTY";
+global.supergrid[| (RP * e) + 1] = 0;
+global.supergrid[| (RP * e) + 2] = 0;
+global.supergrid[| (RP * e) + 3] = "EMPTY";
+global.supergrid[| (RP * e) + 4] = 0;
+global.supergrid[| (RP * e) + 5] = 0;
+global.supergrid[| (RP * e) + 6] = 0;
+global.supergrid[| (RP * e) + 7] = 0;
+global.supergrid[| (RP * e) + 8] = 0;
+global.supergrid[| (RP * e) + 9] = "NONE";
+scr_quest_set_state("superEmpty", scr_quest_get_state("superEmpty") + 1);
+scr_savedata_save();

@@ -1,0 +1,19 @@
+/// BGM(string_music, 0=normal/1=fast/2=instant)
+// Later on make this in seconds, current BGM setter does not have it
+if (is_real(argument[0]))
+{
+    var mus = ds_list_find_value(argument[0], 1);
+    if (ds_list_find_value(argument[0], 2) == 0) audio_set_bgm(mus);
+    if (ds_list_find_value(argument[0], 2) == 1) audio_set_bgm_fast(mus);
+    if (ds_list_find_value(argument[0], 2) == 2) audio_set_bgm_instant(mus);
+    scr_event_advance(id);
+}
+else
+{
+    var act = ds_list_create();
+    ds_list_add(act, BGM);
+    ds_list_add(act, argument[0]); // string_music
+    ds_list_add(act, argument[1]); // speed
+    ds_list_add(_event_list, act); // Add the action to the list
+    return ds_list_size(_event_list) - 1;
+}

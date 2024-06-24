@@ -1,0 +1,291 @@
+// Event for Nene, a drunk L.O.N.G.I.N.U.S. dwarf at the milk bar.
+//You need to talk to Nene to learn the L.O.N.G.I.N.U.S. base knock
+
+/*
+
+Nene Event variables -
+
+nene = 1 - Nene has been spoken to before L.O.N.G.I.N.U.S. door quest has been activated
+nene = 2 - Refused to pay for Nene's first milk.
+nene = 3 - Refused to pay Nene's second milk.
+nene = 4 - Refused to pay for Nene's tab.
+nene = 5 - Paid nene's tab
+
+neneKnock = 1 - You've learned the knock from Nene.
+
+*/
+
+if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var nene = id;
+    
+    // Get money amounts
+    var payMilk1 = scr_money_db("neneMilk1");
+    var payMilk2 = scr_money_db("neneMilk2");
+    var payTab = scr_money_db("neneTab");
+    
+    var event = scr_event_create_main();
+    var choice1_snippet = scr_event_create_child(event);
+    var choice2_snippet = scr_event_create_child(event);
+    var choice3_snippet = scr_event_create_child(event);
+    var postknock_snippet = scr_event_create_child(event);
+    var postlearn_snippet = scr_event_create_child(event);
+    // Events to check if you have enough money to pay
+    var ml1Tru = scr_event_create_child(event);
+    var ml1Fal = scr_event_create_child(event);
+    var ml2Tru = scr_event_create_child(event);
+    var ml2Fal = scr_event_create_child(event);
+    var tabTru = scr_event_create_child(event);
+    var tabFal = scr_event_create_child(event);
+    
+    //--------------------------------------------------
+    //Post-Knock Snippet
+    //--------------------------------------------------
+    with (postknock_snippet)
+    {
+        scr_event_build_quest_state("longinusDoorOpen", 2);
+        scr_event_build_quest_state("neneState", 5);
+        // INVESTIGATE THIS LINE:
+        scr_event_build_quest_state("neneKnock", 1);
+        scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Was... was that it? Was that the knock!?"); 
+        //knock animation again
+        //scr_event_build_dialogue_debug("Bhroom", NULL, "Here is the knock again if you just want to show the knock once more for the player Note: we'll probably upgrade nene to be persistently intoxicated ... after this point.");
+        scr_event_build_quest_state("neneJustKnocked", 2);
+        scr_event_build_create_object(o_mg_knocking_minigame, 0, 0);
+        scr_event_build_user(o_mg_knocking_minigame, 0);
+    }
+    with (postlearn_snippet)
+    {  
+        scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Ooooooh man, I hope that was it! Thank you, Nene!!! Thank you!!");
+        scr_event_build_quest_state("neneJustKnocked", 0);
+    }
+    
+    //--------------------------------------------------
+    // Nene's Tab
+    //--------------------------------------------------
+    with (choice3_snippet) 
+    {
+        Breakout("build", "add", "money", -payTab);
+        var neneChoice3 = scr_event_build_choice("Pay Nene's " + string(payTab) + " NS tab?", NULL);
+        with scr_event_build_add_choice(neneChoice3, "Ugh! I'll pay your tab.") // Pay Nene's tab
+        {
+            scr_event_build_if("money", ">=", payTab, tabTru, tabFal);
+            with (tabTru) // Have enough money.
+            {
+                scr_event_build_money_add(-payTab);
+                scr_event_build_sound_play("hoopz_pickupMoney");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Clispaeth Christ... yeah, okay Nene. I'll pay the tab. Here's the money, just... now you gotta show me the knock.");
+                Breakout("build", "clear");
+                scr_event_build_dialogue("Nene", NULL, "Ooooh man, I'm getting dizzy... I'm... I think I had too much *hic*...");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Nooo, Nene, no! Don't pass out, please! You gotta show me the knock!");
+                scr_event_build_dialogue("Nene", NULL, "Zzzzzzz....");
+                
+                // Nene passes out
+                scr_event_build_animation_set(o_nene01, "sleep");
+                scr_event_build_sound_play("sn_heavymass01");
+                scr_event_build_wait(2);
+                
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Nooooooo! Nene, c'mon! Wake up! Wake up, Nene! You gotta show me the knock!");
+                scr_event_build_dialogue("Bartender", NULL, "Yep. He's out cold. That's just how he gets, you're not gonna wake him up.");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "How is that even possible? This is virtual reality! C'mon, Nene! Wake up! Wake up!!!!"); 
+                
+                // TODO connect this bad boy properly //
+                scr_event_build_dialogue_debug("Bhroom", NULL, "Nene event while drunk, manages to shudder and bounce, spelling out the knock.  Here is where a minigame runs that shows the knock music scale.  No input is required, unless laz once to add in the 'now you do it!' command like you see in Zelda.");
+                scr_event_build_create_object(o_mg_knocking_nene, x, y);
+            } 
+            with (tabFal) // Don't have enough money.
+            {
+                Breakout("build", "clear");
+                scr_event_build_quest_state("neneState", 4);
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Oh man, Nene. That's... that's a huge tab, man. I don't have that kinda cash right now, but I'll help you out when I do. Don't forget the knock, though, okay? I gotta know that knock!");
+                scr_event_build_dialogue("Nene", NULL, "I'll be *hic* right here. Don't you forget about me!");
+            }
+        }
+        
+        with scr_event_build_add_choice(neneChoice3, "No way. I'm not paying your tab.") // Refuse to pay tab.
+        {
+            Breakout("build", "clear");
+            scr_event_build_quest_state("neneState", 4);
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Are you out of your flippin' mind, Nene? I'm not paying your bar tab! How did you even get such a huge tab? How are you even getting drunk off virtual milk?");
+            scr_event_build_dialogue("Nene", NULL, "I... I thought you were cool... *hic* but I guess I was wrong...");
+        }
+        
+        with scr_event_build_add_choice(neneChoice3, "Do you have a drinking problem?") // Ask if he has a problem.
+        {
+            Breakout("build", "clear");
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Clispaeth fruggin' Christ, Nene. " + string(payTab) + " neuro-shekels. Do you have a milk problem?");
+            scr_event_build_dialogue("Nene", NULL, "Who, me *hic*? Nahhhhh....");
+            scr_event_build_event_snippet(choice3_snippet);
+        }
+    }
+    
+    //--------------------------------------------------
+    // Nene's Second Milk
+    //--------------------------------------------------
+    with (choice2_snippet) {
+        Breakout("build", "add", "money", -payMilk2);
+        var neneChoice2 = scr_event_build_choice("Buy Nene some more milk for " + string(payMilk2) + " NS?", NULL);
+        with scr_event_build_add_choice(neneChoice2, "Sure, I can get you some more milk.") // Pay second milk
+        {
+            scr_event_build_if("money", ">=", payMilk2, ml2Tru, ml2Fal);
+            with (ml2Tru) // Have enough money.
+            {
+                scr_event_build_money_add(-payMilk2);
+                scr_event_build_sound_play("hoopz_pickupMoney");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Ugh, sure, what the heck...");
+                Breakout("build", "clear");
+                
+                // Drink
+                scr_event_build_sound_play("hoopz_wadestep");
+                scr_event_build_user(o_nene01, 0);
+                scr_event_build_wait(3);
+                scr_event_build_user(o_nene01, 1);
+                
+                scr_event_build_dialogue("Nene", NULL, "Heeeeey, thanks Clarence. This 2%... this is some damn good milk *hic*. So hey, buddy, what were you talking about just a minute ago?");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "The knock, remember? The knock you've gotta do to get into L.O.N.G.I.N.U.S. I'm the new guy and I forgot the knock. That's why I'm asking you, remember?");
+                scr_event_build_dialogue("Nene", NULL, "Yeeeeah, yeah *hic*, I remember now. Hey, buddy... Clyde... lemme tell you something... I always liked you. You're... you're a good friend.");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Yeah, you too Nene... so hey, you think you could show me the secret knock now?");
+                scr_event_build_dialogue("Nene", NULL, "Chad, I gotta tell you somethin'... you've always been there for me... been there when I *hic* needed it... I'm down in the dumps now and there's nothin' I can do about it...");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Okay, where's this going, Nene?"); 
+                scr_event_build_dialogue("Bartender", NULL, "He's got a " + string(payTab) + " neuro-shekel tab.");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Holy Clispaeth, Nene!");
+                scr_event_build_dialogue("Nene", NULL, "You've... you've always been such a good friend... you think... you think you could help *hic* me out this one last time?");
+                scr_event_build_event_snippet(choice3_snippet);
+            }
+            with (ml2Fal) // Don't have enough money.
+            {
+                Breakout("build", "clear");
+                scr_event_build_quest_state("neneState", 3);
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Dad fruggit, I don't have " + string(payMilk2) + " neuro-shekels. Hold on, let me go get some cash, Nene.");
+                scr_event_build_dialogue("Nene", NULL, "I'll be *hic* right here. Don't you forget about me!");
+            }
+        }
+        
+        with scr_event_build_add_choice(neneChoice2, "Get your own milk, chump.") // Refuse to get second milk.
+        {
+            Breakout("build", "clear");
+            scr_event_build_quest_state("neneState", 3);
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Cram it, milkcraver! Quit yanking me around and get your own flubbin' milk. Take some personal responsibility for yourself and do your job. Jeez.");
+            scr_event_build_dialogue("Nene", NULL, "I... I just wanted more milk...");
+        }
+    }
+    
+    //--------------------------------------------------
+    // Nene's First Milk
+    //--------------------------------------------------
+    with (choice1_snippet) 
+    {
+        Breakout("build", "add", "money", -payMilk1);
+        var neneChoice1 = scr_event_build_choice("Pay " + string(payMilk1) + " NS for Nene's milk?", NULL);
+        with scr_event_build_add_choice(neneChoice1, "Sure, I'll pay.") // Pay first milk
+        {
+            scr_event_build_if("money", ">=", payMilk1, ml1Tru, ml1Fal);
+            with (ml1Tru) // Have enough money.
+            {
+                scr_event_build_money_add(-payMilk1);
+                scr_event_build_sound_play("hoopz_pickupMoney");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Sure, what's a few neuro-shekels between friends? Bartender! Get my pal Nene a milk... on the rocks.");
+                Breakout("build", "clear");
+                
+                // Drink milk
+                scr_event_build_sound_play("hoopz_wadestep");
+                scr_event_build_user(o_nene01, 0);
+                scr_event_build_wait(3);
+                scr_event_build_user(o_nene01, 1);
+                
+                scr_event_build_dialogue("Nene", NULL, "Hey Ky- *hic* hey you - I like you. You're a good kid. You're gonna fit right in, that's *hic* what I think.");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Hey, so speaking of fitting right in, I can't get inside the L.O.N.G.I.N.U.S. base. I forgot the secret knock.");
+                scr_event_build_dialogue("Nene", NULL, "Secret knock? Did you say secret *hic* knock? Hey buddy... keep it down... *hic* it's a good thing you asked me about that thing, because I know aaaaaaaaall about it. That thing you *hic* asked me about... *wink* I know it.");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Hey Nene, now that we're best friends, you think can you show me the secret knock? I've gotta report in a few minutes for a top secret briefing.");
+                scr_event_build_dialogue("Nene", NULL, "Whoaaa mama! This is a DANG good *hic* milk.");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "I always preferred Hawaiian Punch... so hey, about that secret knock...");
+                scr_event_build_dialogue("Nene", NULL, "Hey... Hey... I'm still pretty *hic* I'm still pretty thirsty... think you could spot me " + string(payMilk2) + " neuro-shekels to get some 2%, buddy?");
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Ugh...");
+                scr_event_build_event_snippet(choice2_snippet);
+            }
+            with (ml1Fal) // Don't have enough money.
+            {
+                Breakout("build", "clear");
+                scr_event_build_quest_state("neneState", 2);
+                scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Shag juggit, I'm outta cash. Think you can wait for me to round some up some neuro-shekels, pal?");
+                scr_event_build_dialogue("Nene", NULL, "M-me? I'll be here all day. I'm just soakin' up the *hic* ambiance.");
+            }
+        }
+        with scr_event_build_add_choice(neneChoice1, "Pay for your own milk.") // Don't pay for first milk
+        {
+            Breakout("build", "clear");
+            scr_event_build_quest_state("neneState", 2);
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Are you flubbin' me? Pay for your own milk! I'm not an ATM!");
+            scr_event_build_dialogue("Nene", NULL, "I'm... I'm so thirsty...");
+        } 
+    }
+
+    //---------------
+    // MAIN EVENT!!!!
+    //---------------
+    with (event) 
+    {
+        if (scr_quest_get_state("neneJustKnocked") == 1) // Returns here after creating knock object
+        {
+            scr_event_build_event_snippet(postknock_snippet);
+        }
+        else if (scr_quest_get_state("neneJustKnocked") == 2) // Returns here after creating knock learning object
+        {
+            scr_event_build_event_snippet(postlearn_snippet);
+        }
+        else if (scr_quest_get_state("neneState") == 5) // Paid Nene's Tab, you saw the knock
+        {
+            scr_event_build_dialogue("Nene", NULL, "No... no more milk............. *hic*");
+            scr_event_build_create_object(o_mg_knocking_nene, x, y);
+        } 
+        else if (scr_quest_get_state("neneState") == 4) // You've refused or been unable to buy Nene's tab.
+        {
+            scr_event_build_dialogue("Nene", NULL, "Heyyyyyy... I know you! Whatchu say your name was again... Cll.... Clarence? 'eyyyyy, Clarence. I'm gettin' kinda tipsy here... I'm uh... I'm gettin' pretty milked up.");
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "It's, uh, Klaaust Mitsugiri. So Nene, about that L.O.N.G.I.N.U.S. secret knock...");
+            scr_event_build_dialogue("Nene", NULL, "Yeah, yeah... *hic* I know the knock... everyone in L.O.N.G.I.N.U.S. knows the knock. Course I know the knock! Hey, hey, Clarence... hey, pal... look, I'm in a hard spot right now. I'm in a bad place. I know it's askin' a lot *hic* but... but buddy... look... I've got this tab");
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Buy you a milk, huh...");
+            scr_event_build_event_snippet(choice3_snippet);
+        } 
+        else if (scr_quest_get_state("neneState") == 3) // You've refused or been unable to buy Nene's second milk.
+        {
+            scr_event_build_dialogue("Nene", NULL, "Hey, it's my new buddy... what *hic* what did you say your name was again, pal?");
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "It's uh... Klaaust Mitsugiri.");
+            scr_event_build_dialogue("Nene", NULL, "Hey... hey... that's a mouthful... hey, what were we talking about again? The secret L.O.N.G.I.N.U.S. *hic* knock? Yeah pal... I know *hic* aaaaaall about that. Hey, I like you... whaddaya say you buy me a milk, huh?");
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "You want another milk, huh...");
+            scr_event_build_event_snippet(choice2_snippet);
+            
+        } 
+        else if (scr_quest_get_state("neneState") == 2) // You've refused or been unable to buy Nene's first milk.
+        {
+            scr_event_build_dialogue("Nene", NULL, "Hey, it's my new L.O.N.G.I.N.U.S. buddy uh... *hic*... K... Krump... Kloyd...");
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Uh... Klaaust Mitsugiri...");
+            scr_event_build_dialogue("Nene", NULL, "Yeaaaaaaah, Kyyyyyyyle. Hey, hey buddy... I *hic* I remember you. Hey, weren't we talkin' about something? Weren't we talkin' about L.O.N.G.I.N.U.S. *hic* or somethin'? Listen buddy... I like you... I like *hic* I like you bub. Whaddaya say about buyin' me a milk? Huh?");
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Buy you a milk, huh...");
+            scr_event_build_event_snippet(choice1_snippet);
+            
+        } 
+        else if (scr_quest_get_state("longinusDoorState") == 1) // Speaking to Nene first time after LONGINUS door
+        {
+            scr_event_build_dialogue("Nene", NULL, "The boys back at L.O.N.G.I.N.U.S. *hic* the boys... *hic*... the boys don't know what they're *hic* missing...");
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Hey, did you just say L.O.N.G.I.N.U.S.? Are you Nene?");
+            scr_event_build_dialogue("Nene", NULL, "Y- *hic* Yeah! I'm Nene. Whattaya *hic* whattaya want? You tryin' to drag me back to base? I don't give two rat dips about Cuchoo... Cuchoo... I'm *hic* not goin'!");
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "I'm, um, Klaaust Mitsugiri, the new transfer? Just thought I'd meet some of the L.O.N.G.I.N.U.S. crew. How's it going, Nene?");
+            scr_event_build_dialogue("Nene", NULL, "Heyyyyyyy, Kyyyyyle... I think I heard'aya *hic* think I heard'aya you... 'ey bartender! Get a milk for me and my new friend! 'ey Kyle, this one's on you, I'm runnin' low on *hic* dubloons, pal.");
+            scr_event_build_dialogue("Klaaust Mitsugiri", NULL, "Uh, you want me to pay for your milk...?");
+            scr_event_build_event_snippet(choice1_snippet);
+        } 
+        else if (scr_quest_get_state("neneState") == 1) //Spoken to once before, haven't initiated LONGINUS door
+        {
+            scr_event_build_dialogue("Nene", NULL, "That Lft. Wiglaf down at L.O.N.G.I.N.U.S. thinks he *hic* thinks he knows *hic* that Lft. Wiglaf thinks he knows *hic* about things...")
+        } 
+        else // Never spoken to before
+        {
+            scr_event_build_dialogue("Nene", NULL, "Tell the *hic* tell the boys back at *hic* L.O.N.G.I.N.U.S... tell 'em *hic*... tell 'em something...");
+            scr_event_build_quest_state("neneState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

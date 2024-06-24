@@ -1,0 +1,23 @@
+// Plays at player resurrection
+if (argument0 == SCRIPT_START) {
+    if (Quest("respawnActive") == 1) {
+        // deactivate the Get Up Scene
+        
+        Quest("respawnActive", 0);
+        
+        //Pick up the room transistion
+        var event = scr_event_create_main();
+        with (event) {
+            // Carry over the fade and set Hoopz on the ground
+            scr_event_build_animation_set(o_cts_hoopz, "death");
+            scr_event_build_wait(0.75);
+            scr_event_build_wait_for_actions();
+            scr_event_build_animation_play_and_set(o_cts_hoopz, "get_up", "default");
+            scr_event_build_wait_for_actions();
+            scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+            //scr_event_build_visible(o_cts_hoopz, false);
+            scr_event_build_entity_settings(o_gbl_respawn01, false, false, false);
+        }
+    scr_event_advance(event);    
+    }
+}   

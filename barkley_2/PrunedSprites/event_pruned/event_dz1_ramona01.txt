@@ -1,0 +1,53 @@
+// Event for Ramona, random peasant in the Industrial Park at 
+//times 1, 2, 5 and 9.
+
+if (argument0 == SCRIPT_STEP) {
+    if (scr_time_get() == 1) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 2) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 5) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 9) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var ramona = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_time_get() == 5)  || (scr_time_get() == 9) {
+        //Time = 5 or 9
+            if (scr_quest_get_state("ramonaState") == 0) {
+            //Never spoken to before.
+                scr_event_build_dialogue("Ramona", NULL, "It's... it's cold out here. Radu and I have been ");
+                scr_event_build_quest_state("ramonaState", 2);
+            } else if (scr_quest_get_state("ramonaState") == 1) {
+            //Spoken to at Time 1 or 2.
+                scr_event_build_dialogue("Ramona", NULL, ".");
+                scr_event_build_quest_state("ramonaState", 2);
+            } else if (scr_quest_get_state("ramonaState") == 2) {
+            //Spoken to at Time 5 or 9.
+                scr_event_build_dialogue("Ramona", NULL, ".");
+            }
+        } else if (scr_time_get() == 1)  || (scr_time_get() == 2) {
+        //Time = 1 or 2
+            if (scr_quest_get_state("ramonaState") == 0) {
+            //Never spoken to before.
+                scr_event_build_dialogue("Ramona", NULL, "It's... it's cold out here. Radu and I have been ");
+                scr_event_build_quest_state("ramonaState", 1);
+            } else {
+            //Spoken to before.
+                scr_event_build_dialogue("Ramona", NULL, ".");
+            }
+        }
+    }
+    scr_event_advance(event);
+}

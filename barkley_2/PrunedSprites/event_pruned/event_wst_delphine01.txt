@@ -1,0 +1,153 @@
+// Script for DELPHINE, the female Hippie Dwarf in the Wasteland
+// usage: event_wst_delphine01
+
+/*if (argument0 == SCRIPT_START) {
+    // Init!
+    
+} 
+else if (argument0 == SCRIPT_STEP) {
+    // Step logic.
+    if (!visible and !scr_event_etc_instance_on_screen(id) and scr_time_get() == 4) {
+        // TIME = 4, reappear
+        scr_event_interactive_activate();
+    }
+    else if (visible and !scr_event_etc_instance_on_screen(id) and scr_time_get() == 3) {
+        // TIME = 3, disappear
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    scr_travelling_dwarfs_start();    
+    var delphine = id;
+    var event = scr_event_create_main();
+    var question_snippet = scr_event_create_child(event);
+    
+    //-----------------
+    // QUESTION_SNIPPET
+    //-----------------
+    // ASK ABOUT:
+    // 1. Her (Delphine)
+    // 2. Bandana Dwarf (Cruce)
+    // 3. Hiking Dwarf
+    // 4. Area
+    // 5. Plans
+    // Each of these questions disappear once asked.
+    with (question_snippet) { 
+        var question = scr_event_build_choice(s_port_hoopz, "Ask about:");
+        
+        //-------------------------
+        // Question 1: Delphine/Her
+        //-------------------------
+        if (_delphineAskDelphine == 0) {
+            var delphine_q = scr_event_build_add_choice(question, "Her.");
+            with delphine_q {
+                scr_event_build_dialogue("Delphine", "s_port_delphine", "");
+                _delphineAskDelphine = 1;
+            }
+        }
+        //-------------------
+        // Question 2: Cruce
+        //-------------------
+        if (_delphineAskCruce == 0) {
+            // Determine Cruce Name
+            if (_knowCruce >= 1) { _cruceName = "Cruce"; }
+            else { _cruceName = "Bandana Dwarf"; }
+            // Display Cruce Choice
+            if (_knowCruce == 1) || (_crucePresent == 1) {
+                var cruce_q = scr_event_build_add_choice(question, string(_cruceName));
+                with cruce_q {
+                    // Determine Delphine Dialogue
+                    if (_crucePresent == 1) {
+                        if (_knowCruce == 1) {
+                            scr_event_build_dialogue("Delphine", "s_port_delphine", "Cruce is beboppin' and skatting all over the place!");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "ohok");
+                        } else {
+                            scr_event_build_dialogue("Delphine", "s_port_delphine", "Well I think his name is " + string(_cruceName) + " or something or other.");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "ohok");
+                        }
+                    } 
+                    else {
+                        if (_knowCruce == 1) {
+                            scr_event_build_dialogue("Delphine", "s_port_delphine", "Cruce is beboppin' and skatting all over the place!");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "ohok");
+                        }
+                    }
+                    _knowCruce = 1; 
+                    _delphineAskCruce = 0;
+                }
+            }
+        }
+        
+        //-------------------------
+        // Question 3: Hiking Dwarf
+        //-------------------------
+        if (_delphineAskHiking == 1) {
+            if (_knowHiking == 1) || (_hikingPresent == 1) {
+                var hiking_q = scr_event_build_add_choice(question, "Hiking Dwarf");
+                with hiking_q {
+                   
+                    if (_hikingPresent == 1) {
+                        if (_knowHiking == 1) {
+                            scr_event_build_dialogue("Delphine", "s_port_delphine", "Cruce is beboppin' and skatting all over the place!");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "ohok");
+                        } else {
+                            scr_event_build_dialogue("Delphine", "s_port_delphine", "Well I think his name is " + string(_cruceName) + " or something or other.");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "ohok");
+                        }
+                    } 
+                    else {
+                        if (_knowHiking == 1) {
+                            scr_event_build_dialogue("Delphine", "s_port_delphine", "Cruce is beboppin' and skatting all over the place!");
+                            scr_event_build_dialogue(P_NAME, s_port_hoopz, "ohok");
+                        } 
+                    }
+                    _knowHiking = 1;
+                    _delphineAskHiking = 0;
+                }
+            }
+        }
+        
+        //-----------------
+        // Question 4: Area
+        //-----------------
+        if (_delphineAskArea == 1) {
+            var area_q = scr_event_build_add_choice(question, "The area.");
+            with area_q {
+                // Wasteland 1 Dialogue
+                scr_event_build_dialogue("Delphine", "s_port_delphine", "I really love the Wasteland. Can't you feel those vibes?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "ohok");
+                _delphineAskArea = 1; 
+            }
+        }
+        
+        //------------------
+        // Question 5: Plans
+        //------------------
+        if (_delphineAskPlans == 1) {
+            var plans_q = scr_event_build_add_choice(question, "Her plans.");
+            with plans_q {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "ohok");
+                _delphineAskPlans = 1; 
+            }
+        }
+    }
+    
+    //-----------
+    // Main Event
+    //-----------
+    with (event) {
+        if (_delphineState == 0) {
+            scr_event_build_dialogue("Delphine", "s_port_delphine", "");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "ohok");
+        }
+        else if (_delphineState == 1) {
+            scr_event_build_dialogue("Delphine", "s_port_delphine", "");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "ohok");
+        }
+        else if (_delphineState == 2) {
+            scr_event_build_dialogue("Delphine", "s_port_delphine", "");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "ohok");
+        }
+    }
+    scr_event_advance(event);
+} 

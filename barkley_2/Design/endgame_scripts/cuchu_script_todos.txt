@@ -1,0 +1,62 @@
+CUCHULAINN SCRIPT TODOS:
+// Round Mound
+    1. Add in goals.
+    2. Test as one complete function.
+    3. Implement into a map, any map.
+    4. Make callable by Questlord for debugging.
+
+// Cyberdwarf
+    1. Remove the name quest calls, replace with a simpler variable.
+    2. Unlink from the test
+
+// Lobby Call Button
+    1. Door object and graphic
+    2. Teleport to elevator interior
+    3. Accessing the elevator... the situation.
+    
+// Elevator
+    1. Text/writing, obviously
+    2. Time logic, perhaps, for the Chastising and Campfire
+    3. Some acknowledgement of the first time returning to the Lair (exterior?)
+    4. Complete scripting of Campfire scene.
+    5. Distinguish between ElevatorUp and ElevatorDown
+    6. Event/graphic for the room number and door
+    7. Event/graphic for player and Cyberdwarf by the campfire.
+    8. Move chastising segment to Exterior.
+    9. Background event for elevator wobbling, elevator display in general.
+    
+// Lair Call Button
+    1. Door object and graphic
+    2. Teleport to elevator interior
+    3. Sending elevator down after X amount of time.
+    
+// Crustacea Door
+    1. Write incomplete dialogues.
+    2. Incorporate into complete dialogues.
+    3. Make proper use of "crustDoorAny"
+    4. Create proper teleports.
+
+// Crustacea Entrance
+    1. Intro events, specifically.
+    2. Incomplete scripts.
+    3. Complete scripts.
+
+// Point No Return
+
+// Primordia Entrance
+
+// Primordia Confrontation
+
+// Primordia Defeat
+
+// Omnidwarf Defeat
+
+// Primordia Victory 
+
+// Omnidwarf Victory
+
+// Cuchulainn Oldman
+
+// Cyberdwarf Oldman
+
+// Throne

@@ -1,0 +1,110 @@
+// Event for Wayne, a soloing ascetic in the Mountains.
+//Participant in Wedding Quest
+// usage: event_mtn_wayne01();
+
+/*if (argument0 == SCRIPT_STEP) {
+    //if wayne is currently away on wedding quest.
+ if (Quest("wayneWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+        scr_event_interactive_deactivate();
+    }
+} else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var wayne = id;
+    var event = scr_event_create_main();
+    var weddingQuestAsk = scr_event_create_child(event);
+
+//--------------------------------------------
+//------------ WEDDING QUEST ASK _------------
+//--------------------------------------------  
+    with (weddingQuestAsk) { 
+        Dialogue(P_NAME, "Hey Wayne, you're pretty good with that keyboard. I'm putting together a band for a wedding party in Brain City, you think you might want to join?");
+        scr_event_build_dialogue("Wayne", s_port_wayne, ".__.__.__I'm just gonna shred.");
+        Dialogue(P_NAME, "Yeah! Yeah, that's great, solo all you want, it's gonna be a real party. Just go to booty bass club in Brain City and wait for me to show up. I'm still putting the band together so I might be a while, but I promise the band will rule.");
+        scr_event_build_dialogue("Wayne", s_port_wayne, ".__.__.__okay.");
+        scr_event_build_fade(true, 2);
+        scr_event_build_wait_for_actions();
+        Quest("wayneWedding", 1);
+        ///// Should be here: QuestAdd("musicianCount", 1);
+        scr_event_build_set_object(o_wayne01, -500, -500);
+        scr_event_build_fade(false, 2);
+        scr_event_build_wait_for_actions();
+        Dialogue(P_NAME, "One more musician for the band down. I need " + string(3 - (Quest("musicianCount"))) + " more...");
+}   
+    
+    with (event) {
+          
+        //Did Wedding Quest with Wayne.
+        if (Quest("weddingQuest") == 3) and (Quest("wayneWedding") == 3) {
+            scr_event_build_dialogue("Wayne", s_port_wayne, ".__.__.__hey. It was fun shreddin' with you. The Jazzy Rascals were pretty cool.");
+            Dialogue(P_NAME, "(The Jazzy Rascals...)");
+        
+        //Told Wayne to go to church in Brain City but did not show up, spoke to him again.
+        } else if (Quest("wayneWedding") == 2) {
+            scr_event_build_dialogue("Wayne", s_port_wayne, ".__.__.__leave me alone.");
+            Dialogue(P_NAME, "S-sorry, Wayne...");
+            
+            
+        //Told Wayne to go to church in Brain City but did not show up.
+        } else if (Quest("weddingQuest") == 1) and (Quest("wayneWedding") == 1) and (scr_time_get() >= 11) {
+            scr_event_build_dialogue("Wayne", s_port_wayne, ".__.__.__you never showed up.");
+            Dialogue(P_NAME, "Y-you mean to the wedding? I, uh, got hung up on some other stuff. I was gonna show up, honest! I just kinda forgot!");
+            scr_event_build_dialogue("Wayne", s_port_wayne, ".__.__.__go away.");
+            Quest("wayneWedding", 2);
+        
+    
+       //met wayne before.
+       }else if (Quest("wayneVar") == 1) {
+            scr_event_build_dialogue("Wayne", s_port_wayne, ".__.__.__I'm busy shreddin'...");
+            //If you're on the wedding quest and time >= 4 and <= 10
+            if (Quest("weddingQuest") == 1) and (Quest("musicianCount") <= 3) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+                Dialogue(P_NAME, "(Maybe this guy might wanna join my wedding band? He's pretty sick with those doo sounds...");
+                var weddingQuestion2 = Choice("Should I ask Wayne to join my group?", s_port_hoopz);
+                
+                //Ask Wayne.
+                with ChoiceAdd(weddingQuestion2, "Hey, I'm forming a band if you want to be our doo sound soloer.") {
+                    Snippet(weddingQuestAsk);
+                    }
+                    
+                //Don't ask Wayne.
+                with ChoiceAdd(weddingQuestion2, "He seems really weird...") {
+                    Dialogue(P_NAME, "Um, have fun, Wayne! Bye!");
+                    }
+                
+                //Not on wedding quest
+                } else {
+                    Dialogue(P_NAME, "I'll, uh, leave you alone, I guess. Seems like you're in the zone.");
+                }
+    
+       //Never met Wayne in Al-Akihabara before.
+       } else if (Quest("wayneVar") == 0) {
+            Quest("wayneVar", 1);
+            Dialogue(P_NAME, "Whoa, you're pretty crazy with that keyboard! What are you doing out here all by yourself?");
+            scr_event_build_dialogue("Wayne", s_port_wayne, ".__.__.__soloing. Just wanna shred... never learned no chords, never learned no notes, just solos...");
+            Dialogue(P_NAME, "Dang, man. You're pretty good at it. Why are you using that 'doo' sound, though?");
+            scr_event_build_dialogue("Wayne", s_port_wayne, ".__.__.__'cuz I gotta.");
+            Dialogue(P_NAME, "Okay... that's cool, I guess. Anything around here I should know about?");
+            scr_event_build_dialogue("Wayne", s_port_wayne, ".__.__.__don't go out much.");
+            
+            //If you're on the wedding quest and time >= 4 and <= 10
+            if (Quest("weddingQuest") == 1) and (Quest("musicianCount") <= 3) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+                Dialogue(P_NAME, "(Maybe this guy might wanna join my wedding band? He's pretty sick with those doo sounds...");
+                var weddingQuestion1 = Choice("Should I ask Wayne to join my group?", s_port_hoopz);
+                
+                //Ask Wayne.
+                with ChoiceAdd(weddingQuestion1, "Hey, I'm forming a band if you want to be our doo sound soloer.") {
+                    Snippet(weddingQuestAsk);
+                    }
+                    
+                //Don't ask Wayne.
+                with ChoiceAdd(weddingQuestion1, "He seems really weird...") {
+                    Dialogue(P_NAME, "Um, have fun, Wayne! Bye!");
+                    }
+                
+                //Not on wedding quest
+                } else {
+                    Dialogue(P_NAME, "Oh, well, uh... see ya, I guess.");
+                }
+            }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,38 @@
+/*
+Sgt Variable
+
+
+
+Animations:
+"kneeling"
+"bubbleChew"
+"brandish"
+ANIMATION_DOWN
+"runMachete" - not a native move animation, must be faked in
+
+Variable's Variables:
+
+
+
+variableState = 1 - not used yet
+
+elevatorBork = 1 - after this scene, this variable will keep it from happening again
+
+wiglafMission = 2 - this checks to make sure that you should be there ... Variable won't show up if this isn't 2
+
+r&gEncounter == 0 - somehow avoided R&G
+r&gEncounter == 1 - fought and died against R&G
+r&gEncounter == 2 - killed R&G
+
+*/
+
+/*if (argument0 == SCRIPT_INTERACT) {
+    var variable = id;
+    
+    var event = scr_event_create_main();
+    
+    with (event) {
+        Dialogue("Variable", "Just waiting for my next mission. Gotta stay sharp, in blade and mind... and maybe wit... and tongue... and sight.");
+        }
+    scr_event_advance(event);
+}

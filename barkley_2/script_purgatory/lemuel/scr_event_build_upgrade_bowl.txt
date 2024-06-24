@@ -1,0 +1,132 @@
+// scr_event_build_upgrade_bowl("teacher")
+/*
+    MUST HAVE AN ARGUMENT... EITHER...
+    "beggar" OR "fakir" OR "dervish"
+    
+    NO OTHERS!!!
+    
+    This is called during interactions with...
+    Lemuel (beggar)
+    Vasilisa (fakir)
+    Sabah (dervish)
+    
+    This script will determine the proper "class item" / "zauber" to be given to the player,
+    give it to them, and remove the other versions of the "bowl" that they have.
+    
+    It will also increase their "classMysticTotal" as well as their particular
+    class variable ("classBeggar", "classFakir", or "classDervish").
+    
+    This is a "fake" build event, and as such should only be used during events.
+*/
+/*
+if (argument_count == 0) { show_message("bort sez: U IDOLT! YOU MUST INCLUDE AN ARGUMENT WITH scr_event_build_upgrade_bowl()!!!"); return false; }
+
+// store in a variable who is sending player (options are "beggar", "fakir", and "dervish")
+var current = argument[0];
+// find who player first got Mystic Class from
+var first = string(scr_quest_get_state("classMysticFirst"));
+
+// name variables
+var bowl_name = "";
+var beggar_plus = 0;
+var fakir_plus = 0;
+var dervish_plus = 0;
+
+// increment Mystic Total
+scr_event_build_quest_state_add("classMysticTotal", 1);
+
+// increase Class
+switch (current)
+{
+    case "beggar": scr_event_build_quest_state("classBeggar", 1); break;
+    case "fakir": scr_event_build_quest_state("classFakir", 1); break;
+    case "dervish": scr_event_build_quest_state("classDervish", 1); break;
+}
+
+// Determine what name modifiers should be applied
+if (scr_quest_get_state("classBeggar") == 1) || (current == "beggar") { beggar_plus = 1; }
+if (scr_quest_get_state("classFakir") == 1) || (current == "fakir") { fakir_plus = 1; }
+if (scr_quest_get_state("classDervish") == 1) || (current == "dervish") { dervish_plus = 1; }
+
+// Determine name of bowl to receive
+switch (first)
+{
+    // first bowl
+    case "0":
+        // Store who sent this in the "first" variable
+        scr_event_build_quest_state("classMysticFirst", argument[0]);
+        // Get the default names
+        if (current == "beggar") { bowl_name = "Alms Bowl"; }
+        else if (current == "fakir") { bowl_name = "Ablution Bowl"; }
+        else if (current == "dervish") { bowl_name = "Singing Bowl"; }
+        break;
+    // alms bowl
+    case "beggar":
+        bowl_name = "Alms Bowl";
+        if (fakir_plus) && (dervish_plus) { bowl_name = "Mystic Alms Bowl"; }
+        else if (fakir_plus) { bowl_name = "Purified Alms Bowl"; }
+        else if (dervish_plus) { bowl_name = "Harmonious Alms Bowl"; }
+        break;
+    // ablution bowl
+    case "fakir":
+        bowl_name = "Ablution Bowl";
+        if (beggar_plus) && (dervish_plus) { bowl_name = "Mystic Ablution Bowl"; }
+        else if (beggar_plus) { bowl_name = "Humble Ablution Bowl"; }
+        else if (dervish_plus) { bowl_name = "Harmonic Ablution Bowl"; }
+        break;
+    // singing bowl
+    case "dervish":
+        bowl_name = "Singing Bowl"
+        if (fakir_plus) && (beggar_plus) { bowl_name = "Mystic Singing Bowl"; }
+        else if (fakir_plus) { bowl_name = "Purified Singing Bowl"; }
+        else if (beggar_plus) { bowl_name = "Harmonic Singing Bowl"; }
+        break;
+}
+
+// If Zauber/ClassItem ownership is tracked in Key Items
+if (ZC_UNPOCKET == 1)
+{
+    // Remove other bowls
+    Item("build", "lose", "Alms Bowl", 1);
+    Item("build", "lose", "Purified Alms Bowl", 1);
+    Item("build", "lose", "Harmonious Alms Bowl", 1);
+    Item("build", "lose", "Mystic Alms Bowl", 1);
+    
+    Item("build", "lose", "Ablution Bowl", 1);
+    Item("build", "lose", "Humble Ablution Bowl", 1);
+    Item("build", "lose", "Harmonious Ablution Bowl", 1);
+    Item("build", "lose", "Mystic Ablution Bowl", 1);
+    
+    Item("build", "lose", "Singing Bowl", 1);
+    Item("build", "lose", "Humble Singing Bowl", 1);
+    Item("build", "lose", "Purified Singing Bowl", 1);
+    Item("build", "lose", "Mystic Singing Bowl", 1);
+    
+    // Add current bowl
+    Item("build", "gain", bowl_name, 1);
+}
+// If Zauber/ClassItem ownership is tracked in Pockets exclusively.
+else
+{
+    // Remove other bowls
+    scr_event_build_zauber_remove("Alms Bowl");
+    scr_event_build_zauber_remove("Purified Alms Bowl");
+    scr_event_build_zauber_remove("Harmonious Alms Bowl");
+    scr_event_build_zauber_remove("Mystic Alms Bowl");
+    
+    scr_event_build_zauber_remove("Ablution Bowl");
+    scr_event_build_zauber_remove("Humble Ablution Bowl");
+    scr_event_build_zauber_remove("Harmonious Ablution Bowl");
+    scr_event_build_zauber_remove("Mystic Ablution Bowl");
+    
+    scr_event_build_zauber_remove("Singing Bowl");
+    scr_event_build_zauber_remove("Humble Singing Bowl");
+    scr_event_build_zauber_remove("Purified Singing Bowl");
+    scr_event_build_zauber_remove("Mystic Singing Bowl");
+    
+    // Add current bowl
+    scr_event_build_zauber_give(bowl_name);
+}
+
+// Announce receipt in string.
+scr_event_build_dialogue_item("Got " + bowl_name + "!");

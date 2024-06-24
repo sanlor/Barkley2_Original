@@ -1,0 +1,271 @@
+// NPC script for Van Cleef.
+/* Bio: I feel like somebody out there will appreciate this name, even though it's just a name and has sadly little going on beyond that. 
+Anyway, this is the guy that helps the player get into the duergar base in Quest2 of the rebel/prison questline, as well as optionally 
+mentoring the player at the start of Quest3. He's a duergar, and a huge jerk, but he's got some unintelligible bloodlust against duergars, 
+which makes him pretty useful to the player and all the dwarfs in the game. Not a very nice guy, but has some principles.
+Fairly heavy cinematics in this script, so this is totally a WIP, even though it otherwise does everything it needs to do. At the end of this
+script Van Cleef actually walks the player up to the front of the Duergar base. DEPENDING ON THE STRUCTURE OF THE CINEMATICS AND THE LOCATION,
+stuff from this script may get cut out of here and placed into a different script, specifically the Deveraux NPC script.
+
+WIP NOTE: Van Cleef is ALWAYS hanging around the caves area. I've only written one non-quest dialogue for him(the one where he asks the player 
+their weight) but there's room for a ton more for different time periods. Unlike virtually everyone in the rebel questline, Van Cleef is a 
+candidate to roam around the gameworld to a small extent. He claims to have duergar traps placed somewhere in the mines, so there's even 
+design logic for doing this. If he DOES move around, however, we should definitely only move him around during points where the rebel 
+quest is inaccessible, keeping him in the area near the base/prison when the quest is accessible. REGARDLESS, this is something to think 
+about later, it's not needed, just room for it. And Van Cleef is sufficiently colorful that I could rather easily think of more random 
+shit for him to say if that's desired.
+
+This script is UNAVAILABLE when the player is in the duergar base, and the vancleef02 script is active in a different but nearby location. 
+And it's also PERMANENTLY UNAVAILABLE after the prison phase of the rebel quest. I think a state will need to be made to reflect that, but 
+that's enough of a part of the cinematics that I'm going to avoid that for now.
+
+NOTE: This script is somewhat INCOMPLETE at the moment, though the dialogue is done. This is because this script is supposed to start/stop 
+the duergar base infiltration quest, and within this script(and vancleef02), are supposed to be a bunch of stuff that will prevent the player 
+from leaving the area without first talking to vancleef02. This is kinda hard to really plan out without everything together in the maps, and 
+I don't know a lot about these functions anyway, so I'm just basically leaving this part of it somewhat unfinished.
+
+*/
+
+/*
+if (argument0 == SCRIPT_START)
+{
+    if (Quest("vancleefinjectionState") >= 1)
+    {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("prisonQuest") >= 9)
+    {
+        scr_event_interactive_deactivate();
+    }
+}
+
+else if (argument0 == SCRIPT_INTERACT)
+{
+    var vancleef = id;
+    
+    var event = scr_event_create_main();
+    var baseq1 = scr_event_create_child(event);
+    var baseq2 = scr_event_create_child(event);
+
+    with (baseq1)
+    {
+        Dialogue(P_NAME, "Uh, I did want to ask you something?");
+        Dialogue("Van Cleef", "Heh, this better be good. Got some duergar traps set up in the mines. It's about time I went and checked my bounty.");
+        Dialogue(P_NAME, "I wanted to sneak into the duergar base. Do you know the best way to do that?");
+        Dialogue("Van Cleef", "Ha ha ha ha ha! You're pulling my leg! A little thing like you?\Wait, don't tell me, you heard the call, eh?\Maybe you know the only thing worth smashing is a duergar.");
+        Dialogue(P_NAME, "Pretty much. A friend of mine suggested I do this. I thought it might be a good idea.");
+        Dialogue("Van Cleef", "Eh, a friend? Friend of yours told you it'd be a good idea to break into the duergar base?\Now, that's what I call a friend. That's just my kind of scum.\I'll tell ya what, I do have a little something fun for you. Got some duergar musk here. You inject yourself with this and you'll be able to just waltz right into the base, nobody'll be any the wiser.");
+        Dialogue(P_NAME, "Musk? what'll it do?");
+        Dialogue("Van Cleef", "Can't ruin the surprise. That's half the fun. But the big thing is that the duergars'll see you as one of 'em.\We duergars identify each other by scent, ya know. A little fucking joke Clispaeth decided to play on us. We don't see faces, or hear different voices, or any of that shit I hear about.\I had a non-duergar explain it to me once, I still don't fucking understand what a face is. He said it was all those bumps and shit on your head, but I don't see it. You got a face?");
+        Dialogue(P_NAME, "Last time I looked in a mirror I did. You've got a face.");
+        Dialogue("Van Cleef", "No shit. Was pretty sure that guy was fucking with me so I stuck a screwdriver'n his head. What's my face look like?");
+        Dialogue(P_NAME, "You're pretty ugly.");
+        Dialogue("Van Cleef", "I got no idea what ugly looks like, but I like the way you said it.");
+        Dialogue(P_NAME, "This is pretty wierd. What do I look like to you?");
+        Dialogue("Van Cleef", "That place where that fucker said your face is? All's I see is a STINK.\I don't know what the fuck kind of mutant breed of dwarf you are, but you're really in the big leagues of stink. Don't know how you got this far without getting yourself killed.");
+        Dialogue(P_NAME, "Yeah, I haven't taken a bath in a while. I was hoping nobody would notice.\So they won't see how bad I smell if I use this musk?");
+        Dialogue("Van Cleef", "You're not as dumb as you smell.\This has been a little pastime of mine. Been dragging all kinds of monsters up here, puttin' this shit in 'em and letting them wander off into the base. All kinds of hell breaks loose.\The best are the kobolds, the REAL dumb ones. Get a whole group of em, give em the musk, send 'em through the front gates. They got a few less turrets in there now.");
+        Dialogue(P_NAME, "That's pretty cool. This sounds like my best bet. Is this stuff safe?");
+        Dialogue("Van Cleef", "Ha ha ha, what? Safe? How the fuck should I know? Probably not, but the duergars in there are the real thick-headed sort, they ain't gonna notice you past the musk.\You could get pretty deep into the base that way, far enough to do some real damage.\Enough damn talk. Let's fucking do this.");
+        Snippet(baseq2);
+    }
+
+    with (baseq2)
+    {
+        var drugged = Choice("Let's fucking do this.", s_port_hoopz);
+        
+        with (ChoiceAdd(drugged, "Come back later."))
+        {
+            Dialogue(P_NAME, "Hey, I've got some things to do first. Can I do this later?");
+            Dialogue("Van Cleef", "Yeah, I knew you'd grow grass legs over this shit.");
+            Dialogue(P_NAME, "No, I'll come back and do this. I swear.");
+            Dialogue("Van Cleef", "Yeah, well I ain't waiting for long. Gonna dump the rest of what I've got into kobolds if you don't hurry.");
+            Quest("vancleefState", 3);
+            scr_event_build_end();
+        }
+        
+        with (ChoiceAdd(drugged, "DO IT."))
+        {
+            scr_event_build_dialogue_debug("Hundley", NULL, "Starting in this chunk of text there's some generally light cinematics involving Van Cleef leading the player around.\Not going to detail each one in debug, but generally say that this area needs work, possibly trimming some of this out and putting it in another script entirely.\Namely, the part with Deveraux would probably work better in the Deveraux script.");
+            Dialogue(P_NAME, "Ok, then. If that's my only way.");
+            Dialogue("Van Cleef", "No shit? You will?  Hot damn!\Here, you'll want to hold still real quick.");
+            Dialogue(P_NAME, "Hey wait, what is that? Is that a needle?");
+            Dialogue("Van Cleef", "Just shut up and hold still.");
+            Dialogue(P_NAME, "Hey, it IS a needle!!!____ Wait, no!____ I hate needles!!!!\OUCH!!!\Hey, you didn't say anything about needles, that really.......\________Whoa.....");
+            Dialogue("Van Cleef", "Heh.");
+            Dialogue(P_NAME, "Everything____.____.____.____.____.____.is red........");
+            Dialogue("Van Cleef", "That means it's working.\Now here, come with me.");
+            
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC: Van Cleef and the player begin walking and stop right outside the duergar base entrance.");
+            //The two begin walking. They stop just around the corner of the duergar base.");
+            
+            Dialogue("Van Cleef", "Just give it a minute and it'll settle in your system.");
+            Dialogue(P_NAME, "Wow......I feel like such a____.____.____.____.butthole.......");
+            Dialogue("Van Cleef", "You're getting it.\Now what I'm guessing you want to do is get to the boiler room. You wanna cause some shit, right?");
+            Dialogue(P_NAME, "Uh........nah.....\I wanna cause ALL the shit.");
+            Dialogue("Van Cleef", "Then the boiler room is for you. They got all the security shit back there. That'll cause shit.");
+            Dialogue(P_NAME, "How 'bout I just murder everybody? I am good at murdering. I do it all the time.\When somebody needs to be murdered you call on ME. I am the man for the murdering job. Yup.");
+            Dialogue("Van Cleef", "Yeah, thirty duergars on one fake-duergar. Right.\Stick to the boiler room. You need a keycard to get in, probably got some mean fuck guardin' the door after last time. You'll have to steal one, I guess. Or kill one of 'em when they ain't lookin'.");
+            Dialogue(P_NAME, "Yeah right. You're just the stupidest, guy. You're the stupidest guy. Guy, you are the stupidest guy.");
+            Dialogue("Van Cleef", "Boy-o-boy, you smell just like the sort of thing I wanna kill......");
+            Dialogue(P_NAME, "You know, you're a pretty handsome guy........\Something about the way you smell makes me want to stick a butter knife in your lousy neck.");
+            Dialogue("Van Cleef", "Yeah, you better run along. Just go in the front, you ain't gonna see no quarrel.\And hey, remember, I got some antidote for you if you ain't got the guts to go through with it.\Got a lot of hope for you, now. Make sure you do this right. Change of heart, just come on out the front, I'll keep an eye out.\Don't fuck this up, now.");
+            
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC: Van Cleef ushers the player to the door/entrance.");
+            // Van Cleef begins ushering the player to the door.
+            
+            Dialogue(P_NAME, "No!! I'm not finished with you yet!!!! I will be the handsome duergar when this day is done!!!!!");
+            
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC: Van Cleef scurries away once the player is inside the base doorway.");
+            // Van Cleef pushes him in front of the front gates before quickly surrying away. The courtyard duergars are looking at the player.
+            
+            Dialogue(P_NAME, "Yeah, go ahead and run away, you weasel!!! YOU HAVEN'T SEEN THE LAST OF ME!!!");
+            
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC: The player generally turns towards the other duergars in the courtyard.");
+            // He turns towards the other duergars in the courtyard.
+            
+            Dialogue(P_NAME, "What are you buttheads looking at?!?");
+            
+            scr_event_build_dialogue_debug("Hundley", NULL, "CINEMATIC: The player walks up to Deveraux(the guard).");
+            // He walks towards the guard(Deveraux).
+            
+            Dialogue("Deveraux", "And just what the fuck do you want.");
+            Dialogue(P_NAME, "Imagine with me for a minute. Imagine a time when your disgusting bulk isn't in my way.\Imagine how great this would be. A world where I'm not forced to be this close to someone so repulsive who happens to be blocking the door I want to enter.\This dream can be a reality. You can do it. You can get out of my way before I move your wrinkly hide myself.");
+            Dialogue("Deveraux", "Sounds like you come to the right place. You got a name?");
+            Dialogue(P_NAME, "Yeah.");
+            Dialogue("Deveraux", "Good_____._____._____._____._____._____._____._____._____.\You gonna give it to me?");
+            Dialogue(P_NAME, "No.");
+            Dialogue("Deveraux", "I gotta write this down, log who comes in and out.");
+            Dialogue(P_NAME, "It's impossible for me to care any less about these things you are saying to me.\Here, let me see that paper.\There's plenty of room there so just write /'A really dangerous guy that was going to kill me if I didn't let him in./' When they find all the bodies I'm going to leave behind in there, they'll know who you were talking about.");
+            Dialogue("Deveraux", "Well, I'm NOT going to write that, because you're a dirty fucking asshole. So your name is Butler now.");
+            Dialogue(P_NAME, "Oh, I was wrong.\I actually now care LESS about the things you are saying to me than I did a moment ago.\I was wrong. The impossible happened. You're just full of miracles, aren't you?");
+            Dialogue("Deveraux", "Just get in the fucking door, pigshit.");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Player is transported to the entrance of the Duergar Base.");
+            Quest("vancleefinjectionState", 1);
+            Quest("dbaseNPCsState", 1);
+            scr_event_build_end();
+        }
+    }
+
+    with (event)
+    {
+        if (Quest("vancleefState") == 4)
+        {
+            Dialogue("Van Cleef", "You ruined that fucking guy's shit yet?");
+            Dialogue(P_NAME, "Working on it.\Do I really have to use curse words, though? I don't think it's good to do that.");
+            Dialogue("Van Cleef", "BACK OF MY FUCKING HAND'S GONNA LOOK AN AWFUL LOT LIKE YOUR FUCKING FACE IF YOU DON'T FUCKING BURN HIS SHIT.");
+            Dialogue(P_NAME, "Ok.");
+            scr_event_build_end();
+        }
+        
+        else if (Quest("rebelQuest") == 5)
+        {
+            Dialogue(P_NAME, "Hey, I want to get into prison so I can break all the rebels out. What's the best way?");
+            Dialogue("Van Cleef", "Ha! You really don't fuck around, do ya? That same guy put you up to this?");
+            Dialogue(P_NAME, "Yeah, my friend Lafayette suggested it to me. Thought it'd be a good idea.");
+            Dialogue("Van Cleef", "Heh, I want to meet this Lafayette sometime. This guy don't fuck around. Necron 7 needs more cutthroat filth like him.\So I guess you want to get yourself arrested. That's how you get thrown in the slammer. Not too complicated stuff.");
+            Dialogue(P_NAME, "I've never tried to get arrested before. I don't really think that way.");
+            Dialogue("Van Cleef", "That's a load of shit right there. Are you fucking with me?\You come up and tell me you want to break into the duergar base, and then you got the nerve to tell me you don't think that way.\Fuck off, you ain't need me to tell you how to get arrested. Don't know how the fuck you ain't in there already.");
+            Dialogue(P_NAME, "Well I guess this stuff just sorta happens, but I can't really think of a good way to do this. Can you help?");
+            Dialogue("Van Cleef", "I guess. I already know you good at wreckin' shit, rubs me the wrong way how happy that prison makes the other duergars.\Alls you gotta do is make a duergar fucking pissed. They got their own law here, they can throw you in just 'cause they don't like you. Just go up and say how stupid and pathetic they are or somethin'. Good for a couple years in jail, that.");
+            Dialogue(P_NAME, "Can't you just arrest me? You're a duergar, right?");
+            Dialogue("Van Cleef", "Nah, I'm an outlaw. They'd put me in the prison too if they could catch me. Gotta do it for real.\Look, it's real simple, just go up to that there guard by the gates, tell him he's a slimey little kobold-loving fuck. Ain't a duergar alive that'd stand for that. Burns my blood just hearing myself say it.");
+            Dialogue(P_NAME, "Ok, got it. Do I have to swear, though? I don't like swearing. It's bad to do that.");
+            Dialogue("Van Cleef", "The fuck's that? Swearing. That something I just did?");
+            Dialogue(P_NAME, "Yeah, it's the words you just said. They're bad words.");
+            Dialogue("Van Cleef", "What fucking words? This is great shit I'm dropping for you here. Lucky I ain't charging you for this.");
+            Dialogue(P_NAME, "You said it again. The f-word.");
+            Dialogue("Van Cleef", "What fucking f-word?");
+            Dialogue(P_NAME, "That word! That f-word!\I don't really like using that word. Swears like that, you know.....\Swearing isn't really my thing.");
+            Dialogue("Van Cleef", "THE FUCK?!? THAT FUCKING WORD!?!? FUCK YOU!!!\HOW THE FUCK CAN SWEARING NOT BE SOMEBODY'S FUCKING THING?!?!");
+            Dialogue(P_NAME, "Ok, I'm sorry! I can swear a little I guess, but I just don't like it.");
+            Dialogue("Van Cleef", "JUST FUCK OFF!!!!\TAKE YOUR PRETTY AS SHIT LANGUAGE SOMEPLACE ELSE, FUCKER.");
+            Quest("vancleefState", 4);
+            Quest("socratesState", 1);
+            scr_event_build_end();
+        }
+        else if (Quest("rebelQuest") == 4)
+        {
+            Dialogue("Van Cleef", "They got off easy this time.\Gonna find me some more of that musk, load you up with as much explosives as I can get my hands on.\Next time we do this shit RIGHT.");
+            scr_event_build_end();
+        } 
+        else if (Quest("vancleefState") == 3)
+        {
+            Dialogue("Van Cleef", "Where the fuck were you?\Been waiting around here all fucking day. This musk here's about to turn, you know.\So. You fucking ready to do this?");
+            Dialogue(P_NAME, "Uh....");
+            Dialogue("Van Cleef", "FUCK YOU. LET'S FUCKING DO THIS.");
+            Snippet(baseq2);
+        } 
+        else if (Quest("vancleefState") == 2)
+        {
+            Dialogue("Van Cleef", "I already told you once to fuck off. Either you're mighty brave or mighty dumb.\I don't see much damn difference either way.");
+            scr_event_build_goto_choice(basefuckoff);
+        }
+        else if (Quest("rebelQuest") == 3)
+        {
+            Dialogue("Van Cleef", "Pop quiz little dick:# Which is the inferior species: dwarf or duergar?");
+            var inferiority = Choice("Which is the inferior species?", s_port_hoopz);
+            with (ChoiceAdd(inferiority, "Duergar"))
+            {
+                Dialogue("Van Cleef", "Yahahahahaha. WRONG. Both are so fucking inferior that it don't matter which you choose. Both should be eradicated.");
+                Dialogue(P_NAME, "Aren't you a duergar? Why don't you like your own kind?");
+                Dialogue("Van Cleef", "Just because I am a bottom of the fucking food chain wannabe doesn't mean I have to like it.\Spent my whole life around duergars, they're all sick and stupid, not a fucking brain among 'em.\What do they spend all their time doing? Breaking shit, smashing shit. Specific shit. Every one of those cocksuckers got some moron preference.\All they want to talk about is OH LOOK AT ME I DROPPED ANOTHER PIANO ON A DWARF TODAY AREN'T I THE FUCKING GOD OF PIANO-BASED MURDERS.\Fuck them. Fuck that. Fucking cocksuckers. I don't give a fuck what you do with a piano. SHOVE YOUR FUCKING PIANO.");
+                Dialogue(P_NAME, "You don't like doing that?");
+                Dialogue("Van Cleef", "What? Fuck you! Course I like doing that. It's the only way to fucking live. But the only thing more fun than smashing a dwarf is smashing a duergar.\You see, I can't get excited unless there's a little resistance, they fight back. Dwarfs don't know how pathetic they are, even. So weak you won't even know when they're fightin back.\But duergars, they're mean fucks. They'll still be dragging you across town with their intestines hanging out. That's when you know they're alive, fuckball.\I got dragged across five dwarf zones by a duergar's intestines once. Wanted that fucking shit for myself but he fought me for it 'til the end.\That was a fucking good day. That was a fine day.");
+                Dialogue(P_NAME, "Yeah, that....sounds kinda fun.");
+                Dialogue("Van Cleef", "Ha! Look at you, all shakey and shit. Don't got the stomach for this line of work, huh?\Why don't you just fuck off.");
+                
+                var basefuckoff = Choice("Why don't you just fuck off.", s_port_hoopz);
+                
+                with (ChoiceAdd(basefuckoff, "Fuck off"))
+                {
+                    Quest("vancleefState", 2);
+                    scr_event_build_end();
+                }
+                with (ChoiceAdd(basefuckoff, "I wanted to ask you something about the duergar base."))
+                {
+                    Snippet(baseq1);
+                }
+            }
+            
+            with (ChoiceAdd(inferiority, "Dwarf"))
+            {
+                Dialogue("Van Cleef", "Yahahahahaha. WRONG. Both are so fucking inferior that it don't matter which you choose. Both should be eradicated.");
+                Dialogue(P_NAME, "Aren't you a duergar? Why don't you like your own kind?");
+                Dialogue("Van Cleef", "Just because I am a bottom of the fucking food chain wannabe doesn't mean I have to like it.\Spent my whole life around duergars, they're all sick and stupid, not a fucking brain among 'em.\What do they spend all their time doing? Breaking shit, smashing shit. Specific shit. Every one of those cocksuckers got some moron preference.\All they want to talk about is OH LOOK AT ME I DROPPED ANOTHER PIANO ON A DWARF TODAY AREN'T I THE FUCKING GOD OF PIANO-BASED MURDERS.\Fuck them. Fuck that. Fucking cocksuckers. I don't give a fuck what you do with a piano. SHOVE YOUR FUCKING PIANO.");
+                Dialogue(P_NAME, "You don't like doing that?");
+                Dialogue("Van Cleef", "What? Fuck you! Course I like doing that. It's the only way to fucking live. But the only thing more fun than smashing a dwarf is smashing a duergar.\You see, I can't get excited unless there's a little resistance, they fight back. Dwarfs don't know how pathetic they are, even. So weak you won't even know when they're fightin back.\But duergars, they're mean fucks. They'll still be dragging you across town with their intestines hanging out. That's when you know they're alive, fuckball.\I got dragged across five dwarf zones by a duergar's intestines once. Wanted that fucking shit for myself but he fought me for it 'til the end.\That was a fucking good day. That was a fine day.");
+                Dialogue(P_NAME, "Yeah, that....sounds kinda fun.");
+                Dialogue("Van Cleef", "Ha! Look at you, all shakey and shit. Don't got the stomach for this line of work, huh?\Why don't you just fuck off.");
+                
+                var basefuckoff = Choice("Why don't you just fuck off.", s_port_hoopz);
+                
+                with (ChoiceAdd(basefuckoff, "Fuck off"))
+                {
+                    Quest("vancleefState", 2);
+                    scr_event_build_end();
+                }
+                with (ChoiceAdd(basefuckoff, "I wanted to ask you something about the duergar base."))
+                {
+                    Snippet(baseq1);
+                }
+            }
+        } 
+        else if (Quest("vancleefState") == 1)
+        {
+            Dialogue("Van Cleef", "Still a slow day. You don't turn your ass around I might decide to crack you open. Just for the fun of it.");
+            scr_event_build_end();
+        } 
+        else
+        {
+            Dialogue("Van Cleef", "How much you weigh?");
+            Dialogue(P_NAME, "I'm sorry?");
+            Dialogue("Van Cleef", "Didn't ask if you were fucking sorry, asked how much you fucking weigh.");
+            Dialogue(P_NAME, "I don't know. I really don't know. I'm sorry.");
+            Dialogue("Van Cleef", "You look pretty puny to me. Doubt you got more than a couple yards of intestines in you.\Looks like today's your lucky day. Another stone or two on you and I'd want to rip you open and take a peek.");
+            Quest("vancleefState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

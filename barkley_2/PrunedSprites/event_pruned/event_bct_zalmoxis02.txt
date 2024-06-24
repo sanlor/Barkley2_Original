@@ -1,0 +1,60 @@
+// Event for Zalmoxis after she's been recruited for wedding quest. Hangs out in Brain City
+//Bar
+// usage: event_bct_zalmoxis02();
+
+/*if (argument0 == SCRIPT_STEP) {
+
+//if wedding quest is currently active
+if (scr_quest_get_state("zalmoxisWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+    scr_event_interactive_activate();
+} else{
+    scr_event_interactive_deactivate();
+}
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var zalmoxis = id;
+    var event = scr_event_create_main();
+    with (event) {
+    //if you have jane in group.
+    if (scr_quest_get_state("janeWedding") == 1) and (scr_quest_get_state("zalmoxisJane") == 0) {
+        scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Someone needs to tell that insufferable sea captain that her accordion sounds like it's been out of tune for the last 200 years. How can I possibly play my cuica zauber over that unbearable racket?");
+        scr_event_build_quest_state("zalmoxisWait", 1);
+        scr_event_build_quest_state("zalmoxisJane", 1);
+    }
+        
+    //if you have wayne
+    else if (scr_quest_get_state("wayneWedding") == 1) and (scr_quest_get_state("zalmoxisWayne") == 0) {
+        scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Has that simpleton Wayne never touched an instrument before in his life? Those 'doo' sounds... unbearable... simply unbearable!");
+        scr_event_build_quest_state("zalmoxisWait", 1);
+        scr_event_build_quest_state("zalmoxisWayne", 1);
+    }
+    
+    //if you have poly
+    else if (scr_quest_get_state("polyWedding") == 1) and (scr_quest_get_state("zalmoxisPoly") == 0) {
+        scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Poly's personality is as odious as her (negligible) drumming ability. Why would you have me play with someone as intolerable and musically pedestrian as her!");
+        scr_event_build_quest_state("zalmoxisWait", 1);
+        scr_event_build_quest_state("zalmoxisPoly", 1);
+    }
+    
+    //if you have boris
+    else if (scr_quest_get_state("borisWedding") == 1) and (scr_quest_get_state("zalmoxisBoris") == 0) {
+        scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "Hmph. I can /almost/ tolerate the flautist's playing, but I have no time for his eccentricities! Riddles and rhymes and alliterations! Am I a child? I am here for one thing and one thing only - to enlighten the masses to the glory of cuica zauber!");
+        scr_event_build_quest_state("zalmoxisWait", 1);
+        scr_event_build_quest_state("zalmoxisBoris", 1);
+    }
+    
+    //if you've spoken to before.
+    else if (scr_quest_get_state("zalmoxisWait") == 1) {
+        scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "I can hardly concentrate on my cuica zauber with this booty drivel playing, let alone with you pestering me. Begone, gnat! Begone!");
+    }
+    
+    //Haven't spoken to Zalmoxis while waiting.
+    else {
+        scr_event_build_dialogue("Zalmoxis", s_port_zalmoxis, "You return. Tell me then how I'm supposed to prepare myself for the wedding with this insufferable /'booty bass/' nonsense blasting everywhere?");
+        scr_event_build_quest_state("zalmoxisWait", 1);
+        }
+    }
+    scr_event_advance(event);
+}

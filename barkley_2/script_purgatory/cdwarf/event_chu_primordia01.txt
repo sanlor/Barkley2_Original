@@ -1,0 +1,43 @@
+// event_chu_primordia01
+/*
+if (argument0 == SCRIPT_START) {
+
+} else if (argument0 == SCRIPT_STEP) {
+    if visible { 
+        if (scr_quest_get_state("cdwarfOmniDead") == 1) ||  (scr_quest_get_state("primoDead") == 1) {
+            scr_quest_set_state("oldmanBegin", 1);
+            scr_event_interactive_deactivate();
+        }
+    }
+} else if (argument0 == SCRIPT_INTERACT) {
+    var primordia = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("cdwarfOmniFight") == 1) || (scr_quest_get_state("primoFight") == 1) {
+            var choice = scr_event_build_choice("Did you win the fight?", s_portrait);
+            var yes = scr_event_build_add_choice(choice, "Yep, I won!");
+            var no = scr_event_build_add_choice(choice, "Nope, I lost!");
+            with (yes) {
+                if (scr_quest_get_state("cdwarfOmniFight") == 1) {
+                    scr_event_build_quest_state("cdwarfOmniDead", 1);
+                    scr_event_build_execute_event_script(event_chu_oldman01);
+                }
+                else if (scr_quest_get_state("primoFight") == 1) {
+                    scr_event_build_quest_state("primoDead", 1);
+                    scr_event_build_execute_event_script(event_chu_oldman01);
+                }
+            }
+            with (no) {
+                scr_event_build_stat("hp", "-200%");
+            }
+        }
+        if (scr_quest_get_state("playerX1") == 1) {
+            scr_event_build_execute_event_script(event_chu_confrontation_x01);
+        } else if (scr_quest_get_state("cdwarfReformat") == 1) {
+            scr_event_build_execute_event_script(event_chu_confrontation_reformat01);
+        } else {
+            scr_event_build_execute_event_script(event_chu_confrontation_cyberdwarf01);
+        }
+    }
+    scr_event_advance(event);
+}

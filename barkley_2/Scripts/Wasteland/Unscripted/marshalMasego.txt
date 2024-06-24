@@ -1,0 +1,787 @@
+//Marshal Masego
+
+//------------------------------------------------------------------------------
+// *** figbottomQuest = 2 ***
+//------------------------------------------------------------------------------
+
+Marshal Masego:
+I thought I made myself completely clear when I told you I didn't want to see you around anymore. You're exactly the kind of person who ticks me off; someone who doesn't give a rat dip about anyone but yourself. Get the hell out of the Industrial Park and don't come back.
+
+X114JAM9:
+But...
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** figbottomQuest = 9 ***
+//------------------------------------------------------------------------------
+
+Marshal Masego:
+Well if it isn't the sleuth. How's it going, gumshoe? What can I do for you?
+
+//go to choice 1
+
+
+//------------------------------------------------------------------------------	
+// *** masegoSpoken = 1 ***
+//------------------------------------------------------------------------------
+
+Marshal Masego:
+Still here, huh? You need something?
+
+//go to choice 1
+
+
+//------------------------------------------------------------------------------
+// *** never spoken to ***
+//------------------------------------------------------------------------------
+
+Marshal Masego:
+I don't know if you're a drifter or if you're here to stay, but you're new to the Industrial Park so I'm gonna lay down the ground rules. Let's get the obvious stuff out of the way: no killing, no stealing, no fighting. If you see anyone doing any of these things, you tell me and I'll take care of it. No begging, no flute playing and especially no chups. No collaborating with agents of Cuchulainn and no messing with the turrets. You follow these rules or you get tossed in the slammer, no questions, no exceptions. Most importantly, I can change any of these rules at my discretion, especially if I'm tired of you. With that, I welcome you to the Industrial Park. You got any questions?
+
+//masegoSpoken = 1;
+//go to choice 1
+
+
+//------------------------------------------------------------------------------
+//choice 1
+//------------------------------------------------------------------------------
+
+What's the Industrial Park?
+
+	X114JAM9:
+	This might seem like a kind of stupid question but... what's the Industrial Park?
+	
+	Marshal Masego:
+	It's a dwarf zone, a safe place for dwarfs to rest outside of Tir na Nog. Or it would be if we didn't have to deal with Bainshees, Cybergremlins and troublemakers all the time.
+	
+	//go to choice 2
+	
+	//------------------------------------------------------------------------------
+	//choice 2
+	//------------------------------------------------------------------------------
+	
+	Bainshees?
+	
+		X114JAM9:
+		Bainshees?
+		
+		Marshal Masego:
+		Cuchulainn's 13 Zodiac Nightmare Terrors. Don't go out alone if you can help it. That's all I can tell you.
+		
+		X114JAM9:
+		Wow...
+		
+		//go to choice 2
+		
+	Cybergremlins?
+	
+		X114JAM9:
+		Cybergremlins?
+		
+		Marshal Masego:
+		The Cybergremlins like to cause mischief, get into the turret systems, steal stuff and occasionally mug lone dwarfs outside of the Industrial Park, but they almost seem tame compared to the Bainshees. Sister Irmingard is trying to civilize them with Clispaeth. We'll see how that works out.
+		
+		//go to choice 2
+		
+	Troublemakers?
+	
+		X114JAM9:
+		What kind of troublemakers?
+		
+		Marshal Masego:
+		Too many to count... we've had a string of unsolved disappearances lately. Most of them are drifters who are always coming and going, but now Figbottom's gone so things are getting serious. Every once in a while we get dealers trying to push their chups and we've always got beggars and flautists tooting up a racket.
+		
+		//go to choice 2
+
+	I had some other questions.
+		
+		X114JAM9:
+		I had some other questions.
+		
+		Marshal Masego:
+		Yeah?
+		
+		//go to choice 1
+	
+What were those rules again?
+
+	X114JAM9:
+	Could you go over those rules for me one more time?
+	
+	Marshal Masego:
+	I don't like to pester people or give them a hard time but if want to make it out here, we've got to follow the rules. We've got better things to worry about than ourselves, okay? There's the obvious stuff: no killing, no stealing, no fighting. No begging, no flute toots, no chups. Period. No working with Cuchulainn, no messing with the turret system. If you see anyone doing any of these things, you report it to me. If YOU do any of these things, you'll be thrown in the slammer, no exceptions. And last, I can change these rules whenever I want so stay on my good side. Got it?
+	
+	X114JAM9:
+	Yeah, got it. Thanks.
+	
+	//go to choice 1
+
+What's going on here?
+
+	X114JAM9:
+	Is anything special going on right now?
+	
+	Marshal Masego:
+	Special's not the way I'd put it. There's a lot on my plate right now and Figbottom's disappearance is at the center of it. I think Sister Irmingard is trying to convert the Cybergremlins and our mechanic Sepideh is building some ridiculous contraption like usual. We've got drifters coming into the Industrial Park and making trouble and I've got to worry about Cuchulainn as well. I'm getting a little tired and I wouldn't mind a little help.
+	
+	
+	//------------------------------------------------------------------------------
+	//choice 3
+	//------------------------------------------------------------------------------
+	
+	Figbottom's disappearance?
+		
+		//if time < 8
+		
+		X114JAM9:
+		What happened to Figbottom?
+		
+		Marshal Masego:
+		To be honest, Figbottom was kind of a chump and nobody's too upset that he's gone. In fact, as far as I can see, a handful of people are pleased that he's gone and I'd be one of them if it didn't make my life more difficult. At this point I don't think there's much of a chance that I'll be finding him, but I might still be able to find out who did him in and put them to justice. See, that's what it's my job to care about: justice.
+		
+		Can I help?
+		
+			//go to "Is there anything I can do to help?" section below
+		
+		I had some other questions.
+	
+		//if time > 7
+		
+		X114JAM9:
+		What happened to Figbottom?
+		
+		Marshal Masego:
+		Figbottom was a junk collector who disappeared a couple weeks ago. It's been too long since we've lost him and the case is cold. I suspect foul play, but at this point I don't think we'll ever know what happened. Too bad. Anything else?
+		
+		//go to choice 3
+		
+		//if figbottomQuest > 0
+		
+		X114JAM9:
+		What happened to Figbottom?
+		
+		Marshal Masego:
+		Well, Figbottom disappeared a few weeks ago. This wouldn't be a big problem but I don't want it to become a precedent. More than that, I'm pretty sure whoever did him in (and I know there was foul play) is still in town. Since you're looking for the culprit, what I'd do is talk to his closest friend, Suresh. The two were inseparable, so I'd start with him.
+		
+		X114JAM9:
+		Okay, will do.
+		
+		Marshal Masego:
+		Anything else?
+		
+		//go to choice 3
+		
+		//if figbottomQuest = 7
+		
+		X114JAM9:
+		What happened to Figbottom?
+		
+		Marshal Masego:
+		Well, he disappeared a few weeks ago. We found the culprit and I guess you know what happened next. Anything else?
+		
+		//go to choice 3
+		
+	Who's Sister Irmingard?
+	
+		X114JAM9:
+		Who is Sister Irmingard?
+		
+		Marshal Masego:
+		She's a Klispin preacher. I guess she got it into her head that the Cybergremlins outside of town should be Klispins too. Who knows, maybe if they convert they'll stop causing so much trouble. Worth a shot, I guess. Anything else?
+		
+		//go to choice 3
+	
+	What is Sepideh building?
+	
+		X114JAM9:
+		Who's Sepideh and what is she building?
+		
+		Marshal Masego:
+		She's the town mechanic. She built our turrets, our water pumps and pretty much everything else in the Industrial Park. I have no idea what she's building but she's never done us wrong so let her build whatever she wants. Anything else?
+		
+		//go to choice 3
+	
+	Who are the drifters?
+	
+		X114JAM9:
+		Who are the drifters?
+		
+		Marshal Masego:
+		Not sure, really. People come and go since we're so close to Tir na Nog. Most people who make it out end up here at some point, but these guys have really gotten on my nerves. Especially that flautist. There is no tooting in the Industrial Park. NO tooting. Got that?
+		
+		X114JAM9:
+		Yeah...
+		
+		Marshal Masego:
+		Good. Now anything else?
+		
+		//go to choice 3
+
+	Cuchulainn?
+	
+		X114JAM9:
+		Cuchulainn is a problem out here?
+		
+		Marshal Masego:
+		You think that because we're not in Tir na Nog, Cuchulainn isn't a problem? No. Out here, Cuchulainn is ten times the problem he was in Tir na Nog. The Duergars and Bainshees are the reason we've got that turret system set up. Cuchulainn's minions are the reason I have a perpetual headache, not to mention a job, so yes, he's a problem out here. Anything else?
+		
+		//go to choice 3
+	
+	Can I help?
+	//go to "Is there anything I can do to help?"
+	
+	That's all I wanted to know.
+	
+		X114JAM9:
+		That's all I wanted to know. Thanks.
+		
+		Marshal Masego:
+		Yeah.
+		
+		//go to choice 1
+	
+Is there anything I can do to help?
+
+//if time < 8
+
+	X114JAM9:
+	Is there anything I can do to help out? You seem kind of busy.
+	
+	Marshal Masego:
+	As a matter of fact, yeah, you can. There was this guy who used to hang around here, Figbottom, who's gone missing. He and his buddy Suresh would scavenge for scraps at the Junk Yard south of here, so it's not unusual that he'd disappear for a while, but never this long. I don't know what's up, but there have been a handful of other disappearances lately and I'm worried that they all might be connected.
+	
+	X114JAM9:
+	What do you want me to do? Find him?
+	
+	Marshal Masego:
+	Yeah, if it's still possible. It may be too late to find him and if you can't, I want you to find out if there was foul play, if anyone did something to him. Is this something you think you've got the time for?
+	
+	Yeah, I can help you out.
+		X114JAM9:
+		Yeah, I think I can help you out. Where should I start?
+		
+		Marshal Masego:
+		Ah, that's a load off my shoulders. I appreciate it. What I'd do is talk to his friend Suresh to see if he knows anything and go from there. Figbottom and Suresh were best friends who scavenged everywhere together so he should know something.
+		
+		X114JAM9:
+		Okay, I think I've got it. I may not be the best gumshoe in the world, but I'll give it my all.
+		
+		Marshal Masego:
+		Don't gum it up too much, youngster. And most importantly, I want a perp. Remember that everyone is a suspect and nobody's above suspicion. If you think you know what happened to Figbottom or who was involved in his disappearance, you tell me. Got it?
+		
+		X114JAM9:
+		Yeah, got it.
+		
+		Marshal Masego:
+		Good, then get out of here.
+		
+		//figbottomQuest = 3;
+		//end dialogue;
+	
+	No, not today.
+		X114JAM9:
+		Sounds like you've got your hands full. Wish I could help, but I just don't have the time.
+		
+		Marshal Masego:
+		Yeah, it's a big, messy job. I wouldn't want to do it if I were in your shoes. Let me know if you change your mind, I can use the help.
+		
+		//figbottomQuest = 1;
+		//end dialogue;
+		
+//if time < 8 & figbottomQuest = 1;
+
+	X114JAM9:
+	Is there anything I can do to help out? You seem kind of busy.
+
+	Marshal Masego:
+	Have you given any thought about helping me find out what happened to Figbottom? He's that junk collector who disappeared. That's what I need the most help with right now, think you've got the time?
+	
+	Yeah, I can help you out.
+		X114JAM9:
+		Yeah, I think I can help you out. Where should I start?
+		
+		Marshal Masego:
+		Ah, that's a load off my shoulders. I appreciate it. What I'd do is talk to his friend Suresh to see if he knows anything and go from there. Figbottom and Suresh were best friends who scavenged everywhere together so he should know something.
+		
+		X114JAM9:
+		Okay, I think I've got it. I may not be the best gumshoe in the world, but I'll give it my all.
+		
+		Marshal Masego:
+		Don't gum it up too much, youngster. And most importantly, I want a perp. Remember that everyone is a suspect and nobody's above suspicion. If you think you know what happened to Figbottom or who was involved in his disappearance, you tell me. Got it?
+		
+		X114JAM9:
+		Yeah, got it.
+		
+		Marshal Masego:
+		Good, then get out of here.
+		
+		//figbottomQuest = 3;
+		//end dialogue;
+	
+	No, not today.
+		X114JAM9:
+		Sounds like you've got your hands full. Wish I could help, but I just don't have the time.
+		
+		Marshal Masego:
+		Yeah, it's a big, messy job. I wouldn't want to do it if I were in your shoes. Let me know if you change your mind, I can use the help.
+		
+		//figbottomQuest = 1;
+		//end dialogue;
+		
+//if time > 7
+
+	X114JAM9:
+	Is there anything I can do to help out? You seem kind of busy.
+	
+	Marshal Masego:
+	If you'd have asked a while ago, you could've helped me out with a disappearance of one of the local junk collectors, but it's been too long and the case is cold. Too bad, justice would've been nice.
+	
+	//go to choice 1.
+	
+//if figbottomQuest > 2
+	
+	X114JAM9:
+	Is there anything I can do to help out? You seem kind of busy.
+	
+	Marshal Masego:
+	Aside from finding out what happened to Figbottom you mean? Yeah, I've got a whole laundry list for you. But focus on this for now. Anything else?
+	
+	//go to choice 1.
+	
+	
+//if figbottomQuest = 7
+
+	X114JAM9:
+	Hey, is there anything else I can do to help?
+	
+	Marshal Masego:
+	Yeah, actually. You remember those rules I told you when you came here? If you see anyone breaking those rules, I want you to tell me. I know you're trustworthy, I know you've got a good head on your shoulders. Let me know who's doing it and I'll toss 'em in jail. Got it?
+	
+	X114JAM9:
+	Yeah, I guess so, but it seems like snitching...
+	
+	Marshal Masego:
+	Yeah? Well you'll be doing everyone in the Industrial Park a big favor, so just do it. Anything else?
+	
+	//go to choice 1.
+	
+You seem pretty stressed out.
+
+//unfinished
+
+	X114JAM9:
+	You seem kind of stressed out, are you alright?
+	
+	Marshal Masego:
+
+//figbottomQuest > 2;
+I think I know something about Figbottom's disappearance.
+
+	X114JAM9:
+	Marshal Masego, I think I know something about Figbottom's disappearance.
+	
+	Marshal Masego:
+	Yeah? What is it?
+	//go to choice 4
+	
+	
+	//------------------------------------------------------------------------------
+	//choice 4
+	//------------------------------------------------------------------------------
+	
+	//figbottomQuest > 3 & < 7;
+	
+	I think Suresh the junk collector killed him.
+	
+		X114JAM9:
+		I think Suresh the junk collector killed him.
+		
+		Marshal Masego:
+		Yeah? Why's that?
+		
+		X114JAM9:
+		Well, I'm not really sure. Just a hunch, I guess, but it seems suspicious that Suresh doesn't seem to care that his pal is gone. I mean, I'd be pretty upset about it.
+		
+		Marshal Masego:
+		And that's it? You think Suresh killed just because?
+		
+		That's my theory.
+			X114JAM9:
+			Well, I think it could have happened that way, it's just a theory. We should probably investigate more.
+			
+			Marshal Masego:
+			...okay. Good enough for me. I'm locking him up.
+			
+			//screen fades out, fades back in
+			
+			Marshal Masego:
+			Well, justice has been served. That scumbag's rotting in a prison cell as we speak. I never trusted that guy, he always seemed like he was only out for himself, like he'd turn on you as soon as he knew he could get away with it. Well Suresh didn't get away with it this time and he won't be getting away with it again.
+			
+			X114JAM9:
+			Glad I could help... but you seemed a little eager to arrest him though... shouldn't he at least have gotten a trial?
+			
+			Marshal Masego:
+			Hey, so I found a jerkin in his belongings. I confiscated it as evidence but I'm never going to use it. Why don't you take it?
+			
+			X114JAM9:
+			Oh, wow, I wasn't expecting this. Thanks, I guess.
+			
+			Marshal Masego:
+			No problem, kid. Good to work with you. You know, it's people like you with a zeal for justice that give me hope that maybe things will be okay. Take care of yourself out there.
+			
+			X114JAM9:
+			Thanks... (did we really get the right guy?)
+			
+			//get Junk Yard Jerkin;
+			//time +=1;
+			//figbottomQuest = 9;
+			//sureshArrest = 1;
+			//end dialogue;
+		
+		Wait, let me think about it.
+			X114JAM9:
+			Wait, actually I think...
+			
+			//go to choice 4
+	
+	//figbottomQuest > 6;
+	I think Suresh the junk collector killed him.
+	
+		X114JAM9:
+		I think Suresh the junk collector killed him.
+		
+		Marshal Masego:
+		Yeah? Why's that?
+		
+		X114JAM9:
+		Well, Suresh and Figbottom found a jerkin while scavenging the Junk Yard together and got into a fight over who got to keep it. It got pretty bitter and the two ended up having a falling out the day before Figbottom disappeared. Now Suresh is wearing the jerkin and Figbottom's gone.
+		
+		Marshal Masego:
+		And that's it? You think Suresh killed him for the jerkin?
+		
+		That's my theory.
+			X114JAM9:
+			Well, I think it could have happened that way, it's just a theory. We should probably investigate more.
+			
+			Marshal Masego:
+			...okay. Good enough for me. I'm locking him up.
+			
+			//screen fades out, fades back in
+			
+			Marshal Masego:
+			Well, justice has been served. That scumbag's rotting in a prison cell as we speak. I never trusted that guy, he always seemed like he was only out for himself, like he'd turn on you as soon as he knew he could get away with it. Well Suresh didn't get away with it this time and he won't be getting away with it again.
+			
+			X114JAM9:
+			Glad I could help... but you seemed a little eager to arrest him though... shouldn't he at least have gotten a trial?
+			
+			Marshal Masego:
+			Hey, so about that jerkin they found? I confiscated it as evidence but I'm never going to use it. Why don't you take it?
+			
+			X114JAM9:
+			Oh, wow, I wasn't expecting this. Thanks, I guess.
+			
+			Marshal Masego:
+			No problem, kid. Good to work with you. You know, it's people like you with a zeal for justice that give me hope that maybe things will be okay. Take care of yourself out there.
+			
+			X114JAM9:
+			Thanks... (did we really get the right guy?)
+			
+			//get Junk Yard Jerkin;
+			//time +=1;
+			//figbottomQuest = 9;
+			//sureshArrest = 1;
+			//end dialogue;
+		
+		Wait, let me think about it.
+			X114JAM9:
+			Wait, actually I think...
+			
+			//go to choice 4
+		
+	//figbottomQuest > 4 & < 8;
+	I think Kunigunde the town gossip killed him.
+		X114JAM9:
+		I think Kunigunde, the town gossip, killed Figbottom.
+		
+		Marshal Masego:
+		Yeah? And why's that?
+		
+		X114JAM9:
+		Uhhh. To be honest, I'm just kind of throwing her name out there. It might have been her, I guess. I mean, she seems to know what's up about most stuff, so why wouldn't she know what happened to Figbottom? 
+		
+		Marshal Masego:
+		And so you think Kunigunde killed Figbottom for no real reason?
+		
+		I guess.
+			X114JAM9:
+			It's just a theory I'm pitching to you. I mean, I guess it could have happened that way.
+			
+			Marshal Masego:
+			...okay. That sounds reasonable enough to me. I'm locking her up.
+			
+			//screen fades out, fades back in
+			
+			Marshal Masego:
+			That scumbag's rotting in a prison cell as we speak. I never trusted her anyway, always poking her nose in everyone's business and yapping about things she didn't know about. Whether or not she did it, the town's better off without her. Justice is served in my books.
+			
+			X114JAM9:
+			Glad I could help... but you seemed a little eager to arrest her though... shouldn't she at least have gotten a trial? Did you lock her up as an excuse to get rid of her?
+			
+			Marshal Masego:
+			Hey, so you know what? She had a big pot of money on her when I got her, 6,000 neo-shekels. I confiscated it as evidence but it won't do anyone any good if it's just sitting around a vault. What do you say we split it 50/50? That'd make your cut 3,000 neo-shekels.
+			
+			X114JAM9:
+			Oh, wow, I wasn't expecting this. Thanks, I guess.
+			
+			Marshal Masego:
+			No problem, kid. Good to work with you. You know, it's people like you with a zeal for justice that give me hope that maybe things will be okay. Take care of yourself out there.
+			
+			X114JAM9:
+			Thanks... (did we really get the right person?)
+			
+			//get 3000 neo-shekels;
+			//time +=1;
+			//figbottomQuest = 9;
+			//kunigundeArrest = 1;
+			//end dialogue;
+		
+		Wait, let me think about it.
+			X114JAM9:
+			Wait, actually I think...
+			
+			//go to choice 4
+		
+	//figbottomQuest > 7;
+	I think Kunigunde the town gossip killed him.
+		X114JAM9:
+		I think Kunigunde, the town gossip, killed Figbottom.
+		
+		Marshal Masego:
+		Yeah? And why's that?
+		
+		X114JAM9:
+		You wouldn't think Figbottom and Kunigunde really knew each other, right? Well it turns out they did a long time ago back when they were in Tir na Nog. They were part of a tontine together and were its last remaining members; the death of one would directly profit the other. When Figbottom died, Kunigunde inherited the money from the tontine.
+		
+		Marshal Masego:
+		And so you think Kunigunde killed Figbottom to get the tontine money?
+		
+		It's my theory.
+			X114JAM9:
+			It's my theory but I don't think we've got the whole story to be honest.
+			
+			Marshal Masego:
+			...okay. That sounds reasonable enough to me. I'm locking her up.
+			
+			//screen fades out, fades back in
+			
+			Marshal Masego:
+			That scumbag's rotting in a prison cell as we speak. I never trusted her anyway, always poking her nose in everyone's business and yapping about things she didn't know about. Whether or not she did it, the town's better off without her. Justice is served in my books.
+			
+			X114JAM9:
+			Glad I could help... but you seemed a little eager to arrest her though... shouldn't she at least have gotten a trial? Did you lock her up as an excuse to get rid of her?
+			
+			Marshal Masego:
+			Hey, so about that tontine money? I confiscated it as evidence but it won't do anyone any good if it's just sitting around a vault. What do you say we split it 50/50? That'd make your cut 3,000 neo-shekels.
+			
+			X114JAM9:
+			Oh, wow, I wasn't expecting this. Thanks, I guess.
+			
+			Marshal Masego:
+			No problem, kid. Good to work with you. You know, it's people like you with a zeal for justice that give me hope that maybe things will be okay. Take care of yourself out there.
+			
+			X114JAM9:
+			Thanks... (did we really get the right person?)
+			
+			//get 3000 neo-shekels;
+			//time +=1;
+			//figbottomQuest = 9;
+			//kunigundeArrest = 1;
+			//end dialogue;
+		
+		Wait, let me think about it.
+			X114JAM9:
+			Wait, actually I think...
+			
+			//go to choice 4
+			
+	//figbottomQuest > 5;
+	I think Moriarty the vagrant killed him.
+		X114JAM9:
+		I think Moriarty, a vagrant living at the edge of town, killed him.
+		
+		Marshal Masego:
+		A vagrant, huh? Doesn't surprise me. What's the MO?
+		
+		X114JAM9:
+		Moriarty was really hostile when I talked to him and refused to let me ask him questions. He was chewing on a bloody glove that I think might have been Figbottom's. To be honest, he seemed pretty crazy and dangerous. I was a little intimidated being around him.
+		
+		Marshal Masego:
+		So you think this crazy vagrant might have killed Figbottom then?
+
+		It's my theory.
+			X114JAM9:
+			Well, that's my theory but I think we should investigate more.
+			
+			Marshal Masego:
+			...okay. That's a good enough reason for me. I'm locking him up.
+			
+			//screen fades out, fades back in
+			
+			Marshal Masego:
+			Well, that slimy cretin's rotting in a jail cell as we speak. You were on the money with that one, that guy was nuts. He had this crazy look in his eyes, almost like he wanted to eat me. There's no doubt in my mind that he was responsible for the string of disappearances lately.
+			
+			X114JAM9:
+			How many people disappeared? Are you sure they're all related to this guy?
+			
+			Marshal Masego:
+			It's been a problem for a while now but people come and go. Figbottom was a regular, though. He wouldn't leave the Industrial Park without telling us. Justice is served in my books. Good work kid.
+			
+			X114JAM9:
+			Are you sure? I mean, I think it was probably him, but doesn't he deserve a trial or something?
+			
+			Marshal Masego:
+			Hey, so about that bloody glove? I confiscated it as evidence but it won't do anyone any good if it's just sitting around a vault. Do you want to keep it as a souvenir or something? I don't want it.
+			
+			X114JAM9:
+			Ummm, not really... but I guess I'll take it...
+			
+			Marshal Masego:
+			No problem, kid. Good to work with you. You know, it's people like you with a zeal for justice that give me hope that maybe things will be okay. Take care of yourself out there.
+			
+			X114JAM9:
+			Thanks... (did we really get the right guy?)
+			
+			//get Figbottom's Glove;
+			//time +=1;
+			//figbottomQuest = 9;
+			//moriartyArrest = 1;
+			//end dialogue;
+		
+		Wait, let me think about it.
+			X114JAM9:
+			Wait, actually I think...
+			
+			//go to choice 4		
+		
+	
+	
+	I think you killed him.
+		X114JAM9:
+		I think you killed him.
+		
+		Marshal Masego:
+		Are you just goofing me or are you serious?
+		
+		I'm spoofing you.
+			X114JAM9:
+			I'm just spoofing you. It was just a spoof. You got goofed.
+			
+			Marshal Masego:
+			Piss off, kid. Clispaeth Christ...
+			
+			//end dialogue;
+		
+		I'm serious.
+			X114JAM9:
+			This isn't a goof, I'm being completely serious. I think you set this whole thing up as a convenient excuse to get rid of Figbottom. You're acting concerned to deflect suspicion from yourself as the culprit.
+			
+			Marshal Masego:
+			You... I can't believe this... you stupid kid. Do you know how hard I work to keep this place safe? You know how much sleep I lose over Cuchulainn and vagrants and the Industrial Park and criminals and everything else? To say I killed Figbottom when I'm the only one who cares is... you stupid kid...
+			
+			X114JAM9:
+			Whoa, uh, maybe I was wrong. Don't get so worked up about it...
+			
+			Marshal Masego:
+			I can't believe I ever trusted you to investigate Figbottom's disappearance! I guess this was a real wakeup call: you can't trust anyone who just walks in here no matter how competent they seem. I'm throwing you in jail, you gatdam brat.
+			
+			X114JAM9:
+			What? Jail? I didn't do anything!
+			
+			Marshal Masego:
+			Shut up, you insolent little brat! You're coming with me!
+			
+			X114JAM9:
+			Looks like the one who got goofed... was me...
+			
+			//figbottomQuest = 2;
+			//activate jail script;
+			//end dialogue;
+	
+	Never mind.
+		X114JAM9:
+		Never mind. I need to think about it a little more.
+		
+		Marshal Masego:
+		Sure, anything else?
+		
+		//go to choice 1
+
+There's something I need to tell you...
+
+	X114JAM9:
+	Hey, there's something I need to tell you.
+	
+	Marshal Masego:
+	Yeah?
+	
+	//if borisVar = 1 & borisArrest = 0
+	I saw a guy tooting a flute.
+	
+		X114JAM9:
+		I saw a guy tooting a flute by the shop. His name is Boris and he was really going at it.
+		
+		Marshal Masego:
+		Flute flaunting, huh? That's a criminal offense in the Industrial Park. Thanks for letting me know, kid. I'll get this taken care of right away.
+		
+		//screen fades out and in
+		//borisArrest = 1
+		
+		Marshal Masego:
+		You did a good job, kid. I got that scumbag off the streets and into the pen. Keep it up, we need more people like you in the Industrial Park. Was there anything else?
+		
+		//go to Choice 1
+		
+		
+	//if oozeIndustrial = 1 & oozeTurret > 0 & < 3 & Time = 12
+	Ooze told me to disable the Industrial Park turrets.
+	
+		X114JAM9:
+		Ooze wants to sabotage the Industrial Park turrets. He tried to recruit me to do it. He's hanging out near the machinist's place.
+		
+		Marshal Masego:
+		Ooze, huh? That guy always rubbed me the wrong way. Alright, I'll go lock that scumbag up...
+		
+		//fade out and in
+		
+		//oozeTurret = 6
+		//oozeVar --
+		
+		Marshal Masego:
+		I couldn't find that rat anywhere. I guess he got away.
+		
+		X114JAM9:
+		Maybe he knew I'd tell you...
+		
+		Marshal Masego:
+		Well it's too bad I couldn't get him. I'll keep an eye out for him. Thanks for letting me know. It looks like I've got one more thing to worry about.
+		
+		//end dialogue;
+		
+	Never mind.
+	
+		X114JAM9:
+		Never mind. Just spoofin' you.
+		
+		Marshal Masego:
+		Was there anything else?
+		
+		//go to choice 1
+Nope, I'm good. See you later.
+
+	X114JAM9:
+	Nope, I'm good. See you later.
+	
+	//end dialogue;
+	

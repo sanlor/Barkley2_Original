@@ -1,0 +1,42 @@
+// event_doj_dojoExit01
+/*
+if (argument0 == SCRIPT_START) {
+    var dojoExit = id;
+    var event = scr_event_create_main();
+    
+    //-------------------------------
+    // main event
+    //-------------------------------
+    with (event) {
+        //---------------------------------
+        // ZAUBER EXIT
+        //---------------------------------
+        if (scr_quest_get_state("dojoZauber") >= 1) {
+            if (scr_quest_get_state("dojoZauber") == 1) {
+                scr_event_build_dialogue("Fa Jun", NULL, "M-... Mizutani's wisdom! That glittering zauber! How did you achieve enlightenment so quickly! You must be a special youngster indeed!");
+            }
+            else {
+                scr_event_build_dialogue("Fa Jun", NULL, "I'm ashamed we did not seek you out and find you... maybe the furtherance of our teachings relied upon finding the ultimate student. How shameful I did not think of this...");
+            }
+        }
+        //---------------------------------
+        // ALTAR EXIT
+        //---------------------------------
+        else if (scr_quest_get_state("dojoAltar") == 1) && (scr_quest_get_state("dojoExit") == 1) {
+            scr_event_build_dialogue("Fa Jun", NULL, "So, didn't find what you were looking for?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No... I requested an audience at the altar, and the Grandmaster did not appear. I suppose I am not yet worthy.");
+            scr_event_build_dialogue("Fa Jun", NULL, "Such is the case with all of us at the dojo.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What are you saying? Even you've never met Grandmaster Mizutani?");
+            scr_event_build_dialogue("Fa Jun", NULL, "We know that the Grandmaster will appear to us when the time arrives. In the meantime, we upkeep the dojo and await his return. Ottorino warms the holy cushion, Bilquees cleans the holy floors, and the Hiya Kid pummels the holy sandbags. We all do our part. I myself guard the gate, as I have for as long as I can remember. We each have our small way of proving our dedication. What do you say, are you interested?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "In work? What kind of work?");
+            scr_event_build_dialogue("Fa Jun", NULL, "Hard work is purifying, initiate. Physical ardor and a daily routine provide a solid foundation for freeing one's mind.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Tasks, huh? Something's fishy about this...)");
+            scr_event_build_dialogue("Fa Jun", NULL, "There is a water bucket on the side of the dojo. Bring it to me to begin your task.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Water bucket? This is really familiar...)");
+            scr_event_build_quest_state("faJunTask", 1);
+        }
+    }
+    scr_event_advance(event);
+}
+else if (argument0 == SCRIPT_STEP) {}
+else if (argument0 == SCRIPT_INTERACT) {}

@@ -1,0 +1,104 @@
+// event_tnn_constantine01
+// Event for Peeing Duergar, involved in the Governor Quest.
+// govQuest is the main quest in Tir na Nog.
+// govQuest = 2 means you have to retrieve Duergar piss.
+// govQuest = 3 means you already have Duergar piss.
+
+if (argument0 == SCRIPT_START)
+{
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var duergar = id;
+    var event = scr_event_create_main();
+    var intercept_snippet = scr_event_create_child(event);
+    var constantname = Duergar("getname", "constantine");
+    
+    //-------------------------------------------
+    // intercept_snippet
+    //-------------------------------------------
+    with (intercept_snippet)
+    {
+        var intercept_choice = scr_event_build_choice("Intercept stream?", s_port_hoopz);
+        
+        var yes = scr_event_build_add_choice(intercept_choice, "Yes.");
+        with (yes)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry about this!!!");
+            // scr_event_build_dialogue_ext(NULL_STRING, NULL, "#You place the vial underneath the Duergar's stream.", scene_extras);
+            scr_event_build_dialogue_debug("bort", NULL, "Hoopz does a little /'action/' animation.");
+            // scr_event_build_face() // TODO
+            // scr_event_build_animation_play_and_set(o_cts_hoopz, "action", "doing");
+            scr_event_build_dialogue(constantname, s_port_constantine, "What the hell are you doing!?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Umm, I promise it's going for a good cause. I mean, this is really important and I really, really have to have it and I promise I won't use this recklessly or in a way that contradicts your values or sense of propriety. I mean, uh... bye!");
+            scr_event_build_dialogue(constantname, s_port_constantine, "Kids these days. I'm serious, what the hell is wrong with kids these days? I'm gonna beat the shit out of you when I'm finished with my business.");
+            scr_event_build_dialogue_item("Got the Number 1.");
+            scr_event_build_item_gain("Duergar Urine", 1);
+            scr_event_build_quest_state("govQuest", 3);
+            scr_event_build_quest_state("constantineState", 2);
+        }
+        var no = scr_event_build_add_choice(intercept_choice, "No.");
+        with (no)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, no, I wasn't enjoying the show... uh, have a good day.");
+            scr_event_build_dialogue(constantname, s_port_constantine, "Clispaeth Christ, kid.");
+            scr_event_build_quest_state("constantineState", 1);
+        }
+    }
+    
+    
+    //-------------------------------------------
+    // Main Event
+    //-------------------------------------------
+    with (event)
+    {
+        //if you're controlling the Governor.
+        if (BodySwap() == "governor")
+        {
+            scr_event_build_dialogue(constantname, s_port_constantine, "Just markin' the turf, boss.");
+        } 
+        // Pee collected.
+        else if (scr_quest_get_state("constantineState") == 2)
+        {
+            scr_event_build_dialogue(constantname, s_port_constantine, "Clispaeth Christ, you are a fucking weirdo.");
+        } 
+        // On Governor Quest
+        else if (scr_quest_get_state("govQuest") == 2)
+        {
+            // Talked to
+            if (scr_quest_get_state("constantineState") == 1)
+            {
+                scr_event_build_dialogue(constantname, s_port_constantine, "I told you to piss off, kid! What don't you get? I'm a little busy here!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I know. Um, this is going to sound a little weird, but um... I really need to borrow some of your, uh...");
+            }
+            // Haven't talked
+            else
+            {
+                scr_event_build_dialogue(constantname, s_port_constantine, "Piss off, kid! I'm a little busy!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, this is going to sound a little weird, but um... I really need to borrow some of your, uh...");
+            }
+            scr_event_build_dialogue(constantname, s_port_constantine, "Enjoying the show? You want to take a fucking picture or something?");
+            scr_event_build_event_snippet(intercept_snippet);
+        } 
+        // Talked, quest off.
+        else if (scr_quest_get_state("constantineState") == 1)
+        {
+            scr_event_build_dialogue(constantname, s_port_constantine, "I told you to piss off! I'm busy!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oops. Sorry!");
+        }
+        // Haven't talked, quest off.
+        else
+        {
+            scr_event_build_dialogue(constantname, s_port_constantine, "I'm busy, kid.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um... sorry.");
+            scr_event_build_quest_state("constantineState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

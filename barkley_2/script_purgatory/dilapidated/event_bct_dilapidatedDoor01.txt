@@ -1,0 +1,240 @@
+// event_bct_dilapidatedDoor01
+/*
+    This is the door to the Dilapidated Zone.
+    Accessed at different states, it can...
+        Offer an alignment / roundmound choice.
+        Offer a fake quest for L.O.N.G.I.N.U.S.
+        Be destroyed by the Super Robot.
+        Be opened by the friendly Squatters.
+*/
+
+//--------------
+// Squatter Door
+//--------------
+/*
+if (argument0 == SCRIPT_START) {
+    if (scr_quest_get_state("dilapEmancipated") == 1) {
+        instance_destroy();
+    }
+    else if (scr_quest_get_state("superBreach") >= 1) {
+        instance_destroy();
+    }
+} 
+else if (argument0 == SCRIPT_STEP) {} 
+else if (argument0 == SCRIPT_INTERACT) {
+    var dilapidated_door = id;
+    var event = scr_event_create_main();
+    var fake_snippet = scr_event_create_child(event);
+    var longinus_snippet = scr_event_create_child(event);
+    var regular_snippet = scr_event_create_child(event);
+    
+    var wendyname = "Wendy";
+    var kirshnikname = "Kirshnik";
+    
+    if (scr_quest_get_state("longinusFakeCover") == 1) {
+        wendyname = "Gen. Wendy";
+        kirshnikname = "Capt. Kirshnik";
+    }
+    
+    var time_early = 10;
+    
+    //------------------------------------------------------
+    //  main event
+    //------------------------------------------------------
+    with (event) {
+        // pre-guilderberg
+        if (scr_quest_get_state("guilderJoined") >= 0) {
+            var knock_choice = scr_event_build_choice("Knock?", s_port_hoopz);
+            var yes = scr_event_build_add_choice(knock_choice, "Yes, knock.");
+            var no = scr_event_build_add_choice(knock_choice, "No, don't knock.");
+            // don't knock
+            with (no) {
+                scr_event_build_end();
+            }
+            // knock
+            with (yes) {
+                // joined guilderbergs
+                if (scr_quest_get_state("guilderJoined") >= 1) {
+                    scr_event_build_quest_state("guilderDilapidated", 1);
+                    scr_event_build_execute_event_script(event_placeholder);
+                }
+                // have not entered
+                if (scr_quest_get_state("longinusFakeDoor") == 0) {
+                    scr_event_build_event_snippet(regular_snippet);
+                }
+                // spoke to longinus
+                else if (scr_quest_get_state("longinusTalked") == 1) {
+                    scr_event_build_event_snippet(longinus_snippet);
+                }
+                // still think squatters are longinus
+                else {
+                    scr_event_build_event_snippet(fake_snippet);
+                }
+            
+            }
+        }
+        // joined guilderbergs, already knocked
+        else if (scr_quest_get_state("guilderDeed") == 1) {
+            scr_event_build_execute_event_script(event_placeholder);
+        }
+    }
+    
+    //------------------------------------------------------
+    //  longinus_snippet
+    //------------------------------------------------------
+    with (longinus_snippet) {
+        if (scr_quest_get_state("longinusFakeMystery") == 1) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hello! Anybody there?");
+            scr_event_build_wait(2.5);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(They're so silent... what did I do wrong?");
+        }
+        // already completed quest
+        else if (scr_quest_get_state("longinusFakeDoor") == 2) {
+            if (scr_quest_get_state("dilapKnockCount") == 0) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, I just want you to know I talked to the real L.O.N.G.I.N.U.S.! General? Captain? Yeah right! You hear me? I'm onto ya!");
+                scr_event_build_wait(2.5);
+                scr_event_build_wait_for_actions();
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Sigh...)");
+                scr_event_build_quest_state("dilapKnockCount", 1);
+            }
+            if (scr_quest_get_state("longinusFakeDoor") == 1) { 
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, ya fakers, open up!");
+                scr_event_build_wait(2.5);
+                scr_event_build_wait_for_actions();
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ah, who cares!");
+            }
+        }
+        // haven't completed quest
+        else {
+            if (scr_quest_get_state("longinusFakeItem") == 0) {
+                scr_event_build_dialogue(wendyname, NULL, "Who's there?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, it's Private " + P_NAME + "... guess what happened? I ran into some other L.O.N.G.I.N.U.S. people here in Brain City!");
+            }
+            else {
+                scr_event_build_dialogue(wendyname, NULL, "That you, Private? Just slide it under the door!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yes ma'am... but guess what happened? I ran into some other L.O.N.G.I.N.U.S. people here in Brain City!");
+            }
+            scr_event_build_dialogue(wendyname, NULL, "...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hello?");
+            scr_event_build_dialogue(kirshnikname, NULL, "...");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Why is it so quiet?");
+            scr_event_build_wait(2.5);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What's going on!?");
+            scr_event_build_quest_state("longinusFakeMystery", 1);
+        }
+    }
+    
+    //------------------------------------------------------
+    //  fake_snippet
+    //------------------------------------------------------
+    with (fake_snippet) {
+        //-----------------------------
+        // locked out
+        //-----------------------------
+        if (scr_quest_get_state("longinusFakeDoor") == 2) {
+            if (scr_quest_get_state("dilapKnockCount") == 0) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, General Wendy? Captain Kirshnik? What's going on?");
+                scr_event_build_dialogue(kirshnikname, NULL, "Beat it!");
+                scr_event_build_dialogue(wendyname, NULL, "Nobody wants you around, kick rocks!");
+                scr_event_build_quest_state("dilapKnockCount", 1);
+            }
+            else {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "General Wendy? Captain Kirshnik?");
+                scr_event_build_wait(2.5);
+                scr_event_build_wait_for_actions();
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Sigh...)");
+            }
+        }
+        //-----------------------------
+        // returned with / without item
+        //-----------------------------
+        else if (scr_quest_get_state("longinusFakeDoor") == 1) {
+            // 1st time at door
+            if (scr_quest_get_state("longinusFakeItem") == 0) {
+                scr_event_build_dialogue(wendyname, NULL, "Who's there?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hello? General Wendy? Excuse me, ma'am. It's Private " + P_NAME + ". Requesting permission to enter.");
+                scr_event_build_dialogue(wendyname, NULL, "Permission denied. We're tied up, Private. Dealing with some um... live munitions right now. Go ahead and slide the supplies under the door.");
+            }
+            // 2nd time at door
+            else {
+                scr_event_build_dialogue(wendyname, NULL, "That you, Private? Just slide it under the door!");
+            }
+            // no item
+            if (Item("count", "LONGINUSFAKEITEM") == 0) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't have it yet...");
+                scr_event_build_dialogue(wendyname, NULL, "Well then, slide it under the door when you do have it!");
+                scr_event_build_end();
+            }
+            // give item choice
+            else {
+                var give_choice = scr_event_build_choice("Give item?", s_port_hoopz); // TODO real item name
+                var yes_slide = scr_event_build_choice(give_choice, "Yes, slide it under the door.");
+                with (yes_slide) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Here you go...");
+                    scr_event_build_dialogue_debug("bort", NULL, "A slight crouch or sfx goes here?");
+                    Item("build", "lose", "LONGINUSFAKEITEM", 1);
+                    scr_event_build_dialogue(kirshnikname, NULL, "Great work. Noooooowwww... hit the road, sucker!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? Captain Kirshnik?");
+                    scr_event_build_dialogue(wendyname, NULL, "You heard him, get lost!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "General Wendy?");
+                    scr_event_build_quest_state("longinusFakeDoor", 2);
+                    scr_event_build_quest_state("dilapKnockCount", 0);
+                }
+                var no_slide = scr_event_build_choice(give_choice, "No, hold onto the item.");
+                with (no_slide) {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, one second.");
+                    scr_event_build_quest_state("longinusFakeItem", 1);
+                }
+            }
+        }
+    }
+            
+    //------------------------------------------------------
+    //  regular_snippet
+    //------------------------------------------------------
+    with (regular_snippet) {
+        // knocked 8 times
+        if (scr_quest_get_state("dilapKnockCount") == 8) {
+            scr_event_build_dialogue_debug("bort", NULL, "8 knocks... this is where something really cool should happen...");
+        }
+        // knocked once or more
+        else if (scr_quest_get_state("dilapKnockCount") >= 1) {
+            scr_event_build_wait(2 + scr_quest_get_state("dilapKnockCount") * 0.3);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(No answer... this Brain City place isn't very friendly at all...)");
+            scr_event_build_quest_state("dilapKnockCount", scr_quest_get_state("dilapKnockCount") + 1);
+        }
+        // haven't knocked yet
+        else if (scr_quest_get_state("dilapKnockCount") == 0) { 
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hello? Anyone in there?");
+            scr_event_build_dialogue("Gruff Voice", NULL, "... who's there? What do you want?");
+            // looking for longinus
+            if (scr_quest_get_state("longinusDoorKnown") == 1) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm " + P_NAME + ", I've come looking for L.O.N.G.I.N.U.S.!");
+                scr_event_build_dialogue("Gruff Voice", NULL, "L.O.N.G.I.N.U.S.? What's L.O.N.G.I.N.U.S.?");
+                //h: // longinus explanation goes here
+                scr_event_build_dialogue("Raspy Voice", NULL, "Hmm... hm? No... shut up!... let's just... ah, ok... Hey. Hey. Hey! You still there!?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yes, I'm still here.");
+                scr_event_build_dialogue("Raspy Voice", NULL, "That was a test, and you sure did pass! Welcome to L.O.N.G.I.N.U.S.! I'm gonna pull this board out of the way, Hurry up and get inside!");
+                scr_event_build_quest_state("longinusFakeDoor", 1);
+                //scr_event_build_teleport(r_bct_dilapidatedMain01, 232, 224); // TODO: Exact coordinates for teleport
+            }
+            // longinus already met, or you don't know longinus exists
+            else {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm " + P_NAME + ". And what do I want? Well, since you're asking...");
+                scr_event_build_dialogue_debug("bort", NULL, "A good RoundMound question appears here!");
+                // var align_choice = scr_event_build_choice("What do I want?", s_port_hoopz);
+                // var (align_bball) {
+                //
+                // insert an alignment choice here!
+                // ROUNDMOUND
+                scr_event_build_dialogue("Gruff Voice", NULL, "Well there's none of that here... so scram!");
+                scr_event_build_quest_state("dilapKnockCount", 1);
+            }
+        }
+    }
+    
+    scr_event_advance(event);
+}

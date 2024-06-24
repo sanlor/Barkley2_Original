@@ -1,0 +1,15 @@
+// scr_safiatou_table_ready
+
+/*
+if (scr_quest_get_state("safiatouDine") == 0)
+{
+    return true;
+}
+else if (scr_quest_get_state("safiatouDine") >= 3) && (scr_time_get() >= scr_quest_get_state("safiatouTime") + 2)
+{
+    return true;
+}
+else
+{
+    return false;
+}

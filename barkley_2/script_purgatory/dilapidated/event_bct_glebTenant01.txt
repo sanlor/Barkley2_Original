@@ -1,0 +1,72 @@
+// event_bct_glebTenant01
+
+/*if (argument0 == SCRIPT_START) {
+    // load dilapidated zone data
+    global.supergrid = scr_savedata_get("supergrid");
+    global.improvemap = scr_savedata_get("improvemap");
+    
+    // even times, dance
+    if (scr_time_get() mod 2 = 0) { 
+        scr_quest_set_state("glebDance", 1); 
+    }
+    // odd times, don't dance
+    else { 
+        scr_quest_set_state("glebDance", 0); 
+    }
+}
+else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // id
+    var glebTenant = id;
+    
+    // portrait
+    var glebport = NULL;
+    var gleb_room = scr_dilapidated_get_room("Gleb");
+    
+    var event = scr_event_create_main();
+    var complaint_snippet = scr_event_create_child(event);
+    var welcome_snippet = scr_event_create_child(event);
+    //------------------------------------------------------------------------
+    // main event
+    //------------------------------------------------------------------------
+    with (event) {
+        if (scr_quest_get_state("glebState") == 0) {
+            scr_event_build_event_snippet(welcome_snippet);
+        }
+        if (scr_quest_get_state("glebDance") == 0) {
+        
+        }
+    }
+    
+    //------------------------------------------------------------------------
+    // welcome_snippet
+    //------------------------------------------------------------------------
+    with (welcome_snippet) {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Gleb, how are you? Good to see you've settled in!");
+        // if there is an existing complaint
+        if (scr_dilapidated_complaint("Gleb") >= 1) {
+        
+        }
+        else {
+        
+        }
+        scr_event_build_dialogue("Gleb", glebport, "");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+        scr_event_build_dialogue("Gleb", glebport, "");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "");
+        scr_event_build_dialogue("Gleb", glebport, "");
+    }
+    
+    //------------------------------------------------------------------------
+    // complaint_snippet
+    //------------------------------------------------------------------------
+    with (complaint_snippet) {
+    
+    
+    }
+    
+    
+    scr_event_advance(event);  
+}

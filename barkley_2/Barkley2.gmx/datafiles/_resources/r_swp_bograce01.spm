@@ -1,0 +1,20 @@
+{
+    "UBOSHqklHX40yBRK0ayfTAuq7zgGzn": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_werecroc",
+        "resources": 1,
+        "uuid": "UBOSHqklHX40yBRK0ayfTAuq7zgGzn",
+        "x": 444,
+        "y": 208
+    },
+    "sVi9w8JDE4tfAAbMfl4XYAQcUthvR6": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_werecroc",
+        "resources": 1,
+        "uuid": "sVi9w8JDE4tfAAbMfl4XYAQcUthvR6",
+        "x": 186,
+        "y": 197
+    }
+}

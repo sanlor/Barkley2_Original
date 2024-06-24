@@ -1,0 +1,157 @@
+// Event for Jindrich.
+// usage: event_tnn_jindrich01();
+
+/*
+Different States:
+0 = Have not talked
+1 = Have talked, have not given fruit
+2 = Have given fruit
+
+Different dialogues for Times 1 to 5
+Possible to give fruit during Time 1 only
+*/
+
+if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var jindrich = id;
+    var event = instance_create(0, 0, o_event);
+    with (event) {
+        // Select case by time.
+		switch(scr_time_get()) {
+        
+            // --------
+            // TIME = 1
+            // -------- 
+			case 1: // time = 1
+				if scr_event_get_state(jindrich) = 0 { 
+                    // Jindrich not spoken to.
+					scr_event_build_dialogue("Jindrich", NULL, "Oh come on, no more?");
+					scr_event_build_dialogue("Bartender", NULL, "Your ration card's out, Jindrich. You know how willing I am to bend rules to get you fruit. You don't have to leave, but I can't serve you anything.");
+					scr_event_build_dialogue("Jindrich", NULL, "But I want fruit... I want a can of apricots. I want a jar of fruit. I want fruit.");
+					scr_event_build_dialogue("Bartender", NULL, "And I want 20 neo-shekels.");
+					scr_event_build_dialogue("Jindrich", NULL, "I_ want_ fruit._ I_ want_ fruit.");
+					if scr_money_get >= 20 { 
+                        // Have more than 20 neo-shekels.
+						var apricot = scr_event_build_choice("Buy the dwarf a can of apricots? (20 neo-shekels)");
+						var yes = scr_event_build_add_choice("Yes.");
+						with yes { 
+                            // Yes choice.
+							scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Excuse me sir, I have 20 neo-shekels. The apricots are on me.");
+							scr_event_build_dialogue("Bartender", NULL, "Thank you, that will keep him quiet for awhile. You seem like you have shekels to spare, hah."); // reallybad
+                            scr_event_build_money(-20);
+							scr_event_build_state(jindrich, 2);
+                            // State = 2, fruit given.
+						}
+						var no = scr_event_build_add_choice("No.");
+						with no { 
+                            // No choice.
+							// scr_event_build_dialogue("Jindrich", NULL, "I_ want_ fruit._ I_ want_ fruit."); // REALLYBAD
+							scr_event_build_state(jindrich, 1);
+                            // State = 1, talked but no fruit given.
+						}
+					} else { 
+                        // Have fewer than 20 neo-shekels.
+						scr_event_build_dialogue("Jindrich", NULL, "I_ want_ fruit...");	
+					}	
+				} else if scr_event_get_state(jindrich) = 1 { 
+                    // Jindrich spoken to.
+					scr_event_build_dialogue("Jindrich", NULL, "I_ want_ fruit._ I_ want_ fruit."); // REALLYBAD
+					if scr_money_get >= 20 {
+                        // Have more than 20 neo-shekels.
+						var apricot = scr_event_build_choice("Buy the dwarf an apricot? (5 neo-shekels)");
+						var yes = scr_event_build_add_choice("Yes.");
+						with yes { 
+                            // Yes choice
+							scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Excuse me sir, I have 5 neo-shekels. I'll buy him his apricot.");
+							scr_event_build_dialogue("Bartender", NULL, "Thank you, that will keep him quiet for awhile. Seems like you have neo-shekels to spare, hah."); // REALLYBAD
+                            scr_event_build_money(-20);
+							scr_event_build_state(jindrich, 2)
+                            // State = 2, fruit given.
+						}
+						var no = scr_event_build_add_choice("No.");
+						with no { 
+                            // No choice.
+							// scr_event_build_dialogue("Jindrich", NULL, "I_ want_ fruit._ I_ want_ fruit."); // REALLYBAD
+							scr_event_build_state(jindrich, 1);
+                            // State = 1, talked but no fruit given.
+						}
+					}
+				} else { // fruit given
+					scr_event_build_dialogue("Jindrich", NULL, "MMmmm... thanks for that fruit.");
+				}
+				break;
+                
+            // --------
+            // TIME = 2
+            // -------- 				
+			case 2:
+				if scr_event_get_state(jindrich) = 2 { 
+                    // Fruit given.
+					scr_event_build_dialogue("Jindrich", NULL, "Psst... psst..."); 
+					scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Hey, what's up?");
+					scr_event_build_dialogue("Jindrich", NULL, "Psst... it's a little weird seeing Gelasio here. They shipped him off to the mines for awhile, and I've never seen a dwarf come back from there. He must have struck a deal with the duergars. He's also been spending lots of neo-shekels... he's getting really friendly with the fruit if you know what I mean. Plus, I'm broke.");
+					scr_event_build_state(jindrich, 3);
+                    // State = 3, info gotten.
+				} else if scr_event_get_state(jindrich) < 2 {
+                    // Fruit not given.
+					scr_event_build_dialogue("Jindrich", NULL, "My boy Gelasio's getting really friendly with the fruit, kid. This is paradise!");
+				} else {
+                    // Info gotten, talked again.
+					scr_event_build_dialogue("Jindrich", NULL, "Gelasio's rocking my world, kid. This is paradise!");
+				} 
+				break;
+                
+            // --------
+            // TIME = 3
+            // -------- 				
+			case 3: 
+				if scr_event_get_state(jindrich) = 2 {
+                    // Fruit given.
+					scr_event_build_dialogue("Jindrich", NULL, "Psst... psst..."); 
+					scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Hey, what's up?");
+					scr_event_build_dialogue("Jindrich", NULL, "Psst... it's a little weird seeing Gelasio here. They shipped him off to the mines for awhile, and I've never seen a dwarf come back from there. He must have struck a deal with the duergars. He's also been spending lots of neo-shekels... I'm absolutely stuffed with apricots, kid. And I'm broke.");
+					scr_event_build_state(jindrich, 3);
+                    // State = 3, info gotten.
+				} else if scr_event_get_state(jindrich) < 2 {
+                    // Fruit not given.
+					scr_event_build_dialogue("Jindrich", NULL,  "I tell ya kid, days like this don't come along very often. I'm filled up with apricots. I'm stuffed.");
+				} else {
+                    // Info gotten, talked again.
+					scr_event_build_dialogue("Jindrich", NULL, "I'm heavy laden with apricots, kid. Maybe too many apricots. Ugh... maybe Gelasio did me in.");
+				} 
+				break;
+
+            // --------
+            // TIME = 4
+            // --------                 
+			case 4: // time = 4
+				if scr_event_get_state(jindrich) = 2 { 
+                    // Fruit given.
+					scr_event_build_dialogue("Jindrich", NULL, "Psst... psst..."); 
+					scr_event_build_dialogue("X114JAM9", s_port_hoopz, "Hey, what's up?");
+					scr_event_build_dialogue("Jindrich", NULL, "Psst... it's a little weird seeing Gelasio here. They shipped him off to the mines for awhile, and I've never seen a dwarf come back from there. He must have struck a deal with the duergars. He's also been spending lots of neo-shekels... honestly, I love this guy. What a great guy! Plus, I'm broke.");
+					scr_event_build_state(jindrich, 3);
+                    // State = 3, info gotten.
+				} else if scr_event_get_state(jindrich) < 2 {
+                    // Fruit not given.
+					scr_event_build_dialogue("Jindrich", NULL, "Hey kid, ever meet my buddy Gelasio? I've always said he's a great guy, haven't I?... I love Gelasio... I love fruit...");
+				} else {
+                    // Info gotten, talked again.
+					scr_event_build_dialogue("Gelasio", NULL, "Gelasio, what a saint!"); 
+				}
+                break;
+                
+			// --------
+            // TIME = 5
+            // -------- 	
+			case 5: // time = 5
+				scr_event_build_dialogue("Jindrich", NULL, "Zzz... fruits... zzz..."); // REALLYBAD
+				break;
+		}
+	}
+	scr_event_advance(event);
+}
+
+
+
+	

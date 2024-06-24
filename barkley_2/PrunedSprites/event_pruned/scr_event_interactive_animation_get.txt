@@ -1,0 +1,11 @@
+/// scr_event_interactive_animation_get(key)
+/// Retrieves the animation of the specific key, or NULL if it doesn't exist.
+/// The list contains the animation, beginning frame, and ending frame.
+
+var key = argument0;
+
+if (ds_map_exists(_animation_bank, key)) {
+    return ds_map_find_value(_animation_bank, key);
+} else {
+    return NULL;
+}

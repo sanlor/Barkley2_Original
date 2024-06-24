@@ -1,0 +1,65 @@
+{
+    "GjKUUX27YsIBcS3aFCUSQEkXFcbNVq": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_cGremlin_small_deg",
+        "resources": 1,
+        "uuid": "GjKUUX27YsIBcS3aFCUSQEkXFcbNVq",
+        "x": 591,
+        "y": 191
+    },
+    "JqeSSWEqDgN8DYOsUz6qtoyPQXDF8X": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_catfish_small",
+        "resources": 1,
+        "uuid": "JqeSSWEqDgN8DYOsUz6qtoyPQXDF8X",
+        "x": 891,
+        "y": 435
+    },
+    "KyqK0XcMDAM1um1z3JJpsDyt3HndTJ": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_cGremlin_small_deg",
+        "resources": 1,
+        "uuid": "KyqK0XcMDAM1um1z3JJpsDyt3HndTJ",
+        "x": 936,
+        "y": 455
+    },
+    "R1qVNsLkFPxinpnhcGbjAhW8HTn3JJ": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_cGremlin_small_deg",
+        "resources": 1,
+        "uuid": "R1qVNsLkFPxinpnhcGbjAhW8HTn3JJ",
+        "x": 827,
+        "y": 387
+    },
+    "UfYU9muvGjhj8iCvjQdots3ZYN5nyC": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_cGremlin_small_deg",
+        "resources": 1,
+        "uuid": "UfYU9muvGjhj8iCvjQdots3ZYN5nyC",
+        "x": 230,
+        "y": 218
+    },
+    "YEsNY49Ec9BQ2FbIiL5BTDCfjSR5FR": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_catfish_small",
+        "resources": 1,
+        "uuid": "YEsNY49Ec9BQ2FbIiL5BTDCfjSR5FR",
+        "x": 661,
+        "y": 136
+    },
+    "sjXwyCVoQM7eZfHPWTFHbsQHMog85G": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_cGremlin_small_deg",
+        "resources": 1,
+        "uuid": "sjXwyCVoQM7eZfHPWTFHbsQHMog85G",
+        "x": 226,
+        "y": 151
+    }
+}

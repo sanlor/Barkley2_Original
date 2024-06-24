@@ -1,0 +1,25 @@
+// Z sign // Quest: Mask of Zorro //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+        
+            // Hoopz finds all the signs //
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "There is a lot of these signs... maybe they hold a clue as to where I can find El Zorro.");
+            }
+scr_event_advance(event);
+}

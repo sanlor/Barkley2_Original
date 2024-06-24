@@ -1,0 +1,48 @@
+
+AUCTION HOUSE
+- reading about rare vidcons in games magazines scattered throughout the world
+- can be randomized per game?
+- you can attract the attention of the otaku dwarf through judicious auction postings of rare games?
+
+Auctioneer:
+"Lemme see, what do you have there in your bandolier... nah, nothing I want."
+Auctioneer:
+"I'll take your " + gun1 + ", your " + gun2 + ", or your " + gun3 + " if you're selling."
+Hoopz can choose one to sell?
+Hoopz can choose one to pawn?
+
+BUY IT NOW PRICE:
+(The auction house works as a money-making scheme and as a temporary gun's storage if you are really, really fast. There can also be rare items, and you can sell others. You can put items into this storage space, and there is an X % chance they will be re-listed at auction after any point. The price is fully randomized. There can even be cool vidcons listed on here! Can you get a job as a courier? This can put you into quests AFTER their designated early time?)
+
+*** I'M LOOKING FOR A JOB
+Courier offer
+
+*** I'D LIKE TO BUY SOMETHING
+Bid
+Buy it now
+
+*** I'D LIKE TO LIST SOMETHING
+Minimum bid
+Buy it now
+Duration
+
+LISTABLE ITEMS
+Vidcons, gun's, quest items, jerkins, candy, a zauber? The mental zauber appears, and it explodes the mind of the mental zauber owner. It can have a cool ebay-like description too? We should make a script that places an ad perhaps?
+
+MAILBOX
+Can I just store it here for you?
+I don't really have an address...
+
+Who is this for?
+"I'll just pick it up here."
+"It's for Wilmer."
+"It's for Diaab."
+"It's for nobody." <---- perverse chaos option
+"What the hell? I can't do this! You know I can't do this!"
+"It's gotta go somewhere... I can't leave this blank unfilled!"
+"Fine, send it to..." // "Put in a null value."
+"A null value... but... that's..."
+"Fine, send it to..." // "Do it!"
+"Do it!"
+"You... you... ugh... here it goes..."
+* AUCTION HOUSE SHUTS DOWN *

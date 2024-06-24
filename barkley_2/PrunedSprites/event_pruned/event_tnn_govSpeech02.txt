@@ -1,0 +1,459 @@
+// Event for the Governor's Speech.
+//show_debug_message("event_tnn_govSpeech02() - Execute...");
+if (argument0 == SCRIPT_START) then
+    {
+    // Setup everything prior to the speech //
+    Quest("govSpeechInitiate", 3);
+    scr_event_hoopz_switch_cutscene();
+    scr_entity_look(o_cts_hoopz, SOUTHWEST);
+    scr_entity_look(o_lafferty01, NORTHEAST);
+    scr_entity_look(o_honus01, NORTHEAST);
+    scr_entity_look(o_jeltsje01, NORTHEAST);
+    scr_entity_look(o_vikingstad01, NORTHEAST);
+    Quest("govChoicesMade", 0);
+    
+    // Default policy options that are unlocked regardless of what you have done //
+    Quest("govMedicine", 1);
+    Quest("govCandy", 1);
+    
+    // Value of Policies // This variable is used to give policies you pick a value //
+    Quest("govPolicyValue", 0);
+    
+    // Create the crowd control object //
+    if (instance_exists(o_crowdcontrol01) == 0) instance_create(0, 0, o_crowdcontrol01);
+    
+    // Initial facing as governor //
+    global.eventFacing = 6;
+    
+    // Event //
+    var event = scr_event_find_main();
+    with (event)
+        {
+        // Setup all crowd control variables //
+        scr_event_build_quest_state("govPolicy", "");
+        scr_event_build_quest_state("govCrowdReaction", 0);
+
+        // Reset script //
+        scr_event_build_execute_event_script(event_tnn_govSpeech02);
+        }
+    }
+    
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) then
+    {
+    // Set Hoopz Gov on the balcony //
+    scr_event_set_object(o_hoopz, 368, 192);
+
+    // Setup events and snippets //
+    var event = scr_event_create_main();    
+    var speech_snippet = scr_event_create_child(event);
+    var able_snippet = scr_event_create_child(event);
+    var unable_snippet = scr_event_create_child(event);
+    var effect_snippet = scr_event_create_child(event);
+    var ending_snippet = scr_event_create_child(event);
+        
+    //--------------------------------------------
+    //-------------- SPEECH SNIPPET --------------
+    //--------------------------------------------  
+    with (speech_snippet)
+        {
+        // Speech start //
+        scr_event_build_quest_state("govHandler", 2);        
+        var main_choice = scr_event_build_choice("Institute a new policy:", NULL);
+        
+        // CHOICE: ALLOW MARINA TO LEAVE TNN //
+        // Marina is allowed to leave - need to have spoken to Rancher Marina about cows.
+        if (scr_quest_get_state("govCow") == 1) then
+            {
+            with scr_event_build_add_choice(main_choice, "Ranchers can take cows to outside pastures.")
+                {
+                scr_event_build_quest_state("govPolicy", "cows"); 
+                scr_event_build_quest_state("govCrowdReaction", 1); 
+                scr_event_build_quest_state("govPolicyValue", 2);
+                }  
+            }
+            
+        // CHOICE: MEDICINE FOR THE ELDERLY // TRAP OPTION // Doesn't do dick //
+        // Medicine for the elderly - no conditions
+        if (scr_quest_get_state("govMedicine") == 1) then
+            {
+            with scr_event_build_add_choice(main_choice, "Medicine for the elderly.")
+                { 
+                scr_event_build_quest_state("govPolicy", "medicine"); 
+                scr_event_build_quest_state("govCrowdReaction", 1); 
+                scr_event_build_quest_state("govPolicyValue", 1);
+                }
+            }
+        
+        // CHOICE: RESCUE WILMER // Redeem your sins //
+        // Wilmer gets his house back
+        if (scr_quest_get_state("wilmerEvict") == 3) or (scr_quest_get_state("wilmerEvict") == 8) then
+            {
+            with scr_event_build_add_choice(main_choice, "Wilmer gets his house back.")
+                { 
+                scr_event_build_quest_state("govPolicy", "wilmer"); 
+                scr_event_build_quest_state("govCrowdReaction", 1); 
+                scr_event_build_quest_state("govPolicyValue", 2);
+                }
+            }
+            
+        // CHOICE: MONEY FOR THE CHURCH // JOKE OPTION // Give a bunch of money to Giuseppe who wastes it all //
+        // Church for Father Giuseppe - need to have spoken to Giuseppe
+        if (scr_quest_get_state("govChurch") == 1) then
+            {
+            with scr_event_build_add_choice(main_choice, "Support the local church.")
+                { 
+                scr_event_build_quest_state("govPolicy", "church"); 
+                scr_event_build_quest_state("govCrowdReaction", 1); 
+                scr_event_build_quest_state("govPolicyValue", 2);
+                }
+            }
+            
+        // CHOICE: CAR // ?????? //
+        // Build Auto Shop - need to have spoken to Hildeburge or Amalberga
+        if (scr_quest_get_state("govCar") == 1) then
+            {
+            with scr_event_build_add_choice(main_choice, "Build a mechanic's workshop for Amalberga and Hildeburge.")
+                { 
+                scr_event_build_quest_state("govPolicy", "car"); 
+                scr_event_build_quest_state("govCrowdReaction", 1); 
+                scr_event_build_quest_state("govPolicyValue", 2);
+                }
+            }
+            
+        // CHOICE: KALEVI TO THE MINES // CSPEAR IN THE MINES //
+        // Transfer Kalevi to Mines- need to have spoken to Kalevi
+        if (scr_quest_get_state("govKalevi") == 1) then
+            {
+            with scr_event_build_add_choice(main_choice, "Transfer Kalevi to the Mines.")
+                { 
+                scr_event_build_quest_state("govPolicy", "kalevi"); 
+                scr_event_build_quest_state("govCrowdReaction", -1); 
+                scr_event_build_quest_state("govPolicyValue", 0);
+                }
+            }
+            
+        // CHOICE: BBALL FOR ALL // OPEN UP THE COURT //
+        // Fix up Basketball Court - need to have spoken to Uschi
+        if (scr_quest_get_state("govBball") == 1) then
+            {
+            with scr_event_build_add_choice(main_choice, "Repair the b-ball court.")
+                { 
+                scr_event_build_quest_state("govPolicy", "bball"); 
+                scr_event_build_quest_state("govCrowdReaction", 1); 
+                scr_event_build_quest_state("govPolicyValue", 2);
+                }
+            } 
+            
+        // CHOICE: CANDY FOR THE POOR // TRAP OPTION // Doesn't do dick //
+        // Candy for the Poor - no conditions
+        if (scr_quest_get_state("govCandy") == 1) then
+            {
+            with scr_event_build_add_choice(main_choice, "Free candy for the poor.")
+                { 
+                scr_event_build_quest_state("govPolicy", "candy"); 
+                scr_event_build_quest_state("govCrowdReaction", 1); 
+                scr_event_build_quest_state("govPolicyValue", 1);
+                }
+            }
+            
+        // CHOICE: BAN GUILLAUME // WEDDING QUEST // A guitar player for the wedding //
+        // Kick Guillaume out of Tir na Nog - need to have spoken to Guillaume
+        if (scr_quest_get_state("govGuillaume") == 1) then
+            {
+            with scr_event_build_add_choice(main_choice, "Exile Guillaume from Tir na Nog.")
+                { 
+                scr_event_build_quest_state("govPolicy", "guillaume"); 
+                scr_event_build_quest_state("govCrowdReaction", 0); 
+                scr_event_build_quest_state("govPolicyValue", 0);
+                }
+            }    
+            
+        // CHOICE: HOOSGOW FOR ZHANG // JOKE OPTION // Nail Zhang to a cross in front of the prison //
+        // Send Kelpster and Zhang to the Hoosgow to suffer for their crimes //
+        if (scr_quest_get_state("govZhang") == 1) then
+            {
+            with scr_event_build_add_choice(main_choice, "Outlaw all clowns.")
+                { 
+                scr_event_build_quest_state("govPolicy", "hoosgow_Z"); 
+                scr_event_build_quest_state("govCrowdReaction", 2);
+                scr_event_build_quest_state("govPolicyValue", -3);
+                }
+            }  
+            
+        // CHOICE: HOOSGOW FOR KELPSTER // JOKE OPTION // Nail Kelpster to a cross in front of the prison //
+        // Send Kelpster and Zhang to the Hoosgow to suffer for their crimes //
+        if (scr_quest_get_state("govKelpster") == 1) then
+            {
+            with scr_event_build_add_choice(main_choice, "Arrest Kelpster.")
+                { 
+                scr_event_build_quest_state("govPolicy", "hoosgow_K"); 
+                scr_event_build_quest_state("govCrowdReaction", 0);
+                scr_event_build_quest_state("govPolicyValue", 0);
+                }
+            }  
+      
+        // CHOICE: RESET ALL CHOICES // 
+        // Reset choices
+        if scr_quest_get_state("govChoicesMade") > 0 then
+            {
+            var speech_reset = scr_event_build_add_choice(main_choice, "Wait, I take it all back, let me say it again (Reset ALL policies)");
+            with (speech_reset) scr_govSpeech_reset01();               
+            }
+        
+        // Done with this bullflub governor speech shit //
+        var speech_complete = scr_event_build_add_choice(main_choice, "I guess that wraps my speech up. Hope you liked.");
+        with (speech_complete)
+            {
+            // Do you really want to quit??? //
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(Wait a sec, am I really done with the speech? Better make sure before I finish up and all my decrees go into effect...)");
+            var done_choice = scr_event_build_choice("Am I really done with my speech?", s_port_governor);
+            
+            // CHOICE: End Speech
+            with scr_event_build_add_choice(done_choice, "Yeah, I think I'm done with this.") scr_event_build_event_snippet(ending_snippet);                
+                
+            // CHOICE: Don't end speech
+            with scr_event_build_add_choice(done_choice, "Nah, I should rethink my policies...")
+                {
+                scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(Nah, I should rethink my policies...)");
+                scr_event_build_event_snippet(speech_snippet);
+                }
+            }   
+            
+        // Reset script //
+        scr_event_build_execute_event_script(event_tnn_govSpeech02);
+        }
+        
+    //--------------------------------------------
+    //--------------- ABLE SNIPPET ---------------
+    //--------------------------------------------  
+    with (able_snippet)
+        {
+        // Make an announcement about a new policy //
+        switch (scr_quest_get_state("govPolicy"))
+            {
+            case "cows":        scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "It has come to my attention that ranchers are unable to take their cattle to a more suitable location. As you know, food is an important part of a balanced diet, so I am designating an area outside of Tir na Nog as cattle pasture for our ranchers. Rancher Marina and others will be allowed to come and go as they please in order to provide the good dwarfs of Tir na Nog with the food we need."); break;
+            case "medicine":    scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "For too long, the elderly of Tir na Nog have had to endure their gout and goiters, seizures and hemorrhoids in silence. I say no longer! No longer should the elderly of Tir na Nog bleed from open wounds quietly! From now on, our most senior of citizens will recieve the medicine, medical attention and colloidal silver that they need. After all, a living worker is a productive worker."); break;
+            case "wilmer":      scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "A certain /'Mr. Wilmer/' has apparently lost his house due to the negligence of " + P_NAME + " (who is an otherwise very responsible and morally upright youngster) in renewing his mortgage. I wish to correct " + P_NAME + "'s unfortunate mistake by not only giving Mr. Wilmer back his house, but fully renewing his mortgage. Mr. Wilmer, an upstanding citizen and long-time member of the community, deserves nothing less than this small measure of kindness!"); break;
+            case "church":      scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Although most all of the needs of our citizens are met by our benevolent overlord Cuchulainn, there is one need that remains conspicuously unmet. That is our spiritual need. I hereby allocate 1000 neuro-shekels from our budget to Father Giuseppe so that he may better answer our prayers. The gospel of Clispaeth must be extolled from the highest of mountains to the lowest of bogs!"); break;
+            case "car":         scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Why are things always breaking down around here? Air conditioners, dishwashers, generators, cars? I say enough! I say we start fixing the place up, get it functional again! That's why I'm designating the garage near the bar as a mechanic's workshop where you can take your run down machinery to get fixed. Anything, even clunky old cars, can be fixed up there."); break;
+            case "kalevi":      scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "There is a notable absence of skilled blacksmiths in the Duergar Mines of Necron 7. Although the people of Tir na Nog have come to rely on Kalevi's dependable smithery, it is imperative for the future of our youth that he be transferred to the Mines, where he can better serve the greater good by making cool-looking gun's."); break;
+            case "bball":       scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "The time for change is now.  For too long, ballers have been persecuted for their beliefs in harmless recreation. Basketball is currently en vogue around Necron 7 and if Tir na Nog is to produce the galaxy's greatest ballers, then we must open our hoops to slams, jams, picks and rolls! The locks on the hoops will be removed so that our ballers can jam in harmony and the streets of Tir na Nog ring with the sound of swishes and dribbling!"); break;
+            case "candy":       scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Children pandhandle on the corners in hopes of a passerby's gumdrop. The stomachs of Tir na Nog's hungry growl in desperate unison. Our mission is clear: we must feed our poor. From this day forward, Mortimer will be providing the poor with free candy!"); break;
+            case "guillaume":   scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "It has come to my attention that a wandering musician, a certain... /'Guillaume/' has been causing a racket with his discordant dirges and untuned guitar. From this day forward, Guillaume is banished to wander the wastes of the Necron 7 and leave the good people of Tir na Nog in peace. If Guillaume attempts to return to Tir na Nog, the Duergars will throw him right out! Begone, I say! Begone!"); break;
+            case "hoosgow_Z":   scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "I have become sick and tired of clowns of all sorts. It is time to stop this plague before it hasa chance to spread. I hereby order the clown Zhang to be thrown into the hoosgow without further delay. There he will languish in anguish until his clownish ways are over."); break;
+            case "hoosgow_K":   scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Strange dwarfs giggle alone in the dark alleyways of Tir na Nog demanding you to purchase vidcons for exorbitant prices. This kind of behaviour is unacceptable and will no longer be tolerated. I hereby order the arrest of Kelpster. He is to be taken into custody and reformed at one of our many correctional facilities."); break;
+            }
+        
+        // Gander at the crowd //
+        scr_event_build_camera_move_to_point(o_hoopz.x, o_hoopz.y + 112, CAMERA_FAST);
+        scr_event_build_wait_for_actions();
+        
+        // Reduce choices remaining //
+        scr_event_build_quest_state_add("govChoicesMade", scr_quest_get_state("govPolicyValue"));
+        
+        // Pro-Duergar //
+        if (scr_quest_get_state("govCrowdReaction") == -1) then
+            {
+            scr_event_build_user(o_crowdcontrol01, 2);
+            scr_event_build_user(o_crowdcontrol01, 1);
+            scr_event_build_wait(4);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(The duergars liked that... I bet they'll cut me some more slack now. But the dwarfs really hated it... what can ya do?)");
+            }
+            
+        // Pro-Dwarf //
+        else if (scr_quest_get_state("govCrowdReaction") == 1) then
+            {            
+            scr_event_build_user(o_crowdcontrol01, 3);
+            scr_event_build_user(o_crowdcontrol01, 0);
+            scr_event_build_wait(4);
+            scr_event_build_camera_move_to_point(o_hoopz.x, o_hoopz.y + 32, CAMERA_FAST);
+            scr_event_build_wait_for_actions();            
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(The dwarfs really liked that policy, but boy did the duergars hate it. I can probably only get away with that a couple more times...)");  
+            }
+            
+        // Neutral //
+        else if (scr_quest_get_state("govCrowdReaction") == 0) then
+            {
+            scr_event_build_sound_play("sn_dwarf_neutral01");
+            scr_event_build_sound_play("sn_duergar_neutral01");
+            scr_event_build_wait(4);
+            scr_event_build_camera_move_to_point(o_hoopz.x, o_hoopz.y + 32, CAMERA_FAST);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(Hmm, nobody seemed to mind that policy. Guess that was a freebie.)");
+            }
+            
+        // Anti-Zhang //
+        else if (scr_quest_get_state("govCrowdReaction") == +2) then
+            {
+            scr_event_build_user(o_crowdcontrol01, 0);
+            scr_event_build_user(o_crowdcontrol01, 2);
+            scr_event_build_user(o_crowdcontrol01, 4);
+            scr_event_build_wait(4);
+            scr_event_build_camera_move_to_point(o_hoopz.x, o_hoopz.y + 32, CAMERA_FAST);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(Holy flub... They all loved it! I bet I could get away with any kind of policy right now.)");
+            }
+
+        // Move to effect snippet //
+        scr_event_build_event_snippet(effect_snippet)
+        }
+    
+    //--------------------------------------------
+    //-------------- EFFECT SNIPPET --------------
+    //--------------------------------------------  
+    with (effect_snippet)
+        {
+        // Variable changes based on your policy picks //
+        switch (scr_quest_get_state("govPolicy"))
+            {
+            case "cows":        scr_event_build_quest_state("govCow", 2); break;
+            case "medicine":    scr_event_build_quest_state("govMedicine", 2); break;
+            case "wilmer":      scr_event_build_quest_state("wilmerEvict", 6); break;
+            case "church":      scr_event_build_quest_state("govChurch", 2); break;
+            case "car":         scr_event_build_quest_state("govCar", 2); break;
+            case "kalevi":      scr_event_build_quest_state("govKalevi", 2); break;
+            case "bball":       scr_event_build_quest_state("govBball", 2); break;
+            case "candy":       scr_event_build_quest_state("govCandy", 2); break;
+            case "guillaume":   scr_event_build_quest_state("govGuillaume", 2); break;
+            case "hoosgow_Z":   scr_event_build_quest_state("govZhang", 2); break;
+            case "hoosgow_K":   scr_event_build_quest_state("govKelpster", 2); break;
+            }
+            
+        // Reset script //
+        scr_event_build_quest_state("govHandler", 1);
+        scr_event_build_execute_event_script(event_tnn_govSpeech02);
+        }
+
+    //--------------------------------------------
+    //------------ ENDING SNIPPET ----------------
+    //--------------------------------------------  
+    with (ending_snippet)
+        {
+        // Governors farewells //
+        scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Well, that was my speech. Hope you liked it. I thought real hard about all that stuff I just said and now you've all gotta do it, because I'm the real Governor. Well, I've got some sleep to catch up on, see you in an extremely long time.");
+                
+        // Gander at the crowd //
+        scr_event_build_camera_move_to_point(o_hoopz.x, o_hoopz.y + 112, CAMERA_FAST);
+        scr_event_build_wait_for_actions();
+        
+        // Crowd is overall unexcited about your speech //
+        scr_event_build_sound_play("sn_dwarf_neutral01");
+        scr_event_build_sound_play("sn_duergar_neutral01");
+        scr_event_build_wait(4);
+                            
+        // Return camera to hoopz //
+        scr_event_build_camera_move_to_point(o_hoopz.x, o_hoopz.y + 32, CAMERA_FAST);
+        scr_event_build_wait_for_actions();
+        
+        // Final words //
+        scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(Whew, well at least I'm done. Maybe this whole governor gig isn't so hard after all. Now I guess I'll slink back to the L.O.N.G.I.N.U.S. base before any of these Duergars notice I'm a big fraud... and then finally get my body back.)");
+        
+        // Set all variables as they should be at the end //
+        scr_event_build_quest_state("govFinishInitiate", 1);
+        scr_event_build_quest_state("govTransfer", 0);
+        scr_event_build_quest_state("govQuest", 6);
+        
+        // Policy timed variables //
+        scr_event_build_user(o_onslow01, 15);
+        
+        // Kill Wilmer if you didn't save him before this point //
+        if scr_quest_get_state("wilmerEvict") = 2 or scr_quest_get_state("wilmerEvict") = 3 or scr_quest_get_state("wilmerEvict") = 8 then scr_event_build_quest_state("wilmerEvict", 9);
+        
+        // Enable pedestrian circulation //
+        scr_event_build_pedestrianCirculation(true);
+        
+        // Drop the rebel ladder back down //
+        scr_event_build_quest_state("ladderReached", 1);
+        
+        // Return to the rebel base //
+        scr_event_build_teleport(r_tnn_rebelbase02, 336, 224, 3, 3);
+        }
+        
+    //--------------------------------------------
+    //------------ MAIN EVENT --------------------
+    //--------------------------------------------  
+    
+    // This is where the GOV SPEECH resets and checks what to do next // 
+    with (event)
+        {
+        // Pick a new policy //
+        if (scr_quest_get_state("govHandler") == 3) then
+            {
+            scr_event_build_quest_state("govHandler", 2);
+            scr_event_build_event_snippet(count_snippet);
+            }
+            
+        // After choosing policy...
+        else if (scr_quest_get_state("govHandler") == 2)
+            {
+            // If pro-Dwarf, and no policies remain...
+            if (scr_quest_get_state("govChoicesMade") >= 5) then
+                {
+                // Should I restart? //
+                scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(Okay, I think that's as many new policies as I can get away with. Are these good policies though? Should I start over?)");
+                
+                // Restart choice //
+                var done_choice = scr_event_build_choice("Am I really done with my speech?", s_port_governor);
+            
+                // CHOICE: End Speech
+                with scr_event_build_add_choice(done_choice, "Yeah, I think I'm done with this.") scr_event_build_event_snippet(ending_snippet);
+                                        
+                // CHOICE: Don't end speech
+                with scr_event_build_add_choice(done_choice, "Nah, I should rethink my policies...")
+                    {
+                    scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(Nah, I should rethink my policies...)");
+                    scr_govSpeech_reset01();
+                    scr_event_build_event_snippet(speech_snippet);
+                    }                
+                }
+                
+            // Able to institute policy
+            else scr_event_build_event_snippet(able_snippet);                
+            }
+            
+        // Go to speech_snippet
+        else if (scr_quest_get_state("govHandler") == 1) then
+            {
+            // If no choices remain, go to the ending portion instead //
+            if (scr_quest_get_state("govChoicesMade") >= 5) then
+                {
+                scr_event_build_quest_state("govHandler", 2);
+                scr_event_build_execute_event_script(event_tnn_govSpeech02); 
+                }
+                
+            // Speech snippet if choices remain //
+            else
+                {
+                scr_event_build_quest_state("govPolicy", "");
+                scr_event_build_event_snippet(speech_snippet);
+                }
+            }
+            
+        // Gov Speech Introduction
+        else
+            {
+            // Disable pedestrian circulation //
+            scr_event_build_pedestrianCirculation(false);
+            
+            // Introduction speech by the Governor //
+            scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+            scr_event_build_wait(0.2);
+            scr_event_build_camera_move_to_point(o_hoopz.x, o_hoopz.y + 32, CAMERA_SLOW);
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(1);
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Hello! Hello good dwarfs of Tir na Nog. It has, uh, come to my attention, I believe, that I am your new governor. Uhh. And as your new governor, it is my duty to inform you that there are going to be some changes around here. Don't be alarmed, I come uh, highly recommended. The policies that I will hereby enact are for the benefit of all the good dwarfs of Tir na Nog and it is my hope that they will greatly improve the lives of our goodly folk. But before I get to them, there is one thing I'd like to do. I hereby declare that the brave and exceptionally noble youngster " + P_NAME + " has free passage from Tir na Nog. It is a rare privilege that one may leave Tir na Nog, but it must be done for the sake of our security and prosperity. Now, onto my new policies...");            
+            scr_event_build_wait(0.75);
+            scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "(I don't wanna be outed as an impostor... I should try and help the dwarfs as best I can but make sure I don't go overboard or the duergars might get suspicious of me. I wonder what I should say...)");
+            scr_event_build_wait(0.75);
+            
+            // Reset script //
+            scr_event_build_quest_state("govHandler", 1);
+            scr_event_build_execute_event_script(event_tnn_govSpeech02);                
+            }
+        }
+        
+    // Gameboy advance //
+    scr_event_advance(event);
+    }

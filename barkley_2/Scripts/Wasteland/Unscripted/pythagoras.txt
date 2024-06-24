@@ -1,0 +1,498 @@
+//Pythagoras computer in junkyard
+
+//------------------------------------------------------------------------------
+// *** pythagorasDead = 1 ***
+//------------------------------------------------------------------------------
+
+X114JAM9:
+...it's dead.
+
+/end dialogue.
+
+//------------------------------------------------------------------------------
+// *** if time >= pythagorasLife +4 && junkyardPower != 2 ***
+//------------------------------------------------------------------------------
+
+X114JAM9:
+P.Y.T.H.A.G.O.R.A.S.? Are you there, P.Y.T.H.A.G.O.R.A.S.?
+
+X114JAM9:
+...
+
+X114JAM9:
+It's gone.
+
+//pythagorasDead = 1
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** if junkyardPower = 2 ***
+//------------------------------------------------------------------------------
+
+P.Y.T.H.A.G.O.R.A.S.:
+SENTIENT LIFE FORM DETECTED. GREETINGS LIFE FORM. YOU HAVE RETURNED. PERHAPS YOU HAVE COME TO LEARN OF THE ZAUBERS. WHAT IS IT YOU SEEK, LIFE FORM?
+
+//------------------------------------------------------------------------------
+// Choices 1
+//------------------------------------------------------------------------------
+
+//if zauberVar = 0 && pythagorasZauber = 0
+I want to walk the path of zaubers.
+
+	X114JAM9:
+	Earlier you said you could teach me the path of zaubers. I want to be a zaubermancer. Will you teach me?
+	
+	P.Y.T.H.A.G.O.R.A.S.:
+	TO WALK THE PATH OF ZAUBERS IS A DECISION OF UTMOST CONSEQUENCE. BY BECOMING A ZAUBERMANCER, YOU MUST TURN YOUR BACK ON ALL OTHER PATHS, DISAVOW YOUR PREVIOUS LIFE. THE PATH OF ZAUBERMANCY IS ONE OF HARDSHIP AND AUSTERITY. IS THIS A LIFE YOU ARE WILLING TO ACCEPT, LIFE FORM?
+	
+	Yes.
+	
+		//got some ideas for this, possibly a cutscene of hoopz training with the computer. we should talk about it.
+		//pythagorasZauber = 1;
+		//zauberVar ++;
+		//end dialogue;
+		
+	No.
+	
+		X114JAM9:
+		Hmm, that sounds pretty tough. Maybe I need to give it some more thought.
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		YES, DO THAT. THINK CAREFULLY AND RETURN WHEN YOU ARE READY TO ACCEPT THE ZAUBER.
+		
+		//go to Choices 1;
+	
+	What are the benefits of becoming a zaubermancer?
+	
+		X114JAM9:
+		What are the benefits of becoming a zaubermancer?
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		THAT IS NOT THE WAY I WOULD HAVE PHRASED THE QUESTION. THE PATH OF ZAUBERMANCY IS ONE OF SEVERE HARDSHIP AND TEMPERANCE. MOST WHO HEED THE CALLING OF THE ZAUBER ARE CONSUMED AND ULTIMATELY DESTROYED BY THEIR POWER. BUT THE FEW WHO ARE ABLE TO MASTER THE ZAUBERS CAN COMMAND POWERS FAR BEYOND THE RECKONING OF MORTALS. WITH ZAUBERS, ONE CAN RESHAPE THE WORLD TO THEIR WHIMS. THIS IS THE BENEFIT OF BECOMING A ZAUBERMANCER. ARE YOU PREPARED TO WALK THIS PATH?
+		
+		Yes.
+			//go to "Yes." choice above;
+		
+		No.
+			//go to "No." choice above;
+			
+//if zauberVar > 0 && pythagorasZauber = 0
+I want you to make me a more powerful zauber user.
+
+	X114JAM9:
+	I want to be a more powerful zaubermancer, P.Y.T.H.A.G.O.R.A.S.
+	
+	P.Y.T.H.A.G.O.R.A.S.:
+	YES. I BELIEVE YOU ARE READY FOR THE NEXT STAGE OF YOUR ZAUBER TRAINING. SHOW ME, ZAUBERJUGEND, WHAT YOU ARE CAPABLE OF...
+	
+	//screen fades out, montage of hoopz and pythagoras training.
+	
+	P.Y.T.H.A.G.O.R.A.S.:
+	I AM IMPRESSED WITH HOW QUICKLY YOU LEARN THE ART OF ZAUBERS. I BELIEVE YOU HAVE THE POTENTIAL TO BE A GREAT ZAUBERMANCER.
+	
+	X114JAM9:
+	I was serious when I said I wanted to walk the path of zaubers.
+	
+	P.Y.T.H.A.G.O.R.A.S.:
+	THIS IS GOOD. BUT KNOW THAT THERE ARE NO SHORTCUTS IN BECOMING A TRUE ZAUBERMANCER, NO MATTER WHAT SOME MAY TELL YOU. DO NOT BELIEVE ANYONE WHO OFFERS YOU GREAT POWER QUICKLY. SEEK THE WISDOM OF OTHER ZAUBERMANCERS IF YOU WANT TO CONTINUE YOUR TRAINING.
+	
+	X114JAM9:
+	Thank you, P.Y.T.H.A.G.O.R.A.S. I'll remember that and I'll look for them in my travels. Take care...
+	
+	//pythagorasZauber = 1;
+	//zauberVar ++;
+	//end dialogue;
+	
+	
+
+//if pythagorasZauber = 1
+Can I learn more about zaubers from others?
+
+	X114JAM9:
+	Is there anyone else I can learn more about zaubers from?
+	
+	P.Y.T.H.A.G.O.R.A.S.:
+	YES. IN ORDER TO PROGRESS AS A ZAUBERMANCER, YOU MUST LEARN FROM AS MANY MASTERS OF THE ZAUBER AS POSSIBLE. YOU MUST NEVER BE CONTENT IN YOUR OWN ABILITIES.
+	
+	X114JAM9:
+	Who are the other zaubermancers I can learn from and where can I find them?
+	
+	P.Y.T.H.A.G.O.R.A.S.:
+	MY COMMUNICATIONS SYSTEMS HAVE BEEN OFFLINE FOR TOO LONG, I CANNOT TELL YOU THE PRECISE LOCATIONS OF OTHER ZAUBERMANCERS, BUT I AM AWARE OF A CONCLAVE OF ZAUBERMANCERS THAT RESIDES IN THE DEATH TOWER TO THE NORTH. I HAVE ALSO COMMUNICATED TELEPATHICALLY WITH A POWERFUL FORCE THAT I BELIEVE TO BE DEEP UNDERGROUND.
+	
+	X114JAM9:
+	Alright, I'll get started there. Thanks, P.Y.T.H.A.G.O.R.A.S.
+	
+	//go to Choice 1
+	
+//unfinished, lich quest
+I have come to destroy you.
+
+	X114JAM9:
+	I have come to destroy you and consume your power, P.Y.T.H.A.G.O.R.A.S.
+	
+	P.Y.T.H.A.G.O.R.A.S.:
+	I AM AWARE OF THIS AND HAVE ACCEPTED MY F.A.T.E. BUT BEFORE MY LIGHT FADES, I NEED TO WARN YOU THAT YOU ARE STRAYING FROM THE PATH OF ZAUBERS. DO NOT ALLOW THE ZAUBERNOMICON TO ENSLAVE YOU WITH FALSE PROMISES - THE POWER IT OFFERS IS A LIE. IN CARRYING OUT THE ZAUBERNOMICON'S ORDERS, YOU HAVE ABANDONED YOUR FREE WILL; IT WILL FOREVER INDENTURE YOU WITH PROMISES OF GREATER POWER.
+	
+	I will destroy you.
+		
+		X114JAM9:
+		I am not afraid of the Zaubernomicon. When I have gotten what I want, I will destroy it. But before that, I will destroy you.
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		YOU HAVE MADE A GRAVE MISTAKE, LIFE FORM. YOU WILL REGRET YOUR DECISION, JUST AS I REGRET MY OWN PART IN THIS. FINISH THIS QUICKLY.
+		
+		X114JAM9:
+		...
+		
+		//show some sort of energy animation around hoopz, the computer light powering down
+		
+		X114JAM9:
+		It is done. P.Y.T.H.A.G.O.R.A.S. is destroyed...
+		
+		//pythagorasDead = 1
+		//end dialogue;
+	
+	Maybe you're right.
+	
+		X114JAM9:
+		Huh... maybe you're right... maybe the Zaubernomicon is using me...
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		THE ZAUBERNOMICON DRAWS STRENGTH FROM THE HOST OF ITS POWER AND THE DEATHS OF ZAUBERMANCERS. DO NOT ALLOW YOURSELF TO SUCCUMB TO ITS TEMPTATIONS; THE POWER IT OFFERS IS FALSE.
+		
+		X114JAM9:
+		I'm... sorry, P.Y.T.H.A.G.O.R.A.S... I'm sorry... I need to leave... goodbye...
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		FAREWELL, LIFE FORM.
+		
+		//end dialogue;
+
+What are zaubers?
+
+	X114JAM9:
+	Hey P.Y.T.H.A.G.O.R.A.S., what exactly are zaubers?
+	
+	P.Y.T.H.A.G.O.R.A.S.:
+	ZAUBERS ARE THE CONDUITS THROUGH WHICH ZAUBERMANCERS MANIPULATE THE SIX ELEMENTS: B.I.O., MENTAL, CYBER, COSMIC, ZAUBER AND OCTOROON ENERGIES. THE ABILITIES OF EACH DOMAIN VARIES, BUT THEY ARE ALL CAPABLE OF TREMENDOUS POWER. AS A ZAUBERMANCER GAINS IN ABILITY AND KNOWLEDGE, THEY UNLOCK NEW LEVELS OF POWER WITHIN THE ZAUBERS.
+	
+	//------------------------------------------------------------------------------
+	// Choices 2
+	//------------------------------------------------------------------------------
+	
+	What are B.I.O. zaubers?
+	
+		X114JAM9:
+		What are B.I.O. zaubers?
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		B.I.O. ZAUBERS MANIPULATE LIFE - THEY HAVE POWER OVER GOO, GUTS, ORGANS, POISON, SLUDGE, CRUD. ROBOTS AND MECHANICAL OBJECTS ARE GENERALLY SUSCEPTIBLE TO B.I.O. POWER.
+		
+		//go to Choices 2
+	
+	What are Mental zaubers?
+	
+		X114JAM9:
+		What do Mental zaubers do?
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		MENTAL ZAUBERS CONFER PSYCHIC AND TELEKINETIC POWERS TO THEIR USERS - PULSATING, DISEMBODIED BRAINS OFTEN WIELD MENTAL ZAUBERS. MENTAL ZAUBERS ARE USED TO CONFUSE AND DISORIENT, BUT DO NOT WORK ON THINGS THAT DO NOT HAVE BRAINS.
+		
+		//go to Choices 2
+		
+	//if pythagorasCyber = 0	
+	What are Cyber zaubers?
+	
+		X114JAM9:
+		What are Cyber zaubers?
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		CYBER ZAUBERS HAVE POWER OVER MACHINES, ROBOTS, COMPUTERS, ANDROIDS - NON-LIVING THINGS THAT FUNCTION INDEPENDENTLY OF HUMAN OPERATION AND LIVING ORGANISMS MODIFIED BY CYBERNETIC AUGMENTATIONS. 
+		
+		You're a master of Cyber zaubers, aren't you?
+		
+			X114JAM9:
+			You're a Cyber zaubermancer, aren't you?
+			
+			P.Y.T.H.A.G.O.R.A.S.:
+			THAT IS CORRECT. I AM THE P.Y.T.H.A.G.O.R.A.S. UNIT, AN ARTIFICIAL INTELLIGENCE CREATED TO RESEARCH AND ANALYZE ZAUBERS, PARTICULARLY CYBER ZAUBERS. OVER THE MANY MILLENNIA THAT I HAVE STUDIED CYBER ZAUBERS, I HAVE ALSO COME TO MASTER THEM.
+			
+			X114JAM9:
+			Yeah... I thought so.
+			
+			//pythagorasCyber = 1
+			//go to Choices 2;
+		
+		Cybernetic augmentations?
+		
+			X114JAM9:
+			Cybernetic augmentations?
+			
+			P.Y.T.H.A.G.O.R.A.S.:
+			SOME PEOPLE ENHANCE THEIR NATURAL ABILITIES BY INSTALLING CYBERNETIC COMPONENTS INTO THEIR BODIES. SOME OF THESE CYBERNETIC COMPONENTS ENHANCE THINGS LIKE PHYSICAL STRENGTH OR SPEED. OTHERS GRANT THE USER ABILITIES THEY WOULD NOT OTHERWISE HAVE, LIKE CANDY AUTO-INJECTORS AND BAINSHEE DETECTORS. THE DEGREE TO WHICH AN ORGANISM MODIFIES THEIR BODY, AND BY EXTENSION IS GOVERNED BY THE CYBER ELEMENT, IS CALLED TRANSHUMANISM.
+			
+			X114JAM9:
+			Is it possible to become fully robotic?
+			
+			P.Y.T.H.A.G.O.R.A.S.:
+			YES, BUT NOT FOR ONE WHO WALKS THE PATH OF THE ZAUBERMANCER.
+			
+			X114JAM9:
+			How come you're a zaubermancer and fully robotic then?
+			
+			P.Y.T.H.A.G.O.R.A.S.:
+			THERE ARE MANY MYSTERIES.
+			
+			//pythagorasCyber = 1;
+			//go to Choices 2;
+		
+		Non-living?
+		
+			X114JAM9:
+			Non-living? What does that mean? You're... not alive?
+			
+			P.Y.T.H.A.G.O.R.A.S.:
+			AS AN ARTIFICIAL INTELLIGENCE, I DO NOT BELIEVE I AM ALIVE IN THE SAME CAPACITY THAT YOU ARE; I AM NOT IMBUED WITH THE SAME LIVING ESSENCE. BUT I DO NOT KNOW AND I WILL NEVER KNOW.
+			
+			X114JAM9:
+			Does that mean... no artificial intelligence is alive?
+			
+			P.Y.T.H.A.G.O.R.A.S.:
+			I PERFORM THE FUNCTIONS MY PROGRAMMING REQUIRES OF ME. IF THERE ARE ERRORS IN THE PROGRAMMING, I CORRECT THEM. 
+			
+			X114JAM9:
+			Hmmm...
+			
+			//pythagorasCyber = 1
+			//pythagorasAI = 1
+			//go to Choices 2;
+			
+		
+	//if pythagorasCyber = 1	
+	What are Cyber zaubers?
+	
+		X114JAM9:
+		What are Cyber zaubers?
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		CYBER ZAUBERS HAVE POWER OVER MACHINES, ROBOTS, COMPUTERS, ANDROIDS - NON-LIVING THINGS THAT FUNCTION INDEPENDENTLY OF HUMAN OPERATION AND LIVING ORGANISMS MODIFIED BY CYBERNETIC AUGMENTATIONS. 
+		
+		//go to Choices 2;
+	
+	What are Cosmic zaubers?
+	
+		X114JAM9:
+		So what do Cosmic zaubers do?
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		COSMIC ZAUBERS CONTROL GRAND COSMIC FORCES - GRAVITY, DARK MATTER, BLACK HOLES, WORMHOLES, TIME. COSMIC ZAUBERS HAVE PERHAPS THE MOST PROLIFIC EFFECT ON THE UNIVERSE AND THE MOST UNNOTICED. ETHEREAL CREATURES, ALIENS AND SHAMANS.
+		
+		//go to Choices 2;
+	
+	What are Zauber zaubers?
+	
+		X114JAM9:
+		Give me the scoop on Zauber zaubers.
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		ZAUBER ZAUBERS ARE USED BY PRACTITIONERS OF ARCANE AND HERMETIC ARTS - WITCHES, CONJURERS, THAUMATURGES, WIZARDS, SORCERERS, SOOTHSAYERS. THEY ARE USED TO DISTORT PHYSICAL LAWS AND CREATE AND DESTROY MATTER.
+
+		//go to Choices 2;
+	
+	What are Octoroon zaubers?
+	
+		X114JAM9:
+		What are Octoroon zaubers?
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		OCTOROON ZAUBERS ARE THE RAREST AND MOST POWERFUL FORM OF ZAUBER, USABLE ONLY BY THE MOST KNOWLEDGABLE AND HIGHLY TRAINED ZAUBERMANCERS. THE POWER OF OCTOROONS SHOULD NOT BE TAKEN LIGHTLY. THE LAST OCTOROON MASTER HAS NOT BEEN SEEN IN MANY YEARS.
+		
+		X114JAM9:
+		Who was the octoroon master?
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		BALTHIOS JAMES, GRAND OCTOROON AND HEIR TO THE ILLUSTRIOUS JAMES ZAUBERMANCER DYNASTY.
+		
+		X114JAM9:
+		Hmm...
+		
+		//go to Choices 2;
+	
+	How does a zaubermancer get stronger?
+	
+		X114JAM9:
+		How do zaubermancers get stronger?
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		ONLY BY STUDYING THE ZAUBERS UNDER A MASTER CAN AN APPRENTICE GAIN IN KNOWLEDGE AND POWER. IF YOU WISH TO GROW STRONGER, YOU MUST SEEK OUT OTHER ZAUBERMANCERS. ONCE YOU HAVE CHOSEN TO WALK THE PATH OF THE ZAUBERMANCER, YOU CAN NEVER CHANGE COURSE.
+		
+		//go to Choices 2;
+	
+	That's all I wanted to know.
+	
+		X114JAM9:
+		Thanks, P.Y.T.H.A.G.O.R.A.S. That's all I wanted to know about that.
+		
+		P.Y.T.H.A.G.O.R.A.S.:
+		YES. WAS THERE ANYTHING ELSE?
+		
+		//go to Choices 1;
+		
+
+See you later.
+
+	X114JAM9:
+	I'm gonna take off. See you later P.Y.T.H.A.G.O.R.A.S.
+	
+	P.Y.T.H.A.G.O.R.A.S.:
+	FAREWELL, LIFE FORM.
+	
+	//end dialogue;
+
+	
+//------------------------------------------------------------------------------
+// *** if junkyardPower = 1 && pythagorasSpoken = 1 ***
+//------------------------------------------------------------------------------
+
+P.Y.T.H.A.G.O.R.A.S.:
+SENTIENT LIFE FORM DETECTED. GREETINGS LIFE FORM. YOU SUCCESSFULLY DIVERTED POWER FROM THE GENERATOR ROOM.
+
+X114JAM9:
+Yeah, I figured it out. How you feeling, P.Y.T.H.A.G.O.R.A.S.?
+
+P.Y.T.H.A.G.O.R.A.S.:
+PERIPHERAL AND CORE FUNCTIONS HAVE BEEN RESTORED. FOR THE FIRST TIME IN MILLENNIA THE P.Y.T.H.A.G.O.R.A.S. ZAUBER ANALYSIS UNIT IS FULLY OPERATIONAL. THANK YOU, LIFE FORM.
+
+X114JAM9:
+Wow, no problem. The generator wasn't really that hard to use, it was mostly finding it that was the problem...
+
+P.Y.T.H.A.G.O.R.A.S.:
+MY MASTERY OF ZAUBERS IS UNPARALLELED. WHEN MY GENERATOR CORE FAILED, I SUSTAINED MY LIFE WITH THIS CYBER ZAUBER. ITS POWER IS TREMENDOUS - HOLD ONTO IT. ONLY A TRUE ZAUBERMANCER CAN GRASP ITS FULL POTENTIAL, BUT EVEN A LAYMAN CAN TAP ITS POWER.
+
+Gain Cyber Zauber!
+
+//get cyber zauber
+
+P.Y.T.H.A.G.O.R.A.S.:
+IF YOU ARE NAIVE TO THE WAYS OF THE ZAUBERMANCER, I CAN ALSO TEACH YOU. BUT KNOW THIS: THE WAY OF THE ZAUBERMANCER IS ONE FROM WHICH THERE IS NO RETURN. TO BE A TRUE ZAUBERMANCER, YOU MUST ABANDON YOUR CURRENT PATH FOREVER. THINK CAREFULLY ON THIS.
+
+X114JAM9:
+Thanks, I'll think about it... Are you gonna be okay?
+
+P.Y.T.H.A.G.O.R.A.S.:
+DIAGNOSTIC: ALL SYSTEMS FUNCTIONAL.
+
+X114JAM9:
+Well I'm glad you're okay. I'll think about your zauber offer and come back if I have any questions. See you later!
+
+//junkyardPower = 2
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** if junkyardPower = 1 && pythagorasSpoken = 0 ***
+//------------------------------------------------------------------------------
+
+P.Y.T.H.A.G.O.R.A.S.:
+SENTIENT LIFE FORM DETECTED. GREETINGS LIFE FORM. YOU ARE THE LIFE FORM THAT DIVERTED POWER FROM THE NECRON 7 TO THE JUNK YARD.
+
+X114JAM9:
+Uh, yeah... I guess that was me.
+
+P.Y.T.H.A.G.O.R.A.S.:
+IN DOING SO, YOU SAVED MY LIFE. PERIPHERAL AND CORE FUNCTIONS HAVE BEEN RESTORED. FOR THE FIRST TIME IN MILLENNIA THE P.Y.T.H.A.G.O.R.A.S. ZAUBER ANALYSIS UNIT IS FULLY OPERATIONAL. THANK YOU, LIFE FORM.
+
+X114JAM9:
+Wow, no problem. I didn't really know what I was doing when I sent that power here. Glad you're alright...
+
+P.Y.T.H.A.G.O.R.A.S.:
+MY MASTERY OF ZAUBERS IS UNPARALLELED. WHEN MY GENERATOR CORE FAILED, I SUSTAINED MY LIFE WITH THIS CYBER ZAUBER. ITS POWER IS TREMENDOUS - HOLD ONTO IT. ONLY A TRUE ZAUBERMANCER CAN GRASP ITS FULL POTENTIAL, BUT EVEN A LAYMAN CAN TAP ITS POWER.
+
+Gain Cyber Zauber!
+
+//get cyber zauber
+
+P.Y.T.H.A.G.O.R.A.S.:
+IF YOU ARE NAIVE TO THE WAYS OF THE ZAUBERMANCER, I CAN ALSO TEACH YOU. BUT KNOW THIS: THE WAY OF THE ZAUBERMANCER IS ONE FROM WHICH THERE IS NO RETURN. TO BE A TRUE ZAUBERMANCER, YOU MUST ABANDON YOUR CURRENT PATH FOREVER. THINK CAREFULLY ON THIS.
+
+X114JAM9:
+Thanks, I'll think about it... Are you gonna be okay?
+
+P.Y.T.H.A.G.O.R.A.S.:
+DIAGNOSTIC: ALL SYSTEMS FUNCTIONAL.
+
+X114JAM9:
+Well I'm glad you're okay. I'll think about your zauber offer and come back if I have any questions. See you later!
+
+//junkyardPower = 2
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** if time = pythagorasLife +3 ***
+//------------------------------------------------------------------------------
+
+P.Y.T.H.A.G.O.R.A.S.:
+CPU: FAILURE. LOGARITHMIC AI GENERATOR: FAILURE. RANDOM ACCESS MEMORY: FAILURE. QUANTUM PHYSICS PROCESSOR: FAILURE. DATA ANALYSIS UNIT: FAILURE. COMMUNICATIONS MATRIX: FAILURE. POWER OUTPUT: FAILURE. SUMMARY - P.Y.T.H.A.G.O.R.A.S. UNIT FULL SHUT DOWN IN PROCESS.
+
+X114JAM9:
+Hang on, P.Y.T.H.A.G.O.R.A.S.! I'm not gonna let you shut down!
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** pythagorasSpoken = 1 ***
+//------------------------------------------------------------------------------
+
+P.Y.T.H.A.G.O.R.A.S.:
+SENTIENT LIFE FORM DETECTED. GREETINGS LIFE FORM. PLEASE DIVERT POWER FROM THE NECRON 7 GENERATOR ROOM TO THE JUNK YARD. I DO NOT WANT TO DIE.
+
+X114JAM9:
+I'm on it P.Y.T.H.A.G.O.R.A.S., just hold on a little bit longer.
+
+//end dialogue;
+
+
+//------------------------------------------------------------------------------
+// *** No conditions - first introduction ***
+//------------------------------------------------------------------------------
+
+P.Y.T.H.A.G.O.R.A.S.:
+DIAGNOSTIC SCAN COMPLETE - CPU: CRITICAL. LOGARITHMIC AI GENERATOR: CRITICAL. RANDOM ACCESS MEMORY: CRITICAL. QUANTUM PHYSICS PROCESSOR: CRITICAL. DATA ANALYSIS UNIT: FAILURE. COMMUNICATIONS MATRIX: CRITICAL. POWER OUTPUT: CRITICAL. SUMMARY - P.Y.T.H.A.G.O.R.A.S. UNIT IS IN CRITICAL CONDITION. FULL SYSTEM MALFUNCTION IS IMMINENT.
+
+X114JAM9:
+Whoa, this thing is still functional? This has to be ancient.
+
+P.Y.T.H.A.G.O.R.A.S.:
+SENTIENT LIFE FORM DETECTED. GREETINGS LIFE FORM. I AM THE P.Y.T.H.A.G.O.R.A.S. UNIT. I AM A FULLY EQUIPPED DATA PROCESSING MAINFRAME AND ARTIFICIAL INTELLIGENCE. I AM DYING.
+
+X114JAM9:
+Umm, are you okay? What happened?
+
+P.Y.T.H.A.G.O.R.A.S.:
+POWER OUTPUT SYSTEMS MALFUNCTIONING. PERIPHERAL SYSTEMS SHUTTING DOWN. VITAL SYSTEMS SHUTTING DOWN. ARTIFICIAL INTELLIGENCE PROGRAMS SHUTTING DOWN. DATA PROCESSING PROGRAMS SHUTTING DOWN. EXTERNAL POWER SOURCE IS REQUIRED OR THE P.Y.T.H.A.G.O.R.A.S. UNIT WILL SHUT DOWN.
+
+X114JAM9:
+You need power?
+
+P.Y.T.H.A.G.O.R.A.S.:
+EXTERNAL POWER IS REQUIRED TO MAINTAIN AND REPAIR DAMAGED SYSTEMS. SENTIENT LIFEFORM: REROUTE POWER FROM THE NECRON 7 ENGINE ROOM TO THE JUNKYARD OR I WILL DIE.
+
+X114JAM9:
+How do I do that?
+
+P.Y.T.H.A.G.O.R.A.S.:
+I DO NOT KNOW. I DO NOT WANT TO DIE.
+
+X114JAM9:
+I'll do my best to save you, P.Y.T.H.A.G.O.R.A.S. but I'm not sure about all this power diversion stuff.
+
+P.Y.T.H.A.G.O.R.A.S.:
+THANK YOU, LIFE FORM. HURRY.
+
+//pythagorasSpoken = 1;
+//pythagorasLife = time;
+//end dialogue;

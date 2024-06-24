@@ -1,0 +1,74 @@
+{
+    "5M97m1YABL7pohI7NRuoer03o0eAsd": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_large",
+        "resources": 1,
+        "uuid": "5M97m1YABL7pohI7NRuoer03o0eAsd",
+        "x": 135,
+        "y": 215
+    },
+    "6k53l2i2eWuGnLQSYwGCpkQ4wEBP50": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "6k53l2i2eWuGnLQSYwGCpkQ4wEBP50",
+        "x": 514,
+        "y": 348
+    },
+    "9rRzUbeJXEy0WW3YRsPJbcaoDDXUEs": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "9rRzUbeJXEy0WW3YRsPJbcaoDDXUEs",
+        "x": 355,
+        "y": 259
+    },
+    "UNWJS2D4TKk5GSqwcwxSHufwDTmGsc": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_medium",
+        "resources": 1,
+        "uuid": "UNWJS2D4TKk5GSqwcwxSHufwDTmGsc",
+        "x": 308,
+        "y": 363
+    },
+    "ZTj6q1KnP58rBYr6QuTxXmY3lTBtd2": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_medium",
+        "resources": 1,
+        "uuid": "ZTj6q1KnP58rBYr6QuTxXmY3lTBtd2",
+        "x": 242,
+        "y": 298
+    },
+    "bdkDx4p64GQGhKxFGm91sOb9K3r6hY": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "bdkDx4p64GQGhKxFGm91sOb9K3r6hY",
+        "x": 434,
+        "y": 347
+    },
+    "nkwwkerXacZNyj0wLoSOavrfXnmefa": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "nkwwkerXacZNyj0wLoSOavrfXnmefa",
+        "x": 223,
+        "y": 247
+    },
+    "rWPnEn7sqD4ZhR02x7s7EzG6KZ51pf": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_kobold_small",
+        "resources": 1,
+        "uuid": "rWPnEn7sqD4ZhR02x7s7EzG6KZ51pf",
+        "x": 140,
+        "y": 294
+    }
+}

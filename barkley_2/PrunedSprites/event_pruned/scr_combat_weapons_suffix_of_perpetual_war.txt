@@ -1,0 +1,26 @@
+///scr_combat_weapons_suffix_of_perpetual_war(action, bulletOrNoone, gunOrNull)
+var _action = argument0;
+var _bullet = argument1;
+var gun = argument2;
+var _retvar = 0;
+
+// UP - CYBER - PASSIVE //
+switch(_action)
+{
+    case "apply":
+        break;
+    case "checkval":
+        _retvar = 20;
+        break;
+    case "applyBullet":
+    
+        var diceroll = irandom(99);
+        if(diceroll <= 1)
+        {
+        gun[? "pCurAmmo"] += 5;
+        }
+        break;
+}
+
+// END //
+return _retvar;

@@ -1,0 +1,53 @@
+// Hoopz gets up //
+if (argument0 == SCRIPT_START) then
+    {
+    // Check if this should even happen //
+    if (Quest("hoopzGetup") == 1) then
+        {
+        // deactivate the Get Up Scene        
+        Quest("HoopzGetup", 0);
+        
+        //Pick up the room transistion
+        var event = scr_event_find_main();
+        with (event) 
+            {
+            // Carry over the fade and set Hoopz on the ground
+            scr_event_build_animation_set(o_cts_hoopz, "death");
+            scr_event_build_wait(1.5);
+            ;
+            scr_event_build_animation_play_and_set(o_cts_hoopz, "get_up", "default");
+            scr_event_build_wait_for_actions();
+            scr_event_build_look(o_cts_hoopz, SOUTHEAST)           
+            Emote("build", "question", o_cts_hoopz, 0, 0);
+            scr_event_build_wait_for_actions();            
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, SOUTH);
+            scr_event_build_wait(0.2);
+            scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+            scr_event_build_wait(0.2);
+            scr_event_build_look(o_cts_hoopz, SOUTH);
+            scr_event_build_wait(0.2);
+            scr_event_build_look(o_cts_hoopz, SOUTHEAST);
+            scr_event_build_wait(1);
+            scr_event_build_dialogue(P_NAME, s_port_hoopzSurprise, "W-what? Where am I?");
+            scr_event_build_wait(0.5);
+            scr_event_build_look(o_cts_hoopz, NORTH);
+            scr_event_build_wait(0.5);
+            scr_event_build_dialogue(P_NAME, s_port_hoopzSurprise, "This is the streets of Tir na Nog. How did I...?");                   
+            scr_event_build_wait(0.25);
+            scr_event_build_dialogue(P_NAME, s_port_hoopzSurprise, "But... The computer... and that scary story. What happened?"); 
+            scr_event_build_wait(0.75);
+            scr_event_build_look(o_cts_hoopz, SOUTH);
+            scr_event_build_wait(0.5);
+            Emote("build", "?", o_cts_hoopz, 0, 0);
+            scr_event_build_wait(1.5);
+            scr_event_build_dialogue(P_NAME, s_port_hoopzSurprise, "Was it all just a dream?");
+            scr_event_build_wait(0.5);
+            scr_event_build_dialogue_item(string(P_NAME) + "'s muscles and soul hoot and holler with newfound strength.") 
+            scr_event_build_dialogue_item("You gain +2 to GLAMP");
+            }
+            
+        // Gameboy advance //
+        scr_event_advance(event);    
+        }
+    }   

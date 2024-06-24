@@ -1,0 +1,23 @@
+// Compson NPC script - REBEL QUEST GOOD ENDING
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonquestgoodState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var compson = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("compsongoodState") == 1) {
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "I'm done, kid. Just done.");
+            scr_event_build_end();
+        } else if (Quest("prisonquestgoodState") == 1) {
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "I should be really happy about this. I joined to see us take down the fucking Duergars this way. Long time went by where that was the only thing keeping me alive. I should be happy._____._____._____\But I'm just not. I just don't care anymore. ___________About anything.___________ Like I got my guts ripped out, that shit in you that tells you how to feel. Guess I just didn't know it until now.\I'm done, kid. Just done.");
+            Quest("compsongoodState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

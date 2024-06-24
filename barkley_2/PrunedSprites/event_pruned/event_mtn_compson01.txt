@@ -1,0 +1,108 @@
+/*
+NPC script for Compson, one of the characters in the makeshift rebel base. Provides no service and is of no consequence 
+    outside my narrative intent.
+From my design document - Bio: The leader of the rebel outpost. Completely defeated. In optional dialogue Lafayette 
+    sends you to him to get further briefing, but Compson doesn't care and invariably blows you off. 
+He's been busy figuring out a good place to dig his own grave.
+This is a semi-dynamic script, where Compson gives the player mission "briefings" for each of Lafayette's missions.
+    And by briefing, I mean that Compson basically tells the player to go to hell, often giving advice for how he 
+    can get there. Felt that this was a useful contrast to the perky, upbeat Lafayette, where this other guy is 
+    just telling the player how terrible these ideas are. The player isn't REQUIRED to talk to Compson, but Lafayette 
+    talks Compson up as though it's a requirement.
+So here's Compson's state breakdown:
+compsonState=0 - never spoken to
+compsonState=1 - spoken to once, no quests accepted(REQUIRED TO GET HERE BEFORE HIS OTHER DIALOGUE IS DISPLAYED)
+compsonState=2 - spoken to regarding rebel quest #1(duergar camp)
+compsonState=3 - spoken to regarding rebel quest #2(duergar base infiltration)
+compsonState=4 - spoken to regarding rebel quest #3(prison break)
+-ALL THE OTHER DIALOGUE USES THE REBELQUEST AS A TRIGGER-
+*/
+// NOTE: FLORIAN speaks during Compson's dialogue here. Presently he does not have a face. That may eventually change, but I'm scripting EVERYTHING with the assumption that I will not get any more portraits. This will need to be revised if Florian gets a portrait later.
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("rebelQuest") >= 6) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var compson = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("compsonState") == 4) {
+            Dialogue(P_NAME, "Lafayette wants me to start a prison break. Do you have any-");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "No, I'm fucking done with you. I don't want to see your stupid mug around here again.");
+            scr_event_build_end();
+        } else if (Quest("compsonState") >= 1) && (Quest("rebelQuest") == 5) {
+            Dialogue(P_NAME, "Hey Lafayette had a great idea. He said I should try starting a prison break to get all the rebels out.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "And let me guess: You think this is a great idea.");
+            Dialogue(P_NAME, "Well...yeah......");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "They really aren't giving out brains, are they?");
+            Dialogue(P_NAME, "But it's a pretty cool idea! It could work!!");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "I was going to put Lafayette down, you know. A scout missing both his legs and an arm, what the fuck good is that? The only reason I didn't was because Florian made some big fucking deal about it, said he'd survive ok in a chair.\I'm still not sure I made the right choice. I would have put him down if I knew I'd have to endure not only his constant raving about his stupid adventures but some wandering minstrel fuck too.");
+            Dialogue(P_NAME, "......");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "It's not too late, either. I could still do it. Maybe if you stopped pestering me every couple minutes I wouldn't have as much call to go through with it.");
+            Quest("compsonState", 4);
+            scr_event_build_end();
+        } else if (Quest("compsonState") >= 1) && (Quest("rebelQuest") == 4) {
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Out fifty neuro-shekels thanks to you. Bet Meinhardt that you'd end up on the menu after that stunt you were pulling.\But don't you worry. Got a double or nothing bet that we'll still live to see a duergar marching around with a pair of " + P_NAME + "-skin boots.\Until you wise your ass up, I'm expecting my luck is ready to change.");
+            scr_event_build_end();
+        } else if (Quest("compsonState") == 3) {
+            Dialogue(P_NAME, "Lafayette wants me to go infiltrate the Duergar base. Do you have any advice for me?");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "I thought we already talked about this. I can take you out back and put one in the back of your head if you got that much of a deathwish.");
+            Dialogue(P_NAME, "No thanks.....");
+            scr_event_build_end();
+        } else if (Quest("compsonState") >= 1) && (Quest("rebelQuest") == 3) {
+            Dialogue(P_NAME, "Lafayette had a really cool idea. He said I should infiltrate the Duergar base, figure out what's going on there.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "I know. It's all he's talked about since you left.");
+            Dialogue(P_NAME, "Oh.....well.....do you have any suggestions for me? Do you know where I should go for supplies or anything?");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "We got some sheet you need to fill out, it's......\For Clispaeth's sake, FLORIAN!!!");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "S-sir....");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "The hell did that next of kin sign in sheet go?");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "The what?");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "The sheet, you know. The one where the suckers put what we should do with their belongings, where we should bury 'em if their corpse turns up.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "I had to stitch Lafayette up and we were out of the medical paper. I would have used the medical paper, but-");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Come on, damnit, the SHORT VERSION. Always give me the SHORT VERSION.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "We filled up all those lists. They're gone now since I had to use all the extra paper to fix Lafayette....");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Fuck me, the whole fabric of the universe is coming apart.\Well we're probably out of pencils too, so I could just scratch it into the desk if you want, but.___.____.____\It doesn't matter much anyway, I doubt they'll find what's left of you.");
+            Dialogue(P_NAME, "......");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Don't give me that face, I'm not sending you out there. You're just as welcome to pick a hole to rot in like the rest of us, I don't give a shit.");
+            Quest("compsonState", 3);
+            scr_event_build_end();
+        } else if (Quest("compsonState") >= 1) && (Quest("rebelQuest") == 2) {
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "What.");
+            Dialogue(P_NAME, "Nevermind.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Yeah. I'll be here figuring out a good spot for my grave if you need to waste any more of my fucking time.");
+            scr_event_build_end();
+        } else if (Quest("compsonState") == 2) {
+            Dialogue(P_NAME, "Lafayette says that there's a camp of Duergars nearby. He said they look kinda suspic-");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Wait, you asked me about this already. I already told you I just don't give a shit what you do.");
+            Dialogue(P_NAME, "Ok. Sorry to bother you.");
+            scr_event_build_end();
+        } else if (Quest("compsonState") >= 1) && (Quest("rebelQuest") == 1) {
+            Dialogue(P_NAME, "Hey, Lafayette told me to ask you about some stuff.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "What.");
+            Dialogue(P_NAME, "Lafayette says that there's a camp of Duergars nearby. He said they look kinda suspicious. Do you know anything about them?");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "No.");
+            Dialogue(P_NAME, "Oh. Lafayette didn't tell you?");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "I don't know. And I don't really give a shit.");
+            Dialogue(P_NAME, "Oh____.____.____.\Uh, do you think they're dangerous?");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Probably. You ever met a Duergar that wasn't dangerous?");
+            Dialogue(P_NAME, "I don't think so. Shouldn't we do something about it?");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Why bother. You kill them, five more come. You kill them, ten more come. You kill them, twenty more come.\So yeah, by all means, go do something about it. Get all the Duergars really pissed off, that's a really great idea. I'm sure that's going to make your day just a ton of fucking fun.");
+            Quest("compsonState", 2);
+            scr_event_build_end();
+        } else if (Quest("compsonState") == 1) {
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Hey, you smell that?");
+            Dialogue(P_NAME, "Uh, no?");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "That's the smell of me not giving a shit.");
+        } else if (Quest("compsonState") == 0) {
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "And here I thought I made it pretty fucking clear that they're just wasting their time sending new recruits out here.");
+            Dialogue(P_NAME, "What?");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Out of bunks, so just pick one of Meinhardt's piles.\That's if you even give enough of a shit to get comfortable._______ I wouldn't bother, personally. Look at these poor fucking bastards, they're the ones that got off easy. Ship out the ones that lose a couple limbs, put down the ones that lost too many.\I don't want to say you're next, but I'd make sure you aren't leaving shit undone if you plan on getting cozy with this gig.");
+            Dialogue(P_NAME, "Oh, I don't work here. Just a stranger passing through.");
+            Dialogue(scr_longinus_get_rank("compson") + " Compson", "Oh.\What's the difference. Grab a pile, take what you fucking need, get lost or hang around. Just doesn't make any fucking difference.");
+            Quest("compsonState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

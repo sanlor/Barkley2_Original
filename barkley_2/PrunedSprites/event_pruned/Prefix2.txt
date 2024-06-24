@@ -1,0 +1,2418 @@
+/// scr_combat_weapons_Prefix2(affix, action, bulletOrNoone, gunOrNull)
+
+// SETUP //
+var affix = argument0;
+var _action = argument1;
+var _bullet = argument2;
+var gun = argument3;
+var _retvar = 0;
+
+// AFFIX 2 SWITCH //
+switch(affix)
+    {
+    // MINUS - BIO - CAPABILITY //
+    case "Malnourishing":
+    switch(_action)
+        {
+        // APPLY //
+        case "apply": break;
+        
+        // APPLY TO BULLET //
+        case "applyBullet":   
+        
+            // CHARGED SHOT //             
+            if (gun[? "pChargeRatio"]==1) then
+                {
+                /// DEV NOTES ///
+                // Drops target GLAMP. First 3 seconds it drops the stats and during the last 3 seconds they are restored //
+                // time to "trough" is 3 seconds, trough = floor(affx/10)+5 seconds, then regains for 3 seconds,
+                // power of "trough" is floor(affx/7) + 5% GLAMP of enemy
+                
+                // SETUP CONF VARIABLE //
+                var conf;
+                
+                // APPLY THE AILMENT TO THE BULLET BEING FIRED //
+                conf = scr_statusEffect_addToCombatAttack(statusEffect_malnourished, _bullet);
+                
+                // TOTAL DURATION OF THE AILMENT // 
+                conf[? "timer"]         = floor(gun[? "pAffix"] / 10) + 50 + 60;
+                conf[? "timerTotal"]    = conf[? "timer"];
+                
+                // FIRST SECONDS OF THE AILMENT // USED FOR INCREASING THE AILMENT POWER //
+                conf[? "timerStart"]    = conf[? "timer"] - 30; 
+                
+                // LAST SECONDS OF THE AILMENT // USED FOR DECREASING THE AILMENT POWER BEFORE IT IS REMOVED //
+                conf[? "timerEnd"]      = 30;
+                
+                // AFFIX POWER // THIS DECIDES THE OVERALL STRENGTH OF THIS AFFIX //
+                conf[? "affixPower"]    = (floor(gun[? "pAffix"] / 7) + 5) / 100; 
+                }
+        break;
+        
+        // VALUE OF AFFIX //
+        case "checkval": 
+            _retvar = 20;        
+        break;
+        
+        // DESCRIPTION //
+        case "getDesc": 
+            _retvar = "Reduces stats of the afflicted.";
+        break;
+        }
+    break;
+        
+    // MINUS - BIO - WEIGHT //
+    case "Tubercular":
+    switch(_action)
+        {
+        // APPLY //
+        case "apply": break;
+        
+        // APPLY TO BULLET //
+        case "applyBullet":
+        
+            // CHARGED SHOT //
+            if (gun[? "pChargeRatio"]==1) then
+                {
+                /// DEV NOTES ///
+                // Drops target Weight and Guts. First 5 seconds it drops the stats and during the last 3 seconds they are restored //
+                // time to "trough" is 5 seconds, trough = floor(affx/10)+5 seconds, then regains for 3 seconds,
+                // power of "trough" is floor(affx/7) + 10% GUTS of enemy
+                // weight -= floor(affx/5) + 10%
+                
+                // SETUP CONF VARIABLE //
+                var conf;
+                
+                // APPLY THE AILMENT TO THE BULLET BEING FIRED //
+                conf = scr_statusEffect_addToCombatAttack(statusEffect_tubercular, _bullet);
+                
+                // TOTAL DURATION OF THE AILMENT //
+                conf[? "timer"]         = floor(gun[? "pAffix"] / 10) + 50 + 80;
+                conf[? "timerTotal"]    = conf[? "timer"];
+                
+                // FIRST SECONDS OF THE AILMENT // USED FOR INCREASING THE AILMENT POWER //
+                conf[? "timerStart"]    = conf[? "timer"] - 50; 
+                
+                /// LAST SECONDS OF THE AILMENT // USED FOR DECREASING THE AILMENT POWER BEFORE IT IS REMOVED //
+                conf[? "timerEnd"]      = 30;
+                
+                // AFFIX POWER // THIS ONE IS USED FOR ALTERING GUTS //
+                conf[? "affixPower"]     = floor(gun[? "pAffix"] / 7) / 100;
+                
+                // AFFIX POWER 2 // THIS ONE IS USED FOR ALTERING WEIGHT //
+                conf[? "affixPower_2"]   = floor(gun[? "pAffix"] / 5) / 100; 
+                
+                // THERE IS AFFIX POWER AND AFFIX POWER 2 BECAUSE THESE STATS ARE BEING ALTERED AT DIFFERENT RATES //
+                }
+        break;
+        
+        // VALUE OF THIS AFFIX //
+        case "checkval":
+            _retvar = 20;
+        break;
+        
+        // DESCRIPTION OF THIS AFFIX //
+        case "getDesc":
+            _retvar = "Drops weight and guts after a while.";
+        break;
+        }
+    break;      
+
+    // MINUS - BIO - HP //     
+    case "Thorny":
+    switch(_action)
+        {
+        // APPLY //
+        case "apply": break;
+            
+        // APPLY TO BULLET //
+        case "applyBullet":
+        
+            // CHARGED SHOT //
+            if (gun[? "pChargeRatio"]==1) then
+                {
+                /// DEV NOTES ///
+                // Bullet deals damage as 100% BIO, Thorns deal damage equal to (50 + affix/100) % of the bullets damage, as BIO //
+                
+                // SETUP CONF VARIABLE //
+                var conf;
+                
+                // APPLY THIS AILMENT TO THE BULLET BEING FIRED //
+                conf = scr_statusEffect_addToCombatAttack(statusEffect_thorny, _bullet);
+                
+                // NUMBER OF THORNS FLYING OUT OF THE TARGET //
+                conf[? "sprayCount"] = 5 + floor(gun[? "pAffix"]/100);
+                
+                // BIO DAMAGE OF THE SHOT AND THE THORNS //
+                conf[? STAT_ATTACK_DMG_BIO] = scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) * (0.5 + gun[? "pAffix"]/100);
+
+                // SET BULLET DAMAGE TO BIO TYPE AND REMOVE NORMAL DAMAGE //
+                scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_BIO, scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL)); 
+                scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0); 
+                
+                // CHANGE BULLET SPRITE //
+                _bullet.sprite_index = s_bull_thorns;
+                }
+        break;
+            
+        // AFFIX VALUE //
+        case "checkval":
+            _retvar = 20;
+        break;
+        
+        // AFFIX DESCRIPTION //
+        case "getDesc":
+            _retvar = "Hits target with a burst of B.I.O. damage.";
+        break;
+        }
+    break;
+
+    // MINUS - BIO - PROPERTIES //    
+    case "Withering":
+    switch(_action)
+        {
+        // APPLY //
+        case "apply": break;
+        
+        // APPLY TO BULLET //
+        case "applyBullet":
+        
+            // CHARGED SHOT //
+            if (gun[? "pChargeRatio"]==1) then
+                {
+                /// DEV NOTES ///
+                // Drops BIO resistance over time. First 3 seconds is a drain, last 3 seconds is a restoration //
+                // time to "trough" is 3 seconds, trough = floor(affx/10)+5 seconds, then regains for 3 seconds,
+                // power of "trough" is bioRES -= affix + 5
+                
+                // SETUP CONF VARIABLE //
+                var conf;
+                
+                // APPLY THIS AILMENT TO THE BULLET BEING FIRED //
+                conf = scr_statusEffect_addToCombatAttack(statusEffect_withering, _bullet);
+                
+                // TOTAL DURATION //
+                conf[? "timer"]         = floor(gun[? "pAffix"] / 10) + 50 + 60;
+                conf[? "timerTotal"]    = conf[? "timer"];
+                
+                // FIRST SECONDS OF THE AILMENT // USED FOR INCREASING THE AILMENT POWER //
+                conf[? "timerStart"]    = conf[? "timer"] - 30; 
+                
+                /// LAST SECONDS OF THE AILMENT // USED FOR DECREASING THE AILMENT POWER BEFORE IT IS REMOVED //
+                conf[? "timerEnd"]      = 30;
+                
+                // AFFIX POWER // THIS DETERMINES HOW MUCH THE BIO RESISTANCE DROPS //
+                conf[? "affixPower"]    = (floor(gun[? "pAffix"]) + 5) / 6;
+                
+                // FOR THIS AFFIX USE A     / 6     AT THE END OF THE AFFIX POWER FORMULA TO DIVIDE IT INTO 6 TICKS //
+                }
+        break;
+            
+        // AFFIX VALUE //
+        case "checkval":
+            _retvar = 20;
+        break;
+        
+        // DESCRIPTION //
+        case "getDesc":
+            _retvar = "Drop BIO resistance a bunch for awhile.";
+        break;
+        }
+    break;    
+
+    // MINUS - CYBER - CAPABILITY // WIP // NEEDS CHIPS //
+    case "Fragmenting":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if (gun[? "pChargeRatio"]==1) then
+                {
+                    /// DEV NOTES ///
+                    // Drops GLAMP by 50% but replaces that with a CHIP boost of equal strength //
+                    // Has a 2 second delay before it takes effect // 3 - 7 - 3 Curve //
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_fragmenting, _bullet);
+                    conf[? "timer"]         = floor(gun[? "pAffix"] / 10) + 70 + 50 + 20;
+                    conf[? "timerTotal"]    = conf[? "timer"];
+                    conf[? "timerEnd"]      = 50;
+                    conf[? "timerDelay"]    = conf[? "timer"] - 20;
+                    conf[? "affixPower"]    = floor(gun[? "pAffix"] / 7) / 100;  
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Add description";
+                break;
+        }
+        break;
+        
+    // MINUS - CYBER - WEIGHT //
+    case "Compressing":
+    switch(_action)
+        {
+        // APPLY //
+        case "apply": break;
+        
+        // APPLY TO BULLET //   
+        case "applyBullet":
+                
+            // CHARGED SHOT //
+            if(gun[? "pChargeRatio"]==1) then
+                {
+                /// DEV NOTES ///
+                // Drops Base Armor and Weight after a delay. Delay is 2 seconds, duration after that is 7 seconds //
+                
+                // SETUP CONF VARIABLE //
+                var conf;
+                
+                // APPLY THIS AILMENT TO THE BULLET BEING FIRED //
+                conf = scr_statusEffect_addToCombatAttack(statusEffect_compressing, _bullet);
+                
+                // TOTAL DURATION //
+                conf[? "timer"]         = floor(gun[? "pAffix"] / 10) + 70 + 20;
+                conf[? "timerTotal"]    = conf[? "timer"];
+                
+                // DELAY TIMER, THIS AILMENT STARTS AFFECTING THE TARGET AFTER A DELAY //
+                conf[? "timerDelay"]    = conf[? "timer"] - 20;
+                
+                // AFFIX POWER // THIS DETERMINES HOW MUCH THE ARMOR DROPS //
+                conf[? "affixPower"]    = floor(gun[? "pAffix"] / 2) + 25; 
+                
+                // AFFIX POWER 2 // THIS DETERMINES HOW MUCH THE WEIGHT DROPS //
+                conf[? "affixPower_2"]  = floor(gun[? "pAffix"] / 7) / 100;
+                }
+        break;
+        
+        // AFFIX VALUE //
+        case "checkval":
+            _retvar = 20;
+        break;
+        
+        // DESCRIPTION //
+        case "getDesc":
+            _retvar = "Drops weight and armor for normal time";
+        break;
+        }
+    break;  
+    
+    // MINUS - CYBER - HP // WIP // Needs CHIP damage ??? //
+    case "Spike Sending":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Deals Cyber damage and disables CHIPS //
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_chipDisable, _bullet);
+                    conf[? "timer"]         = floor(gun[? "pAffix"] / 10) + 70;
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_CYBER, (scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) * 0.5) + gun[? "pAffix"]) 
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) * 0.5);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Hits target with a blast of cyber damage.";
+                break;
+        }
+        break;
+     
+    // MINUS - CYBER - PROPERTIES //
+    case "Formatting":
+    switch(_action)
+        {
+        // APPLY //
+        case "apply": break;
+        
+        // APPLY TO BULLET //
+        case "applyBullet":
+        
+        // CHARGED SHOT ONLY //
+        if(gun[? "pChargeRatio"]==1) then
+            {
+            /// DEV NOTES ///
+            // Drops Cyber resistance gradually // 
+            // Increases for the duration of 14 ticks (7 seconds) then lasts for additional 6 seconds (+ affix mod) //
+            
+            // SETUP CONFIG //
+            var conf;
+            
+            // APPLY THIS AILMENT TO THE BULLET BEING FIRED //
+            conf = scr_statusEffect_addToCombatAttack(statusEffect_formatting, _bullet);
+            
+            // DURATION OF THIS AILMENT // 
+            conf[? "timer"]         = floor(gun[? "pAffix"] / 10) + 70 + 60;
+            
+            // AFFIX POWER DECIDES HOW MUCH CYBER RES GOES DOWN IN TOTAL //
+            conf[? "affixPower"]    = (floor(gun[? "pAffix"] * 2) + 15) / 14;
+            
+            // Divided into 14 ticks, 7 seconds //
+            }
+            break;
+            
+        // AFFIX VALUE //
+        case "checkval":
+            _retvar = 20;
+        break;
+        
+        // AFFIX DESCRIPTION //
+        case "getDesc":
+            _retvar = "Gradually decreases Cyber resistance for a short time";
+        break;
+        }
+    break;
+    
+    // MINUS - MENTAL - CAPABILITY // WIP //
+    case "Scolding":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Interrupts and then disables current action //
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_scolded, _bullet);
+                    conf[? "timer"]         = floor(gun[? "pAffix"] / 10) + 70;
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Interrupts and then disallows current action";
+                break;
+        }
+        break;    
+    
+    // MINUS - MENTAL - WEIGHT // WIP //
+    case "Emboldening":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Go berserk //
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_emboldened, _bullet);
+                    conf[? "timer"]         = floor(gun[? "pAffix"] / 10) + 70;
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Disables escape/retreat AI";
+                break;
+        }
+        break; 
+    
+    // MINUS - MENTAL - HP //
+    case "Stupefying":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Go berserk //
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_stupefied, _bullet);
+                    conf[? "timer"]         = floor(gun[? "pAffix"] / 10) + 70;
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "(BP drop) Slows down AI switching, disallows high end AI functions";
+                break;
+        }
+        break; 
+    
+    // MINUS - MENTAL - PROPERTIES // 
+    case "Busting":
+    switch(_action)
+        {
+        // APPLY //
+        case "apply": break;
+        
+        // APPLY TO THE BULLET //
+        case "applyBullet":
+        
+            // CHARGED SHOT ONLY //
+            if(gun[? "pChargeRatio"]==1) then
+                {
+                /// DEV NOTES ///
+                // Demolishes stagger resistance, essentially staggering the target //
+                
+                // SETUP CONFIG //
+                var conf;
+                
+                // APPLY THIS AILMENT TO THE BULLET BEING FIRED //
+                conf = scr_statusEffect_addToCombatAttack(statusEffect_busting, _bullet);
+                
+                // DURATION OF THIS AILMENT //
+                conf[? "timer"] = 10;
+                }
+        break;
+        
+        // AFFIX VALUE //
+        case "checkval":
+            _retvar = 20;
+        break;
+        
+        // AFFIX DESCRIPTION //
+        case "getDesc":
+            _retvar = "Serves a target beastly.";
+        break;
+        }
+    break; 
+       
+    // MINUS - MENTAL - CAPABILITY // 
+    case "Godless":
+    switch(_action)
+        {
+        // APPLY //
+        case "apply": break;
+        
+        // APPLY TO THIS BULLET //    
+        case "applyBullet":
+        
+            // CHARGED SHOT ONLY //
+            if(gun[? "pChargeRatio"]==1) then
+                {
+                /// DEV NOTES ///
+                // Drops target Piety to 1, effectively disabling zauber use //
+                
+                // SETUP CONFIG //
+                var conf;
+                
+                // APPLY THIS AILMENT TO THE BULLET BEING FIRED //
+                conf = scr_statusEffect_addToCombatAttack(statusEffect_godless, _bullet);
+                
+                // DURATION OF THE AILMENT //
+                conf[? "timer"] = (gun[? "pAffix"]/10) + 60;
+                }
+        break;
+            
+        // AFFIX VALUE //
+        case "checkval":
+            _retvar = 20;
+        break;
+            
+        // AFFIX DESCRIPTION //
+        case "getDesc":
+            _retvar = "Drop piety to zero for awhile.";
+        break;
+        }
+    break;
+        
+    // MINUS - MENTAL - WEIGHT //
+    case "Narcotizing":
+    switch(_action)
+        {
+        // APPLY //
+        case "apply": break;
+        
+        // APPLY TO THE BULLET //
+        case "applyBullet":
+            
+            // CHARGED SHOT ONLY //
+            if(gun[? "pChargeRatio"]==1) then
+                {
+                /// DEV NOTES ///
+                // Puts the target asleep //
+                
+                // SETUP CONFIG //
+                var conf;
+                
+                // APPLY THIS AILMENT TO THE BULLET BEING FIRED //
+                conf = scr_statusEffect_addToCombatAttack(statusEffect_sleep, _bullet);
+                
+                // DURATION OF THE AILMENT //
+                conf[? "timer"] = (gun[? "pAffix"]/10) + 50;
+                }
+        break;
+             
+        // AFFIX VALUE //   
+        case "checkval":
+            _retvar = 20;
+        break;
+        
+        // AFFIX DESCRIPTION //
+        case "getDesc":
+            _retvar = "Puts target into a deep slumber.";
+        break;
+        }
+    break;
+
+    // MINUS - ZAUBER - HP //
+    case "Zaubric":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Deal Zauber damage based on gun affix power + Piety //
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_zaubric, _bullet);
+                    conf[? "damage"] = gun[? "pAffix"];
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Deals damage based on target's Piety.";
+                break;
+        }
+        break;
+        
+    // MINUS - ZAUBER - PROPERTIES //
+    case "Dispelling":
+       switch(_action)
+       {
+           case "apply":
+               break;
+           case "applyBullet":
+               if(gun[? "pChargeRatio"]==1)
+               {
+                    /// DEV NOTES ///
+                    // Cuts ailment timers down //
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_dispelling, _bullet);
+                    conf[? "drainrate"] = ceil(gun[? "pAffix"]/7);
+               }
+               break;
+           case "checkval":
+               _retvar = 20;
+               break;
+           case "getDesc":
+               _retvar = "Advances the duration of the effect stack by a normal amount without giving that effect to the target.";
+               break;
+       }
+       break;
+
+    // MINUS - COSMIC - CAPABILITY //
+    case "Diminishing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_diminishing, _bullet);
+                    conf[? "affixPower"]        = floor(gun[? "pAffix"]/5);
+                    conf[? "timer"]             = 300;
+                    conf[? "timerTotal"]        = conf[? "timer"];
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Removes resistances based on attackers PIETY, stacks";
+                break;
+        }
+        break; 
+    
+    // ??? //
+    // MINUS - COSMIC - WEIGHT //
+        
+    // MINUS - COSMIC - HP //
+    case "Decimating":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Deals 7% of targets maximum health during a 10 second duration, bypasses resistances //
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_decimating, _bullet);
+                    conf[? "timer"] = 450 - (gun[? "pAffix"]/2 * 10);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Deals 7% of target's maximum hp in damage over 10 seconds";
+                break;
+        }
+        break;
+        
+    // LOOPING //
+    // MINUS - COSMIC - PROPERTIES //
+    
+    // PLUS - BIO - CAPABILITY //
+    /*case "Nurturing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {/////ITS WORKING, needs adjustment
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_nurturing, _bullet);
+                    conf[? "timer"] = 150 + 200*(gun[? "pAffix"]/100); ///loss lasts between 15 and 30 seconds
+                    
+                    ///lose between 1 and 3 points on all stats at each half-second tick
+                    conf[? "drainGuts"] = +1+2*(gun[? "pAffix"]/100);
+                    conf[? "drainMight"] = +1+2*(gun[? "pAffix"]/100);
+                    conf[? "drainAcro"] = +1+2*(gun[? "pAffix"]/100);
+                    conf[? "drainLuck"] = +1+2*(gun[? "pAffix"]/100);
+                    conf[? "drainPiety"] = +1+2*(gun[? "pAffix"]/100);
+                    
+                    ///lose stats for 4 to 10 ticks. total loss on each stat is 4 to 50, over 2 to 5 seconds
+                    conf[? "drainTimes"] = 4+6*(gun[? "pAffix"]/100);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Incraeses stats of the afflicted.";
+                break;
+        }
+        break;   */
+
+    // PLUS - BIO - WEIGHT //
+    case "Bloating":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Increases Weight and Guts //
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_bloated, _bullet);
+                    conf[? "timer"]         = (gun[? "pAffix"]/10) + 50 + 60;    
+                    conf[? "drainGuts"]     = (gun[? "pAffix"]/3) / 6;
+                    conf[? "drainWeight"]   = (gun[? "pAffix"]/2) / 6;
+                    // Divide into 6 ticks, 3 seconds //
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Increases target's Weight and Guts.";
+                break;
+        }
+        break;
+        
+    // PLUS - BIO - HP //
+    case "Nurturing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////ITS WORKING needs adjustments for balance
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_nurturing, _bullet);
+                    conf[? "healingAmount"] = 10 + (gun[? "pAffix"]);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Restores target's hp.";
+                break;
+        }
+        break;
+    
+    // PLUS - BIO - PROPERTIES //
+    case "Carapaced":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Deal BIO damage, then raise Bio resistance //
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_BIO, scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) + floor(gun[? "pAffix"] * 2)); 
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_carapacing, _bullet);
+                    conf[? "timer"]         = floor(gun[? "pAffix"] / 5) + 70 + 100;
+                    conf[? "timerStart"]    = conf[? "timer"] - 50; 
+                    conf[? "timerEnd"]      = 50;
+                    conf[? "affixPower"]    = floor(gun[? "pAffix"] * 2) / 10;
+                    // Divided into 10 ticks, 5 seconds // 
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Increases BIO resistance a large amount.";
+                break;
+        }
+        break;
+        
+    // PLUS - CYBER - CAPABILITY //
+    case "MyCleanPC.com":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Greatly boosts CHIP values briefly, but then causes a crash //
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_myCleanPcCom, _bullet);
+                    conf[? "timer"]         = floor(gun[? "pAffix"] / 2) + 50;
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Boosts CHIPS but ends in a crash";
+                break;
+        }
+        break; 
+    
+    // PLUS - CYBER - WEIGHT //
+    case "Oxidizing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_oxidizing, _bullet);
+                    conf[? "timer"]         = 50;
+                    conf[? "hitInterval"]   = 5;
+                    conf[? "drainWeight"]   = (floor(gun[? "pAffix"]/5) / 100) / (50 / conf[? "hitInterval"]);
+                    conf[? "drainArmor"]    = (floor(gun[? "pAffix"]/10) + 10) / (50 / conf[? "hitInterval"]);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Drops weight and armor for normal time";
+                break;
+        }
+        break; 
+    
+    // REPAIRING //
+    // PLUS - CYBER - HP //
+    
+    // PLUS - CYBER - PROPERTIES //
+    case "Firewalling":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Increases Cyber resistance, decreases Bio resistance //
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_firewalling, _bullet);
+                    conf[? "timer"] = 100 + 60;
+                    conf[? "timerTotal"] = conf[? "timer"];
+                    conf[? "affixPower"] = 30;
+                    conf[? "affixPower_2"] = (gun[? "pAffix"] + 25) / 6;
+                    // Divided into 6 ticks, 3 seconds //
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Boosts cyber resistance by a lot, temporarily.";
+                break;
+        }
+        break;
+        
+    // ENTHRALLING //
+    // PLUS - MENTAL - PROPERTIES //
+    
+    // TERRORIZING //
+    // PLUS - MENTAL - WEIGHT //
+    
+    // PLUS - MENTAL - HP //    
+    case "MRI":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Increases BP greatly, possibly killing enemies who become too smart //
+                    scr_statusEffect_addToCombatAttack(statusEffect_mri, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Target gains mental resistance and stat increase. at 100% of base mental stat, target's head explodes.";
+                break;
+        }
+        break;
+        
+    // PLUS - MENTAL - PROPERTIES //
+
+    // PLUS - ZAUBER - CAPABILITY //
+    case "Pepful":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Increases Hoopz' movespeed //
+                    scr_statusEffect_applyFromScriptToCombatActor(statusEffect_pepful, o_hoopz);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Serves a target beastly.";
+                break;
+        }
+        break; 
+    
+    // BANISHING //
+    // PLUS - ZAUBER - WEIGHT //
+    case "Banishing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Testing out instant removal //
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_removeActor, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Serves a target beastly.";
+                break;
+        }
+        break;
+    
+    // ENCHANTING //
+    // PLUS - ZAUBER - HP //
+
+    // REFRESHING //
+    // PLUS - ZAUBER - PROPERTIES //
+    case "ReVengeant":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Gets the most dominant GLAMP and deals damage equal to it as 100% Zauber Damage //
+                    var dominant = max(scr_stats_getBaseStat(o_hoopz, STAT_BASE_GUTS), scr_stats_getBaseStat(o_hoopz, STAT_BASE_LUCK), scr_stats_getBaseStat(o_hoopz, STAT_BASE_AGILE), scr_stats_getBaseStat(o_hoopz, STAT_BASE_MIGHT), scr_stats_getBaseStat(o_hoopz, STAT_BASE_PIETY));
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_ZAUBER, scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) + (dominant * gun[? "pAffix"]/20)); 
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Deals Zauber damage";
+                break;
+        }
+        break;
+    
+    // AUGMENTING //
+    // PLUS - COSMIC - CAPABILITY //
+    
+    // PLUS - COSMIC - WEIGHT //
+    case "Cloning":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_cloning, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Clones the target.";
+                break;
+        }
+        break;
+    
+    // PLUS - COSMIC - HP //
+    case "De-Decimating":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {/////Works fine
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_dedecimating, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Heals 10% of target's total HP.";
+                break;
+        }
+        break;
+
+    // ??? //
+    // PLUS - COSMIC - PROPERTIES //
+    
+    // URTICATING //
+    // POUND - BIO - CAPABILITY //
+    
+    // POUND - BIO - WEIGHT //
+    case "Eight Armed":
+        switch(_action)
+        { //////working
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_eightArmed, _bullet);
+                    ds_map_replace(conf,"timer",150+300*(gun[? "pAffix"]/100)); ///duration: 15 to 45 seconds
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Target gets all stats allocated to guts and max hp for a duration.";
+                break;
+        }
+        break;
+
+    // POUND - BIO - HP //
+    case "Slurpin'":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "applyBullet":
+            
+                    if(gun[? "pChargeRatio"]==1)
+                    {
+                        /// DEV NOTES ///
+                        // Lifesteal: Biodamage (guts * affix) / 5 //
+                        var conf;
+                        conf = scr_statusEffect_addToCombatAttack(statusEffect_slurp, _bullet);
+                        conf[? "lifesteal"] = scr_stats_getBaseStat(o_hoopz, STAT_BASE_GUTS) * (gun[? "pAffix"]) / 5;
+                        scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_BIO, conf[? "lifesteal"]); 
+                        scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                    }
+                    
+                break;
+            case "getDesc":
+                _retvar = "Super shots drain hitpoints from the enemy, based on your GUTS";
+                break;
+        }
+        break;
+    
+    // POUND - BIO - PROPERTIES //
+    case "Composting":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Deals small BIO damage and reduces BIO resistance //
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_composting, _bullet);
+                    conf[? "affixPower"] = (gun[? "pAffix"]/2); 
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_BIO, (scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL)) + gun[? "pAffix"]) 
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Reduces enemy's Bio and deals damage on hit.";
+                break;
+        }
+        break;
+        
+    // POUND - CYBER - CAPABILITY //
+    case "Magnetic":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_magnetic, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Swap position with target.";
+                break;
+        }
+        break;
+
+    // POUND - CYBER - WEIGHT //
+    case "Wormholing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_wormholing, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Swap position with target.";
+                break;
+        }
+        break;
+        
+    // POUND - CYBER - HP //
+    case "Tagging":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_tagging, _bullet);
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_CYBER, 5 + gun[? "pAffix"]); 
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Swap position with target.";
+                break;
+        }
+        break;
+
+    // POUND - CYBER - HP //
+    case "Partitioning":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_partitioning, _bullet);
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_CYBER, 5 + gun[? "pAffix"]); 
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Reduces enemy's Cyber and deals damage on hit.";
+                break;
+        }
+        break;
+        
+    // POUND - MENTAL - CAPABILITY //
+    case "Thoughtjacking":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_thoughtjacking, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Shows the next planned action of target.";
+                break;
+        }
+        break;
+        
+    // POUND - MENTAL - WEIGHT //
+    case "Cartographic":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_cartographic, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Plots out the destination of the target.";
+                break;
+        }
+        break;
+        
+    // POUND - MENTAL - HP //    
+    case "Mortal":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_mortal, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Displays Mortality of target.";
+                break;
+        }
+        break;
+        
+    // POUND - MENTAL - HP //
+    case "Cold Reading":
+       switch(_action)
+       {
+           case "apply":
+               break;
+           case "applyBullet":
+               if(gun[? "pChargeRatio"]==1)
+               {
+                    /// DEV NOTES ///
+                    // Shows enemy info on Marquee //
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_coldreading, _bullet);
+               }
+               break;
+           case "checkval":
+               _retvar = 20;
+               break;
+           case "getDesc":
+               _retvar = "Learn more about your foes.";
+               break;
+       }
+       break; 
+      
+    // POUND - ZAUBER CAPABILITY //
+    case "Projecting":
+       switch(_action)
+       {
+           case "apply":
+               break;
+           case "applyBullet":
+               if(gun[? "pChargeRatio"]==1)
+               {
+                    /// DEV NOTES ///
+                    // Swaps out GLAMP stats randomly between target and attacker //
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_project, _bullet);
+                    conf[? "timer"] = (gun[? "pAffix"]/10) + 50;
+               }
+               break;
+           case "checkval":
+               _retvar = 20;
+               break;
+           case "getDesc":
+               _retvar = "Switches one of your stats and one of the target until it dies.";
+               break;
+       }
+       break;
+       
+    // POUND - ZAUBER - WEIGHT //
+    case "Adhesive":
+    switch(_action)
+        {
+        // APPLY //
+        case "apply": break;
+        
+        // APPLY TO THIS BULLET //
+        case "applyBullet":
+        
+            // CHARGED SHOT //
+            if(gun[? "pChargeRatio"]==1) then
+                {
+                /// DEV NOTES ///
+                // Increases weight and lowers acrobatics, slowing you down a bunch //
+                
+                // SET THE CONFIG VARIABLE //
+                var conf;
+                
+                // APPLY THIS AILMENT TO THE BULLET BENG FIRED //
+                conf = scr_statusEffect_addToCombatAttack(statusEffect_adhesive, _bullet);
+                
+                // DURATION OF THIS AFFIX // 3 seconds + Affix power //
+                conf[? "timer"] = floor(gun[? "pAffix"] / 10) + 30;
+                
+                // WEIGHT MODIFIER //
+                conf[? STAT_BASE_WEIGHT] = floor(gun[? "pAffix"] / 5) + 3;
+                
+                // ACROBATICS MOD //
+                conf[? STAT_BASE_AGILE] = -(floor(gun[? "pAffix"] / 5)) - 3;
+                }
+            break;
+            
+        // AFFIX VALUE //
+        case "checkval":
+            _retvar = 20;
+        break;
+            
+        // AFFIX DESCRIPTION //
+        case "getDesc":
+            _retvar = "Ensnares the target in place";
+        break;
+        }
+    break;
+        
+    // POUND - ZAUBER - HP //
+    case "Vindicative":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_vindicated, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Target repeatedly polymorphs until damage is taken.";
+                break;
+        }
+        break;
+    
+    // POUND - ZAUBER - PROPERTIES //
+    case "Ufgood's":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_multiPolymorph, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Target repeatedly polymorphs until damage is taken.";
+                break;
+        }
+        break;
+
+    // POUND - COSMIC - CAPABILITY //
+    case "Pachinko":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Has a % based chance to deal 500% Cosmic Damage //
+                    var diceroll;
+                    diceroll = irandom(99)+1;
+                    chance = (gun[? "pAffix"] + scr_stats_getBaseStat(o_hoopz, STAT_BASE_LUCK)) / 2;
+                    if diceroll <= chance then
+                        {
+                        scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_COSMIC, scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) * 5); 
+                        scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                        }
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Chance to deal 500% Cosmic Damage";
+                break;
+        }
+        break;
+    
+    // POUND - COSMIC - WEIGHT //
+    case "Blinking":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Constantly teleports target around the map //
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_blink, _bullet);
+                    conf[? "timer"]         = (gun[? "pAffix"]/10) + 30;
+                    conf[? "blinkFreq"]     = min(5,60-30*(gun[? "pAffix"]/100)); //blink every 3.3 to 6 seconds (low affix = 6 seconds)
+                    conf[? "blinkTimer"]    = conf[? "blinkFreq"] / 2; ///first blink happens twice as fast
+                    conf[? "distance"]      = 64+256*(gun[? "pAffix"]/100); ////blink distance is 64 to 320 pixels
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Randomly teleports target.";
+                break;
+        }
+        break;
+
+    // POUND - COSMIC - HP //
+    case "Rebasing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    /// DEV NOTES ///
+                    // Sets target health to a random value between 50% - 150% //
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_rebasing, _bullet);
+                    scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, 0);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Sets enemy life at rnd pct, from 0 to 150%.";
+                break;
+        }
+        break;
+        
+    // POUND - COSMIC - PROPERTIES //
+    case "Disintegrating":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)/////it works, probably needs adjustments
+                {
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_disintegrating, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "...";
+                break;
+        }
+        break;
+    }
+
+    
+/* THE DEBUNK ZONE // FOR UNUSED OR SHIT ONES //  MOST OF THESE FUNCTION JUST FINE BUT ARE OPPRESSED BY THE RAUM REGIME //
+
+    
+    // DISINTEGRATING //
+    // POUND - COSMIC - PROPERTIES //
+  
+    /*case "Corrosive":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {/////ITS WORKING, needs adjustment
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_statDrain, _bullet);
+                    ds_map_replace(conf,"timer",100 + 200*(gun[? "pAffix"]/100)); ///loss lasts between 15 and 30 seconds
+                    
+                    ///lose between 1 and 3 points on all stats at each half-second tick
+                    ds_map_replace(conf, "drainGuts",-1-2*(gun[? "pAffix"]/100));
+                    ds_map_replace(conf, "drainMight",-1-2*(gun[? "pAffix"]/100));
+                    ds_map_replace(conf, "drainAcro",-1-2*(gun[? "pAffix"]/100));
+                    ds_map_replace(conf, "drainLuck",-1-2*(gun[? "pAffix"]/100));
+                    ds_map_replace(conf, "drainPiety",-1-2*(gun[? "pAffix"]/100));
+                    ds_map_replace(conf, "drainWeight",-1-4*(gun[? "pAffix"]/100));
+                    
+                    ///lose stats for 4 to 10 ticks. total loss on each stat is 4 to 50, over 2 to 5 seconds
+                    ds_map_replace(conf, "drainTimes",4+6*(gun[? "pAffix"]/100));
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Eats through stats, reduces weight.";
+                break;
+        }
+        break;
+        
+
+    case "Ascendant":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {/////not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_polymorph, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Evolves enemy to a greater form.";
+                break;
+        }
+        break;
+    
+
+    
+        ////////////////
+    case "Consuming":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {////////////ITS WORKING, needs adjustment
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_weightmod, _bullet);
+                    ds_map_replace(conf,"timer",150+300*(gun[? "pAffix"]/100)); ///duration: 15 to 30 seconds
+                    ds_map_replace(conf,"weightAdd",0-(5+20*(gun[? "pAffix"]/100)));///weight amount: -5 to -25 weight units
+                    ds_map_replace(conf,"icon",s_statusicon_weightRem);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Reduces target's weight.";
+                break;
+        }
+        break;
+        
+    
+        
+    case "Symbiotic":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {/////Absorption goes up, but no way to make it lose the status upon receiving a BIO attack yet
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_elementAbsorb, _bullet);
+                    ds_map_replace(conf,"timer",150+300*(gun[? "pAffix"]/100)); ///duration: 15 to 30 seconds
+                    ds_map_replace(conf,STAT_BASE_RESISTANCE_BIO,5+20*(gun[? "pAffix"]/100));///added BIO resistance: +5 to +25
+                    ds_map_replace(conf,"icon",s_statusicon_buff);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Target absorbs next b.i.o. attack.";
+                break;
+        }
+        break;
+        
+    case "Lingam":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {////////////ITS WORKING, needs adjustment
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_elementResist, _bullet);
+                    ds_map_replace(conf,"timer",150+300*(gun[? "pAffix"]/100)); ///duration: 15 to 30 seconds
+                    ds_map_replace(conf,STAT_BASE_RESISTANCE_BIO,10+40*(gun[? "pAffix"]/100));///added BIO resistance: +10 to +50
+                    ds_map_replace(conf,"icon",s_statusicon_buff);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Target gets a ton of b.i.o. resistance.";
+                break;
+        }
+        break;
+        
+  
+    ////////////////////
+    case "Turbomodded":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    //////not functionnal: NEEDS CHIPS
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Boosts chip stats temporarily.";
+                break;
+        }
+        break;
+
+    
+        
+    case "Disabling":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_disabled, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Breaks machine parts for a brief moment.";
+                break;
+        }
+        break;
+        
+
+    
+    case "Volatile Access":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                { //////not functionnal: NEEDS CHIPS
+
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Chip turns off temporarily, but hp is restored = chip stats.";
+                break;
+        }
+        break;
+        
+    case "Recycling":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal: recycling status effect, needs a hook to detect the player is getting damaged.
+                    scr_statusEffect_addToCombatAttack(statusEffect_recycling, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Creates a pool of ammo that is sent back to shooter at host's death.";
+                break;
+        }
+        break;
+        
+    case "DDoS'd":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///partly done. Does cyber damage, but ignores chip and cyberness of hoopz/target
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_poison, _bullet);
+                    ds_map_replace(conf,"timer",100);
+                    ds_map_replace(conf,"hitTimer",2);
+                    ds_map_replace(conf,"hitInterval",5);
+                    ds_map_replace(conf,STAT_ATTACK_DMG_CYBER,max(1,10*(gun[? "pAffix"]/100)));
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Does cyber damage over time based on chip or cyber-ness.";
+                break;
+        }
+        break;
+        
+    
+    
+    case "Soft-killing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    ///change bullet to chaff.//////not functionnal needs chaff functionnality added to bullets
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Launches countermeasures/chaff that attracts bullets.";
+                break;
+        }
+        break;
+    
+    case "Overclocking":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    ///chip overdrive. //////not functionnal: Needs chips
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Overdrives chip… 2x effectiveness then it crashes for awhile.";
+                break;
+        }
+        break;
+    
+    case "Gun'sgrafting":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {
+                    ///repair equipment. //////not functionnal, needs equipment durability?
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Repairs equipment if broken.";
+                break;
+        }
+        break;
+    
+    case "Defragmenting":  //////////////////////////////////////////////////////
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///does this heal the TARGET using HOOPZ's transhumanism quotient?
+                
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Restores life based on transhumanism quotient, over time.";
+                break;
+        }
+        break;
+    
+    case "BIOS Flashing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///applies status, but status isnt done
+                    scr_statusEffect_addToCombatAttack(statusEffect_cyberShutdown, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Shuts down / restarts cyber enemy.";
+                break;
+        }
+        break;
+        
+    //////////////////////////
+    case "ArkKane":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///partly done. Does cyber damage, but ignores chip and cyberness of hoopz/target
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_spelldmg, _bullet);
+                    ds_map_replace(conf,"timer",2);
+                    ds_map_replace(conf,"hitTimer",0.2);
+                    ds_map_replace(conf,"hitInterval",0.4);
+                    ds_map_replace(conf,STAT_ATTACK_DMG_ZAUBER, max(1,20*(gun[? "pAffix"]/100)));
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Brast of magick damage.";
+                break;
+        }
+        break;
+        
+    case "Disrupting":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_spellCancel, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Cancel a spellcasting and explode it on the enemy.";
+                break;
+        }
+        break;
+    
+    case "Cup Filling":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {/////it works
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_pietyToLife, _bullet);
+                    ds_map_replace(conf,"timer",300+600*(gun[? "pAffix"]/100));
+                    ds_map_replace(conf,"hitTimer",10);
+                    ds_map_replace(conf,"hitInterval",30 - 12*(gun[? "pAffix"]/100));
+                    ds_map_replace(conf,"hitTimer",ds_map_find_value(conf,"hitInterval")/2);
+                    ds_map_replace(conf, "healthgain", 5+20*(gun[? "pAffix"]/100));
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Drain piety until 0, hp is refilled.";
+                break;
+        }
+        break;
+        
+    case "Rebasing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {/////it works
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_rebasing, _bullet);
+                    ds_map_replace(conf,"timer",1);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Sets target HP to a round percentage, from 50% to 150%";
+                break;
+        }
+        break;
+        
+    case "Silencing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_silence, _bullet);
+                    ds_map_replace(conf,"timer",150 + 300*(gun[? "pAffix"]/100)); ///silence lasts between 15 and 45 seconds
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Prevent spellcasting for awhile.";
+                break;
+        }
+        break;
+        
+    case "Restoring":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {/////it works
+                    healamount = 1+20*(gun[? "pAffix"]/100);
+                    scr_stats_setCurrentStat(o_hoopz,STAT_CURRENT_HP,scr_stats_getCurrentStat(o_hoopz,STAT_CURRENT_HP)+healamount);
+                    scr_stats_createDamageIndicators(o_hoopz,0-healamount,DAMAGETYPE_NORMAL,c_teal);
+                    a=instance_create(o_hoopz.x,o_hoopz.y,o_effect_affix_restoring);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Self gets healed for a very small amount.";
+                break;
+        }
+        break;
+        
+   
+        
+    case "Entangling":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_entangled, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Switches the enemy's stats at random over a period of time.";
+                break;
+        }
+        break;
+    
+    case "Polymorphing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_polymorph, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Target polymorphs into another entity.";
+                break;
+        }
+        break;
+        
+    
+        
+    case "Metabolizing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {////works
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_metabolize, _bullet);
+                    ds_map_replace(conf,"timer",150 + 300*(gun[? "pAffix"]/100)); ///lasts between 15 and 45 seconds
+                    ds_map_replace(conf,"variation",20+80*(gun[? "pAffix"]/100)); //variation ratio of new weight
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Weight gets randomized.";
+                break;
+        }
+        break;
+    ///////
+    case "High Latency":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_marquee, _bullet);
+                    ds_map_replace(conf,"timer",150 + 300*(gun[? "pAffix"]/100)); ///lasts between 10 and 25 seconds
+                    ds_map_replace(conf, "marqueeType", "AIStrategy");
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Displays the enemy's next AI strategy in the marquee.";
+                break;
+        }
+        break;
+        
+    case "Monster Hunting":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_marquee, _bullet);
+                    ds_map_replace(conf,"timer",150 + 300*(gun[? "pAffix"]/100)); ///lasts between 10 and 25 seconds
+                    ds_map_replace(conf, "marqueeType", "Quote");
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Gives a quote from the enemy, including their name.";
+                break;
+        }
+        break;
+        
+    case "Interrupting": ////find new name, used to be called Eight-Armed
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_interrupt, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Interrupts an enemy's current action.";
+                break;
+        }
+        break;
+        
+    case "Disengaging":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_disengage, _bullet);
+                    ds_map_replace(conf,"timer",150 + 300*(gun[? "pAffix"]/100)); ///lasts between 15 and 45 seconds
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Makes the enemy retreat, for a duration.";
+                break;
+        }
+        break;
+    /*    
+    case "Silencing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_silence, _bullet);
+                    ds_map_replace(conf,"timer",150 + 300*(gun[? "pAffix"]/100)); ///lasts between 15 and 45 seconds
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Removes the enemy's ability to cast spells for a duration.";
+                break;
+        }
+        break;   
+        
+        
+    case "Shell Shocking":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_shellshock, _bullet);
+                    ds_map_replace(conf,"timer",150 + 300*(gun[? "pAffix"]/100)); ///lasts between 15 and 45 seconds
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Removes the enemy's ability to retreat (not move), for a duration.";
+                break;
+        }
+        break;
+        
+    case "Ostracizing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_ostricize, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Removes the enemy's ability to take part in a team, for a duration.";
+                break;
+        }
+        break;
+        
+    case "Incentivizing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {//////not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_marquee, _bullet);
+                    ds_map_replace(conf, "marqueeType", "EnemyItem");
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Reveals the enemy's item in the marquee.";
+                break;
+        }
+        break;
+        
+    case "Exploitative":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_marquee, _bullet);
+                    ds_map_replace(conf, "marqueeType", "Weakness");
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Shows an enemy's weakness in the marquee.";
+                break;
+        }
+        break;
+        
+    case "Benchmarking":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_marquee, _bullet);
+                    ds_map_replace(conf, "marqueeType", "HP");
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Shows the enemy's hp in the marquee.";
+                break;
+        }
+        break;
+        
+    case "Analyzing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_analyze, _bullet);
+                    ds_map_replace(conf,"timer",150 + 300*(gun[? "pAffix"]/100)); ///lasts between 15 and 45 seconds
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Shows the enemy's life meter.";
+                break;
+        }
+        break;
+        
+    case "Mapping":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_mapped, _bullet);
+                    ds_map_replace(conf,"timer",150 + 300*(gun[? "pAffix"]/100)); ///lasts between 15 and 45 seconds
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Shows the enemy's pathfinding direction for a duration.";
+                break;
+        }
+        break;
+        
+    case "Harnessing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///not functionnal
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_harness, _bullet);
+                    ds_map_replace(conf,"timer",150 + 300*(gun[? "pAffix"]/100)); ///lasts between 15 and 45 seconds
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Shows the enemy's resistances next to them.";
+                break;
+        }
+        break;
+    
+    /////////////
+    case "Detrimental":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///not functionnal. Need to talk with bort about what the armor is
+                    scr_statusEffect_addToCombatAttack(statusEffect_armorDamage, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Does damage to target's armor.";
+                break;
+        }
+        break;
+        
+    case "Reinforcing":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///not functionnal
+                    scr_statusEffect_addToCombatAttack(statusEffect_reinforce, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Gives target an armor boost.";
+                break;
+        }
+        break;
+    ////////////
+}
+
+return _retvar;
+
+
+
+ case "Extinction": 
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {////////NOT DONE, cant really be done now??
+                    //scr_statusEffect_addToCombatAttack(statusEffect_polymorph, _bullet);
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Devolves enemy to a lesser form.";
+                break;
+        }
+        break;
+        
+    
+        
+        case "Venomous":
+        switch(_action)
+        {
+            case "apply":
+                break;
+            case "applyBullet":
+                if(gun[? "pChargeRatio"]==1)
+                {///////ITS WORKING, needs adjustment
+                    var conf;
+                    conf = scr_statusEffect_addToCombatAttack(statusEffect_poison, _bullet);
+                    ds_map_replace(conf,"timer",100+200*(gun[? "pAffix"]/100));
+                    ds_map_replace(conf,"hitTimer",3);
+                    ds_map_replace(conf,"hitInterval",7);
+                    ds_map_replace(conf,STAT_ATTACK_DMG_BIO,max(1,10*(gun[? "pAffix"]/100)));
+                    
+                    ////total base damage 26 hits x 1 - 10 damage (scaled to affix power) over 20 seconds. total damage 26 to 260
+                }
+                break;
+            case "checkval":
+                _retvar = 20;
+                break;
+            case "getDesc":
+                _retvar = "Does B.I.O. damage over time.";
+                break;
+        

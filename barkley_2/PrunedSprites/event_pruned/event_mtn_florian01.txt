@@ -1,0 +1,218 @@
+// NPC script for Florian, the medic for the rebel outpost.
+// Bio: An ex-musician turned doctor. Isn't a very good doctor, and has no issue reminding you of this. Initially was supposed to be a bit more of a savant, but turned more into this exceedingly regular guy not having a very good time. Seeing as how Lafayette is a little too savant, Meinhardt is mute, and Compson hates you, Florian is really the only source of information in the base. Kinda have to dig through his dialogue tree to get it, but it's there.
+// NOTE: I honestly have about zero understanding of coding, so I don't know how to handle Florian's medical treatments. The way it works is that if the player's HP is below 50%, it will be restored to 50%. If it's above that, his treatments will do nothing. Basically, he's a shitty doctor. Anyway, no idea how to do this, so at the present time Florian does NOTHING. I'll add commented out sections where the health script should go, should be uniform.
+// Ton of states here, namely the ones in Florian's tree, which change based on if you've talked to him about the subject as well as the current state of the rebel quest. In addition to the basic florianState(which handles first-time dialogue and little else), there's also floriantubaState(talks about his past as a musician), florianworkState(can offer you a job[which you auto-reject and cannot complete]), and florianinfoState(does nothing but prevent annoying repeats of the long dialogue sections regarding the current rebel quests)
+// YEA THATS RIGHT, I MADE A FUCKING STATE FOR FLORIAN'S TUBA STORY. WHAT YOU GONNA DO ABOUT IT, PUNK?!?!
+// NOTE: The Florian dialogue tree was supposed to be a little more contained, where you don't exit the tree until you choose to. I have added mandatory exits to this, because the tree wasn't refreshing with updates to Florian's states on the fly. Like, when you ask him about things a second time, when it's supposed to show something different because of a quest state change, he just displays the previous text, even though that text shouldn't be repeated due to the change in state. I have added mandatory exits to the dialogue tree during the spots when talking to him again when that topic SHOULD(but wasn't) displaying something new. There's probably a command I should be using here instead, but until I find that, I'll just have the dialogue exit out entirely so Florian doesn't go repeating himself in ways that I don't want him to. Dialogue of that length only works if displayed once, everybody hates flipping through a dozen pages of already-seen dialogue.
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("rebelQuest") >= 6) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var florian = id;
+    var event = scr_event_create_main();
+    // GETTING HEALED snippet. Figured it was easier to put it here, since it appears verbatim in two separate states.
+    var doctorvisit = scr_event_create_child(event);
+    with doctorvisit {
+        Dialogue(P_NAME, "Yeah, I'm kinda beat up. I could use some help.");
+        Dialogue(scr_longinus_get_rank("florian") + " Florian", "Are you sure? I mean, your wounds don't look that bad. You probably aren't going to die from them.\I'm not a very good doctor. I'm probably the worst doctor on Necron 7. Maybe you should just see if those wounds heal on their own.");
+        Dialogue(P_NAME, "I'm sure. I'm really not feeling so good.");
+        Dialogue(scr_longinus_get_rank("florian") + " Florian", "Oh geez, I hate this part. This is the worst of all.....\Uh, ok. Hold still. This may hurt......");
+        scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Bunch of things. Screen fades to and from black during healing, and the player's health is changed to 50% IF it was previously below 50%. It otherwise does nothing.");
+        //Screen fades to black very briefly. System text: recovered fifty percent of health. NEED THE SCRIPT DATA FOR DOING THIS, DOES NOT APPEAR TO BE COVERED IN THE WIKI TUTORIALS
+        Dialogue(scr_longinus_get_rank("florian") + " Florian", "Oh geez, screwed up again.\Uh.....are you.....ok?");
+        Dialogue(P_NAME, "Yeah, a little bit better. Thanks Florian.");
+        Dialogue(scr_longinus_get_rank("florian") + " Florian", "Thank Clispaeth, I was afraid I'd lost you there.\Uhm.....if you feel a throbbing feeling.....\Uh......I may have left a scaplepel in there. It's not a big deal or anything! It may just feel kinda weird. Just avoid any microwaves or metal detectors and you'll be fine.");
+        scr_event_build_end();
+    }
+
+    with (event) {
+        if (Quest("florianState") == 1) {
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Hi again. You don't need a doctor's help, do you?");
+            var choice2 = Choice("You don't need a doctor's help, do you?", NULL);
+            with (ChoiceAdd(choice2, "Can you stitch me up?")) {
+                Snippet(doctorvisit);
+            }
+            with (ChoiceAdd(choice2, "Rebel matters....")) {
+                if (Quest("florianinfoState") == 5) {
+                    Dialogue(P_NAME, "Uh, Lafayette said I should go to the prison. Got any advice?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Apart from not going to prison?");
+                    Dialogue(P_NAME, "Yeah.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Sorry, that's the best advice I can give you.");
+                    scr_event_build_goto_choice(choice2);
+                }
+                else if (Quest("florianinfoState") == 4) {
+                    Dialogue(P_NAME, "Oh yeah, I just remembered. I was asking you about breaking the other rebels out of the prison.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Oh, that's right. And I told you not to go through with it.");
+                    Dialogue(P_NAME, "That's right!");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah! Cool. Glad we got that figured out.\Uh, I still think you shouldn't go through with it.");
+                    Dialogue(P_NAME, "Yeah, I know you said that already.\Actually, I don't know why I asked you again.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I guess you're supposed to ask your doctor stuff like that, but I wouldn't really know.\But if you want my advice, you should go out and look for a better doctor with the time you would have spent getting thrown into prison.");
+                    Quest("florianinfoState", 5);
+                    scr_event_build_end();
+                }
+                else if (Quest("rebelQuest") == 5) {
+                    Dialogue(P_NAME, "Hey, Lafayette has talked me into getting into the prison and starting a prison break.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I know! I was standing pretty close when you were talking about it.");
+                    Dialogue(P_NAME, "Oh yeah, I guess. So.....do you have any suggestions for me on that? Not sure where I should start.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I don't think you should do it. Lafayette is my pal and all, but that's a really dangerous idea.\As your doctor, I suggest you not go through with this idea.");
+                    Dialogue(P_NAME, "Oh. Hey, I didn't know you were my doctor. That's kinda cool.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I don't really know what that all means, I've just heard doctors say that to scare the patients.\I didn't learn that in a book, I just figured that out as I went along. Kinda works too.");
+                    Dialogue(P_NAME, "Are you my doctor though? That's really awesome. Makes me feels safer knowing I have my own doctor.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Uh.....sure, I guess?\Actually, I think you can probably find a better doctor than me. You shouldn't feel good about me as your doctor.\I mean, I am technically my own doctor and now I am in constant fear of getting sick. I felt much better not having a doctor at all.");
+                    Dialogue(P_NAME, "I guess it's better to have someone who has looked at the pictures in a couple medical books than just alternating between waiting for wounds to heal and eating candy I've picked up off the ground.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah......is that how you've been keeping alive?");
+                    Dialogue(P_NAME, "Mostly.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I have no idea how you're not dead yet.\In that case, yeah, I guess you can consider me your doctor. I hope I am slightly better at treating sick people than candy you found on the ground.");
+                    Dialogue(scr_longinus_get_rank("compson") + " Compson", "Don't count on it. Stick with the rotten candy.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "He's probably right. Don't count on me for anything. I'm a terrible doctor.\Hey, I was telling you something just now._____._____._____._____._____._____but it's gone, totally forgot what it was.");
+                    Dialogue(P_NAME, "Oh, it was......\Hmmm......yeah, I'm drawing a blank too. Something about you being my doctor.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah? I don't know. If you can remember that thing, you can ask me again?");
+                    Dialogue(P_NAME, "Ok?");
+                    Quest("florianinfoState", 4);
+                    scr_event_build_end();
+                }
+                else if (Quest("rebelQuest") == 4) {
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "You smell kinda funny. Are you ok?\I don't know where you should go to do this, but it's always good to take a bath and inspect for ticks.\Ticks are probably bad for you.\I don't really know why though, none of my books have pictures that cover that, but ticks look pretty nasty. Something that gross and ugly can't be good for you.");
+                    scr_event_build_goto_choice(choice2);
+                }
+                else if (Quest("florianinfoState") == 3) {
+                    Dialogue(P_NAME, "What did you just tell me about getting into the base? I forgot.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Oh......\Uh......\Yeah, I don't remember either. I'm kinda preoccupied I guess.\Something about the outcast?");
+                    Dialogue(P_NAME, "Yeah, that's it! Do you know where I can find him?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Don't know. He doesn't like the duergars since they threw him out, so he wanders around down there looking to get into a fight.\He's a dangerous fella, though. I wouldn't mess with him.");
+                    scr_event_build_goto_choice(choice2);
+                }
+                else if (Quest("rebelQuest") == 3) {
+                    Dialogue(P_NAME, "I was just talking to Lafayette about sneaking into the duergar base. Do you have any suggestions?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah, I heard you talking about that. You aren't going to go through with it, are you?");
+                    Dialogue(P_NAME, "Maybe. It's a neat idea I guess.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I hope you change your mind. I'd hate to get more poeple to stitch up.");
+                    Dialogue(P_NAME, "Well, if I did decide to go, do you have any suggestions for me?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Apart from not going? Hmmm......\There's a duergar outcast I've seen around the mines. He's got some chip on his shoulder over the duergars, they kicked him out or something, I forget.\I don't know if I really want to suggest you do this, but you may want to talk with him. He doesn't like dwarfs either but he may be able to help you get in there. He really hates other duergars.");
+                    Dialogue(P_NAME, "I could try that. Where should I go looking for this guy?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I don't know, he's always around looking for a fight, shouldn't be too hard to find.\He's sold me supplies he stole from the duergars before. He charges a lot. And he says rude things to everybody.\Actually yeah, you should probably just avoid him. What a rotten guy.");
+                    Quest("florianinfoState", 3);
+                    scr_event_build_end();
+                }
+                else if (Quest("rebelQuest") == 2) {
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "You seem happy. Did something happen?");
+                    scr_event_build_goto_choice(choice2);
+                }
+                else if (Quest("florianinfoState") == 2) {
+                    Dialogue(P_NAME, "I wish there was a better way of getting rid of those duergars than just killing them.....");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah......\You should probably see if Meinhardt has anything useful you can use. I guess you can try making it as painless as possible, but.....");
+                    scr_event_build_goto_choice(choice2);
+                }
+                else if (Quest("rebelQuest") == 1) {
+                    Dialogue(P_NAME, "Do you know anything about those duergars out there?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "They're all over. They're the biggest threat to our safety. Most of the people I stitch up are because of them.");
+                    Dialogue(P_NAME, "No, I mean the camp nearby. Lafayette said there's a camp real close by.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "What? Nearby? Are you sure?");
+                    Dialogue(P_NAME, "Lafayette seems to think so.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Shit, this sucks. That's bad news if they start showing up here.\We have to do something about this. Do you have any ideas?");
+                    Dialogue(P_NAME, "I don't know. I'm afraid I may have to kill them.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Are you sure you can't just talk to them? Maybe you can just convince them to go away. If they haven't shown up here already they might not know we're here.");
+                    Dialogue(P_NAME, "I guess. I don't think that will work, though.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah, me neither.\Uh......I don't know. I haven't normally thought about how to kill somebody. I'm just a doctor. I usually just think about how to stitch people up.");
+                    Dialogue(P_NAME, "Yeah....");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "But I guess if I needed to kill somebody I'd try making it look like an accident. Find something there that could go wrong and_____._____._____._____you know_____._____._____._____make it go wrong.\That, or you can just use some of their supplies to make a trap for them, something that will just go wrong on its own.\You should see what sorts of things Meinhardt has too. He's always been pretty good at getting rid of...... uh......\Wow, I can't believe I'm talking this way. Just forget everything I said, I don't think doctors should be talking about how to kill people.\Oh no! Hey, if they do get hurt, I won't have to stitch them up, will I?");
+                    Dialogue(P_NAME, "I don't know. Is that how this works?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I don't know. I just stitch up whoever comes by.\Don't tell them I'm here. I don't want to stitch up lousy duergars. They're all jerks, they probably wouldn't even thank me after I stitched them up.");
+                    Quest("florianinfoState", 2);
+                    scr_event_build_end();
+                }
+                else if (Quest("florianinfoState") == 1) {
+                    Dialogue(P_NAME, "Got any new rebel info for me?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "We're still alive, I guess. That's pretty cool.");
+                    Dialogue(scr_longinus_get_rank("compson") + " Compson", "My ass......");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "......");
+                    Dialogue(P_NAME, "......");
+                    scr_event_build_goto_choice(choice2);
+                }
+                else if (Quest("rebelQuest") == 0) {
+                    Dialogue(P_NAME, "So.......\Anything interesting going on with the rebels right now?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I don't know. I just stay here, I really don't know anything about that.\Just......\(Just don't tell anybody this, but I don't think it's going good. We don't hear from HQ anymore, supplies have dried up. It's like they forgot about us.)\(Don't tell Lafayette. I make stuff up sometimes to make him feel better. He still thinks we have a chance, I think.)");
+                    Dialogue(P_NAME, "(Ok. I won't say anything.....)");
+                    Quest("florianinfoState", 1);
+                    scr_event_build_end();
+                }
+            }
+            with (ChoiceAdd(choice2, "Do you have any work for me?")) {
+                if (Quest("florianworkState") == 1) {
+                    Dialogue(P_NAME, "Do you have any work for me?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Well, I had the leeches thing, but you said you didn't want to do that.\Just don't find me any leeches and I should be fine. I don't want to have to practice leech therapy on Meinhardt.");
+                    scr_event_build_goto_choice(choice2);
+                }
+                else if (Quest("florianworkState") == 0) {
+                    Dialogue(P_NAME, "Do you have any work for me?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Oh.____.____.____.____yes____.____.____.");
+                    Dialogue(P_NAME, "Uhm, is there something you need?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "This one book I read had all these pictures of using leeches to get rid of disease but I couldn't find any leeches. Do you think you could find me some leeches?");
+                    Dialogue(P_NAME, "What's a leech? That sounds familiar.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Uh, it's a kind of a bug or a slime or something I guess. It sticks to people and sucks their blood out.");
+                    Dialogue(P_NAME, "Ugh, that's gross. I don't know where I'd find leeches, but I don't know if I'd want to pick them up even if I found them.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah, I thought not.\Actually I was kinda hoping you'd say that, I think leeches are nasty. This medical book had pretty dumb pictures, I was looking for an excuse to not practice leech therapy.");
+                    Dialogue(P_NAME, "That's probably a good idea.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Thanks for not getting me any leeches. This is a huge weight off my mind now.");
+                    Quest("florianworkState", 1);
+                    scr_event_build_end();
+                }
+            }
+            with (ChoiceAdd(choice2, "Are you sure you're a real doctor?")) {
+                if (Quest("floriantubaState") == 1) {
+                    Dialogue(P_NAME, "Why don't you quit being a doctor if you hate it so much?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I don't know. I don't have anything else to do since I sold my tuba. Never learned how to do anything else.\Every once in a while I get to save somebody too, but I'm barely getting by.\But don't worry, if you get hurt I'll try really hard to keep you alive. I'm not really the best at this, but I work hard. That's something I guess. I don't know....");
+                    scr_event_build_goto_choice(choice2);
+                }
+                else if (Quest("floriantubaState") == 0) {
+                    Dialogue(P_NAME, "Are you sure you're a real doctor?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I don't know. Kinda.");
+                    Dialogue(P_NAME, "You just don't seem to like it very much.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I never wanted to be a doctor, but they were short on doctors, heavy on soldiers. So they made me do it. I hate it.\They gave me a bunch of books to read and just locked me in Brain City until I taught myself to be a doctor. Just gave me a bunch of books to read and that was it, nobody helped me.");
+                    Dialogue(P_NAME, "That sounds rough, how long were you in there?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I don't know. Months. I can't read either, so I had to go by the pictures in the books.");
+                    Dialogue(P_NAME, "You taught yourself to be a doctor just by the pictures?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah, I'm just a stupid fraud. I hate it when people come to me for help.");
+                    Dialogue(P_NAME, "I think that's kinda impressive actually. Just from looking at the pictures?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah. I don't think it's too impressive. Not too many of my patients die, but it happens every once in a while.\There's nothing worse than that. Like someone just came along and ripped one of your organs out.\I'm still looking through all the books, trying to learn more, but there's a lot I still don't understand.\It makes me sick just looking at the books now. I hate it. I'd much rather be reading music.\I can read music. I'm much better at that. That's how I'd rather be spending my day, not being a crummy doctor.\I was a great tuba player, the best on Necron 7. People would say that my tuba playing sounded like angels singing.\I think they were just being nice, I doubt angels sound much like tubas. But it'd be pretty cool if they did. Nothing I've ever heard sounds quite like a tuba.");
+                    Dialogue(P_NAME, "Cool, you should play for me sometime. I don't know if I've ever heard a tuba before.");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I don't play much anymore because I had to sell my tuba to buy medical supplies.\But then a bunch of cybergremlins got into my supplies and ate most of it, so I sold my tuba for nothing.");
+                    Dialogue(P_NAME, "That's really lousy. Maybe I can keep a look out for another tuba for you. Maybe someone's selling one?");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "I don't think so, I had the last tuba on Necron 7. I had to sell my tuba to the metalworks so they could melt her down and make bullets out of her.\Whenever I hear gun's firing I think of my tuba. Whenever I see someone with a gun'sshot wound I think of my tuba.\Whenever I am trying to pick pieces of a bullet out of somebody's wound, I._____._____._____._____._____");
+                    Dialogue(P_NAME, "Oh.....");
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "It's......it's like my tuba is the one going around killing everybody.........\I never should have sold her. I could be making people happy with my tuba, but all my tuba's doing now is going around killing people, giving me more people to stitch up.....");
+                    scr_event_build_wait(3);
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Life sucks.");
+                    scr_event_build_wait(3);
+                    Dialogue(scr_longinus_get_rank("florian") + " Florian", "Oh! I'm sorry for going off like that. I'm a doctor, I should be making people feel better, not making them feel worse. I really am an awful doctor.\Just try not to get shot much out there. You're a nice fella. I know my tuba well enough to know that she wouldn't want to hurt someone like you.");
+                    Quest("floriantubaState", 1);
+                    scr_event_build_end();
+                }
+            }
+            with (ChoiceAdd(choice2, "Nothing, thanks.")) {
+                Dialogue(P_NAME, "I'm feeling fine, I think, I don't need you to look at me. Just thought I'd see how you're doing.");
+                Dialogue(scr_longinus_get_rank("florian") + " Florian", "Oh.....well, I'm doing fine. Thanks for asking. I hope you're doing ok.\Drop by and see me again if you're feeling sick. You should probably just try to stay healthy, though. That's probably good doctor advice.");
+                scr_event_build_end();
+                }
+        } else if (Quest("florianState") == 0) {
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Hey, uh.....\You aren't....sick.....are you?");
+            Dialogue(P_NAME, "I'm a little banged up. Are you a doctor?");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "No, not really.\I mean, I kinda am. I am the base medic. That's my job, it's what I do. But I'm not really good at it.\You don't want me to look at your wounds do you?");
+            var choice1 = Choice("You don't want me to look at your wounds do you?", NULL);
+            with (ChoiceAdd(choice1, "No thanks.")) {
+                Dialogue(P_NAME, "No thanks. I'll probably survive.");
+                Dialogue(scr_longinus_get_rank("florian") + " Florian", "Thank you! Good! I was afraid I'd need to operate again. I'm really bad at operations.\Operations are really the worst thing I've ever experienced. I hope you never have to operate on somebody.");
+                Quest("florianState", 1);
+                scr_event_build_end();
+            }
+            with (ChoiceAdd(choice1, "Yeah, I could use some help.")) {
+                Quest("florianState", 1);
+                Snippet(doctorvisit);
+            }
+        }
+    }
+    scr_event_advance(event);
+}

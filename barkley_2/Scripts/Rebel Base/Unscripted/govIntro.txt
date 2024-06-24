@@ -1,0 +1,36 @@
+//Event for walking into L.O.N.G.I.N.U.S. base for the first time
+
+//------------------------------------------------------------------------------
+// *** govIntro = 1 ***
+//------------------------------------------------------------------------------
+
+//nothing happens
+
+
+//------------------------------------------------------------------------------
+// *** govIntro = 0 ***
+//------------------------------------------------------------------------------
+
+Dr. Liu:
+I've done it! The body transference device is finally complete! Listen up, L.O.N.G.I.N.U.S., Operation: S.A.B.O.T.A.G.E. is officially in the final stages! All we need to do now is kidnap the incoming governor, strap him in the body transference device, have a brave L.O.N.G.I.N.U.S. volunteer switch bodies with him and impersonate him at his inaugural address. This should be a snap! 
+
+R. Itkonen:
+Hey, keep it down! We've got a game goin' on over here!
+
+Dr. Liu:
+Alright, now do we have any volunteers? Naoko? Gormlaith?
+
+Naoko:
+Um, I'm kind of busy. This poker game's getting intense.
+
+Dr. Liu:
+C'mon! We'll never take Cuchulainn down with that attitude! Someone's got to volunteer or all this work was for nothing!
+
+Pvt. Madison:
+Kidnap the governor? Transfer bodies with him? Impersonate him at his speech? Are you out of your mind? Not only will it not work and get us all killed, but it doesn't make a lick of sense. Why the hell did Cyberdwarf make you our leader? You're out of your flippin' gourd! We should do it the old fashioned way and blow the hell out of the Governor's mansion with some good, clean dynamite. Now THAT would be fun!
+
+Dr. Liu:
+Sigh... someone has to be willing to help...
+
+//govIntro = 1
+//end dialogue;

@@ -1,0 +1,28 @@
+// Event for Hector's Dog, who's in the Industrial Park at time 7.
+
+if (argument0 == SCRIPT_STEP) {
+if (scr_time_get() == 7) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var hectorsDog = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("hectorsDogState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Hector", NULL, "Hey, don't touch! She bites!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Yikes!)");
+            scr_event_build_quest_state("hectorsDogState", 1);
+        } else {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Aww, you don't really bite, do you girl?)");
+            scr_event_build_dialogue("Hector", NULL, "I told you not to touch her, ya dippin' numbskull!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "S-sorry!");
+        }
+    }
+    scr_event_advance(event);
+}

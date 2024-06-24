@@ -1,0 +1,59 @@
+/// scr_event_dialogue_parse_extras(extras)
+/// Parses all of the extras (if there are any) for a dialogue.
+
+var extras = argument0;
+
+if (extras != NULL) {
+    // Grab all of the values from the extras list.
+    var draw_x = ds_list_find_value(extras, 0);
+    var draw_y = ds_list_find_value(extras, 1);
+    var width = ds_list_find_value(extras, 2);
+    var lines = ds_list_find_value(extras, 3);
+    var text_speed = ds_list_find_value(extras, 4);
+    var title_color = ds_list_find_value(extras, 5);
+    var text_color = ds_list_find_value(extras, 6);
+    var talk_sound = ds_list_find_value(extras, 7);
+    var confirm_sound = ds_list_find_value(extras, 8);
+    var portrait_speed = ds_list_find_value(extras, 9);
+    var always_play_portrait_animation = ds_list_find_value(extras, 10);
+    var boxless = ds_list_find_value(extras, 11);
+
+    // Only set the values if they aren't null.
+    if (draw_x != NULL) {
+        _draw_x = draw_x;
+    }
+    if (draw_y != NULL) {
+        _draw_y = draw_y;
+    }
+    if (width != NULL) {
+        _width = width;
+        _text_width = _width - 64;
+    }
+    if (lines != NULL) {
+        _lines = lines;
+    }
+    if (text_speed != NULL) {
+        _text_speed = text_speed;
+    }
+    if (title_color != NULL) {
+        _title_color = title_color;
+    }
+    if (text_color != NULL) {
+        _text_color = text_color;
+    }
+    if (talk_sound != NULL_STRING) {
+        _talk_sound = talk_sound;
+    }
+    if (confirm_sound != NULL_STRING) {
+        _confirm_sound = confirm_sound;
+    }
+    if (portrait_speed != NULL) {
+        _portrait_speed = portrait_speed;
+    }
+    if (always_play_portrait_animation == true) {
+        _always_play_portrait_animation = true;
+    }
+    if (boxless == true) {
+        _boxless = true;
+    }
+}

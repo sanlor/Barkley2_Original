@@ -1,0 +1,7 @@
+// scr_wedding_update()
+// called by scr_time_set(), makes wedding quest fail if time reaches 11 and it is on
+
+/*if (Quest("weddingQuest") == 1) && (scr_time_get() == 11)
+{
+    Quest("weddingQuest", 2);
+}

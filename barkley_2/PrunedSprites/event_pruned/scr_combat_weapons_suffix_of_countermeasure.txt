@@ -1,0 +1,34 @@
+///scr_combat_weapons_suffix_of_countermeasure(action, bulletOrNoone, gunOrNull)
+var _action = argument0;
+var _bullet = argument1;
+var gun = argument2;
+var _retvar = 0;
+
+// DOWN - CYBER - REACTIVE //    
+switch(_action)
+{
+    case "apply":
+        break;
+    case "checkval":
+        _retvar = 20;
+        break;
+    case "applyBullet":
+    
+            gun[? "bAdvanced"] = true;
+            gun[? "bChaff"] = true;
+            gun[? "pBulletSprite"] = sprite_get_name(s_bull_untamonium);
+            gun[? "bLobGravity"] = 0;
+            gun[? "bTimeLife"] = 250;
+            gun[? "bDistanceLife"] = 250;
+            gun[? "bMaxSpeed"] = 24;
+            gun[? "bMinSpeed"] = 2;
+            gun[? "bAccel"] = -4;
+            gun[? "bUseMoveOffset"] = false;
+
+            scr_stats_setAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL, scr_stats_getAttackStat(_bullet, STAT_ATTACK_DMG_NORMAL) * 0.5);
+            
+        break;
+}
+
+// END //
+return _retvar;

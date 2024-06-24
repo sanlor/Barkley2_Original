@@ -1,0 +1,156 @@
+/* Event for the L.O.N.G.I.N.U.S. door in Brain City
+Includes knocking mini-game, which is currently not implemented.
+
+Variables:
+longinusDoorState = 0 - never spoken to the door
+longinusDoorState = 1 - spoken to the door
+
+longinusDoorOpen = 1 - Hoopz knows that he needs to go get the knock from Nene
+longinusDoorOpen = 2 - If L.O.N.G.I.N.U.S. let you in at one point
+longinusDoorOpen = 3 - Hoopz correctly input the knock and gains access to the LONGINUS BASE (a teleport happens here)
+longinusDoorOpen = 4 - Hoopz has entered the door once and now skips the knock
+
+neneKnock = 1 - you know the knock but haven't tried it
+neneKnock = 2 - you know the knock and have successfully entered the LONGINUS base, the only challenge is remembering it
+
+*/
+if (argument0 == SCRIPT_STEP) {
+ 
+}
+else if (argument0 == SCRIPT_START) {
+    var longinusdoor = id;
+    var event = scr_event_create_main();
+    with (event) {
+        scr_event_build_animation_play_and_set(o_longinusDoor01, "locked", "locked");
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var longinusdoor = id;
+    var event = scr_event_create_main();
+    var toKnockPreNene = scr_event_create_child(event);
+    var toKnockPostNene = scr_event_create_child(event);
+    
+    //----------------------------------
+    // Knocking and Minigame Event Snippet that Happens AFTER you talk to Nene
+    //----------------------------------
+    with (toKnockPostNene) {
+        var knockchoice1 = scr_event_build_choice("Knock on the door?", s_port_hoopz);
+        with scr_event_build_add_choice(knockchoice1, "Knock.") {
+            // Just a quick flavor of if Hoopz has done the knock before or not
+            if (scr_quest_get_state("longinusDoorOpen") == 2) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Now how did it go again?");
+            }
+            else if (scr_quest_get_state("neneKnock") == 1) {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay... here goes...");
+            }
+            //Run the knocking minigame!
+            scr_event_build_dialogue_debug("The Knock", NULL, "Left, Up, Left, Left, Up, Left, Down, Down, Down, Right");
+            scr_event_build_create_object(o_mg_knocking_minigame, 0, 0);
+        }
+        with scr_event_build_add_choice(knockchoice1, "Belay that knock.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I wonder what will happen if I just... don't knock.");
+        }
+    }
+    
+    //----------------------------------
+    // Knocking and Minigame Event Snippet that Happens BEFORE you talk to Nene
+    //----------------------------------
+    with (toKnockPreNene) {
+        var knockchoice2 = scr_event_build_choice("Knock on the door?", s_port_hoopz);
+        with scr_event_build_add_choice(knockchoice2, "Knock.") {
+            scr_event_build_wait(0.5);
+            
+            scr_event_build_sound_play("sn_longinusdoor_knock01");            
+            scr_event_build_wait(3.00);
+            
+            if (scr_quest_get_state("longinusDoorState") == 1) {
+                scr_event_build_dialogue("Voice", NULL, "It's the same joker as last time! Flub off unless you know the knock, kid! L.O.N.G.I.N.U.S. only!");
+            //TODO: we should have some reminder that you are looking for Nene (Bhroom note)
+            }
+             
+            else if (scr_quest_get_state("longinusDoorState") == 0) {
+                scr_event_build_dialogue("Voice", NULL, "What the heck was that? That wasn't the knock! This clown's obviously not L.O.N.G.I.N.U.S.");
+                scr_event_build_dialogue("Second Voice", NULL, "Maybe it's Nene. Nene always gets drunk at the milk bar and forgets the knock.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopzSurprise, "Hey, wait a sec, did you say L.O.N.G.I.N.U.S.? Is the Cyberdwarf in there? I'm " + P_NAME + ", I was rescued from the Necron 7 engine room by L.O.N.G.I.N.U.S. and told to find the Cyberdwarf. You gotta let me in!");
+                scr_event_build_dialogue("Voice", NULL, "I don't care who you are, you're not getting in unless you know the knock!");
+                scr_event_build_dialogue(P_NAME, s_port_hoopzAngry, "S-shucks... looks like I've gotta learn the knock...");
+                scr_event_build_quest_state("longinusDoorState", 1);
+            }
+        }
+        with scr_event_build_add_choice(knockchoice2, "Belay the knock.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "There's an old saying, 'Knocking is for the weak.' And honestly? Sometimes I believe it...");
+        }
+    }
+    //----------------------------------
+    // Main Event
+    //----------------------------------
+    with (event) {
+        // You teleport right into the room if you did the knock right before
+        if (scr_quest_get_state("longinusDoorOpen") == 4)
+        {
+            scr_event_build_teleport(r_bct_longinus01, 224, 280, 1, 1);
+        }
+        // Checks to see if you've successfully knocked! '3' is set by the minigame itself
+        if (scr_quest_get_state("longinusDoorOpen") == 3) {
+            scr_event_build_dialogue("Voice", NULL, "Hey, that's the knock, must be Nene. Let him in!");
+            //Set this back to 1 so that you can try again the next time.
+            scr_event_build_quest_state("longinusDoorOpen", 4);
+            //End the event and teleport into L.O.N.G.I.N.U.S.
+            scr_event_build_teleport(r_bct_longinus01, 224, 280, 1, 1);
+        }
+        
+        // This runs if you've already successfully knocked
+        else if (scr_quest_get_state("longinusDoorOpen") == 2) {
+            scr_event_build_event_snippet(toKnockPostNene);
+        }
+        
+        // This runs immediately after knocking, if you've failed.
+        else if (scr_quest_get_state("longinusDoorOpen") == 1) {
+            scr_event_build_dialogue("Voice", NULL, "What was that disgraceful excuse for a knock? Get lost, buddy! L.O.N.G.I.N.U.S. only!");
+            scr_event_build_quest_state("longinusDoorOpen", 0);
+            scr_event_build_end();
+        }
+        
+        else if (scr_quest_get_state("longinusDoorState") == 1) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "These L.O.N.G.I.N.U.S. didn't let me through before.");
+            if (scr_quest_get_state("neneKnock") == 1) { 
+                scr_event_build_event_snippet(toKnockPostNene);
+            }
+            else if (scr_quest_get_state("neneKnock") == 0) {
+                 scr_event_build_event_snippet(toKnockPreNene);
+            }
+        }
+        
+        else if (scr_quest_get_state("longinusDoorState") == 0) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh, a door. Maybe I should knock...");
+            scr_event_build_event_snippet(toKnockPreNene);
+        }
+    }
+    scr_event_advance(event);
+}
+
+/* Here is Chef's writing for if we add the longinusHelp Variable
+if (scr_quest_get_state("longinusHelp") == 1) {
+//if you failed the knock before but have since helped L.O.N.G.I.N.U.S.
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, wait a sec - you said L.O.N.G.I.N.U.S. earlier, right? I'm " + P_NAME + " and I'm looking for the Cyberdwarf. Is he inside? I'm a friend, I helped [whatever L.O.N.G.I.N.U.S. stuff you did before]");
+    scr_event_build_dialogue("First Voice", NULL, "Hey, um... I think I've heard of this kid. Go check with Lft. Wiglaf, see if we can let $him in.");
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "...");
+    scr_event_build_dialogue("Second Voice", NULL, "The kid checks out. Let $him in!");
+    scr_event_build_dialogue("First Voice", NULL, "Alright kid, welcome to L.O.N.G.I.N.U.S.! Go talk to Lft. Wiglaf, he'll let you see the Cyberdwarf!");
+    scr_event_build_quest_state("longinusDoorOpen", 3);
+} else {
+//normal fail dialogue
+    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Shucks...");
+}
+} else if (scr_quest_get_state("longinusHelp") == 1) {
+//If you fail but have helped L.O.N.G.I.N.U.S. before. Variable name is made up, should be changed.
+scr_event_build_dialogue("Voice", NULL, "What the heck was that? That wasn't the knock! This clown's obviously not L.O.N.G.I.N.U.S.");
+scr_event_build_dialogue("Second Voice", NULL, "Maybe it's Nene. Nene always gets drunk at the milk bar and forgets the knock.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, wait a sec - did you say L.O.N.G.I.N.U.S.? I'm " + P_NAME + " and I'm looking for the Cyberdwarf. Is he inside? I'm a friend, I helped [whatever L.O.N.G.I.N.U.S. stuff you did before]"); // TODO
+scr_event_build_dialogue("First Voice", NULL, "Hey, um... I think I've heard of this kid. Go check with Lft. Wiglaf, see if we can let $him in.");
+scr_event_build_dialogue(P_NAME, s_port_hoopz, "...");
+scr_event_build_dialogue("Second Voice", NULL, "The kid checks out. Let $him in!"); // GENDER
+scr_event_build_dialogue("First Voice", NULL, "Alright kid, welcome to L.O.N.G.I.N.U.S.! Go talk to Lft. Wiglaf, he'll let you see the Cyberdwarf!");
+scr_event_build_quest_state("longinusDoorOpen", 3);
+//transition into L.O.N.G.I.N.U.S. base.    

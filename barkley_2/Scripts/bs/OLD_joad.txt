@@ -1,0 +1,387 @@
+/*	
+	scr_sw1_joad.txt
+	this script is for
+	joad, the dying dwarf in the bomb room in the sewers
+
+----------
+NOTES
+
+	1. WRITE THE NOTE
+	2. MAKE SURE ENDING THINGS WORK
+	3. WHAT DOES HE SAY ABOUT THE NOTE?
+	4. TEST
+	5. KEEP IN MIND, CHOICE1 AND CHOICE2 WORK KIND OF BACKWARDS
+	6. HAVE LATE TIME RESPONSES
+	7. FIX THE "INFO"
+	8. WHAT IS THE BONUS/DIFFERENCE?
+	9. BLOODY NOTE?
+
+	scr_quest_get_state("deadBombDwarf")
+		0 = alive
+		1 = dead, paper or scroll
+		2 = dead, no paper nor scroll
+
+----------
+OVERVIEW
+
+	
+----------
+THE OUTCOMES
+	
+		
+----------
+VARIABLES AND KEYWORDS
+	
+	shorthand
+		tNone
+			title_text = "";
+		pNone
+			portrait = -1;
+		d=
+			dialogue_text = "";
+		c=
+			choice_text = "";
+		.dact
+			scr_dialogue_act();
+		.cact
+			scr_choice_act();
+		.anim
+			TBD
+		.wait
+			TBD	
+	
+----------
+REQUIRED RESOURCES
+		
+*/
+
+if scr_event_obj_init() { // Object initiation
+
+	// initiate any local Object variables here
+	scr_object_var_set("bombChoice1",0);
+	scr_object_var_set("bombChoice2",0);
+	scr_object_var_set("bombChoice1First",0)
+	scr_object_var_set("bombScrollKnow",0)
+	scr_object_var_set("bombDwarfAlive",0)
+	
+	ar_bombHelp[0] = "Where are you hurt?";
+	ar_bombHelp[1] = "What can I do?";
+	ar_bombHelp[2] = "Give the dwarf the paper.";
+	ar_bombHelp[3] = "Give the dwarf the scroll.";
+
+	ar_bombHelpX1[0] = "It looks like you're really bleeding. Where were you hurt?";
+	ar_bombHelpX1[1] = "We're gonna get you out of here. Uh... how should I do this?";
+	ar_bombHelpX1[2] = "Of course, here you go.";
+
+	ar_bombHelpDwarf[0] = "Ugh... all over, youngster. It surprised us... *kack*... looks like my time's... almost up."
+	ar_bombHelpDwarf[1] = "I'm not going... anywhere. P-... paper... pencil. Help me... get my paper.";
+	ar_bombHelpDwarf[2] = "Th-... thank you youngster. And thank you for... being here. Now, I must record what I saw... help the others...";
+
+	ar_bombAsk[0] = "How did this happen?";
+	ar_bombAsk[1] = "A bainshee? Where?";
+	ar_bombAsk[2] = "An ancient tomb?";
+	ar_bombAsk[3] = "What scroll?"";
+	ar_bombAsk[4] = "You know what the scroll does?";
+	ar_bombAsk[5] = "What's that? I can't hear you.";
+	ar_bombAsk[6] = "Ask about the paper.";
+	ar_bombAsk[7] = "An ancient scroll, huh?";
+
+	ar_bombAskX1[0] = "You look really hurt. How did this happen?";
+	ar_bombAskX1[1] = "A bainshee did this? Where did it get off to? They really sound like bad news.";
+	ar_bombAskX1[2] = "Could you tell me anything else about this tomb?";
+	ar_bombAskX1[3] = "A scroll from a tomb, huh? You've gotta tell me more.";
+	ar_bombAskX1[4] = "So do you know what the scroll does?";
+	ar_bombAskX1[5] = "What's that, mister? I can't hear you.";
+	ar_bombAskX1[6] = "This paper looks really old. Where'd you get it?";
+	ar_bombAskX1[7] = "This is unreal... where'd you get it?";
+
+	ar_bombAskDwarf[0] = "Was scouting... blasted into a room a few levels below... think it was a tomb... ba-... bainshee caught up to me... got me good.";
+	ar_bombAskDwarf[1] = "Really bad... I tracked it for awhile, lost it... looking around in tomb when it appeared. Got back to here but... ugh... too late.";
+	ar_bombAskDwarf[2] = "... saw weak wall... blasted in. Caved in now... all I m-... to get was... nnngh... scroll.";
+	ar_bombAskDwarf[3] = "Saw scroll... ground... grabbed it. That's when... b-... bainshee... little letters.";
+	ar_bombAskDwarf[4] = "Ugh... I... scroll... other... s-...";
+	ar_bombAskDwarf[5] = "...";
+	ar_bombAskDwarf[6] = "V-... very old... look closer... it's a scroll.";
+	ar_bombAskDwarf[7] = "Saw scroll... ground... grabbed it. That's when... b-... bainshee... little letters.";
+
+	ar_bombStrength[0] = "I... I dont have much strength...";
+	ar_bombStrength[1] = "Nnnh... my strength is decreasing... even further...";
+	ar_bombStrength[2] = "I'm truly... a... g-... goner....";
+	ar_bombStrength[3] = "Nnngh... *kack*... this is it...";
+	ar_bombStrength[4] = "Y... young... ster... I..."
+	ar_bombStrength[5] = "...ngh... *gasp*...";
+	ar_bombStrength[6] = "...";
+	ar_bombStrength[7] = "...";
+	
+}
+
+else {	// all Event behaviour
+
+if scr_event_init() {	// on Event activation (note: local variables will be discarded when event ends)
+
+	// initiate any local Event variables here
+	scr_init_param(); // reset dialogue parameters
+	
+}
+
+if scr_state_update() { // check conditions, update event State
+
+	// set object State conditions (like 'priority' tabs)
+	state = 0;		// 0 state (inactive)
+	
+	if scr_object_var_get("bombDwarfAlive",0) state = 2
+	else state = 5
+	// first state (highest priority)
+	// 'else if' for additional state conditions
+
+	scr_event_activate();	// activate Event
+}
+
+if scr_advance() and scr_state_execute() {	// perform the next Action on execution
+
+	// switch case for defined States (like 'priority' tabs)
+	switch state {
+     
+				// The following section is the meat of the quest. What's in choice 0 is always whatever puts you closer to giving the scroll to the dying dwarf. Choice 1 is all about secondary questions.
+		case 1:	// MAIN QUESTION/RESPONSE LOOP
+			switch action {
+			
+				case 0:	// Select Dwarf strength response from array... skip if first choice.
+					if scr_object_var_Get("bombChoice1") + scr_object_var_get("bombChoice2") > 0 {
+						portrait = -1; // pDyingDwarf
+						title_text = "Dying Dwarf";
+						dialogue_text =  ar_bombStrength[scr_object_var_get("bombChoice1") + scr_object_var_get("bombChoice2") - scr_object_var_get("bomb1ChoiceFirst") - 1];
+						scr_act_dialogue();
+						}
+					else action += 1;
+					break;
+					
+				case 1:	// X114JAM9 chooses response, responses taken from arrays
+					if scr_object_var_get("bombChoice1") = 2 && scr_object_var_get("bombChoice1") < 3 {
+						scr_object_var_set("bombChoice1",6);
+						scr_object_var_set("bombChoice1First",3)
+						}
+					portrait = s_port_hoopz;
+					title_text = "What do you say?";
+					choice_text = ar_bombHelp[scr_object_var_get("bombChoice1") - scr_object_var_get("bombScrollKnow")] + "|" + ar_bombAsk[scr_object_var_get("bombChoice2")];
+					scr_act_choice();
+					break;
+					
+				case 2:	// X114JAM9 delivers response, respective variable is increased
+					portrait = s_port_hoopz;
+					title_text = "X114JAM9";
+					if choice = 0 {
+						dialogue_text =  ar_bombHelpX1[scr_object_var_get("bombChoice1")];
+						}
+					else {
+						dialogue_text =  ar_bombAskX1[scr_object_var_get("bombChoice2")];
+						}
+					scr_act_dialogue();
+					break;
+					
+				case 3:	// Dwarf replies to question
+					portrait = -1; // pDyingDwarf
+					title_text = "Dying Dwarf";
+					if choice = 0 {
+						dialogue_text =  ar_bombHelpDwarf[scr_object_var_get("bombChoice1")];
+						scr_object_var_set("bombChoice1",scr_object_var_get("bombChoice1") + 1)
+						}
+					else {
+						dialogue_text =  ar_bombAskDwarf[scr_object_var_get("bombChoice2") - scr_object_var_get("bombChoice1First"];
+						scr_object_var_set("bombChoice2",scr_object_var_get("bombChoice2") + 1);
+						if scr_object_var_get("bombScrollKnow") < 1 {
+							if scr_object_var_get("bombChoice2") >= 2 {
+								scr_object_var_set("bombScrollKnow",1)
+								if scr_item_count("Tattered Paper") > 0 {
+									scr_item_take("Tattered Paper",1)
+									scr_item_give("Ancient Scroll",1)
+									}
+								}
+							}	
+						if scr_object_var_get("bombChoice2") > 7 {
+							scr_object_var_set("bombChoice2") == 4;
+							scr_object_var_get("bombChoice1First") == 0;
+							}
+						}
+					scr_act_dialogue();
+					break;
+					
+				case 4: // Optional pocket ANIMATION
+					if scr_object_var_get("bombChoice1") = 1 && choice = 0; {
+						// pocket animation
+						action += 1; // REMOVELATER
+						}
+					else {
+						action += 1;
+						}
+					break;
+					
+				case 5: // Scroll gotten response
+					if scr_object_var_get("bombChoice1") = 1 && choice = 0; {
+						// pocket animation
+						portrait = -1;
+						title_text = "";
+						if scr_object_var_get("bombChoice2") >= 2 {
+							dialogue_text = "Gained 1 ancient scroll."
+							scr_item_give("Ancient Scroll")
+							}
+						dialogue_text = "Gained 1 tattered piece of paper."
+						scr_item_give("Tattered Paper")
+						scr_act_dialogue();
+						}
+					else {
+						action += 1;
+						}
+					break;
+					
+				case 6:	// Cough Animation Goes Here
+					// .anim
+					action += 1;
+					break;
+					
+				case 7: // Check If Finished
+					if scr_object_var_get("bombChoice2") + scr_object_var_get("bombChoice1") - scr_object_var_get("bombChoice1First") >= 5 {
+						scr_object_var_set("bombDwarfAlive",1)
+						action = 0;
+						state = 3;
+						}
+					if scr_object_var_get("bombChoice1") >= 3 {
+						scr_object_var_set("bombDwarfAlive",1)
+						// scr_object_var_get("bombChoice1") = 3;
+						action = 0;
+						state = 4;
+						}
+					else action += 1;
+					break;
+				
+				case 8:
+					action = 0;
+					state = 1;
+					break;
+				}
+				break;
+				
+				
+		case 2: // FIRST LOOP with OPTIONAL COUGH ANIM... will be in a SEPARATE EVENT
+				// 	OR edited to be ACTIVATED ON TALK to the dying dwarf
+			switch action {
+				case 0:  // CAMERA pans UP to dying dwarf
+					// camera pans
+					action += 1;
+					break;
+				case 1: // Dying dwarf speaks
+					portrait = -1; // pDyingDwarf
+					title_text = "Dying Dwarf";
+					dialogue_text = "Nnnh.. h-... help me... please, youngster.";
+					scr_act_cialogue();
+					break;
+				case 2: // COUGH ANIMATION goes here
+					// cough anim
+					action += 1;					
+					break;
+				case 3: // CAMERA pans BACK DOWN --or-- hoopz RUNS and CROUCHES
+					// CAMERA pans --or-- hoopz runs
+					action += 1;					
+					break;
+				case 4: // hoopz talking
+					portrait = s_port_Hoopz;
+					title_text = "X114JAM9";
+					dialogue_text = "Whoa mister, are you all right?";
+					break;
+				case 5: // dying dwarf talking
+					portrait = -1; // pDyingDwarf
+					title_text = "Dying Dwarf";
+					dialogue_text = "Nnnh... not quite youngster... I think this dwarf's d-...";
+					break;
+				case 6:	// Cough Animation Goes Here
+					action += 1;
+					break;
+				case 7: //dying dwarf talking
+					portrait = -1; // pDyingDwarf
+					title_text = "Dying Dwarf";
+					dialogue_text = "... numbered...";
+					break;
+				case 8: //go to question switch
+					action = 0;
+					state = 1;
+					break;
+				}
+			break;
+			
+			
+		case 3: // DEATH state
+			switch action {
+				case 0: // SLUMP ANIMATION goes here if possible.
+					// .anim
+					action += 1;
+					break;
+				case 1: // BRIEF PAUSE 
+					// .wait
+					action += 1;
+				case 2: 
+					portrait = s_port_hoopz;
+					title_text = "X114JAM9";
+					dialogue_text = "I think he's passed on."
+					break;
+				case 3:
+					scr_quest_set_state("deadBombDwarf",2)
+					scr_event_end();
+					break;
+			}
+			break;
+				
+				
+		case 4: // SUCCESS state
+			switch action {
+				case 0:
+					portrait = -1; // pDyingDwarf
+					title_text = "Dying Dwarf";
+					dialogue_text = "Th... thank you... one moment."
+					break;
+				case 1: // Unnecessary WRITE ANIMATION... or could be rephrased as Hoopz DICTATING
+					// .anim
+					action += 1;
+					break;
+				case 2: // BRIEF PAUSE 
+					// .wait
+					action += 1;
+					break;
+				case 3:
+					portrait = -1; // pDyingDwarf
+					title_text = "Dying Dwarf";
+					dialogue_text = "Nnng... thank you... youngster... now I can rest. Give this..."
+					break;
+				case 4: // SLUMP ANIMATION goes here if possible.
+					// .anim
+					action += 1;
+					break;
+				case 5: // BRIEF PAUSE 
+					// .wait
+					action += 1;
+				case 6: 
+					portrait = s_port_hoopz;
+					title_text = "X114JAM9";
+					dialogue_text = "I think he's passed on."
+					break;
+				case 7:
+					scr_quest_set_state("deadBombDwarf",1)
+					scr_event_end();
+					break;
+			}
+			break;
+			
+			case 5: // DEAD state
+				switch action {
+					case 0:
+						portrait = s_port_hoopz;
+						title_text = "X114JAM9";
+						dialogue_text = "The dwarf has passed on."
+						break;
+					case 1:
+						scr_event_end();
+						break;
+					}
+				break;
+				
+}
+}}

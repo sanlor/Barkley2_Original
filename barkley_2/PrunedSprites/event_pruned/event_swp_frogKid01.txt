@@ -1,0 +1,269 @@
+// event_swp_frogKid01
+/*
+if (argument0 == SCRIPT_START) {
+
+}
+else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // id
+    var frogKid = id;
+    
+    // portrait
+    var frogport = s_portrait;
+    
+    var event = scr_event_create_main();
+    var frog_victory = scr_event_create_child(event);
+    var frog_failure = scr_event_create_child(event);
+    var frog_escape = scr_event_create_child(event);
+    
+    //---------------------------------------------------------
+    //  frog kid main event
+    //---------------------------------------------------------
+    with (event) {
+        // talked after successful quiz
+        if (scr_quest_get_state("frogSpent") == 1)
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "Hey! There should be a time unit passing here. You can't talk to Frog Kid yet! You need to wait a time unit!");
+            scr_event_build_end();
+        }
+        // quiz correct / incorrect handlers
+        if (scr_quest_get_state("frogAnswer") == 2) { scr_event_build_event_snippet(frog_victory); }
+        else if (scr_quest_get_state("frogAnswer") == 1) { scr_event_build_event_snippet(frog_failure); }
+        
+        // quiz states
+        else if (scr_quest_get_state("frogFriend") == 1)
+        {
+            scr_event_build_dialogue("Frog Kid", frogport, "Hey, hey, you're back! My best friend is back! Have you come back to talk to me!?");
+            scr_event_build_dialogue_debug("bort", NULL, "Frog Kid gets excited!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um... yep, here I am! Sure, I'll talk. What do you want to talk about?");
+            scr_event_build_dialogue("Frog Kid", frogport, "Hmm... hmm... hmmmmmmmmmmm... how... about... FROGS!!!");
+            scr_event_build_dialogue_debug("bort", NULL, "Frog Kid freaks out!");
+            scr_frog_quiz(2);
+        }
+        else if (scr_quest_get_state("frogFriend") == 2)
+        {
+            if (scr_quest_get_state("frogFrog") == 0)
+            {
+                scr_event_build_dialogue("Frog Kid", frogport, "Hey, " + P_NAME + "! What brings you back? You here to talk shop? You here to talk FROGS!? Then let's do it!");
+                scr_event_build_dialogue_debug("bort", NULL, "Frog Kid freaks out!");
+                scr_frog_quiz(3);
+            }
+            else 
+            {
+                scr_event_build_dialogue("Frog Kid", frogport, "Hey, " + P_NAME + ". I'd talk about frogs with you but I'm not really in the mood, sorry. Come back later and we'll do it though, I promise.");
+            }
+        }
+        else if (scr_quest_get_state("frogFriend") == 3)
+        {
+            if (scr_quest_get_state("frogFrog") == 0)
+            {
+                scr_event_build_dialogue("Frog Kid", frogport, "Hooray! " + P_NAME + " is here! Frog friends, together again! Where did we leave off... oh yeah!!! FROGS!!!");
+                scr_event_build_dialogue_debug("bort", NULL, "Frog Kid freaks out!");
+                scr_frog_quiz(4);
+            }
+            else
+            { 
+                scr_event_build_dialogue("Frog Kid", frogport, "Frog Kid... Dwarf Kid... maybe there's no difference. I'm feeling a little moody, " + P_NAME + ", let's talk about frogs another time."); 
+            }
+        }
+        else if (scr_quest_get_state("frogFriend") == 4)
+        {
+            if (scr_quest_get_state("frogFrog") == 0)
+            {
+                scr_event_build_dialogue("Frog Kid", frogport, "Hi " + P_NAME + "! There's a lot I gotta tell ya, but first, let's see if you've done it. Are you really the Frog Master I think you are!?");
+                scr_event_build_dialogue_debug("bort", NULL, "Frog Kid freaks out!");
+                scr_frog_quiz(5);
+            }
+            else
+            { 
+                scr_event_build_dialogue("Frog Kid", frogport, "... I'm feeling a little down right now, " + P_NAME + ". Maybe later... maybe we can talk about frogs later."); 
+            }
+        }
+        else
+        {
+            scr_event_build_dialogue_debug("bort", NULL, "frogFriend == " + string(scr_quest_get_state("frogFriend")) + "! Impossible dialogue!");
+        }
+    }
+    
+    //---------------------------------------------------------
+    //  frog_victory
+    //---------------------------------------------------------
+    with (frog_victory)
+    {
+        scr_event_build_quest_state("frogAnswer", 0);
+        scr_event_build_quest_state("frogSpent", 1);
+        
+        // ------------- Correctly Answered #1 -------------
+        if (scr_quest_get_state("frogFriend") == 1)
+        {
+            scr_event_build_dialogue("Frog Kid", frogport, "You really do know a ton about frogs, huh? You've been studying?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks, I guess I am picking things up. I've learned a ton just by listening to you.");
+            scr_event_build_dialogue("Frog Kid", frogport, "Really!? THAT'S AWESOME! I want to spread love and knowledge of frogs around the world! I think everyone should know about frogs!!!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's nice that you want to share, Frog Kid. How do you know so much about them anyway?");
+            scr_event_build_dialogue("Frog Kid", frogport, "I um... um... I JUST LIKE THEM, OKAY!?!?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa... okay! I didn't mean anything by it, Frog Kid. I'm starting to like frogs a lot too. Is something wrong?");
+            scr_event_build_dialogue("Frog Kid", frogport, "I'm sorry... I'll have to tell you later. I um... I think I'm gonna go for a swim! See ya later, " + P_NAME + "!");
+        }
+        
+        
+        // ------------- Correctly Answered #2 -------------
+        else if (scr_quest_get_state("frogFriend") == 2)
+        {
+            scr_event_build_dialogue("Frog Kid", frogport, "You're like a frog expert now, " + P_NAME + "!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You think so!? Cool, Frog Kid! I'm just trying to keep up with you!");
+            //scr_event_build_dialogue("Frog Kid", frogport, "Well you are doing great! You know a ton about frogs... um... wanna talk some more?");
+            scr_event_build_dialogue("Frog Kid", frogport, "Hey, sorry for getting upset with you last time we talked. You know... last time we talked about frogs. We're best friends, so I should be able to tell you anything. I can tell you anything, right!?");
+            
+            // meaningless choice
+            var choice = scr_event_build_choice("Tell me...", s_port_hoopz);
+            var anything = scr_event_build_add_choice(choice, "You can tell me anything!");
+            with (anything)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Of course, Frog Kid. You can tell me anything!");
+                scr_event_build_dialogue("Frog Kid", frogport, "Thanks, " + P_NAME + ". It's just that there's another reason I like frogs so much. I told you about my parents... and how they left me my Toader action figure. I don't really remember much about my parents.");
+            }
+            var nothing = scr_event_build_add_choice(choice, "Maybe not anything-anything.");
+            with (nothing)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Maybe not anything-anything. What kind of anything are we talking about?");
+                scr_event_build_dialogue("Frog Kid", frogport, "I promise it's nothing bad, " + P_NAME + ". It's just that there's another reason I like frogs so much. I told you about my parents... and how they left me my Toader action figure. I don't really remember much about my parents.");
+            }
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah? Things are pretty hazy for me too...");
+            scr_event_build_dialogue("Frog Kid", frogport, "Whoa, really? Are... are you an orphan, just like me!? Were you raised by frogs, just like me!?");
+            
+            // player is x114jam9
+            if (scr_quest_get_state("playerX1") == 1)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, not quite. I woke up in this kind of... capsule thing, and I had no idea who I was. I still don't really know who I am. " + P_NAME_F + " isn't even my real name. At least I don't think it is. As for my parents... I don't know if I remember anything at all. Maybe if I think really hard. I dunno... it's kind of blank back there, most of the time...");
+            }
+            // player is hoopz barkley
+            else if (scr_quest_get_state("playerHoopz") == 1)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, not quite. I woke up in this kind of... capsule thing, and I had no idea who I was. I was lucky some folks who helped me figure out who I exactly I am... I'm " + P_NAME_F + "... I still don't remember a ton about my parents, but I know they've apparently bequeathed me a grand destiny. Kind of crazy, huh? I guess my parents and I have a weird relationship. I mean... maybe.");
+            }
+            // player is cc character
+            else if (scr_quest_get_state("playerCC") == 1)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Um, not quite. I woke up in this kind of... capsule thing, and I had no idea who I was. They told me I was someone named Hoopz Barkley. And it's like, the moment they said it I realized who I really am. I'm " + P_NAME_F + "! I had no idea before, and suddenly it was crystal clear. The jury's still out on my parents but I think that will become more clear too. I just gotta keep an eye out!");
+            }
+            
+            scr_event_build_dialogue("Frog Kid", frogport, "Huh... that's unbelievable! So maybe you're not an orphan after all! And you weren't raised by frogs either, huh? Well... I was. For as long as I've known, I've been here in the swamps! Hanging out with frogs, catching frogs, eating frogs, petting frogs, learning a ton about frogs... you know, it's actually been tons of fun!!!");
+            scr_event_build_dialogue_debug("bort", frogport, "Frog Kid should look sad here.");
+            scr_event_build_dialogue("Frog Kid", frogport, "Part of me can sorta remember my parents giving me my toy... but then it's all frogs! I feel like I'm starting to remember my parents less and less every day. I think they left me here in the swamp to keep me safe. I don't know if I'm safe around the dwarfs. They think I look weird. But after my parents left me here, I don't know what happened to them... I pretty much just only know about frogs. I love how they croak! I love how they ribbit! Frogs are so cool!");
+            scr_event_build_dialogue_debug("bort", frogport, "Frog Kid gets excited.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "So, they just left you here? That's sad... and pretty mysterious I guess. But they were right, you seem to be safe out here in the swamp! That's good, right Frog Kid?");
+            scr_event_build_dialogue("Frog Kid", frogport, "Frog Kid... I call myself that because I really like frogs, but am I a kid? I don't even know how old I am... I don't know how long I've been out here with the frogs... I just know I like 'em. Do you think I'm a Frog Kid, " + P_NAME + "?");
+            
+            // Choice
+            var kid_choice = scr_event_build_choice("You are a...", s_port_hoopz);
+            // Frog Answer
+            var yes_kid = scr_event_build_add_choice(kid_choice, "You're a Frog Kid.");
+            with (yes_kid)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think you're a Frog Kid, definitely! You've got those like... flipper things on your hands. You're definitely a frog something.");
+                scr_event_build_dialogue("Frog Kid", frogport, "Okay... cool. Well I'll see you later, " + P_NAME + ". I've got a lot to think about... about myself... and frogs. Bye bye!!!");
+            }
+            // Dwarf Answer
+            var no_kid = scr_event_build_add_choice(kid_choice, "You're just a kid.");
+            with (no_kid)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think you're just a kid. A kid who likes frogs.");
+                scr_event_build_dialogue("Frog Kid", frogport, "Hmm... maybe I am just a kid. Yeah... that's pretty easy! Okay! Good bye, " + P_NAME + ". Come by again sometime!");
+                // turn on frogFrog
+                scr_event_build_quest_state("frogFrog", 1);
+            }
+        }
+        
+        // ------------- Correctly Answered #3 -------------
+        else if (scr_quest_get_state("frogFriend") == 3)
+        {
+            scr_event_build_dialogue("Frog Kid", frogport, "Incredible! You're becoming a true frog genius!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heh, you're embarrassing me, Frog Kid! But I've definitely picked up a little frog knowledge after meeting you, it's true!");
+            scr_event_build_dialogue("Frog Kid", frogport, "Wanna know something fun, " + P_NAME + "? After last time we talked, I found a sunny spot and laid down for a nap. Did you know frogs are cold-blooded? It means they have to regulate their body heat with the sun! So I did too... and I had a weird dream.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Really? Tell me about it! I heard dreams tell the future... or are the window to your true mind... or something like that anyway!");
+            scr_event_build_dialogue("Frog Kid", frogport, "Well, this one was kind of a a flashback I think. I was myself in the dream, and I was smaller. Maybe younger. Maybe a baby. And I felt different... I knew I was supposed to be myself, but I didn't feel quite like myself... it felt weird. Maybe it's because in my dream I wasn't in the swamp. I was in an apartment, in a big building, in a big city. I was sitting on the floor playing, but I was playing with a different toy... not Toader.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Toys are fun. That sounds like a pretty fun dream already.");
+            scr_event_build_dialogue("Frog Kid", frogport, "Well then it got weird! I heard my mom and dad talking to me, but their words were all garbled up and I couldn't understand what they were saying at all. And I kept playing with my toy. And then they kept talking, and I still played with my toy. But I could tell they were talking to me. And then finally they shouted at me and I still couldn't understand it so I looked up and... " + P_NAME + "... my mom had a frog head.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa...");
+            scr_event_build_dialogue("Frog Kid", frogport, "I think she was a dwarf up to her shoulders, then a slimy green frog head! My mom opened her mouth and a ribbit came out, so I looked to my dad. He looked just like a regular dwarf... then suddenly I blinked and he was a frog too! And he croaked at me! Then I looked back at my mom, and this time, she had a dwarf head... and then I blinked and she was back to frog! Every time I looked away it was, frog, dwarf, frog, dwarf!");
+            scr_event_build_dialogue_debug("bort", frogport, "Frog Kid should look sad here.");
+            scr_event_build_dialogue("Frog Kid", frogport, "Um... I have a question to ask you. I don't really remember my parents very much... but I don't think they had frog faces. Should that have freaked me out?");
+            
+            // Choice
+            var fk_freak = scr_event_build_choice("Is that freaky?", s_port_hoopz);
+            // Frog Answer
+            var freak_no = scr_event_build_add_choice(fk_freak, "No way, Frog Kid! You might even be half-frog.");
+            with (freak_no)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't think so. You're the Frog Kid, right? Who cares if your parents have frog heads!? Maybe one of your parents was a frog.");
+                scr_event_build_dialogue("Frog Kid", frogport, "Yeah... I think you're right, " + P_NAME + "! I wasn't freaked out... I actually felt a lot better when I looked up and they had frog heads... better than dwarf heads, I think. After that, I looked around and I was in the swamp again. And I looked at my toy, and it was my Toader action figure. And my parents were gone, and there were just normal frogs around... a bunch of normal frogs, just hopping around! And then I woke up. Anyway... thanks for listening, " + P_NAME + "! I'm gonna go play somewhere else. Come back and see me! Bye bye!");
+            }
+            // Dwarf Answer
+            var freak_yes = scr_event_build_add_choice(fk_freak, "Yeah, definitely. You've got issues.")
+            with (freak_yes)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Definitely. It's a sign of some repressed issues. You've got some kind of... some kind of... Frog Complex.");
+                scr_event_build_dialogue("Frog Kid", frogport, "A Frog Complex... no! No! You're wrong! I just like frogs!!! I thought you were different, " + P_NAME + "!!! But you don't understand either!!!");
+                // turn on frogFrog
+                scr_event_build_quest_state_add("frogFrog", 1);
+            }
+        }
+        
+        // ------------- Correctly Answered #4 -------------
+        else if (scr_quest_get_state("frogFriend") == 4)
+        {
+            scr_event_build_dialogue("Frog Kid", frogport, "Good stuff as always! I don't know if there's anything else I can teach you about frogs, the way things are. By the way, " + P_NAME + "... ever since you left, since last time we talked, I've been thinking a whole lot. A WHOLE lot... and I've decided! I LOVE my life with the frogs!!!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I've picked that much up, Frog Kid.");
+            scr_event_build_dialogue("Frog Kid", frogport, "That's what I'm saying! I'm the Frog Kid, but... I wanna be the Frog Kid for real! I spend all day in the swamp! I love the swamp and I love playing with frogs! ... but I used to be sad about my parents. I don't want to be sad anymore!!! I didn't want to forget them for a long time, but they're not coming back. I don't care anymore! I don't care if I'm part-dwarf, or a half-frog, or what I am! I want to be a frog!!!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "A full-time frog, huh? Well...");
+            
+            // Choice
+            var fk_fulltime = scr_event_build_choice("About that...", s_port_hoopz);
+            // Frog Answer
+            var fulltime_yes = scr_event_build_add_choice(fk_fulltime, "You should go for it! Be a frog!");
+            with (fulltime_yes)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think you should go for it! Go ahead and be a frog! Or... if you're the Frog Kid now, I guess that would make you a tadpole, wouldn't it?");
+                scr_event_build_dialogue("Frog Kid", frogport, "A tadpole, huh? That's a baby frog! You're right, " + P_NAME + "! You've learned a lot about frogs, haven't you!?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Haha, thanks! I'm just trying to keep up with you!");
+                scr_event_build_dialogue("Frog Kid", frogport, "I knew you were my best friend for a reason! Okay, I'm doing it! Next time you see me, I'm gonna be a tadpole! I'm tired of being just the Frog Kid! Frogs are my life!!! I'm gonna jump! I'm gonna be slimy! I'm gonna swim! I'm gonna be a frog, really soon!!! Bye bye, " + P_NAME + "! Come and see me soon!");
+            }
+            // Dwarf Answer
+            var fulltime_no = scr_event_build_add_choice(fk_fulltime, "Stay a dwarf. Your parents are out there.")
+            with (fulltime_no)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I know you must miss your parents, but I don't think you should give up on your dwarfdom. I'm sure they're out there somewhere!");
+                scr_event_build_dialogue("Frog Kid", frogport, "Grrrrrr! I don't even know why I asked! I'm just tired of it!!! Look at these frogs, " + P_NAME + "! I wanna jump and swim and be slimy and sticky and eat bugs!!! So... I'm... gonna! Catch you later, " + P_NAME + "!");
+                // turn on frogFrog
+                scr_event_build_quest_state("frogFrog", 1);
+            }
+        }
+        
+        scr_event_build_quest_state_add("frogFriend", 1);
+        scr_event_build_event_snippet(frog_escape);
+    }
+    
+    //---------------------------------------------------------
+    //  frog_failure
+    //---------------------------------------------------------
+    with (frog_failure)
+    {
+        scr_event_build_quest_state("frogAnswer", 0);
+        scr_event_build_dialogue_debug("bort", NULL, "Frog Kid is mad because you don't know anything about frogs. Leaps off into the water.");
+        scr_event_build_end();
+    }
+    
+    //---------------------------------------------------------
+    //  frog_escape
+    //---------------------------------------------------------
+    with (frog_escape)
+    {
+        scr_event_build_quest_state("frogAnswer", 0);
+        scr_event_build_dialogue_debug("bort", NULL, "Frog Kid leaps off into the water.");
+        scr_event_build_end();
+    }
+    
+    scr_event_advance(event);
+}

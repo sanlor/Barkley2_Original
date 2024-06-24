@@ -1,0 +1,102 @@
+// Event for Rudolph, a pilgrim on the way to the Mountain in the Industrial
+// Park at times 4, 6, 7, 11.
+/*
+if (argument0 == SCRIPT_STEP) {
+    if (scr_time_get() == 4) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 6) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 7) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 11) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var rudolph = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_time_get() == 11) {
+        //Time = 11
+            if (scr_quest_get_state("rudolphState") == 2) {
+            //Time = 11, Spoken to during Time 11
+                scr_event_build_dialogue("Rudolph", NULL, "Seeing Cuchu's Bluff was something I'd always dreamed of ever since I was a tadpole like yourself. Now that I've seen it, now that I've breathed its air, meditated underneath its trees, scaled its summit, perused the tomes of its monastery, uplifted my spirit in its presence, I am finally fulfilled.");
+            } else if (scr_quest_get_state("rudolphState") == 1){
+            //Time = 11, Spoken to during Times 4, 6 or 7
+                scr_event_build_dialogue("Rudolph", NULL, "Mystical greetings, dear bantam. We meet again! It has been some time, hasn't it? I hope your travels find you well! It seems that my journey has finally come to an end.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You made it to Cuchu's Bluff?");
+                scr_event_build_dialogue("Rudolph", NULL, "Indeed, youngster. I completed the pilgrimage to the holy mountain, gazed from the summit across the endless expanse of the Necron 7, purified myself in the healing waters of its waterfall and even met with the wise man in his monastery. It was a transformative experience, one from which I've gained a deep appreciation for the mysteries of this life. I know not where your travels shall take you, vernal sojourner, but if your time allows, I suggest you make the journey yourself.");
+                scr_event_build_quest_state("rudolphState", 2);
+            } else {
+            //Time = 11, never spoken to before.
+                scr_event_build_dialogue("Rudolph", NULL, "Mystical greetings, dear bantam. Come hither, come hither. You seem a traveler, much as I.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I am.");
+                scr_event_build_dialogue("Rudolph", NULL, "Tell me, youthful gadabout, are your journeys near their end or do you plan to travel on?");
+                var choice2 = scr_event_build_choice("Am I going to be traveling for much longer?", s_port_hoopz);
+                with scr_event_build_add_choice(choice2, "My journey is just beginning.") {
+                //Going to travel on
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I get the feeling my journey is just beginning.");
+                    scr_event_build_dialogue("Rudolph", NULL, "Very good, very good. It is important to see as much of this world in your youth as you can. I made the mistake of waiting until the ebb of my vitality to find the path, so I envy you. My journey has just come to an end; I've found the final stop on my sojourn.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Where's that?");
+                    scr_event_build_dialogue("Rudolph", NULL, "I traveled to the highest point on Necron 7 - Cuchu's Bluff. It is the great mountain east of here and rises higher than any other structure aboard this immense ziggurat, higher even than the monolithic cooling towers of Brain City. It is a very spiritual place, a beacon for those pilgrims seeking a wisdom not often sought. My time there was brief, but profoundly important - I have found an inner peace that has forever eluded me, an appreciation and awe for the mysteries of this life. If your time allows, I suggest you make the journey. I am sure it will be worth it.");
+                }
+                with scr_event_build_add_choice(choice2, "I think I'm almost done.") {
+                //Almost done
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm not sure, but I think I'm almost done.");
+                    scr_event_build_dialogue("Rudolph", NULL, "Ahh, I see, I see. My journey, too, has just come to an end; I've found the final stop on my sojourn.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Where's that?");
+                    scr_event_build_dialogue("Rudolph", NULL, "I traveled to the highest point on Necron 7 - Cuchu's Bluff. It is the great mountain east of here and rises higher than any other structure aboard this immense ziggurat, higher even than the monolithic cooling towers of Brain City. It is a very spiritual place, a beacon for those pilgrims seeking a wisdom not often sought. My time there was brief, but profoundly important - I have found an inner peace that has forever eluded me, an appreciation and awe for the mysteries of this life. If your time allows, I suggest you make the journey. I am sure it will be worth it.");
+                }
+                with scr_event_build_add_choice(choice2, "I'm not sure.") {
+                //Not sure
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm really not sure, to be honest.");
+                    scr_event_build_dialogue("Rudolph", NULL, "Ahh, I see, I see. My advice to you, dear youngster, is to travel for as long as you can. I made the mistake of waiting until the ebb of my vitality to find the path, so I envy you. My journey has just come to its conclusion; I've found the final stop on my sojourn.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Where's that?");
+                    scr_event_build_dialogue("Rudolph", NULL, "I traveled to the highest point on Necron 7 - Cuchu's Bluff. It is the great mountain east of here and rises higher than any other structure aboard this immense ziggurat, higher even than the monolithic cooling towers of Brain City. It is a very spiritual place, a beacon for those pilgrims seeking a wisdom not often sought. My time there was brief, but profoundly important - I have found an inner peace that has forever eluded me, an appreciation and awe for the mysteries of this life. If your time allows, I suggest you make the journey. I am sure it will be worth it.");
+                }
+                scr_event_build_quest_state("rudolphState", 2);
+            }
+        } else if (scr_time_get() == 4)  || (scr_time_get() == 6) || (scr_time_get() == 7)
+        //Time = 4, 6 or 7
+            if (scr_quest_get_state("rudolphState") == 1 ){
+            //Time = 4, 6 or 7, Spoken to before.
+                scr_event_build_dialogue("Rudolph", NULL, "Mystical greetings, dear bantam. I am collecting my bearings before I make the pilgrimage to Cuchu's Bluff. I'm sure the journey is a pleasant stroll for a youngster such as yourself, but for an old man with creaky bones like me, it is quite the odyssey!");
+            } else {
+            //Time = 4, 6 or 7, never spoken to before.
+                scr_event_build_dialogue("Rudolph", NULL, "Mystical greetings, dear bantam. Come hither, come hither. You seem a traveler, much as I.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I am.");
+                scr_event_build_dialogue("Rudolph", NULL, "Tell me, youthful gadabout, are your journeys near their end or do you plan to travel on?");
+                var choice = scr_event_build_choice("Am I going to be traveling for much longer?", s_port_hoopz);
+                with scr_event_build_add_choice(choice, "My journey is just beginning.") {
+                //Going to travel on
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I get the feeling my journey is just beginning.");
+                    scr_event_build_dialogue("Rudolph", NULL, "Very good, very good. It is important to see as much of this world in your youth as you can. I made the mistake of waiting until the ebb of my vitality to find the path, so I envy you. My journey is coming to an end and there is but one place left for me to see.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Where's that?");
+                    scr_event_build_dialogue("Rudolph", NULL, "I travel to the highest place on Necron 7 - Cuchu's Bluff. It is the great mountain east of here and rises higher than any other structure aboard this immense ziggurat, higher even than the monolithic cooling towers of Brain City. It is a very spiritual place, a beacon for those pilgrims seeking a wisdom not often sought, and it is said that an old, wise man lives at the top - far older and certainly far wiser than myself. If, perhaps, your time allows, I suggest you make the journey. I am sure it will be worth it.");
+                }
+                with scr_event_build_add_choice(choice, "I think I'm almost done.") {
+                //Almost done
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm not sure, but I think I'm almost done.");
+                    scr_event_build_dialogue("Rudolph", NULL, "Ahh, I see, I see. My journey, too, is coming to its conclusion and there is but one place left for me to see.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Where's that?");
+                    scr_event_build_dialogue("Rudolph", NULL, "I travel to the highest place on Necron 7 - Cuchu's Bluff. It is the great mountain east of here and rises higher than any other structure aboard this immense ziggurat, higher even than the monolithic cooling towers of Brain City. It is a very spiritual place, a beacon for those pilgrims seeking a wisdom not often sought, and it is said that an old, wise man lives at the top - far older and certainly far wiser than myself. If, perhaps, your time allows, I suggest you make the journey. I am sure it will be worth it.");
+                }
+                with scr_event_build_add_choice(choice, "I'm not sure.") {
+                //Not sure
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm really not sure, to be honest.");
+                    scr_event_build_dialogue("Rudolph", NULL, "Ahh, I see, I see. My advice to you, dear youngster, is to travel for as long as you can. I made the mistake of waiting until the ebb of my vitality to find the path, so I envy you. Now my journey is coming to its conclusion and there is but one place left for me to see.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Where's that?");
+                    scr_event_build_dialogue("Rudolph", NULL, "I travel to the highest place on Necron 7 - Cuchu's Bluff. It is the great mountain east of here and rises higher than any other structure aboard this immense ziggurat, higher even than the monolithic cooling towers of Brain City. It is a very spiritual place, a beacon for those pilgrims seeking a wisdom not often sought, and it is said that an old, wise man lives at the top - far older and certainly far wiser than myself. If, perhaps, your time allows, I suggest you make the journey. I am sure it will be worth it.");
+                }
+                scr_event_build_quest_state("rudolphState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

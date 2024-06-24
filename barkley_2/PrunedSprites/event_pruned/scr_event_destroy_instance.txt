@@ -1,0 +1,73 @@
+/// scr_event_destroy_instance() 
+/// Destroy everything involving the event.
+
+// MAIN AND BACKGROUND EVENT DESTRUCTION
+if (_type == EVENT_MAIN || _type == EVENT_BACKGROUND) {
+    // Destroy the extra lists.
+    var list_size = ds_list_size(_lists);
+    for (var i = 0; i < list_size; i++) {
+        ds_list_destroy(ds_list_find_value(_lists, i));
+    }
+    ds_list_destroy(_lists);
+    
+    // Destroy the other events.
+    var events_size = ds_list_size(_events);
+    for (var i = 0; i < events_size; i++) {
+        with (ds_list_find_value(_events, i)) {
+            instance_destroy();
+        }
+    }
+    ds_list_destroy(_events);
+}
+
+// MAIN EVENT DESTRUCTION
+if (_type == EVENT_MAIN) {
+    // Make it so the object cannot interact for awhile after ending the event.
+    if (instance_exists(_event_object)) {
+        _event_object._interactive = false;
+        _event_object._interactive_timer = 0.1 * room_speed; // 0.5 seconds (bhroom changed to 0.1 for MAGFEST)
+    }
+    
+    scr_event_hoopz_switch_control();
+    global.event = false;
+    
+    if (_skippable) {
+        if (_skipping) {
+            // If the camera is in the middle of a transition, destroy it and restore the hoopz camera.
+            with (o_camera_transition) {
+                instance_destroy();
+            }
+            var current_camera = Camera();
+            if (current_camera.object_index != o_camera_hoopz) {
+                with (current_camera) {
+                    instance_destroy();
+                }
+            }
+            Camera("enable", o_camera_hoopz);
+            // The event to occur if an event is skipped.
+            if (_skip_event != NULL) {
+                scr_event_advance(_skip_event);
+            }
+        } else {
+            with (_skip_event) {
+                instance_destroy();
+            }
+        }
+    }
+    
+    // Unpauses any background events that are occuring on the same event object.
+    var object = _event_object;
+    with (o_event) {
+        if (_type == EVENT_BACKGROUND and object == _event_object) {
+            _paused = false;
+        }
+    }
+}
+
+// ALL EVENT DESTRUCTION
+// Destroy the event list.
+var event_size = ds_list_size(_event_list);
+for (var i = 0; i < event_size; i++) {
+    ds_list_destroy(ds_list_find_value(_event_list, i));
+}
+ds_list_destroy(_event_list);

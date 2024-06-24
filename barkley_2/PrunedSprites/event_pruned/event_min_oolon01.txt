@@ -1,0 +1,94 @@
+// BIO: An old duergar who can't fight anymore. Acts as a mentor to the younger duergars. I didn't really like how this dialogue works until it gets to the part where you can tease Oolon about the dwarfs you're not going to be bringing him. That part I kinda like, if only because I'm kinda pleased that I salvaged dialogue that I was going to just junk.
+/* REQUIRED PART of "ngQuest", which is the quest where the player gets all kinds of keycards and certifications which do NOTHING but let the player access the hidden area of the duergar base. Maybe this does other stuff around the game world too BUT WHO KNOWS?!?!? IT IS A MYSTERY!!!!
+Here is the quest breakdown
+ngQuest=0 - The player has done NOTHING and is essentially worthless in the eyes of all quest participants.
+ngQuest=1 - Player has spoken with Perry and given audience with Mr. Ng
+ngQuest=2 - Player has spoken with Ng and has been [narratively] tasked with FILLING OUT IMPORTANT PAPERWORK
+ngQuest=3 - Player has gotten the paperwork from Perry.(NOTE: Player can LOSE the paperwork and then ask for it from Perry again.)
+ngQuest=4 - Player got the FORGED DOCUMENTS from Oolon
+ngQuest=5 - Player spoke with Perry again and is again granted audience with Mr. Ng
+ngQuest=6 - Quest complete
+*/
+// NOTE: There is not and probably will not be dialogue for the player coming back to Oolon if they threw away/lost the documents given in this dialogue.
+
+
+
+/*if (argument0 == SCRIPT_START) {
+    if (Quest("dbaseNPCsState") == 0) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") >= 4) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var oolon = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("baseescapeQuest") == 1) {
+            Dialogue("Oolon", "Can it be........\A dwarf to cream........\No, no, no, impossible. I must be seeing things.........");
+            scr_event_build_end();
+        } else if (Quest("oolonState") == 5) {
+            Dialogue("Oolon", "There's nothing......\It really is over for me.......all over......");
+            scr_event_build_end();
+        } else if (Quest("oolonState") == 4) {
+            Dialogue("Oolon", "Please.....I just want dwarfs to cream. That's all I want. So what if I didn't really care about helping you.\You don't know what it's like being so old, seeing all these young duergars report back, their hands coated in dwarf blood, their eyes alight with murderous rage.\I was the best. I had plaques and trophies all over my bungalow that said I was the best, but the secret police took them all away. All I have left are the memories.\But the memories alone aren't enough to keep me going. I go absolutely bonkers every time one of the youngsters brings back a leg or an arm, just something insignificant caught on their boot, a measly entrail.....\Then it all comes back. __________What I was, and what I never will be again.\Look, I gave you that sheet. It was really nice of me to do that, I could have traded it for more than just a couple dwarfs, I could get into a lot of trouble for sharing those sorts of documents.\But the thought of having dwarf blood, parts of their eyeballs, maybe even a tooth, on my hands again......anything is worth it......\Any price that I can pay will be paid. I'd give anything in the universe to feel the muffled scream of a dwarf under my boot again. Anything.");
+            Dialogue(P_NAME, "Wow, that's a lot of words you just threw at me. Unfortunately my dwarf killing spree is a lie.");
+            Dialogue("Oolon", "W....what......");
+            Dialogue(P_NAME, "Yep. I just wanted to have one of these forms so I can break into the security room. There's no killing spree, and there's no dwarfs in it for you.");
+            Dialogue("Oolon", "No.....my dwarfs......");
+            Dialogue(P_NAME, "Tough luck, jack. You're at the wrong end of the food chain and I'm not feeling generous enough to roll your diseased hide over to the meat grinder.");
+            Dialogue("Oolon", "Then......\Then there is nothing......");
+            Quest("oolonState", 5);
+            scr_event_build_end();
+        } else if (Quest("oolonState") == 3) {
+            Dialogue("Oolon", "Please, I'm sorry about what I said earlier. I don't want you to get the wrong idea about me.\I really just want to help, if you bring back a dwarf or two for me to cream it'd just be a plus.");
+            Dialogue(P_NAME, "I don't know why I should even believe you. My trust in you has been violated.\I don't know who to believe anymore, I don't know who to trust.\There's probably nobody left for me to trust.");
+            Dialogue("Oolon", "That's just not true! You can trust me!! And you can trust that I'll put those dwarfs you bring back to me through a lot of pain.");
+            Dialogue(P_NAME, "See, there you go again. You don't care about me, you just want my D-points.\Why do I even bother with you? I'm just a source of cheap D-points to you. That's all.\I'm not even a real duergar to you, just some rusty old D-Points vending machine. I'm sick of it.");
+            Quest("oolonState", 4);
+            scr_event_build_end();
+        } else if (Quest("oolonState") == 2) {
+            Dialogue("Oolon", "Hey there youngster. Any luck with your dwarf killing spree?");
+            Dialogue(P_NAME, "You don't actually care about me and my dwarf killing spree. You just want to siphon some of my dwarf kills.");
+            Dialogue("Oolon", "No, I....I just like to help promising young duergars kill as many dwarfs as possible.....");
+            Dialogue(P_NAME, "A likely story. You're just looking to vulture some of my kills.");
+            Dialogue("Oolon", "No, honest!! I just want to help. That's all. I'm serious.");
+            Dialogue(P_NAME, "Sure thing pops. Remember not to pull the catheter out too fast or you'll make a huge mess.");
+            Quest("oolonState", 3);
+            scr_event_build_end();
+        } else if (Quest("oolonState") == 1) && (Quest("ngQuest") == 3) {
+            Dialogue(P_NAME, "Oh hey, old person. I need help forging a document so I can be a real duergar. Can you help me with this or are you completely worthless?");
+            Dialogue("Oolon", "Hmm.....forgery, huh? I'm not much of an expert on forgery. Killing dwarfs was always my line of work. I was really good at it too.\There aren't too many problems in this life that a dead dwarf won't solve.");
+            Dialogue(P_NAME, "This is the least helpful piece of information you could possibly give me.");
+            Dialogue("Oolon", "Yep, those were the good days. I could cream and kill any dwarf I wanted. It was the life.\There was one time I found this old dwarf watering some flowers and I just creamed him. I knocked him off his feet and just creamed him. He crushed all his prized flowers after I creamed him.\But I can't cream dwarfs since the incident.");
+            Dialogue(P_NAME, "That was a great story. The only thing that would have made it better would be if it wasn't such a crap story.\Don't you have any spare documents? Old people save everything. I really need a.......oh what's it called........\Yeah, here it is. A Petition For Reinstatement Regarding The Certified And Lawful Execution Of Dwarfs.");
+            Dialogue("Oolon", "Oh yeah, I've got one of those. You need to get one of those filled out or you won't get any D-points for all the dwarfs you kill.\That'd be a terrible shame, not getting all those D-points. You'll never climb the Duergar Leaderboards if you don't have any points!");
+            Dialogue(P_NAME, "This is a great. I am about to go and kill like a billion dwarfs but I don't have this form all filled out. Give me yours.");
+            Dialogue("Oolon", "Oh, my reinstatement form? Well......I don't know.....");
+            Dialogue(P_NAME, "I'll make you a deal. You give me the form, and I'll bring a bunch of dwarfs back for you to cream or whatever stupid thing you want to do.");
+            Dialogue("Oolon", "Wow......to cream a dwarf again.....\I can't pass this up. Here, take it, take it!");
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Add the item for the filled out reinstatement form.");
+            // SYSTEM TEXT: GOT REINSTATEMENT FORM.
+            Dialogue("Oolon", "I'll be.....I thought those days were really behind me.\You....you mean it? I'll get to cream someone again?");
+            Dialogue(P_NAME, "Yeah, whatever.");
+            Quest("oolonState", 2);
+            Quest("ngQuest", 4);
+            scr_event_build_end();
+        } else if (Quest("oolonState") == 1) {
+            Dialogue("Oolon", "G'day youngster. Can I help you with anything?");
+            Dialogue(P_NAME, "NO, BUZZ OFF.");
+            scr_event_build_end();
+        } else {
+            Dialogue("Oolon", "G'day youngster. Can I help you with anything?");
+            Dialogue(P_NAME, "Do I look like I need any help?");
+            Dialogue("Oolon", "Well, you might. I've been around the block a few times, so I can help you out with any troubles you might be having. I'm a bit of a duergar-mentor in my old years.");
+            Dialogue(P_NAME, "Great to hear. Do you know of a way to get dusty old duergars to stop talking to me?");
+            Dialogue("Oolon", "Mmmmm.....no, I don't believe I know that one. You could cut off their legs and leave them in the woods to die......\But you're better off doing that to dwarfs I think. That's my two neuro-shekels anyway.....");
+            Dialogue(P_NAME, "Whatever. Don't care.");
+            Quest("oolonState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

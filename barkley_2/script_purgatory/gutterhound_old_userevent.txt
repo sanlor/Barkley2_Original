@@ -1,0 +1,402 @@
+///When you agree to Rob The Bank
+//--------------
+    // INTRO SNIPPET 
+    //--------------
+/*
+    with (intro) {
+        //Gutterhound does the throw back bottle and stand up animation  // TODO
+        // At this point the regular Gutterhound object should turn invisible until the quest is over.
+        // X114JAM9 and Gutterhound are standing in the alley next to the bank..
+        scr_event_hoopz_switch_control();
+        scr_event_build_fade(true, 2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_quest_state("gutterhoundQuest", 2);
+        // X114JAM9 is at 391,498 facing up-left // TODO
+        
+        scr_event_build_set_object(o_cts_hoopz, 391, 498);
+        scr_event_build_set_object(o_camera_hoopz, 391, 498);
+        scr_event_build_move(o_cts_hoopz, -1, -1);
+        // Gutterhound is at 354,496 facing up // TODO
+        scr_event_build_set_object(o_gutterhound_walk01, 354, 496);
+        scr_event_build_visible(o_gutterhound_walk01, true);
+        scr_event_build_move(o_gutterhound_walk01, 0, -1);
+        scr_event_build_fade(false, 2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, so what's the plan? How are we going to pull this off?");
+        scr_event_build_dialogue("Gutterhound", "s_port_ghound", "Heh, I got it all worked out. I'm gonna go in there and bust some ass, crack some skulls, ya know what I'm sayin'? Then I'll come out with the loot and we'll make a break for it back to the rebel hideout.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait, that's the plan? You're going to go in there and beat people up?");
+        scr_event_build_dialogue("Gutterhound", "s_port_ghound", "Hell yeah! Works like a charm! Nobody messes with the Hound! Now what I need you to do is wait outside, keep the place locked down, make sure nobody gets in or out. You read me? Then when we're runnin', I need you to guard my tail, keep the pigs off my ass. You got that?");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uhh, Gutterhound, I think I'm having some second thoughts about this. First, this doesn't really sound like a good plan. I mean, you're just going to go in there and beat money out of Duergars? Is that really safe? And what if this has consequences? What if Duergars start cracking down on innocent people because of us? I think maybe I spoke too soon back at the hideout.");
+        // Gutterhound runs into the building up to 359,461 and disappears
+        scr_event_build_move_to_point_ext(o_gutterhound_walk01, 354, 488, 1);
+        scr_event_build_wait_for_actions();
+        scr_event_build_visible(o_gutterhound_walk01, false);
+        scr_event_build_wait(3);
+        // there are a bunch of punching and grunting sound effects // TODO
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uhh, what do I do??");
+        scr_event_build_visible(o_gutterhound_walk01, true);
+        // Gutterhound reappears facing down at 359,461 // TODO
+        // and immediately runs out of the building to 359,481
+        scr_event_build_move_to_point_ext(o_gutterhound_walk01, 354, 498, run_speed);
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue("Gutterhound", "s_port_ghound", "Run, kid! Get outta here! Get back to the hideout! Run!");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "What's going on!? Gutterhound!");
+        scr_event_build_dialogue("Gutterhound", "s_port_ghound", "I'll see you back at the base! Get outta here kid!");
+        //Gutterhound runs down to 474,740 and disappears
+        scr_event_build_move_to_point_ext(o_gutterhound_walk01, 457, 740, run_speed);
+        scr_event_build_wait_for_actions();
+        scr_event_build_disappear(o_gutterhound_walk01);
+        //scr_event_build_visible(duergar_chase01, true); // TODO, will be created at 337,474
+        //scr_event_build_move_to_point_ext(duergar_chase01, x, y, 1);
+        //scr_event_build_visible(duergar_chase02, true); // TODO, will be created at 377,478
+        //scr_event_build_move_to_point_ext(duergar_chase02, x, y, 1);
+        //Two Duergars are created at 337,474 and 377,478 run out the door and run near X114JAM9 (forget about the running -bort) // TODO
+        scr_event_build_dialogue("Duergar in Bank", NULL, "Get back here!");
+        scr_event_build_wait_for_actions();
+        scr_event_build_event_snippet(chase);
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/// Chase Sequence
+    //--------------
+    // This is the entire sequence of the chase.
+    /*
+    with (chase) {
+        ////
+        // POINT 1: 391,498
+        ////
+        // Hoopz runs to Point 2: 450,660 and stops
+        scr_event_build_move_to_point_ext(o_cts_hoopz, 396, 650, run_speed);
+        scr_event_build_wait_for_actions();
+        scr_event_build_move_to_point_ext(o_cts_hoopz, 450, 660, run_speed);
+        scr_event_build_wait_for_actions();
+        ////
+        // POINT 2: 450,660
+        ////
+        scr_event_build_time_add(1);
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "F-flub it! I gotta get back to the sewer entrance! But how can I do that AND avoid the Duergars? Why is Tir na Nog so winding...");
+        var direction_box = scr_event_choice_build_extras(110, NULL, 165, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        var direction_box_long = scr_event_choice_build_extras(110, NULL, 165, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+        var point_2 = scr_event_build_choice_ext("Which direction?", NULL, direction_box);
+        with scr_event_build_add_choice(point_2, "Right") {
+            // Hoopz runs to Dead End 2: 700,620
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 700, 620, run_speed);
+            scr_event_build_wait_for_actions(); 
+            scr_event_build_quest_state("gutterhound_gutterfail", 1);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cluck it, it's a dead end! They're gaining on me...");
+            // Hoopz runs back to Point 2: 450,660
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 450, 660, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 450, 900, run_speed);
+            scr_event_build_wait_for_actions();
+            // Hoopz runs down to Point 3: 540,900
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 540, 900, run_speed);
+            scr_event_build_wait_for_actions();
+        }
+        with scr_event_build_add_choice(point_2, "Down") {
+            // Hoopz runs to Point 3: 540,900
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 450, 900, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 540, 900, run_speed);
+            scr_event_build_wait_for_actions();
+        }
+        ////
+        // POINT 3: 540,900
+        ////
+        var point_3 = scr_event_build_choice_ext("Which direction?", NULL, direction_box);
+        with scr_event_build_add_choice(point_3, "Right") {
+            // Hoopz runs to Duergar 3: 756,820
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 756, 820, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("gutterhound_gutterfail", 1);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "What the huck, it's the Duergars! I can't go this way...");
+            // Hoopz runs back to Point 3: 540,900
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 540, 900, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 553, 1253, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 666, 1262, run_speed);
+            scr_event_build_wait_for_actions();
+            // Hoopz runs to Point 4: 724,1557
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 724, 1557, run_speed);
+            scr_event_build_wait_for_actions();
+        }
+        with scr_event_build_add_choice(point_3, "Down") {
+            // Hoopz runs to Point 4: 724,1557
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 553, 1253, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 666, 1262, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 724, 1557, run_speed);
+            scr_event_build_wait_for_actions();
+        }
+        ////
+        // POINT 4: 724,1557
+        ////
+        var point_4 = scr_event_build_choice_ext("Which direction?", NULL, direction_box);
+        with scr_event_build_add_choice(point_4, "Right") {
+            // Hoopz runs to Point 5: 1044,1600
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1044, 1600, run_speed);
+            scr_event_build_wait_for_actions();
+        }
+        with scr_event_build_add_choice(point_4, "Down") {
+            // Hoopz runs to Dead End 4: 723,1800
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 723, 1800, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("gutterhound_gutterfail", 1);
+            var point_4_failed = scr_event_create_child(event);
+            // If gutterhound failure is 3, fail, otherwise, keep going.
+            scr_event_build_if(failure_compare, 3, EQUAL, failure, point_4_failed);
+            with point_4_failed {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Mother Hubbard, it's a dead end! I'm losing time! I can hear the Duergars gaining on me!");
+                // Hoopz runs back to Point 4: 724,1557
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 724, 1557, run_speed);
+                scr_event_build_wait_for_actions();
+                // Hoopz runs to Point 5: 1044,1600
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1044, 1600, run_speed);
+                scr_event_build_wait_for_actions();
+            } 
+        }
+        ////
+        // POINT 5: 1044,1600
+        ////
+        var point_5 = scr_event_build_choice_ext("Which direction?", NULL, direction_box);
+        with scr_event_build_add_choice(point_5, "Up") {
+            // Hoopz runs to Duergar 5: 1049,1370 
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1049, 1370, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("gutterhound_gutterfail", 1);
+            var point_5_failed = scr_event_create_child(event);
+            // If gutterhound failure is 3, fail, otherwise, keep going.
+            scr_event_build_if(failure_compare, 3, EQUAL, failure, point_5_failed);
+            with point_5_failed {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Crap! It's the Governor's mansion! Why'd I cuffin' come here? It's swarming with Duergar?");
+                // Hoopz runs back to Point 5: 1044,1600
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1044, 1600, run_speed);
+                scr_event_build_wait_for_actions();
+                // Hoopz runs to Point 6: 1299,1791
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1050, 1800, run_speed);
+                scr_event_build_wait_for_actions();
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1299, 1791, run_speed);
+                scr_event_build_wait_for_actions();
+            }
+        }
+        with scr_event_build_add_choice(point_5, "Down") {
+            // Hoopz runs to Point 6: 1299,1791
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1050, 1800, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1299, 1791, run_speed);
+            scr_event_build_wait_for_actions();
+        }
+        ////
+        // POINT 6: 1299,1791
+        ////
+        var point_6 = scr_event_build_choice_ext("Which direction?", NULL, direction_box);
+        with scr_event_build_add_choice(point_6, "Up") {
+            //Hoopz runs to Duergar 6: 1320,1650
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1320, 1650, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("gutterhound_gutterfail", 1);
+            var point_6_failed = scr_event_create_child(event);
+            // If gutterhound failure is 3, fail, otherwise, keep going.
+            scr_event_build_if(failure_compare, 3, EQUAL, failure, point_6_failed);
+            with point_6_failed {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Aww crud! It's the Duergars! I gotta get out of here!");
+                //Hoopz runs back to Point 6: 1299,1791 
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1299,1791, run_speed);
+                scr_event_build_wait_for_actions();
+                //(to ensure the shortest path to Point 7 is along the bottom of the screen, not around a corner, we might want to have him move to a midpoint along the way first:
+                //Hoopz runs to Midpoint: 2050,1816
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 2050, 1816, run_speed);
+                scr_event_build_wait_for_actions(); 
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 2040, 1550, run_speed);
+            scr_event_build_wait_for_actions();
+                //Hoopz runs to Point 7: 1983,1511 
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1983, 1511, run_speed);
+                scr_event_build_wait_for_actions();
+            } 
+        }
+        with scr_event_build_add_choice(point_6, "Right") {
+            //(to ensure the shortest path to Point 7 is along the bottom of the screen, not around a corner, we might want to have him move to a midpoint along the way first:
+            //Hoopz runs to Midpoint: 2050,1816
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 2050, 1816, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 2040, 1550, run_speed);
+            scr_event_build_wait_for_actions();
+            //Hoopz runs to Point 7: 1983,1511
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1983, 1511, run_speed);
+            scr_event_build_wait_for_actions();
+        }
+        ////
+        // POINT 7: 1983,1511
+        ////
+        var point_7 = scr_event_build_choice_ext("Which direction?", NULL, direction_box);
+        with scr_event_build_add_choice(point_7, "Up") {
+            // Hoopz runs up to Dead End 7: 2078,1280
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 2078, 1280, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("gutterhound_gutterfail", 1);
+            var point_7_failed = scr_event_create_child(event);
+            // If gutterhound failure is 3, fail, otherwise, keep going.
+            scr_event_build_if(failure_compare, 3, EQUAL, failure, point_7_failed);
+            with point_7_failed {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huff... huff... it's a dead end... I'm losing time!");
+                // Hoopz runs back to Point 7: 1983,1511
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1983, 1511, run_speed);
+                scr_event_build_wait_for_actions();
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1750, 1540, run_speed);
+                scr_event_build_wait_for_actions();
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1740, 1440, run_speed);
+                scr_event_build_wait_for_actions();
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1560, 1440, run_speed);
+                scr_event_build_wait_for_actions();
+                // Hoopz runs to Point 8: 1553,1269
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1553, 1269, run_speed);
+                scr_event_build_wait_for_actions();
+            }
+        }
+        with scr_event_build_add_choice(point_7, "Left") {
+            // Hoopz runs to Point 8: 1553,1269
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1750, 1540, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1740, 1440, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1560, 1440, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1553, 1269, run_speed);
+            scr_event_build_wait_for_actions();
+        }
+        ////
+        // Point 8: 1553,1269
+        ////
+        var point_8 = scr_event_build_choice_ext("Which direction?", NULL, direction_box_long);
+        //var point_8_compare = scr_event_build_compare_variable("gutterhound_point_8");
+        var point_8_left = scr_event_build_add_choice(point_8, "Left");
+        with point_8_left {
+            // Hoopz runs left to the same Duergar from earlier, Duergar 5: 1194,1258
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1194, 1258, run_speed);
+            scr_event_build_wait_for_actions(); 
+            scr_event_build_quest_state("gutterhound_gutterfail", 1);
+            var point_8_left_failed = scr_event_create_child(event);
+            // If gutterhound failure is 3, fail, otherwise, keep going.
+            scr_event_build_if(failure_compare, 3, EQUAL, failure, point_8_left_failed);
+            with point_8_left_failed {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "What the frud, it's the Duergars! I can't go this way! I'm losing time, I can hear them gaining on me!");
+                // Hoopz runs back to Point 8: 1553,1269
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1553, 1269, run_speed);
+                scr_event_build_wait_for_actions();
+                
+                var went_right = scr_event_create_child(event);
+                var not_yet_right = scr_event_create_child(event);
+                scr_event_build_if(point_8_compare, 1, EQUAL, went_right, not_yet_right);
+                with went_right {
+                    // Hoopz runs to Point 9: 1603,769
+                    scr_event_build_move_to_point_ext(o_cts_hoopz, 1603, 769, run_speed);
+                    scr_event_build_wait_for_actions();
+                }
+                with not_yet_right {
+                    scr_quest_set_state("gutterhound_point_8", 1);
+                    scr_event_build_remove_choice(point_8, point_8_left);
+                    scr_event_build_goto_choice(point_8);
+                }
+            }
+        }
+        with scr_event_build_add_choice(point_8, "Up") {
+            // Hoopz runs to Point 9: 1603,769
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1603, 769, run_speed);
+            scr_event_build_wait_for_actions();
+        }
+        var point_8_right = scr_event_build_add_choice(point_8, "Right");
+        with point_8_right {
+            // Hoopz runs to Dead End 8: 2050,1116
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1880, 1110, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("gutterhound_gutterfail", 1);
+            var point_8_right_failed = scr_event_create_child(event);
+            // If gutterhound failure is 3, fail, otherwise, keep going.
+            scr_event_build_if(failure_compare, 3, EQUAL, failure, point_8_right_failed);
+            with point_8_right_failed {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Mother shucker, it's a dead end! I can't go this way! I can hear the Duergars gaining on me!");
+                // Hoopz runs back to Point 8: 1553,1269
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1553, 1269, run_speed);
+                scr_event_build_wait_for_actions();
+                
+                var went_left = scr_event_create_child(event);
+                var not_yet_left = scr_event_create_child(event);
+                scr_event_build_if(point_8_compare, 1, EQUAL, went_left, not_yet_left);
+                with went_left {
+                    // Hoopz runs to Point 9: 1603,769
+                    scr_event_build_move_to_point_ext(o_cts_hoopz, 1603, 769, run_speed);
+                    scr_event_build_wait_for_actions();
+                }
+                with not_yet_left {
+                    scr_quest_set_state("gutterhound_point_8", 1);
+                    scr_event_build_remove_choice(point_8, point_8_right);
+                    scr_event_build_goto_choice(point_8);
+                }
+            }
+        }
+        ////
+        // Point 9: 1603,769
+        ////
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I'm almost there... but which way do I go?");
+        var point_9 = scr_event_build_choice_ext("Which direction?", NULL, direction_box);
+        with scr_event_build_add_choice(point_9, "Left") {
+            // Hoopz runs to Duergar 9: 1421,790
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1421, 790, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("gutterhound_gutterfail", 1);
+            var point_9_failed = scr_event_create_child(event);
+            // If gutterhound failure is 3, fail, otherwise, keep going.
+            scr_event_build_if(failure_compare, 3, EQUAL, failure, point_9_failed);
+            with point_9_failed {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Cluck it, the Duergars! I've gotta get out of here!");
+                // Hoopz runs back to Point 9: 1603,769
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1603, 769, run_speed);
+                scr_event_build_wait_for_actions();
+                // Hoopz runs to Point 10: 1835,730
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1835, 730, run_speed);
+                scr_event_build_wait_for_actions();
+                scr_event_build_move_to_point_ext(o_cts_hoopz, 1830, 500, run_speed);
+                    scr_event_build_wait_for_actions();
+            }
+        }
+        with scr_event_build_add_choice(point_9 , "Right") {
+            // Hoopz runs to Point 10: 1835,730
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1835, 730, run_speed);
+            scr_event_build_wait_for_actions();
+            scr_event_build_move_to_point_ext(o_cts_hoopz, 1830, 500, run_speed);
+            scr_event_build_wait_for_actions();
+        }
+        ////
+        // Point 10: 1835,730
+        ////
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huff... huff... I think... I think I made it. That was a close one. That... that idiot Gutterhound! I can't believe he did that to me! I think I need to have a word with that guy...");
+        scr_event_hoopz_switch_control();
+        // Gutterhound becomes visible again
+        scr_event_build_quest_state("gutterhoundQuest", 3);
+    }

@@ -1,0 +1,59 @@
+//Naoko - CardPlay3
+//card player in rebel base
+
+
+if (argument0 == SCRIPT_START) {}
+else if (argument0 == SCRIPT_STEP) {}
+else if (argument0 == SCRIPT_INTERACT) {
+
+    var rank_naoko = scr_longinus_get_rank("naoko") + " Naoko";
+    var rank_ritkonen = scr_longinus_get_rank("ritkonen") + " R. Itkonen";
+    var full_ritkonen = scr_longinus_get_rank("ritkonen", "full");
+    
+    // Build Event
+    var naoko = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("govQuest") == 6) {
+            // *** govQuest = 6 = Governor quest complete. ***
+            
+            if (scr_quest_get_state("longinusGov") >= 1) {
+                scr_event_build_dialogue(rank_naoko, NULL, "Hey, the body switching chair looks pretty fun! I wouldn't mind giving it a try!");
+            }
+            else {
+                scr_event_build_dialogue(rank_naoko, NULL, "That really sucks that you were in the Governor's body and instead of doing some real crazy stuff you just did what he would do... come on, " + P_NAME + "!");
+            }
+            
+        } else if (BodySwap() == "governor") {
+            // *** govQuest = 5 = currently governor. ***
+            scr_event_build_dialogue(rank_naoko, NULL, "How's my hand look? A seven of mangos and a grape sultan. Should I go all in? I don't really know how to play...");
+            scr_event_build_dialogue(rank_ritkonen, NULL, "Hey! Don't tell her anything! No cheating - that goes for all of you!");
+
+            
+        } else if (scr_quest_get_state("govQuest") == 4) {
+            // *** govQuest = 4 = ready to become governor. ***
+            scr_event_build_dialogue(rank_naoko, NULL, "I don't even know how to play poker. " + full_ritkonen + " Itkonen makes us do it...");
+            
+            
+        } else if (scr_quest_get_state("govQuest") == 3) {
+            // *** govQuest = 3 = have duergar urine. ***
+            scr_event_build_dialogue(rank_naoko, NULL, "Hey, you're back! I guess that means you got the Duergar uh... material?");
+            
+            
+        } else if (scr_quest_get_state("govQuest") == 2) {
+            // *** govQuest = 2 = Governor quest accepted, need duergar urine. ***
+            scr_event_build_dialogue(rank_naoko, NULL, "Are you one of L.O.N.G.I.N.U.S. now? Or are you just helping out?");
+            
+            
+        } else if (scr_quest_get_state("govQuest") == 1) {
+            // *** govQuest = 1 = Governor quest rejected ***
+            scr_event_build_dialogue(rank_naoko, NULL, "I guess I can understand if you don't want to be a rebel... but I personally don't want to live the rest of my life in fear of Cuchulainn... maybe that's just me...");
+            
+            
+        } else if (scr_quest_get_state("govQuest") == 0) {
+            // *** govQuest = 0 ***
+            scr_event_build_dialogue(rank_naoko, NULL, "Huh? Oh, I thought you were Gutter Hound for a second. He cheats at cards and drinks all our grape juice.");
+        }
+    }
+    scr_event_advance(event);
+}

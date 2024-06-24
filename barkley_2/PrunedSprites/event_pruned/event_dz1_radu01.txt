@@ -1,0 +1,46 @@
+// Event for Radu, random peasant in the Industrial Park at 
+//times 1, 2, 5 and 9.
+
+if (argument0 == SCRIPT_STEP) {
+    if (scr_time_get() == 1) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 2) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 5) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 9) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var radu = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("raduState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Radu", NULL, "I'm... I'm hungry... for nuggets.");
+            scr_event_build_quest_state("raduState", 1);
+        } else if (scr_quest_get_state("raduState") == 1) {
+        //random Dialogue 2
+            scr_event_build_dialogue("Radu", NULL, "It's been... so long... since I've had a grape...");
+        } else if (scr_quest_get_state("raduState") == 2) {
+        //Random Dialogue 3
+            scr_event_build_dialogue("Radu", NULL, "I have a pocket full of mancala stones... but I'm not going to show you. You just have to trust me.");
+        } else if (scr_quest_get_state("raduState") == 3) {
+        //Random Dialogue 4
+            scr_event_build_dialogue("Radu", NULL, "I love to flex my muscles at the beach.");
+        } else if (scr_quest_get_state("raduState") == 4) {
+        //Random Dialogue 5
+            scr_event_build_dialogue("Radu", NULL, "I love apps. I love mancala. For me, I just love them both.");
+        }
+        
+    }
+    scr_event_advance(event);
+}

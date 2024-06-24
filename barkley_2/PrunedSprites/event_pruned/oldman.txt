@@ -1,0 +1,193 @@
+// OLDMAN
+
+/*if (argument0 == SCRIPT_START) {
+    //scr_actor_unsetRigid(id);
+} else if (argument0 == SCRIPT_STEP) {
+    if (scr_quest_get_state("oldmanBegin") == 1) {
+        scr_event_interactive_activate();
+    }
+    else if (visible == true) {
+        scr_event_interactive_deactivate();
+    }
+    /*if (scr_quest_get_state("oldmanTemptation") == 1) || (scr_quest_get_state("oldmanDeath") == 1) {
+        scr_event_interactive_deactivate();
+    } else if (scr_quest_get_state("oldmanBegin") == 1) {
+        Quest("oldmanBegin", 2);
+        visible = true
+    } else if (visible) && (scr_quest_get_state("oldmanBegin") == 0) {
+        visible = false
+    }*/
+/*}
+else if (argument0 == SCRIPT_INTERACT) {
+
+    var oldman = id;
+    var event = scr_event_create_main()
+    with (event) {
+        if (scr_quest_get_state("cdwarfOmniDead") == 1) {
+            scr_event_build_dialogue_debug("OLDMAN", NULL, "Good going! Omnidwarf begins death animation.");
+            scr_event_build_animation_play_and_set(o_chu_primordia01, "omniDeath");
+        }
+        else if (scr_quest_get_state("primoDead") == 1) {
+            scr_event_build_dialogue_debug("OLDMAN", NULL, "Good going! Primordia begins death animation.");
+            scr_event_build_animation_play_and_set(o_chu_primordia01, "primoDeath");
+        }
+        scr_event_build_wait(3);
+        scr_event_build_dialogue_debug("OLDMAN", NULL, "There is a big flash of white light!");
+        scr_event_build_fade(true, 2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue_debug("OLDMAN", NULL, "This weird old man appears after whatever DEATH FX the boss has.");
+        scr_event_build_quest_state("oldmanBegin", 1);
+        scr_event_build_wait_for_actions();
+        scr_event_build_move_to_point(o_cts_hoopz, 392, 344);
+        scr_event_build_fade(false, 2);
+        scr_event_build_wait_for_actions();
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "You...");
+        scr_event_build_move(o_cts_hoopz, 0, -8);
+        //scr_event_build_wait(0.3);
+        //scr_event_build_animation_play_and_set(o_chu_oldman01, "crawling", "default");
+        //scr_event_build_animation_play_and_set(o_chu_oldman01, "crawling");
+        //scr_event_build_move(o_chu_oldman01, 0, -8);
+        scr_event_build_wait_for_actions();
+        //scr_event_build_animation_set(o_chu_oldman01, "back");
+        //scr_event_build_wait_for_actions();
+        /*switch string((scr_quest_get_state("motiveName"))) {
+            case "0":
+                break;
+            case "alignBballLaw":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignBballChaos":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignCandyRarity":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignCandyVariety":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignClispaethWorship":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignClispaethHeresy":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignCyberdwarfOne":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignDwarfsLiberate":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignDwarfsTrouble":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignDwarfsSavior":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignHomeOne":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignPowerLow":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignPowerHigh":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignTruthNormal":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignTruthReal":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignVengeanceOne":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignVidconsPlay":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignVidconsConquer":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignVidconsHoard":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+            case "alignVidconsPreserve":
+                sframe = ;
+                old_dialogue = ;
+                player_dialogue = ;
+                break;
+        }
+        */
+ /*       scr_event_build_dialogue("Oldman", "s_port_oldman", "Wait... before you kill me... look what's behind you. I know you like ________. Take it...");
+        scr_event_build_animation_play_and_set(o_chu_oldman01, "offering");
+
+        scr_event_build_dialogue_debug("OLDMAN", NULL, "The");
+        var temptation = scr_event_build_choice("Take the item?", s_port_hoopz);
+        var yes = scr_event_build_add_choice(temptation, "Yes... take the item...");
+        var no = scr_event_build_add_choice(temptation, "No... do NOT take the item...");
+        with yes {
+            scr_event_build_animation_play_and_set(o_cts_hoopz, "holsterOldman", "default");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Dang... that item. It's mine!");
+            scr_event_build_dialogue("Oldman", "s_port_oldman", "Bwahahahaha you fool! I'm free once again!!!");
+            scr_event_build_quest_state("oldmanTemptation", 1);
+        }
+        with no {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I won't fall for your tricks. Don't you know who I am?");
+            scr_event_build_dialogue("Oldman", "s_port_oldman", "I... I... please...");
+            scr_event_build_animation_play_and_set(o_chu_oldman01, "crawling", "default");
+            scr_event_build_move(o_cts_hoopz, 0, -8);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm a gamer psycho mercenary who will kill you at the drop of the hat...");
+            scr_event_build_animation_play_and_set(o_cts_hoopz, "unholsterOldman", "unholsteredOldman");
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(0.2);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "... and hats drop easy in this fucked up world.");
+            scr_event_build_dialogue_debug("OLDMAN", NULL, "PLAYER BRASTS OLDMAN TO DEATH");
+            scr_event_build_animation_play_and_set(o_cts_hoopz, "shootOldman", "shotOldman");
+            scr_event_build_wait(0.2);
+            scr_event_build_animation_play_and_set(o_chu_oldman01, "death", "dead");
+            scr_event_build_wait_for_actions();
+            scr_event_build_wait(2);
+            scr_event_build_quest_state("oldmanDeath", 1);
+        }
+        scr_event_build_execute_event_script(event_chu_throne01);
+    }
+    scr_event_advance(event);
+}

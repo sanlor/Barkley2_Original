@@ -1,0 +1,66 @@
+//R. Itkonen - CardPlay4
+//card player in rebel base
+
+if (argument0 == SCRIPT_START)
+{
+    
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    //var rank_ritkonen = scr_longinus_get_rank("ritkonen") + " R. Itkonen";
+
+    // Build Event
+    var rItkonen = id;
+    var event = scr_event_create_main();
+    
+    with (event)
+    {
+        // *** govQuest = 6 = Governor quest complete. ***
+        if (Quest("govQuest") == 6)
+        {
+            if (Quest("longinusGov") >= 1)
+            {
+                Dialogue("R. Itkonen", "It probably came off like I was more invested in my poker game than in that body transfering stuff you did earlier. To be honest, it was a little over my head, but I appreciate what you did. But I'm this close to taking the whole pot, so piss off.");
+            }
+            else
+            {
+                Dialogue("R. Itkonen", "You really blew it back there on the balcony. You could have done a lot of stuff for the dwarfs... or you could have played some poker... and you didn't do either.");
+            }
+        }
+        // *** govQuest = 5 = currently governor. ***
+        else if (BodySwap() == "governor")
+        {
+            Dialogue("R. Itkonen", "Don't stand over my shoulder like that. You're givin' me the willies.");
+        }
+        // *** govQuest = 4 = ready to become governor. ***
+        else if (Quest("govQuest") == 4)
+        {
+            Dialogue("R. Itkonen", "Look at this hand... pair of lychees and the ace of grapes. These suckers won't even see it comin'.");
+        }
+        // *** govQuest = 3 = have duergar urine. ***
+        else if (Quest("govQuest") == 3)
+        {
+            Dialogue("R. Itkonen", "You smell like piss, kid. Take a shower or something.");
+        }
+        // *** govQuest = 2 = Governor quest accepted, need duergar urine. ***
+        else if (Quest("govQuest") == 2)
+        {
+            Dialogue("R. Itkonen", "Duergar urine? Go bother someone else, I'm in the zone.");
+        }
+        // *** govQuest = 1 = Governor quest rejected ***
+        else if (Quest("govQuest") == 1)
+        {
+            Dialogue("R. Itkonen", "Yeah, figured you didn't have what it takes to be a L.O.N.G.I.N.U.S. Too bad. I wanted to fleece you in poker.");
+        }
+        // *** govQuest = 0 ***
+        else if (Quest("govQuest") == 0)
+        {
+            Dialogue("R. Itkonen", "Piss off kid, I'm on fire tonight. Cuchulainn can wait until I milk these suckers for all they're worth.");
+        }
+    }
+    scr_event_advance(event);
+}

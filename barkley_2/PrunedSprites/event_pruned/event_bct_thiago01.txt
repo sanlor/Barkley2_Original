@@ -1,0 +1,85 @@
+// event_bct_thiago01
+/* 
+    Thiago is a character in the Dilapidated Zone. 
+    He has his single watchful eye over the slums. You can ask him questions. 
+    As game time progresses, if the Dilapidated Zone increases in wealth, 
+    he gets 1 and then 2 additional eyes.
+
+    thiagoEye
+        0 = 1 eye
+        1 = 2 eyes
+        2 = 3 eyes
+    thiagoQuestion
+        0 = off
+        1 = turns on Thiago's question loop
+    
+*/
+/*if (argument0 == SCRIPT_START) {
+
+}
+else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var thiago = id;
+    var event = scr_event_create_main();
+    var question_snippet = scr_event_create_child(event);
+    var thiagoport = NULL;
+
+    
+    //------------------------------------------
+    //question_snippet
+    //------------------------------------------
+    with (question_snippet) {
+        var question = scr_event_build_choice("Ask:", s_port_hoopz);
+        
+        var you = scr_event_build_add_choice(question, "What's with you?");
+        with (you) {
+        
+        }
+        var slums = scr_event_build_add_choice(question, "What's with this area?");
+        with (slums) {
+        
+        }
+        var robot = scr_event_build_add_choice(question, "What's with that robot?");
+        with (robot) {
+        
+        }
+        var eye = scr_event_build_add_choice(question, "What's with your eye?");
+        with (eye) {
+            if (scr_quest_get_state("thiagoEye") == 0) {
+                //thiago: 
+            }
+            else if (scr_quest_get_state("thiagoEye") == 1) {
+                //thiago: 
+            }
+            else if (scr_quest_get_state("thiagoEye") == 2) {
+                //thiago: 
+            }
+        }
+
+    }
+    
+    //------------------------------------------
+    //main event
+    //------------------------------------------
+    with (event) {
+        if (scr_quest_get_state("thiagoQuestion") == 1) {
+            scr_event_build_event_snippet(question_snippet);
+        }
+        else {
+            if (scr_quest_get_state("thiagoEye") == 0) {
+                //thiago: "I'm the big cheese 'round here. Nothin' I don't know! I got my eye on everybody! Whatcha want? I know you got a question, make it quick!");
+            }
+            else if (scr_quest_get_state("thiagoEye") == 1) {
+                //thiago: "I'm the big cheese 'round here... Nothin' I don't know! I got my eye on everybody! And I got another eye to spare! Whatcha want? Hurry up and ask!"
+            }
+            else if (scr_quest_get_state("thiagoEye") == 2) {
+                //thiago: "I'm the big cheese 'round here... Nothin' I don't know! I got my eye on everybody! And I got another eye to spare! And don't look at my funny, 'cause this other eye's just for you kid... so watch it! Whatcha want, anyway? Come on, just ask me already! You know I know!"
+            }
+            scr_event_build_quest_state("thiagoQuestion", 1);
+            scr_event_build_execute_event_script(event_bct_thiago01);
+        }
+    }
+    scr_event_advance(event);
+}

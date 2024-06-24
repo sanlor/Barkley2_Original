@@ -1,0 +1,214 @@
+/// EffectLightning("generate", lightning_id, targetX, targetY);
+var lightLine = 1;
+if (argument[0] == "init")
+{
+    global.lightningSubWidth[0] = 8;
+    global.lightningSubWidth[1] = 3;
+    global.lightningSubWidth[2] = 2;
+    global.lightningSubWidth[3] = 1;
+    global.lightningSubWidth[4] = 1;
+    global.lightningDivide = 1 / global.lightningSubWidth[0];
+    global.lightningIndex = 0;
+    
+    for (var i = 0; i < 64; i += 1) 
+    {
+        global.lightningLnkAmt[i] = 0;
+        global.lightningVapAmt[i] = 0;
+    }
+}
+else if (argument[0] == "vapor") // 1 = ID, 2 = X, 3 = Y, 4 = Spr
+{
+    var q = argument[1];
+    var a = global.lightningVapAmt[q];
+    global.lightningVapX[q, a] = argument[2];
+    global.lightningVapY[q, a] = argument[3];
+    global.lightningVapSpr[q, a] = argument[4];
+    global.lightningVapAlp[q, a] = random(1);
+    global.lightningVapXst[q, a] = (2 + irandom(7)) * choose(1, -1);
+    global.lightningVapYst[q, a] = (2 + irandom(7)) * choose(1, -1);
+    global.lightningVapCol[q, a] = make_color_hsv(random(255), 255, 255);
+    global.lightningVapCol[q, a] = merge_color(global.lightningVapCol[q, a], c_aqua, 0.9);
+    if (random(100) < 25) global.lightningVapCol[q, a] = merge_color(global.lightningVapCol[q, a], c_white, 0.9);
+    global.lightningVapRot[q, a] = random(360);
+    global.lightningVapAmt[q] += 1;
+}
+else if (argument[0] == "generate") // 1 = ID, 2 = Target X, 3 = Target Y, 4 = Light Line?
+{
+    var m = argument[1]; // Lightning ID
+    var tarX = argument[2];
+    var tarY = argument[3];
+    var lightLine = 0;
+    if (argument_count > 4) lightLine = argument[4];
+    
+    if (m == -1)
+    {
+        m = global.lightningIndex;
+        global.lightningIndex += 1;
+        if (global.lightningIndex > 63) global.lightningIndex = 0;
+    }
+    
+    global.lightningTyp[m] = lightLine;
+    global.lightningLnkAmt[m] = 0;
+    global.lightningVapAmt[m] = 0;
+    hedAmt = 1;
+    hedX[0] = 0;
+    hedY[0] = 0;
+    hedDir[0] = point_direction(hedX[0], hedY[0], tarX, tarY) - 10 + random(20);
+    hedAct[0] = 1;
+    hedSpl[0] = 500;
+    hedDiv[0] = 10;
+    hedDup[0] = 0;
+    hedGen[0] = 0;
+    hedNum = 1;
+    orgDis = point_distance(hedX[0], hedY[0], tarX, tarY);
+    
+    // Variables
+    disPer = 5; // 3
+    dirPer = 15; // 10
+    rps = 200;
+    if (lightLine) { disPer /= 2; dirPer *= 4; rps = 100; }
+    
+    repeat(rps)
+    {
+        if (hedNum == 0) break;
+
+        if (lightLine == 0 && point_distance(hedX[0], hedY[0], tarX, tarY) < disPer * 2) break;
+        for (i = 0; i < hedAmt; i += 1)
+        {
+            if (hedAct[i])
+            {
+                xpr = hedX[i];
+                ypr = hedY[i];
+                dis = disPer + random(disPer / 2);
+                dir = hedDir[i];
+                dir = dir - dirPer + random(dirPer * 2);
+                
+                var ddr = point_direction(hedX[i], hedY[i], tarX, tarY);
+                if (lightLine == 0)
+                {
+                    var agd = angle_difference(dir, ddr) / hedDiv[i] * 4;
+                    if (random(100) < 50) dir -= angle_difference(dir, ddr) / hedDiv[i];
+                    //if (random(100) < 2) dir = ddr - (agd / 2) + random(agd);
+                    if (random(100) < 2) dir = dir + (dirPer + random(dirPer * 2) * choose(1, -1));
+                }
+                
+                // DIR CAP
+                if (lightLine)
+                {
+                    if (angle_difference(dir, ddr) > 90) dir = ddr + 90;
+                    if (angle_difference(dir, ddr) < -90) dir = ddr - 90;
+                }
+                
+                if (hedGen[i] == 0) 
+                {
+                    if (lightLine) hedDiv[i] = clamp(point_distance(hedX[0], hedY[0], tarX, tarY) / 20, 1, 10);
+                    else hedDiv[i] = clamp(point_distance(0, hedY[0], 0, tarY) / 20, 1, 10);
+                }
+                
+                hedDir[i] = dir;
+                xcr = hedX[i] + lengthdir_x(dis, dir);
+                ycr = hedY[i] + lengthdir_y(dis, dir);
+                hedX[i] = xcr;
+                hedY[i] = ycr;
+                // Vapor
+                var vln = random(16);
+                var vdr = random(360);
+                var vsp = s1x1;
+                if (hedGen[i] == 0) vsp = s2x1;
+                EffectLightning("vapor", m, xcr + lengthdir_x(vln, vdr), ycr + lengthdir_y(vln, vdr), vsp);
+                // Make trail
+                var a = global.lightningLnkAmt[m];
+                global.lightningLnkX0[m, a] = xpr;
+                global.lightningLnkY0[m, a] = ypr;
+                global.lightningLnkX1[m, a] = xcr;
+                global.lightningLnkY1[m, a] = ycr;
+                global.lightningLnkDis[m, a] = point_distance(global.lightningLnkX0[m, a], global.lightningLnkY0[m, a], global.lightningLnkX1[m, a], global.lightningLnkY1[m, a]);
+                global.lightningLnkDir[m, a] = point_direction(global.lightningLnkX0[m, a], global.lightningLnkY0[m, a], global.lightningLnkX1[m, a], global.lightningLnkY1[m, a]);
+                global.lightningLnkPar[m, a] = hedGen[i];
+                global.lightningLnkAlp[m, a] = 1 - (global.lightningLnkPar[m, a] * 0.2);
+                global.lightningLnkHue[m, a] = make_color_hsv(random(255), 255, 255);
+                global.lightningLnkHue[m, a] = merge_color(global.lightningLnkHue[m, a], c_aqua, 0.9);
+                global.lightningLnkAmt[m] += 1;
+                // End trail
+                hedSpl[i] += 2;
+                if (lightLine) hedSpl[i] += 10;
+                hedDup[i] += 1;
+                // Split head
+                if (hedGen[i] < 4 && hedNum < 5 && hedDup[i] > 5 && random(100) < hedSpl[i])
+                {
+                    hedSpl[i] = 0;
+                    hedX[hedAmt] = xcr;
+                    hedY[hedAmt] = ycr;
+                    hedDir[hedAmt] = hedDir[i] + ((25 + random(25)) * choose(1, -1));
+                    if (lightLine) hedDir[hedAmt] = hedDir[i] + ((dirPer + random(dirPer)) * choose(1, -1));
+                    hedAct[hedAmt] = 1;
+                    hedSpl[hedAmt] = hedGen[i] * 5; // was 0
+                    hedDiv[hedAmt] = hedDiv[i] * (1.2 + random(0.1));
+                    hedDup[hedAmt] = 0;
+                    hedGen[hedAmt] = hedGen[i] + 1;
+                    hedAmt += 1;
+                    hedNum += 1;
+                }
+                // Kill head
+                if (point_distance(hedX[0], hedY[0], tarX, tarY) < disPer * 2) || (i != 0 && hedNum > 1 && hedDup[i] > 10 && random(100) < hedDup[i] / 5)
+                {
+                    if (lightLine == 0) { hedAct[i] = 0; hedNum -= 1; }
+                }
+                if (lightLine == 0 && i == 0 && point_distance(hedX[0], hedY[0], tarX, tarY) < disPer * 2) break;
+            }
+        }
+    }
+    return m;
+}
+else if (argument[0] == "draw") // 1 = ID, 2 = X, 3 = Y, 4 = Alpha
+{
+    var m = argument[1];
+    var _dx = argument[2];
+    var _dy = argument[3];
+    var _al = argument[4];
+    if (_al <= 0) return 0;
+    //var did = 0;
+    if (_al > 0.5) _al = (_al - 0.5) * 2;
+    else _al = 0;
+    for (i = 0; i < global.lightningLnkAmt[m]; i += 1)
+    {
+        var lightLine = global.lightningTyp[m];
+        var _cx = _dx + global.lightningLnkX0[m, i];
+        var _cy = _dy + global.lightningLnkY0[m, i];
+        var _aa = global.lightningLnkAlp[m, i] * _al;
+        var _lp = global.lightningLnkPar[m, i];
+        var _lc = global.lightningLnkHue[m, i];
+        wid = global.lightningSubWidth[_lp];
+        dis = global.lightningLnkDis[m, i];
+        dir = global.lightningLnkDir[m, i];
+        if (lightLine) { wid = 1; _aa = _al; }
+        
+        // Draw ultraglow
+        draw_sprite_ext(s2x1, 0, _cx + 1, _cy, dis, wid * 0.75, dir, _lc, 0.05 * _aa);
+        if (lightLine) draw_sprite_ext(s2x1, 0, _cx - 1, _cy, dis, wid * 1, dir, _lc, 0.05 * _aa);
+        
+        // Draw base
+        for (h = wid; h > 0; h -= 1)
+        {
+            g = abs(h - global.lightningSubWidth[0]);
+            var alp = g * global.lightningDivide;
+            if (_lp != 0) alp /= 2;
+            if (lightLine) alp = 1;
+            draw_sprite_ext(s2x1, 0, _cx, _cy, dis, h / 2, dir, _lc, alp * _aa);
+        }
+        
+        // Draw single white
+        if (lightLine == 0) draw_sprite_ext(s1x1, 0, _cx, _cy, dis, 1, dir, c_white, _aa / (_lp + 1));
+    }
+    
+    // Draw vapor
+    _al = argument[4];
+    for (i = 0; i < global.lightningVapAmt[m]; i += 1)
+    {
+        draw_sprite_ext(global.lightningVapSpr[m, i], 0, 
+            _dx + global.lightningVapX[m, i] + (_al * global.lightningVapXst[m, i]), 
+            _dy + global.lightningVapY[m, i] + (_al * global.lightningVapYst[m, i]), 1, 1, 
+            global.lightningVapRot[m, i], global.lightningVapCol[m, i], _al * global.lightningVapAlp[m, i]);
+        //draw_circle(_dx + global.lightningVapX[m, i], _dy + global.lightningVapY[m, i], 2, 0);
+    }
+}

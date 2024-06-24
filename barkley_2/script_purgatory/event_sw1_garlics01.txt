@@ -1,0 +1,35 @@
+// Plantation Garlics //
+// Initialize //
+if (argument0 == SCRIPT_START) {
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {          
+
+    var event = scr_event_create_main();
+    with (event) {
+    
+        // Pick up some Garlics //
+        if scr_quest_get_state("sw1_garlics") == 0 {
+        
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hmm, what's this?");
+            Item("build", "gain", "Garlics", 1);
+            scr_event_build_dialogue_item("You found Columbus Day Garlics");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Columbus Day brand Garlics huh? Don't really care much for Garlics but perhaps I can find some application for these.");
+            scr_event_build_quest_state("sw1_garlics", 1);
+            }
+            
+        else {
+            
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I shouldn't take more Garlics. It wouldn't be right.");
+            }
+    
+    }   
+    scr_event_advance(event);
+}

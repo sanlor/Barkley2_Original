@@ -1,0 +1,225 @@
+// event_swp_froglet01
+/*
+if (argument0 == SCRIPT_START) {
+
+}
+else if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // id
+    var froglet = id;
+    
+    // portrait
+    var frogport = s_portrait;
+    
+    // main event
+    var event = scr_event_create_main();
+    
+    // feeding snippets
+    var frog_feed = scr_event_create_child(event);
+    var wfruit_snippet = scr_event_create_child(event);
+    var dreadfruit_snippet = scr_event_create_child(event);
+    var chup_snippet = scr_event_create_child(event);
+    
+    // other snippets
+    var trip_snippet = scr_event_create_child(event);
+    var frog_escape = scr_event_create_child(event);
+    
+    //---------------------------------------------------------
+    //  frog kid main event
+    //---------------------------------------------------------
+    with (event) {
+        if (Item("have", "W Fruit") == false) && (Item("have", "Dreadfruit") == false) && (Item("have", "Chup") == false)
+        {
+            var get = scr_event_build_choice("Get all feedable items?", s_port_hoopz);
+            with (scr_event_build_add_choice(get, "Yes, git em.")) 
+            {
+                Item("build", "gain", "W Fruit", 1);
+                Item("build", "gain", "Dreadfruit", 1);
+                Item("build", "gain", "Chup", 1);
+                scr_event_build_dialogue_debug("bort", NULL, "Got w fruit, chup, dreadfruit");
+            }
+            with (scr_event_build_add_choice(get, "Nope, dont git em.")) 
+            {
+                scr_event_build_dialogue_debug("bort", NULL, "Ok dont then.");
+            }
+        }
+        
+        // go to chup snippet, if able
+        if (scr_quest_get_state("frogletChup") mod 2 == 1) { 
+            scr_event_build_event_snippet(trip_snippet);
+        }
+        
+        // first time talking
+        else if (scr_quest_get_state("frogletState") == 0)
+        {
+            scr_event_build_quest_state("frogletState", 1);
+            
+            scr_event_build_dialogue("Froglet", frogport, "Ribbit. Ribbit. Ribbit.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, Frog Kid! How's it going!?");
+            scr_event_build_dialogue("Froglet", frogport, "Ribbit. Ribbit.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Haha, um, okay... I don't understand your ribbits though, Frog Kid!");
+            // told frog kid to stay a dwarf
+            if (scr_quest_get_state("frogFrog") == 1)
+            {
+                scr_event_build_quest_state("frogFrog", 0);
+                scr_event_build_dialogue("Froglet", frogport, "Ribbit. Ribbit... *PSST* I'm not Frog Kid anymore... I'm a frog! You can call me Froglet. You were trying to steer me wrong... but I'm a frog now anyway!... Ribbit. Ribbit.");
+            }
+            // encouraged frog kid to be a frog
+            else
+            { 
+                scr_event_build_dialogue_debug("bort", NULL, "Frog Kid is happy! He's a tadpole now! Name is now Froglet.");
+                scr_event_build_dialogue("Froglet", frogport, "Ribbit. Ribbit... *PSST* Look at me! I'm not Frog Kid anymore... I'm a frog! You can call me Froglet. Thanks for listening to me! Everything's better this way... as a frog!... Ribbit. Ribbit.");
+            }
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow... you really did it. You ARE a frog!");
+            scr_event_build_dialogue("Froglet", frogport, "Ribbit. Ribbit... *PSST* That's how frogs say /'I'm hungry!/ Get me a food fit for frogs please... Ribbit. Ribbit.")
+            //scr_event_build_dialogue_debug("bort", NULL, "Froglet wants food. Going to feed snippet.");
+            scr_event_build_event_snippet(frog_feed);
+        }
+        // second time talking
+        else if (scr_quest_get_state("frogletState") == 1)
+        {
+            //scr_event_build_dialogue_debug("bort", NULL, "Talked to Froglet, but now it wants food!");
+            scr_event_build_dialogue("Froglet", frogport, "Ribbit. Ribbit... *PSST* I love being a frog... but I want a snack. A frog snack!... Ribbit. Ribbit.");
+            scr_event_build_event_snippet(frog_feed);
+        }
+        // after feeding... can only be chup froglet??? after chup story???
+        else if (scr_quest_get_state("frogletState") == 2)
+        {
+            //scr_event_build_dialogue_debug("bort", NULL, "Froglet says it is hungry again. So hungry!");
+            scr_event_build_dialogue("Froglet", frogport, "Ribbit. Ribbit... *PSST* That was good... but I want more!... Ribbit. Ribbit.");
+            scr_event_build_event_snippet(frog_feed);
+        }
+    }
+    
+    //---------------------------------------------------------
+    // frog_feed
+    //---------------------------------------------------------
+    with (frog_feed)
+    {
+        // have no edibles
+        if ( !Item("have", "W Fruit") && !Item("have", "Dreadfruit") && !Item("have", "Chup") )
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Frogs don't eat candy, do they? I'm sorry Froglet, I don't have anything for you right now!");
+            scr_event_build_dialogue("Froglet", frogport, "Ribbit. Ribbit... *PSST* That's how frogs say /'I want seeds! I want plants! I want flies! I want frog food!/'... please get me frog food. Ribbit. Ribbit.");
+            scr_event_build_end();
+        }
+        // have edibles
+        else {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hmm, I think I've got something for ya, Froggy...")
+            // add stuff to breakout box
+            if (Item("have", "W Fruit")) { Breakout("build", "add", "W Fruit"); }
+            if (Item("have", "Dreadfruit")) { Breakout("build", "add", "Dreadfruit"); }
+            if (Item("have", "Chup")) { Breakout("build", "add", "Chup"); }
+            
+            // feed choice
+            var feed_choice = scr_event_build_choice("Feed the frog what?", s_port_hoopz);
+            // w. fruit
+            if (Item("have", "W Fruit")) 
+            {
+                with (scr_event_build_add_choice(feed_choice, "W Fruit.")) 
+                {
+                    scr_event_build_event_snippet(wfruit_snippet);
+                }
+            }
+            // dreadfruit
+            if (Item("have", "Dreadfruit")) 
+            {
+                with (scr_event_build_add_choice(feed_choice, "Dreadfruit.")) 
+                {
+                    scr_event_build_event_snippet(dreadfruit_snippet);
+                }
+            }
+            // chup
+            if (Item("have", "Chup")) && (scr_quest_get_state("frogletChup") == 0)
+            {
+                with (scr_event_build_add_choice(feed_choice, "Chup.")) 
+                {
+                    scr_event_build_event_snippet(chup_snippet);
+                }
+            }
+            // nothing
+            with (scr_event_build_add_choice(feed_choice, "Nothing."))
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm sorry Froglet, nothing right now!");
+                scr_event_build_dialogue("Froglet", frogport, "Ribbit. Ribbit... *PSST* I love being a frog... but I'm hungry!!! I want frog food! I'm hungry!!!... Ribbit. Ribbit...")
+                scr_event_build_end();
+            }
+        }
+    }
+    
+    //---------------------------------------------------------
+    // wfruit_snippet
+    //---------------------------------------------------------
+    with (wfruit_snippet)
+    {
+        //scr_event_build_dialogue_debug("bort", NULL, "Player chose to give W Fruit.");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Here you go, try this!");
+        Item("build", "lose", "W Fruit", 1);
+        scr_event_build_dialogue_item("Gave Froglet the W Fruit.");
+        Breakout("build", "clear");
+        scr_event_build_quest_state("frogletGrowth", 1);
+        if (scr_quest_get_state("frogletChup") == 0) { scr_event_build_dialogue_debug("bort", NULL, "Ribbit. Ribbit... *PSST* Yummy! That was so yummy! Frogs love fruit and seeds and flies and plants and bugs!... whoa... whoa... my belly... my frog belly... gotta go! Ribbit! Ribbit!!!"); }
+        else { scr_event_build_dialogue_debug("bort", NULL, "Ribbit. Ribbit... *PSST* Yummy! That was so yummy! Frogs love fruit and seeds and flies and plants and bugs!... whoa... whoa... my belly... my frog belly... gotta go! Ribbit! Ribbit!!!"); }
+        scr_event_build_event_snippet(frog_escape);
+    }
+    
+    //---------------------------------------------------------
+    // dreadfruit_snippet
+    //---------------------------------------------------------
+    with (dreadfruit_snippet)
+    {
+        //scr_event_build_dialogue_debug("bort", NULL, "Player chose to give Dreadfruit");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Here you go, try this!");
+        Item("build", "lose", "Dreadfruit", 1);
+        scr_event_build_dialogue_item("Gave Froglet the Dreadfruit.");
+        Breakout("build", "clear");
+        scr_event_build_quest_state("frogletCorpse", 1);
+        if (scr_quest_get_state("frogletChup") == 0) { scr_event_build_dialogue_debug("bort", NULL, "Ribbit. Ribbit... *PSST* Blech! That was so gross! Frogs love fruit and seeds and flies and plants and bugs... not rotten things!... whoa... whoa... my belly... my frog belly... gotta go! Ribbit! Ribbit!!!"); }
+        else { scr_event_build_dialogue_debug("bort", NULL, "Ribbit. Ribbit... *PSST* Blech! That was so gross! Frogs love fruit and seeds and flies and plants and bugs... not rotten things!... whoa... whoa... my belly... my frog belly... gotta go! Ribbit! Ribbit!!!"); }
+        scr_event_build_event_snippet(frog_escape);
+    }
+    
+    //---------------------------------------------------------
+    // chup_snippet
+    //---------------------------------------------------------
+    with (chup_snippet)
+    {
+        scr_event_build_dialogue_debug("bort", NULL, "Player chose to give chup.");
+        Item("build", "lose", "Chup", 1);
+        scr_event_build_dialogue_item("Gave Froglet the chup.");
+        Breakout("build", "clear");
+        if (scr_quest_get_state("frogletChup") == 0) { scr_event_build_dialogue_debug("bort", NULL, "Ribbit. Ribbit... *PSST* Hmm... that feels strange. My frog belly feels pretty funny... uh oh... gotta go! Ribbit! Ribbit!!!"); }
+        else if (scr_quest_get_state("frogletChup") == 2) { scr_event_build_dialogue_debug("bort", NULL, "Ribbit. Ribbit... *PSST* Hmm... that feels strange. My frog belly feels pretty funny... uh oh... gotta go! Ribbit! Ribbit!!!"); }
+        else if (scr_quest_get_state("frogletChup") == 4) { scr_event_build_dialogue_debug("bort", NULL, "Ribbit. Ribbit... *PSST* Hmm... that feels strange. My frog belly feels pretty funny... uh oh... gotta go! Ribbit! Ribbit!!!"); }
+        scr_event_build_quest_state_add("frogletChup", 1);
+        scr_event_build_event_snippet(frog_escape);
+    }
+    
+    //---------------------------------------------------------
+    // trip_snippet
+    //---------------------------------------------------------
+    with (trip_snippet)
+    {
+        if (scr_quest_get_state("frogletChup") == 1) { scr_event_build_dialogue_debug("bort", NULL, "Froglet got stoned and tells a funny story."); }
+        else if (scr_quest_get_state("frogletChup") == 3) { scr_event_build_dialogue_debug("bort", NULL, "Froglet got more stoned and tells a funnier story."); }
+        else if (scr_quest_get_state("frogletChup") == 5) { scr_event_build_dialogue_debug("bort", NULL, "Froglet got more stoned and tells the funniest story."); }
+        scr_event_build_quest_state_add("frogletChup", 1);
+        //scr_event_build_dialogue_debug("bort", NULL, "");
+        //scr_event_build_dialogue_debug("bort", NULL, "");
+        //scr_event_build_dialogue_debug("bort", NULL, "");
+    }
+    
+    //---------------------------------------------------------
+    // frog_escape
+    //---------------------------------------------------------
+    with (frog_escape)
+    {
+        scr_event_build_quest_state("frogletState", 2);
+        scr_event_build_dialogue_debug("bort", NULL, "Froglet leaps into the water and swims away.");
+    }
+    
+    scr_event_advance(event);
+}

@@ -1,0 +1,25 @@
+// A guy in Brain City who talks about the lottery.
+
+/*if (argument0 == SCRIPT_STEP) {
+
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var event = scr_event_create_main();
+    with (event) {
+        
+        
+            
+        //Spoken to Gomer 1 time.
+        if (scr_quest_get_state("gomerState") == 1) {
+            scr_event_build_dialogue("Gomer", NULL, "Truth is, I already have the bumper sticker.");
+            scr_event_build_quest_state("gomerState", 0);
+        
+        //Never spoken to Gomer before.
+        } else {
+            scr_event_build_dialogue("Gomer", NULL, "The first thing I'm gonna do when I win the lottery is buy a car. The second thing I'm gonna do is buy a bumper sticker that says /'baby on board./'");
+            scr_event_build_quest_state("gomerState", 1);
+        }
+    }
+    scr_event_advance(event);
+}

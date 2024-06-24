@@ -1,0 +1,359 @@
+// Hundley note: Minor revisions will need to be made to this if we change the name from Babby Hubert to something else. Just sayin', he talks about feathers and shit, and, presumably, he's talking about the ones attached to his person. I can do those revisions, though. Not a big deal.
+// Hundley note2: Actually, revisions will also need to be made during the scene where Hubert gives the player his organs since I'm not sure how everyone wants to do that. I could design that myself, but I'm sure it'll come out incredibly gross and I kinda already promised that I would deliberately limit how many fantastically gross things I add to the game. So I'm passing the buck and letting someone else decide how that's done. PLUS, I feel like the player watching Hubert giving the player vital organs would be a great place for a very brief round mound choice, so I'll come back to it later to write one when I have some clue as to how I should be writing the round mound events.
+// Hundley note3: yeah, more fucking notes. In this dialogue the player can either KILL HUEY OUTRIGHT by taking ALL of his organs, or just taking MOST of his organs. As I have currently designed this, it does NOTHING beyond display different dialogue for Hubert, since Oliver pays you the same either way and I didn't change that script to have Oliver pay you by the organs(which he didn't offer to do anyway). So you get "Duck Organs" either way, and the difference between the two is only SUGGESTED. Can change this if anybody has a problem with it, it just felt like more dialogue we didn't need.
+// Hundley note4: After the player completes the quest, they can return to Hubert and give him his share of the money he got from Oliver. Hubert is, of course, dead, so the player can just very innocently leave the money by the corpse. This is all fine, I just left the money transaction incomplete because the quest reward has not been decided yet.
+// Hundley note5: Made a call here in deciding that the player expressing skepticism at Hubert's belief system DOES NOT constitute an act of sentience on the player character's part and, therefore, not worthy of player input in the matter. Got a philosophical dilemma with this, whereby approaching the protagonist's skepticism as sentience, I would be essentially validating the overwhelming and destructive stupidity of Babby Hubert. I am not so disingenuous as to be able to do this.
+            // pdt_babyhuey //
+            // 0 = Not taken quest from Oliver yet //
+            // 1 = Refused organs first time //
+            // 2 = gutted but alive //
+            // 3 = gutted and dead //
+            // 4 = Went back to Hubert after getting quest reward //
+            // 5 = Did not leave Hubert's share of the take by his corpse, still has the opportunity to //
+            // 6 = Left Hubert's share by his corpse, first reactivation //
+            // 7 = Hubert's share is by his corpse; he's still very much dead(repeats) //
+            // 8 = Maimed Hubert, didn't bring him his money yet, second dialog after operation //
+            // 9 = Maimed Hubert, returned money (or had already spent it) //
+            // 10 = Cut open Hubert talks about the hole in his chest //
+            // 11 = Chickened out //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+    // Variables //
+    var event = scr_event_create_main();
+    var harvestcut1 = scr_event_create_child(event);
+    var sharesnippet = scr_event_create_child(event);
+    var curmoney = scr_money_count();
+
+    // Collect organs or decline? //
+    with (harvestcut1) {
+    
+        // Decline the organs //
+        var hueyharvest = scr_event_build_choice("Should I take Babby Hubert's organs?", s_port_hoopz);
+        with (scr_event_build_add_choice(hueyharvest, "I don't think I want any part of this......")) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't think I want any part of this. Or any part of.....you know.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "How DARE you. How dare you. I don't take just any -LAMB- under my wing. And you VIOLATE my trust.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I just don't think this is a good idea. I think it'll probably kill you.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Your PROBABLYS probably mean as much to me as a barrel of glue means to a Railway Otter.\And let me tell you, chump, Railyway Otters don't give half a flip about a barrel of glue.");
+            scr_event_build_quest_state("pdt_babyhuey", 1);
+            scr_event_build_end();
+        }
+        
+        // Agree to harvest his organs, minigame starts with this option //
+        with (scr_event_build_add_choice(hueyharvest, "Uh, I guess.")) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, I guess. How do we do this, anyway?");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Oh, NOW you want my advice, huh? Big ORGAN EXPERT needs the advice of little old me.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I've just never done this before, is all. They gave me a bucket, but......");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Yes, I can see now that a bucket is far beyond the capabilities of a -LAMB-.\Here, let me explain this to you.");
+            
+            // Minigame explanation //
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Take this branch trimmer. Hold it with your hands. You've got thumbs, right?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, yeah? I'm not carrying all these gun's around for show, you know. You need thumbs to use gun's.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Good. Now hold it like you'd hold a gun. There you go. Wow, those thumbs do work. More than I would have expected from you.\Now all you gotta do is holster it like you'd holster your gun when you want to switch to your hands to grab the organs.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ugh, gross, I have to touch the organs too? Can you give me some gloves or something?");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "You're lucky I'd even consider letting a filthy -LAMB- lay even one of their filthy fingers upon the royal acreage!!!\But sacrifices must be made for super-stardom. NOW GET BUSY HARVESTING.");
+            
+            // Minigame starts //
+            scr_event_build_camera_frame(CAMERA_FAST, o_cts_hoopz);
+            scr_event_build_wait_for_actions();
+            scr_event_build_create_object(o_mg_organ_system, x, y);
+            }
+    }
+
+    // Huberts share of the profits //
+    with (sharesnippet) {
+        var hueyshare = scr_event_build_choice("Should I leave Babby Hubert's money here?", s_port_hoopz);
+        
+        // Drop the money to the ground //
+        with (scr_event_build_add_choice(hueyshare, "Leave his share.")) {
+        
+            // Money check // If you've gone and spent Huberts share then shame on you, need to earn money back to make up for it //
+            if curmoney < scr_quest_get_state("pdt_oliversreward") {
+            
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh scrooge! I've gone and spent his share... I'd better get it back before I wake him up...");
+                }
+                
+            // You didn't waste Huberts share //
+            else {
+            
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, I'm just going to leave this here for you when you wake up, I guess. Good luck being a superstar.");
+                scr_money_change(-scr_quest_get_state("pdt_oliversreward"));
+                scr_event_build_quest_state("pdt_babyhuey", 6);
+                scr_event_build_end();
+                }
+        }
+        
+        // Hold on to the money //
+        with (scr_event_build_add_choice(hueyshare, "Better hold onto it until he wakes up.")) {
+        
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'll just wait until you wake up before giving you your share. I don't want anybody stealing it, you know.\(I don't think he heard me at all. He looks really asleep.)");
+            scr_event_build_quest_state("pdt_babyhuey", 5);
+            scr_event_build_end();
+        }
+    }
+
+    // Main event //
+    with (event) {
+
+        // Results from harvest // Babby Hubert is dead, too many organs harvested //
+        if (scr_quest_get_state("pdt_babyhuey_harvest") == 1 and scr_quest_get_state("pdt_babyhuey_harvest_talk") == 0) {
+
+            scr_event_build_animation_set(o_pdt_babyhuey01, "killed");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow! That's all of them!\Are you ok?");
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_dead", "I'm one million.......one million..........\Million.......");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "That sounds like a lot.");
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_dead", "..........");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm going to go give these to Oliver, ok? Just wait right here, I'll come back with your money.");
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_dead", "..........");
+            scr_event_build_quest_state("pdt_babyhuey", 3);
+            scr_event_build_quest_state("pdt_babyhuey_harvest_talk", 1);
+            scr_event_build_end();
+            }
+            
+        // Results from harvest // Babby Hubert is barely alive, some organs harvested //
+        else if (scr_quest_get_state("pdt_babyhuey_harvest") == 2 and scr_quest_get_state("pdt_babyhuey_harvest_talk") == 0) {
+
+            scr_event_build_animation_set(o_pdt_babyhuey01, "maimed");
+            scr_event_build_animation_set(o_pdt_babyhuey01, "killed");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's enough. I don't think we should be doing this anymore. You don't look so good.");
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "I don't need your imbecile commentary on what I do with my life. It's just one of my spells.\As long as these morons keep giving us money for these organs I intend to keep letting them scam themselves.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Should I see if a doctor can come to see you? I don't think you're supposed to be bleeding that much.");
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "This is the SUPER STAR LIFE I'm living here. Don't you go bringing me back down with your medical science voodoo.\Just get me that.....that money.....");
+            scr_event_build_quest_state("pdt_babyhuey", 8);
+            scr_event_build_quest_state("pdt_babyhuey_harvest_talk", 1);
+            scr_event_build_end();
+            }
+
+        // Results from harvest // Babby Hubert is alive, just cut open, no organs taken //
+        else if (scr_quest_get_state("pdt_babyhuey_harvest") == 3 and scr_quest_get_state("pdt_babyhuey_harvest_talk") == 0) {
+
+            scr_event_build_animation_set(o_pdt_babyhuey01, "cut");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm sorry, I can't do it. This is just too gross.");
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "Yes, I understand. It is typical for a -LAMB- to feel so intimidated by a superstar as great as me.\I have grown to like this hole in my chest. I may let woodland animals nest there.\Can you imagine the publicity? Can you imagine the things they'll write about me? Can't you just picture everyone talking about me on the entertainment programs?!? GREEN with envy, all over me.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "They will probably wonder why you have a disgusting hole in your stomach.");
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "Think of all the duergaritarian awards I'll be eligible for......\The future.......belongs to Hubert.......");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ok. Good luck with that. Say hi to Fitzgerald and Bucharov for me.");
+            scr_event_build_quest_state("pdt_babyhuey", 10);
+            scr_event_build_quest_state("pdt_babyhuey_harvest_talk", 1);
+            scr_event_build_end();
+            }
+
+        // Results from harvest // Babby Hubert is alive, nothing has been done to him //
+        else if (scr_quest_get_state("pdt_babyhuey_harvest") == 4 and scr_quest_get_state("pdt_babyhuey_harvest_talk") == 0) {
+
+            scr_event_build_animation_set(o_pdt_babyhuey01, "default");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Well?!?! What are you waiting for?\I know this must be a new experience for you, seeing somebody so vital and pertinent, but these organs aren't going to just spontaneously jump out of me.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm not doing this. Here's your hedge clippers or whatever. I don't want any part of this.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "THEY'RE BRANCH TRIMMERS!!! BRANCH TRIMMERS!!!! DO YOU -LAMBS- KNOW THAT LITTLE ABOUT MODERN CIVILIZATION!?!?\BEGONE, YOU PEON!!! I WANT TO BE ALONE!!!!");
+            scr_event_build_quest_state("pdt_babyhuey", 11);
+            scr_event_build_quest_state("pdt_babyhuey_harvest_talk", 1);
+            scr_event_build_end();
+            }
+    
+        // Covered in Don Diegos blood // This is related to El Zorro quest where everyone thinks you are Dracula //
+        else if (scr_quest_get_state("pdt_covered_in_blood") == 1) {
+
+            // Talk to drac while in 100% condition //
+            if (scr_quest_get_state("pdt_babyhuey") <= 1 or scr_quest_get_state("pdt_babyhuey") == 11) {
+            
+                scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "What the fuck are you staring at, bloodsucker?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "O-oh, nothing.");
+                scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Did you come for my blood you fucking organ lover? I'll have you know I'm not as easy prey as I seem.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, I uhh.. bye.");
+                }
+            
+            // Talk to drac while in maimed condition //
+            else if (scr_quest_get_state("pdt_babyhuey") == 2 or scr_quest_get_state("pdt_babyhuey") == 8 or scr_quest_get_state("pdt_babyhuey") == 9 or scr_quest_get_state("pdt_babyhuey") == 10) {
+            
+                scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "What the fuck... are you... staring at, bloodsucker?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "O-oh, nothing.");
+                scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "Did you... come for my blood... fucking organ lover? I'll have... you know I'm not as easy... prey as I... seem.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, I uhh.. bye.");
+                scr_event_build_end();
+                }
+                
+            // Talk to drac while dead //
+            else if (scr_quest_get_state("pdt_babyhuey") >= 3 or scr_quest_get_state("pdt_babyhuey") <= 7) {
+            
+                scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_dead", ".....");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, this guy is a heavy sleeper. Heh, I wonder if he will ever wake up.");
+                scr_event_build_end();
+                }
+            }
+    
+        // Talk after chickening out //
+        else if (scr_quest_get_state("pdt_babyhuey") == 11) {
+
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Chapter 8 of Fitzner and Bokanovsky's /'The organ myth/' clearly states the following:");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Ok, cool, thanks for the advice, goodbye now, I have to go, see you later.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Typical -LAMB-......");
+            scr_event_build_end();
+        }    
+            
+        // Talk after cutting hubert open //
+        else if (scr_quest_get_state("pdt_babyhuey") == 10) {
+
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "I would like to dedicate this award to Fitzner and Bokanovsky....\Oh, I'm terribly sorry, I misspoke there......THE GREAT Fitnzer and Bokanovsky......");
+            scr_event_build_end();
+        }
+            
+        // Talk after maiming, didn't bring him his money yet //
+        else if (scr_quest_get_state("pdt_babyhuey") == 8 and scr_quest_get_state("pdt_oliver") != 4) {
+            
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "That was really a doozy......\But you know what they say......no pain, no........\......pain.");
+            scr_event_build_end();
+        }
+        
+        // Talk after maiming, and you have Huberts money with you //
+        else if (scr_quest_get_state("pdt_babyhuey") == 8 and scr_quest_get_state("pdt_oliver") == 4) {
+        
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Hubert, I got your money.");
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "That's......\Money......");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's right, money! Here you go!!!");
+            
+            // Do you have the money still? //
+            // YES I GOT MONEYS //
+            if curmoney >= scr_quest_get_state("pdt_oliversreward") {
+            
+                // Give money to maimed Hubert //
+                scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "Call the.......tabloids...... tell them........\Hubert's.......back.........");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Does your back hurt too? Are you sure you don't need a doctor?");
+                scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "No......I'm......\My back is........I'm back........");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You aren't making sense. You sure you don't want me to get a doctor?");
+                scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "No.......\No no no no no......\Get me a drink......little umbrella in it......\Get them for all my lady friends here........you're thirsty, aren't you ladies?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's just me. There's nobody else here.");
+                scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "Get lost......cockblock.......they're playin' my song......");          
+                scr_event_build_quest_state("pdt_babyhuey", 9);
+                scr_event_build_end();
+                }
+            else {
+            
+                // Oops you've gone and wasted maimed Huberts share //
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh! You know, I think I spent the money already.");
+                scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "Pfft........I don't.......need........A STINKIN HANDOUT.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "It's not a handout. This is yours.");
+                scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "GET OUT!\GET OUT OF THE WAY!!!\Can't you see? They're takin' my picture.......they all want my picture......\No no no no, other side......other side is my good side.......");
+                scr_event_build_quest_state("pdt_babyhuey", 9);
+                scr_event_build_end();
+                }
+        }      
+            
+        // Hubert is dead dialog //
+        else if (scr_quest_get_state("pdt_babyhuey") == 7) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Hubert is still asleep. His money is still sitting there.)\Sweet dreams.....");
+            scr_event_build_end();
+        }
+        
+        // Hubert is dead dialog //
+        else if (scr_quest_get_state("pdt_babyhuey") == 6) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Wow! He must have really been tired! He's still asleep!)\(The money is still where I left it. Good thing it didn't blow away.)\(He looks like he's bleeding from the mouth too. Maybe he's got dental problems.)\You should go to a dentist sometime, Hubert. I don't think it's good when you bleed from the mouth that much.");
+            scr_event_build_quest_state("pdt_babyhuey", 7);
+            scr_event_build_end();
+        }
+        else if (scr_quest_get_state("pdt_babyhuey") == 5) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hubert! Are you still asleep! I've got your money!!\Wake up, sleepy-head!");
+            scr_event_build_event_snippet(sharesnippet);
+        // TOTALLY OPTIONAL DIALOGUE where the player can be insanely innocent and leave Hubert his share of the take for the organs.
+        }
+        
+        // Hubert is dead dialog //
+        else if (scr_quest_get_state("pdt_babyhuey") == 4) {
+        
+            // Got money for Hubert //
+            if (scr_quest_get_state("pdt_oliver") == 4) {
+            
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Hubert, I got your money.");
+                scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_dead", ".....");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hubert?\(It looks like he's asleep. Getting rid of all those organs really wore him out.)");
+                scr_event_build_event_snippet(sharesnippet);
+                }
+                
+            // Don't have the money yet //    
+            else {
+            
+                scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_dead", ".....");
+                scr_event_build_end();
+                }
+        }
+        
+        // Hubert is dead dialog //
+        else if (scr_quest_get_state("pdt_babyhuey") == 3) {
+            
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_dead", ".....");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Poor thing, he's all tuckered out. He's fast asleep.)\(Huh.....I didn't know ducks held their breath when they sleep.....)");
+            scr_event_build_quest_state("pdt_babyhuey", 4);
+            scr_event_build_end();
+        }
+        
+        // Hubert is maimed //
+        else if (scr_quest_get_state("pdt_babyhuey") == 2) {
+            
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "Am.....am.....am I a superstar yet.....");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No. You look awful. I really should call a doctor.");
+            scr_event_build_dialogue("Babby Hubert", ""s_port_babbyhubert"_bloody", "NO!!!!!!\.....no.....\You -LAMBS- will never understand.....");
+            scr_event_build_end();
+        }
+        
+        // Choice to participate in the minigame //
+        else if (scr_quest_get_state("pdt_babyhuey") == 1) {
+            
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "You should consider yourself lucky that I'd even consider entrusting a -LAMB- with this much of my time.\Now, do you want these organs or not?");
+            scr_event_build_event_snippet(harvestcut1);
+        }
+        
+        // Dialog before the minigame choice //
+        else if (scr_quest_get_state("pdt_oliver") == 2) {
+            
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "I am sure I appear to you as a disgusting fat person.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know. Do you think you're disgusting?");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Yeah right, I'm on top of the world. You can't be on top of the world if you're disgusting. It's just not possible.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well that's good.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Got a dick caught in my feathers though, I got the fire and it's burning.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "These words have no meaning to me.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "I got a problem on account of my not getting around so great anymore. Gotta have your hand to help me with it, you know.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah?");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Yeah. You see, got these guys on the line that say they want to give me money for my /'organs/'. Got quite the dilemma.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I talked to those guys. It sounds kinda shady.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Yeah, there's got to be some catch. Nobody is stupid enough to pay for organs.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh?");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "What do you mean HUH??? Don't tell me you're one of those stupid idiots that's been conned by medical /'science/'?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know what you're talking about.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "It's all just a marketing scheme. The doctors will tell you OH NO YOUR TOOTH IS INJURED, LET'S REPLACE TOOTH. What do you think is really wrong with the tooth?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "It could be broken. It's easy to break a tooth I think.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Oh really. OH REALLY. Ok Mr. Science, tell me the science behind breaking a tooth.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know, they just break.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Then explain why ducks don't have teeth, smart guy.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know. I guess you don't need them.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Typical liberal response.\So I need to get moving on this, pronto. These know-nothing clowns called up and said they'd pay me for my organs, appparently they never read Fitzner and Bokanovsky's book, /'The organ myth/', or they'd know that organs don't do anything.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't think this book is accurate. I think organs do stuff. Like the brain does stuff I think.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Well we've already established that you know LESS THAN NOTHING about medicine so I will be inclined to believe the opposite of what you say.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "But what if you started giving them organs you needed? Some are important I think. I think you'd stop being you if you gave someone your brain.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Rubbish, I did not get to international superstardom to tolerate such rubbish.\Here, answer me this: What do you do with your toe nails? What do you do with your hair after a haircut? What do you do with your defecation or spittle?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Just....put it wherever. It's garbage.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Oh??? Garbage, huh? This valued piece of you is somehow arbitrarily no longer you? When does something STOP being you and start being garbage?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know. When it falls out or you eject it or something?");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "You truly are one of the -LAMBS- that Fitzner and Bokanovsky are always warning me about. It's clear we cannot have an intelligent conversation, so let me get right to the point:\If these organs are so VALUABLE in your mystical world, why not just take my organs? I'm literally giving them to you to sell for me, all I require is my cut, you take care of the leg work.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I still think you're making a mistake but I'll do you a favor if you think you somehow can live without your organs.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "Yes, just keep going on insulting my belief system.\Just remember that when you insult me you do not merely insult me, you insult Fitzner and Bokanovsky.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm sorry. This is just a new way of thinking for me, I guess.");
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "I guess it is to be expected from such a lowly -LAMB-. I shouldn't be forced to domesticate someone like you, but I will if I must.....\Now! Are you ready? Let's get this party started. It's time to get rid of this dead weight. A more perfect me, right around the corner.");
+            scr_event_build_event_snippet(harvestcut1);
+        }
+        //Not taken quest from Oliver yet //
+        else if (scr_quest_get_state("pdt_babyhuey") == 0) {
+            
+            scr_event_build_dialogue("Babby Hubert", "s_port_babbyhubert", "The hell you looking at? You never saw a superstar before?\Why don't you stand over yonder with some binoculars, sport. This is prime-ass real estate up in here.");
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

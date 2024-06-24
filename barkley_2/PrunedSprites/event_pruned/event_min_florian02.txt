@@ -1,0 +1,62 @@
+// NPC script for Florian, at the start of the Rebel Quest finale.
+// PLACEMENT NOTE: Since I used it somewhat extensively in the duergar quest anyway, the courtyard is probably a good place to put Florian, Meinhardt, and Compson for the final infiltration quest.
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") <= 9) {
+        scr_event_interactive_deactivate();
+    }
+    else if (Quest("rebelQuest") == 7) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var florian = id;
+    var event = scr_event_create_main();
+    var doctor = scr_event_create_child(event);
+    with doctor {
+        var checkup = Choice("Do you need some form of medical attention?", NULL);
+        with (ChoiceAdd(checkup, "No thanks.")) {
+            Dialogue(P_NAME, "No thanks.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "I'll be busy, but come back if you change your mind.");
+            scr_event_build_end();
+        }
+        with (ChoiceAdd(checkup, "Yeah.")) {
+            Dialogue(P_NAME, "Yeah, they took a few bites out of me in the prison.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "I see that. Just give me a moment........");
+            scr_event_build_wait(3);
+            scr_event_build_dialogue_debug("Hundley", NULL, "TODO: Still don't know how to do this, but Florian restores ALL of the player's health at this point.");
+            // TODO: Still don't know how to do this, but Florian restores ALL of the player's health at this point.
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "That about does it. You won't be able to stand if I give you more painkillers.");
+            if (Quest("floriantubaState") == 1) {
+                Dialogue(P_NAME, "You're getting better at this, you know.");
+                Dialogue(scr_longinus_get_rank("florian") + " Florian", "Better at what?");
+                Dialogue(P_NAME, "Being a doctor. You weren't so good at it before.");
+                Dialogue(scr_longinus_get_rank("florian") + " Florian", "Yeah, I guess. Thanks. Don't have time to think about it. I've saved a couple guys already.\Of course two of them went back in and got shot right back up anyway, but at least I gave them a chance.\Guess it's nice thinking I was the last smiling face they ever saw.\Look, Just try walking out of there, all right? It's hard enough pulling the sheet over somebody I don't know. Hurts a lot more when it's someone I care about.");
+                Quest("floriantubaState", 2);
+                scr_event_build_end();
+            }
+            scr_event_build_end();
+        }
+    }
+
+    with (event) {
+        if (Quest("florianBaseState") == 1) {
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Do you need me to fix you up before you go inside?");
+            Snippet(doctor);
+        } else if (Quest("rebelQuest") == 6) {
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "My god.....\Where the hell's the rest of him?!?");
+            Dialogue(P_NAME, "I dunno. I found him like this.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "No, just no!! I have to draw the line somewhere, and this is it, pal.\You can't just bring any old wounded soldier to me and expect me to wave my scapels around and make everything better. This one's a goner. I can't.....");
+            Dialogue(P_NAME, "No, no, I don't think you can fix him. He seems ok.");
+            scr_event_build_dialogue("Aloysius", NULL, "FFFFFFFFFFFFFFFF");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "Look, I'm kind of a doctor, all right? This guy's not ok.");
+            scr_event_build_dialogue("Aloysius", NULL, "GGGGGNNNNGGGG-FFFFFFFFF");
+            Dialogue(P_NAME, "I just need to get him inside.");
+            Dialogue(scr_longinus_get_rank("florian") + " Florian", "I'm sorry, I can't worry about this now. Tell me all about that later. I've already got guys falling apart I need to tend to.\Do you need me to fix you up before you go inside?");
+            Quest("florianBaseState", 1);
+            Snippet(doctor);
+        }
+    }
+    scr_event_advance(event);
+}

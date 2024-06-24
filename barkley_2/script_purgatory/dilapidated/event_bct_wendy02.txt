@@ -1,0 +1,130 @@
+// -- Squatter Wendy -- 
+// event_bct_wendy02
+// Event script for Wendy, a squatter in the Dilapidated Zone.
+//    This event script "wendy02" contains all her scripts 
+//    when the house is NOT owned by the Anarchists/Commune/Squatters.
+//    for his other scripts, see event_bct_wendy01
+// o_wendy02
+// s_wendy01
+/*
+
+
+*/
+/*if (argument0 == SCRIPT_START) {
+    if (scr_quest_get_state("wendyEvictTime") >= scr_time_get() + 5) {
+        scr_quest_set_state("wendyEvict", 3);
+    }
+    if (room == r_bct_dilapidatedRoom01) || (room == r_bct_dilapidatedRoom02) || (room == r_bct_dilapidatedRoom03) {
+        if (scr_quest_get_state("longinusFakeDoor") == 1) || (scr_quest_get_state("longinusFakeDoor") == 2){
+            instance_destroy();
+        }
+    }
+    else if (room == r_bct_dilapidatedMain01) {
+        if (scr_quest_get_state("superBreach") >= 1) {
+            instance_destroy();
+        }
+    }
+} 
+else if (argument0 == SCRIPT_STEP) {} 
+else if (argument0 == SCRIPT_INTERACT) {
+    var wendy = id;
+    var event = scr_event_create_main();
+    
+    with (event) { 
+        //---------------
+        // commune is on!
+        //---------------
+        if (scr_quest_get_state("dilapEmancipated") >= 1) {
+            scr_event_build_execute_event_script(event_bct_wendy01);
+        }    
+        
+        //--------------
+        // fake longinus
+        //--------------
+        if (scr_quest_get_state("longinusFakeDoor") == 1) {
+            // first time talking
+            if (scr_quest_get_state("wendyState") == 0) {
+                scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "General Wendy?");
+                scr_event_build_dialogue("Gen. Wendy", NULL, "Yeah? What's up, Private?");
+            }
+            var choice = scr_event_build_choice("Ask...", s_port_hoopz);
+            // alternate choice texts
+            if (scr_quest_get_state("wendyMission") == 1) { missiontext = "Ask about your mission, again."; }
+            else { missiontext = "Ask about your mission." }
+            
+            // Question 1: Mission
+            var mission = scr_event_build_add_choice(choice, missiontext);
+            with (mission) {
+                if (scr_quest_get_state("wendyMission") == 1) {
+                    scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "Can you remind me what my mission is exactly?");
+                    scr_event_build_dialogue("Gen. Wendy", NULL, "For real? Jeez... okay");
+                    // rest of stuff
+                }
+                else {
+                    scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "I'm sorry I forgot exactly but... can you tell me what my mission is again?");
+                    scr_event_build_dialogue("Gen. Wendy", NULL, "I'm not like those other Generals who are gonna really get on your case, but you probably should learn to listen up when others are talking to you. But yeah, we need");
+                    // rest of stuff
+                    scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "Okay, okay, I'll remember this time!");
+                    scr_event_build_quest_state("wendyMission", 1);
+                }
+            }
+            // Question 2: The Base
+            if (scr_quest_get_state("wendyBase") == 0) {
+                var base = scr_event_build_add_choice(choice, "Ask about the base.");
+                with (base) {
+                    scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "Is this really your base? It looks kind of...");
+                    scr_event_build_dialogue("Gen. Wendy", NULL, "Kind of what? Go on, kind of what!?");
+                    scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "Yikes, um... I don't mean any offense, I just thought there'd be more... I don't know, equipment or something.");
+                    scr_event_build_dialogue("Gen. Wendy", NULL, "Don't even get me started! The world's screwed up. I'll tell you about it some other time, I'll get all worked up if I start now.");
+                    scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "Oh, okay. Well, I'll come back later then!");
+                    scr_event_build_quest_state("wendyBase", 1);
+                }
+            }
+            // Question 3: The Cyberdwarf
+            var cyberdwarf = scr_event_build_add_choice(choice, "Ask about the Cyberdwarf.");
+            with (cyberdwarf) {
+                scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "When will I get to see the Cyberdwarf? The members of L.O.N.G.I.N.U.S. I met before told me that I must find him immediately.");
+                scr_event_build_dialogue("Gen. Wendy", NULL, "Oh yeah, us too! We love meeting the Cyberdwarf. I think he's out for a minute though, so you should really focus on the mission, okay?");
+            }
+            // Question 4: Cuchulainn
+            var cuchulainn = scr_event_build_add_choice(choice, "Ask about Cuchulainn.");
+            with (cuchulainn) {
+                scr_event_build_dialogue("Pte. " + P_NAME, s_port_hoopz, "Can you tell me anything more about Cuchulainn? From what I understand he's a real tyrant... I think he might hold the answers to why I ended up here, and why my memory is gone.");
+                scr_event_build_dialogue("Gen. Wendy", NULL, "Your memory? Whoa, well, I don't know Private. I think we have a few Cuchulainn missions lined up after you do this one, okay? So go ahead and get to it.");
+            }
+            scr_event_build_quest_state("wendyState", 1);
+        }
+        //------------------
+        // guilderberg quest
+        //------------------
+        if (scr_quest_get_state("guilderZoneQuest") == 2) {
+            if (scr_quest_get_state("longinusFakeDoor") == 3) {
+
+            }
+            else if (scr_quest_get_state("longinusFakeDoor") == 2) {
+
+            }
+            else if (scr_quest_get_state("longinusFakeDoor") == 1) {
+
+            }
+            else {
+
+            }
+        }
+        //---------------
+        // after eviction
+        //---------------
+        else {
+            if (scr_quest_get_state("kirshnikEvict") == 3) {
+                
+            }
+            else if (scr_quest_get_state("kirshnikEvict") == 2) {
+                
+            }
+            else if (scr_quest_get_state("kirshnikEvict") == 1) {
+                
+            }
+        }
+    }
+    scr_event_advance(event);
+}

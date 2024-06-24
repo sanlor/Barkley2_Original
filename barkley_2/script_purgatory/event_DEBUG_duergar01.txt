@@ -1,0 +1,70 @@
+// event_DEBUG_duergar01
+
+/*if (argument0 == SCRIPT_INTERACT)
+{
+    var event = scr_event_create_main();
+    
+    with (event)
+    {
+    /*
+        scr_event_build_move(o_melqart01, 0, 64);
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_melqart01, 0, -64);
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_melqart01, 64, 64);
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_melqart01, -64, -64);    
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_melqart01, 64, -64);    
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_melqart01, -64, 64);    
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_melqart01, 64, 0);    
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_melqart01, -64, 0);
+        scr_event_build_wait_for_actions();
+        scr_event_build_wait(1);
+    */
+/*        scr_event_build_look(o_melqart01, SOUTHWEST);
+        scr_event_build_wait(0.6);
+        scr_event_build_look(o_melqart01, SOUTHEAST);
+        scr_event_build_wait(0.6);
+        scr_event_build_look(o_melqart01, NORTHWEST);
+        scr_event_build_wait(0.6);
+        scr_event_build_look(o_melqart01, NORTHEAST);
+        scr_event_build_wait(0.6);
+
+        
+        scr_event_build_camera_frame(CAMERA_FAST, o_ox01);
+        scr_event_build_wait_for_actions();
+    /*
+        scr_event_build_move(o_ox01, 0, 64);
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_ox01, 0, -64);
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_ox01, 64, 64);
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_ox01, -64, -64);    
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_ox01, 64, -64);    
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_ox01, -64, 64);    
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_ox01, 64, 0);    
+        scr_event_build_wait_for_actions();
+        scr_event_build_move(o_ox01, -64, 0);
+        scr_event_build_wait_for_actions();
+    */
+/*        scr_event_build_wait(1);
+        
+        scr_event_build_look(o_ox01, SOUTHWEST);
+        scr_event_build_wait(0.6);
+        scr_event_build_look(o_ox01, SOUTHEAST);
+        scr_event_build_wait(0.6);
+        scr_event_build_look(o_ox01, NORTHWEST);
+        scr_event_build_wait(0.6);
+        scr_event_build_look(o_ox01, NORTHEAST);
+        scr_event_build_wait(0.6);
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,369 @@
+/*
+	scr_sw1_plainpaper.txt
+	this script is for the
+	plain paper, 
+	not yet written on by baldomero in the sewers
+
+----------
+REQUIRED RESOURCES
+	
+	Plain paper sprite
+	
+----------
+NOTES
+	
+	1. Add variety to "already talked" dialogue.
+	2. Disappearance of object upon "acceptance" choice / pickup.
+	3. ADD THE FUCKING LETTER!
+	4. State selection
+	
+	EVENTUAL-TO-DO:
+	1. Add variety to first dialogue.
+	2. Rework along with the body dialogue. Make it known that it's an actual fake!
+	
+----------
+OVERVIEW
+
+TIME < 3
+	Does not exist.
+
+TIME 3+
+When interacted with, you get the following:
+		
+events:		
+	I	hoopz statement 1
+	II  reading the note
+	III hoopz statement 2
+	IV  choice title text
+		IVa	option 1: pick it up
+		IVb	option 2: leave it
+	V   response
+		Va	hoopz statement 3A
+		Va  hoopz statement 3B
+
+first time:
+	a. i see the note
+	b. i read it
+	c. i pick it up
+	d. i don't pick it up
+
+second time:
+	a. read note? choice
+	b. generic "i'll keep this here."	
+		
+factors:
+	saw as paper
+	saw as weird body
+	saw as finished body		
+	
+	
+combinations:
+1.  N paper
+	N weird body
+	N finished body
+a1.	"";
+b1. "This is so awful..."
+c1.	"I should take this with me."
+d1.	"I'll just leave this here."
+
+2.  Y N N
+a2.	"Is this that same paper from earlier? Something's written on it."
+b2. "was this just written?";
+
+
+3.  N Y N
+a3. "Let's see..."
+b3. "is it that sleeping guy's?"
+
+
+4.  N N Y
+a4. "Let's see..."
+b4. "poor guy."
+
+
+5.  Y Y N
+a5. "Is this that same paper from earlier? Something's written on it."
+b5. "Did that guy write this?"
+
+
+6.  Y N Y
+a6. "Is this the same paper from earlier? Something's written on it."
+b6. "poor guy."
+
+
+7.  N Y Y
+a7. "Let's see..."
+b7. "I can't believe this guy died."
+
+
+8.  Y Y Y
+a8. "Is this the same paper from earlier? Something's written on it."
+b8. "but something about this feels really strange."
+
+basically:
+"This is so awful... " + ar_BaldoLetterOption[scr_obj_var_get("oBaldoLetterOption")] + " I guess I should really watch out for bainshees."
+----------
+THE OUTCOMES
+	
+	inventory:
+		plain paper
+			or
+		none		
+----------
+VARIABLES AND KEYWORDS
+	
+	shorthand
+		title_text = "";
+			title_text = "";
+		portrait = -1;
+			portrait = -1;
+		dialogue_text =
+			dialogue_text = "";
+		c=
+			choice_text = "";
+		scr_dialogue_act();
+			scr_dialogue_act();
+		scr_choice_act();
+			scr_choice_act();
+		.anim
+			
+		.wait
+			
+	
+	quest
+		qPlainPaper // seen paper
+			0 or 1
+		qBaldoFakeBody // interacted with fake body
+			0 or 1
+		qBaldoDeadBody // interacted with dead fake body
+			0 or 1
+		qBaldoLetter // interacted with letter
+			0 or 1 or 2
+				1 = interacted wth
+				2 = owned
+	
+	array
+		ar_BaldoLetterOption //holds 
+	object
+		oBaldoLetterOption // determines choice of responses by X114JAM9 in ar_BaldoLetterOption
+	
+	REPLACE
+		scr_obj_var_set("oBaldoLetterOption",( = scr_obj_var_set("oBaldoLetterOption",
+----------	
+*/
+	
+if scr_event_obj_init() { // Object initiation
+
+	// initiate any local Object variables here
+	ar_BaldoLetterOption[0] = "";
+	ar_BaldoLetterOption[1] = "";
+	ar_BaldoLetterOption[2] = "was this just written?";
+	ar_BaldoLetterOption[3] = "is it that sleeping guy's?";
+	ar_BaldoLetterOption[4] = "poor guy.";
+	ar_BaldoLetterOption[5] = "did that guy write this?";
+	ar_BaldoLetterOption[6] = "poor guy.";
+	ar_BaldoLetterOption[7] = "I can't believe this guy died.";
+	ar_BaldoLetterOption[8] = "but something about this feels really strange.";
+	scr_obj_var_set("oBaldoLetterOption",0);
+	
+}
+
+else {	// all Event behaviour
+
+if scr_event_init() {	// on Event activation (note: local variables will be discarded when event ends)
+
+	// initiate any local Event variables here
+	scr_init_param(); // reset dialogue parameters
+	
+}
+
+if scr_state_update() { // check conditions, update event State
+
+	// set object State conditions (like 'priority' tabs)
+	state = 0;		// 0 state (inactive)
+	
+	// first state (highest priority)
+	// 'else if' for additional state conditions
+	if scr_quest_get_state("qBaldoLetter",1) { state = 1}
+		else { state = 2 }
+
+	scr_event_activate();	// activate Event
+}
+
+if scr_advance() and scr_state_execute() {	// perform the next Action on execution
+
+	// switch case for defined States (like 'priority' tabs)
+	switch state {
+		case 1: // Have Not Interacted
+		switch action {
+			case 0: // first hoopz line is spoken and the "middle" of second line is chosen
+				scr_quest_set_state("qBaldoLetter",1);
+				if scr_quest_get_state("qPlainPaper") = 1 { // Y__
+					if scr_quest_get_state("qBaldoFakeBody") = 1 { // YY_
+						if scr_quest_get_state("qBaldoDeadBody"); = 1 { 
+							scr_obj_var_set("oBaldoLetterOption",8) // YYY
+						} else { 
+							scr_obj_var_set("oBaldoLetterOption",5) // YYN
+						}
+					} else { // YN_
+						if scr_quest_get_state("qBaldoDeadBody"); = 1 { 
+							scr_obj_var_set("oBaldoLetterOption",6) // YNY
+						}
+							else { 
+								scr_obj_var_set("oBaldoLetterOption",2) // YNN
+						}
+					}
+				dialogue_text = "Is this the same paper from earlier? Something's written on it.";
+				} else { // N__
+					if scr_quest_get_state("qBaldoFakeBody") = 1 { // NY_
+						if scr_quest_get_state("qBaldoDeadBody"); = 1 { 	
+							scr_obj_var_set("oBaldoLetterOption",7) // NYY
+						}
+							else {
+								scr_obj_var_set("oBaldoLetterOption",3) // NYN
+							}
+					}
+						else { // NN_
+							if scr_quest_get_state("qBaldoDeadBody"); = 1 { 
+								scr_obj_var_set("oBaldoLetterOption",4) // NNY
+							} else { 
+								scr_obj_var_set("oBaldoLetterOption",1) // NNN
+							}	
+						}
+					dialogue_text = "Let's see...";
+				}
+				portrait = s_port_hoopz;
+				title_text = "X114JAM9";
+				scr_dialogue_act();
+				break;
+			case 1: // letter text 
+				title_text = "";
+				portrait = -1;
+				dialogue_text = "";
+				scr_dialogue_act();
+				break;
+			case 2: // hoopz line 2
+				portrait = s_port_hoopz;
+				title_text = "X114JAM9";
+				dialogue_text = "This is so awful... " + ar_BaldoLetterOption[scr_obj_var_get("oBaldoLetterOption")] + " I guess I should really watch out for bainshees.";
+				scr_dialogue_act();
+				break;
+			case 3: // choice
+				portrait = s_port_hoopz;
+				title_text = "Do what?";
+				c= "Take the letter.|Leave the letter."
+				scr_choice_act();
+				break;
+			case 4: // get item / or don't
+				if choice = 0 {
+					portrait = -1;
+					title_text = "";
+					// AT THIS POINT THE GRAPHIC OF THE PAPER DISAPPEARS!
+					scr_item_give("Awful Letter",1);
+					dialogue_text = "Got the Awful Letter.";
+					scr_quest_set_state("qBaldoLetter",2); // You own it so this variable is 2
+					scr_dialogue_act();
+				} else {
+					action += 1;
+				}
+				break;
+			case 5: // hoopz closing
+				portrait = s_port_hoopz;
+				title_text = "X114JAM9";
+				if choice = 0 {
+					dialogue_text = "I think I should probably take this with me.";
+				} else
+					dialogue_text = "I'm not sure what I should do with this. I should just leave it here.";
+				scr_dialogue_act();
+				break;
+			case 6: // event end
+				scr_event_end();
+				break;
+		}
+		break;
+		
+		
+
+	case 2: // Have Interacted
+		switch action {
+			case 0:
+				portrait = s_port_hoopz;
+				title_text = "Do what?";
+				c= "Take the letter.|Leave the letter."
+				scr_choice_act();
+				break;
+			case 1:
+				if choice = 0 {
+					portrait = -1;
+					title_text = "";
+					// AT THIS POINT THE GRAPHIC OF THE PAPER DISAPPEARS!
+					scr_item_give("Awful Letter",1);
+					dialogue_text = "Got the Awful Letter.";
+					scr_quest_set_state("qBaldoLetter",2); // "It's yours!"
+					scr_dialogue_act();
+				} else {
+					action += 1;
+				}
+				break;
+			case 2:
+				portrait = s_port_hoopz;
+				title_text = "X114JAM9";
+				if choice = 0 {
+					dialogue_text = "I think I should probably take this with me.";
+				} else
+					dialogue_text = "I'm not sure what I should do with this. I should just leave it here.";
+				scr_dialogue_act();
+				break;
+			case 3:
+				scr_event_end();
+				break;
+		}
+		break;	
+		 
+}
+}}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

@@ -1,0 +1,108 @@
+/*
+// scr_guilderberg_prompt
+
+//--------------------------------------------------------------------------
+// Check for Promotions and Quest Availability.
+//--------------------------------------------------------------------------
+if (scr_quest_get_state("guilderRank") >= 1) {
+    //-----------
+    // PROMOTIONS
+    //-----------
+    var rank4pts = 75000;
+    var rank3pts = 45000;
+    var rank2pts = 25000;
+
+    //--------------------------------------
+    // MAX RANK REACHED:
+    //  Platinum coin on Dais
+    //  Touch Dais for final cutscene.
+    //  All Guilderbergs transformed to Coin
+    //--------------------------------------
+    if (scr_quest_get_state("guilderPoints") >= rank4pts) {
+        if (scr_quest_get_state("guilderRank") <= 3) {
+            scr_quest_set_state("guilderPromotion", 1); 
+        }
+        //scr_quest_set_state("guilderAbsent", 3);
+    }
+    //------------------------------------------
+    // RANK 3 REACHED:
+    //  Gold coin on Dais
+    //  Touch Dais for final cutscene.
+    //  Guilderbergs 1 and 2 transformed to Coin
+    //------------------------------------------
+    else if (scr_quest_get_state("guilderPoints") >= rank3pts) {
+        if (scr_quest_get_state("guilderRank") <= 2) {
+            scr_quest_set_state("guilderPromotion", 1);
+        }
+        //scr_quest_set_state("guilderAbsent", 2);
+    }
+    //-----------------------------------
+    // RANK 2 REACHED:
+    //  Silver coin on Dais
+    //  Touch Dais for final cutscene.
+    //  Guilderberg 1 transformed to Coin
+    //-----------------------------------
+    else if (scr_quest_get_state("guilderPoints") >= rank2pts) {
+        if (scr_quest_get_state("guilderRank") == 1) {
+            scr_quest_set_state("guilderPromotion", 1);
+        }
+        //scr_quest_set_state("guilderAbsent", 1);
+    }
+
+    //-------------------
+    // QUEST AVAILABILITY
+    //-------------------
+
+    // Politics Quest
+    if (scr_quest_get_state("guilderPoliticsQuest") == 0) {
+        if (scr_quest_get_state("dwarfMayor") == 1) {
+            show_debug_message("qualified: politics quest");
+            scr_quest_set_state("guilderPoliticsQuest", 1);
+            scr_quest_set_state("guilderPrompt", 1 + scr_quest_get_state("guilderPrompt"));
+        }
+    }
+    // Cryptocurrency Quest
+    if (scr_quest_get_state("guilderCryptoQuest") == 0) {
+        if (scr_quest_get_state("cryptoQuest") >= 1) {
+            show_debug_message("qualified: crypto quest");
+            scr_quest_set_state("guilderCryptoQuest", 1);
+            scr_quest_set_state("guilderPrompt", 1 + scr_quest_get_state("guilderPrompt"));
+        }
+    }
+    // gentrify restore
+    if (scr_quest_get_state("guilderGentrifyQuest") == 6) && (scr_quest_get_state("guilderZoneRent") >= 5000) {
+        scr_quest_set_state("guilderGentrifyQuest", 7);
+    }
+    // gentrify fail
+    if (scr_quest_get_state("guilderGentrifyQuest") == 5) || (scr_quest_get_state("guilderGentrifyQuest") == 7) {
+        if (scr_quest_get_state("guilderZoneRent") <= 3000) {
+            scr_quest_set_state("guilderGentrifyQuest", 6);
+            scr_quest_set_state("guilderPrompt", 1 + scr_quest_get_state("guilderPrompt"));
+        }
+    }
+
+    // Dilapidated Zone: Gentrification Quest
+    else if (scr_quest_get_state("guilderGentrifyQuest") == 0) && (scr_quest_get_state("guilderDevelopQuest") == 3) {
+        if (scr_quest_get_state("guilderZoneRent") <= 5000) && (scr_time_get() - 1 > scr_quest_get_state("guilderZoneTime")) {
+            show_debug_message("qualified: gentrify quest");
+            scr_quest_set_state("guilderGentrifyQuest", 1);
+            scr_quest_set_state("guilderPrompt", 1 + scr_quest_get_state("guilderPrompt"));
+        }
+    }
+    // Dilapidated Zone: Development Quest
+    else if (scr_quest_get_state("guilderDevelopQuest") == 0) {
+        if (scr_quest_get_state("guilderPoints") >= 17000) || (scr_time_get() - 2 > scr_quest_get_state("guilderTime")) {
+            show_debug_message("qualified: develop quest");
+            scr_quest_set_state("guilderDevelopQuest", 1);
+            scr_quest_set_state("guilderPrompt", 1 + scr_quest_get_state("guilderPrompt"));
+        }
+    }
+    // Plaza Quest
+    if (scr_quest_get_state("guilderPlazaQuest") == 0) {
+        if (scr_time_get() > scr_quest_get_state("guilderQuestTime")) {
+            show_debug_message("qualified: plaza quest");
+            scr_quest_set_state("guilderPlazaQuest", 1);
+            scr_quest_set_state("guilderPrompt", 1 + scr_quest_get_state("guilderPrompt"));
+        }
+    }
+}

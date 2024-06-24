@@ -1,0 +1,27 @@
+// Caught during curfew, game informs you that you will be sent to the hoosgow //
+if (argument0 == SCRIPT_START) then
+    {
+    // Build Event
+    var wilmer = id;
+    var event = scr_event_create_main();
+
+    // You got caught //
+    with event
+        {
+        scr_event_build_camera_frame(MOVE_SLOW, o_cts_hoopz);
+        scr_event_build_wait_for_actions();
+        scr_event_build_wait(0.25);
+        scr_event_build_look(o_cts_hoopz, SOUTH);
+        scr_event_build_create_object(o_cts_curfewCaught, x, y);
+        scr_event_build_wait(5);
+        scr_event_build_dialogue("", NULL, "Thought you could escape the long arm of the law?");
+        scr_event_build_wait(1);
+        scr_event_build_dialogue("", NULL, "You thought wrong. You moseyed around Tir na Nog when a curfew was in effect and then got caught by the duergars. Now you are on your way to the hoosgow...");
+        scr_event_build_wait(1);
+        scr_event_build_quest_state("demoComplete", 1);
+        scr_event_build_teleport(r_debugGreets01, 32, 32, 2, 2);
+        }
+    
+    // Gameboy advance //
+    scr_event_advance(event);
+    }

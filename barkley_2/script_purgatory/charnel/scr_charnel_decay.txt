@@ -1,0 +1,124 @@
+// scr_charnel_decay(animal)
+/*
+// variables
+var decay = 0;
+var debone = false;
+
+// time arrays
+bird[4] = 16;
+bird[3] = 12;
+bird[2] = 7;
+bird[1] = 3;
+bird[0] = 0;
+
+dwarf[4] = 16;
+dwarf[3] = 12;
+dwarf[2] = 7;
+dwarf[1] = 3;
+dwarf[0] = 0;
+
+kirin[4] = 16;
+kirin[3] = 12;
+kirin[2] = 7;
+kirin[1] = 3;
+kirin[0] = 0;
+
+rabbit[4] = 16;
+rabbit[3] = 12;
+rabbit[2] = 7;
+rabbit[1] = 3;
+rabbit[0] = 0;
+
+snake[4] = 16;
+snake[3] = 12;
+snake[2] = 7;
+snake[1] = 3;
+snake[0] = 0;
+
+// bird
+if (argument0 == "bird")
+{
+    object = o_charnelBird01;
+
+    if (scr_time_get() >= bird[4]) { decay = 4; }
+    else if (scr_time_get() >= bird[3]) { decay = 3; }
+    else if (scr_time_get() >= bird[2]) { decay = 2; }
+    else if (scr_time_get() >= bird[1]) { decay = 1; }
+    else { decay = 0; }
+    
+    if (scr_quest_get_state("charnelBirdBone") == 1) { debone = true; }
+    else { debone = false; }
+}
+// dwarf
+else if (argument0 == "dwarf")
+{
+    object = o_charnelDwarf01;
+
+    if (scr_time_get() >= dwarf[4]) { decay = 4; }
+    else if (scr_time_get() >= dwarf[3]) { decay = 3; }
+    else if (scr_time_get() >= dwarf[2]) { decay = 2; }
+    else if (scr_time_get() >= dwarf[1]) { decay = 1; }
+    else { decay = 0; }
+    
+    if (scr_quest_get_state("charnelDwarfBone") == 1) { debone = true; }
+    else { debone = false; }
+}
+// kirin
+else if (argument0 == "kirin")
+{
+    object = o_charnelKirin01;
+
+    if (scr_time_get() >= kirin[4]) { decay = 4; }
+    else if (scr_time_get() >= kirin[3]) { decay = 3; }
+    else if (scr_time_get() >= kirin[2]) { decay = 2; }
+    else if (scr_time_get() >= kirin[1]) { decay = 1; }
+    else { decay = 0; }
+    
+    if (scr_quest_get_state("charnelKirinBone") == 1) { debone = true; }
+    else { debone = false; }
+}
+// rabbit
+else if (argument0 == "rabbit")
+{
+    object = o_charnelRabbit01;
+
+    if (scr_time_get() >= rabbit[4]) { decay = 4; }
+    else if (scr_time_get() >= rabbit[3]) { decay = 3; }
+    else if (scr_time_get() >= rabbit[2]) { decay = 2; }
+    else if (scr_time_get() >= rabbit[1]) { decay = 1; }
+    else { decay = 0; }
+    
+    if (scr_quest_get_state("charnelRabbitBone") == 1) { debone = true; }
+    else { debone = false; }
+}
+// snake
+else if (argument0 == "snake")
+{
+    object = o_charnelSnake01;
+
+    if (scr_time_get() >= snake[4]) { decay = 4; }
+    else if (scr_time_get() >= snake[3]) { decay = 3; }
+    else if (scr_time_get() >= snake[2]) { decay = 2; }
+    else if (scr_time_get() >= snake[1]) { decay = 1; }
+    else { decay = 0; }
+    
+    if (scr_quest_get_state("charnelSnakeBone") == 1) { debone = true; }
+    else { debone = false; }
+}
+
+// set animation
+if (debone = false)
+{
+    if (decay == 0) { return "none" }
+    else if (decay == 1) { return "fresh"; }
+    else if (decay == 2) { return "decaying"; }
+    else if (decay == 3) { return "rotten"; }
+    else if (decay == 4) { return "bones"; }
+}
+else
+{
+    if (decay == 1) { return "debone_fresh"; }
+    else if (decay == 2) { return "debone_decaying"; }
+    else if (decay == 3) { return "debone_rotten"; }
+    else if (decay == 4) { return "debone_bones"; }
+}

@@ -1,0 +1,9 @@
+/// scr_event_build_treasure(vidcon name, object id)
+//gz
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_treasure);
+ds_list_add(action, argument[0]); // the state (0 is start, 1 is end)
+ds_list_add(action, argument[1]); // the obj id
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;

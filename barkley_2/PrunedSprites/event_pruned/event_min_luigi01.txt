@@ -1,0 +1,78 @@
+// Nose Dwarf Luigi // Filler NPC // 
+// ***************************************************************************************** //
+// Talks Probuscus Dwarf Lore
+// ***************************************************************************************** //
+
+// Initialize //
+if (argument0 == SCRIPT_START) 
+    {
+    // ****** Luigi exists on Beta and Sneak ****** //
+    // Beta Camp // Exists on Beta Camp up until Sneak Mission begins //
+    if room = r_min_baseCampBeta01 then
+        {
+        if scr_min_cspear() == "during" or scr_min_cspear() == "after" then scr_event_interactive_deactivate(); 
+        }
+     
+    // Sneak Mission // Exists during Sneak Mission in the detainment room //
+    else if room = r_min_sneakPassage01 then
+        {
+        if scr_min_cspear() == "before" or scr_min_cspear() == "prep" or scr_min_cspear() == "after" then scr_event_interactive_deactivate(); 
+        }
+    }
+
+// Step //
+if (argument0 == SCRIPT_STEP) 
+    {
+    
+    }
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) 
+    {       
+    // Variables //
+    var event = scr_event_create_main();
+    var talk = irandom(2);
+    
+    // Main event //
+    with (event) 
+        {
+        // Hoopz talks to Luigi at B camp //
+        if room = r_min_baseCampBeta01 then
+            {
+            if talk == 0 then 
+                {
+                scr_event_build_dialogue("Luigi del Toro", NULL, "Meets and greets, friend! Take a sniff of this brew of mine! Boiling water! Mmmmmm!");
+                }
+            
+            else if talk == 1 then 
+                {
+                scr_event_build_dialogue("Luigi del Toro", NULL, "I yearn for Gabagool, but alas, it is not to be... It is not for us dwarfs.");
+                }
+            
+            else if talk == 2 then
+                {
+                scr_event_build_dialogue("Luigi del Toro", NULL, "I hope the Duergars don't beat me up again if the seasoning is off... I only have ketchup to offer them...");
+                }
+            }
+            
+        // Hoopz talks to Luigi at detainment //
+        else if room = r_min_baseCampAlpha01 then
+            {
+            if talk == 0 then
+                {
+                scr_event_build_dialogue("Luigi del Toro", NULL, "Mamma mia! We're stuck waiting here and my cooking is going cold! The duergars probably ate it all already though... At least it didn't go to waste.");
+                }
+            
+            else if talk == 1 then
+                {
+                scr_event_build_dialogue("Luigi del Toro", NULL, "I thought I really succeeded with my dishes this time, but I'm not able to see the duergars react to them. I hate waiting for the reviews like this...");
+                }
+            
+            else if talk == 2 then
+                {
+                scr_event_build_dialogue("Luigi del Toro", NULL, "*Sigh* What good is cook without a pot and a kettle?");
+                }
+            }
+        }
+    scr_event_advance(event);
+    }

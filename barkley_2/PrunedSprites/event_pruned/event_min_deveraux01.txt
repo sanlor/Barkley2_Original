@@ -1,0 +1,36 @@
+// BIO: The guy that guards the front gates to the interior of the duergar base.
+
+/* NOTE: Most likely, I am going to pull Deveraux's dialogue from Van Cleef's document 
+and put it here rather than have that work as one whole script. I kinda liked how that worked
+initially as one long event, but something feels off about that, and I kinda like the idea of giving
+alternate dialogue to the duergars hanging around the courtyard(rather than Van Cleef's script ultimately
+bypass going through the Deveraux script and teleport the player to the interior section of the duergar
+base directly). For demonstration purposes I'm leaving it in Van Cleef's section, but that's a change I will 
+eventually make.
+*/
+
+/*
+if (argument0 == SCRIPT_START) {
+    if (Quest("prisonQuest") >= 9) {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    var deveraux = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (Quest("deverauxState") == 1) {
+            Dialogue("Deveraux", "You sure you don't want to say hi to the turrets we got inside? They'd really like to meet you. You might make a new friend!");
+            Dialogue(P_NAME, "I'll pass.");
+            scr_event_build_end();
+        } else {
+            Dialogue("Deveraux", "I don't know why you think you can fucking stand here talking to me. This better be good.");
+            Dialogue(P_NAME, "Umm......can I come in?");
+            Dialogue("Deveraux", "Absolutely fucking not. This is a duergar-only zone.\The only reason why you even got this far is because we don't have a turret here in the courtyard.\Actually......yeah, you can go in. The turrets will cut you to pieces in about three seconds. I think we'd all like to see that.");
+            Dialogue(P_NAME, "Ok, nevermind.....sorry.....");
+            Quest("deverauxState", 1);
+            scr_event_build_end();
+        }
+    }
+    scr_event_advance(event);
+}

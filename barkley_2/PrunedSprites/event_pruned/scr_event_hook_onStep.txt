@@ -1,0 +1,2 @@
+/// scr_event_hook_onStep(script)
+hook_onStep_script = argument0;

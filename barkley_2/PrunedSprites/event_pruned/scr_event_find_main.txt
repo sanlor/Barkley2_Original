@@ -1,0 +1,6 @@
+///scr_event_find_main()
+// Returns the main event ID, a new one if it doesn't exist
+scr_event_hoopz_switch_cutscene(); // Mar 08, never set to cts hoopz before
+with (o_event) { if (_type == EVENT_MAIN) { global.eventFound = 1; return id; } }
+global.eventFound = 0;
+return scr_event_create_main();

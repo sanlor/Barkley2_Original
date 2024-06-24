@@ -1,0 +1,36 @@
+/// scr_event_action_if(list)
+// Simplified comparer
+var nam = ds_list_find_value(argument0, 1);
+var com = ds_list_find_value(argument0, 2);
+var val = ds_list_find_value(argument0, 3);
+var tru = ds_list_find_value(argument0, 4);
+var fal = ds_list_find_value(argument0, 5);
+var win = 0; // Holds winning event
+
+// Get value to compare with
+if (nam == "money") nam = scr_money_count();
+else nam = scr_quest_get_state(nam);
+
+// Compare
+switch (com) 
+{
+    case "==":
+        if (nam == val) win = tru; else win = fal; break;
+    case ">":
+        if (nam > val) win = tru; else win = fal; break;
+    case ">=":
+        if (nam >= val) win = tru; else win = fal; break;
+    case "<":
+        if (nam < val) win = tru; else win = fal; break;
+    case "<=":
+        if (nam <= val) win = tru; else win = fal; break;
+    case "!=":
+        if (nam != val) win = tru; else win = fal; break;
+}
+
+// Goto winning event
+var event_list = ds_list_create(); // Make list
+ds_list_add(event_list, scr_event_action_event_snippet); // Make snippet
+ds_list_add(event_list, win); // Fill event
+scr_event_action_event_snippet(event_list); // Execute
+ds_list_destroy(event_list); // Free memory

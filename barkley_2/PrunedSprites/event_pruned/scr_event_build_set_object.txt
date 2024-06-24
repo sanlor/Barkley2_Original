@@ -1,0 +1,22 @@
+/// scr_event_build_set_object(object,x,y)
+/// This script is used to build a set object position action.
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_set_object);
+ds_list_add(action, argument0); // object id
+ds_list_add(action, argument1); // x value
+ds_list_add(action, argument2); // y value
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;
+
+
+
+
+/// scr_event_action_set_object(list)
+/// An action to set an object at a specific x and y position.
+/// The list contains object id, x, and y.
+
+var object = ds_list_find_value(argument0, 1);
+scr_event_set_object(object, ds_list_find_value(argument0, 2), ds_list_find_value(argument0, 3));
+scr_event_advance(id);

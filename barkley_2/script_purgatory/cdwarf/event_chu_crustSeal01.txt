@@ -1,0 +1,24 @@
+// event_chu_crustSeal01
+
+/*if (argument0 == SCRIPT_START) {
+    scr_event_interactive_deactivate();
+} 
+else if (argument0 == SCRIPT_STEP) {
+    if (scr_quest_get_state("crustCombat") == 1) {
+        scr_event_interactive_activate();
+    }
+    //else if (scr_quest_get_state("crustDead") == 1) {
+    //    scr_event_destroy_instance()
+    //}
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    
+    var event = scr_event_create_main();
+    with (event) {
+    
+    }
+    scr_event_advance(event);
+}
+else if (argument0 == SCRIPT_COLLISION_HOOPZ) {
+
+}

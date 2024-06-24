@@ -1,0 +1,56 @@
+// scr_charnel_update()
+/*
+// how many EXTRA time units it takes to increase the growth of the plant
+charnel_rate[6] = 3;
+charnel_rate[5] = 2;
+charnel_rate[4] = 1;
+charnel_rate[3] = 0;
+charnel_rate[2] = 0;
+charnel_rate[1] = 0;
+
+var rank = scr_quest_get_state("charnelGrowth");
+
+// growth
+if (rank >= 1) && (rank != 7) && (scr_quest_get_state("zauberBioGrowing") == 1)
+{
+    if (scr_quest_get_state("charnelGrowthFraction") == charnel_rate[rank])
+    {
+       scr_quest_set_state("charnelGrowthFraction", 0);
+       //scr_quest_set_state("charnelGrowth", scr_quest_get_state("charnelGrowth") + 1); 
+       scr_quest_set_state("charnelGrowth", scr_quest_get_state("charnelGrowth") + 1); 
+    }
+    else
+    {
+        //scr_quest_set_state("charnelGrowthFraction", scr_quest_get_state("charnelGrowthFraction") + 1); 
+        scr_quest_set_state("charnelGrowthFraction", scr_quest_get_state("charnelGrowthFraction") + 1);
+    }
+}
+/*
+// dread
+else if (scr_quest_get_state("charnelDread") >= 1) && (scr_quest_get_state("charnelDread") != 7)
+{
+    if (scr_quest_get_state("charnelDreadFraction") == charnel_rate)
+    {
+        scr_quest_set_state("charnelDreadFraction", 0);
+        scr_quest_set_state("charnelDread", scr_quest_get_state("charnelDread") + 1); 
+    }
+    else
+    {
+        scr_quest_set_state("charnelDreadFraction", scr_quest_get_state("charnelDreadFraction") + 1); 
+    }
+}
+
+// chup
+else if (scr_quest_get_state("charnelChup") >= 1) && (scr_quest_get_state("charnelChup") != 7)
+{
+    if (scr_quest_get_state("charnelChupFraction") == charnel_rate)
+    {
+        scr_quest_set_state("charnelChupFraction", 0);
+        scr_quest_set_state("charnelChup", scr_quest_get_state("charnelChup") + 1); 
+    }
+    else
+    {
+        scr_quest_set_state("charnelChupFraction", scr_quest_get_state("charnelChupFraction") + 1); 
+    }
+}
+*/

@@ -1,0 +1,111 @@
+// Oliver Twist // Quest: Organ Harvest // The Fantomas ending to the quest, dumpsite //
+// Initialize //
+/*if (argument0 == SCRIPT_START) 
+{
+    if (Quest("pdt_oliver_dumpsite") != 1) exit;
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+            
+        // Dumpsite //
+            //
+            scr_event_build_look(o_cts_hoopz, NORTHEAST);
+            scr_event_build_look(o_pdt_oliver01, EAST);
+            scr_event_build_fade(0, 1.5);
+            //scr_event_build_fade_cts(1.5);
+            scr_event_build_wait(1.5);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, what's this? Did you do this to him?\Hmmm. No, I'm sure he's just sleeping. He has to be sleeping. No way this is a dead body.");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Ha ha ha! Perfect!");
+            scr_event_build_look(o_cts_hoopz, NORTHWEST);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? What's perfect?");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "You'll continue to get your monthy stipend, fifteen thousand ducats, wired across your accounts.\I'll call ahead and ensure your detoxification package is located at the usual dropzone. Briefcase code: 1963.\And, as usual, I'll make sure to contact the usual outlets and have all record of ownership and identity wiped from this current iteration.\Other than that, it's been a pleasure knowing you " + P_NAME_F + ". God save the Kaiseress.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, ok? I don't really know what any of that meant.");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Of course not. Don't trouble yourself. Grownup problems, you know. Anyways, we'd better split before someone sees us here. Good luck with your new life.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, thanks?");
+            scr_event_build_look(o_cts_hoopz, WEST);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+
+            scr_event_build_move_to_point_ext(o_pdt_oliver01, 128, 256, MOVE_NORMAL);
+            scr_event_build_wait_for_actions();
+            
+            // ----------------------------------------------- //
+            scr_event_build_object_alpha(o_pdt_oliver01, 0, 1);
+            Wait();
+            scr_event_build_destroy_object(o_pdt_oliver01);
+            scr_event_build_wait_for_actions();
+
+            scr_event_build_wait(1);
+                
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I can't wait until I'm a grownup. I'm going to be a great grownup.)");
+            scr_event_build_quest_state("pdt_oliver_dumpsite", 2);
+            scr_event_build_end();
+
+    }
+    scr_event_advance(event);
+} 
+// Step //
+if (argument0 == SCRIPT_STEP) {
+    
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+            
+        // Dumpsite //
+        if scr_quest_get_state("pdt_oliver_dumpsite") == 1 {
+
+            scr_event_build_look(o_cts_hoopz, NORTHEAST);
+            scr_event_build_look(o_pdt_oliver01, EAST);
+            //scr_event_build_fade_cts(1.5);
+            scr_event_build_wait(1.5);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, what's this? Did you do this to him?\Hmmm. No, I'm sure he's just sleeping. He has to be sleeping. No way this is a dead body.");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Ha ha ha! Perfect!");
+            scr_event_build_look(o_cts_hoopz, NORTHWEST);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Huh? What's perfect?");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "You'll continue to get your monthy stipend, fifteen thousand ducats, wired across your accounts.\I'll call ahead and ensure your detoxification package is located at the usual dropzone. Briefcase code: 1963.\And, as usual, I'll make sure to contact the usual outlets and have all record of ownership and identity wiped from this current iteration.\Other than that, it's been a pleasure knowing you " + P_NAME_F + ". God save the Kaiseress.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, ok? I don't really know what any of that meant.");
+            scr_event_build_dialogue("Oliver Twist", "s_port_oliver", "Of course not. Don't trouble yourself. Grownup problems, you know. Anyways, we'd better split before someone sees us here. Good luck with your new life.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, thanks?");
+            scr_event_build_look(o_cts_hoopz, WEST);
+            scr_event_build_wait(0.25);
+            scr_event_build_look(o_cts_hoopz, SOUTHWEST);
+
+            scr_event_build_move_to_point_ext(o_pdt_oliver01, 128, 256, MOVE_NORMAL);
+            scr_event_build_wait_for_actions();
+            
+            // ----------------------------------------------- //
+            
+            scr_event_build_destroy_object(o_pdt_oliver01);
+            scr_event_build_wait_for_actions();
+
+            scr_event_build_wait(1);
+                
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(I can't wait until I'm a grownup. I'm going to be a great grownup.)");
+            scr_event_build_quest_state("pdt_oliver_dumpsite", 2);
+            scr_event_build_end();
+            }
+    }
+    scr_event_advance(event);
+}
+
+// This is the super-secret Oliver Twist02 script, which is where Oliver Twist Twist and Fantomas kill the protagonist FOR REAL and Fantomas(impersonating the protagonist) becomes the game's main character. I could have just blended this in with Laz' Oliver Twist01 script, but seeing as how Laz made that script, it concerns completely different quest events, and this one is going to need vaguely involved cinematics long-term, I made the call to just have that script go inactive when the player has dumped the organs
+// CRITICAL NOTE: AT THE PRESENT TIME I did not edit Laz' Oliver Twist01 script myself, so it will need to be interactive_deactivate when fantomasdeathState=1, just so this script is the ONLY OPTION if the player gets that far into the Fantomas secret-quest.
+// Continuity notice: Because this should be slightly hard to find, simply the player selling the organs elsewhere, droping them, fusing them with gun's, or any other methods of disposing items WILL ABSOLUTELY NOT trigger this quest event. The player will need to go TO THE WELL(or whatever dumping spot we decide on) and VERY DELIBERATELY throw them away, amidst my severe warnings about how pissed off Oliver Twist is going to be. This will cause the state fantomasdeathState, which is the REQUIRED FIRST STEP in this sequence of events.
+/* FANTOMAS QUEST STATES
+As of right now, the states for the Fantomas event are extremely simple. At the early stages of the game it is rather simple.
+fantomasdeathState=0 - Player has not dumped the organs down the well
+fantomasdeathState=1 - Player has defied Oliver Twist and Fantomas by dumping the organs down the well. The option to talk to Oliver Twist and get killed is available.
+fantomasState=0 - X114JAM9 and its natural variants are the protagonist of the game.
+fantomasState=1 - X114JAM9(et al.) is dead. Fantomas is the protagonist of the game.
+
+I don't exactly include the Babby Hubert stuff as part of that, since it simply piggy-backs on it rather than being the natural progression. Check the babyhuey01 script for the organ quest states. Basically how it works is that when the player has the item "Duck Organs" in their possession they are able to dump the organs down the well rather than giving them to Oliver Twist(which puts fantomasdeathState to 1) and subsequently has the option of talking to Oliver Twist(the oliver02 script instead of the standard oliver01 script), being belligerent, and getting killed and impersonated by Fantomas(fantomasState=1) 
+*/

@@ -1,0 +1,56 @@
+// Event for Vudamot, a wanderer in the Wasteland who loves gun's
+//at time 3, 9 and 10.
+
+if (argument0 == SCRIPT_STEP) {
+    if (scr_time_get() == 1) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 6) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var vudamot = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("vudamotState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Vudamot", NULL, "Oh man, that's a killer piece you've got there. You a braster?");
+            var brasterQuestion = scr_event_build_choice("Am I a braster?", s_port_hoopz);
+            
+            //Not a braster.
+            with scr_event_build_add_choice(brasterQuestion, "I'm not much of a gun'sbraster.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Listen... I only brast when others force it upon me. I walk the path of peace, not brasts.");
+                scr_event_build_dialogue("Vudamot", NULL, "That... that was so cool... that's the most braster things I've ever heard in my life. Lemme write that down - 'I only brast when I have to.' I hope you don't mind if I use that in the future, when I'm a better braster.");
+            }
+            
+            //I'm just getting started.
+            with scr_event_build_add_choice(brasterQuestion, "I love to brast... but I'm just getting started.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess you could call me a brasting enthusiast, I'm still just getting started.");
+                scr_event_build_dialogue("Vudamot", NULL, "Oh man, that's a killer piece you've got there. You a braster?");
+            }
+            
+            //One of the best.
+            with scr_event_build_add_choice(brasterQuestion, "I may not look it, but I'm one of the best.") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heh, I may not look like it, but I'm one of the quickest shots this side of Tir na Nog.");
+                scr_event_build_dialogue("Vudamot", NULL, "Aha! I knew it! I could tell you were a seasoned braster the second you walked through the gate. You had that cool confidence, that steely gaze, that braster swagger. Man, that's what I'm gonna have someday.");
+            }
+            
+            //What's a braster?
+            with scr_event_build_add_choice(brasterQuestion, "What's a braster?") {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wait... what's a braster?");
+                scr_event_build_dialogue("Vudamot", NULL, "Get with the program, knucklehead! A desperado, a sharpshot, a deadeye, A GUN'SBRASTER! How the heck are you gonna make it out here in the Necron 7 wastelands if you don't even know what a braster is?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "O-oh... I always called it something else...");
+            }
+            
+            scr_event_build_quest_state("vudamotState", 1);
+        } else {
+            scr_event_build_dialogue("Vudamot", NULL, "Sorry for talking so much about gun's, I kinda get carried away sometimes.");
+        }
+    }
+    scr_event_advance(event);
+}

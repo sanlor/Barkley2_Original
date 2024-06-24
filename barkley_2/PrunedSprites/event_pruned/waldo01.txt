@@ -1,0 +1,120 @@
+// Event for Waldo, a narc in the Industrial Park.
+
+/*
+if (argument0 == SCRIPT_START)
+{
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var waldo = id;
+    var event = scr_event_create_main();
+    var chup_handler_snippet = scr_event_create_child(event);
+    var chup_sale_snippet = scr_event_create_child(event);
+ 
+    //--------------------------------------------
+    //-------------CHUP SALE SNIPPET--------------
+    //--------------------------------------------
+    with (chup_sale_snippet)
+    {
+        var chupsell1 = scr_event_build_choice("What is this guy talking about...?", s_port_hoopz);
+        // Don't sell chup
+        with scr_event_build_add_choice(chupsell1, "I don't think I have what you're looking for.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, sorry mister. I don't think I've got what you're looking for.");
+            scr_event_build_dialogue("Waldo", NULL, "Aw snap. Skeet skeet, homey. Jigga what? You fronting me? I don't want no scrubs, you dig? For reals, you get that hookup, you come back and drop some science on your wanksta Waldo. You know the dillio.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay...");
+        }
+        // Ask about chups
+        with scr_event_build_add_choice(chupsell1, "Are you talking about chups?")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I know what you're saying... you want chups, right?");
+            scr_event_build_dialogue("Waldo", NULL, "THE RED SUBMARINE HAS DOCKED AT LAKE SUPERIOR. Riiiight, you got me, I want that hookup. Can you say that again a little clearer and closer to my collar?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Chups?");
+            scr_event_build_dialogue("Waldo", NULL, "THE BRASS CANNON HAS SUNK THE SPANISH GALLEON. That's hype, home skillet. I'll /'spread the cheddar/' for some chups, you feel me? I can slip you 500 bones, the commonly agreed-upon street price for a Grade A chup. You diggity down?");
+            Breakout("build", "add", "chupCount");
+            
+            var chupsell2 = scr_event_build_choice("Sell Waldo a chup?", s_port_hoopz);
+            //Sell Chup
+            with scr_event_build_add_choice(chupsell2, "Good deal, here's your chup.")
+            {
+            
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, that's a good deal. Here's your chup, don't let anyone see.");
+                scr_event_build_dialogue("Waldo", NULL, "Hands behind your back! I'm Deputy Waldo of the Industrial Park Police Department and you're under arrest for the illicit trafficking of chups and chup paraphernalia. You have the right to remain silent. Anything you say or do may be used against you in a court of law. You're going to jail, buster brown.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Dad fruggit... I knew this was a bad idea...");
+                scr_event_build_quest_state("waldoChup", 1);
+                scr_event_build_dialogue_debug("ARREST", NULL, "TODO: Arrest sequence occurs here.");
+                //fade out, prison... u done fucked up
+            }
+            //Don't sell Chup
+            with scr_event_build_add_choice(chupsell2, "No thanks, I don't have any chups.")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, no thanks... I don't have any chups... I was just trying to figure out what you were talking about...");
+                scr_event_build_dialogue("Waldo", NULL, "You buggin', home slice! Are you going to ghost on me when we were this close to a deal? Don't come all up in my crib if you don't have that bub, gee. If you want to roll with Waldo, you've got to have swag. Don't play me.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh. Sorry. See ya.");
+            }
+        }
+    }
+
+    //--------------------------------------------
+    //------------ CHUP HANDLER ------------------
+    //--------------------------------------------
+    with (chup_handler_snippet)
+    {
+        // Chup Quest
+        if (scr_chup_available("waldo") == true)
+        {
+            scr_event_build_event_snippet(chup_sale_snippet);   
+        }
+        // Not on quest, give him default response.
+        else
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, sorry. I'm not really even sure what you're looking for.");
+            scr_event_build_dialogue("Waldo", NULL, "That's cool, that's cool. Yo, yo, yo! Look, you get that wiffle ball connection, you know where to go, okay? You come to your /'baby daddy/' Waldo and drop that flow on him.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay...");
+        }  
+    }
+
+    //--------------------------------------------
+    //------------ MAIN EVENT --------------------
+    //--------------------------------------------      
+    with (event)
+    {
+        // Sold Waldo a chup, post-arrest.
+        if (scr_quest_get_state("waldoChup") == 1)
+        {
+            scr_event_build_dialogue("Waldo", NULL, "Well, well, well. Look what the cat dragged in. That was a pretty short stint in the pen, I'm surprised to see you out so soon. Most perps we lock up spend the rest of their lives in the slammer. Masego must've gone soft. You got off easy, kid.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Flub off...");
+        }
+        // Regular interaction.
+        else
+        {
+            //Spoken to Waldo before.
+            if (scr_quest_get_state("waldoState") == 1)
+            {
+                scr_event_build_dialogue("Waldo", NULL, "Mama mia, look what the cat dragged in. It's the Industrial Park's freshest shorty, " + P_NAME + "! You know what's up, I'm just breaking it down and practicing my krumping.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh...");
+                scr_event_build_dialogue("Waldo", NULL, "It's getting hype up in here! Raise the roof! Hey, remember that heart to heart we had earlier? About hooking your boy Waldo up with that Juicy Fruit? I'm gonna go boogaloo style if I don't get my skeez on soon, you think you can hustle me some of that Stinky Pete? But remember, we have to keep it on /'the D.L./'.");
+            }
+            // Never spoken to Waldo before.
+            else if (scr_quest_get_state("waldoState") == 0)
+            {
+                scr_event_build_quest_state("waldoState", 1);
+                scr_event_build_dialogue("Waldo", NULL, "Yo yiggidy yo, homedog. What's the haps, daddy-o? Keeping it real and /'down low/', mac daddy? Keeping it cracka-lackin'?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Uh, I think so.");
+                scr_event_build_dialogue("Waldo", NULL, "Bling bling! That's my shiznit, brah! Straight pimping, straight thugging. You know how we do, boo.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess...");
+                scr_event_build_dialogue("Waldo", NULL, "Hey, you seem like a real jiggy cat, someone I can trust. You know how gangsters are these days, always snitching on a player. Get out of my grill, you know what I mean?  Look, I'm feeling down to get crunk. Crunk off of that slam diggity. You wouldn't know how to hook a brother up, would you?");
+            }
+            scr_event_build_event_snippet(chup_handler_snippet);
+        }
+    }
+    scr_event_advance(event);
+}

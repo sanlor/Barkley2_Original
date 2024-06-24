@@ -1,0 +1,227 @@
+// TRIAL 1:
+CHANGES:
+	Cybergremlins have 90 Armor
+	Bloating and Consuming removed
+	Gun's named
+	Gun points reduced from 300,130,300,130 to 100,75,100,80
+NOTES:
+	Bullet Amounts:
+		Pistol: 99
+		SG: 30
+		SMG: 258
+		Rifle: 40
+		
+	Shotgun and SMG do 0 damage to Cybergremlins
+	Rifle and Pistol do 2 - 5. 5 shots to kill them still.
+
+// TRIAL 2:
+CHANGES:
+	Cybergremlins have 20 Armor
+NOTES:
+	Pistols are usually 1 hit kills
+	Rifle is always a 1 hit kill
+	Shotgun is a 1 to 3 hit kill depending on landed shots
+	SMG is a 3 hit kill
+	Numbers range from 4.5 to 26
+
+// TRIAL 3:
+CHANGES:
+	Cybergremlins have 30 HP
+NOTES:
+	First fight is great.
+	Unfortunately, projecting is a terrible suffix in most cases, and does not expire when the afflicted enemy dies.
+
+// TRIAL 4:
+CHANGES:
+	None. How do Kobolds only have 20 HP in-game but take so much more damage before death?
+NOTES:
+	Ok, it's their stats. Dang... gotta figure this out now.
+
+// TRIAL 5:
+CHANGES:
+	Changed gun points to 100,100,100,100
+	Removed Consuming
+	Temporarily Removing: Symbiotic, Lingam, Firewalling, Cup Filling, Projecting, Detrimental, Reinforcing
+NOTES:
+	-
+
+// TRIAL 6:
+CHANGES:
+	Adjusted Hoopz armor to 20
+	Removed levelup, changed StatRoll to 8 + 8
+	Changed cybergremlin_small_deg to cybergremlin_small in the first area of the sewers.
+NOTES:
+	Hoopz receives large damage mitigation, down to 2.2, etc. from the Cybergremlins.
+	Cybergremlins do not have any more HP. It seems to all come from stats.
+
+// TRIAL 7:
+CHANGES:
+	Uncommented the Level Up script in Cybergremlins.
+NOTES:
+	There we go, the HP appears. LevelUp has:
+		scr_stats_genEffectiveStats();
+		scr_stats_resetCurrentStats();
+	At the bottom. These need to be in the script of the entity, otherwise.
+	
+// TRIAL 8:
+CHANGES:
+	Hoopz default HP is 47
+	Changed stats to rnd(5) + 5
+	Adjusted Cybergremlin stats + HP
+NOTES:
+	Hoopz might might be slightly too low
+	Lower Guts increase per unit HP
+	Respawn rates of enemies FAR too high
+	Might want to use that changeRoom variable I've proposed
+	Too chaotic!!!
+		REMOVE SOME SPAWN POINTS
+	Dropped gun's are powerful. Remove some ammo.
+		HOW DO I DO THIS???
+	Make gun drops more common.
+
+// TRIAL 9:
+CHANGES:
+	Added Piety = element resistance to Hoopz & others!
+NOTES:
+	Good work.
+
+// TRIAL 10:
+CHANGES:
+	Changed ammo of generated weapons //scr_combat_weapons_prepareStats
+	Changed Guts HP bonus from 10 to 5
+NOTES:
+	Too little ammo, and it applies to your starting gun's.
+	The Guts feels decent. Harder for Hoopz, easier to kill enemies (and not such a huge variance in HP). Also lets armor have an effect.
+	
+// TRIAL 11:
+CHANGES:
+	Changed enemy life and armor across the board.
+NOTES:
+	Still need to remove spawn points - doing that now.
+
+// TRIAL 12:
+CHANGES:
+	Took about a bunch of spawn points.
+	Took out Aliens and the Sewer Beasts in the dirt corner.
+	Changing starting gun values to 120,120,120,120
+NOTES:
+	MUCH BETTER!!! good amount of ammo too. Need to replenish on death though.
+
+// TRIAL 13:
+CHANGES:
+	Added elemental resistances to enemies.
+	Removed Exploding and Puddleific (too insane to look at).
+	Will examine spawn points further.	
+NOTES:
+	Needs further reduction of spawns.
+	Not sure at all yet how to do truly "alerted" spawns.
+
+//-----------------------------------------
+Hundley's Spawn Trials start here.
+Notes:
+	Increase sewer beast HP.
+	Increase ammo? or make refill script.
+	Change spawn facings to 0 for the shortcut.
+	
+// TRIAL 14:
+CHANGES:
+	Removed "Spawn Alerted" from all enemies.
+	Changed some of the multiple spawns.
+	Removed Sewer Beasts and Kobolds from Sewers 1-1
+NOTES:
+	Vision is weird!
+
+// TRIAL 15:
+CHANGES:
+	Changing enemy facings towards Hoopz likely entrance, or a blend of directions per group.
+	Increasing view cone from 120 degrees to 170... I think it could even go slightly higher than 180.
+NOTES:
+	Works pretty well! Will finish all areas, continue again.
+	Having speed problems with the Shield Duergars.
+	
+// TRIAL 16:
+CHANGES:
+	Changed all enemy facings in Sewers 1-1.
+NOTES:
+	Still too crazy. Too many Cybergremlins, actually.
+	
+// TRIAL 17:
+CHANGES:
+	Removed some more Cybergremlins.
+	Adjusted all the facings in Sewers 1-1 and all the Wasteland maps.
+	Adjusted the vision cones to 200 degrees.
+NOTES:
+	DO MORE!
+	
+// TRIAL 18:
+CHANGES:
+	Adjusted all the facings in the Swamp maps.	
+	Adjusted all facings everywhere.
+NOTES:
+	To Do: Replace Brutes Wall in Sewers Shortcut
+	Replace Brute in Sewers 1-1.
+	Replace Brutes in Sewers 2-1.
+	Facings... MUCH better!
+	
+// TRIAL 20:
+CHANGES:
+	Tweaks to Sewers 1-1. Added constant enemies in a few spots.
+	Increased range of all weapons.
+	Added more knockback to heavy weapons.
+NOTES:
+	
+// TRIAL 21:
+CHANGES:
+	
+NOTES:
+	
+// TRIAL 22:
+CHANGES:
+	
+NOTES:
+	
+// TRIAL 23:
+CHANGES:
+	
+NOTES:
+	
+// TRIAL 24:
+CHANGES:
+	
+NOTES:
+	
+// TRIAL 25:
+CHANGES:
+	
+NOTES:
+	
+// TRIAL 26:
+CHANGES:
+	
+NOTES:
+	
+// TRIAL 27:
+CHANGES:
+	
+NOTES:
+	
+// TRIAL 28:
+CHANGES:
+	
+NOTES:
+	
+// TRIAL 29:
+CHANGES:
+	
+NOTES:
+	
+// TRIAL 30:
+
+
+
+
+
+
+
+
+

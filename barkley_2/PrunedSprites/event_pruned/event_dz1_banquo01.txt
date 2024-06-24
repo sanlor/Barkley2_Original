@@ -1,0 +1,28 @@
+// Event for Banquo, random traveller in the Industrial Park at times 10 and 11.
+
+if (argument0 == SCRIPT_STEP) {
+if (scr_time_get() == 10) {
+        scr_event_interactive_activate();
+    }
+    else if (scr_time_get() == 11) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var banquo = id;
+    var event = scr_event_create_main();
+    with (event) {
+        if (scr_quest_get_state("banquoState") == 0) {
+        //Never spoken to before.
+            scr_event_build_dialogue("Banquo", NULL, "When I'm in my gulch of sorrows, the place where I hate myself the most, the place where I don't even care if I'm alive or not, do you know what I do? Power lifting. Shut off your brain, stop thinking about the darkness and pound the irons. Cutting and bulking, supplements, fish oil, protein powder. You know what it all adds up to? Huge gains, gigantic delts. The world wants to see your glutes balloon. It keeps my mind off of suffocating depression and I can lift any rock.");
+            scr_event_build_quest_state("banquoState", 1);
+        } else {
+            scr_event_build_dialogue("Banquo", NULL, "If you only work your upper body, you'll look all fucked up like me. So work both your arms and your legs. Or just lay in bed. It's all the same in the end.");
+        }
+    }
+    scr_event_advance(event);
+}

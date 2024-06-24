@@ -1,0 +1,150 @@
+// Event for Poly, a drummer in (SOMEWHERE????) who is rivals with a second drummer, Dinah.
+// Poly plays a drum song on loop. The closer the player gets to Poly, the louder it gets. 10 or 11 paces away and you can't hear it.
+//Participant in Wedding Quest
+// usage: event_dz2_poly01();
+
+/*if (argument0 == SCRIPT_STEP) {
+    //if poly is currently away on wedding quest.
+ if (scr_quest_get_state("polyWedding") == 1) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+        scr_event_interactive_deactivate();
+    }
+} else if (argument0 == SCRIPT_INTERACT) {
+    // Build Event
+    var poly = id;
+    var event = scr_event_create_main();
+    var weddingQuestAsk = scr_event_create_child(event);
+
+//--------------------------------------------
+//------------ WEDDING QUEST ASK -------------
+//--------------------------------------------  
+    with (weddingQuestAsk) { 
+        //If you've already recruited Dinah
+        if (scr_quest_get_state("dinahWedding") == 1) {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Poly, I'm actually putting a band together. It's, uh, for a wedding, but maybe you'd get some exposure.");
+            scr_event_build_dialogue("Poly", s_port_poly, "Yeah, I know, fuckwad, and you already recruited Dinah. I'm not playing with her, so fuck off!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "O-oh... never mind.");
+        }
+        //Haven't recruited Dinah
+        else{
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey Poly, I'm actually putting a band together. It's, uh, for a wedding, but maybe you'd get some exposure.");
+            scr_event_build_dialogue("Poly", s_port_poly, "A wedding band, huh? That's kinda lame but... would I be allowed to rock?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, sure, I guess. I mean, that's why I'm asking you. I figured you'd wanna rock out. Go to the booty bass club in Brain City if you're interested, I'm still putting the band together. I'll be by when everything's ready.");
+            scr_event_build_dialogue("Poly", s_port_poly, "Cool, I'll be there. Just find other people who rock like me, okay?");
+            scr_event_build_fade(true, 2);
+            scr_event_build_wait_for_actions();
+            scr_event_build_quest_state("polyWedding", 1);
+            scr_event_build_quest_state_add("musicianCount", 1);
+            scr_event_build_set_object(o_poly01, -500, -500);
+            scr_event_build_fade(false, 2);
+            scr_event_build_wait_for_actions();
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "One more musician for the band down. I need " + string(3 - (scr_quest_get_state("musicianCount"))) + " more...");
+        }
+        
+        
+}   
+    
+    with (event) {
+          
+        //Did Wedding Quest with Poly.
+        if (scr_quest_get_state("weddingQuest") == 3) and (scr_quest_get_state("polyWedding") == 3) {
+            scr_event_build_dialogue("Poly", s_port_poly, "Heeeey, what's up, punk? You gettin' the band back together? It wasn't really /'my thing/', y'know, but playing with the Jazzy Rascals wasn't too bad. You guys were alright!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Please stop calling it the Jazzy Rascals...)");
+        
+        //Told Poly to go to church in Brain City but did not show up, spoke to him again.
+        } else if (scr_quest_get_state("polyWedding") == 2) {
+            scr_event_build_dialogue("Poly", s_port_poly, "Fuck off! You know how pissed off I am at you right now? I can't stop imagining these drums are your head! Piss off, kid!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I-I'm sorry...");
+            
+            
+        //Told Poly to go to church in Brain City but did not show up.
+        } else if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("polyWedding") == 1) and (scr_time_get() >= 11) {
+            scr_event_build_dialogue("Poly", s_port_poly, "Hey man, what the fuck is up with you? We had a fucking gig and you didn't show up? Why would you tell me to go to Brain City if you weren't gonna go yourself?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "I was gonna show up, I swear! I just got kinda held up...");
+            scr_event_build_dialogue("Poly", s_port_poly, "Held up? Well fuck you, punk! I don't care if you were /'held up/', I'll kick your ass! Fuck off, loser!");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "G-geez... I'm sorry, Poly...");
+            scr_event_build_quest_state("polyWedding", 2);
+        
+    
+       //met poly before.
+       }else if (scr_quest_get_state("polyVar") == 1) {
+            scr_event_build_dialogue("Poly", s_port_poly, "Man, I'm sick of Dinah and all these fake-ass soft rockers around here. I wanna rock... I mean REALLY rock! I wish there were other punks to play with around here...");
+            //If you're on the wedding quest and time >= 4 and <= 10
+            if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("musicianCount") <= 3) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Actually, I am looking for people for that wedding band... maybe I could ask her to join?");
+                var weddingQuestion2 = scr_event_build_choice("Should I ask Poly to join my group?", s_port_hoopz);
+                
+                //Ask Poly.
+                with scr_event_build_add_choice(weddingQuestion2, "I'm putting together a band for a wedding, want to join?") {
+                    scr_event_build_event_snippet(weddingQuestAsk);
+                    }
+                    
+                //Don't ask Poly.
+                with scr_event_build_add_choice(weddingQuestion2, "Nah, forget it.") {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's a bummer, Poly. Hope you get something going soon!");
+                    }
+                
+                //Not currently on wedding quest.
+                } else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's a bummer, Poly. Hope you get something going soon!");
+                }
+    
+       //Never met Poly in Al-Akihabara before.
+       } else if (scr_quest_get_state("polyVar") == 0) {
+            scr_event_build_quest_state("polyVar", 1);
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Whoa, you're awesome at the drums. I wish I knew how to play.");
+            scr_event_build_dialogue("Poly", s_port_poly, "Haha, hell yeah! You a rocker?");
+            var rockerQuestion = scr_event_build_choice("Am I a rocker?", s_port_hoopz);
+                
+                //Heck yeah I'm a rocker!
+                with scr_event_build_add_choice(rockerQuestion, "I live to bop&boogie.") {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heck yeah I'm a rocker! I live to bop&boogie.");
+                    scr_event_build_dialogue("Poly", s_port_poly, "Man, nobody around here wants to rock. You catch Dinah over there on the other side of town with those fake-ass electronic drums? I'm so sick of her shit. She thinks she's all hard or whatever because she's got those drums that practically play themselves while I'm over here busting my ass. Can you imagine what The Scrudlords would've sounded like with electronic drums? Or Manic Ringworms? Or even The Rancid Cockroaches?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Not nearly as boppin'.");
+                    scr_event_build_dialogue("Poly", s_port_poly, "Damn straight! I've been trying to get a band together, somethin' really rockin', somethin' with that killer edge but all anyone wants to hear anymore is soft rock synthpop bullshit. What the hell happened to that in-your-face oi! oi! oi! rock, huh? Man, I'm gettin' all steamed up. Fuck Dinah and fuck that soft shit! That's all I've gotta say about that.");
+                }
+                
+                //I'm a rocketeer
+                with scr_event_build_add_choice(rockerQuestion, "I listen to everything but rap or country.") {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I listen to everything but rap or country.");
+                    scr_event_build_dialogue("Poly", s_port_poly, "I'm into hardcore punk shit, stuff like The Scrud Junkies, The Filth Mongers, that old school oi! oi! oi! kinda rock. You know that girl Dinah on the other side of town with those electric drums? Fuck her! I'm so sick of her synthpop bullshit. She thinks she's all that because her drums practically play themselves.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Drums like that can be pretty cool sometimes (except in country and rap).");
+                    scr_event_build_dialogue("Poly", s_port_poly, "Yeah, whatever. I just wanna get a hardcore crust punk band goin' but nobody in the area wants to start one. All anyone seems to care about is Dinah's stale fuckin' synthpop! It's a real bummer, man.");
+                }
+                
+                //Soft rock ONLY.
+                with scr_event_build_add_choice(rockerQuestion, "Soft rock ONLY.") {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heck yeah I'm a rocker! A SOFT ROCKER! Go mellow or go home!");
+                    scr_event_build_dialogue("Poly", s_port_poly, "Man, forget you! I only care about that hard shit, stuff like The Turgid Brigade and The Cretins. You see Dinah, that girl on the other side of town with those electric drums? Fuck her! I'm over here busting my ass while her drums practically play themselves! Go hang out with her if you want to listen to that soft rock bullshit 'cuz I wanna rock!");
+                }
+                
+                //Sorry, I'm more into krumptronica.
+                with scr_event_build_add_choice(rockerQuestion, "I'm more into krumptronica.") {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Rock's okay I guess, but I'm more into krumptronica.");
+                    scr_event_build_dialogue("Poly", s_port_poly, "Krumptronica? What the fuck is that? I wanna rock, man, not that bzzt-tss-bzzt-tss hyper-intellectual bullshit made by stern German dudes! That old school, in-your-face oi! oi! oi! kinda rock! You catch Dinah, that girl on the other side of town with those electric drums that practically play themselves? Fuck her! I'm sick of that soft shit!");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "O-oh...");
+                    scr_event_build_dialogue("Poly", s_port_poly, "I wanna get a band together, some real hardcore punk shit that'll make you dance and go nuts, but nobody around here wants to do it. Sighhhhh...");
+                }
+            
+            //If you're on the wedding quest and time >= 4 and <= 10
+            if (scr_quest_get_state("weddingQuest") == 1) and (scr_quest_get_state("musicianCount") <= 3) and (scr_time_get() >= 4) and (scr_time_get() <= 10){
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Actually, I am looking for people for that wedding band... maybe I could ask her to join?");
+                var weddingQuestion1 = scr_event_build_choice("Should I ask Poly to join my group?", s_port_hoopz);
+                
+                //Ask Poly.
+                with scr_event_build_add_choice(weddingQuestion1, "I'm putting together a band for a wedding, want to join?") {
+                    scr_event_build_event_snippet(weddingQuestAsk);
+                    }
+                    
+                //Don't ask Poly.
+                with scr_event_build_add_choice(weddingQuestion1, "Nah, forget it.") {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's a bummer, Poly. Hope you get something going soon!");
+                    }
+                
+                //Not currently on wedding quest.
+                } else {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's a bummer, Poly. Hope you get something going soon!");
+                }
+            }
+    }
+    scr_event_advance(event);
+}

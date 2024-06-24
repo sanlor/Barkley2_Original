@@ -1,0 +1,40 @@
+/// scr_event_build_object_alpha(object, alpha, time_in_seconds)
+/// Fade the alpha of an object
+
+var action = ds_list_create();
+ds_list_add(action, scr_event_action_object_alpha);
+ds_list_add(action, argument0); // object id
+ds_list_add(action, argument1); // alpha
+ds_list_add(action, argument2); // time
+ds_list_add(_event_list, action); // add the action to the list
+
+return ds_list_size(_event_list) - 1;
+
+
+
+
+/// scr_event_action_object_alpha(list)
+/// Fade alpha over time
+
+var object = ds_list_find_value(argument0, 1);
+var alpha = ds_list_find_value(argument0, 2);
+var time = ds_list_find_value(argument0, 3);
+var master = id;
+if (time == 0) // Instant
+{
+    object.image_alpha = alpha;
+}
+else
+{
+    var _obj = instance_create(0, 0, o_object_alpha);
+    with (_obj) 
+    {
+        obj = object;
+        alp = alpha;
+        tim = time;
+        dad = master;
+        event_user(0);
+    }
+    _events_active += 1;
+}
+scr_event_advance(id);

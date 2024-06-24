@@ -1,0 +1,123 @@
+// Event for Garfield, jacked in guy in the Industrial Park at times 7-10.
+/*
+if (argument0 == SCRIPT_START) 
+{
+
+}
+else if (argument0 == SCRIPT_STEP)
+{
+    if (scr_time_get() >= 11) {
+        scr_event_interactive_deactivate();
+    }
+    else if (scr_time_get() >= 7) {
+        scr_event_interactive_activate();
+    }
+    else {
+        scr_event_interactive_deactivate();
+    }
+}
+else if (argument0 == SCRIPT_INTERACT)
+{
+    // Build Event
+    var garfield = id;
+    var event = scr_event_create_main();
+    var chup_sale_snippet = scr_event_create_child(event);
+    var chup_handler_snippet = scr_event_create_child(event);
+
+    //--------------------------------------------
+    //------------ CHUP SALE SNIPPET -------------
+    //--------------------------------------------
+    with (chup_sale_snippet)
+    {
+        Breakout("build", "clear");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I know you're kinda busy now, maybe you could take a break, kick back, take a load off your mind with some of that Stinky Pete.");
+        scr_event_build_dialogue("Garfield", NULL, ".........");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Y'know, Stinky Pete. Scrudbombs? Goofy Fruits? Bugle Poppers? Chups, man!");
+        scr_event_build_dialogue("Garfield", NULL, "................");
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Guess you're just not in the mood, huh?");
+        scr_event_build_dialogue("Garfield", NULL, "....................");
+        scr_event_build_quest_state("garfieldChup", 1);
+    }
+    
+    //--------------------------------------------
+    //------------ CHUP HANDLER ------------------
+    //--------------------------------------------
+    with (chup_handler_snippet)
+    {
+        // Chup Quest
+        if (scr_chup_available("garfield") == true)
+        {
+            Breakout("build", "add", "chupCount");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Maybe I can sell this guy a chup...?)");
+            
+            var chupsell = scr_event_build_choice("Sell him a chup?", s_port_hoopz);
+            // Sell Chup
+            with scr_event_build_add_choice(chupsell, "You look like you need a chup.")
+            {
+                scr_event_build_event_snippet(chup_sale_snippet);
+            }
+            // Don't Sell Chup
+            with scr_event_build_add_choice(chupsell, "Forget it, he's not responding.")
+            {
+                Breakout("build", "clear");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "(This guy might be chupped out already...)");
+            }
+        }
+    }
+
+    //--------------------------------------------
+    //------------ MAIN EVENT --------------------
+    //--------------------------------------------  
+    with (event)
+    {
+        // Tried to sell chup before.
+        if (scr_quest_get_state("garfieldChup") == 1)
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "You think about my offer before? Some chups might hit the spot, man.");
+            scr_event_build_dialogue("Garfield", NULL, ".........");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Didn't think so.");
+        }
+        // Haven't tried to sell chup.
+        else 
+        {
+            if (scr_quest_get_state("garfieldState") == 0)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey there! What's goin' on? What's that thing on your head?");
+                scr_event_build_dialogue("Garfield", NULL, ".........");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You, uh... you jacked into DwarfNET?");
+                scr_event_build_dialogue("Garfield", NULL, "................");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "O-oh...");
+            } 
+            else if (scr_quest_get_state("garfieldState") == 1) 
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, is that thing you're wearing for vidcons? I love vidcons, dude. You know the ~Hyperborea no Legends~ series? With the pilot academy and the controversial mech sweat system?");
+                scr_event_build_dialogue("Garfield", NULL, ".........");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, you don't know it?");
+                scr_event_build_dialogue("Garfield", NULL, "...............");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh...");
+            }
+            else if (scr_quest_get_state("garfieldState") == 2)
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You're jacked into DwarfNET, right? I jack in sometimes too. It's pretty cool.");
+                scr_event_build_dialogue("Garfield", NULL, ".........");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I feel like I haven't even seen the half of it yet. I've mostly just been to that message board. I mean, that's cool I guess, but I want to see neon wireframe corridors and falling Matrix letters.");
+                scr_event_build_dialogue("Garfield", NULL, "...............");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay...");
+            } 
+            else {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess if you don't feel like talking, that's fine...");
+                scr_event_build_dialogue("Garfield", NULL, ".........");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "But I'm always down to talk about vidcons if you change your mind!");
+                scr_event_build_dialogue("Garfield", NULL, "...................");
+            }
+            // Increase state
+            if (scr_quest_get_state("garfieldState") != 3)
+            {
+                scr_event_build_quest_state_add("garfieldState", 1);
+            }
+            // Go to Chup Handler
+            scr_event_build_event_snippet(chup_handler_snippet);
+        }
+    }
+    scr_event_advance(event);
+}

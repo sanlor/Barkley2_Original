@@ -1,0 +1,44 @@
+// Event for Cap'n Jane after she's been recruited for wedding quest. Hangs out in Brain City
+//Bar
+// usage: event_bct_capnJane02();
+
+/*if (argument0 == SCRIPT_START) {
+
+//if wedding quest is currently active
+if Quest("janeWedding") == 1) and ClockTime() >= 4) and ClockTime() <= 10 then scr_event_interactive_activate();
+else scr_event_interactive_deactivate();
+    
+//if you have poly in group.
+IF polyWedding == 1      | IF janePoly == 0      | GOTO | POLY_HIRED
+IF guillaumeWedding == 1 | IF janeGuillaume == 0 | GOTO | GUIL_HIRED
+IF wizardWedding == 1    | IF janeWizard == 0    | GOTO | WIZARD_HIRED
+IF borisWedding == 1     | IF janeBoris == 0     | GOTO | BORIS_HIRED
+IF janeWait == 1         | GOTO | JANE_WAIT_REPEAT
+IF janeWait == 0         | GOTO | JANE_WAIT  
+    
+POLY_HIRED
+DIALOG | Cap'n Jane | I may not like the way she plays those drums, but I like that girl Poly's attitude. She'd make a damn fine captain if she stopped pretending to be a punk!
+QUEST  | janeWait = 1
+QUEST  | janePoly = 1
+    
+GUIL_HIRED
+DIALOG | Cap'n Jane | That burned-out beatnik over there, the blockhead with the guitar. He keeps tellin' me /'my aura's too angry/', whatever the heck that means. Tell him I'm gonna knock his teeth out if he keeps botherin' me!
+QUEST  | janeWait = 1
+QUEST  | janeGuillaume = 1
+    
+WIZARD_HIRED
+DIALOG | Cap'n Jane | That buffalo-brained knucklehead over there... that stooge with the horns... you think he's really a dwarf?
+QUEST  | janeWait = 1
+QUEST  | janeWizard = 1
+    
+BORIS_HIRED  
+DIALOG | Cap'n Jane | Flute'n accordin, eh? Dunno if that's a good combo for a wedding, but me'n Boris are kickin' up quite a racket. He may be a little strange, but he's damn fine at tootin'.
+QUEST  | janeWait = 1
+QUEST  | janeBoris = 1
+
+JANE_WAIT_REPEAT
+DIALOG | Cap'n Jane | You sure are takin' yer damn time with this whole group business! They'll be havin' the funeral by the time the whole band's put together!
+    
+JANE_WAIT
+DIALOG | Cap'n Jane | Arrrr, what's takin' ya so long, ya lubber? I can barely hear me accordion over the sound o' that booty nonsense Stonewall is playin' out there!
+QUEST  | janeWait = 1

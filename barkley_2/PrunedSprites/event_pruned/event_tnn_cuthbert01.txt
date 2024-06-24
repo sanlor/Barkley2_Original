@@ -1,0 +1,545 @@
+// Cuthbert, Pet Shop //
+if (argument0 == SCRIPT_START) then
+    {    
+    // Check if Pet Store is beyond repair
+    if (ClockTime("get") >= scr_time_db("petBusiness")) then scr_quest_set_state("petClosed", 1); 
+    
+    // Otherwise set to Zero
+    else scr_quest_set_state("petClosed", 0);
+    
+    // Deactivate if outside and not supposed to be
+    if (room == r_tnn_residentialDistrict01) && (Quest("petClosed") != 2) then scr_event_interactive_deactivate();        
+    }
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) then
+    {
+    // Check if Pet Store is closed
+    if (ClockTime("get") >= scr_time_db("petShutter")) then scr_quest_set_state("petClosed", 2); 
+    
+    // Check if Pet Store is beyond repair
+    else if (ClockTime("get") >= scr_time_db("petBusiness")) then scr_quest_set_state("petClosed", 1); 
+    
+    var event = scr_event_create_main();
+    
+    // SNIPPETS
+    var choice_snippet = scr_event_create_child(event);
+    var wilmer_snippet = scr_event_create_child(event);
+    var eric_snippet = scr_event_create_child(event);
+    var application_snippet = scr_event_create_child(event);
+    var governor_snippet = scr_event_create_child(event);
+    var outside_snippet = scr_event_create_child(event);
+    var order_snippet = scr_event_create_child(event);
+    
+    // MANIFESTO AS COVER LETTER POINTS
+    var manifesto_pts = 3;
+    if (Quest("cuthbertManifesto") == 1) then
+        {
+        scr_quest_add_state("ericQuality", manifesto_pts);
+        scr_quest_set_state("cuthbertManifesto", 2);
+        }
+    
+    // WHAT CHOICES APPEAR
+    var do_choice = 0;
+    if (Quest("cuthbertState") == 0) then do_choice = 1;        
+    if (Quest("wilmerEvict") == 1 && Quest("cuthbertHousingDept") == 0) || (Quest("wilmerGoodbye") == 1) && (Quest("cuthbertWilmer") == 0) then do_choice = 1;        
+        
+    // Do the choice //
+    scr_quest_set_state("cuthbertChoice", do_choice);
+    
+    // ERIC IN THE ROOM
+    var eric_there = 0;
+    if (instance_exists(o_eric01)) then
+        {
+        if (Quest("ericHired") == 1) && (scr_actor_isRigid(o_eric01)) then eric_there = 1;
+        }
+    
+    //------------------------------------------------------------
+    // choice_snippet
+    //------------------------------------------------------------
+    with (choice_snippet)
+        {
+        if (scr_quest_get_state("cuthbertChoice") == 1) then
+            {            
+            var cuthbertMeet = Choice("Ask about...");
+            
+            // On Eric's Quest: Ask about Hiring
+            if (Quest("ericQuest") == 2) && (scr_time_get() <= 3) then
+                {
+                var ericHire = scr_event_build_add_choice(cuthbertMeet, "Are you hiring?");
+                with (ericHire)
+                    {
+                    Dialogue(P_NAME, "Hi so are you officially hiring right now?");
+                    Dialogue("Cuthbert", "Well, I can't really afford to keep someone on for too long. But... but I think I've got a job you could do. Do you have any promoting experience? Do you think you could maybe advertise the place, convince people to check us out and get a pet?");
+                    Dialogue(P_NAME, "Well, I'm asking for a friend but I think that would be right up his alley.");
+                    Dialogue("Cuthbert", "Okay, great! I'm excited to see what your friend's skills and qualifications are. Here, take this application and get your friend to fill it out. It's just basic resume stuff.");
+                    
+                    //Get the pet shop application
+                    DialogueItem("Got Pet Shop Application.");
+                    Note("build", "take", "Pet Shop Application");
+                    
+                    Dialogue(P_NAME, "(Resume, huh...)");
+                    Quest("ericQuest", 3);
+                    scr_event_build_end();
+                    }
+                }
+              
+            // On Wilmer's Quest: Ask about Housing Department
+            if (Quest("wilmerEvict") == 1) && (Quest("cuthbertHousingDept") == 0) then
+                {
+                var housingDept = ChoiceAdd(cuthbertMeet, "Where's the Housing Department?");
+                with (housingDept)
+                    {
+                    Dialogue(P_NAME, "Sorry no pets just now, I'm looking for the Housing Department.");
+                    Dialogue("Cuthbert", "Housing Department? Well since I can't afford a house and sleep in a dry aquarium here, I don't really know much about housing... I know where the Department of Pet Accountability is. Does that help?");
+                    Dialogue(P_NAME, "I don't think he has any pets...");
+                    Dialogue("Cuthbert", "Nobody here does...\Anyways try the west side of town, it's just housing tenements over here mostly.");
+                    Dialogue(P_NAME, "Okay thanks!");
+                    Quest("cuthbertHousingDept", 1);
+                    scr_event_build_end();
+                    }
+                }
+            
+            // Fun Choice: Mounts
+            if (Quest("cuthbertMount") == 0) && (Quest("cuthbertState") == 0) then
+                {
+                var (mounts) = scr_event_build_add_choice(cuthbertMeet, "Got any sweet mounts?");
+                with (mounts)
+                    {
+                    Dialogue(P_NAME, "I'm looking for fast travel options. Particularly with buffs to resistances.");
+                    Dialogue("Cuthbert", "Uh... I have mostly malnourished goldfish.");
+                    Dialogue(P_NAME, "Dang...");
+                    Dialogue("Cuthbert", "Sigh... I promise I'll let you know if I get some in, kid. It's not easy running a pet store in Tir na Nog, especially when nobody knows this crummy place even exists. All that neon signage was such a waste of money. If only I had somebody to promote the store...");
+                    Quest("cuthbertMount", 1);
+                    }
+                }
+            
+            if (Quest("cuthbertState") == 0) then
+                {
+                // Move on to dialogue.
+                var (notInterested) = scr_event_build_add_choice(cuthbertMeet, "Not really interested in pets.");
+                with (notInterested)
+                    {
+                    //Nothing plays here since it will essentially go to the end of the event
+                    Dialogue(P_NAME, "Nope, sorry. Not really interested in pets.");
+                    Dialogue("Cuthbert", "Sigh... nobody is. It's not easy running a pet store in Tir na Nog, especially when nobody knows this crummy place even exists. All that neon signage was such a waste of money. If only I had somebody to promote the store...");
+                    }
+                }
+            else 
+                {
+                // Move on to dialogue.
+                var (nothin) = scr_event_build_add_choice(cuthbertMeet, "Nothing.");
+                with (nothin)
+                    {
+                    //Nothing plays here since it will essentially go to the end of the event
+                    Dialogue(P_NAME, "Nope, sorry. Not really interested in pets.");
+                    Dialogue("Cuthbert", "Nothing ever changes... maybe it's time to pack it in, Cuthbert.");
+                    }
+                }
+            }
+            
+        // Pet store is hiring, and you suggest Eric //
+        else if (Quest("ericQuest") == 2) && (scr_time_get() <= 3) then scr_event_build_event_snippet(eric_snippet);  
+        
+        // Pet store is not doing too good //      
+        else if (Quest("petClosed") == 1) then
+            {
+            Dialogue(P_NAME, "Um, I don't think so. I hope things pick up here, Mister.");
+            Dialogue("Cuthbert", "Nothing ever changes... maybe it's time to pack it in, Cuthbert... time to pack it in...");
+            }
+            
+        // Initial response when nothing of significance is going on //
+        else
+            {
+            Dialogue(P_NAME, "Um, I don't think I need a pet right now.");
+            Dialogue("Cuthbert", "Thought I had a customer... oh well...");
+            }
+        }
+        
+    //------------------------------------------------------------
+    // application_snippet
+    //------------------------------------------------------------
+    with (application_snippet)
+        {
+        // You return Eric's Job Application //
+        Dialogue("Cuthbert", "Great, lemme take a look...");
+                
+        // If Eric's resume is good.
+        if (Quest("ericQuality") >= 13) then // Was 15
+            {
+            Dialogue("Cuthbert", "Hmmm... this guy, Eric... he seems, uh, passionate about animals.");
+            Dialogue(P_NAME, "Uh, yeah, definitely. He's a big time animal... guy.");
+            Dialogue("Cuthbert", "Can't say I've ever seen a resume this colorful before, but I'm not in much of a position to turn down help right now. Alright, tell him he's got his job - I want him here as soon as he can get here. There's a lot of work to do!");
+            Dialogue(P_NAME, "Got it! Thanks, mister! I'll go tell him...! (Unbelievable...)");
+            Quest("petEric", ClockTime() + 1.2);
+            Quest("ericQuest", 8);
+            }
+            
+        // If Eric's resume is bad.
+        else if (Quest("ericQuality") >= 10) then // Was 14
+            {
+            Dialogue("Cuthbert", "This... this is um... this is really tough. I can't tell if this guy's serious or not.");
+            Dialogue(P_NAME, "I assure you, he's serious. He's extremely serious, actually.");
+            Dialogue("Cuthbert", "Well I tell you what, serious or not, this guy needs to learn some professionalism. He can't just phone in an application and expect to get a job just because I'm desperate and going to be destitute if I don't turn the store around! I mean... he can, he totally can. That's my problem. But what a screwed up thing to do! I just want to be a businessman...");
+            Dialogue(P_NAME, "I understand your reservations, he's a strange guy for sure. He definitely cares about pets though. That much I can guarantee.");
+            Dialogue("Cuthbert", "Damn... I suppose I'll have to take a chance. I'm not in much of a position to turn down help right now. All right, tell him he's got his job - I want him here as soon as he can get here. There's a lot of work to do!");
+            Dialogue(P_NAME, "Got it! Thanks, mister! I'll go tell him...! (Unbelievable...)");
+            Quest("petEric", ClockTime() + 1.2);
+            Quest("ericQuest", 7);
+            }
+            
+        // If Eric's resume is horrendous.
+        else
+            {
+            Dialogue("Cuthbert", "Hmmm... what... what the hell is this? Is this some kind of joke?");
+            Dialogue(P_NAME, "N-no, sir! This is Eric's resume! He's kind of a weird guy bu-");
+            Dialogue("Cuthbert", "Look, kid. I'm an honest, hard-working guy. I'm not the greatest guy in Tir na Nog but I treat the animals and the people around me with respect. I'm not some crazy fucking animal lunatic, I'm just a tired guy trying to make ends meet in a world I didn't ask for. Is this what kids do these days, kick guys while they're down? Is that what you do? The pet store's not solvent, I'm in debt, people don't even know this place exists. Is that what you do?");
+            Dialogue(P_NAME, "No, mister! I'm not making fun of you, this is Eric's real-");
+            Dialogue("Cuthbert", "Just... just go, kid. Just leave me alone.");
+            Quest("ericQuest", 6);
+            }
+            
+        //INCREASETIME
+        scr_event_build_time_add(1);
+        }
+        
+    //------------------------------------------------------------
+    // eric_snippet
+    //------------------------------------------------------------
+    with (eric_snippet)
+        {
+        // Eric Quest complete, eric not present
+        if (Quest("ericQuest") == 9) then
+            {
+            Dialogue(P_NAME, "Hey Cuthbert, I let Eric know. I'm sure he'll be here soon.");
+            Dialogue("Cuthbert", "Thanks, kid! Maybe things will turn around here... by the way, you need anything?");
+            scr_event_build_event_snippet(choice_snippet);
+            }
+            
+        // Eric Quest complete, eric not present
+        else if (Quest("ericQuest") >= 7) then
+            {
+            // Never turned in quest, failed
+            if (Quest("petClosed") == 2) then
+                {
+                Dialogue("Cuthbert", "Hey, what's the deal, " + P_NAME + "? Your friend never showed up! Did you even tell him? I thought I had some help coming. Nope. Don't bother getting your friend. I threw in the towel. /'Cuthbert's Friends/' is no more...");
+                Dialogue(P_NAME, "Cuthbert, I'm... I'm sorry...");
+                Dialogue("Cuthbert", "It's better this way. This way, your friend doesn't have to work for a failure...");
+                Quest("ericFailed", 2);
+                }
+                
+            // Almost out of time
+            if (Quest("petClosed") == 1) then
+                {
+                Dialogue("Cuthbert", "Hey, please hurry up and tell your friend to get down here. I need some help, desperately!");
+                Dialogue(P_NAME, "Of course, I'm on it!");
+                Dialogue("Cuthbert", "Sure, just mean it this time!");
+                }
+                
+            // Still time to turn in quest to Eric
+            else
+                {
+                Dialogue("Cuthbert", "Let him know he got the job, and I'd like him to start as soon as he can get here.");
+                Dialogue(P_NAME, "Of course, I'm on it!");
+                }
+            }
+            
+        // Eric's Quest failed.
+        else if (Quest("ericQuest") == 6) then
+            {
+            Dialogue("Cuthbert", "I don't know what kind of joke you thought you were pulling by bringing that fake resume down here, but it wasn't funny. I'm not some crazy animal man. Selling animal companions is my business, my life, and it's dangerously close to falling apart. To mock me when my life is this close to disintegrating...");
+            Dialogue(P_NAME, "No, mister, it isn't like that-");
+            Dialogue("Cuthbert", "Just get out of here, kid. Just leave me alone.");
+            }
+        
+        // The resume is completed.
+        else if (Quest("ericQuest") == 5) then
+            {
+            // Resume return //
+            Dialogue("Cuthbert", "Hey, you're back! You got your friend's resume for me?");
+            
+            // Application Choice
+            var application = Choice("Give Eric's application to Cuthbert?");
+            
+            // Wait to turn in application
+            var application_no = ChoiceAdd(application, "Not yet.");
+            with (application_no)
+                {
+                Dialogue(P_NAME, "Umm, hold on, lemme make sure it's ready.");
+                if (Quest("petClosed") == 1) then Dialogue("Cuthbert", "Okay, but please hurry. Things are pretty desperate around here. If I don't get another worker, I'm through.");
+                else Dialogue("Cuthbert", "Okay, I'm pretty desperate for someone to start working soon though...");
+                }
+            
+            // Turn in application
+            var application_yes = ChoiceAdd(application, "Yes, turn in the application.");
+            with (application_yes)
+                {
+                Dialogue(P_NAME, "Yep... here it is!");
+                DialogueItem("Gave Cuthbert the Completed Application.");
+                Note("build", "give", "Completed Application");
+                
+                // Have Pet Manifesto
+                if (Note("have", "Pet Manifesto") == true)
+                    {
+                    Dialogue("Cuthbert", "Okay, great. Let's see what your friend's all about.");
+                    Dialogue(P_NAME, "Um, wait one second Cuthbert...");
+                   
+                    var coverletter = Choice("Give the Pet Manifesto?");
+                    
+                    // Give Manifesto
+                    var coveryes = ChoiceAdd(coverletter, "Cuthbert should see the truth.");
+                    with (coveryes)
+                        {
+                        Quest("cuthbertManifesto", 1);
+                        Dialogue(P_NAME, "... here's the cover letter. You can tell, he really wants to work.");
+                        
+                        //Give the Pet Manifesto
+                        DialogueItem("Gave Cuthbert the Pet Manifesto");
+                        Note("build", "give", "Pet Manifesto");
+                        
+                        Dialogue("Cuthbert", "Huh... the /'Pet Manifesto/'? Dear Clispaeth, this has got to be 50 pages long! I asked for a cover letter, not a book... okay, um... don't tell your friend, but I'll just hang onto it and read this later. I'm trying to run a business, I don't have time for a novella. But I'll take it as a good sign. I guess your friend must really want this job!");
+                        Dialogue(P_NAME, "(I can't believe that went over well...)");
+                        Dialogue("Cuthbert", "Okay, now for the application itself. Let's see...");
+                        }
+                        
+                    // Keep Manifesto
+                    var coverno = ChoiceAdd(coverletter, "Keep this one close to the chest.");
+                    with (coverno)
+                        {
+                        Dialogue(P_NAME, "... um, nevermind.");
+                        Dialogue("Cuthbert", "Huh? Oh... okay. Hm, there was supposed to a cover letter. That's a shame, but I guess I can't complain. At least I'm getting an application. Let's see...");
+                        }
+                    }
+                    
+                // Don't have Pet Manifesto
+                else Dialogue("Cuthbert", "Okay, great. Let's see what your friend's all about. Hm, no cover letter? That's a shame, but I guess I can't complain. At least I'm getting an application. Anyway, let's see...");
+                                
+                // Restart Event
+                Quest("cuthbertApplication", 1);
+                scr_event_build_execute_event_script(event_tnn_cuthbert01);
+                }
+            }
+        
+        // Spoken to the owner and need to complete the resume.
+        else if (Quest("ericQuest") >= 3) && (Quest("ericQuest") <= 4) then
+            {
+            if (Quest("petClosed") == 1) then Dialogue("Cuthbert", "Just bring back that application as soon as you can. If I don't get some help around here, I'm pretty sure the store's finished."); 
+            else Dialogue("Cuthbert", "Just bring the completed application when its ready and I'll take a look at it. Hurry up with it if you don't mind. I could really use help with promotion, like yesterday.");
+            Dialogue(P_NAME, "No problem! I'm on it.");
+            }
+        
+        // Any jobs available? Eric's Quest.
+        else if (Quest("ericQuest") == 2) && (scr_time_get() <= 3) then
+            {
+            Dialogue(P_NAME, "Um, excuse me? This is a pet store, right? Are you guys hiring right now?");
+            Dialogue("Cuthbert", "Hiring? Well, the shop's not doing too well right now, I can't really afford to keep someone on for too long. But... but I think I've got a job you could do. Do you have any promoting experience? Do you think you could maybe advertise the place, convince people to check us out and get a pet?");
+            Dialogue(P_NAME, "Well, I'm asking for a friend but I think that would be right up his alley.");
+            Dialogue("Cuthbert", "Okay, great. I'm going to need your friend's resume so have him bring it by when it's ready. Here, take this application and get your friend to fill it out.");
+            
+            //Get the resume to be completed
+            DialogueItem("Got Pet Shop Application.");
+            Note("build", "take", "Pet Shop Application");
+            Dialogue(P_NAME, "Resume, huh...");
+            Quest("ericQuest", 3);
+            }
+        }
+    
+    //------------------------------------------------------------
+    // governor_snippet
+    //------------------------------------------------------------
+    with (governor_snippet)
+        {
+        // eric paid the fee
+        if (Quest("cuthbertGov") == 3) then Dialogue("Cuthbert", "H-hello, Mr. Governor... always happy to pay the necessary fees. That's what keeps Tir na Nog the greatest city on Necron 7, correct? Have a nice day, sir!");
+        
+        // refused the money
+        else if (Quest("cuthbertGov") == 2) then Dialogue("Cuthbert", "It's good to see you, Mr. Governor! Things are tough but... but I think I'll be able to make ends meet this month, in part thanks to your generosity - and Cuchulainn's of course!");
+        
+        // have taken the money
+        else if (Quest("cuthbertGov") == 1) then Dialogue("Cuthbert", "H-hello, Mr. Governor... maybe if you mentioned my pet store in your speech, I'd be able to make ends meet this month... I mean... maybe... it's just a suggestion, sir...");
+        
+        // if you haven't done the choice yet
+        else if (Quest("cuthbertGov") == 0) then
+            {
+            Dialogue("Cuthbert", "Ah, M-Mr. Governor! You're here about the uh, /'captive animal fees,/' right? I-I-I... I'm not sure I can make my payment this month... it's getting hard to keep the kobolds fed...");
+            Breakout("build", "add", "money");
+            
+            // "DO YOU TAKE THE MONEY" CHOICE
+            var choice_1 = Choice("Demand collection of fees?", s_port_governor);
+            
+            // YES
+            with (ChoiceAdd(choice_1, "Take the money."))
+                {
+                Breakout("build", "clear");
+                Dialogue("Governor Elagabalus", "Ah yes, the captive animal fee! Of course. I believe that amounts to " + string(scr_money_db("cuthbertFee")) + " neuro-shekels?");
+                
+                // Eric is Present
+                if (eric_there == 1) then
+                    {
+                    if (Quest("petScore") == 1) then Dialogue("Cuthbert", "Sigh... I guess I was dreaming, thinking things would keep going smoothly... here you go, Mr. Governor, sir...");
+                    else if (Quest("petScore") == 2) then Dialogue("Cuthbert", "Darn... just when I thought things were really looking up for /'Cuthbert's Friends/'... here you go, Mr. Governor, sir...");
+                    Dialogue("Eric", "Wait!");
+                    scr_event_build_camera_frame(CAMERA_FAST, o_eric01, o_cuthbert01);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_look_object(o_hoopz, o_eric01);
+                    Dialogue("Eric", "You there, proprietor of this sorry excuse for a pet store - and yes, I am aware of my generosity in calling it that - if you pay this fee, will the animals suffer?");
+                    if (Quest("petScore") == 2) then Dialogue("Cuthbert", "Well... if I want to stay in the black I'll need to switch to cheaper food for the animals... probably dim the UV bulbs for the reptiles... um...");
+                    else if (Quest("petScore") == 1) then Dialogue("Cuthbert", "Well... if I want to stay in business I'll need to convince the animals to try fasting... switch to candles instead of UV bulbs for the reptiles... um...");
+                    Dialogue("Eric", "Enough is enough. Shut your damned mouth and pay the Governor! You'll be taking it out of my paychecks. In exchange, I'm no longer working promotions. As of this moment, I'm on cage-cleaning duty. I expect several more responsibilites, which I will leave up to a fierce negotiation.");
+                    Dialogue("Cuthbert", "You... you'll work for free?");
+                    Dialogue("Eric", "I sneer at company decorum, at /'bosses/', at Big Government folly, and at the stupidity of Dwarf and Duergar alike... but I will not hesitate to fall on my sword for Pet-kind.");
+                    Dialogue("Cuthbert", "Th... thank you Eric! Of course, of course you can clean cages! Anything you want!");
+                    scr_event_build_camera_frame(CAMERA_FAST, o_hoopz, o_cuthbert01);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_look_object(o_hoopz, o_eric01);
+                    Dialogue("Cuthbert", "Governor... here you are... please ignore my employee's words, he's just very energetic...");
+                    }
+                    
+                // Eric not present
+                else
+                    {
+                    if (Quest("petScore") == 0) { Dialogue("Cuthbert", "Sigh... that's it for the store. I guess I don't need to eat this month... here you go, Mr. Governor, sir..."); }
+                    else if (Quest("petScore") == 1) { Dialogue("Cuthbert", ""); }
+                    }
+                DialogueItem("Got " + string(scr_money_db("cuthbertFee")) + " neuro-shekels.");
+                Breakout("build", "add", "money");
+                scr_event_build_money_add(scr_money_db("cuthbertFee"));
+                
+                // Eric is Present
+                if (eric_there == 1) then
+                    {
+                    Dialogue("Eric", "Oh, and Governor...");
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_look_object(o_hoopz, o_eric01);
+                    scr_event_build_camera_frame(CAMERA_FAST, o_hoopz, o_cuthbert01);
+                    scr_event_build_wait_for_actions();
+                    Dialogue("Eric", "... you'd best think twice before you interfere with the standard of Pet Living. This is your final warning.");
+                    //set cuthbertGov to 3
+                    Quest("cuthbertGov", 3);
+                    }
+                    
+                // Eric not present
+                else
+                    {
+                    Dialogue("Governor Elagabalus", "A pleasure doing business with you. (Maybe this governor gig isn't so bad after all...)");
+                    //set cuthbertGov to 1
+                    Quest("cuthbertGov", 1);
+                    Quest("petScore", -1);
+                    }
+                    
+                Breakout("build", "clear");
+                //-1 hoopzClispaeth TODO
+                }
+            
+            // NO
+            with (ChoiceAdd(choice_1, "Refuse money."))
+                { 
+                Breakout("build", "clear");
+                Dialogue("Governor Elagabalus", "Captive animal fees? Maybe the old governor charged those, but not me.");
+                Dialogue("Cuthbert", "Mr. Governor! Thank you, sir! Thank you! Maybe things are really gonna start to change around here...");
+                //set cuthbertGov to 2
+                Quest("cuthbertGov", 2);
+                }
+            }
+        }       
+    
+    //------------------------------------------------------------
+    // event
+    //------------------------------------------------------------
+    with (event)
+        {
+        //-------------------------------------------
+        // Handler
+        //-------------------------------------------
+        if (Quest("cuthbertApplication") == 1) then
+            {
+            Quest("cuthbertApplication", 2);
+            scr_event_build_event_snippet(application_snippet);
+            }
+        
+        //-------------------------------------------
+        // Outside States
+        //-------------------------------------------
+        else if (room == r_tnn_residentialDistrict01) then scr_event_build_event_snippet(outside_snippet);
+                
+        //-------------------------------------------
+        // Body Swap States
+        //-------------------------------------------
+        // If you're Governor
+        if (BodySwap() == "governor")
+            {
+            if (Quest("petClosed") == 2) then Dialogue("Cuthbert", "Sorry, governor, I can't do anything about the /'captive animal fees/' this month. I'm closing the store... you can send your duergars to seize what's left, soon as I lock up.");
+            else scr_event_build_event_snippet(governor_snippet);                
+            }
+        
+        //-------------------------------------------
+        // Eric States
+        //-------------------------------------------
+        else if (Quest("ericQuest") >= 3) && (Quest("ericFailed") != 2) && (Quest("ericHired") != 1) then scr_event_build_event_snippet(eric_snippet);
+                
+        //-------------------------------------------
+        // Standard Dialogue
+        //-------------------------------------------
+        else
+            {
+            // Looping dialogue
+            if (Quest("cuthbertState") == 1) then
+                {
+                if (Quest("petClosed") == 2) then
+                    {
+                    if (Quest("ericQuest") >= 3) then Dialogue("Cuthbert", "It's too bad your friend never came through. I'm about to close up shop for good. Just saying goodbye to the animals.");
+                    Dialogue("Cuthbert", "Sorry, we're closed. I thought I had locked the door. If you don't mind leaving, I'll follow you right out.");
+                    }
+                else
+                    {
+                    // Eric Hired
+                    if (Quest("ericHired") == 1)
+                        {
+                        // Eric / Governor
+                        if (Quest("cuthbertGov") == 3) then Dialogue("Cuthbert", "Your friend could still help with the sales, but he just saved my skin... thanks for getting me in touch with this guy! Oh yeah, can I help you?");
+                                                
+                        // Governor Extorted
+                        else if (Quest("cuthbertGov") == 1) then Dialogue("Cuthbert", "Ugh, maybe this hire wasn't worth it. I guess I'm better than I was before, but I really need to start moving some pets. Can I help you?");                                                 
+                        else Dialogue("Cuthbert", "I'm not quite sure about this guy... hopefully we start moving some product, but at least we're still in business. Can I help you?");
+                        }
+                        
+                    // Eric Not Hired
+                    else
+                        {
+                        // Governor Extorted
+                        if (Quest("cuthbertGov") == 1) then Dialogue("Cuthbert", "Just one setback after another here... all I needed was another employee! Can I get you anything? Make it quick, I'm not too sure we'll be open much longer."); 
+                               
+                        // Eric Not Hired
+                        else Dialogue("Cuthbert", "Business is slow, but getting the word out is tough since I'm just a one man operation. A helping hand is all I need. Can I get you anything?");                            
+                        }
+                    }
+                    
+                // Go to choices //
+                scr_event_build_event_snippet(choice_snippet);
+                }
+                        
+            // First talk
+            if Quest("cuthbertState") == 0 then
+                {                            
+                // Shop closed //
+                if (Quest("petClosed") == 2) then Dialogue("Cuthbert", "Sorry, we're closed. I thought I had locked the door. If you don't mind leaving, I'll follow you right out.");
+                
+                // Interact //
+                else
+                    {
+                    if (Quest("petClosed") == 1) then Dialogue("Cuthbert", "You looking for an animal companion? Dog? Cat? Lizard? Goldfish? Better act fast. I'm pretty sure we're going out of business.");
+                    else Dialogue("Cuthbert", "You looking for an animal companion? Dog? Cat? Lizard? Goldfish?");
+                    }
+                    
+                // Update cuthbertState
+                Quest("cuthbertState", 1);
+                    
+                // Go to choices //
+                scr_event_build_event_snippet(choice_snippet);
+                }
+            }
+        }
+    
+    // Gameboy advance //
+    scr_event_advance(event);
+    }

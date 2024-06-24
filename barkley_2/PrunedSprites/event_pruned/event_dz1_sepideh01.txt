@@ -1,0 +1,464 @@
+// event_dz1_sepideh01
+// Machinist Sepideh
+// Machinist in Wasteland Dwarf Zone.
+// Involved in a series of quests; get power for her, build machine.
+/*if (argument0 == SCRIPT_START)
+{
+    
+    if (scr_quest_get_state("sepidehWorking") == 1) { scr_entity_animation_set(o_sepideh01, "working"); }
+    else { scr_entity_animation_set(o_sepideh01, "default"); }
+    
+}
+if (argument0 == SCRIPT_STEP)
+{
+
+}
+else if (argument0 == SCRIPT_INTERACT) 
+{
+    // Build Event
+    var sepideh = id;
+    var event = scr_event_create_main();
+    var question_snippet = scr_event_create_child(event);
+    var battery_snippet = scr_event_create_child(event);
+    
+    
+    //------------------------------------------------------------------------------------------------------------
+    //---------- QUESTIONS SNIPPET -------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------
+    with (question_snippet) {
+        
+        var sepidehquestion = scr_event_build_choice("I've got a question...", s_port_hoopz);
+        
+        // What are you working on?
+        with scr_event_build_add_choice(sepidehquestion, "What are you working on?")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, what are you working on?");
+            scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Classified. Can't talk about it. But it'll do this place a load of good.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh, okay...");
+            scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Anything else?");
+            scr_event_build_quest_state("sepidehHandler", 1);
+            scr_event_build_execute_event_script(event_dz1_sepideh01);
+        }
+        
+        // What was that power thing you were talking about earlier?
+        if (scr_quest_get_state("sepidehVar") == 1)
+        {
+            with scr_event_build_add_choice(sepidehquestion, "What was that job you were talking about earlier?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, what was that power thing you were talking about earlier?");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "I'm working on something that's gonna need a lot more power to get running. There's a generator somewhere west of here that I'm sure can divert the power I need to get this thing working but I'm not really sure where it is. Since you're traveling around, do you think you'd have the time to find the generator and divert power to the Industrial Park?");
+                
+                var powerquestion = scr_event_build_choice("Do I have the time to help Sepideh?", s_port_hoopz);
+                
+                //Sure, I can help.
+                with scr_event_build_add_choice(powerquestion, "Sure, I can do that.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sure, I think I can do that. How do I divert the power?");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Great. A lot of these old generators use modular battery systems - as long as there's an unused battery in the system, all you've gotta do is tell it where to send power. If you've already used up all the batteries, getting more power is as easy as installing another battery. These old systems were real simple, not like the bunkum we've got today.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, that sounds pretty easy. So I send the power to the Industrial Park?");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Yeah, that's it. Was there anything else?");
+                    scr_event_build_quest_state("sepidehHandler", 1);
+                    scr_event_build_quest_state("sepidehVar", 2);
+                    scr_event_build_execute_event_script(event_dz1_sepideh01);
+                }
+                
+                //Don't have the time.
+                with scr_event_build_add_choice(powerquestion, "I don't think I have the time.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm not sure I'm going to have the time to do that. I'm kind of busy. Sorry.");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Yeah, figured as much. I'll get this done one way or another. More power would've been nice though.");
+                    scr_event_build_quest_state("sepidehHandler", 1);
+                    scr_event_build_execute_event_script(event_dz1_sepideh01);
+                }
+            }
+        }
+        
+        // How do I get to the generator again?
+        if (scr_quest_get_state("sepidehVar") == 2)
+        {
+            with scr_event_build_add_choice(sepidehquestion, "How do I get to the generator again?")
+            {
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, how do I get to that generator again?");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "I'm not too sure, never been there myself. I know it's somewhere west of here but I don't know specifically where. All you've got to do is divert power to the Industrial Park through the console. If you've already diverted power somewhere else, all you've gotta do is install another battery. It's real simple.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay, thanks!");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Anything else?");
+                scr_event_build_quest_state("sepidehHandler", 1);
+                scr_event_build_execute_event_script(event_dz1_sepideh01);
+            }
+        }
+
+        // Know anything about Figbottom?
+        if (scr_quest_get_state("figbottomQuest") > 2)
+        {
+            if (scr_quest_get_state("figbottomQuest") < 9)
+            {
+                with scr_event_build_add_choice(sepidehquestion, "Do you know anything about the murder of Figbottom?")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm investigating Figbottom's death. Do you know anything about it?");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Nope.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh...");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Anything else?");
+                    scr_event_build_quest_state("sepidehHandler", 1);
+                    scr_event_build_execute_event_script(event_dz1_sepideh01);
+                }
+            }
+        }
+        
+        // I have this battery, could this help?
+        if (scr_quest_get_state("sepidehVar") == 2)
+        {
+            if (scr_quest_get_state("batteryCount") >= 1)
+            {
+                with scr_event_build_add_choice(sepidehquestion, "I've got this battery, would you be able to use this?")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I've got this battery, would you be able to use this?");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Hmmm, lemme see... yeah, this might be a decent temporary solution. I can get enough juice out of this bad boy to finish up the thing I'm working on. You mind if I have this?");
+                    
+                    var batterychoice1 = scr_event_build_choice("Give Sepideh the battery?", s_port_hoopz);
+        
+                    //Give Sepideh Battery
+                    with scr_event_build_add_choice(batterychoice1, "Sure, you can have it.")
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sure, I don't mind.");
+                        scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Hey, you're alright! Thanks, kid! I'll put this to good use. Hey, I've had this armory key sitting around for a while and I'm never going to get around to using it. The armory's to the west near the old generator, why don't you take it?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, thanks!");
+                        scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "You know, I won't be done with this thing for a while. Why don't you come and visit me again in a little while when this is done?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I'll be sure to check up on you. Good luck!");
+                        scr_event_build_quest_state("sepidehHandler", 1);
+                        scr_event_build_quest_state("sepidehVar", 3);
+                        scr_event_build_quest_state("industrialPower", 1);
+                        scr_event_build_time_add(1);
+                        scr_event_build_quest_state("sepidehTime", scr_time_get());
+                        scr_event_build_quest_state_add("batteryCount", -1);
+                        scr_event_build_quest_state_add("sepidehFavor", 1);
+                        scr_event_build_execute_event_script(event_dz1_sepideh01);
+                        
+                    }
+                    
+                    //Don't Give Sepideh Battery
+                    with scr_event_build_add_choice(batterychoice1, "Sorry, I'm keeping it.")
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry, I think I'm holding onto this.");
+                        scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Yeah, I don't blame you. I wouldn't be in this predicament if I had a few batteries of my own. In that case, you're gonna need to head west to the old generator station and divert power to the Industrial Park.");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "How do I divert power?");
+                        scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "It's real easy, most of these old generators use modular battery systems - if there's an unused battery hooked up, all you've got to do is tell it where to go. If the power's already been diverted, all you've gotta do is install another battery like the one you've got there. They're real simple.");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well I don't know if I'm going that way, but if I do I'll be sure to give it a look.");
+                        scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Thanks, kid. Appreciate it.");
+                        scr_event_build_quest_state("sepidehHandler", 1);
+                        scr_event_build_execute_event_script(event_dz1_sepideh01);
+                    }
+                }
+            }
+        }
+        
+        // You seem to know a lot about machines.
+        if (scr_quest_get_state("sepidehMachine") == 0)
+        {
+            with scr_event_build_add_choice(sepidehquestion, "You seem to know a lot about machines.")
+            {
+                scr_event_build_quest_state("sepidehMachine", 1);
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "You really know a lot about machines, huh?");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Yep. Someone's gotta know about machines out here in this junk yard, so why not me? But I like working with machines. I like working with my hands and making things. Those gun's all along the perimeter? I made those. The water pumps, the circuit systems powering this place, the central computer system; I made 'em all.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, that's amazing. You made everything?");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "When I make things, things that can run on their own like the turrets, I feel like I'm creating life. Maybe that doesn't make much sense to you, but I feel like... like these machines are my children kind of. People in the Industrial Park think I'm the crazy machine dwarf and maybe I am a little bit, but I've never been able to connect with people on the same level that I can connect with machines, especially my own. I suppose I enjoy the solitude and distance my work provides me.");
+                
+                //Respond to Sepideh about machines.
+                var sepidehmachine = scr_event_build_choice("How should I respond...?", s_port_hoopz);
+                    
+                //You don't sound crazy.
+                with scr_event_build_add_choice(sepidehmachine, "No, you don't sound crazy.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "You don't sound crazy to me. I mean, I don't think I understand completely, but I appreciate your passion for machines.");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Thanks, kid. You're alright. I guess I'm sort of a live and let live person; people should just do their own thing and mine is making machines, you know? If you've ever got any questions about machines or you just want to talk about 'em, lemme know.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sure thing!");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Now, is there anything else?");
+                    scr_event_build_quest_state_add("sepidehFavor", 1);
+                    scr_event_build_quest_state("sepidehHandler", 1);
+                    scr_event_build_execute_event_script(event_dz1_sepideh01);
+                }
+                
+                //It's like art?
+                with scr_event_build_add_choice(sepidehmachine, "It's like art for you, right?")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I think I understand. It's kind of like art for you, right?");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "No, no... not really. For me, building machines is something even more personal than art. These are living creatures with functions, with a purpose. That doesn't mean art doesn't have a purpose, but art doesn't breathe the same way my machines do. They're more than just creations to me, they're children.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Oh...");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Well is there anything else? I'm busy.");
+                    scr_event_build_quest_state("sepidehHandler", 1);
+                    scr_event_build_execute_event_script(event_dz1_sepideh01);
+                }
+                
+                //That sounds weird.
+                with scr_event_build_add_choice(sepidehmachine, "Yeah, that sounds a little weird.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, that sounds a little weird...");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "I guess it does. But if you want to work with machines, you have to imbue a little of yourself into everything you make. I don't know if machines have souls, maybe they don't, but when you've put this much of yourself into them, you sometimes have to wonder. That's all.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know about that...");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Well is there anything else? I'm busy.");
+                    scr_event_build_quest_state("sepidehHandler", 1);
+                    scr_event_build_execute_event_script(event_dz1_sepideh01);
+                }
+                
+                //You don't sound crazy.
+                with scr_event_build_add_choice(sepidehmachine, "I feel like save files in vidcons are my children.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "When I'm playing vidcons and I put hundreds of hours into them, I kind of feel like the save files are my children.");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Is that... is that really how you feel?");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah.");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Putting hundreds of hours of yourself into something, no matter what it is, no matter what it becomes... that's what I do with my machines. But it's about more than just that; seeing it move and function and do the things it was created to do. You get it, kid. You get machines and you get me. I think you've got the same deep connection with machines that I do. I like you.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Heh, geez...");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "If you ever want to talk about machines or you've got questions, lemme know. Is there anything else?");
+                    scr_event_build_quest_state_add("sepidehFavor", 1);
+                    //TODO: Increase vidcon, transhumanism roundmound points
+                    scr_event_build_quest_state("sepidehHandler", 1);
+                    scr_event_build_execute_event_script(event_dz1_sepideh01);
+                }
+            }
+        }
+        
+        // Chup Quest 
+              
+        if (scr_chup_available("sepideh"))
+        {
+            // Sell chup
+            with scr_event_build_add_choice(sepidehquestion, "I bet a chup would speed up your work...") 
+            {
+                if (scr_quest_get_state("sepidehFavor") >= 1) 
+                {
+                    //Sepideh likes you.
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, your transistors look like they could be processing a little more power. Maybe you could up the voltage if you gave 'em a chup boost.");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Uh, no thanks. In fact, I don't think you're even allowed to have those here. I like you so I'm not gonna tell Marshal Masego about this, but you really shouldn't have those here. If you get caught with chups, you could get thrown in prison. You probably already know that, but I thought I'd tell you. Just get rid of them.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Shucks...)");
+                    scr_event_build_quest_state("sepidehHandler", 0);
+                    scr_event_build_quest_state("sepidehChup", 1);
+                    scr_event_build_quest_state_add("sepidehFavor", -1);
+                    // these werent here but maybe they should be? commented out by bort
+                    //scr_event_build_quest_state("sepidehHandler", 2);
+                    //scr_event_build_execute_event_script(event_dz1_sepideh01);
+                } 
+                else if (scr_quest_get_state("sepidehFavor") < 1)
+                {
+                    //Sepideh doesn't like you.
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Hey, your transistors look like they could be processing a little more power. Maybe you could up the voltage if you gave 'em a chup boost.");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Uh, no thanks. In fact, I don't even think you're allowed to have those here. I hate to do this, but I'm gonna have to tell Marshal Masego about this. We have a pretty strict no chup policy here at the Industrial Park and to be honest, I agree with it. Chups are no good.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "(Crap...)");
+                    scr_event_build_quest_state("sepidehHandler", 0);
+                    scr_event_build_quest_state("sepidehChup", 1);
+                    scr_event_build_quest_state_add("chupSuspicion", 1);
+                    scr_event_build_quest_state_add("sepidehFavor", -1);
+                    scr_event_build_quest_state("sepidehHandler", 2);
+                    scr_event_build_execute_event_script(event_dz1_sepideh01);
+                }
+            }
+        }
+        
+        // On Ooze turret quest.
+        if (scr_quest_get_state("oozeTurret") == 2)
+        {
+            if (scr_time_get() == 12)
+            {
+                with scr_event_build_add_choice(sepidehquestion, "You made the turret system, right? Can you tell me a little about it?")
+                {
+                    //if Sepideh likes you
+                    if (scr_quest_get_state("sepidehFavor") >= 1)
+                    {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "You made the turret system, right? Can you tell me a little about it?");
+                        scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "You made the turret system, right? Can you tell me anything about it?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well there are 6 turrets in total and they're all connected to the central computer in the jail. They run on a 200 kHz charge and interface directly with my custom-made matrix operating system. I made 'em out of scraps I found in the junk yard but they're pretty sturdy. In fact, I'm pretty proud of the whole system.");
+                        scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "This sounds like that would take a lot of resources. Where do you get the power from?");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's the best part. I'm actually hacked into the Tir na Nog grid. It's hard to find, but in the Junk Yard south of here next to a bunch of shopping carts is a little generator room where I've jacked the turrets into Cuchulainn's power system. Isn't that great? We're fighting Cuchulainn with his own power. I love it.");
+                        scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Haha, that's pretty great. You're a pretty clever engineer!");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Thanks, kid! Anything to help out an aspiring machinist. Anything else?");
+                        scr_event_build_quest_state("sepidehHandler", 1);
+                        scr_event_build_execute_event_script(event_dz1_sepideh01); 
+                    }
+                    //if Sepideh doesn't like you
+                    else {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "You made the turret system, right? Can you tell me a little about it?");
+                        scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Not much to say, it's a turret system. It keeps us safe. It shoots at intruders. That's all.");
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "That sounds like that would take a lot of resources. Where do you get the power from?");
+                        scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "I've got sources. I'm not sure I really want them to get out. The more people that know about them, the more vulnerable they are. Was there anything else? I'm busy right now.");
+                        scr_event_build_quest_state("sepidehHandler", 1);
+                        scr_event_build_execute_event_script(event_dz1_sepideh01); 
+                    }
+                }
+            }
+        }
+     
+        //End convo
+        with scr_event_build_add_choice(sepidehquestion, "No, I guess not.")
+        {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "No, I guess not. Thanks for the time.");
+            scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Yep, see you later.");
+            scr_event_build_quest_state("sepidehHandler", 0);
+        }
+        
+    } //last bracket
+    
+    //------------------------------------------------------------------------------------------------------------
+    //---------- MAIN EVENT - INTRO ------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------
+    with (event) 
+    {
+        //Adding this to set a knowledge variable if you know exactly where Sepideh is
+        Quest("knowSepideh", 1);
+    
+        // On chup sale
+        if (scr_quest_get_state("sepidehHandler") == 2) 
+        {
+            scr_event_build_quest_state("sepidehHandler", 0);
+            // if chup suspicion is at 3 already, get arrested
+            if (scr_quest_get_state("chupSuspicion") == 3) 
+            {
+                scr_event_build_execute_event_script(event_dz1_chupArrest01); 
+            }
+        }
+        // On reset
+        else if (scr_quest_get_state("sepidehHandler") == 1) 
+        {
+            scr_event_build_quest_state("sepidehHandler", 0);
+            scr_event_build_event_snippet(question_snippet);
+        } 
+        // Diverted Power to Industrial Park
+        else if (scr_quest_get_state("industrialPower") == 1) 
+        {
+            // Already Spoken to Sepideh about completing Power Diversion
+            if (scr_quest_get_state("sepidehVar") == 3) 
+            {
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Hey, it's you. I'm working right now, you want something?");
+                scr_event_build_event_snippet(question_snippet);
+            }
+            // Spoken to Sepideh in the past
+            else if ((scr_quest_get_state("sepidehVar") > 0) && (scr_quest_get_state("sepidehVar") < 3))
+            {
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Hey, that was you, wasn't it? You sent power to the Industrial Park, didn't you?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, did it work?");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Like a charm! We've got more power here than I know what to do with! You're great, kid! I didn't actually expect you to find that generator, but you pulled it off. Hey, I've had this armory key sitting around forever but I'm never gonna use it, why don't you take it? I think the armory's supposed to be somewhere close to that generator.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, thanks!");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Yeah, no problem. I'm gonna be working on this thing for a while, but why don't you come back and visit me sometime in the future? I might have some more work for you.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sure, I'll try to make it back. Thanks, Sepideh.");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Was there anything else?");
+                scr_event_build_quest_state("sepidehVar", 3);
+                scr_event_build_quest_state("sepidehTime", scr_time_get());
+                scr_event_build_quest_state_add("sepidehFavor", 1);
+                //TODO: Give Armory Key.
+                scr_event_build_quest_state("sepidehHandler", 1);
+                scr_event_build_execute_event_script(event_dz1_sepideh01);
+            } 
+            // Never spoken to Sepideh
+            else if (scr_quest_get_state("sepidehVar") == 0) 
+            {
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Hey you, are you the one who diverted power to the Industrial Park?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Me?");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Yes, you! Our power output more than doubled just a little while ago and you walk into town all nonchalant. Was it you?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well, I found this generator out there and it asked me where I wanted to send additional power, so I selected the Industrial Park.");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Well you did me one heck of a favor, kid. I've been working on this contraption for a while now but I haven't had the power I needed to get this thing running right. I appreciate it. I've had this armory key sitting around for a while, why don't you take it?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, thanks. To be honest, I didn't really know what I was doing. It was kind of like a vidcon.");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "I'll be working on this thing for a while, but why don't you come back in a little bit. I might have some work for you.");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I'll do that. Thanks.");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Was there anything else?");
+                scr_event_build_quest_state("sepidehVar", 3);
+                scr_event_build_quest_state("sepidehTime", scr_time_get());
+                scr_event_build_quest_state_add("sepidehFavor", 1);
+                //TODO: Give Armory Key.
+                scr_event_build_quest_state("sepidehHandler", 1);
+                scr_event_build_execute_event_script(event_dz1_sepideh01);
+            }
+        } 
+        // Industrial Power not diverted; Sepideh quest incomplete
+        else if (scr_quest_get_state("industrialPower") == 0)
+        {
+            // Spoken to Sepideh before.
+            if (scr_quest_get_state("sepidehVar") > 0) 
+            {
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Hey, it's you. I'm working right now, you want something?");
+                scr_event_build_event_snippet(question_snippet);
+            }
+            // Never spoken to Sepideh before.
+            else if (scr_quest_get_state("sepidehVar") == 0)
+            {
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Hey kid, you know anything about machines?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "Not really...");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "What about electricity? You know anything about electricity?");
+                scr_event_build_dialogue(P_NAME, s_port_hoopz, "I guess so.");
+                scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Yeah, you've got that look. I got a job for you. I'm working on something, a machine, but I've hit a roadblock: I'm gonna need more juice if I wanna get this thing running. No bones about it. Not a single bone. There's supposed to be some kind of generator west of here but I don't know where it is. You think maybe you have the time to divert power to the Industrial Park?");
+                
+                var powerquestion2 = scr_event_build_choice("Do I have the time to help Sepideh?", s_port_hoopz);
+                
+                // Sure, I can help.
+                with scr_event_build_add_choice(powerquestion2, "Sure, I think I have the time.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't know if I'm heading that way, but I'll give it a shot if I do. How do you divert power?");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "A lot of these old generators use modular battery systems - if there's an unused battery installed, diverting power's as easy as telling it where to go. Installing batteries is pretty easy too, just plug 'em in. In a lot of ways, they're more efficient than modern generators. Except, I guess, for the smoke and fires.");
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "Alright, this doesn't sound too hard. I'll let you know if I get power to the Industrial Park.");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Thanks, kid. Was there anything else?");
+                    scr_event_build_quest_state("sepidehHandler", 1);
+                    scr_event_build_quest_state("sepidehVar", 2);
+                    scr_event_build_execute_event_script(event_dz1_sepideh01);
+                
+                }
+                //Don't have the time.
+                with scr_event_build_add_choice(powerquestion2, "I don't think I have the time.")
+                {
+                    scr_event_build_dialogue(P_NAME, s_port_hoopz, "I don't think I'm going that way. Sorry.");
+                    scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Guess I had you pegged wrong. Too bad, kid. I'll just have to do it myself. Anything else?");
+                    scr_event_build_quest_state("sepidehHandler", 1);
+                    scr_event_build_quest_state("sepidehVar", 1);
+                    scr_event_build_execute_event_script(event_dz1_sepideh01);
+                }
+                //If you have a battery
+                if (scr_quest_get_state("batteryCount") >= 1) 
+                {
+                    with scr_event_build_add_choice(powerquestion2, "I've got this battery, would you be able to use this?") 
+                    {
+                        scr_event_build_event_snippet(battery_snippet);
+                    }
+                }
+            }
+        }
+    }
+    
+    //---------------------------------------------------
+    // battery_snippet
+    //---------------------------------------------------
+    with (battery_snippet)
+    {
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I've got this battery, would you be able to use this?");
+        scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Hmmm, lemme see... yeah, this might be a decent temporary solution. I can get enough juice out of this bad boy to finish up the thing I'm working on. You mind if I have this?");
+        
+        var batterychoice2 = scr_event_build_choice("Give Sepideh the battery?", s_port_hoopz);
+
+        //Give Sepideh Battery
+        with scr_event_build_add_choice(batterychoice2, "Sure, you can have it.") {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sure, I don't mind.");
+            scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Hey, you're alright! Thanks, kid! I'll put this to good use. Hey, I've had this armory key sitting around for a while and I'm never going to get around to using it. The armory's to the west near the old generator, why don't you take it?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Wow, thanks!");
+            scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "You know, I won't be done with this thing for a while. Why don't you come and visit me again in a little while when this is done?");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Yeah, I'll be sure to check up on you. Good luck!");
+            scr_event_build_quest_state("sepidehHandler", 1);
+            scr_event_build_quest_state("sepidehVar", 3);
+            scr_event_build_quest_state("industrialPower", 1);
+            scr_event_build_time_add(1);
+            scr_event_build_quest_state("sepidehTime", scr_time_get());
+            scr_event_build_quest_state_add("batteryCount", -1);
+            scr_event_build_quest_state_add("sepidehFavor", 1);
+            scr_event_build_execute_event_script(event_dz1_sepideh01);
+        }
+    
+        //Don't Give Sepideh Battery
+        with scr_event_build_add_choice(batterychoice2, "Sorry, I'm keeping it.") 
+            {
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Sorry, I think I'm holding onto this.");
+            scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Yeah, I don't blame you. I wouldn't be in this predicament if I had a few batteries of my own. In that case, you're gonna need to head west to the old generator station and divert power to the Industrial Park.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "How do I divert power?");
+            scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "It's real easy, most of these old generators use modular battery systems - if there's an unused battery hooked up, all you've got to do is tell it where to go. If the power's already been diverted, all you've gotta do is install another battery like the one you've got there. They're real simple.");
+            scr_event_build_dialogue(P_NAME, s_port_hoopz, "Well I don't know if I'm going that way, but if I do I'll be sure to give it a look.");
+            scr_event_build_dialogue("Machinist Sepideh", "s_port_sepideh", "Thanks, kid. Appreciate it. Anything else?");
+            scr_event_build_quest_state("sepidehHandler", 1);
+            scr_event_build_quest_state("sepidehVar", 2);
+            scr_event_build_execute_event_script(event_dz1_sepideh01);
+            }
+        }
+
+    scr_event_advance(event);
+    }

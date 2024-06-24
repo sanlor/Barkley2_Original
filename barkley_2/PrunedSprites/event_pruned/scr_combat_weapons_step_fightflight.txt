@@ -1,0 +1,20 @@
+/// scr_combat_weapons_step_fightflight(gun)
+var userId = argument0;
+var gun = argument1;
+
+// Bullets required //
+if gun[? "pCurAmmo"] > 0 then
+    {
+    // Fight //
+    if (scr_input_check_held(KEYID_ACTION, PLAYER1)) then
+        {
+        scr_statusEffect_applyFromScriptToCombatActor(statusEffect_fight, o_hoopz);
+        }
+        
+    // Flight //
+    else
+        {
+        scr_statusEffect_applyFromScriptToCombatActor(statusEffect_flight, o_hoopz);
+        }
+    }
+

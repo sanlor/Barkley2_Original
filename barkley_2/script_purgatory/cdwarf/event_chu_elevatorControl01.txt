@@ -1,0 +1,146 @@
+// event_chu_elevator
+
+/* event_chu_elevator - NOTES
+On Interact, when pushing the Up/Down button inside the elevator.
+
+Has a background event that advances a graphic from 1 to 666 over 5m. 
+    133.2 per minute, 2.22 per second. There are 3 things that can happen:
+    
+1. X114JAM9: Nothing. A 5 minute wait as the elevator rides up.
+2. With Cyberdwarf, with incomplete Cyberspear: Chided, told you're not ready, etc.
+3. With Cyberdwarf, with incomplete Cyberspear: Campfire, told to do suicides.
+
+// TODO:
+    1. Text/writing, obviously
+    2. Time logic, perhaps, for the Chastising and Campfire
+    3. Some acknowledgement of the first time returning to the Lair (exterior?)
+    4. Complete scripting of Campfire scene.
+    5. Distinguish between ElevatorUp and ElevatorDown.
+    6. Event/graphic for the room number and door.
+    7. Event/graphic for player and Cyberdwarf by the campfire.
+    8. Move chastising segment to Exterior.
+        *DONE*
+*/
+/*if (argument0 == SCRIPT_START) {
+     
+} else if (argument0 == SCRIPT_STEP) {
+
+} else if (argument0 == SCRIPT_INTERACT) {
+    // identity
+    var playerX1 = scr_quest_get_state("playerX1");
+    var playerHoopz = scr_quest_get_state("playerHoopz");
+    var playerCC = scr_quest_get_state("playerCC");
+    
+    // elevator (has the elevator been ridden before?)
+    var elevatorRide = scr_quest_get_state("elevatorRide");
+    var elevatorDirection = scr_quest_get_state("elevatorRide");
+    var elevatorChastise = scr_quest_get_state("elevatorChastise");
+    
+    var elevatorCSPieces = scr_quest_get_state("elevatorCSPieces");
+    var csPiecesTotal = scr_quest_get_state("csPiecesTotal");
+    var campfireScene = scr_quest_get_state("campfireScene");
+    
+    
+    var cdwarfJoined = scr_quest_get_state("cdwarfJoined");
+    var cdwarfReformat = scr_quest_get_state("cdwarfReformat");
+    var cdwarfPresent = 0;
+    if cdwarfJoined && !cdwarfReformat {
+        cdwarfPresent = 1;
+    }
+    var cdwarfPresent = scr_quest_set_state("cdwarfPresent", 1);
+    var csQuest = scr_quest_get_state("csQuest");
+    var csComplete = scr_quest_get_state("csComplete");
+    
+    var elevator = id;
+    var event = scr_event_create_main();
+    var end_ride_snippet = scr_event_create_child(event);
+    var chastise_snippet = scr_event_create_child(event);
+    var campfire_snippet = scr_event_create_child(event);
+    
+    // ----- CAMPFIRE_SNIPPET-----
+    with (campfire_snippet) {
+        scr_event_build_dialogue_debug("bort", NULL, "Campfire scene should play here!.");
+        scr_event_build_execute_event_script(event_chu_campfire01);
+    }
+    
+    // ----- CHASTISE_SNIPPET -----
+    with (chastise_snippet) {
+        scr_event_build_dialogue_debug("bort", NULL, "If Cyberdwarf chastising will occur, the snippet would be run now.");
+    }   
+    
+        // ----- END_RIDE_SNIPPET -----
+    with (end_ride_snippet) {
+        scr_event_build_dialogue_debug("bort", NULL, "The door then opens, and player can exit.");
+        scr_event_build_animation_play_and_set(o_chu_elevatorLight01, "opening", "open");
+        scr_event_build_wait_for_actions();
+    }
+    
+    // ----- MAIN EVENT -----
+    with (event) {    
+        // This is for debug mode! it lists the player's variables.
+        //scr_event_build_quest_state("campfireScene", 1);
+        scr_event_build_animation_play_and_set(o_chu_elevatorLight01, "closing", "closed");
+        scr_event_build_wait_for_actions();
+        if (elevatorDirection == 1) {
+            scr_event_build_dialogue_debug("bort", NULL, "Beginning the ride makes the camera oscillate up and down to look like an elevator, plays noises, and starts the room number going from 666 to 2 to L.");
+            scr_event_build_quest_state("elevatorFloor", 0); // TODO fix this
+            //scr_event_build_teleport(r_chu_elevatorlobby01, 220, 152);
+            // elevator is going down{
+            scr_event_build_dialogue_debug("bort", NULL, "Elevator is going down. If there are any downwards-going cutscenes, with Cyberdwarf if you retreat maybe, they'd go here.");
+            scr_event_build_event_snippet(end_ride_snippet);
+        }
+        // implied else...
+        scr_event_build_dialogue_debug("bort", NULL, "Beginning the ride makes the camera oscillate up and down to look like an elevator, plays noises, and starts the room number going from L, to 2, to 666.");
+        scr_event_build_quest_state("elevatorFloor", 666); // TODO fix this
+        //scr_event_build_teleport(r_chu_elevator666th01, 224, 160); 
+        scr_event_build_dialogue_debug("bort", NULL, "The player can run around in the elevator, but it will take 5m. If a cutscene specific to your situation is written, it'll play right now.");
+        
+        if (playerX1 == 1) { // Player is X114JAM9.
+            if (scr_quest_get_state("wiglafMission") >= 1) { // Wiglaf's quest is accepted, but not completed.
+                if (elevatorRide == 0) { // Elevator has not been ridden.
+                    scr_event_build_quest_state("elevatorRide", 1);
+                } 
+                else { // Elevator has been ridden.
+                
+                }
+            } 
+            else if (scr_quest_get_state("wiglafMission") == 0) { // Wiglaf's quest has not been accepted.
+                if (elevatorRide == 0) { // Elevator has not been ridden.
+
+                    scr_event_build_quest_state("elevatorRide", 1);
+                } 
+                else { // Elevator has been ridden.
+
+                }
+            }
+        }
+        
+        else if (playerCC == 1) || (playerHoopz == 1) { // player is CC or Hoopz
+            if (cdwarfReformat == 1) { // cdwarf was reformatted
+
+            } 
+            else if (cdwarfReformat == 0) { // Cyberdwarf is not reformatted, is still with the player.
+                if (csComplete == 0) { // Cyberspear is not yet complete.
+                    // this is being copied over to the exterior... commented out here for the time being.
+                    // see chastise_segment.js
+                    scr_event_build_event_snippet(chastise_snippet); 
+                }
+                else if (csComplete == 1) { // Cyberspear is complete.
+                    if (campfireScene == 1) { // Camp scene has already occured.
+                        // Generic dialogue
+                        // Nothing?
+                    } 
+                    else if (campfireScene == 0) {
+                        // Campfire segment.
+                        //scr_event_build_quest_state("campfireScene", 1);
+                        scr_event_build_event_snippet(campfire_snippet); 
+
+                    }
+                }
+            }
+        }
+        
+        scr_event_build_event_snippet(end_ride_snippet); 
+    }
+    scr_event_advance(event);
+}

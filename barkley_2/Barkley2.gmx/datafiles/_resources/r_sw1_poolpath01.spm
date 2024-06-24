@@ -1,0 +1,29 @@
+{
+    "IMHjzKlw7Wc6Bfxq3ghPYS2KKufXEM": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_catfish_small",
+        "resources": 1,
+        "uuid": "IMHjzKlw7Wc6Bfxq3ghPYS2KKufXEM",
+        "x": 115,
+        "y": 225
+    },
+    "Z3DA4rg62Js2RpDHbLxw7Gy1w3v2bz": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_catfish_small",
+        "resources": 1,
+        "uuid": "Z3DA4rg62Js2RpDHbLxw7Gy1w3v2bz",
+        "x": 114,
+        "y": 310
+    },
+    "qOmlV6TdY3dq3EUvtfHiz0wNb8j0XQ": {
+        "hue": 4235519,
+        "level": 1,
+        "objectName": "o_enemy_catfish_small",
+        "resources": 1,
+        "uuid": "qOmlV6TdY3dq3EUvtfHiz0wNb8j0XQ",
+        "x": 343,
+        "y": 224
+    }
+}

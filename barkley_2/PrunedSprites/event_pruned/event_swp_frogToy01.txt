@@ -1,0 +1,185 @@
+/*
+    frogkidState 
+        0 = Not interacted
+        1 = Interacted before
+        2 = Angry with you, first
+        3 = Angry with you, second
+        4 = Forgiveness
+        5 = Best friends
+        
+    frogQuiz
+        0 = No quiz taken
+        1 = Really messed up the quiz
+        2 = Messed up the quiz
+        3 = Quiz mastered
+*/
+script = "     
+IF frogkidState == 0 | GOTO | FROG_0
+IF frogkidState == 1 | GOTO | FROG_1
+
+FROG_0
+QUEST  | frogkidState = 1
+DIALOG | P_NAME   | Whoa! What the heck is this thing?
+// Hoopz tries to pick up a thing but frog kid blocks him
+DIALOG | Frog Kid | HEY! DON'T TOUCH THAT!
+DIALOG | P_NAME   | Yikes!
+DIALOG | Frog Kid | Oh sorry, I thought you were gonna try to... wait...
+WAIT   | 0.5
+DIALOG | Frog Kid | Whoa! Whoa, it's true isn't it!? Are you here for the same reason I am?
+GOTO   | WHY_HERE
+
+FROG_1
+DIALOG | P_NAME   | It's this thing again...
+// Hoopz tries to pick up a thing but frog kid blocks him
+IF frogkidState == 2 | GOTO | SAID_NO
+
+WHY_HERE
+CHOICE | Am I here for the same reason?
+REPLY  | REASON_YAY | Yes, definitely.
+REPLY  | REASON_NAY | Nope, not me.
+
+REASON_YAY
+DIALOG | P_NAME   | Uh, yeah, I'm here for the same reason.
+DIALOG | Frog Kid | NO WAY!!! I KNEW IT!!! YOU'RE HERE FOR THE FROGS TOO!?!?!?
+// Pace back and forth
+DIALOG | Frog Kid | HA! And they said I was the only one who cared about frogs! Well they were wrong! They were ALL WRONG!
+DIALOG | Frog Kid | HAHAHAHAHAHAHAHAHHAAHAHHAAHAHHA!!! Oh man, is it our lucky day or what!?
+// Pace back and forth
+DIALOG | Frog Kid | So what is your favorite thing about frogs? I like how they're slimy! I like how they're squishy! I like how they splash! I like how they taste! I like the way they smell! I like how they jump! I like how they eat bugs! I eat bugs too! What do you like about frogs?
+DIALOG | P_NAME   | (Oh man, what I am gonna say to this kid!? I barely know anything about frogs!)
+GOTO   | FROG_QUIZ
+
+REASON_NAY
+DIALOG | P_NAME      | Nope, not me.
+IF frogkidState == 1 | DIALOG | Frog Kid | Oh... okay...
+IF frogkidState == 2 | DIALOG | Frog Kid | Oh... still? Then what are you doing out here!?
+GOTO   | FROG_ESCAPE
+
+SAID_NO
+DIALOG | Frog Kid | HEY, DON'T TOUCH THAT!
+DIALOG | P_NAME   | Yikes!
+DIALOG | Frog Kid | Oh... it's you again. I remember you! ... Are you SURE you're not here for the same reason I am?
+DIALOG | P_NAME   | I remember you too. You're that kid who's really into frogs, right?
+DIALOG | Frog Kid | Whoa... did you say FROGS!?
+WAIT   | 0.5
+DIALOG | Frog Kid | That means... are you SURE you're not here for the same reason I am?
+GOTO   | WHY_HERE
+
+QUIZ_FAIL
+DIALOG | Frog Kid | Sorry I got mad last time you were here! I was really excited and then you told me a bunch of frog garbage! Are you sure you like frogs? REALLY sure!?
+
+DIALOG | Frog Kid | So, did you change your mind? Do you like frogs again? You said you did before... but I wanna be sure!
+        
+CHOICE | Am I really sure I like frogs?
+REPLY  | FROG_POSITIVE | Yep, I'm positive!
+REPLT  | FROG_NOT_SURE | I'm not sure.
+
+FROG_POSITIVE
+DIALOG | P_NAME   | Yep, I'm positive.
+DIALOG | Frog Kid | Really!? REALLY!? YES!!!
+// Pace back and forth
+DIALOG | Frog Kid | Tell me your favorite thing about frogs! I like how they leap! I like how they stick out their long tongues! I like how they climb! I like frogs so much! Tell me what you like about frogs!
+DIALOG | P_NAME   | (Uh oh... this again...)
+GOTO   | FROG_QUIZ
+
+FROG_NOT_SURE
+DIALOG | P_NAME   | Um, I'm not really sure.
+DIALOG | Frog Kid | Well come back when you're sure! Me... I'm here for the frogs! See ya later!
+GOTO   | FROG_ESCAPE
+
+FROG_QUIZ
+CHOICE | What do I like about frogs?
+REPLY  | QUIZ_1_METAL | The metal shell that protects them from predators!
+REPLY  | QUIZ_1_LURE  | The antennae that are used to attract mates!
+REPLY  | QUIZ_1_SWIM  | The way they swim in the water!
+REPLY  | QUIZ_1_IDIOT | The way they just sit there in the water all day like idiots!
+
+QUIZ_1_METAL
+DIALOG | P_NAME   | I like how their metal shell protects them from predators!
+DIALOG | Frog Kid | WHAT!?! FROGS ARE NOT MADE OF METAL!!! YOU LIED TO ME, YOU DON'T KNOW ABOUT THE FROGS AT ALL!!!
+QUEST  | frogQuiz = 2
+GOTO   | FROG_ESCAPE
+    
+QUIZ_1_LURE
+DIALOG | P_NAME | I like how their antennae are used to attract mates!
+DIALOG | Frog Kid | WHAT!?! FROGS DO NOT HAVE ANTENNAE!!! YOU DON'T KNOW JACK ABOUT FROGS!!!
+QUEST  | frogQuiz = 2
+GOTO   | FROG_ESCAPE
+
+QUIZ_1_SWIM
+DIALOG | P_NAME   | I like how they swim in the water!
+DIALOG | Frog Kid | THATS MY FAVORITE THING ABOUT FROGS TOO!!!
+QUEST  | frogQuiz = 3
+GOTO   | FROG_VICTORY
+
+QUIZ_1_IDIOT     
+DIALOG | P_NAME   | I like how they just sit there in the water all day like idiots!
+DIALOG | Frog Kid | GET THE HELL OUT OF MY SWAMP AND NEVER COME BACK EVER AGAIN FOR AS LONG AS YOU LIVE!!!
+QUEST  | frogQuiz = 1
+QUEST  | frogkidState = 2
+GOTO   | FROG_ESCAPE
+    
+FROG_ANGRY_FIRST
+DIALOG | Frog Kid | HEY, YOU AGAIN! ARE YOU TRYING TO STEAL MY TOY!? I TOLD YOU NEVER TO COME TO MY SWAMP AGAIN!
+QUEST  | frogkidState = 3
+GOTO   | FROG_ESCAPE = 2
+
+FROG_ANGRY_SECOND
+DIALOG | Frog Kid | YOU AGAIN! FROG LIBELLER! WHY DON'T YOU JUST GET LOST! I HAVEN'T FORGIVEN YOU YET!
+QUEST  | frogkidState = 4
+GOTO   | FROG_ESCAPE
+
+FROG_FORGIVENESS
+DIALOG | Frog Kid | HEY! LISTEN UP!
+DIALOG | P_NAME   | ... h-huh? I-
+DIALOG | Frog Kid | JUST LISTEN! You said some pretty messed up things about frogs before, and I was mad, OH BELIEVE ME I was mad!!! But I thought about it and I'm not going to blame you. You must have been confused! There's no way someone could have such rotten things to say about frogs on purpose. So I am taking it upon myself to educate you!
+DIALOG | P_NAME   | Educate me? I don't know if I-
+DIALOG | Frog Kid | Sorry, no more excuses! You're going to learn about frogs, from me! THE FROG KID!
+DIALOG | P_NAME   | Frog Kid, huh?
+DIALOG | Frog Kid | Yep, that's my name! Man... I AM SO PUMPED! We are going to have so much fun learning about frogs! WE'RE BEST FRIENDS NOW!!!
+GOTO   | FROG_VICTORY_FORGIVENESS 
+
+FROG_VICTORY_FORGIVENESS
+DIALOG | P_NAME   | (What have I gotten myself into now...)
+DIALOG | Frog Kid | There's always more to learn about frogs... and now that we're best friends, I'm going to help you learn all about them! I want you to have this!
+NOTIFY | Found Lucky Frog Amulet!
+ITEM   | Lucky Frog Amulet | +1
+DIALOG | P_NAME   | Oh wow, this is really cool! Thanks, kid. I wish I could give something to you...
+DIALOG | Frog Kid | That's okay... just make sure you come back and learn and play with me!
+GOTO   | FROG_CONCLUSION
+
+FROG_VICTORY
+DIALOG | Frog Kid | THAT'S IT!!! WE'RE BEST FRIENDS NOW!
+DIALOG | P_NAME   | (What have I gotten myself into now...)
+DIALOG | Frog Kid | I have never met someone who loves frogs just as much as I do! And now that we're best friends, I want you to have this!
+NOTIFY | Found Lucky Frog Amulet!
+ITEM   | Lucky Frog Amulet | +1
+DIALOG | P_NAME   | Oh wow, this is really cool! Thanks, kid. I wish I could give something to you...
+DIALOG | Frog Kid | Hey, I am not just any kid! I am the FROG KID!
+GOTO   | FROG_CONCLUSION
+
+FROG_CONCLUSION
+// Move closer to object in the water
+DIALOG | P_NAME   | What type of frog is that over there in the water, Frog Kid?
+DIALOG | Frog Kid | Oh, that's my Toader action figure! Sorry for snapping at you earlier about it. it's the only thing left that I have to remind me of my parents.
+DIALOG | P_NAME   | Yeah... parents...
+DIALOG | Frog Kid | Hey, what's wrong!?
+DIALOG | P_NAME   | Oh... it's nothing. So, tell me more about frogs!
+DIALOG | Frog Kid | Okay!
+// Animation 
+DIALOG | Frog Kid | Well, did you know that frogs have the ability to drink and breathe through their skin!? They can't swallow water like you and me, they abosrb it through their skin like a sponge! Frogs need to be moist at all times! They can also shed their skin!? Bet you didn't know that, huh? They stretch really, REALLY far to get out of their skin, and after they take if off they actually eat their skin!!! HOW COOL IS THAT! Frogs are really good to eat too! Don't go eating the legs on that amulet I gave you though, they're not real legs! Oh yeah, another thing about frogs is...
+DIALOG | P_NAME   | (Man, I have never seen anyone more enthusiastic about anything in my entire life!)
+WAIT   | 0.75
+DIALOG | P_NAME   | Well... I would love to talk to you more about frogs, but I think I have to get going now, Frog Kid!
+DIALOG | Frog Kid | Okay... well if there is anything more you want to know about frogs or any swamp-related things just come and find me! I live in the swamp so you can always find me if you just keep your eyes open!
+DIALOG | P_NAME   | Thanks, I will!
+DIALOG | Frog Kid | See ya later!
+QUEST  | frogkidState = 5
+GOTO   | FROG_ESCAPE
+    
+FROG_ESCAPE
+//Frog Kid jumps into the water and disappears.
+";
+
+
+

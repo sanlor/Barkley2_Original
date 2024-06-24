@@ -1,0 +1,72 @@
+// Kobold Challenge poster //
+// Initialize //
+/*if (argument0 == SCRIPT_START) {
+            
+} 
+
+// Step //
+if (argument0 == SCRIPT_STEP) {
+
+}
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) {
+
+    // Variables //
+    var event = scr_event_create_main();
+    
+    // Main event //
+    with (event) {
+
+            // Challenge over, just look at the poster //
+            if scr_quest_get_state("swp_gertrude") >= 4 scr_event_build_dialogue(P_NAME, s_port_hoopz, "This is the poster for the Kobold Challenge, but the hostess is gone so I it's over for now.");
+            else
+                {    
+                // Activate poster //
+                if scr_quest_get_state("swp_koboldchallenge_start") = 0 scr_event_build_create_object(o_mg_challenge_kobold, x, y);
+                else if scr_quest_get_state("swp_koboldchallenge_start") = 1
+                    {            
+                    // Start dialog //
+                    scr_event_build_wait(0.75);
+                    scr_event_build_look(o_cts_hoopz, WEST);
+                    if scr_quest_get_state("swp_gertrude") == 0 {
+                        
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "I'm here for the Kobold Challenge. Bring it on.");
+                        scr_event_build_dialogue("Gertrude", NULL, "Oh! Right away, sir! Here I'll open the gates for you. Good luck!");
+                        }
+                    else {
+                        scr_event_build_dialogue(P_NAME, s_port_hoopz, "Okay Gertrude, I'm ready. Let the games commence!");
+                        scr_event_build_dialogue("Gertrude", NULL, "Okay, I'll open the gates for you. Oh, this is gonna be great! Good luck!");
+                        }
+                        
+                    // Move to the arena //
+                    scr_event_build_wait(0.5);
+                    scr_event_build_look(o_cts_hoopz, SOUTH);
+                    scr_event_build_camera_follow(MOVE_NORMAL, o_cts_hoopz);
+                    scr_event_build_move_to_point(o_cts_hoopz, 192, 300);
+                    scr_event_build_wait(0.5);
+                    scr_event_build_create_object(o_mg_challenge_kobold_battle, x, y);
+    
+                    // Open gates //
+                    scr_event_build_sound_play("sn_debug_one");
+                    scr_event_build_user(o_mg_challenge_kobold_doorway, 1);
+                    scr_event_build_wait(1);                
+                    scr_event_build_move_to_point(o_cts_hoopz, 192, 480);
+                    scr_event_build_wait_for_actions();
+                    scr_event_build_look(o_cts_hoopz, SOUTH);
+                    scr_event_build_camera_move_to_point(250, 530, MOVE_NORMAL);
+                    scr_event_build_wait(2);
+                    
+                    // Gates close //
+                    scr_event_build_sound_play("sn_debug_two");
+                    scr_event_build_user(o_mg_challenge_kobold_doorway, 2);
+                    scr_event_build_wait(1);
+                    
+                    // Begin the carnage // 
+                    scr_event_build_camera_follow(MOVE_NORMAL, o_cts_hoopz);               
+                    scr_event_build_wait(1.5);                            
+                    }         
+                }
+    }
+    scr_event_advance(event);
+}

@@ -1,0 +1,7 @@
+// scr_sabah_random
+/*
+    Just a placeholder, will generate some random exaltations for Sabah!
+
+*/
+
+/*scr_event_build_dialogue_debug("bort", NULL, "Sabah will, in the future, say a random line here!");

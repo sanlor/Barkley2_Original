@@ -1,0 +1,37 @@
+/// scr_draw_motionblur(sprite, subimg, x, y, xscale, yscale, rot, color, alpha, motiondir, motiondist, mindist, maxdetail)
+
+var motiondir = argument9;
+var motiondist = argument10;
+var mindist = argument11;
+var maxdetail = argument12;
+
+var _x, _y;
+if (motiondist >= mindist) {
+    // Offset half movement dist backwards : end of blur should be at end of object, for clarity reasons
+    _x = argument2 - lengthdir_x((motiondist/2), motiondir);
+    _y = argument3 - lengthdir_y((motiondist/2), motiondir);
+    draw_sprite_ext(argument0, argument1, _x, _y, argument4, argument5, argument6, argument7, argument8);
+    
+    // Draw blur on both sides
+    var distdiff, alphamod;
+    var detail = min(motiondist div 2, maxdetail);
+    for (var i = 0; i < detail; i++) {
+        distdiff = (motiondist/2) * ((i+1) / detail);
+        alphamod = (1 - ((i + 1) / (detail+1))) * .4;
+        draw_sprite_ext(argument0, argument1,
+                        _x + lengthdir_x(distdiff, motiondir),
+                        _y + lengthdir_y(distdiff, motiondir),
+                        argument4, argument5, argument6, argument7,
+                        argument8 * alphamod);
+        draw_sprite_ext(argument0, argument1,
+                        _x - lengthdir_x(distdiff, motiondir),
+                        _y - lengthdir_y(distdiff, motiondir),
+                        argument4, argument5, argument6, argument7,
+                        argument8 * alphamod);
+    }
+}
+else {
+    _x = argument2;
+    _y = argument3;
+    draw_sprite_ext(argument0, argument1, _x, _y, argument4, argument5, argument6, argument7, argument8);
+}

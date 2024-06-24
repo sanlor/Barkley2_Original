@@ -1,0 +1,13 @@
+/// scr_event_step() 
+/// Automatically called in the event object's step event.
+/// Used to check if the event should wait for all actions to complete.
+
+if (_wait_for_actions and _events_active == 0) {
+    _wait_for_actions = false;
+    scr_event_advance(id);
+}
+
+// Have one frame go by before destroying the main event to allow everything to resolve.
+if (_type == EVENT_MAIN and _skipping) { 
+    scr_event_action_end();
+}

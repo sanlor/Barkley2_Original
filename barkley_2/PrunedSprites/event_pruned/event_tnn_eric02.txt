@@ -1,0 +1,726 @@
+// event_tnn_eric01
+// Script for Eric, hopeful Pet Shop Applicant
+/*
+    At time 1, Eric doesn't exist.
+    ericQuest = 0 is Eric hasn't been spoken to.
+    ericQuest = 1 is Eric's quest has been rejected.
+    ericQuest = 2 is Eric's quest has been accepted.
+    ericQuest = 3 is you've found the pet store and talked to the owner.
+    ericQuest = 4 is you've told Eric about the resume but still need to do it.
+    ericQuest = 5 is you've finished the resume.
+    ericQuest = 6 is cuthbert hated your resume.
+    ericQuest = 7 is cuthbert liked the resume a little.
+    ericQuest = 8 is cuthbert liked the resume a lot.
+    ericQuest = 9 is you've completed the quest and gotten your reward, eric moves to the shop
+    ericQuest = 10 if eric is in the pet shop
+*/
+if (argument0 == SCRIPT_START) then
+    {
+    //-------------------------
+    // In Pet Shop
+    //-------------------------
+    if (room == r_tnn_petshop02) then
+        {
+        // Quest Incomplete
+        if (Quest("ericQuest") < 9) then scr_event_interactive_deactivate();
+        }
+
+    //-------------------------
+    // Not in Pet Shop
+    //-------------------------
+    else
+        {
+        // Should be in Pet Shop
+        if (Quest("ericQuest") >= 9) then scr_event_interactive_deactivate();
+
+        // If I'm outdoors
+        else if (scr_inside() == false) and (scr_time_db("tnnCurfew") == "during") then scr_event_interactive_deactivate();
+                        
+        // If I'm indoors
+        else if (scr_inside() == true) and (scr_time_db("tnnCurfew") != "during") then scr_event_interactive_deactivate();
+        
+        // Clocktime deactivation //
+        if ClockTime() >= 6 then scr_event_interactive_deactivate(); 
+        }
+    }
+
+// Interact //
+else if (argument0 == SCRIPT_INTERACT) then
+    {
+    var event = scr_event_create_main();
+
+    //--------------------------------------------------------------------
+    // THE RESUME SEGMENT!!!!!!!!
+    //--------------------------------------------------------------------
+    var resume = scr_event_create_child(event);
+    with resume 
+        {
+        // Variable setup //
+        var scene_top = scr_event_dialogue_build_extras(8, 140, NULL, NULL, NULL, NULL, NULL, NULL_STRING, NULL_STRING, NULL, NULL, false); //was 8, 8 for top //+ (4 * 12 + 44)
+        var scene_extras = scr_event_dialogue_build_extras(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL_STRING, NULL_STRING, 0.2, true, false); ///Extras param to make juicebox go nuts
+        
+        // Start filling up resume //
+        Dialogue(P_NAME, "Yeah, I think so. Lemme take a look at this application...");
+        scr_event_build_dialogue("Eric", "s_port_gamer", "By all means, take your time. It's not like I was preoccupied with far more important things.");
+        scr_event_build_create_object(o_tnn_resume, 0, 0); // Slide up resume
+        Wait(2.5);
+        Dialogue(P_NAME, "Hmm, so the application has a list of criteria we need to fill out. It looks like there are only five: Bio, References, Previous Work Experience, Qualifications, and Skills. This sounds pretty easy, all we need to do is give stock, professional-sounding answers and you'll definitely get the job.");
+        scr_event_build_dialogue("Eric", "s_port_gamer", "NO! I REFUSE to betray the Pet Manifesto and my core values for the sake of your precious /'capitalism/'. I will veto ANY answer that requires me to forgo Pet Decency. Know this well, " + P_NAME + ".");
+        Dialogue(P_NAME, "Sigh... we'll just have to find some middle ground that casts you in the most presentable light then, whatever that means. This could have been really easy, Eric.");
+        scr_event_build_dialogue_ext("Eric", "s_port_gamer", "As much as it pains me to suffer your presence, I will agree to your terms.",scene_extras);
+        Dialogue(P_NAME, "This first part seems simple enough. Do you have a photo laying around?"); //
+        scr_event_build_dialogue("Eric", "s_port_gamer", "No, I don't have a photo /'laying around/'. However, I do have a photo on my person, yes. Ask the right question next time and you'll make less of an ape of yourself.");
+        //// Progress
+        scr_event_build_call_user_event(o_tnn_resume, 0); Wait(1.01);
+        Dialogue(P_NAME, "Your full name?");
+        scr_event_build_dialogue("Eric", "s_port_gamer", "Are you deaf in addition to being incredibly thick? It's Eric. E-r-i-c. Capice?");
+        //// Progress
+        scr_event_build_call_user_event(o_tnn_resume, 0); Wait(1.01);
+        Dialogue(P_NAME, "...Okay. How old are you?");
+        scr_event_build_dialogue("Eric", "s_port_gamer", "Unknown.");
+        Dialogue(P_NAME, "Unknown?");
+        //// Progress
+        scr_event_build_call_user_event(o_tnn_resume, 0); Wait(1.01);
+        scr_event_build_dialogue("Eric", "s_port_gamer", "Ugh, get on with it already! Time might mean nothing to YOU, but it's of the essence to those of us who have better things to do with it. There's a whole RANGE of incubators eagerly awaiting my e-review.");
+        Dialogue(P_NAME, "This part seems a bit trickier... It's a personal quote that tells a bit about yourself.");
+        scr_event_build_dialogue("Eric", "s_port_gamer", "There are far too many quotes and credos that resonate with me, and choosing one is like choosing my favorite lizard subspeci-");
+        Dialogue(P_NAME, "Any quote will do.");
+        scr_event_build_dialogue("Eric", "s_port_gamer", "/'No gods, no masters. Only pets./'");
+        //// Progress
+        scr_event_build_call_user_event(o_tnn_resume, 0); Wait(1.01);
+        Dialogue(P_NAME, "Okay. So the next field is for references... I think that's like people who can back up your work or something? I guess you don't really have any references, do you, Eric...?");
+
+        /////////////////////////////////////////////////////////////////
+        ///// Question 1 - References
+        /////////////////////////////////////////////////////////////////
+        var reference = Choice("What do we fill in for references?", "s_port_gamer");
+        with ChoiceAdd(reference, "I guess we could put " + P_NAME + "?") 
+            {
+            Dialogue(P_NAME, "I guess we could just put my name. I don't think this field really matters.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Hmph, clearly not if your name will suffice. Heh heh, once again, Eric knocks the Pet Philistine down a few pegs.");
+            Dialogue(P_NAME, "Clispaeth Christ... I'm trying to help you out here, Eric. I'm just putting my name down to get this over with.");
+            Quest("petshopApplicationQuality", 6);
+            Quest("ericTolerance", 4);
+            Quest("ericReference", 0);
+            }
+
+        with ChoiceAdd(reference, "I've forsaken dwarfs for pets.") 
+            {
+            scr_event_build_dialogue("Eric", "s_port_gamer", "I need no references. I've forsaken dwarfs for the path of pets.");
+            Dialogue(P_NAME, "I don't even know what that means, Eric. Should I just leave it blank? It's gonna look really bad.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Heh, your ignorance has already doomed my resume. At this point I sincerely doubt you can cause any more harm than you already have. Let's just get this over with.");
+            Quest("petshopApplicationQuality", 3);
+            Quest("ericTolerance", 2);
+            Quest("ericReference", 1);
+            }
+
+        with ChoiceAdd(reference, "Lots of animals.") 
+            {
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Put in the names of my all my pets, their species and EVERY trick they've fully mastered. Starting with my invertebrates, and moving into vertebrates. First is Nadine, my hermit crab. Hurry up, write!");
+            Dialogue(P_NAME, "Uh, I'm just going to put /'lots of animals/'.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "If so, then you'd be accountable for what is quintessentially the biggest Pet Fiasco of year, possibly decade. That burden is on your shoulders, I wipe my hands clean of it.");
+            Quest("petshopApplicationQuality", 1);
+            Quest("ericTolerance", 1);
+            Quest("ericReference", 2);
+            }
+
+        with ChoiceAdd(reference, "Just put Cuchulainn.") 
+            {
+            Dialogue(P_NAME, "Just put Cuchulainn. I don't think this field really matters.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "The one thing I hate more than your CATASTROPHIC pet ignorance is Cuchulainn. That you would DARE add his name to my list of references...");
+            Dialogue(P_NAME, "Ugh, whatever Eric. We just need to fill in the blank. Nobody cares about references.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Wait until the pet subforum on DwarfNET hears about this boner...");
+            Quest("petshopApplicationQuality", 5);
+            Quest("ericTolerance", 6);
+            Quest("ericReference", 3);
+            }
+            
+        // Update the resume vars //
+        scr_event_build_call_user_event(o_tnn_resume, 0); 
+        Wait(1.01);
+
+        /////////////////////////////////////////////////////////////////
+        ///// Question 2 - Previous work experience
+        /////////////////////////////////////////////////////////////////
+
+        // Tolerance exceeded 10 response
+        var experience_tolerance = scr_event_create_child(event);
+        with experience_tolerance 
+            {
+            Dialogue(P_NAME, "One thing that might be smart to menton is-");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Of course! My running DwarfNET column, fuckyeahbulldogs, where I post subversive Photoshops of celebrities with bulldog heads. No celebrity is safe from my scathing, side-splitting and quite frankly, salient social criticism."); // cogworx ???
+            Dialogue(P_NAME, "Yeah, your... DwarfNET column. Great. Just put it on there. That'll be real impressive."); // cogworx ???
+            scr_event_build_dialogue("Eric", "s_port_gamer", "This may be the first LOGICAL thing I've heard you say. Perhaps my wisdom isn't completely lost on you.")
+            QuestAdd("petshopApplicationQuality", -1);
+            Quest("ericTolerance", 0);
+            Quest("ericExperience", 4);
+            }
+            
+        // ACTUAL QUESTION
+        Dialogue(P_NAME, "Whatever. Lemme take a look at the next field. Uh... looks like it's your previous work experience. I think it's probably better if we didn't mention that /'chimps and a drink/' thing.");
+        scr_event_build_dialogue("Eric", "s_port_gamer", "I think it's probably better if I never have to deal with your utter, unmitigated incompetence again.");
+        Dialogue(P_NAME, "You know, man? I've been extremely nice and patient with you. I have no idea why you're being so abusive to me, but uh, the sooner we're done with this, the better.");
+        scr_event_build_dialogue("Eric", "s_port_gamer", "Hmph. So you DO just want my most prized possession. Pathetic. No matter, about my previous work experience...");
+        var experience = Choice("What should we put for Eric's experience?", "s_port_gamer");
+
+        with ChoiceAdd(experience, "None, but have lots of gumption.") 
+            {
+            QuestAdd("ericTolerance", 5);
+            var new_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, experience_tolerance, new_normal);
+            with new_normal 
+                {
+                Dialogue(P_NAME, "What if we say something about how you're relatively new to the workforce but you've got a lot of gumption?");
+                scr_event_build_dialogue("Eric", "s_port_gamer", "What if, for once in your pitiful, unexamined life, you tried using logic?");
+                Dialogue(P_NAME, "Then I guess I wouldn't be here right now...");
+                QuestAdd("petshopApplicationQuality", 5);
+                Quest("ericExperience", 0);
+                }
+            }
+
+        with ChoiceAdd(experience, "Modded DwarfNET Pet subforum.") 
+            {
+            QuestAdd("ericTolerance", 2);
+            var dwarfnet_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, experience_tolerance, dwarfnet_normal);
+            with dwarfnet_normal 
+                {
+                scr_event_build_dialogue("Eric", "s_port_gamer", "I've modded the pets subforum of DwarfNET with extreme distinction and have accumulated a body of work made up of over 20,000 posts.");
+                Dialogue(P_NAME, "I guess being a forum mod is... kind of like a job... I mean it involves some level of responsibility. It kind of works.");
+                scr_event_build_dialogue("Eric", "s_port_gamer", "I fully intend to utilize my gift (and my curse) in the faces of misbehaving pets. Next question.");
+                QuestAdd("petshopApplicationQuality", 3);
+                Quest("ericExperience", 1);
+                }
+            }
+
+        with ChoiceAdd(experience, "Full-time MMO player.") 
+            {
+            QuestAdd("ericTolerance", 1);
+            var mmo_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, experience_tolerance, mmo_normal);
+            with mmo_normal 
+                {
+                scr_event_build_dialogue("Eric", "s_port_gamer", "Previous work experience? I am first and foremost a full-time MMO raid leader and I'm going to lay down some ground rules. First? I will NOT allow this so-called job to get in the way of my raids. If there's a raid scheduled during my work hours, that raid WILL take precedence.");
+                Dialogue(P_NAME, "That's not really job experience. Actually it's kind of the opposite. But I guess being a raid leader shows some degree of responsibility... I guess...");
+                scr_event_build_dialogue("Eric", "s_port_gamer", "/'Some degree/'. Heh. You have NO concept of the effort and mental anguish that goes into leading an elite unit of magicians to glory. And you likely never will.");
+                Dialogue(P_NAME, "Sigh... probably not.");
+                QuestAdd("petshopApplicationQuality", 4);
+                Quest("ericExperience", 2);
+                }
+            }
+
+        with ChoiceAdd(experience, "Cave bat guano enthusiast.") 
+            {
+            QuestAdd("ericTolerance", 2);
+            var cavebat_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, experience_tolerance, cavebat_normal);
+            with cavebat_normal 
+                {
+                scr_event_build_dialogue("Eric", "s_port_gamer", "Well... it's not what the layman would consider a job, but I spend a considerable amount of my time collecting and categorizing cave bat guanos.");
+                Dialogue(P_NAME, "Yeah, that actually wouldn't be considered previous job experience. It's also not something that employers, or really anyone, wants to hear about.");
+                scr_event_build_dialogue("Eric", "s_port_gamer", "No, it doesn't surprise me at all that someone as intellectually stunted as yourself wouldn't see the scientific merit of my work. I would say it was sad if it wasn't what I'd already expected. You're merely the woeful byproduct of the ambivalence and ignorance of your generation.");
+                Dialogue(P_NAME, "Sigh... yep. Definitely.");
+                QuestAdd("petshopApplicationQuality", 2);
+                Quest("ericExperience", 3);
+                }
+            }
+            
+        // Update resume vars //
+        scr_event_build_call_user_event(o_tnn_resume, 0); 
+        Wait(1.01);
+
+        /////////////////////////////////////////////////////////////////
+        ///// Question 3 - Qualifications
+        /////////////////////////////////////////////////////////////////
+
+        // Tolerance exceeded 10 response
+        var qualify_tolerance = scr_event_create_child(event);
+        with (qualify_tolerance) 
+            {
+            scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "Well what if we talk about y-", scene_top);
+            scr_event_build_dialogue_ext("Eric", "s_port_gamer", "NO! I've had it up to here with your imbecilic suggestions! We're doing this MY way. My qualifications? I'll let these photographs of pregnant moles speak for themselves!", scene_top);
+            scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "What does this even have to d-", scene_top);
+            scr_event_build_dialogue_ext("Eric", "s_port_gamer", "You will NEVER understand the Way of Pets. There is nothing more to say. Your ignorance speaks for itself. Next question.", scene_top);
+            QuestAdd("petshopApplicationQuality", -3);
+            Quest("ericTolerance", 0);
+            Quest("ericQualification", 4);
+            }
+            
+        // ACTUAL QUESTION
+        scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "Okay... so it looks like the next field is for your qualifications. That's something we could probably put a positive spin on, right Eric? I mean, this is a pet store, how qualified do you actually have to be?", scene_top);
+        scr_event_build_dialogue_ext("Eric", "s_port_gamer", "Rule number one of the Pet Manifesto: never overestimate th-", scene_top);
+        scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "Okay, whatever. What are we going to put in the mother-cuffing blank?", scene_top);
+        var qualifications = Choice("What are Eric's qualifications?", "s_port_gamer");
+
+        with ChoiceAdd(qualifications, "Love animals, works with them daily.") 
+            {
+            QuestAdd("ericTolerance", 4);
+            var animals_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, qualify_tolerance, animals_normal);
+            with animals_normal 
+                {
+                scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "What if we said something like /'I love animals and work with them daily?/' That sounds pretty professional, and it's true, right?", scene_top);
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "Any halfwit could see that I do far more than /'work/' with animals with just a single glance. I suppose it will suffice, although it GREATLY undermines my full involvement with the Pet Community. This is probably the best I could expect from you.", scene_top);
+                QuestAdd("petshopApplicationQuality", 6);
+                Quest("ericQualification", 0);
+                }
+            }
+
+        with ChoiceAdd(qualifications, "Unbelievably loud falcon mimicry.") 
+            {
+            QuestAdd("ericTolerance", 2);
+            var mimicry_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, qualify_tolerance, mimicry_normal);
+            with mimicry_normal 
+                {
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "My ability to make EXTREMELY loud falcon calls is known all throughout Tir na Nog. I'd be surprised if you didn't hear me earlier.", scene_top);
+                scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "Uh, I guess that's a qualification. I mean, if there's some sort of bird emergency, you could make falcon sounds...", scene_top);
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "I fully intend to utilize my gift (and my curse) in the faces of misbehaving pets. Next question.", scene_top);
+                QuestAdd("petshopApplicationQuality", 2);
+                Quest("ericQualification", 1);
+                }
+            }
+
+        with ChoiceAdd(qualifications, "My BARNSTARS will convince you.") 
+            {
+            QuestAdd("ericTolerance", 3);
+            var barnstars_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, qualify_tolerance, barnstars_normal);
+            with barnstars_normal 
+                {
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "What are my qualifications? Heh, perhaps you mean MY BARNSTARS?", scene_top);
+                scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "No, but I'll put it down because I don't really care at this point.", scene_top);
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "No offense, VB52X or whatever your name is, but they're a little too sophisticated for a mental peasant like yourself.", scene_top);
+                QuestAdd("petshopApplicationQuality", 4);
+                Quest("ericQualification", 2);
+                }
+            }
+
+        with ChoiceAdd(qualifications, "None; dysfunctional cretin.") 
+            {
+            QuestAdd("ericTolerance", 6);
+            var none_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, qualify_tolerance, none_normal);
+            with none_normal 
+                {
+                scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "Hmm... qualifications? Pretty much none. You're an intolerable cretin. You smell like a kennel and you're unbelievably rude for, as far as I can discern, absolutely no reason. You're woefully unqualified for this job, let alone any other.", scene_top);
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "H-h-h-how DARE you say that to me. Do you realize how GENEROUS I've been to you thus far? Do you realize the magnitude of my ouevre, the crown jewel being the Pet Manifesto? Do you understand my dedication to my craft or the number of posts I've made on the DwarfNET pet subforum? To have the gall... the NERVE to say that to me, Tir na Nog's preeminent Pet Celebrity... you... you have absolutely no shame.", scene_top);
+                scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "It fits in the box, so it's going in.", scene_top);
+                QuestAdd("petshopApplicationQuality", 1);
+                Quest("ericQualification", 3);
+                }
+            }
+            
+        // Update resume vars //
+        scr_event_build_call_user_event(o_tnn_resume, 0); 
+        Wait(1.01);
+
+        /////////////////////////////////////////////////////////////////
+        ///// Question 4 - Outside skills relevant to job
+        /////////////////////////////////////////////////////////////////
+        // Tolerance exceeded 10 response
+        var skill_tolerance = scr_event_create_child(event);
+        with skill_tolerance 
+            {
+            scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "I think we might be able to reverse this trainwreck if w-", scene_top);
+            scr_event_build_dialogue_ext("Eric", "s_port_gamer", "If we stopped listening to your abhorrent suggestions, perhaps. Which is specifically why we should mention the fact that I'm the originator of funny, touching and in these troubled times, even uplifting pet memes, image macros and catchphrases on DwarfNET. Perhaps you've heard of the wildly popular /'Depraved Ocelot/'?", scene_top);
+            scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "I don't know what that is. Do you want me to put that on this wretched resume? /'Depraved Ocelot DwarfNET Meme/'?", scene_top);
+            scr_event_build_dialogue_ext("Eric", "s_port_gamer", "Heh, of course you wouldn't know it. And for the record, yes, I do want you to put that down.", scene_top);
+            QuestAdd("petshopApplicationQuality", -2);
+            Quest("ericTolerance", 0);
+            Quest("ericSkill", 4);
+            }
+            
+        // ACTUAL QUESTION
+        scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "Phew, looks like we're at the last field on this application. This feels like a load off my shoulders. Let's see what it is... outside skills that might be relevant to the job.", scene_top);
+        scr_event_build_dialogue_ext("Eric", "s_port_gamer", "Hmph, this will be the easiest field to fill out yet, as I'm one of the most talented people I'm even aware of.", scene_top);
+        scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "Yeah, you know? At this point, I don't even care anymore. You're the most talented and by far the most pleasant person I've known. What else should I put?", scene_top);
+        var skills = Choice("What are Eric's outside skills?", "s_port_gamer");
+
+        with ChoiceAdd(skills, "More than two decades of pet care.") 
+            {
+            QuestAdd("ericTolerance", 5);
+            var petcare_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, skill_tolerance, petcare_normal);
+            with petcare_normal {
+                scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "You know, I think we might be able to reverse this trainwreck if we talk about your pet care experience. That's a legitimate skill and you've been at it for at least two decades.", scene_top);
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "/'Pet care/', as you so crudely put it, does not even begin to describe the amount of effort, thought and dedication I've given to the pets of Tir na Nog. The mental toll of pet ownership and philosophy is far beyond-", scene_top);
+                scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "Okay, okay, whatever! Good lord, Eric! I'll put down that you're a pet martyr or something. Clispaeth.", scene_top);
+                QuestAdd("petshopApplicationQuality", 6);
+                Quest("ericSkill", 0);
+                }
+            }
+
+        with ChoiceAdd(skills, "I cut through the pet bullshit.") 
+            {
+            QuestAdd("ericTolerance", 2);
+            var petbullshit_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, skill_tolerance, petbullshit_normal);
+            with petbullshit_normal {
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "For starters, I cut through the Pet Bullshit.", scene_top);
+                scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "Pet Bullsh-... I mean... Pet Bullchips? What does that mean, Eric?", scene_top);
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "Cut the cruft. You know precisely what it means. And if you truly don't, then, heh, you never will.", scene_top);
+                QuestAdd("petshopApplicationQuality", 2);
+                Quest("ericSkill", 1);
+                }
+            }
+
+        with ChoiceAdd(skills, "I have NEVER missed Shark Week.") 
+            {
+            QuestAdd("ericTolerance", 3);
+            var sharkweek_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, skill_tolerance, sharkweek_normal);
+            with sharkweek_normal {
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "I have NEVER missed Shark Week, not once. The shark knowledge I've accumulated in the literal years I've spent watching Shark Week make me possibly one of the greatest shark experts on the Necron 7.", scene_top);
+                scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "You know, that actually makes sense. Or I mean, that's probably the best possible answer you could give for this question. I'll uh, chalk that one up as a success.", scene_top);
+                QuestAdd("petshopApplicationQuality", 3);
+                Quest("ericSkill", 2);
+                }
+            }
+
+        with ChoiceAdd(skills, "No skills, product of entropy.") 
+            {
+            QuestAdd("ericTolerance", 6);
+            var wastedlife_normal = scr_event_create_child(event);
+            scr_event_build_if("ericTolerance", ">=", 10, skill_tolerance, wastedlife_normal);
+            with wastedlife_normal 
+                {
+                scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "Outside skills? Hmm. How about absolutely none? I'm staring societal entropy and a wasted life right in the face.", scene_top);
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "You insolent whelp. I'll have you know that I've raised not one, but *three* award-winning ferrets, and I've got t-", scene_top);
+                QuestAdd("petshopApplicationQuality", 1);
+                Quest("ericSkill", 3);
+                }
+            }
+
+        // Done with answering questions
+        scr_event_build_call_user_event(o_tnn_resume, 0); Wait(5);
+        scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "That's it! We're done, that was it. That was the last field we needed to fill out for the resume. I don't think I've ever felt this... relieved in my life. We're done, Eric. It's over. Okay, it just needs your signature and... oh... oh no...", scene_top);
+        scr_event_build_dialogue_ext("Eric", "s_port_gamer", "What are you blathering about? I've cooperated with this inanity long enough. My most precious possession requires my attention! Go on, spit it out.", scene_top);
+        scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "It... it says we need a cover letter. You know, it's like... I-...  I- can't do this. A cover letter's like an essay about why you want the job. We're gonna have to write whole paragraphs... together... I, mean, I... ugh. Eric I just can't. I can't do it.", scene_top);
+        scr_event_build_dialogue_ext("Eric", "s_port_gamer", "An essay about pets? Has absolutely none of my tutelage wormed its way into that vast, empty cavern you call a skull? I am the author of the Pet Manifesto! T-h-e P-e-t M-a-n-i-f-e-s-t-o. Is that a spark I see? Is your shriveled, worm-like brain-stem sparking in recognition of who you are talking to and just what I have accomplished? Sigh... Pet Reality is fully beyond your mental grasp, it seems.", scene_top);
+        scr_event_build_dialogue_ext(P_NAME, s_port_hoopz, "You know, that's probably true. Give me your manifesto. I can't imagine there is anything in here that will ingratiate you with an employer. Or anyone, anyone at all. I'm gonna go deliver your application to Cuthbert at the pet shop. I'll be back, I guess. Who knows. Who knows! Who even cares!", scene_top);
+        scr_event_build_call_user_event(o_tnn_resume, 0); Wait(2.5);
+        
+        //Gain the completely application, lost the empty one, and gain the Pet Manifesto
+        Note("build", "give", "Pet Shop Application");
+        Note("build", "take", "Completed Application");
+        Note("build", "take", "Pet Manifesto");
+        
+        DialogueItem("Got the Completed Application.");
+        DialogueItem("Got the Pet Manifesto.");
+        Quest("ericQuest", 5);
+        Quest("petManifestoReceived", 1);
+        }
+
+
+    //--------------------------------------------------------------------
+    // Main Event
+    //--------------------------------------------------------------------
+    with (event) 
+        {
+        ///////////////////////////////////////////////////////////
+        // Body Swap States
+        ///////////////////////////////////////////////////////////
+        // If you're Governor
+        if (BodySwap() == "governor") then
+            {
+            //-------------------
+            // In Pet Shop
+            //-------------------
+            if (room == r_tnn_petshop02) then
+                {
+                // Eric Gave Paycheck to Cuthbert
+                if (scr_quest_get_state("cuthbertGov") == 3) then
+                    {
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "You've made an enemy of me, and all of Pet-kind. I would not have it any other way.");
+                    }
+                // Normal
+                else 
+                    {
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "BACK. OFF. I am busy executing my life's work with flawless precision. I am the perfect pet handler and I pay no heed to statist dullards.");
+                    }
+                }
+                
+            //-------------------
+            // Not in Pet Shop
+            //-------------------
+            else 
+                {
+                if (scr_quest_get_state("ericGov") == 2) then 
+                    {
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "Typical mindless bureaucrat... I'd expect nothing different. Are you finally ready to open your ears to some sagacious pet-political wisdom? Study this quote, if you can even comprehend it: /'A Limited Government is the Best Government... a Limited Government is the Pet Government./' - Jack Hanna.");
+                    }
+                else if (scr_quest_get_state("ericGov") == 1) then
+                    {
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "I've got your first day lined up here. It's a much needed panacea for our troubled world, and a shrewd political move as well. You ready to here it?");
+                    scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Yes, um, of course, let's hear-");
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "Day 1: Enshrine pets. Oh and for that matter, Day 2: Protect pets. Day 3: Respect pets... are you listening? Hello! ARE YOU EVEN LISTENING TO ME?");
+                    Quest("ericGov", 2);
+                    }
+                else 
+                    {
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "Heh, if it isn't the new so-called /'governor /' of Tir na Nog. I can only assume you're speaking to me for political advice during these tumultous times. Well, let's just say I don't follow the beaten path when it comes to ideology. My political beliefs are a bit controversial.");
+                    scr_event_build_dialogue("Governor Elagabalus", s_port_governor, "Hmm, interesting. As governor I may ask for your political council, as that is what real politicians do and I am as real and authentic as they come. Good day.");
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "Y-you're going? You didn't even hear it! PETS! PETS! My ideology is PETS!");
+                    Quest("ericGov", 1);
+                    }
+                }
+            }
+
+        ///////////////////////////////////////////////////////////
+        // Pet Shop States
+        ///////////////////////////////////////////////////////////
+        else if (room == r_tnn_petshop02) then
+            {
+            if (scr_quest_get_state("cuthbertGov") == 3) then
+                {
+                if (scr_quest_get_state("ericGov") == 3) then
+                    {
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "Listen up. Listen to this quote. Listen!");
+                    Dialogue(P_NAME, "I'm listening, Eric.");
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "/'Pet Altruism: the acceptable altruism./'");
+                    Dialogue(P_NAME, "That's great, Eric.");
+                    }
+                else
+                    {
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "You again. You missed it, but I basically run this store now.");
+                    Dialogue(P_NAME, "Yeah, I... I mean, really? That's great. I didn't know that!");
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "Yes, I gave my life savings to the pets in this domain and was rewarded with even greater Pet Duties. First I'm going to clean the cages. Then... then I'm going to clean the tools we use to clean the cages...");
+                    Dialogue(P_NAME, "That sounds great, Eric. I'm glad you're getting on well here!");
+                    Quest("ericGov", 3);
+                    }
+                }
+            else
+                {
+                scr_event_build_dialogue("Eric", "s_port_gamer", "I have spent my life training for this moment. I am fully aware of the gravity of the task ahead of me and vow to uphold the dignity of the pets in this store, even with force if need be. Know this well, " + P_NAME + ": I will not fail these pets.");
+                Dialogue(P_NAME, "O. K.");
+                }
+            }
+
+        ///////////////////////////////////////////////////////////
+        // Eric Quest States (In Market District OR Eric's Home)
+        ///////////////////////////////////////////////////////////
+
+        //-----------------------------------------
+        // Quest Failed
+        //-----------------------------------------
+        else if (scr_quest_get_state("ericFailed") == 1) then
+            {
+            scr_event_build_dialogue("Eric", "s_port_gamer", "I have learned a valuable lesson from our partnership, " + P_NAME + ". Trust only pets. We have nothing more to speak of. Leave.");
+            }
+            
+        //-----------------------------------------
+        // Cuthbert liked resume.
+        //-----------------------------------------
+        else if (scr_quest_get_state("ericQuest") >= 7) then
+            {
+            Dialogue(P_NAME, "Hey Eric, guess what!");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "I could not begin to fathom what sub-simian process is occuring behind those glassy eyes, " + P_NAME + ", so I will not even venture a guess.");
+            Dialogue(P_NAME, "You got the job! Cuthbert, the pet store owner, said you should start immediately!");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Sigh... and I suppose you think I owe you now, don't you? Sad... but not surprising. Yes, I did promise you my most precious possession. Though it pains me to part with it, I am willing to give it to you as payment... IF you promise to use it only for good.");
+            Dialogue(P_NAME, "Sure, I guess.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Here you are then... my magnum opus... the Pet Manifesto!");
+            Dialogue(P_NAME, "Eric, you already gave me your Manifesto...");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Oh did I? I believe you've fingered yourself as a careless reader then, " + P_NAME + "! How could you miss it, when /'Act IV: Further Treatises on Petdom/' so clearly hints at the existence of a secret, heretofore unpublished chapter? Here is my final work, my masterpiece, painstakingly crafted over many arduous nights, guided only by the light of my prizewinning glow-worm collection...");
+            
+            //Get the Pet Apocrypha
+            DialogueItem("Received Pet Apocrypha!");
+            Note("build", "take", "Pet Apocrypha");
+            
+            Dialogue(P_NAME, "Thank you. Yes. I am appreciative of this.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Although I am not completely convinced of your noble intentions, it is only fair of me to uphold my end of the bargain. Use it as wisely as I have. Now it's time for me to leave you here to mull over in your pet ignorance. The trials and tribulations of the pet world await me.");
+            Dialogue(P_NAME, "Bye, Eric...");
+            QuestAdd("concessionVal", 10);
+            Quest("ericQuest", 9);
+            QuestAdd("petScore", 1);
+            scr_event_build_teleport(room, o_hoopz.x, o_hoopz.y, 2, 2);
+            }
+            
+        //-----------------------------------------
+        // Cuthbert hated resume, quest failed.
+        //-----------------------------------------
+        else if (scr_quest_get_state("ericQuest") == 6) then
+            {
+            Dialogue(P_NAME, "Hey Eric...");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Oh, it's you again. Whatever you are about to say, it would have better suited me if you had done it via carrier pigeons.");
+            Dialogue(P_NAME, "I uh... I hate to be the bearer of bad news... but you didn't get the job.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Heh. I'm not at all surprised, since you basically sabotaged my resume. Once again, you've validated the core tenet of the Pet Manifesto, namely that pets ARE the final frontier. This has essentially been proven by your wanton ineptitude, which has ruined not only my life, but the life of my pregnant muskrat. We have nothing more to speak of.");
+            Dialogue(P_NAME, "I don't want to be a jerk, Eric, but I feel like you had more than a hand in this...");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Leave me be, or I shall inform ALL of my DwarfNET subscribers of your incongruous nature.");
+            Dialogue(P_NAME, "Sigh... see you...");
+            Quest("ericFailed", 1);
+            }
+            
+        //-----------------------------------------
+        // Finished the resume.
+        //-----------------------------------------
+        else if (scr_quest_get_state("ericQuest") == 5) then
+            {
+            scr_event_build_dialogue("Eric", "s_port_gamer", "There is no conceivable reason beyond your colossal incompetence why you are here and not expediently delivering my resume to my soon-to-be employer. Make haste, if it is even within your meager capabilities, so I can have a single moment of peace and contemplation.");
+            }
+            
+        //-----------------------------------------
+        // Told Eric about resume, need to complete it
+        //-----------------------------------------
+        else if (scr_quest_get_state("ericQuest") == 4) then 
+            {
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Well well well. The prodigal dullard returns. I suppose the allure of obtaining a valuable possession of mine has brought you crawling back? As much as your mercenary avarice sickens me (to my core, no less), I'm willing to forgo my integrity and allow you to /'assist/' me on my resume. Are you *finally* ready?");
+            // Begin Resume Choice
+            var choice = Choice("Am I ready to help Eric now?", s_port_hoopz);
+            
+            //Ready to help.
+            with ChoiceAdd(choice, "Yes.") 
+                {
+                scr_event_build_event_snippet(resume);
+                }
+                
+            //Not ready to help.
+            with ChoiceAdd(choice, "No.") 
+                {
+                Dialogue(P_NAME, "Can you hang on a second? There's something I want to take care of first.");
+                scr_event_build_dialogue("Eric", "s_port_gamer", "Once again I'm forced to wait on you, testing my patience and generosity to the absolute limit. I cannot and WILL not abide by your reckless buffoonery for much longer. Know this well, " + P_NAME_S + ".");
+                }
+            }
+            
+        //-----------------------------------------
+        // Spoken to Cuthbert, need to get resume.
+        //-----------------------------------------
+        else if (scr_quest_get_state("ericQuest") == 3) then 
+            {
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Your imbecilic presence inches you closer to my bad side, and further from the grandeur of my most prized possession. Speak.");
+            Dialogue(P_NAME, "Hey Eric, guess what!? I've got some great news! You're never gonna believe this - there's a pet store that's hiring in the Tir na Nog tenements! There's only one thing... they need a resume.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "A... resume?");
+            Dialogue(P_NAME, "Like a list of your personal qualifications, your previous jobs, your skills and all of that. I mean, I think. He gave me this sheet that you need to fill out.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "...and you expect me to do this myself?");
+            Dialogue(P_NAME, "Well, I could help you out I guess.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Yes, I fully expect you to /'help me out/', as you so crudely put it.");
+            Dialogue(P_NAME, "Okay, well I'm not really sure how to answer some of these questions... like /'references/'? What does that even mean?");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "You sound woefully unqualified for the job. Once again I'm forced to babysit you through your overbearing incompetence. Nevertheless, I accept your /'help/', no matter how miniscule it will be. Are you ready to do this now, or must I wait even longer?");
+
+            // Begin Resume Choice
+            var choice = Choice("Am I ready to help Eric now?", s_port_hoopz);
+            
+            //Ready to help.
+            with ChoiceAdd(choice, "Yes.") 
+                {
+                scr_event_build_event_snippet(resume);
+                }
+                
+            //Not ready to help.
+            with ChoiceAdd(choice, "No.") 
+                {
+                Dialogue(P_NAME, "Can you hang on a second? There's something I want to take care of first.");
+                scr_event_build_dialogue("Eric", "s_port_gamer", "Once again I'm forced to wait on you, testing my patience and generosity to the absolute limit. I cannot and WILL not abide by your reckless buffoonery for much longer. Know this well, " + P_NAME_S + ".");
+                Quest("ericQuest", 4);
+                }
+            }
+            
+        //-----------------------------------------
+        // Accepted Eric Quest - Eric Quest active.
+        //-----------------------------------------
+        else if (scr_quest_get_state("ericQuest") == 2) then
+            {
+            scr_event_build_dialogue("Eric", "s_port_gamer", "...pets are, quintessentially, the ultimate... no, no, the penultimate experience. And quite frankly? I don't think most people are ready for them. Should we limit access to and authority over pets to a small core of pet cognoscenti? This is an option worth exploring.");
+            Dialogue(P_NAME, "Uh, hey Eric.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "I'm busy. Out with it.");
+            
+            // Talked to Cuthbert
+            if (scr_quest_get_state("cuthbertState") == 0) then
+                {
+                Dialogue(P_NAME, "I had a couple questions. First, where should I look to get you a job? And second, what are your qualifications?");
+                scr_event_build_dialogue("Eric", "s_port_gamer", P_NAME + ". Do you think these questions are worth my time? Do you think I can stand around all day answering them? Do you realize what I'm on the cusp of? The Pet Manifesto doesn't write itself; you should be grateful that I'm allowing you to even be a footnote in it. What I'm saying is look all over, I'm qualified for service industry work.");
+                }
+                
+            // Haven't talked to Cuthbert
+            else
+                {
+                Dialogue(P_NAME, "I have a question. What are your qualifications?");
+                scr_event_build_dialogue("Eric", "s_port_gamer", P_NAME + ". Do you think this question is worth my time? Do you think I can stand around all day answering every little quandry you encounter? Do you realize what I'm on the cusp of? The Pet Manifesto doesn't write itself; you should be grateful that I'm allowing you to even be a footnote in it. What I'm saying is look all over, I'm qualified for service industry work.");
+                }
+                
+            // Farewell eric... //
+            Dialogue(P_NAME, "Got it. See you in a little bit.");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Heh, I HIGHLY doubt that.");
+            }
+            
+        //-----------------------------------------
+        // Rejected Eric Quest.
+        //-----------------------------------------
+        else if (scr_quest_get_state("ericQuest") == 1) then
+            {
+            scr_event_build_dialogue("Eric", "s_port_gamer", "...and that's the problem with these /'so-called/' pet enthusiasts - they like the dogs, they like the cats but when it comes to ANYTHING outside of the /'mainstream/' they're totally lost. They're a waste of my time and they're a waste of the pets' time and - oh, it's YOU.");
+            Dialogue(P_NAME, "Hey Eric. You're still looking for a job, right?");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Heh, I knew you'd be back. You just want my most precious possession, don't you? You don't even care about the job. But to answer your question, yes, I'm still in between jobs at the moment. What are YOU going to do about it?");
+
+            // Eric Quest Acceptance Choice
+            var choice = Choice("Help Eric find a job?", s_port_hoopz);
+
+            // Help Eric get a job.
+            with ChoiceAdd(choice, "Yes.") 
+                {
+                Dialogue(P_NAME, "Well, I guess I could help you. I mean, that's not the case, I don't want to do it just for this thing you're promising me, I'd like to see you uh, improve I guess.");
+                scr_event_build_dialogue("Eric", "s_port_gamer", "Keep telling yourself that. I keep my most valuable possession in my breast pocket at all times. But I'd be willing to part with it if you could help me find a job. No, I'm not an idiot and yes, I know you're taking advantage of my kindness and position of weakness. That's what mercenaries do and I would do the same were I in your shoes.");
+                
+                // Talked to Cuthbert
+                if (scr_quest_get_state("cuthbertState") == 0) then
+                    {
+                    Dialogue(P_NAME, "Well, I'm kind of new in town, do you know where I should start looking?");
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "If I knew, I'd do it myself you vacuous dunce. I'm also busy writing the Pet Manifesto, which I will NOT elaborate on further. I'm looking for any kind of job but preferably one where I have some measure of authority over pets. Ask all over Tir na Nog. I'm certainly in no position to do so.");
+                    Dialogue(P_NAME, "Alright, I guess I can do that. And good luck with your manifesto.");
+                    scr_event_build_dialogue("Eric", "s_port_gamer", "Heh. I don't need luck.");
+                    }
+                    
+                // Haven't talked to Cuthbert
+                else
+                    {
+                    Dialogue(P_NAME, "Alright. I think I know just the place for you...");
+                    }
+                Quest("ericQuest", 2);
+                }
+                
+            // Refuse Eric again.
+            with ChoiceAdd(choice, "No.") 
+                {
+                Dialogue(P_NAME, "Maybe I'd help you if you got an attitude adjustment, but I've got bigger things on my plate than helping some repugnant animal guy find a job. I mean, good luck and everything but this is way beyond me.");
+                scr_event_build_dialogue("Eric", "s_port_gamer", "Heh, it clearly is. I'd say most things are beyond you and I'm not surprised in the slightest by your answer. Do you know why I prefer pets to people? Because chivalry, empathy, human cuffing decency has gone out the window. Your response has fully validated my world view. Pets are the final frontier. Begone.");
+                }
+            }
+            
+        //-----------------------------------------
+        // First Interaction
+        //-----------------------------------------
+        else 
+            {
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Heh, my last job was working the counter at a sandwich shop. I won't say which one, but let's just say that their sandwiches were, heh, /'sub/'-par. We were told to say /'would you like chips and a drink with that/', but I always said /'would you like CHIMPS and a drink with that/' to mindfreak the customers. Was it frucked up? Yeah, but I like to give people a little dose of Pet Reality.");
+            Dialogue(P_NAME, "Um, are you speaking to me?");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "Uh, no I wasn't you insufferable dullard. I didn't even know you were there until you interrupted me. So as I was saying, pets are, in essence, the final frontier. I mean, that's it. That's what it's all about. What even comes after pets? I could basically list them all if you wanted me to.");
+            Dialogue(P_NAME, "Wait, did you want something from me?");
+            scr_event_build_dialogue("Eric", "s_port_gamer", "I'm... Clispaeth Christ... did you... were you even listening to what I just said? Let me spell it out for you: I AM LOOKING FOR A JOB. I NEED TO FIND A JOB TO SUPPORT MY BLACK-FOOTED FERRET, WHO IS CURRENTLY IN HEAT. IF YOU HELP ME FIND A JOB, I WILL GIVE YOU MY MOST TREASURED POSSESSION. DO YOU UNDERSTAND THE WORDS THAT I AM SAYING? CAN YOUR NUGATORY PIGEON BRAIN COMPREHEND WHAT I JUST SAID?"); //dog whistle line
+
+            // Eric Quest Acceptance Choice
+            var choice = Choice("Help Eric find a job?", s_port_hoopz);
+
+            // Help Eric get a job.
+            with ChoiceAdd(choice, "Yes.") 
+                {
+                var scene_extras = scr_event_dialogue_build_extras(NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL_STRING, NULL_STRING, 0.2, true, false); ///Extras param to make juicebox go nuts
+                Dialogue(P_NAME, "Well, you don't need to talk to me like that, but I guess I could help you out. What kind of job are you looking for? I've never had a pet... at least, I don't think I have. I think I'd like a cat!");
+                scr_event_build_dialogue("Eric", "s_port_gamer", "Oh, I'm not at all surprised you lack the creativity and personal responsibility to take care of anything but a cat. But to answer your (thoughtless and imperceptive) question, I'd like any job, service industry or otherwise. I'd particularly like a job that puts me in control or in the vicinity of pets.");
+                Dialogue(P_NAME, "Okay, well I guess I can look around. I'm kind of new to town so I can't promise anything, but I'll try.");
+                scr_event_build_dialogue_ext("Eric", "s_port_gamer", "Heh, don't worry. I'm NOT expecting anything.",scene_extras);
+                Quest("ericQuest", 2);
+                }
+                
+            // Don't help Eric find a job.
+            with ChoiceAdd(choice, "No.") 
+                {
+                Dialogue(P_NAME, "Hey, you know something? You don't need to talk to me like that. And you know what else? You're weird and you smell like droppings. I can think of a million reasons why you can't find a job and they all have to do with yourself, so maybe you should think about that before you get others to do your work for you.");
+                scr_event_build_dialogue("Eric", "s_port_gamer", "Right, I'M the one at fault because YOU interrupted my thoughts with your banal sermonizing. Save it for someone who's not up to his ears in what basically amounts to a pet crisis. Get a life, kid.");
+                Quest("ericQuest", 1);
+                }
+            }
+        }
+        
+    // Gameboy advance //
+    scr_event_advance(event);
+    }

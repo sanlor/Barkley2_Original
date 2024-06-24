@@ -1,0 +1,17 @@
+// scr_wedding_recruited()
+// Displays the generic text for when you add someone into the band.
+
+/*switch (3 - scr_quest_get_state("musicianCount")) {
+    case 3:
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's one musician recruited for the band. I to find need 3 more...");
+        break;
+    case 2:
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "That's two musicians now. Halfway there...");
+        break;
+    case 1:
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "One more musician for the band. That means only 1 more to go...");
+        break;
+    case 0:
+        scr_event_build_dialogue(P_NAME, s_port_hoopz, "All right, I did it! The band's got 4 members. I should get back to the Booty Daimyo and let him know.");
+        break;
+}

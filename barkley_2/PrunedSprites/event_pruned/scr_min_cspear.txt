@@ -1,0 +1,9 @@
+/// scr_min_cspear(returns the min cspear time)
+var time;
+if scr_time_get() >= 0 and scr_time_get() <= 6 then time = "before";
+else if scr_time_get() >= 7 and scr_time_get() <= 10 then time = "prep";
+else if scr_time_get() >= 11 and scr_time_get() <= 14 then time = "during";
+else if scr_time_get() >= 15 and scr_time_get() <= 24 then time = "after";
+
+// Return the value //
+return time;
